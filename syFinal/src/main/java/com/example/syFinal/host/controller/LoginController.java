@@ -1,19 +1,26 @@
 package com.example.syFinal.host.controller;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Getter
-@Setter
-@ToString
+import com.example.syFinal.host.model.dao.LoginDAO;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("host/login/")
 public class LoginController {
-	private int h_idx;
-	private String h_email;
-	private String h_passwd;
-	private String h_name;
-	private String h_phone;
-	private int h_business;
-	private int h_level;
-	private String h_status;
+	@Autowired
+	LoginDAO loginDao;
+
+	@PostMapping("/")
+	public String postMethodName(@RequestBody String entity) {
+		// TODO: process POST request
+
+		return entity;
+	}
+
 }
