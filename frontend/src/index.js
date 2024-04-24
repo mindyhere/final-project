@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import userStyle from './asset/css/user.css';
-import popUpStyle from './asset/css/popup.css';
+import popUpStyle from './asset/css/popup.css'; 
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
