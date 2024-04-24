@@ -2,6 +2,8 @@ import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import '../../asset/css/user.css';
+
 
 function GuestLogin() {
     const [params, setParams]=useSearchParams();
@@ -14,21 +16,22 @@ function GuestLogin() {
 
     return (
         <>
-            <div>
+            <div className="container min-vh-100">
             <h3 class="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
                 로그인</h3>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>이메일</td>
-                        <td><input ref={g_email}/></td>
-                    </tr>
-                    <tr>
-                        <td>비밀번호</td>
-                        <td><input type='password' ref={g_passwd}/></td>
-                    </tr>
-                    <tr>
-                        <td colSpan='2' align='center'>
+            <hr/>
+		    <p class="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
+			있습니다.</p>
+            <div class="card-style mb-30">
+                <form>
+                    <div>
+                    <div class="input-style-1">
+						<label>이메일</label> <input ref={g_email} placeholder="이메일을 입력해주세요"/>
+					</div>
+                    <div class="input-style-1">
+						<label>비밀번호</label> <input type='password' ref={g_passwd} />
+					</div>
+                    <br/>
                             <button type='button' onClick={() => {
                                 if(g_email.current.value == '') {
                                     window.alert('이메일을 입력하세요.');
@@ -60,15 +63,30 @@ function GuestLogin() {
                                         navigate('/guest/login?msg=error');
                                     }
                                 });
-                            }} className="btn btn-primary">로그인</button>
+                            }} id="main-btn" className="btnLogin">로그인</button>
                             &nbsp;
-                            <button onClick={() => navigate('/guest/join')} className="btn btn-info">회원가입</button>
                             {msg === 'login' ? <p style={{color: 'red'}}>로그인하신 후 사용 가능합니다.</p> : null}
                             {msg === 'error' ? <p style={{color: 'red'}}>아이디 또는 비밀번호가 일치하지 않습니다.</p> : null}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
+            </form>
+            </div>
+            <div class="card-style d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
+            <div class="col text-center">
+            <div class="btnLoginBottom">
+            <img src="/img/id.png" /><br/> 이메일 찾기
+            </div>
+            </div>
+            <div class="col text-center">
+            <div class="btnLoginBottom">
+            <img src="/img/forgot.png" /><br/> 비밀번호 찾기
+            </div>
+            </div>
+            <div class="col text-center">
+            <div class="btnLoginBottom">
+            <img src="/img/join.png" /><br/> 회원가입
+            </div>
+            </div>
+            </div>
             </div>
         </>
     );
