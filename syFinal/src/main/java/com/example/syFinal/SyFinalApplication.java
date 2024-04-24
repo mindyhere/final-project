@@ -19,16 +19,16 @@ public class SyFinalApplication {
 	}
 
 	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+	SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 		bean.setDataSource(dataSource);
-		Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*.xml");
+		Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/**/*.xml");
 		bean.setMapperLocations(res);
 		return bean.getObject();
 	}
 
 	@Bean
-	public SqlSessionTemplate sqlSession(SqlSessionFactory factory) {
+	SqlSessionTemplate sqlSession(SqlSessionFactory factory) {
 		return new SqlSessionTemplate(factory);
 	}
 
