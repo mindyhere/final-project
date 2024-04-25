@@ -3,10 +3,12 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './asset/css/user.css';
 
 import Main from "./Main";
 import Header from './component/Header';
 import GuestLogin from "./pages/guest/login";
+import HotelList from "./pages/host/HotelList";
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin/>}/>
+          <Route path="/host/hotel/hotelList" element={<HotelList/>}/>
         </Routes>
       </BrowserRouter>
     </>
