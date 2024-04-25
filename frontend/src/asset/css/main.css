@@ -1,0 +1,20 @@
+.Footer {
+    margin-top: auto;
+    background-color: #e3e5e8;
+    height: 130px;
+    bottom: 0;
+}
+.Main {
+    width: 96%;
+    max-width: 1100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+li:hover {
+    background-color: #ebe8e8;
+	opacity: 0.9;
+	cursor: pointer;
+}
