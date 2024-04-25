@@ -8,8 +8,9 @@ import './asset/css/user.css';
 import Main from "./Main";
 import Header from './component/Header';
 import GuestLogin from "./pages/guest/login";
-import HotelList from "./pages/host/HotelList";
-
+import HotelDetail from "./pages/host/HotelDetail";
+import SearchEmail from "./pages/guest/searchEmail";
+import SearchPw from "./pages/guest/searchPw";
 
 function App() {
   console.warn = function no_console() {};
@@ -21,7 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin/>}/>
-          <Route path="/host/hotel/hotelList" element={<HotelList/>}/>
+          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
+          <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
+          <Route path="/guest/searchPw" element={<SearchPw/>}/>
         </Routes>
       </BrowserRouter>
     </>

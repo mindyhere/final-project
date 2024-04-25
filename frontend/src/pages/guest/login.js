@@ -1,7 +1,8 @@
 import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 function GuestLogin() {
@@ -45,7 +46,7 @@ function GuestLogin() {
                                 const form = new FormData();
                                 form.append('g_email', g_email.current.value);
                                 form.append('g_passwd', g_passwd.current.value);
-                                fetch('http://localhost/guest/login', {
+                                fetch('http://localhost/guest/login/login', {
                                     method: 'post',
                                     body: form
                                 })
@@ -54,35 +55,51 @@ function GuestLogin() {
                                     setMessage(data);
                                     if(data.message == 'success') {
                                         const cookies = new Cookies();
-                                        cookies.set('g_email', {key: g_email.current.value}, {path: '/', expires: new Date(Date.now()+2592000)}); //30일
+                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+2592000)}); //30일
                                         cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+2592000)});
                                         cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+2592000)});
-                                        window.location.href='/';
+                                        // window.location.href='/';
+                                        Swal.fire({
+                                            title: '로그인 성공',
+                                            showCancelButton: false,
+                                            confirmButtonText: '확인',
+                                        });
+                                    } else if(data.message == 'no') {
+                                        Swal.fire({
+                                            title: '로그인 실패',
+                                            text: '회원 정보가 없습니다',
+                                            showCancelButton: false,
+                                            confirmButtonText: '확인',
+                                        });
                                     } else {
-                                        navigate('/guest/login?msg=error');
+                                        Swal.fire({
+                                            title: '로그인 실패',
+                                            text: '회원 정보가 일치하지 않습니다',
+                                            showCancelButton: false,
+                                            confirmButtonText: '확인',
+                                        });
                                     }
                                 });
                             }} id="main-btn" className="btnLogin">로그인</button>
                             &nbsp;
-                            {msg === 'login' ? <p style={{color: 'red'}}>로그인하신 후 사용 가능합니다.</p> : null}
-                            {msg === 'error' ? <p style={{color: 'red'}}>아이디 또는 비밀번호가 일치하지 않습니다.</p> : null}
+                            
             </div>
             </form>
             </div>
             <div class="card-style d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
             <div class="col text-center">
             <div class="btnLoginBottom">
-            <img src="/img/id.png" /><br/> 이메일 찾기
+            <Link to="/guest/searchEmail"><img src="/img/id.png" /><br/> 이메일 찾기</Link>
             </div>
             </div>
             <div class="col text-center">
             <div class="btnLoginBottom">
-            <img src="/img/forgot.png" /><br/> 비밀번호 찾기
+            <Link to="/guest/searchPw"><img src="/img/forgot.png" /><br/> 비밀번호 찾기</Link>
             </div>
             </div>
             <div class="col text-center">
             <div class="btnLoginBottom">
-            <img src="/img/join.png" /><br/> 회원가입
+            <Link to="window.open('/guest/join', '', 'width=430, height=500, channelmode=no' )" target=""><img src="/img/join.png" /><br/> 회원가입</Link>
             </div>
             </div>
             </div>
