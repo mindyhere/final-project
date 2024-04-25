@@ -8,7 +8,7 @@ import './asset/css/user.css';
 import Main from "./Main";
 import Header from './component/Header';
 import GuestLogin from "./pages/guest/login";
-import HotelList from "./pages/host/HotelList";
+import HotelDetail from "./pages/host/HotelDetail";
 
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin/>}/>
-          <Route path="/host/hotel/hotelList" element={<HotelList/>}/>
+          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
         </Routes>
       </BrowserRouter>
     </>
