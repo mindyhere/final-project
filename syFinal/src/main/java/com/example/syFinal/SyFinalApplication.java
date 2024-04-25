@@ -31,5 +31,6 @@ public class SyFinalApplication {
 	SqlSessionTemplate sqlSession(SqlSessionFactory factory) {
 		return new SqlSessionTemplate(factory);
 	}
-
 }
+	
+

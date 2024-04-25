@@ -2,7 +2,6 @@ import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import '../../asset/css/user.css';
 
 
 function GuestLogin() {

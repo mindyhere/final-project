@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login">
+<select id="chkPw" resultType="String">
+	select g_passwd from guest where g_email = #{g_email}
+</select>
+
+<select id="login" resultType="String">
+	select g_name from guest where g_email = #{g_email} and g_passwd = #{g_passwd}
+</select>
+
+</mapper>
