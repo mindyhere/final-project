@@ -9,17 +9,18 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class LoginDTO {
+public class GuestDTO {
 	private int g_idx;
-	private int g_level;
-	private int g_card;
-	private int g_cvc;
-	private int g_point;
 	private String g_email;
 	private String g_passwd;
 	private String g_name;
 	private String g_phone;
 	private String g_url;
 	private String g_profile;
+	private int g_level;
+	private int g_card;
 	private String g_date;
+	private int g_cvc;
+	private int g_point;
+	
 }
