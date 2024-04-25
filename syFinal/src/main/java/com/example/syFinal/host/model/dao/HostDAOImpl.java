@@ -1,17 +1,22 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.example.syFinal.host.model.dto.HostDTO;
 
+@Repository
 public class HostDAOImpl implements HostDAO {
 	@Autowired
 	SqlSession sqlSession;
 
-	@Override // Host(사업자) 회원가입
-	public void join(HostDTO dto) {
-		sqlSession.insert("host.join", dto);
+	@Override
+	public String insert(Map<String, Object> map) {
+		sqlSession.insert("host.insert", map);
+		return "success";
 	}
 
 	@Override

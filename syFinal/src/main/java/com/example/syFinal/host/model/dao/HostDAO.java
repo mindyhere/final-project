@@ -1,11 +1,13 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.Map;
+
 import com.example.syFinal.host.model.dto.HostDTO;
 
 public interface HostDAO {
 
 	// Host(사업자) 회원가입
-	void join(HostDTO dto);
+	String insert(Map<String, Object> map);
 
 	// Host 로그인
 

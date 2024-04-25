@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mappers.host.host"></mapper>
+<mapper namespace="host">
+<insert id="insert">
+insert into users (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_status) 
+values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9, "가입완료")
+</insert>
+
+
+<!-- 로그인성공 -->
+<select id="detail" resultType="map">
+select h_email, h_passwd, h_name, h_status 
+from host
+where h_email=#{userId}
+</select>
+
+</mapper>
