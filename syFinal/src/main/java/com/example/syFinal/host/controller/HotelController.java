@@ -21,10 +21,10 @@ public class HotelController {
 	HotelDAO hotelDao;
 
 	/* 호텔 상세 정보 가져오기 */
-	@GetMapping("/host/hotel/hotelList")
+	@GetMapping("/host/hotel/hotelDetail")
 	public Map<String, Object> hotelList(@RequestParam(name = "ho_idx", defaultValue = "1") int ho_idx) {
 		// int hoIdx = '1';
-		List<HotelDTO> list = hotelDao.hoteLlist(1);
+		List<HotelDTO> list = hotelDao.hoteLlist(48);
 		System.out.println("1. Controller list : " + list);
 		Map<String, Object> hotelList = new HashMap<>();
 		for (int i = 0; i < list.size(); i++) {

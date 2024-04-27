@@ -26,7 +26,7 @@ function App() {
           <Route path="/guest/login" element={<GuestLogin/>}/>
           <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
           <Route path="/guest/searchPw" element={<SearchPw/>}/>
-          <Route path="/host/hotel/hotesDetail" element={<HotelDetail/>}/>
+          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>
