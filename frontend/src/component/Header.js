@@ -6,7 +6,7 @@ function Header() {
     <nav className='navbar navbar-expand-lg'>
     <div className='container-fluid'>
       <a className="navbar-brand" href="/">
-        <img src="/img/airbnb.png" href="/" width="165px" height="60px" style={{padding: "0.5rem"}}></img></a>
+        <img src="/img/airbnb.png" href="/" width="170px" height="70px" style={{padding: "0.5rem"}}></img></a>
        
        {/*로그인 전 상단*/}
        <div align="right">
