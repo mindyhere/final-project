@@ -7,4 +7,5 @@ public interface EmailService {
 	String getTempPassword();
 
 	EmailDTO prepareTempPwdEmail(String email, String randomPw);
+
 }

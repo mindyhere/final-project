@@ -1,10 +1,13 @@
 import React, {useRef, useEffect, useState} from "react";
+import KakaoMap from "../../component/KakaoMap";
 import { useNavigate, useParams } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import { addDays} from "date-fns";
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.module.css";
+import DateRangeSelector from "../../component/DateRangeSelector";
 
+
+import "../../asset/css/datepicker.css"
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -36,14 +39,6 @@ function HotelDetail() {
           key: "selection",
         },
       ])
-
-    // const {ho_idx} = useParams(); // APP.js 에서 전달한 파라미터
-    // const navigate = useNavigate();
-    // const ho_name = useRef();
-    // const ho_address = useRef();
-    // const ho_level = useRef();
-    // const ho_floor = useRef();
-    // const img = useRef();
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
@@ -52,7 +47,7 @@ function HotelDetail() {
         let src = '';
         let img_url = '';
         if(data.ho_img !== '-'){
-            src = `http://localhost/static/images/host/${data.ho_img}`;
+            src = `../../img/${data.ho_img}`;
             img_url = `<img src=${src} width='600px' height='300px'/>`;
         } else {
             img_url = '';
@@ -69,28 +64,30 @@ function HotelDetail() {
                 </div>
                 <br />
                 <div className="row mb-30">
-                <div className="card-style">
-                     <span dangerouslySetInnerHTML={{__html : img_url}}></span>
-                     
+                    <div className="card-style">
+                        <span dangerouslySetInnerHTML={{__html : img_url}}></span>                        
+                    </div>
                 </div>
-                </div>
-
                 <div className="row">
                     <div className="col-9">
                         <div>
                             <h4>{data.ho_address}</h4>
-                            <div>최대인원 {data.d_capacity}명 · 침대 {data.d_beds}개 · 면적 {data.d_area}㎡</div>
-                            <div>★ 후기 개</div>
+                            <div>최대 인원 {data.d_capacity}명 · 침대 {data.d_beds}개 · 면적 {data.d_area}㎡</div>
                             <br />
-                            <div className="card-style mb-30">
-                            게스트 선호 | 별점 | 후기수 </div>
-                            <div> 호스트 소개 </div>
+                            <div><b> 호스트 : {data.h_name}님 </b></div>
+                            <div>{data.h_level} · 호스팅 경력 {data.h_regdate} 개월</div>
+                            <hr />
+                            <div>
+                                셀프 체크인
+                            </div>
                             <hr />
                             <div>숙소 소개글</div>
+                            <b>더보기 버튼 클릭 시 전문 나오도록(타이틀 삭제?)</b><br />
+                            {data.ho_description}
                             <hr />
                             <div>선택 가능한 객실 유형</div>
-                            <div>이미지</div>
-                            <div>숙소유형명</div>
+                            <div>이미지 {data.d_img1}</div>
+                            <div>{data.d_room_type}</div>
                             <hr />
                             <div>숙소편의시설</div>
                             <button type="button">편의시설 모두보기</button>
@@ -104,9 +101,10 @@ function HotelDetail() {
                             </div>
                             <hr />
                             <h4>숙소 위치</h4>
-                            <div>주소</div>
+                            <div>{data.ho_address}</div>
+                            <br />
                             <div>
-                                지도 맵
+                                <KakaoMap />
                             </div>
                             <h4>호스트 소개</h4>
                             <div className="card-style">
@@ -117,23 +115,15 @@ function HotelDetail() {
                             <div>숙소 이용규칙</div>
                         </div>
                     </div>
+                    
                     <div className="col-3">
                             <div className="card-style mb-30">
-                                <div> 날짜선택/가격/주문 창</div>
+                                <div> 날짜를 입력하여 요금을 확인하세요</div>
+                                <DateRangeSelector/>
                             </div>
-                        <DateRange
-                            dateFormat="yyyy-MM-dd"    // 날짜 형식 설정
-                            className="input-datepicker"    // 클래스 명 지정 css주기 위해
-                            editableDateInputs={true}
-                            onChange={(item) => setState([item.selection])}
-                            moveRangeOnFirstSelection={false}
-                            ranges={state}
-                            months={2}
-                            direction="horizontal"
-                        />
+                           
                     </div>
                 </div>
-
             </div>
         )
     }
