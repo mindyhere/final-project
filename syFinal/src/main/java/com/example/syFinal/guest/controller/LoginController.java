@@ -58,16 +58,9 @@ public class LoginController {
 		if (check == 0) {
 			result = "no";
 		} else if (check == 1) {
-			String randomPw = getTempPassword();
+			String randomPw = emailService.getTempPassword();
 			dao.randomPw(g_email, randomPw);
-			EmailDTO emailPw = new EmailDTO();
-			emailPw.setSubject("임시 비밀번호 안내");
-			emailPw.setMessage("안녕하세요. 임시 비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 " + randomPw + " 입니다."
-					+ " 로그인 후에 비밀번호를 변경해 주세요");
-			emailPw.setReceiveMail(g_email);
-			emailPw.setSenderName("SY Library");
-			emailPw.setSenderMail("SYLibrary@gmail.com");
-			emailService.sendMail(emailPw);
+			emailService.prepareTempPwdEmail(g_email, randomPw);
 			result = "success";
 		} else {
 			result = "error";
@@ -91,16 +84,4 @@ public class LoginController {
 		return map;
 	}
 	
-	public String getTempPassword() {
-		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-
-		String str = "";
-		int idx = 0;
-		for (int i = 0; i < 10; i++) {
-			idx = (int) (charSet.length * Math.random());
-			str += charSet[idx];
-		}
-		return str;
-	}
 }
