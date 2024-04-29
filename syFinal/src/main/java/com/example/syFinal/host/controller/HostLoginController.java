@@ -63,10 +63,19 @@ public class HostLoginController {
 	}
 
 	@PostMapping("login/findId")
-	public String findId(@RequestParam Map<String, Object> map) {
-		String h_email = hostDao.findId(map);
-		return hostDao.findId(map);
+	public Map<String, Object> findId(@RequestParam Map<String, Object> map) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("h_email", hostDao.findId(map));
+		return result;
 	}
+
+//	public Map<String, Object> findId(@RequestParam Map<String, Object> map) {
+//		sysou
+//		Map<String, Object> result = null;
+//		map.put("h_email", hostDao.findId(map));
+//		System.out.println(result);
+//		return result;
+//	}
 
 	@PostMapping("login/findPwd")
 	public String findPwd(@RequestParam Map<String, Object> map) {

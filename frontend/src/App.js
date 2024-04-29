@@ -9,10 +9,11 @@ import "./asset/css/main.css";
 import Main from "./Main";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-import Footer from "./component/Popup";
 import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
+import HostLogin from "./pages/host/login";
+import SearchHostEmail from "./pages/host/searchEmail";
 import HotelDetail from "./pages/host/HotelDetail";
 
 function App() {
@@ -22,12 +23,13 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-        <Popup />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin />} />
           <Route path="/guest/searchEmail" element={<SearchEmail />} />
           <Route path="/guest/searchPw" element={<SearchPw />} />
+          <Route path="/host/Login" element={<HostLogin />} />
+          <Route path="/host/searchEmail" element={<SearchHostEmail />} />
           <Route path="/host/hotel/hotelDetail" element={<HotelDetail />} />
         </Routes>
         <Footer />

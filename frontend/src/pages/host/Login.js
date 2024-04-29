@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
 import { useSearchParams, Link } from "react-router-dom";
-//import Swal from "sweetalert2";
-import { basicAlert, basicConfirm } from "Popup";
+import Swal from "sweetalert2";
 
 function HostLogin() {
   const [params, setParams] = useSearchParams();
@@ -12,46 +11,56 @@ function HostLogin() {
   const navigate = useNavigate();
   const userId = useRef();
   const pwd = useRef();
-  const [message, setMessage] = useState([]);
-  const [basicAlert, basicConfirm] = Popup();
+  const basicAlert = useState([]);
 
   return (
     <>
       <div className="container min-vh-100">
-        <h3 class="text-bold">
+        <h3 className="text-bold">
           {" "}
           <img src="/img/login.png" width="35px" height="35px" />
           로그인
         </h3>
         <hr />
-        <p class="text-sm text-gray">
+        <p className="text-sm text-gray">
           로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수 있습니다.
         </p>
-        <div class="card-style mb-30">
+        <div className="card-style mb-30">
           <form>
             <div>
-              <div class="input-style-1">
+              <div className="input-style-1">
                 <label>이메일</label>{" "}
                 <input ref={userId} placeholder="이메일을 입력해주세요" />
               </div>
-              <div class="input-style-1">
-                <label>비밀번호</label> <input type="password" ref={pwd} />
+              <div className="input-style-1">
+                <label>비밀번호</label>{" "}
+                <input
+                  type="password"
+                  ref={pwd}
+                  placeholder="비밀번호를 입력해주세요"
+                />
               </div>
               <br />
               <button
                 type="button"
                 onClick={() => {
                   if (userId.current.value == "") {
-                    Popup.basicAlert(
-                      "warning",
-                      "잠깐!",
-                      "이메일을 입력하세요."
-                    );
+                    Swal.fire({
+                      icon: "warning",
+                      title: "잠깐!",
+                      html: "이메일을 입력하세요.",
+                      confirmButtonText: "OK",
+                    });
                     userId.current.focus();
                     return;
                   }
                   if (pwd.current.value == "") {
-                    window.alert("비밀번호를 입력하세요.");
+                    Swal.fire({
+                      icon: "warning",
+                      title: "잠깐!",
+                      html: "비밀번호를 입력하세요.",
+                      confirmButtonText: "OK",
+                    });
                     pwd.current.focus();
                     return;
                   }
@@ -64,7 +73,7 @@ function HostLogin() {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      setMessage(data);
+                      console.log(data);
                       if (data.msg == "success") {
                         const cookies = new Cookies();
                         cookies.set(
@@ -92,50 +101,53 @@ function HostLogin() {
                           { key: data.dto.h_status },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
-                        // window.location.href='/';
+                        window.location.href = "/";
                         console.log("로그인 성공");
                       } else {
-                        Popup.basicAlert(
-                          "warning",
-                          "잠깐!",
-                          "아이디/비밀번호를 확인해주세요."
-                        );
+                        Swal.fire({
+                          icon: "warning",
+                          title: "잠깐!",
+                          html: "아이디/비밀번호를 확인해주세요.",
+                          confirmButtonText: "OK",
+                        });
                       }
                     });
                 }}
                 id="btnLogin"
                 className="main-btn"
-              >로그인</button>
+              >
+                로그인
+              </button>
               &nbsp;
             </div>
           </form>
         </div>
         <div
-          class="card-style d-flex align-items-center"
+          className="card-style d-flex align-items-center"
           style={{
             backgroundColor: "#E8E8E4",
             border: "1px solid #D5D5D5",
             height: "300px",
           }}
         >
-          <div class="col text-center">
-            <div class="btnLoginBottom">
-              <Link to="api/host/findId">
+          <div className="col text-center">
+            <div className="btnLoginBottom">
+              <Link to="/host/searchEmail">
                 <img src="/img/id.png" />
-                <br /> 이메일 찾기
+                <br /> 아이디 찾기
               </Link>
             </div>
           </div>
-          <div class="col text-center">
-            <div class="btnLoginBottom">
+          <div className="col text-center">
+            <div className="btnLoginBottom">
               <Link to="api/host/findPwd">
                 <img src="/img/forgot.png" />
                 <br /> 비밀번호 찾기
               </Link>
             </div>
           </div>
-          <div class="col text-center">
-            <div class="btnLoginBottom">
+          <div className="col text-center">
+            <div className="btnLoginBottom">
               <Link
                 to="window.open('api/host/join', '', 'width=430, height=500, channelmode=no' )"
                 target=""

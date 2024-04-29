@@ -40,7 +40,6 @@ public class HostDAOImpl implements HostDAO {
 
 	@Override // host 계정아이디 찾기
 	public String findId(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("host.findId", map);
 	}
 
