@@ -3,11 +3,11 @@
 <mapper namespace="host">
 <!-- 회원가입 -->
 <insert id="insert">
-insert into users (h_email, h_passwd, h_name, h_phone, h_business, h_level) 
-values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9)
+insert into users (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_profile, h_file ) 
+values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9, #{h_profile}, #{h_file})
 </insert>
 
-<!-- 아이디 중복검사 -->
+<!-- 비밀번호 확인 -->
 <select id="pwdCheck" resultType="String">
 select h_passwd from host where h_email=#{userId}
 </select>
@@ -33,7 +33,7 @@ where h_name=#{h_name} and h_phone=#{h_phone} and h_business=#{h_business}
 <!-- Host계정 비밀번호 찾기 -->
 <select id="findPwd" resultType="int">
 select count(h_idx) from host
-where h_email=#{h_email} and h_phone=#{h_phone} and h_business=#{h_business}
+where h_email=#{userId} and h_phone=#{h_phone} and h_business=#{h_business}
 </select>
 
 <update id="setTempPwd" parameterType="map">

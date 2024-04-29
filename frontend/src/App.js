@@ -14,6 +14,7 @@ import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
 import HostLogin from "./pages/host/login";
 import SearchHostEmail from "./pages/host/searchEmail";
+import SearchHostPw from "./pages/host/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/guest/searchPw" element={<SearchPw />} />
           <Route path="/host/Login" element={<HostLogin />} />
           <Route path="/host/searchEmail" element={<SearchHostEmail />} />
+          <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/host/hotel/hotelDetail" element={<HotelDetail />} />
         </Routes>
         <Footer />

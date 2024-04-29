@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
-function SearchEmail() {
+function SearchPw() {
   const navigate = useNavigate();
-  const h_name = useRef();
+  const userId = useRef();
   const h_phone = useRef();
   const h_business = useRef();
 
@@ -14,14 +14,14 @@ function SearchEmail() {
         <h3 className="text-bold">
           {" "}
           <img src="/img/search_id.png" width="35px" height="35px" />
-          이메일 찾기
+          비밀번호 찾기
         </h3>
         <hr />
         <div className="card-style mb-30">
           <form>
             <div className="input-style-1">
-              <label>이름</label>{" "}
-              <input ref={h_name} placeholder="이름을 입력해주세요" />
+              <label>이메일</label>{" "}
+              <input ref={userId} placeholder="이메일을 입력해주세요" />
             </div>
             <div className="input-style-1">
               <label>전화번호</label>{" "}
@@ -40,14 +40,14 @@ function SearchEmail() {
               <button
                 type="button"
                 onClick={() => {
-                  if (h_name.current.value == "") {
+                  if (userId.current.value == "") {
                     Swal.fire({
                       icon: "warning",
                       title: "잠깐!",
-                      html: "이름을 입력하세요.",
+                      html: "이메일을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    h_name.current.focus();
+                    userId.current.focus();
                     return;
                   }
                   if (h_phone.current.value == "") {
@@ -71,34 +71,40 @@ function SearchEmail() {
                     return;
                   }
                   const form = new FormData();
-                  form.append("h_name", h_name.current.value);
+                  form.append("userId", userId.current.value);
                   form.append("h_phone", h_phone.current.value);
                   form.append("h_business", h_business.current.value);
-                  fetch("http://localhost/api/host/login/findId", {
+                  fetch("http://localhost/api/host/login/findPwd", {
                     method: "post",
                     body: form,
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
-                      if (data.h_email != null) {
+                      if (data.msg === "success") {
                         Swal.fire({
-                          icon: "info",
+                          icon: "success",
                           title: "Check",
-                          html: `<strong><p>${h_name.current.value}</strong> 님의 이메일은 <strong>${data.h_email}</strong>입니다.</br>로그인 페이지로 이동할까요?</p>`,
-                          showDenyButton: true,
+                          html: `<strong><p>${userId.current.value}</strong> 로 임시 비밀번호를 전송했습니다.</br>로그인 후 비밀번호를 변경해주세요.</p>`,
                           confirmButtonText: "YES",
-                          denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
                             navigate("/host/login");
                           }
                         });
+                      } else if (data.msg === "fail") {
+                        console.log(data);
+                        Swal.fire({
+                          icon: "warning",
+                          title: "잠깐!",
+                          html: "메일 발송에 실패했습니다.</br>반복 실패 시 관리자 측에 문의해주시기 바랍니다.",
+                          confirmButtonText: "YES",
+                        });
                       } else {
+                        console.log(data);
                         Swal.fire({
                           icon: "error",
                           title: "잠깐!",
-                          html: "일치하는 회원 정보가 없습니다.</br>입력하신 내용이 맞는지 확인바랍니다.",
+                          html: data.msg + "</br>확인 후 재입력해주세요.",
                           confirmButtonText: "OK",
                         });
                       }
@@ -106,7 +112,7 @@ function SearchEmail() {
                 }}
                 className="main-btn"
               >
-                아이디 찾기
+                비밀번호 찾기
               </button>
             </div>
           </form>
@@ -116,4 +122,4 @@ function SearchEmail() {
   );
 }
 
-export default SearchEmail;
+export default SearchPw;
