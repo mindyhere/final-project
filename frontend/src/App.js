@@ -12,6 +12,7 @@ import Footer from './component/Footer';
 import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
+import HotelDetail from "./pages/host/HotelDetail";
 
 function App() {
   console.warn = function no_console() {};
@@ -25,6 +26,7 @@ function App() {
           <Route path="/guest/login" element={<GuestLogin/>}/>
           <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
           <Route path="/guest/searchPw" element={<SearchPw/>}/>
+          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>
