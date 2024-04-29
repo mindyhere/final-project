@@ -5,9 +5,10 @@
 	<!-- 호텔 상세 정보 -->
 	<select id="getHotelList"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT * FROM hotel
-		WHERE
-		ho_idx = #{ho_idx}
+		SELECT * FROM hotel h, hotel_detail d, host
+		WHERE ho_idx = #{ho_idx}
+		AND h.ho_idx = d.d_ho_idx
+		AND h.ho_business = host.h_business
 	</select>
 
 
