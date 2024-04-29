@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="host">
+<!-- 회원가입 -->
+<insert id="insert">
+insert into users (h_email, h_passwd, h_name, h_phone, h_business, h_level) 
+values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9)
+</insert>
+
+<!-- 아이디 중복검사 -->
+<select id="idCheck" resultType="int">
+select h_idx from host where h_email=#{userId}
+</select>
+
+<!-- 로그인성공 시 쿠키로 저장할 host 데이터 -->
+<select id="getAccount" resultType="com.example.syFinal.host.model.dto.HostDTO">
+select h_idx, h_email, h_name, h_business, h_status 
+from host
+where h_email=#{userId}
+</select>
+
+<!-- Host계정 아이디 찾기 -->
+<select id="findId" resultType="String">
+select h_email from host
+where h_name=#{h_name} and h_phone=#{h_phone} and h_business=#{h_business}
+</select>
+
+<!-- Host계정 비밀번호 찾기 -->
+<select id="findPwd" resultType="int">
+select count(h_idx) from host
+where h_email=#{h_email} and h_phone=#{h_phone} and h_business=#{h_business}
+</select>
+
+<update id="setTempPwd" parameterType="map">
+update host
+set h_passwd=#{pwd}
+where h_email=#{userId}
+</update>
+
+<resultMap id="update_result" type="java.util.Map"></resultMap>
+<select id="updateInfo" parameterType="map" statementType="CALLABLE" resultMap="update_result">
+{call update_hostInfo(
+		#{userid, mode=IN, jdbcType=INTEGER}, 
+		#{pwd, mode=IN, jdbcType=VARCHAR}, 
+		#{name, mode=IN, jdbcType=VARCHAR}, 
+		#{phone, mode=IN, jdbcType=VARCHAR}, 
+		#{business, mode=IN, jdbcType=VARCHAR}, 
+		#{h_name, mode=OUT, jdbcType=VARCHAR}
+		#{h_business, mode=OUT, jdbcType=VARCHAR}
+		#{h_status, mode=OUT, jdbcType=VARCHAR}
+	)}
+</select>
+
+
+<delete id="delete">
+delete from host where h_idx=#{h_idx}
+</delete>
+</mapper>
