@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("api/host/*")
-public class LoginController {
+public class HostLoginController {
 	@Autowired
 	HostDAO hostDao;
 
