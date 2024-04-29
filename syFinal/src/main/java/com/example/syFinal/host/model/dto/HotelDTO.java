@@ -21,6 +21,9 @@ public class HotelDTO {
 	private int ho_family;
 	private int ho_suite;
 	private String ho_img;
+	private double ho_x;
+	private double ho_y;
+	private String ho_description;
 	private int d_room_type;
 	private int d_capacity;
 	private int d_area;
@@ -32,4 +35,11 @@ public class HotelDTO {
 	private String d_img1;
 	private String d_img2;
 	private String d_img3;
+	private String h_email;
+	private String h_name;
+	private String h_phone;
+	private int h_business;
+	private int h_level;
+	private String h_status;
+	private Date h_regdate;
 }
