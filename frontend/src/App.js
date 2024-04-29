@@ -2,13 +2,14 @@ import React from "react";
 import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './asset/css/user.css';
-import './asset/css/main.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./asset/css/user.css";
+import "./asset/css/main.css";
 
 import Main from "./Main";
-import Header from './component/Header';
-import Footer from './component/Footer';
+import Header from "./component/Header";
+import Footer from "./component/Footer";
+import Footer from "./component/Popup";
 import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
@@ -20,15 +21,16 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header/>
+        <Header />
+        <Popup />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/guest/login" element={<GuestLogin/>}/>
-          <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
-          <Route path="/guest/searchPw" element={<SearchPw/>}/>
-          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
+          <Route path="/guest/login" element={<GuestLogin />} />
+          <Route path="/guest/searchEmail" element={<SearchEmail />} />
+          <Route path="/guest/searchPw" element={<SearchPw />} />
+          <Route path="/host/hotel/hotelDetail" element={<HotelDetail />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </>
   );

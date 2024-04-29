@@ -51,7 +51,7 @@ public class HostLoginController {
 	public Map<String, Object> login(@RequestParam Map<String, Object> map) {
 		String userId = (String) map.get("userId");
 		String pwd = (String) map.get("pwd");
-		String encodedPwd = hostDao.getUserPasswd(pwd);
+		String encodedPwd = hostDao.pwdCheck(userId);
 		Map<String, Object> result = new HashMap<>();
 		if (pwd.equals(encodedPwd)) {
 			result.put("dto", hostDao.getAccount(userId));
