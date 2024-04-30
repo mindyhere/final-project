@@ -39,7 +39,7 @@ public class HostAccountController {
 		int checked = hostDao.idCheck(userId);
 		System.out.println("===> checked: " + checked);
 		Map<String, Object> data = new HashMap<>();
-		if (checked > 0) {
+		if (userId.equals("undefined") || checked > 0) {
 			data.put("msg", "error");
 		} else {
 			data.put("msg", "ok");
@@ -53,8 +53,8 @@ public class HostAccountController {
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
-//		String h_profile = "";
-//		String h_file = "";
+		// String h_profile = "image_no.png";
+		// String h_file = "image_no.png";
 
 		if (profile != null && !profile.isEmpty()) {
 			String h_profile = profile.getOriginalFilename();
@@ -84,7 +84,6 @@ public class HostAccountController {
 		hostDao.insert(map);
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "success");
-		data.put("userid", map.get("userid"));
 		return data;
 	}
 

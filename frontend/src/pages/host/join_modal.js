@@ -1,62 +1,70 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
-import "./modall.css";
-import "./aa.css";
+import "../guest/aa.css";
+import "./modalH.css";
+import $ from "jquery";
 
 function Join() {
+  const [email, setEmail] = useState("");
   const userId = useRef();
   const pwd = useRef();
+  const pwdChk = useRef();
   const h_name = useRef();
+  const [phoneNum, setPhoneNum] = useState("");
   const h_phone = useRef();
+  const [businessNum, setBusinessNum] = useState("");
   const h_business = useRef();
   const profile = useRef();
   const file = useRef();
-  const [msg, setMessage] = useState("");
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState("");
+  const [chkdId, setChkdId] = useState("");
+  const emailChk = useRef();
   const [check, setCheck] = useState(false);
-  //   const idChecked = useRef();
+  const emailRegEx =
+    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
 
-  const idChecked = (e) => {
-    setInputValue(e);
+  const idCheck = (e) => {
+    setChkdId(e);
   };
 
-  const handleChange = (e) => {
-    const regex = /^[0-9\b -]{0,13}$/;
-    if (regex.test(e.target.value)) {
-      setInputValue(e.target.value);
+  const handleChange = (val, opt) => {
+    const phoneRegEx = /^[0-9\b -]{0,13}$/;
+    const businessRegEx = /^[0-9\b -]{0,12}$/;
+    switch (opt) {
+      case "phone":
+        console.log(opt);
+        if (phoneRegEx.test(val)) {
+          setPhoneNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+          );
+        }
+        break;
+      case "business":
+        console.log(opt);
+        if (businessRegEx.test(val)) {
+          setBusinessNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
+          );
+        }
+        break;
     }
   };
 
-  useEffect(() => {
-    if (inputValue.length > 0) {
-      setInputValue(
-        inputValue
-          .replace(/-/g, "")
-          .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-      );
-    }
-  }, [inputValue]);
-
-  const changeButton = () => {
-    //console.log(userId.current.value);
-    userId.current.value.includes("@" && ".") &&
-    userId.current.value.length >= 9
-      ? setCheck(true)
-      : setCheck(false);
+  const emailCheck = (e) => {
+    // 형식에 맞을 경우, true 리턴
+    emailRegEx.test(e.target.value) ? setCheck(true) : setCheck(false);
   };
 
   return (
     <>
-      <div className="container min-vh-100" style={{ paddingTop: "15px" }}>
+      <div className="modal_container" style={{ paddingTop: "15px" }}>
         <h3 className="text-bold">
-          {" "}
           <img src="/img/join.png" width="35px" height="35px" />
-          회원가입
+          &nbsp;회원가입
         </h3>
         <hr />
-        <div className="card-style mb-30" style={{ overflowy: "auto" }}>
+        <div className="card-style mb-30">
           <form>
             <table className="tbl">
               <colgroup>
@@ -65,21 +73,26 @@ function Join() {
               </colgroup>
               <tbody>
                 <tr>
-                  <th>이메일</th>
+                  <th>이메일(ID)</th>
                   <td>
                     <input
                       className="form-control"
+                      type="email"
+                      value={email}
                       ref={userId}
-                      onChange={changeButton}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        emailCheck(e);
+                      }}
                       placeholder="이메일을 입력해주세요"
                     />
-                    <input type="hidden" id="idChecked" value={inputValue} />
+                    <input type="hidden" value={chkdId} ref={emailChk} />
                   </td>
                   <td>
                     <button
                       type="button"
                       value={check}
-                      className={"check-btn" + (check ? "Active" : "Disabled")}
+                      className={"btnCheck " + (check ? "active" : "disabled")}
                       onClick={() => {
                         const form = new FormData();
                         form.append("userId", userId.current.value);
@@ -89,7 +102,7 @@ function Join() {
                         })
                           .then((response) => response.json())
                           .then((data) => {
-                            setMessage(data);
+                            console.log(data);
                             if (data.msg === "ok") {
                               Swal.fire({
                                 icon: "success",
@@ -97,8 +110,7 @@ function Join() {
                                 html: "사용가능한 이메일입니다.",
                                 confirmButtonText: "OK",
                               }).then(() => {
-                                idChecked(data.msg);
-                                //setMessage(data.msg);
+                                idCheck(data.msg);
                               });
                             } else {
                               Swal.fire({
@@ -107,13 +119,13 @@ function Join() {
                                 html: "이미 사용 중인 이메일입니다.",
                                 confirmButtonText: "OK",
                               }).then(() => {
-                                //setMessage(data.msg);
+                                idCheck(data.msg);
                               });
                             }
                           });
                       }}
                     >
-                      중복 체크
+                      중복 확인
                     </button>
                   </td>
                 </tr>
@@ -127,17 +139,17 @@ function Join() {
                       placeholder="비밀번호를 입력해주세요"
                     />
                   </td>
-                      </tr>
-                      <tr>
+                </tr>
+                <tr>
                   <td colSpan={2}>
                     <input
                       className="form-control"
                       type="password"
-                      ref={pwd}
-                      placeholder="비밀번호 재확인"
+                      ref={pwdChk}
+                      placeholder="비밀번호 확인"
                     />
                   </td>
-                  </tr>
+                </tr>
                 <tr>
                   <th>이름</th>
                   <td colSpan={2}>
@@ -155,9 +167,11 @@ function Join() {
                     <input
                       className="form-control"
                       type="text"
+                      onChange={(e) => {
+                        handleChange(e.target.value, "phone");
+                      }}
+                      value={phoneNum}
                       ref={h_phone}
-                      onChange={handleChange}
-                      value={inputValue}
                       placeholder="숫자만 입력하세요"
                     />
                   </td>
@@ -168,8 +182,11 @@ function Join() {
                     <input
                       className="form-control"
                       type="text"
+                      onChange={(e) => {
+                        handleChange(e.target.value, "business");
+                      }}
+                      value={businessNum}
                       ref={h_business}
-                      
                       placeholder="숫자만 입력하세요"
                     />
                   </td>
@@ -186,24 +203,25 @@ function Join() {
                   </td>
                 </tr>
                 <tr>
-                  <th>사업자<br/>등록증</th>
+                  <th>
+                    사업자
+                    <br />
+                    등록증
+                  </th>
                   <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="file"
-                      ref={file}
-                    />
+                    <input className="form-control" type="file" ref={file} />
                   </td>
                 </tr>
               </tbody>
             </table>
 
-
-            <p style={{ color: "red" }}>
-              프로필/사업자등록증 누락 시,<br/>일부 서비스 이용이 제한될 수 있음을
-              알려드립니다.
+            <p>
+              프로필/사업자등록증 <strong>누락</strong> 시,
+              <br />
+              <span style={{ color: "red" }}>일부 서비스 이용이 제한</span>될 수
+              있음을 알려드립니다.
             </p>
-
+            <br />
             <div style={{ textAlign: "center" }}>
               <button
                 type="button"
@@ -215,8 +233,21 @@ function Join() {
                       html: "이메일을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    userId.current.focus();
+                    //</div>userId.current.focus();
                     return;
+                  } else {
+                    if (
+                      emailChk.current.value === "error" ||
+                      emailChk.current.value === ""
+                    ) {
+                      Swal.fire({
+                        icon: "warning",
+                        title: "잠깐!",
+                        html: "이미 사용 중인 이메일입니다.<br/>다른 계정을 입력해주세요.",
+                        confirmButtonText: "OK",
+                      });
+                      return;
+                    }
                   }
                   if (pwd.current.value == "") {
                     Swal.fire({
@@ -225,8 +256,20 @@ function Join() {
                       html: "비밀번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    pwd.current.focus();
+                    // pwd.current.focus();
                     return;
+                  } else {
+                    if (pwd.current.value === pwdChk.current.value) {
+                      console.log("비밀번호 확인");
+                    } else {
+                      Swal.fire({
+                        icon: "warning",
+                        title: "잠깐!",
+                        html: "비밀번호가 일치하지 않습니다.",
+                        confirmButtonText: "OK",
+                      });
+                      return;
+                    }
                   }
                   if (h_name.current.value == "") {
                     Swal.fire({
@@ -235,7 +278,7 @@ function Join() {
                       html: "이름을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    h_name.current.focus();
+                    // h_name.current.focus();
                     return;
                   }
                   if (h_phone.current.value == "") {
@@ -245,7 +288,7 @@ function Join() {
                       html: "전화번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    h_phone.current.focus();
+                    // h_phone.current.focus();
                     return;
                   }
                   if (h_business.current.value == "") {
@@ -254,8 +297,9 @@ function Join() {
                       title: "잠깐!",
                       html: "사업자번호를 입력하세요.",
                       confirmButtonText: "OK",
-                    });
-                    h_business.current.focus();
+                    }); /*.then((result) => {
+                      if (result.isConfirmed) h_business.current.focus();
+                    });*/
                     return;
                   }
                   const form = new FormData();
@@ -290,7 +334,8 @@ function Join() {
                           denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            navigate("/host/login");
+                            //navigate("/host/login");
+                            window.location.replace("/host/login");
                           } else if (result.isDenied) {
                             navigate("/");
                           }
@@ -316,5 +361,4 @@ function Join() {
     </>
   );
 }
-
 export default Join;
