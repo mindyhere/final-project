@@ -43,17 +43,17 @@ function Main() {
       {list.map(
                 ({HoName,HoImg,HoIdx})=>(
                     <HotelItem
-                    
-                    HoName={HoName}
-                    HoImg={HoImg}
-                    key={HoIdx}
-                        //싱글가격
-                        //평점
+                      HoIdx={HoIdx}
+                      HoName={HoName}
+                      HoImg={HoImg}
+                      key={HoIdx}
+                          //싱글가격
+                          //평점
                     />
                 )
             )}
       </div>
-
+            console.log("idx===="+HoIdx);
       <br />
       <br />
       <br />

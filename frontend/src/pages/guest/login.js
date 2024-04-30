@@ -5,12 +5,11 @@ import Swal from "sweetalert2";
 import Join from "./join";
 import '../../asset/css/user.css'
 import './modall.css'
+import './aa.css'
 
 
-function GuestLogin(props) {
-    const [join, setJoin] = useState(false);
-    const [params, setParams]=useSearchParams();
-        //  데이터 setter       
+function GuestLogin() {
+    const [join, setJoin] = useState(false);       
     const g_email = useRef();
     const g_passwd = useRef();
     const [message, setMessage] = useState([]);
@@ -21,16 +20,16 @@ function GuestLogin(props) {
             <div className="container min-vh-100">
             <h3 class="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
                 로그인</h3>
-            <hr/>
+                <br/>
 		    <p class="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
 			있습니다.</p>
-            <div class="card-style mb-30">
+            <div class="card-stylee mb-30">
                 <form>
                     <div>
-                    <div class="input-style-1">
+                    <div class="input-stylee-1">
 						<label>이메일</label> <input ref={g_email} placeholder="이메일을 입력해주세요"/>
 					</div>
-                    <div class="input-style-1">
+                    <div class="input-stylee-1">
 						<label>비밀번호</label> <input type='password' ref={g_passwd} />
 					</div>
                     <br/>
@@ -88,7 +87,7 @@ function GuestLogin(props) {
             </div>
             </form>
             </div>
-            <div class="card-style d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
+            <div class="card-stylee d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
             <div class="col text-center">
             <div class="btnLoginBottom">
             <Link to="/guest/searchEmail"><img src="/img/id.png" /><br/> 이메일 찾기</Link>
@@ -153,10 +152,11 @@ function GuestLogin(props) {
             props.closeModal();
             setModal(false);
         }
+
     
         return (
             <div className='Modal_a' onClick={closeModal}>
-                <div className='modalBody' onClick={(e) => e.stopPropagation()}>
+                <div className='modalBody_a' onClick={(e) => e.stopPropagation()}>
                     <button id = 'modalCloseBtn' onClick={closeModal} >
                         X
                     </button>

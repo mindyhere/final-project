@@ -14,9 +14,10 @@
   .modalBody {
     position: absolute;
     width: 600px;
-    height: 700px;
+    height: 600px;
     padding: 40px;
     text-align: center;
+    z-index: 0;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -50,9 +51,10 @@
   .modalBody_a {
     position: absolute;
     width: 600px;
-    height: 800px;
+    height: 850px;
     padding: 40px;
     text-align: center;
+    z-index: 1;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
