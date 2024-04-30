@@ -1,18 +1,18 @@
 .dateRangePicker{
   /*position: right;*/
-  position: absolute;
+  position: absolute; 
   top:0;
   right:0;
   border: 1px solid transparent;
 }
 
 .rdrDateDisplayWrapper {
-    display: none; 
+    display: none;
  }
 
  .rdrCalendarWrapper {
     box-sizing: border-box;
-    background: #ffffff;
+    background: #FFFFFF;
     color: #000000;
     font-size: 12px;
     display: inline-flex;
@@ -66,7 +66,7 @@
     padding: 0;
     border: 0;
     border-radius: 5px;
-    background: #EFF2F7
+    background: #F2E3Fc;
   }
 
   .rdrMonths{
@@ -252,17 +252,6 @@
     margin: 0 5px
   }
   
-  .rdrNextPrevButton {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 0.833em;
-    padding: 0;
-    border: 0;
-    border-radius: 5px;
-    background: #EFF2F7
-  }
-  
   .rdrNextPrevButton:hover{
       background: #E1E7F0;
     }
@@ -346,7 +335,6 @@
   }
   
   .rdrDayToday .rdrDayNumber span{
-    
     font-weight: 500
   }
   
@@ -359,7 +347,7 @@
       width: 18px;
       height: 2px;
       border-radius: 2px;
-      background: #DDB5F7;
+      background: #F2E3Fc;
     }
   
   .rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span:after,.rdrDayToday:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span:after,.rdrDayToday:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span:after,.rdrDayToday:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span:after{
