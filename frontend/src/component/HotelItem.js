@@ -16,10 +16,11 @@ function HotelItem({HoIdx,HoName, HoImg}) {
         if (HoImg != null) {
             img = `<img src=${url} width='330px' height='330px' /><br />`;
         }
+
         return (
-            <div style={{ margin: '5px'}}  onClick={() => navigate('/host/HotelDetail')}>
+            <div style={{ margin: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                    <Link to={`/guest/main`}> 
+                    <Link to={`/host/hotel/hotelDetail/${HoIdx}`}> 
                        <div style={{fontSize:"23px"}}>{HoName}</div>
                         ₩68,717 /박
                     </Link>

@@ -1,5 +1,6 @@
 /* global kakao */
 import React, { useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 const {kakao} = window;
 
@@ -23,9 +24,8 @@ function useFetch(url) {
 }
 
 function KakaoMap(){
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail');
-    console.log("data 확인 : " + JSON.stringify(data));
-    console.log("loading : " + loading);
+    const {HoIdx} = useParams();
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
 
     if(loading){
         return (
