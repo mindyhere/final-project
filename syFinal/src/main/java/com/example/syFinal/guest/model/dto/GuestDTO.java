@@ -24,5 +24,11 @@ public class GuestDTO {
 	private String g_date;
 	private int g_cvc;
 	private int g_point;
-	
+	private String d_img1;
+	private int o_state;
+	private String o_orderdate;
+	private int o_payment;
+	private String o_ckin;
+	private String o_ckout; 
+	private int o_finalprice;
 }
