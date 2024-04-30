@@ -1,16 +1,15 @@
 import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Join from "./join";
 import '../../asset/css/user.css'
 import './modall.css'
+import './aa.css'
 
 
-function GuestLogin(props) {
-    const [join, setJoin] = useState(false);
-    const [params, setParams]=useSearchParams();
-        //  데이터 setter       
+function GuestLogin() {
+    const [join, setJoin] = useState(false);       
     const g_email = useRef();
     const g_passwd = useRef();
     const [message, setMessage] = useState([]);
@@ -21,16 +20,16 @@ function GuestLogin(props) {
             <div className="container min-vh-100">
             <h3 class="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
                 로그인</h3>
-            <hr/>
+                <br/>
 		    <p class="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
 			있습니다.</p>
-            <div class="card-style mb-30">
+            <div class="card-stylee mb-30">
                 <form>
                     <div>
-                    <div class="input-style-1">
+                    <div class="input-stylee-1">
 						<label>이메일</label> <input ref={g_email} placeholder="이메일을 입력해주세요"/>
 					</div>
-                    <div class="input-style-1">
+                    <div class="input-stylee-1">
 						<label>비밀번호</label> <input type='password' ref={g_passwd} />
 					</div>
                     <br/>
@@ -57,9 +56,9 @@ function GuestLogin(props) {
                                     setMessage(data);
                                     if(data.message == 'success') {
                                         const cookies = new Cookies();
-                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+2592000)}); //30일
-                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+2592000)});
-                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+3600)}); //30일
+                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+3600)});
+                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+3600)});
                                         // window.location.href='/';
                                         Swal.fire({
                                             title: '로그인 성공',
@@ -88,7 +87,7 @@ function GuestLogin(props) {
             </div>
             </form>
             </div>
-            <div class="card-style d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
+            <div class="card-stylee d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
             <div class="col text-center">
             <div class="btnLoginBottom">
             <Link to="/guest/searchEmail"><img src="/img/id.png" /><br/> 이메일 찾기</Link>
@@ -153,10 +152,11 @@ function GuestLogin(props) {
             props.closeModal();
             setModal(false);
         }
+
     
         return (
             <div className='Modal_a' onClick={closeModal}>
-                <div className='modalBody' onClick={(e) => e.stopPropagation()}>
+                <div className='modalBody_a' onClick={(e) => e.stopPropagation()}>
                     <button id = 'modalCloseBtn' onClick={closeModal} >
                         X
                     </button>

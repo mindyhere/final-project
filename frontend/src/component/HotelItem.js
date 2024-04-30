@@ -3,8 +3,8 @@ import {Link, useNavigate} from "react-router-dom";
 
 function HotelItem({HoIdx,HoName, HoImg}) {
     let loading = false;
-    //const url = `http://localhost/images/${HoImg}`;
-    const url = `../img/${HoImg}`;
+    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
+    //const url = `../img/${HoImg}`;
     const navigate = useNavigate();
 
     if (loading) {
@@ -21,8 +21,8 @@ function HotelItem({HoIdx,HoName, HoImg}) {
             <div style={{ margin: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                     <Link to={`/host/hotel/hotelDetail/${HoIdx}`}> 
-                       <div style={{fontSize:"23px"}}>{HoName}</div>
-                        ₩68,717 /박
+                        <div style={{fontSize:"23px"}}>{HoName}</div>
+                            ₩68,717 /박
                     </Link>
                 <br />
                 &nbsp;
