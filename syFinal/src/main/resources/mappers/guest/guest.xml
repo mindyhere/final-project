@@ -18,5 +18,21 @@
 		from guest
 		where g_idx=#{g_idx}
 	</select>
+	
+	<select id="paylist" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+		SELECT 
+		g_idx,
+		d_img1, 
+		o_state, 
+		o_orderdate, 
+		o_payment, 
+		o_ckin, 
+		o_ckout, 
+		o_finalprice
+		FROM hotel_detail d, orders o, guest g
+		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx 
+		and g_idx=#{g_idx}
+		order BY o_orderdate
+	</select>
 
 </mapper>
