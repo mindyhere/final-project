@@ -1,5 +1,6 @@
 /* global kakao */
-import React, { useRef, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 const {kakao} = window;
 
 function useFetch(url) {
@@ -9,9 +10,11 @@ function useFetch(url) {
     useEffect(() => {
         fetch(url)
         .then(response => {
+            console.log('response'+ response);
             return response.json();
         })
         .then(data => {
+            console.log('data : '+ data);
             setData(data);
             setLoading(false);
         })
@@ -20,32 +23,29 @@ function useFetch(url) {
 }
 
 function KakaoMap(){
-    const mapRef = useRef([]);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail');
-    useEffect(() => {
-        const container = mapRef.current;
-        const options= {
-            center: new kakao.maps.LatLng(37.566826, 126.9786567),
-            //center: new kakao.maps.LatLng(data.ho_x, data.ho_y),
-            level : 3
-        };
-        const map = new kakao.maps.Map(container, options);
-    }, []);
+    console.log("data 확인 : " + JSON.stringify(data));
+    console.log("loading : " + loading);
 
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
         )
     } else {
+        let lat = JSON.stringify(data.ho_x);
+        let lng = JSON.stringify(data.ho_y);
         return (
-            <article>
-                <div style={{
-                    width : '80vw',
-                    height:'50vh'
-                }} ref={mapRef}></div>
-            </article>
-        )
-    }
+            <Map
+            //center={{ lat: 37.699072, lng: 127.460887 }}
+            center={{ lat: lat, lng: lng }}
+            style={{ width: '80vw', height: '50vh'}}
+          >
+            <MapMarker position={{ lat: lat, lng: lng }}>
+              <div style={{color:"#000"}}>{JSON.stringify(data.ho_name)}</div>
+            </MapMarker>
+          </Map>
+        );
+    }  
 }
 
 export default KakaoMap;
