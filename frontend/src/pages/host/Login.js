@@ -3,8 +3,8 @@ import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Join from "./join";
-import './modall.css'
-import './aa.css'
+import "./modall.css";
+import "./aa.css";
 
 function HostLogin() {
   const [join, setJoin] = useState(false);
@@ -153,66 +153,112 @@ function HostLogin() {
                 <br /> <label className="text-bold">회원가입</label>
               </div>
 
-              { modal &&
-            <div className='Modal' onClick={() => setModal(false)}>
-            <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                    X
-                </button>
-
-                    <div className="container min-vh-100" style={{paddingTop: "15px"}}>
-                        <h3 class="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>회원가입</h3>
-                        <hr/>
-                       <div class="aa">
-                        <div class="card-style1" onClick={() => {setJoin(!join);}}> 
-                            <img src="/img/guest.png" width="100px" height="100px" style={{marginLeft: "10px"}}/>
-                            <label class="text-bold" style={{paddingTop: "20px"}}>게스트</label>
-                            {join && (
-                                <Modall closeModal={() => {setJoin(!join);}}>
-                                <Join />
-                                </Modall>
-                            )}
-                        </div>
-
-                        <div class="card-style2" onClick={() => {setJoin(!join);}}> 
-                            <img src="/img/host.png" width="100px" height="100px" />
-                            <label class="text-bold" style={{paddingTop: "20px"}}>호스트</label>
-                            {join && (
-                                <Modall closeModal={() => {setJoin(!join);}}>
-                                <Join />
-                                </Modall>
-                            )}
-                        </div>
-                </div>
-        </div>
-            </div>
-        </div>
-        }
-            </div>
-            </div>
-            </div>
-            </div>
-        </>
-    );
-
-    function Modall(props) {
-        function closeModal() {
-            props.closeModal();
-            setModal(false);
-        }
-
-    
-        return (
-            <div className='Modal_a' onClick={closeModal}>
-                <div className='modalBody_a' onClick={(e) => e.stopPropagation()}>
-                    <button id = 'modalCloseBtn' onClick={closeModal} >
-                        X
+              {modal && (
+                <div className="Modal" onClick={() => setModal(false)}>
+                  <div
+                    className="modalBody"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button id="modalCloseBtn" onClick={() => setModal(false)}>
+                      X
                     </button>
-                    {props.children}
+
+                    <div
+                      className="container min-vh-100"
+                      style={{ paddingTop: "15px" }}
+                    >
+                      <h3 class="text-bold">
+                        {" "}
+                        <img src="/img/join.png" width="35px" height="35px" />
+                        회원가입
+                      </h3>
+                      <hr />
+                      <div class="aa">
+                        <div
+                          class="card-style1"
+                          onClick={() => {
+                            setJoin(!join);
+                          }}
+                        >
+                          <img
+                            src="/img/guest.png"
+                            width="100px"
+                            height="100px"
+                            style={{ marginLeft: "10px" }}
+                          />
+                          <label
+                            class="text-bold"
+                            style={{ paddingTop: "20px" }}
+                          >
+                            게스트
+                          </label>
+                          {join && (
+                            <Modall
+                              closeModal={() => {
+                                setJoin(!join);
+                              }}
+                            >
+                              <Join />
+                            </Modall>
+                          )}
+                        </div>
+
+                        <div
+                          class="card-style2"
+                          onClick={() => {
+                            setJoin(!join);
+                          }}
+                        >
+                          <img
+                            src="/img/host.png"
+                            width="100px"
+                            height="100px"
+                          />
+                          <label
+                            class="text-bold"
+                            style={{ paddingTop: "20px" }}
+                          >
+                            호스트
+                          </label>
+                          {join && (
+                            <Modall
+                              closeModal={() => {
+                                setJoin(!join);
+                              }}
+                            >
+                              <Join />
+                            </Modall>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              )}
             </div>
-        );
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  function Modall(props) {
+    function closeModal() {
+      props.closeModal();
+      setModal(false);
     }
-};
+
+    return (
+      <div className="Modal_a" onClick={closeModal}>
+        <div className="modalBody_a" onClick={(e) => e.stopPropagation()}>
+          <button id="modalCloseBtn" onClick={closeModal}>
+            X
+          </button>
+          {props.children}
+        </div>
+      </div>
+    );
+  }
+}
 
 export default HostLogin;

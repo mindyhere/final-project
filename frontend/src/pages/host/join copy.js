@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import "../../asset/css/user.css";
 import "./modall.css";
 import "./aa.css";
+import $ from "jquery";
 
 function Join() {
   const userId = useRef();
@@ -58,149 +60,137 @@ function Join() {
         <hr />
         <div className="card-style mb-30" style={{ overflowy: "auto" }}>
           <form>
-            <table className="tbl">
-              <colgroup>
-                <col style={{ width: "25%" }} />
-                <col />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th>이메일</th>
-                  <td>
-                    <input
-                      className="form-control"
-                      ref={userId}
-                      onChange={changeButton}
-                      placeholder="이메일을 입력해주세요"
-                    />
-                    <input type="hidden" id="idChecked" value={inputValue} />
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      value={check}
-                      className={"check-btn" + (check ? "Active" : "Disabled")}
-                      onClick={() => {
-                        const form = new FormData();
-                        form.append("userId", userId.current.value);
-                        fetch(`http://localhost/api/host/idCheck`, {
-                          method: "post",
-                          body: form,
-                        })
-                          .then((response) => response.json())
-                          .then((data) => {
-                            setMessage(data);
-                            if (data.msg === "ok") {
-                              Swal.fire({
-                                icon: "success",
-                                title: "Check",
-                                html: "사용가능한 이메일입니다.",
-                                confirmButtonText: "OK",
-                              }).then(() => {
-                                idChecked(data.msg);
-                                //setMessage(data.msg);
-                              });
-                            } else {
-                              Swal.fire({
-                                icon: "warning",
-                                title: "잠깐!",
-                                html: "이미 사용 중인 이메일입니다.",
-                                confirmButtonText: "OK",
-                              }).then(() => {
-                                //setMessage(data.msg);
-                              });
-                            }
+            <div className="input-style-a">
+              <h4>이메일</h4>
+              <div id="userId" className="fl" style={{ marginLeft: "20px" }}>
+                <input
+                  ref={userId}
+                  onChange={changeButton}
+                  placeholder="이메일을 입력해주세요"
+                />
+                <input type="hidden" id="idChecked" value={inputValue} />
+              </div>
+              <div className="blank"></div>
+              <div className="fl">
+                <button
+                  type="button"
+                  value={check}
+                  className={"check-btn" + (check ? "Active" : "Disabled")}
+                  onClick={() => {
+                    const form = new FormData();
+                    form.append("userId", userId.current.value);
+                    fetch(`http://localhost/api/host/idCheck`, {
+                      method: "post",
+                      body: form,
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        setMessage(data);
+                        if (data.msg === "ok") {
+                          Swal.fire({
+                            icon: "success",
+                            title: "Check",
+                            html: "사용가능한 이메일입니다.",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            idChecked(data.msg);
+                            //setMessage(data.msg);
                           });
-                      }}
-                    >
-                      중복 체크
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <th rowSpan={2}>비밀번호</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="password"
-                      ref={pwd}
-                      placeholder="비밀번호를 입력해주세요"
-                    />
-                  </td>
-                      </tr>
-                      <tr>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="password"
-                      ref={pwd}
-                      placeholder="비밀번호 재확인"
-                    />
-                  </td>
-                  </tr>
-                <tr>
-                  <th>이름</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="text"
-                      ref={h_name}
-                      placeholder="이름을 입력해주세요"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>전화번호</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="text"
-                      ref={h_phone}
-                      onChange={handleChange}
-                      value={inputValue}
-                      placeholder="숫자만 입력하세요"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>사업자번호</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="text"
-                      ref={h_business}
-                      
-                      placeholder="숫자만 입력하세요"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>프로필</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="file"
-                      ref={profile}
-                      placeholder="숫자만 입력하세요"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>사업자<br/>등록증</th>
-                  <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="file"
-                      ref={file}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        } else {
+                          Swal.fire({
+                            icon: "warning",
+                            title: "잠깐!",
+                            html: "이미 사용 중인 이메일입니다.",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            //setMessage(data.msg);
+                          });
+                        }
+                      });
+                  }}
+                >
+                  중복 체크
+                </button>
+              </div>
+            </div>
 
+            <div className="ii">
+              <h4>비밀번호</h4>
+            </div>
+            <br />
+            <div className="input-style-a">
+              <input
+                type="password"
+                ref={pwd}
+                placeholder="비밀번호를 입력해주세요"
+              />
+            </div>
+            <br />
 
+            <div className="li">
+              <h4>이름</h4>
+            </div>
+            <br />
+            <div className="input-style-a">
+              <input
+                type="text"
+                ref={h_name}
+                placeholder="이름을 입력해주세요"
+              />
+            </div>
+            <br />
+
+            <div className="li">
+              <h4>전화번호</h4>
+            </div>
+            <br />
+            <div className="input-style-a">
+              <input
+                type="text"
+                ref={h_phone}
+                onChange={handleChange}
+                value={inputValue}
+                placeholder="숫자만 입력하세요"
+              />
+            </div>
+            <br />
+
+            <div className="li">
+              <h4>사업자번호</h4>
+            </div>
+            <br />
+            <div className="input-style-a">
+              <input
+                type="text"
+                ref={h_phone}
+                onChange={handleChange}
+                value={inputValue}
+                placeholder="숫자만 입력하세요"
+              />
+            </div>
+            <br />
+
+            <div className="fl" style={{ marginBottom: "20px" }}>
+              <h4>프로필</h4>
+              <br />
+              <div className="input-style-a" style={{ marginRight: "12px" }}>
+                <input type="file" ref={profile} />
+                <div className="blank"></div>
+              </div>
+            </div>
+            <br />
+
+            <div className="fl" style={{ marginBottom: "20px" }}>
+              <h4>사업자등록증</h4>
+              <br />
+              <div className="input-style-a" style={{ marginRight: "12px" }}>
+                <input type="file" ref={file} />
+                <div className="blank"></div>
+              </div>
+            </div>
+            <br />
             <p style={{ color: "red" }}>
-              프로필/사업자등록증 누락 시,<br/>일부 서비스 이용이 제한될 수 있음을
+              프로필/사업자등록증 누락 시, 일부 서비스 이용이 제한될 수 있음을
               알려드립니다.
             </p>
 
