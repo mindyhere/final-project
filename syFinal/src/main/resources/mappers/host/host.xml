@@ -3,7 +3,7 @@
 <mapper namespace="host">
 <!-- 회원가입 -->
 <insert id="insert">
-insert into users (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_profile, h_file ) 
+insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_profile, h_file) 
 values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9, #{h_profile}, #{h_file})
 </insert>
 

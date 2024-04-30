@@ -31,20 +31,20 @@ public class HostLoginController {
 
 	@PostMapping("/")
 	public Map<String, Object> login(@RequestParam Map<String, Object> map) {
-//		System.out.println("111 " + map);
+		System.out.println("===> map: " + map);
 		String userId = (String) map.get("userId");
 		String pwd = (String) map.get("pwd");
 		String savedPwd = hostDao.pwdCheck(userId);
-//		System.out.println("222 pwd: " + pwd + " / savedPwd: " + savedPwd);
+		System.out.println("\"===> pwd: " + pwd + " / savedPwd: " + savedPwd);
 		Map<String, Object> data = new HashMap<>();
-//		System.out.println(pwd.equals(savedPwd));
-		if (pwd.equals(savedPwd)) {
+		System.out.println("\"===> equals? " + pwd.equals(savedPwd));
+		if (pwdEncoder.matches(pwd, savedPwd)) {
 			data.put("dto", hostDao.getAccount(userId));
 			data.put("msg", "success");
 		} else {
 			data.put("msg", "error");
 		}
-		// System.out.println("로그인 결과= " + result);
+		System.out.println("로그인 결과= " + data);
 		return data;
 	}
 
