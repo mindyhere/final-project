@@ -1,9 +1,11 @@
-.aa {
+
+.fl {
     float: left;
 }
 
-.bb {
-    float: right;
+.ii {
+    margin-top: 30px;
+    padding-top: 50px;
 }
 
 .blank {
@@ -12,7 +14,42 @@
     height: 50px;
 }
 
-.check-btn {
+.blankk {
+    float: left;
+    width: 30px;
+    height: 50px;
+}
+
+/* 이메일 형식 체크로 활성/비활성 */
+.check-btnDisabled { 
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding: 10px 15px;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 24px;
+	border-radius: 20px;
+	cursor: pointer;
+	z-index: 5;
+	transition: all 0.4s ease-in-out;
+	border: 1px solid transparent;
+	overflow: hidden;
+	background: #795650;
+	color: #000;
+	position: relative;
+	overflow: hidden;
+}
+
+.check-btnActive {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -40,8 +77,8 @@
 	overflow: hidden;
 }
 
-.input-style-a input, .input-style-tab input {
-	width: 300px;
+.input-style-a input {
+	width: 290px;
     height: 50px;
     padding-top: 10px;
 	background: white;
@@ -53,16 +90,52 @@
 	transition: all 0.3s;
 }
 
-.ii {
-    margin-top: 30px;
-    padding-top: 50px;
-}
 .input-style-b input {
-	width: 400px;
+	width: 190px;
+    height: 50px;
+    padding-top: 30px;
+    background: white;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 20px;
+	color: #5d657b;
+	resize: none;
+	transition: all 0.3s;
+}
+
+.input-style-c input {
+	width: 120px;
     height: 50px;
     padding-top: 30px;
     
     background: white;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 20px;
+	color: #5d657b;
+	resize: none;
+	transition: all 0.3s;
+}
+
+.input-style-d input {
+	width: 230px;
+    height: 50px;
+    padding-top: 30px;
+    
+    background: white;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 20px;
+	color: #5d657b;
+	resize: none;
+	transition: all 0.3s;
+}
+
+.input-style-check input {
+	width: 300px;
+    height: 30px;
+    padding-top: 10px;
+	background: white;
 	border: 1px solid #e5e5e5;
 	border-radius: 4px;
 	padding: 20px;
@@ -121,11 +194,95 @@
 	line-height: 24px;
 	border-radius: 30px;
 	cursor: pointer;
-	
 	transition: all 0.4s ease-in-out;
 	border: 1px solid transparent;
 	overflow: hidden;
 	background: #FEC5BB;
+	color: #000;
+	position: relative;
+	overflow: hidden;
+}
+
+.main-btn-check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding: 7px 15px;
+	
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 24px;
+	border-radius: 20px;
+	cursor: pointer;
+	z-index: 5;
+	transition: all 0.4s ease-in-out;
+	border: 1px solid transparent;
+	overflow: hidden;
+	background: #FEC5BB;
+	color: #000;
+	position: relative;
+	overflow: hidden;
+}
+
+.main-btnnActive {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding: 15px 45px;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	border-radius: 30px;
+	cursor: pointer;
+	z-index: 5;
+	transition: all 0.4s ease-in-out;
+	border: 1px solid transparent;
+	overflow: hidden;
+	background: #FEC5BB;
+	color: #000;
+	position: relative;
+	overflow: hidden;
+}
+
+.main-btnnDisabled {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding: 15px 45px;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	border-radius: 30px;
+	cursor: pointer;
+	z-index: 5;
+	transition: all 0.4s ease-in-out;
+	border: 1px solid transparent;
+	overflow: hidden;
+	background: #795650;
 	color: #000;
 	position: relative;
 	overflow: hidden;

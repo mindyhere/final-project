@@ -35,7 +35,7 @@ public class LoginController {
 		Map<String, Object> map1 = dao.login(g_email, passwd);
 		Map<String, Object> map = new HashMap<>();
 		// if (pwdEncoder.matches(passwd, g_passwd))
-		if(passwd.equals(g_passwd)){ // 로그인 성공
+		if(pwdEncoder.matches(g_passwd, passwd)){ // 로그인 성공
 			map.put("g_email", g_email);
 			map.put("g_name", map1.get("g_name"));
 			map.put("g_level", map1.get("g_level"));
@@ -60,8 +60,8 @@ public class LoginController {
 		} else if (check == 1) {
 			String randomPw = emailService.getTempPassword();
 			dao.randomPw(g_email, randomPw);
-			emailService.prepareTempPwdEmail(g_email, randomPw);
-			result = "success";
+			EmailDTO dto = emailService.prepareTempPwdEmail(g_email, randomPw);
+			result = emailService.sendMail(dto); 
 		} else {
 			result = "error";
 		}
