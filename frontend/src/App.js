@@ -30,7 +30,7 @@ function App() {
           <Route path="/guest/searchPw" element={<SearchPw/>}/>
           <Route path="/guest/Account" element={<Account/>}/>
           <Route path="/guest/Mypage" element={<Mypage/>}/>
-          <Route path="/host/hotel/hotelDetail" element={<HotelDetail/>}/>
+          <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>
