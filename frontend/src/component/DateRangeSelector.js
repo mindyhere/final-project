@@ -43,23 +43,20 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                         moveRangeOnFirstSelection={false}
                         months={2}
                         ranges={[selectedDateRange]}
+                        //excludeDateIntervals={bookedData} 이미 예약된 날짜 선택하지 못하도록 설정
                         direction="horizontal"
                     />
                     </div>
-                    <div className="text-right position-relative rdr-buttons-position mt-2 mr-3">
+                    <div className="text-left position-relative rdr-buttons-position mt-2 mr-3">
                          <button
                               className="btn btn-danger"
                               onClick={onClickClear}
-                         >
-                              날짜 지우기
-                         </button>
+                         >날짜 지우기</button>
                          &nbsp;
                          <button
                               className="btn btn-primary"
                               onClick={() => setShow(true)}
-                         >
-                              닫기
-                         </button>
+                         >닫기</button>
                     </div>
                </div>
 
