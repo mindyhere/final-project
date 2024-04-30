@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import KakaoMap from "../../component/KakaoMap";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
@@ -32,6 +32,11 @@ function HotelDetail() {
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
     const [modal, setModal] = useState(false);
+    const element = useRef<HTMLDivElement>(null);
+    const onMoveBox = () => {
+        element.current?.scrollIntoView({behavior : "smooth", block:"start"});
+    }
+
     const [state, setState] = useState([
         {
           startDate: new Date(),
@@ -63,6 +68,15 @@ function HotelDetail() {
         } else {
             img_url = '';
         }
+
+        let profile_src = '';
+        let profile_url = '';
+        if(data.h_profile !== '-'){
+            profile_src = `http://localhost/static/images/host/profile/${data.h_profile}`;
+            profile_url = `<img src=${profile_src} width='90px' height='90px'/>`;
+        } else {
+            profile_url = `http://localhost/static/images/no-image.png`;
+        }
         return (
             <div className="container">
                 <div className="row justify-content-between">
@@ -82,7 +96,7 @@ function HotelDetail() {
                 <div className="row">
                     <div className="col-8">
                         <div>
-                            <h4>{data.ho_address}</h4>
+                            <h3>{data.ho_address}</h3>
                             <div>최대 인원 {data.d_capacity}명 · 침대 {data.d_beds}개 · 면적 {data.d_area}㎡</div>
                             <br />
                             <div className="card-style">
@@ -90,14 +104,23 @@ function HotelDetail() {
 
                             </div>
                             <br />
-                            <div><b> 호스트 : {data.h_name}님 </b></div>
-                            <div>{level} · 호스팅 경력 {regdate}</div>
+                            <div className="row">
+                                <div className="col-3">
+                                    <div className="profile-image" onClick={onMoveBox}>
+                                        <span dangerouslySetInnerHTML={{__html : profile_url}}></span>                        
+                                    </div>
+                                </div>
+                                <div className="col-9" style={{alignSelf : 'center'}}>
+                                    <div><b> 호스트 : {data.h_name}님 </b></div>
+                                    <div>{level} · 호스팅 경력 {regdate}</div>
+                                </div>
+                            </div>
                             <hr />
                             <div>
                                 셀프 체크인
                             </div>
                             <hr />
-                            <div>숙소 소개글</div>
+                            <h4>숙소 소개</h4>
                             <b>더보기 버튼 클릭 시 전문 나오도록(타이틀 삭제?)</b><br />
                             {data.ho_description}
                             <hr />
@@ -115,9 +138,9 @@ function HotelDetail() {
                                 <DateRangeSelector/>
                                 </div>
                             <hr />
-                            <div>
-                                후기
-                            </div>
+                            <h4>
+                                숙소 후기
+                            </h4>
                             <hr />
                             <h4>숙소 위치</h4>
                             <div>{data.ho_address}</div>
@@ -126,7 +149,7 @@ function HotelDetail() {
                                 <KakaoMap />
                             </div>
                             <br />
-                            <h4 className="mb-30">호스트 소개</h4>
+                            <h4 useRef={element} className="mb-30">호스트 소개</h4>
                             <div className="card-style" style={{backgroundColor : "#F6F2F9"}}>
                                 <div className="row">
                                     <div className="col-6">
