@@ -58,7 +58,7 @@ function Header() {
                             <label class="text-bold" style={{paddingTop: "20px"}}>게스트</label>
                         </div>
 
-                        <div class="card-style2" onClick={() => {setModal_1(false); navigate();}}> 
+                        <div class="card-style2" onClick={() => {setModal_1(false); navigate("/host/login");}}> 
                             <img src="/img/host.png" width="100px" height="100px" />
                             <label class="text-bold" style={{paddingTop: "20px"}}>호스트</label>
                         </div>

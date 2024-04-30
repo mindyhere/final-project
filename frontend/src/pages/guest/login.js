@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Join from "./join";
 import '../../asset/css/user.css'
@@ -56,9 +56,9 @@ function GuestLogin() {
                                     setMessage(data);
                                     if(data.message == 'success') {
                                         const cookies = new Cookies();
-                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+2592000)}); //30일
-                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+2592000)});
-                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+3600)}); //30일
+                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+3600)});
+                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+3600)});
                                         // window.location.href='/';
                                         Swal.fire({
                                             title: '로그인 성공',
