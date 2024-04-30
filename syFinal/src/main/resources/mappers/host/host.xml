@@ -14,7 +14,7 @@ select h_passwd from host where h_email=#{userId}
 
 <!-- 아이디 중복검사 -->
 <select id="idCheck" resultType="int">
-select h_idx from host where h_email=#{userId}
+select count(h_idx) from host where h_email=#{userId}
 </select>
 
 <!-- 로그인성공 시 쿠키로 저장할 host 데이터 -->
@@ -42,7 +42,7 @@ set h_passwd=#{pwd}
 where h_email=#{userId}
 </update>
 
-<resultMap id="update_result" type="java.util.Map"></resultMap>
+<!-- <resultMap id="update_result" type="java.util.Map"></resultMap>
 <select id="updateInfo" parameterType="map" statementType="CALLABLE" resultMap="update_result">
 {call update_hostInfo(
 		#{userid, mode=IN, jdbcType=INTEGER}, 
@@ -54,7 +54,7 @@ where h_email=#{userId}
 		#{h_business, mode=OUT, jdbcType=VARCHAR}
 		#{h_status, mode=OUT, jdbcType=VARCHAR}
 	)}
-</select>
+</select> -->
 
 
 <delete id="delete">

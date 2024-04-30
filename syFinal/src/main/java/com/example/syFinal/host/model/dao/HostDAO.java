@@ -7,7 +7,7 @@ import com.example.syFinal.host.model.dto.HostDTO;
 public interface HostDAO {
 
 	// Host(사업자) 회원가입
-	void insert(HostDTO dto);
+	void insert(Map<String, Object> map);
 
 	// 아이디 중복 체크
 	int idCheck(String userId);

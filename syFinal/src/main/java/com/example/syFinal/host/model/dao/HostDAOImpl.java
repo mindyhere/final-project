@@ -14,8 +14,8 @@ public class HostDAOImpl implements HostDAO {
 	SqlSession sqlSession;
 
 	@Override // Host(사업자) 회원가입
-	public void insert(HostDTO dto) {
-		sqlSession.insert("host.insert", dto);
+	public void insert(Map<String, Object> map) {
+		sqlSession.insert("host.insert", map);
 	}
 
 	@Override // 아이디 중복체크
