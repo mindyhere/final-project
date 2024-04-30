@@ -5,7 +5,8 @@ import { DateRange } from "react-date-range";
 import { addDays} from "date-fns";
 import DatePicker from 'react-datepicker';
 import DateRangeSelector from "../../component/DateRangeSelector";
-
+import moment from "moment";
+import "moment/locale/ko";
 
 import "../../asset/css/datepicker.css"
 
@@ -27,10 +28,9 @@ function useFetch(url) {
 }
 
 function HotelDetail() {
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail');
+    const {HoIdx} = useParams();
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
     
-    console.log("data.hotelList : " + data);
-
     const [state, setState] = useState([
         {
           startDate: new Date(),
@@ -44,10 +44,19 @@ function HotelDetail() {
             <div className="text-center">로딩 중...</div>
         )
     } else {
+        let regdate = moment(data.h_regdate).fromNow();
+        let level = '호스트';
+        if (data.ho_level == 7){
+            level = '';
+        } else if(data.ho_level == 8){
+            level = '주니어호스트';
+        } else {
+            level = '슈퍼호스트';
+        }
         let src = '';
         let img_url = '';
         if(data.ho_img !== '-'){
-            src = `../../img/${data.ho_img}`;
+            src = `../../../img/${data.ho_img}`;
             img_url = `<img src=${src} width='600px' height='300px'/>`;
         } else {
             img_url = '';
@@ -69,13 +78,18 @@ function HotelDetail() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-9">
+                    <div className="col-8">
                         <div>
                             <h4>{data.ho_address}</h4>
                             <div>최대 인원 {data.d_capacity}명 · 침대 {data.d_beds}개 · 면적 {data.d_area}㎡</div>
                             <br />
+                            <div className="card-style">
+                                if 문으로 후기가 5개 이상일 경우 보여주기
+
+                            </div>
+                            <br />
                             <div><b> 호스트 : {data.h_name}님 </b></div>
-                            <div>{data.h_level} · 호스팅 경력 {data.h_regdate} 개월</div>
+                            <div>{level} · 호스팅 경력 {regdate}</div>
                             <hr />
                             <div>
                                 셀프 체크인
@@ -94,6 +108,7 @@ function HotelDetail() {
                             <hr />
                             <div>
                                 달력
+                                {/* <DateRangeSelector/> */}
                             </div>
                             <hr />
                             <div>
@@ -106,22 +121,33 @@ function HotelDetail() {
                             <div>
                                 <KakaoMap />
                             </div>
+                            <br />
                             <h4>호스트 소개</h4>
                             <div className="card-style">
                                 호스트 소개글
                                 호스트에게 메시지 보내기 등
                             </div>
+                            <br />
                             <h4>알아두어야 할 사항</h4>
                             <div>숙소 이용규칙</div>
                         </div>
                     </div>
                     
-                    <div className="col-3">
+                    <div className="col-4">
                             <div className="card-style mb-30">
                                 <div> 날짜를 입력하여 요금을 확인하세요</div>
-                                <DateRangeSelector/>
-                            </div>
-                           
+                                {/* <DateRangeSelector/> */}
+                                <div className="card-style mb-30">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            체크인
+                                        </div>
+                                        <div className="col-6">
+                                            체크아웃
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
                     </div>
                 </div>
             </div>
