@@ -355,3 +355,20 @@ hr {
 	z-index: 0;
 	display:block;
 }
+
+.label-1 {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+input.underline { 
+	height: 30px;
+	border-left-width:0; 
+	border-right-width:0; 
+	border-top-width:0; 
+	border-bottom-width:0.3px; 
+	outline: none;
+	border-radius: 5px;
+	background-color: rgb(245, 245, 245);
+
+}
