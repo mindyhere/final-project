@@ -5,6 +5,8 @@ function HotelItem({HoIdx,HoName, HoImg}) {
     let loading = false;
     //const url = `http://localhost/images/${HoImg}`;
     const url = `../img/${HoImg}`;
+    const navigate = useNavigate();
+
     if (loading) {
         return (
             <div>loading...</div>
@@ -15,7 +17,7 @@ function HotelItem({HoIdx,HoName, HoImg}) {
             img = `<img src=${url} width='330px' height='330px' /><br />`;
         }
         return (
-            <div style={{ margin: '5px'}}>
+            <div style={{ margin: '5px'}}  onClick={() => navigate('/host/HotelDetail')}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                     <Link to={`/guest/main`}> 
                        <div style={{fontSize:"23px"}}>{HoName}</div>
@@ -23,7 +25,6 @@ function HotelItem({HoIdx,HoName, HoImg}) {
                     </Link>
                 <br />
                 &nbsp;
-                    <button type='button' className='btn btn-outline-dark'>▷</button>
             </div>
         )
     }
