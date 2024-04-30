@@ -5,6 +5,8 @@ function HotelItem({HoIdx,HoName, HoImg}) {
     let loading = false;
     //const url = `http://localhost/images/${HoImg}`;
     const url = `../img/${HoImg}`;
+    const navigate = useNavigate();
+
     if (loading) {
         return (
             <div>loading...</div>
@@ -14,16 +16,16 @@ function HotelItem({HoIdx,HoName, HoImg}) {
         if (HoImg != null) {
             img = `<img src=${url} width='330px' height='330px' /><br />`;
         }
+
         return (
             <div style={{ margin: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                    <Link to={`/guest/main`}> 
+                    <Link to={`/host/hotel/hotelDetail/${HoIdx}`}> 
                        <div style={{fontSize:"23px"}}>{HoName}</div>
                         ₩68,717 /박
                     </Link>
                 <br />
                 &nbsp;
-                    <button type='button' className='btn btn-outline-dark'>▷</button>
             </div>
         )
     }
