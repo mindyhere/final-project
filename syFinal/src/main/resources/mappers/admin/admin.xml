@@ -4,7 +4,7 @@
 
 	<!-- 관리자 로그인 -->
 	<select id="a_login" resultType="String">
-		select a_name
+		select a_name 
 		from admin
 		where a_id = #{a_id} and a_passwd = #{a_passwd}
 	</select>

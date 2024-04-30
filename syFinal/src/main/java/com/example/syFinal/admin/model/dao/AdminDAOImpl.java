@@ -16,6 +16,4 @@ public class AdminDAOImpl implements AdminDAO {
 		public String alogin(Map<String, Object> map) {
 			return sqlSession.selectOne("admin.a_login", map);
 		}
-
-
 }
