@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import { format, addDays } from "date-fns";
 import "../asset/css/datepicker.css"
+import ko from "date-fns/locale/ko";
+
+
 const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
      const [selectedDateRange, setSelectedDateRange] = useState({
           startDate: new Date(),
@@ -34,12 +37,13 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                <div className="dateRangePicker">
                 <div>
                     <DateRangePicker
-                         onChange={handleSelect}
-                         showSelectionPreview={true}
-                         moveRangeOnFirstSelection={false}
-                         months={2}
-                         ranges={[selectedDateRange]}
-                         direction="horizontal"
+                        locale={ko}                        
+                        onChange={handleSelect}
+                        showSelectionPreview={true}
+                        moveRangeOnFirstSelection={false}
+                        months={2}
+                        ranges={[selectedDateRange]}
+                        direction="horizontal"
                     />
                     </div>
                     <div className="text-right position-relative rdr-buttons-position mt-2 mr-3">
