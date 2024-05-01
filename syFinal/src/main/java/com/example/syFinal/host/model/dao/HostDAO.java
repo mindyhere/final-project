@@ -19,7 +19,10 @@ public interface HostDAO {
 	String pwdCheck(String userId);
 
 	// 로그인 성공 시 계정정보(쿠키) 가져오기
-	HostDTO getAccount(String userId);
+	HostDTO makeCookie(String userId);
+
+	// host 회원정보 가져오기
+	HostDTO getAccount(int h_idx);
 
 	// host 계정아이디 찾기
 	String findId(Map<String, Object> map);

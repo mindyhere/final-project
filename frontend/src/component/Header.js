@@ -23,10 +23,9 @@ function Header() {
   const g_level = cookies.get("g_level");
 
   //호스트 쿠키
-  const h_idx = cookies.get("h_idx");
-  const h_email = cookies.get("h_email");
-  const h_name = cookies.get("h_name");
-  const h_status = cookies.get("h_status");
+  const userNo = cookies.get("userNo");
+  const userId = cookies.get("userId");
+  const userName = cookies.get("userName");
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -37,15 +36,14 @@ function Header() {
         cookies.remove("g_level", { path: "/" }, new Date(Date.now()));
         break;
       case "host":
-        cookies.remove("h_idx", { path: "/" }, new Date(Date.now()));
-        cookies.remove("h_email", { path: "/" }, new Date(Date.now()));
-        cookies.remove("h_name", { path: "/" }, new Date(Date.now()));
-        cookies.remove("h_status", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userId", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userName", { path: "/" }, new Date(Date.now()));
         break;
     }
   };
 
-  if (h_email == null && g_email == null) {
+  if (userId == null && g_email == null) {
     console.log("로그인X ==> " + cookies.stringify);
     return (
       <nav className="navbar navbar-expand-lg">
@@ -261,7 +259,7 @@ function Header() {
     );
   } else {
     console.log("로그인O ==> " + cookies.stringify);
-    if (h_email == null && g_email != null) {
+    if (userId == null && g_email != null) {
       //게스트 계정으로 로그인
       console.log("guest 로그인 ==> " + g_email);
       return (
@@ -333,9 +331,9 @@ function Header() {
           </div>
         </nav>
       );
-    } else if (h_email != null && g_email == null) {
+    } else if (userId != null && g_email == null) {
       //호스트계정으로 로그인 했을 때
-      console.log("host 로그인 ==> " + h_email);
+      console.log("host 로그인 ==> " + userId);
       return (
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">

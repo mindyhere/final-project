@@ -8,9 +8,8 @@ import HostJoin from "./join_modal";
 import "../guest/aa.css";
 import "./modalH.css";
 
-const navigate = useNavigate();
-
 function HostLogin() {
+  const navigate = useNavigate();
   const [join, setJoin] = useState(false);
   //  데이터 setter
   const userId = useRef();
@@ -80,23 +79,18 @@ function HostLogin() {
                       if (data.msg == "success") {
                         const cookies = new Cookies();
                         cookies.set(
-                          "h_idx",
+                          "userNo",
                           { key: data.dto.h_idx },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
-                          "h_email",
+                          "userId",
                           { key: data.dto.h_email },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
-                          "h_name",
+                          "userName",
                           { key: data.dto.h_name },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
-                          "h_status",
-                          { key: data.dto.h_status },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         navigate("/");

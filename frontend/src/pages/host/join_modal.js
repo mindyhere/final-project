@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import "../guest/aa.css";
 import "./modalH.css";
 
-function Join() {
+function HostJoin() {
   const [email, setEmail] = useState("");
   const userId = useRef();
   const pwd = useRef();
@@ -197,7 +197,6 @@ function Join() {
                       className="form-control"
                       type="file"
                       ref={profile}
-                      placeholder="숫자만 입력하세요"
                     />
                   </td>
                 </tr>
@@ -359,4 +358,4 @@ function Join() {
     </>
   );
 }
-export default Join;
+export default HostJoin;

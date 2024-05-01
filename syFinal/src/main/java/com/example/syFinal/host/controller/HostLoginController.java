@@ -36,7 +36,7 @@ public class HostLoginController {
 		Map<String, Object> data = new HashMap<>();
 		System.out.println("\"===> equals? " + pwd.equals(savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
-			data.put("dto", hostDao.getAccount(userId));
+			data.put("dto", hostDao.makeCookie(userId));
 			data.put("msg", "success");
 		} else {
 			data.put("msg", "error");
