@@ -47,6 +47,18 @@ public class HostAccountController {
 		return data;
 	}
 
+	@PostMapping("pwdCheck")
+	public String pwdCheck(@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "pwd", defaultValue = "") String pwd) {
+		// TODO: process POST request
+		String savedPwd = hostDao.pwdCheck(userId);
+		if (pwdEncoder.matches(pwd, savedPwd)) {
+			return "ok";
+		} else {
+			return "error";
+		}
+	}
+
 	@PostMapping("join")
 	public Map<String, Object> join(@RequestParam Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
