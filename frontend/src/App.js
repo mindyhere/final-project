@@ -15,6 +15,7 @@ import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
+import GuestInfo from "./pages/guest/GuestInfo";
 
 function App() {
   console.warn = function no_console() {};
@@ -31,6 +32,7 @@ function App() {
           <Route path="/guest/Account" element={<Account/>}/>
           <Route path="/guest/Pay" element={<Pay/>}/>
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
+          <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

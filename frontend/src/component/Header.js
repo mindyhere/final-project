@@ -93,7 +93,7 @@ function Header() {
                             <label class="text-bold" style={{paddingTop: "20px"}}>호스트</label>
                             {join && (
                                 <Modall closeModal={() => {setJoin(!join);}}>
-                                <Join />
+                                <Join/>
                                 </Modall>
                             )}
                         </div>
