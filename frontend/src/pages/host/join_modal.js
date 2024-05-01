@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import "../guest/aa.css";
 import "./modalH.css";
-import $ from "jquery";
 
 function Join() {
   const [email, setEmail] = useState("");
@@ -334,8 +333,7 @@ function Join() {
                           denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            //navigate("/host/login");
-                            window.location.replace("/host/login");
+                            navigate("/host/login");
                           } else if (result.isDenied) {
                             navigate("/");
                           }

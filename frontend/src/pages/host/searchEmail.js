@@ -12,23 +12,22 @@ function SearchEmail() {
     <>
       <div className="container min-vh-100">
         <h3 className="text-bold">
-          {" "}
           <img src="/img/search_id.png" width="35px" height="35px" />
-          이메일 찾기
+          &nbsp;이메일 찾기
         </h3>
         <hr />
         <div className="card-style mb-30">
           <form>
             <div className="input-style-1">
-              <label>이름</label>{" "}
+              <label>이름</label>&nbsp;
               <input ref={h_name} placeholder="이름을 입력해주세요" />
             </div>
             <div className="input-style-1">
-              <label>전화번호</label>{" "}
+              <label>전화번호</label>&nbsp;
               <input type="tel" ref={h_phone} placeholder="숫자만 입력하세요" />
             </div>
             <div className="input-style-1">
-              <label>사업자번호</label>{" "}
+              <label>사업자번호</label>&nbsp;
               <input
                 type="tel"
                 ref={h_business}
@@ -92,6 +91,8 @@ function SearchEmail() {
                         }).then((result) => {
                           if (result.isConfirmed) {
                             navigate("/host/login");
+                          } else if (result.isDenied) {
+                            navigate("/");
                           }
                         });
                       } else {

@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import GuestJoin from "../guest/join";
 import HostJoin from "./join_modal";
 import "../guest/aa.css";
 import "./modalH.css";
-import $ from "jquery";
+
+const navigate = useNavigate();
 
 function HostLogin() {
   const [join, setJoin] = useState(false);
@@ -93,16 +95,11 @@ function HostLogin() {
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         cookies.set(
-                          "h_business",
-                          { key: data.dto.h_business },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
                           "h_status",
                           { key: data.dto.h_status },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
-                        window.location.href = "/";
+                        navigate("/");
                         console.log("로그인 성공");
                       } else {
                         Swal.fire({

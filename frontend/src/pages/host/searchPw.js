@@ -12,23 +12,22 @@ function SearchPw() {
     <>
       <div className="container min-vh-100">
         <h3 className="text-bold">
-          {" "}
           <img src="/img/search_id.png" width="35px" height="35px" />
-          비밀번호 찾기
+          &nbsp;비밀번호 찾기
         </h3>
         <hr />
         <div className="card-style mb-30">
           <form>
             <div className="input-style-1">
-              <label>이메일</label>{" "}
+              <label>이메일</label>&nbsp;
               <input ref={userId} placeholder="이메일을 입력해주세요" />
             </div>
             <div className="input-style-1">
-              <label>전화번호</label>{" "}
+              <label>전화번호</label>&nbsp;
               <input type="tel" ref={h_phone} placeholder="숫자만 입력하세요" />
             </div>
             <div className="input-style-1">
-              <label>사업자번호</label>{" "}
+              <label>사업자번호</label>&nbsp;
               <input
                 type="tel"
                 ref={h_business}
