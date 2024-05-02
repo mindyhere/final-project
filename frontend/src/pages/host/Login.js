@@ -131,7 +131,7 @@ function HostLogin() {
           </div>
           <div className="col text-center">
             <div className="btnLoginBottom">
-              <Link to="api/host/findPwd">
+              <Link to="/host/SearchPw">
                 <img src="/img/forgot.png" />
                 <br /> 비밀번호 찾기
               </Link>

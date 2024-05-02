@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
-import "./asset/css/main.css";
+import "../../asset/css/main.css";
 import "./modalH.css";
 
 function useFetch(url) {
@@ -15,6 +15,8 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
+        console.log("===> " + data);
+
         setData(data);
         setLoading(false);
       });
@@ -22,14 +24,22 @@ function useFetch(url) {
   return [data, loading];
 }
 
-function HostAccount() {
+function EditHostInfo() {
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
   const userId = cookies.get("userId");
   const userName = cookies.get("userName");
-  const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userNo}`
-  );
+  const { hIdx } = useParams(); //App.js에서 전달한 파라미터
+
+  const [data, loading] = useFetch("http://localhost/api/host/account/" + hIdx);
+
+  // const paths = window.location.href.split("/");
+  // const url =
+  //   "http://localhost/api/host/" +
+  //   paths[paths.length - 2] +
+  //   "/" +
+  //   paths[paths.length - 1];
+
   const pwd = useRef();
   const pwdChk = useRef();
   const h_email = useRef();
@@ -42,6 +52,8 @@ function HostAccount() {
   const h_status = useRef();
   const profile = useRef();
   const file = useRef();
+  const h_description = useRef();
+  const h_regdate = useRef();
   const navigate = useNavigate();
 
   // 회원탈퇴 시 쿠키삭제
@@ -51,26 +63,38 @@ function HostAccount() {
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
   };
 
-  const handleChange = (val, opt) => {
+  // const handleChange = (val, opt) => {
+  //   const phoneRegEx = /^[0-9\b -]{0,13}$/;
+  //   const businessRegEx = /^[0-9\b -]{0,12}$/;
+  //   switch (opt) {
+  //     case "phone":
+  //       console.log(opt);
+  //       if (phoneRegEx.test(val)) {
+  //         setPhoneNum(
+  //           val
+  //             .replace(/-/g, "")
+  //             .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+  //         );
+  //       }
+  //       break;
+  //     case "business":
+  //       console.log(opt);
+  //       if (businessRegEx.test(val)) {
+  //         setBusinessNum(
+  //           val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
+  //         );
+  //       }
+  //       break;
+  //   }
+  // };
+
+  const handleChange = (val) => {
     const phoneRegEx = /^[0-9\b -]{0,13}$/;
-    const businessRegEx = /^[0-9\b -]{0,12}$/;
-    switch (opt) {
-      case "phone":
-        console.log(opt);
-        if (phoneRegEx.test(val)) {
-          setPhoneNum(
-            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-          );
-        }
-        break;
-      case "business":
-        console.log(opt);
-        if (businessRegEx.test(val)) {
-          setBusinessNum(
-            val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
-          );
-        }
-        break;
+    console.log(val);
+    if (phoneRegEx.test(val)) {
+      setPhoneNum(
+        val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      );
     }
   };
 
@@ -78,10 +102,11 @@ function HostAccount() {
     return <div>loading</div>;
   } else {
     let src = "";
-    // let src2 = "";
-    if (data.dto.h_profile !== "-" || data.dto.h_profile !== "") {
-      src = `http://localhost/static/images/host/profile/${dto.h_profile}`;
-      profile_src = `<img src=${src1} width="200px" style={{backgroundSize:"contain";}} />`;
+    let profile_src = "";
+    //setPhoneNum(data.h_phone);
+    if (data.h_profile !== "-" || data.h_profile !== "") {
+      src = `http://localhost/static/images/host/profile/${data.h_profile}`;
+      profile_src = `<img src=${src} width="300px" />`;
     } else {
       profile_src = "[미등록]";
     }
@@ -89,21 +114,27 @@ function HostAccount() {
     return (
       <>
         <div className="container min-vh-100">
-          <h3 class="text-bold">
+          <h3 className="text-bold">
             <img src="/img/info.png" width="35px" height="35px" />
             &nbsp; 회원 정보
           </h3>
           <hr />
           <div className="card-style mb-30">
             <div className="row">
-              <div class="col-4" style="text-align: center;">
-                <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
+              <div
+                className="col-4"
+                style={{ textAlign: "center", padding: 0 }}
+              >
+                <div
+                  dangerouslySetInnerHTML={{ __html: profile_src }}
+                  style={{ marginTop: "50%" }}
+                ></div>
               </div>
-              <div class="col-8">
+              <div className="col-8">
                 <form>
-                  <table class="tbl">
+                  <table className="tbl">
                     <colgroup>
-                      <col style="width: 25%" />
+                      <col style={{ width: "150px" }} />
                       <col />
                     </colgroup>
                     <tbody>
@@ -114,7 +145,7 @@ function HostAccount() {
                             className="form-control"
                             type="email"
                             ref={h_email}
-                            defaultValue={userId}
+                            defaultValue={data.h_email}
                             readOnly
                           />
                         </td>
@@ -147,7 +178,7 @@ function HostAccount() {
                             className="form-control"
                             type="text"
                             ref={h_name}
-                            defaultValue={userName}
+                            defaultValue={data.h_name}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -155,14 +186,15 @@ function HostAccount() {
                       <tr>
                         <th>전화번호</th>
                         <td colSpan={3}>
+                          {}
                           <input
                             className="form-control"
                             type="text"
-                            defaultValue={data.dto.h_phone}
+                            //defaultValue={data.h_phone}
                             value={phoneNum}
                             ref={h_phone}
                             onChange={(e) => {
-                              handleChange(e.target.value, "phone");
+                              handleChange(e.target.value);
                             }}
                             placeholder="숫자만 입력하세요"
                           />
@@ -174,13 +206,9 @@ function HostAccount() {
                           <input
                             className="form-control"
                             type="text"
-                            defaultValue={data.dto.h_business}
-                            value={businessNum}
+                            defaultValue={data.h_business}
                             ref={h_business}
-                            onChange={(e) => {
-                              handleChange(e.target.value, "business");
-                            }}
-                            placeholder="숫자만 입력하세요"
+                            readOnly
                           />
                         </td>
                       </tr>
@@ -191,7 +219,7 @@ function HostAccount() {
                             className="form-control"
                             type="text"
                             ref={h_level}
-                            defaultValue={data.dto.h_level}
+                            defaultValue={data.l_name}
                             readOnly
                           />
                         </td>
@@ -201,30 +229,81 @@ function HostAccount() {
                             className="form-control"
                             type="text"
                             ref={h_status}
-                            defaultValue={data.dto.h_status}
+                            defaultValue={data.h_status}
                             readOnly
                           />
                         </td>
                       </tr>
+                      <tr>
+                        <th>소개</th>
+                        <td colSpan={3}>
+                          <textarea
+                            rows={5}
+                            cols={60}
+                            defaultValue={data.h_description}
+                            ref={h_description}
+                            style={{
+                              borderColor: "#FAE0E0",
+                              borderRadius: "7px",
+                            }}
+                          />
+                        </td>
+                      </tr>
+
                       <tr>
                         <th>프로필</th>
                         <td colSpan={3}>
                           <input
                             className="form-control"
                             type="file"
-                            defaultValue={data.dto.h_profile}
                             ref={profile}
+                            accept="jpg,.jpeg,.png"
+                            title="확장자 : jpg, jpeg, png"
                           />
                         </td>
                       </tr>
                       <tr>
                         <th>사업자등록증</th>
                         <td colSpan={3}>
+                          {data.h_status === "가입완료" ? (
+                            <>
+                              파일명 : [ {data.h_file} ]
+                              <input
+                                className="form-control"
+                                type="file"
+                                ref={file}
+                                accept="jpg,.jpeg,.png,.pdf"
+                                title="확장자 : jpg, jpeg, png, pdf"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                className="form-control"
+                                type="text"
+                                value={data.h_file}
+                                ref={file}
+                                title="파일열기"
+                                readOnly
+                                onClick={() => {
+                                  window.open(
+                                    `http://localhost/static/images/host/profile/${data.h_file}`
+                                  );
+                                }}
+                              />
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>가입일</th>
+                        <td colSpan={3}>
                           <input
                             className="form-control"
-                            type="file"
-                            defaultValue={data.dto.h_file}
-                            ref={file}
+                            type="text"
+                            defaultValue={data.h_regdate}
+                            ref={h_regdate}
+                            readOnly
                           />
                         </td>
                       </tr>
@@ -232,9 +311,8 @@ function HostAccount() {
                   </table>
                   <p>
                     프로필/사업자등록증 <strong>누락</strong> 시,
-                    <br />
                     <span style={{ color: "red" }}>
-                      일부 서비스 이용이 제한
+                      &nbsp;일부 서비스 이용이 제한
                     </span>
                     될 수 있음을 알려드립니다.
                   </p>
@@ -250,7 +328,6 @@ function HostAccount() {
                             html: "비밀번호를 입력하세요.",
                             confirmButtonText: "OK",
                           });
-                          // pwd.current.focus();
                           return;
                         } else {
                           if (pwd.current.value === pwdChk.current.value) {
@@ -272,7 +349,6 @@ function HostAccount() {
                             html: "이름을 입력하세요.",
                             confirmButtonText: "OK",
                           });
-                          // h_name.current.focus();
                           return;
                         }
                         if (h_phone.current.value == "") {
@@ -282,7 +358,6 @@ function HostAccount() {
                             html: "전화번호를 입력하세요.",
                             confirmButtonText: "OK",
                           });
-                          // h_phone.current.focus();
                           return;
                         }
                         if (h_business.current.value == "") {
@@ -291,9 +366,7 @@ function HostAccount() {
                             title: "잠깐!",
                             html: "사업자번호를 입력하세요.",
                             confirmButtonText: "OK",
-                          }); /*.then((result) => {
-                      if (result.isConfirmed) h_business.current.focus();
-                    });*/
+                          });
                           return;
                         }
 
@@ -301,12 +374,18 @@ function HostAccount() {
                         form.append("pwd", pwd.current.value);
                         form.append("h_name", h_name.current.value);
                         form.append("h_phone", h_phone.current.value);
-                        form.append("h_business", h_business.current.value);
+                        form.append(
+                          "h_description",
+                          h_description.current.value
+                        );
 
                         if (profile.current.files.length > 0) {
                           form.append("profile", profile.current.files[0]);
                         }
-                        if (file.current.files.length > 0) {
+                        if (
+                          data.map.h_status === "가입완료" &&
+                          file.current.files.length > 0
+                        ) {
                           form.append("file", file.current.files[0]);
                         }
 
@@ -322,7 +401,7 @@ function HostAccount() {
                               Swal.fire({
                                 icon: "success",
                                 title: "Check",
-                                html: "계정 정보가 수정되었습니다.</br>메인 화면으로 이동합니다.",
+                                html: "변경된 계정 정보로 업데이트 되었습니다.</br>메인 화면으로 이동합니다.",
                                 confirmButtonText: "YES",
                               }).then((result) => {
                                 if (result.isConfirmed) {
@@ -341,7 +420,7 @@ function HostAccount() {
                               Swal.fire({
                                 icon: "error",
                                 title: "잠깐!",
-                                text: "관리자에게 문의 바랍니다",
+                                html: "계정정보 수정이 불가합니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다",
                                 confirmButtonText: "OK",
                               });
                             }
@@ -349,7 +428,7 @@ function HostAccount() {
                       }}
                       className="main-btn"
                     >
-                      정보수정
+                      수정하기
                     </button>
                     &nbsp;
                     <button
@@ -365,7 +444,7 @@ function HostAccount() {
                         }).then((result) => {
                           if (result.isConfirmed) {
                             fetch(
-                              `http://localhost/api/host/delete/${userNo}`
+                              `http://localhost/api/host/delete/${hIdx}`
                             ).then(() => {
                               localStorage.clear();
                               sessionStorage.clear();
@@ -390,4 +469,5 @@ function HostAccount() {
     );
   }
 }
-export default HostAccount;
+
+export default EditHostInfo;

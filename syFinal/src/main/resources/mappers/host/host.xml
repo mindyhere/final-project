@@ -3,8 +3,8 @@
 <mapper namespace="host">
 <!-- 회원가입 -->
 <insert id="insert">
-insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_profile, h_file) 
-values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9, #{h_profile}, #{h_file})
+insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_profile, h_file, h_description) 
+values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, #{h_profile}, #{h_file}, #{h_description})
 </insert>
 
 <!-- 비밀번호 확인 -->
@@ -25,10 +25,15 @@ where h_email=#{userId}
 </select>
 
 <!-- host 회원정보 -->
-<select id="getAccount" resultType="com.example.syFinal.host.model.dto.HostDTO">
-select h_idx, h_email, h_name, h_status, h_phone, h_business, h_level, h_status, h_profile, h_file 
-from host
-where h_idx=#{h_idx}
+<select id="getAccount" resultType="java.util.Map">
+select 
+	h_idx, h_email, h_name, h_phone, h_business, 
+	h_level,
+	l_name l_name,
+	h_status, h_regdate, h_profile, h_file, h_regdate
+from host h, level l
+where h_idx=1 
+	AND h.h_level=l.l_level;
 </select>
 
 <!-- Host계정 아이디 찾기 -->
@@ -49,6 +54,9 @@ set h_passwd=#{pwd}
 where h_email=#{userId}
 </update>
 
+<!-- 회원정보 업데이트 -->
+<update id="update">
+</update>
 <!-- <resultMap id="update_result" type="java.util.Map"></resultMap>
 <select id="updateInfo" parameterType="map" statementType="CALLABLE" resultMap="update_result">
 {call update_hostInfo(
@@ -63,4 +71,16 @@ where h_email=#{userId}
 <delete id="delete">
 delete from host where h_idx=#{h_idx}
 </delete>
+
+<!-- 첨부파일 확인 -->
+<select id="getFile" resultType="String">
+<choose>
+	<when test="type == 'profile'">
+		select h_profile from host where h_idx=#{h_idx}
+	</when>
+	<otherwise>
+		select h_file from host where h_idx=#{h_idx}
+	</otherwise>
+</choose>
+</select>
 </mapper>

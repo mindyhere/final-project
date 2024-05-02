@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -39,8 +40,14 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // host 회원정보 가져오기
-	public HostDTO getAccount(int h_idx) {
-		return sqlSession.selectOne("host.getAccount", h_idx);
+	public Map<String, Object> getAccount(int h_idx) {
+		Map<String, Object> data = sqlSession.selectOne("host.getAccount", h_idx);
+//		String str = (String) data.get("h_phone");
+//		String[] arr = str.split("-");
+//		String h_phone = String.join("", arr);
+//		data.put("h_phone", h_phone);
+//		System.out.println("==> join() 결과? " + h_phone);
+		return data;
 	}
 
 	@Override // host 계정아이디 찾기
@@ -66,6 +73,25 @@ public class HostDAOImpl implements HostDAO {
 	@Override // Host 회원탈퇴
 	public void deleteAccount(int h_idx) {
 		sqlSession.delete("host.delete", h_idx);
+	}
+
+	@Override
+	public String getfile(int h_idx, String type) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("h_idx", h_idx);
+		params.put("type", type);
+		String fileName = "";
+
+		switch (type) {
+		case "profile":
+			fileName = sqlSession.selectOne("host.getfile", params);
+			break;
+		case "file":
+			fileName = sqlSession.selectOne("host.getfile", params);
+			break;
+		}
+		System.out.println("===> 파일명 확인: " + type + ", " + fileName);
+		return fileName;
 	}
 
 }

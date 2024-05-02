@@ -60,7 +60,8 @@ public class HostLoginController {
 		if (cheked > 0) { // 입력한 정보와 일치하는 계정이 있을 경우,
 			String email = (String) map.get("userId");
 			String randomPw = emailService.getTempPassword();
-			map.put("pwd", randomPw);
+			String encodedPwd = pwdEncoder.encode(randomPw);
+			map.put("pwd", encodedPwd);
 			hostDao.setTempPwd(map); // 임시 비밀번호로 업데이트
 			EmailDTO emailPw = emailService.prepareTempPwdEmail(email, randomPw);
 			String msg = emailService.sendMail(emailPw);

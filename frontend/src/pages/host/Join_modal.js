@@ -35,7 +35,7 @@ function HostJoin() {
         console.log(opt);
         if (phoneRegEx.test(val)) {
           setPhoneNum(
-            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+            val.replace(/-/g, "").replace(/(\d{2,3})(\d{2,4})(\d{4})/, "$1-$2-$3")
           );
         }
         break;

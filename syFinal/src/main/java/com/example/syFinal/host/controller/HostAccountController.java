@@ -66,20 +66,19 @@ public class HostAccountController {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
 		String h_profile = "no-image.png";
-		String h_file = "no-image.png";
+		String h_file = "-";
 
 		if (profile != null && !profile.isEmpty()) {
 			h_profile = profile.getOriginalFilename();
 			try {
 				profile.transferTo(new File(path + h_profile));
-				map.put("h_profile", h_profile);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 프로필없음 ===");
 			}
 		}
+		map.put("h_profile", h_profile);
 		if (file != null && !file.isEmpty()) {
-			h_file = file.getOriginalFilename();
 			try {
 				file.transferTo(new File(path + h_file));
 				map.put("h_file", h_file);
@@ -88,6 +87,10 @@ public class HostAccountController {
 				System.out.println("=== 사업자등록증없음 ===");
 			}
 		}
+		h_file = file.getOriginalFilename();
+
+		String h_description = (map.get("h_description") != null ? (String) map.get("h_description") : "-");
+		map.put("h_description", h_description);
 
 		// 비밀번호 암호화
 		String encodedPwd = pwdEncoder.encode((CharSequence) map.get("pwd"));
@@ -99,10 +102,9 @@ public class HostAccountController {
 		return data;
 	}
 
-	@GetMapping("account/{userNo}")
-	public Map<String, Object> getAccount(@PathVariable(name = "userNo") int h_idx) {
-		Map<String, Object> data = new HashMap<>();
-		data.put("dto", hostDao.getAccount(h_idx));
+	@GetMapping("account/{hIdx}")
+	public Map<String, Object> getAccount(@PathVariable(name = "hIdx") int h_idx) {
+		Map<String, Object> data = hostDao.getAccount(h_idx);
 		System.out.println("===> 결과: " + data);
 		return data;
 	}
@@ -143,8 +145,27 @@ public class HostAccountController {
 		return data;
 	}
 
-	@GetMapping("delete/{userNo}")
-	public String deleteAccount(@PathVariable(name = "userNo") int h_idx) {
+	@GetMapping("delete/{hIdx}")
+	public String deleteAccount(@PathVariable(name = "hIdx") int h_idx, HttpServletRequest request) {
+		String profileName = hostDao.getfile(h_idx, "profile");
+		String fileName = hostDao.getfile(h_idx, "file");
+
+		if (profileName != null && !profileName.equals("no-image.png")) {
+			ServletContext application = request.getSession().getServletContext();
+			String path = application.getRealPath("static/images/host/profile/");
+			File h_profile = new File(path + profileName);
+			if (h_profile.exists()) {
+				h_profile.delete();
+			}
+		}
+		if (fileName != null && !fileName.equals("-")) {
+			ServletContext application = request.getSession().getServletContext();
+			String path = application.getRealPath("static/images/host/profile/");
+			File h_file = new File(path + fileName);
+			if (h_file.exists()) {
+				h_file.delete();
+			}
+		}
 		hostDao.deleteAccount(h_idx);
 		return "success";
 	}
