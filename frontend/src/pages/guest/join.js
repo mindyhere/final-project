@@ -41,9 +41,9 @@ function Join() {
     }
     
 
-    return(
+    return( 
         <>
-        <div className="container min-vh-100" style={{paddingTop: "15px"}}>
+        <div className="container min-vh-100" style={{ zIndex: "1000", paddingTop: "15px"}}>
         <h3 class="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>
         회원가입</h3>
         <hr/>

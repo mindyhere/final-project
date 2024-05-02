@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./asset/css/user.css";
+import "./asset/css/user.css"; 
 import "./asset/css/main.css";
 
 import Main from "./Main";
@@ -22,6 +22,7 @@ import PayItem from "./pages/guest/PayItem";
 import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/SearchEmail";
 import SearchHostPw from "./pages/host/SearchPw";
+
 
 function App() {
   console.warn = function no_console() {};
