@@ -41,7 +41,7 @@ function KakaoMap(){
             style={{ width: '50vw', height: '50vh'}}
           >
             <MapMarker position={{ lat: lat, lng: lng }}>
-              <div style={{color:"#000"}}>{JSON.stringify(data.ho_name)}</div>
+              {/* <div style={{color:"#000"}}>{JSON.stringify(data.ho_name)}</div> */}
             </MapMarker>
           </Map>
         );
