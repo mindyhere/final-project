@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 function Account() {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-    const modalBackground = useRef();
+    const modalBackground = useRef(); 
     //모달
     // const customModalStyles: ReactModal.Styles = {
     //     overlay: {

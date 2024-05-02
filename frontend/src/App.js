@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./asset/css/user.css";
+import "./asset/css/user.css"; 
 import "./asset/css/main.css";
 
 import Main from "./Main";

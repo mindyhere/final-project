@@ -19,7 +19,7 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function GuestInfo() {
+function GuestInfo() { 
     const cookies = new Cookies();
     const level = cookies.get('g_level');
     const email = cookies.get('g_email');
