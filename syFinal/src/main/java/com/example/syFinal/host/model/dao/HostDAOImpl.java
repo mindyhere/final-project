@@ -29,8 +29,8 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // 암호화된 h_passwd
-	public String getUserPasswd(String userId) {
-		return sqlSession.selectOne("host.getUserPasswd", userId);
+	public String pwdCheck(String userId) {
+		return sqlSession.selectOne("host.pwdCheck", userId);
 	}
 
 	@Override // 로그인 성공 시 계정정보(쿠키) 가져오기
@@ -40,7 +40,6 @@ public class HostDAOImpl implements HostDAO {
 
 	@Override // host 계정아이디 찾기
 	public String findId(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("host.findId", map);
 	}
 

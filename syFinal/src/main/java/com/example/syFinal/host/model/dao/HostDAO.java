@@ -16,7 +16,7 @@ public interface HostDAO {
 	String login(Map<String, Object> params);
 
 	// 암호화된 h_passwd
-	String getUserPasswd(String userId);
+	String pwdCheck(String userId);
 
 	// 로그인 성공 시 계정정보(쿠키) 가져오기
 	HostDTO getAccount(String userId);

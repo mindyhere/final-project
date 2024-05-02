@@ -1,5 +1,7 @@
 package com.example.syFinal.admin.model.dao;
 
-public class AdminDAO {
+import java.util.Map;
 
+public interface AdminDAO {
+	String alogin(Map<String, Object> map);
 }

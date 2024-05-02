@@ -42,4 +42,5 @@ public class HotelDTO {
 	private int h_level;
 	private String h_status;
 	private Date h_regdate;
+	private String h_profile;
 }

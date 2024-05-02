@@ -2,13 +2,13 @@ import React from "react";
 import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './asset/css/user.css';
-import './asset/css/main.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./asset/css/user.css";
+import "./asset/css/main.css";
 
 import Main from "./Main";
-import Header from './component/Header';
-import Footer from './component/Footer';
+import Header from "./component/Header";
+import Footer from "./component/Footer";
 import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
@@ -16,6 +16,12 @@ import HotelDetail from "./pages/host/HotelDetail";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
+import PayItem from "./pages/guest/PayItem";
+
+// host 계정
+import HostLogin from "./pages/host/login";
+import SearchHostEmail from "./pages/host/searchEmail";
+import SearchHostPw from "./pages/host/searchPw";
 
 function App() {
   console.warn = function no_console() {};
@@ -23,7 +29,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header/>
+        <Header />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin/>}/>
@@ -33,8 +39,14 @@ function App() {
           <Route path="/guest/Pay" element={<Pay/>}/>
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
           <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
+          <Route path="/guest/PayItem" element={<PayItem/>}/>
+         
+          {/* host 계정 */}
+          <Route path="/host/Login" element={<HostLogin />} />
+          <Route path="/host/searchEmail" element={<SearchHostEmail />} />
+          <Route path="/host/searchPw" element={<SearchHostPw />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </>
   );
