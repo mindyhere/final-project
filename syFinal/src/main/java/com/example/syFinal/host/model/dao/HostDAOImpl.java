@@ -34,8 +34,13 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // 로그인 성공 시 계정정보(쿠키) 가져오기
-	public HostDTO getAccount(String userId) {
-		return sqlSession.selectOne("host.getAccount", userId);
+	public HostDTO makeCookie(String userId) {
+		return sqlSession.selectOne("host.makeCookie", userId);
+	}
+
+	@Override // host 회원정보 가져오기
+	public HostDTO getAccount(int h_idx) {
+		return sqlSession.selectOne("host.getAccount", h_idx);
 	}
 
 	@Override // host 계정아이디 찾기

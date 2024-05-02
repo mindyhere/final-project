@@ -3,9 +3,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import "../guest/aa.css";
 import "./modalH.css";
-import $ from "jquery";
 
-function Join() {
+function HostJoin() {
   const [email, setEmail] = useState("");
   const userId = useRef();
   const pwd = useRef();
@@ -198,7 +197,6 @@ function Join() {
                       className="form-control"
                       type="file"
                       ref={profile}
-                      placeholder="숫자만 입력하세요"
                     />
                   </td>
                 </tr>
@@ -334,8 +332,7 @@ function Join() {
                           denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            //navigate("/host/login");
-                            window.location.replace("/host/login");
+                            navigate("/host/login");
                           } else if (result.isDenied) {
                             navigate("/");
                           }
@@ -361,4 +358,4 @@ function Join() {
     </>
   );
 }
-export default Join;
+export default HostJoin;

@@ -20,8 +20,9 @@ import PayItem from "./pages/guest/PayItem";
 
 // host 계정
 import HostLogin from "./pages/host/Login";
-import SearchHostEmail from "./pages/host/searchEmail";
-import SearchHostPw from "./pages/host/searchPw";
+import SearchHostEmail from "./pages/host/SearchEmail";
+import SearchHostPw from "./pages/host/SearchPw";
+
 
 function App() {
   console.warn = function no_console() {};
@@ -43,8 +44,8 @@ function App() {
          
           {/* host 계정 */}
           <Route path="/host/Login" element={<HostLogin />} />
-          <Route path="/host/searchEmail" element={<SearchHostEmail />} />
-          <Route path="/host/searchPw" element={<SearchHostPw />} />
+          <Route path="/host/SearchEmail" element={<SearchHostEmail />} />
+          <Route path="/host/SearchPw" element={<SearchHostPw />} />
         </Routes>
         <Footer />
       </BrowserRouter>

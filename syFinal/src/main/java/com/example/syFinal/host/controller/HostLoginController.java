@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.host.model.dao.HostDAO;
-
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("api/host/login/*")
@@ -39,7 +36,7 @@ public class HostLoginController {
 		Map<String, Object> data = new HashMap<>();
 		System.out.println("\"===> equals? " + pwd.equals(savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
-			data.put("dto", hostDao.getAccount(userId));
+			data.put("dto", hostDao.makeCookie(userId));
 			data.put("msg", "success");
 		} else {
 			data.put("msg", "error");
@@ -79,10 +76,11 @@ public class HostLoginController {
 		}
 		return data;
 	}
-
-	@GetMapping("logout")
-	public void logout(HttpSession session) {
-		session.invalidate();
-	}
+//
+//	@GetMapping("logout")
+//	public String logout(HttpSession session) {
+//		session.invalidate();
+//		return "/";
+//	}
 
 }

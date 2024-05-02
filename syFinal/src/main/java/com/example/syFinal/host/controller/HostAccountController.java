@@ -47,17 +47,29 @@ public class HostAccountController {
 		return data;
 	}
 
+	@PostMapping("pwdCheck")
+	public String pwdCheck(@RequestParam(name = "userId", defaultValue = "") String userId,
+			@RequestParam(name = "pwd", defaultValue = "") String pwd) {
+		// TODO: process POST request
+		String savedPwd = hostDao.pwdCheck(userId);
+		if (pwdEncoder.matches(pwd, savedPwd)) {
+			return "ok";
+		} else {
+			return "error";
+		}
+	}
+
 	@PostMapping("join")
 	public Map<String, Object> join(@RequestParam Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
-		// String h_profile = "image_no.png";
-		// String h_file = "image_no.png";
+		String h_profile = "no-image.png";
+		String h_file = "no-image.png";
 
 		if (profile != null && !profile.isEmpty()) {
-			String h_profile = profile.getOriginalFilename();
+			h_profile = profile.getOriginalFilename();
 			try {
 				profile.transferTo(new File(path + h_profile));
 				map.put("h_profile", h_profile);
@@ -67,7 +79,7 @@ public class HostAccountController {
 			}
 		}
 		if (file != null && !file.isEmpty()) {
-			String h_file = file.getOriginalFilename();
+			h_file = file.getOriginalFilename();
 			try {
 				file.transferTo(new File(path + h_file));
 				map.put("h_file", h_file);
@@ -87,8 +99,16 @@ public class HostAccountController {
 		return data;
 	}
 
-	@PostMapping("update/{h_idx}")
-	public Map<String, Object> updateInfo(@PathVariable(name = "h_idx") int h_idx, Map<String, Object> params,
+	@GetMapping("account/{userNo}")
+	public Map<String, Object> getAccount(@PathVariable(name = "userNo") int h_idx) {
+		Map<String, Object> data = new HashMap<>();
+		data.put("dto", hostDao.getAccount(h_idx));
+		System.out.println("===> 결과: " + data);
+		return data;
+	}
+
+	@PostMapping("update/{userNo}")
+	public Map<String, Object> updateInfo(@PathVariable(name = "userNo") int h_idx, Map<String, Object> params,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
 
@@ -123,8 +143,8 @@ public class HostAccountController {
 		return data;
 	}
 
-	@GetMapping("delete/{h_idx}")
-	public String deleteAccount(@PathVariable(name = "h_idx") int h_idx) {
+	@GetMapping("delete/{userNo}")
+	public String deleteAccount(@PathVariable(name = "userNo") int h_idx) {
 		hostDao.deleteAccount(h_idx);
 		return "success";
 	}

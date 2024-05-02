@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import GuestJoin from "../guest/join";
-import HostJoin from "./join_modal";
+import HostJoin from "./Join_modal";
 import "../guest/aa.css";
 import "./modalH.css";
 
-
 function HostLogin() {
+  const navigate = useNavigate();
   const [join, setJoin] = useState(false);
   //  데이터 setter
   const userId = useRef();
@@ -78,31 +79,21 @@ function HostLogin() {
                       if (data.msg == "success") {
                         const cookies = new Cookies();
                         cookies.set(
-                          "h_idx",
+                          "userNo",
                           { key: data.dto.h_idx },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
-                          "h_email",
+                          "userId",
                           { key: data.dto.h_email },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
-                          "h_name",
+                          "userName",
                           { key: data.dto.h_name },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
-                        cookies.set(
-                          "h_business",
-                          { key: data.dto.h_business },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
-                          "h_status",
-                          { key: data.dto.h_status },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        window.location.href = "/";
+                        navigate("/");
                         console.log("로그인 성공");
                       } else {
                         Swal.fire({

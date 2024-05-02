@@ -18,10 +18,17 @@ select count(h_idx) from host where h_email=#{userId}
 </select>
 
 <!-- 로그인성공 시 쿠키로 저장할 host 데이터 -->
-<select id="getAccount" resultType="com.example.syFinal.host.model.dto.HostDTO">
-select h_idx, h_email, h_name, h_business, h_status 
+<select id="makeCookie" resultType="com.example.syFinal.host.model.dto.HostDTO">
+select h_idx, h_email, h_name
 from host
 where h_email=#{userId}
+</select>
+
+<!-- host 회원정보 -->
+<select id="getAccount" resultType="com.example.syFinal.host.model.dto.HostDTO">
+select h_idx, h_email, h_name, h_status, h_phone, h_business, h_level, h_status, h_profile, h_file 
+from host
+where h_idx=#{h_idx}
 </select>
 
 <!-- Host계정 아이디 찾기 -->
@@ -45,14 +52,10 @@ where h_email=#{userId}
 <!-- <resultMap id="update_result" type="java.util.Map"></resultMap>
 <select id="updateInfo" parameterType="map" statementType="CALLABLE" resultMap="update_result">
 {call update_hostInfo(
-		#{userid, mode=IN, jdbcType=INTEGER}, 
 		#{pwd, mode=IN, jdbcType=VARCHAR}, 
 		#{name, mode=IN, jdbcType=VARCHAR}, 
 		#{phone, mode=IN, jdbcType=VARCHAR}, 
 		#{business, mode=IN, jdbcType=VARCHAR}, 
-		#{h_name, mode=OUT, jdbcType=VARCHAR}
-		#{h_business, mode=OUT, jdbcType=VARCHAR}
-		#{h_status, mode=OUT, jdbcType=VARCHAR}
 	)}
 </select> -->
 
