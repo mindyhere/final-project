@@ -19,7 +19,7 @@ import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
 
 // host 계정
-import HostLogin from "./pages/host/login";
+import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/searchEmail";
 import SearchHostPw from "./pages/host/searchPw";
 

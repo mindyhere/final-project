@@ -47,7 +47,7 @@ function Account() {
             </div>
                 <div align='center'>
                     <div className={'btn-wrapper'}>
-                        <div className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
+                        <div className={'modal-open-btn'} onClick={() => navigate('/guest/Guestinfo')}>
                             <div className='shadow p-1 mb-5 border border-success p-2 border-opacity-10 rounded' style={{width: '300px', height: '200px'}}>
                             <br/><br/>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{marginBottom: '10px',display: 'block', height: '32px', width: '32px', fill: 'currentcolor'}}>

@@ -6,7 +6,7 @@ import GuestJoin from "../guest/join";
 import HostJoin from "./join_modal";
 import "../guest/aa.css";
 import "./modalH.css";
-import $ from "jquery";
+
 
 function HostLogin() {
   const [join, setJoin] = useState(false);

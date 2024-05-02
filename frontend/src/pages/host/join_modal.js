@@ -3,9 +3,9 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import "../guest/aa.css";
 import "./modalH.css";
-import $ from "jquery";
 
-function Join() {
+
+function HostJoin() {
   const [email, setEmail] = useState("");
   const userId = useRef();
   const pwd = useRef();
@@ -361,4 +361,4 @@ function Join() {
     </>
   );
 }
-export default Join;
+export default HostJoin;
