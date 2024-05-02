@@ -56,7 +56,6 @@ where h_email=#{userId}
 		#{name, mode=IN, jdbcType=VARCHAR}, 
 		#{phone, mode=IN, jdbcType=VARCHAR}, 
 		#{business, mode=IN, jdbcType=VARCHAR}, 
-		#{h_name, mode=OUT, jdbcType=VARCHAR}
 	)}
 </select> -->
 

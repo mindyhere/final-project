@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import GuestJoin from "../guest/join";
-import HostJoin from "./join_modal";
+import HostJoin from "./Join_modal";
 import "../guest/aa.css";
 import "./modalH.css";
 
