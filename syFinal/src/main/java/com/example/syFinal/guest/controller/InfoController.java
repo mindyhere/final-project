@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dao.InfoDAO;
+import com.example.syFinal.guest.model.dto.GuestDTO;
 
 @Controller
 @RequestMapping("guest/info/*")
@@ -65,6 +66,16 @@ public class InfoController {
 		String result = dao.join(g_email, g_passwd, g_name, g_phone);
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("detail")
+	public Map<String, Object> detail(@RequestParam(name = "g_email", defaultValue = "") String g_email) {
+		GuestDTO dto = dao.detail(g_email);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		System.out.println(map);
 		return map;
 	}
 }

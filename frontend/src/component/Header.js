@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 function Header() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
   const [join, setJoin] = useState(false);

@@ -2,9 +2,14 @@ import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 import '../../asset/css/user.css'
 
+
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading,setLoading] = useState(true);
+    const cookies = new Cookies();
+    const g_name = cookies.get('g_name');
+    const g_email = cookies.get('g_email'); //쿠키변수명
+    const g_level = cookies.get('g_level');
 
     useEffect(() => {
         fetch(url)
@@ -19,7 +24,7 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function GuestInfo() {
+function GuestInfo() { 
     const cookies = new Cookies();
     const level = cookies.get('g_level');
     const email = cookies.get('g_email');
@@ -29,6 +34,28 @@ function GuestInfo() {
     const checkPwd = useRef();
     const g_phone = useRef();
     const g_join_date = useRef();
+    const [selected, setSelected] = useState("없음");
+    const selectList = ["미인증", "주민등록증", "여권", "운전면허증"];
+    const [inputValue, setInputValue] = useState('');
+    
+    const handleSelect = (e) => {
+        setSelected(e.target.value);    
+    };
+
+    const handleChange = (e) => {
+        const regex = /^[0-9\b -]{0,13}$/;
+        if (regex.test(e.target.value)){
+            setInputValue(e.target.value);
+        }
+    }
+
+    useEffect(() => {
+        if (inputValue.length > 0 ) {
+            setInputValue(inputValue
+                .replace(/-/g, '')
+                .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+        }
+    }, [inputValue]);
 
     if(loading) {
         return (
@@ -67,7 +94,7 @@ function GuestInfo() {
                         <hr/>
                         <div>
                         <label class="label-1">전화번호</label><br/>
-                        <input class="underline" type="text" ref={g_phone} defaultValue={"010-1111-2222"}></input>
+                        <input class="underline" type="text" ref={g_phone} onChange={handleChange}  value={inputValue} placeholder="숫자만 입력하세요"></input>
                         </div>
                         <hr/>
                         <div>
@@ -80,12 +107,14 @@ function GuestInfo() {
                         <input style={{border: "0px", outline: "none"}} defaultValue={"regular"} readOnly></input>
                         </div>
                         <hr/>
-                        <div style={{float:"left"}}>
+                        <div style={{float:"left", width:"150px"}}>
                         <label class="label-1">인증</label><br/>
-                        <select>
-                            <option>주민등록증</option>
-                            <option>여권</option>
-                            <option>운전면허증</option>
+                        <select onChange={handleSelect} value={selected} >
+                            {selectList.map((item) => (
+                                <option value={item} key={item}>
+                                    {item}
+                                </option>
+                            ))}
                         </select> 
                         </div>
                         <div class="blankk"></div>

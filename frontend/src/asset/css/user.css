@@ -125,6 +125,15 @@ ul.tabs li.current {
 	/* 	border-radius: 50%; */
 }
 
+/* 문장 3줄 이상일 때 */
+.hidden-text-target {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+  }
+
 /* ========== Buttons css ========== */
 .main-btn {
 	display: inline-flex;
@@ -148,7 +157,7 @@ ul.tabs li.current {
 	transition: all 0.4s ease-in-out;
 	border: 1px solid transparent;
 	overflow: hidden;
-	background: #FEC5BB;
+	background: #DBC4F0;
 	color: #000;
 	position: relative;
 	overflow: hidden;

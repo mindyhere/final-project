@@ -8,4 +8,8 @@
 <insert id="join">
 	insert into guest (g_email, g_passwd, g_name, g_phone, g_level) values (#{g_email}, #{g_passwd}, #{g_name}, #{g_phone}, 1) 
 </insert>
+
+<select id="detail">
+	select * from guest where g_email = #{g_email}
+</select>
 </mapper>

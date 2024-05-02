@@ -1,5 +1,8 @@
 import React, {useRef, useEffect, useState} from "react";
 import KakaoMap from "../../component/KakaoMap";
+import HotelRooms from "./hotelDetailSection/HotelRooms";
+import HostInfo from "./hotelDetailSection/HostInfo";
+import HotelRule from "./hotelDetailSection/HotelRule";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import Swal from "sweetalert2";
@@ -75,7 +78,8 @@ function HotelDetail() {
             profile_src = `http://localhost/static/images/host/profile/${data.h_profile}`;
             profile_url = `<img src=${profile_src} width='90px' height='90px'/>`;
         } else {
-            profile_url = `http://localhost/static/images/no-image.png`;
+            profile_src = `http://localhost/static/images/no-image.png`;
+            profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
         return (
             <div className="container">
@@ -99,9 +103,38 @@ function HotelDetail() {
                             <h3>{data.ho_address}</h3>
                             <div>최대 인원 {data.d_capacity}명 · 침대 {data.d_beds}개 · 면적 {data.d_area}㎡</div>
                             <br />
-                            <div className="card-style">
-                                if 문으로 후기가 5개 이상일 경우 보여주기
+                            <div>                            
+                                {
+                                    level === '슈퍼호스트'
+                                    ? <div className="card-style">
+                                        <div className="row">
+                                            <div className="col-3">
+                                                <div className="row">
+                                                 <h5>별점</h5>
+                                                </div>
+                                                4.5/5.0
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <img src="/img/danger.png" width="20px" height="20px"/>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <p>게스트 선호</p>
+                                                    </div>
+                                                    <div className="col-2">
+                                                        <img src="/img/danger.png" width="20px" height="20px"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-3">
+                                                후기
+                                            </div>
+                                        </div>
 
+                                     </div>
+                                    : <div> </div>
+                                }
                             </div>
                             <br />
                             <div className="row">
@@ -124,9 +157,10 @@ function HotelDetail() {
                             <b>더보기 버튼 클릭 시 전문 나오도록(타이틀 삭제?)</b><br />
                             {data.ho_description}
                             <hr />
-                            <h4>선택 가능한 객실 유형</h4>
-                            <div>이미지 {data.d_img1}</div>
-                            <div>{data.d_room_type}</div>
+                            <h4 className="mb-20">선택 가능한 객실 유형</h4>
+                                <div> 
+                                    <HotelRooms />
+                                </div>
                             <hr />
                             <h4>숙소편의시설</h4>
                             <button type="button">편의시설 모두보기</button>
@@ -135,7 +169,7 @@ function HotelDetail() {
                                 {data.ho_name}에서 
                             </h4>
                             <div>
-                                <DateRangeSelector/>
+                                {/* <DateRangeSelector/> */}
                                 </div>
                             <hr />
                             <h4>
@@ -143,68 +177,20 @@ function HotelDetail() {
                             </h4>
                             <hr />
                             <h4>숙소 위치</h4>
-                            <div>{data.ho_address}</div>
+                            <div>{data.ho_address}
                             <br />
-                            <div>
+
                                 <KakaoMap />
-                            </div>
+                                </div>
                             <br />
                             <h4 useRef={element} className="mb-30">호스트 소개</h4>
-                            <div className="card-style" style={{backgroundColor : "#F6F2F9"}}>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <div className="card-style">
-                                            <div className="row">
-                                                <div className="col-6 text-center">
-                                                <img src="/img/id.png" width="90px" height="90px"/>
-                                                    <br />
-                                                    <h2>{data.h_name}</h2><br />
-                                                    <h6>{level}</h6>
-                                                </div>
-                                                <div className="col-6">
-                                                    <div className="text-xs">후기</div>
-                                                    15개
-                                                    <br />
-                                                    <hr />
-                                                    <div className="text-xs">평점</div>
-                                                    {}
-                                                    <br />
-                                                    <hr />
-                                                    <div className="text-xs">호스팅 경력</div>
-                                                    {regdate}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <p><a href="/guest/mypage" style={{color: 'black', textDecorationLine: 'none'}}>더 보기 ▶</a></p>
-                                    </div>
-                                    <div className="col-6">
-                                        <h4>{data.h_name}님은 {level}입니다.</h4>
-                                        <span className="mb-40">
-                                        슈퍼호스트는 어쩌구~~~ 설명
-                                        </span>
-                                        <h5>호스트 상세 정보</h5> <br />
-                                        응답률 : {answer} <br />
-                                        1시간 이내에 응답
-                                        <br />
-                                        <button type="button" onClick={() => {
-                                            Swal.fire({
-                                                title: '나중에 URL 연결',
-                                                showCancelButton: false,
-                                                confirmButtonText: '확인',
-                                            });
-                                        }}
-                                        className="btn btn-dark">호스트에게 메시지 보내기</button>
-                                        <hr />
-                                        <div className="text-xs">
-                                            <img src="/img/danger.png" width="35px" height="35px"/> 안전한 결제를 위해 사이트 외부에서 송금하거나 대화를 나누지 마세요.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                             <HostInfo />
                             <br />
                             <h4>알아두어야 할 사항</h4>
-                            <div>숙소 이용규칙</div>
+                            <br />
+                            <div>
+                                <HotelRule />
+                            </div>
                         </div>
                     </div>
                     
@@ -215,7 +201,10 @@ function HotelDetail() {
                                 <div className="card-style mb-30">
                                     <div className="row">
                                         <div className="col-6">
-                                            체크인
+                                            <button type="button" onClick={() =>{
+                                              
+                                            }}>
+                                            체크인</button>
                                         </div>
                                         <div className="col-6">
                                             체크아웃
