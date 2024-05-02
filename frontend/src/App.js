@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./asset/css/user.css";
+import "./asset/css/user.css"; 
 import "./asset/css/main.css";
 
 import Main from "./Main";
@@ -19,7 +19,7 @@ import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
 
 // host 계정
-import HostLogin from "./pages/host/login";
+import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/searchEmail";
 import SearchHostPw from "./pages/host/searchPw";
 

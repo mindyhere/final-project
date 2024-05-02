@@ -2,15 +2,16 @@ import React, {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from "react-router-dom";
 import Join from "../pages/guest/join";
-
+import HostJoin from "../pages/host/join_modal";
 import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 
 function Header() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
   const [join, setJoin] = useState(false);
+  const [hostJoin, setHostJoin] = useState(false);
   const cookies = new Cookies();
 
   //게스트 쿠키
@@ -80,7 +81,7 @@ function Header() {
                         <h3 class="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>회원가입</h3>
                         <hr/>
                        <div class="aa">
-                        <div class="card-style1" onClick={() => {setJoin(!join);}}> 
+                        <div class="card-style1" onClick={() => {setModal_1(false); setJoin(!join);}}> 
                             <img src="/img/guest.png" width="100px" height="100px" style={{marginLeft: "10px"}}/>
                             <label class="text-bold" style={{paddingTop: "20px"}}>게스트</label>
                             {join && (
@@ -90,12 +91,12 @@ function Header() {
                             )}
                         </div>
 
-                        <div class="card-style2" onClick={() => {setJoin(!join);}}> 
+                        <div class="card-style2" onClick={() => {setHostJoin(!hostJoin);}}> 
                             <img src="/img/host.png" width="100px" height="100px" />
                             <label class="text-bold" style={{paddingTop: "20px"}}>호스트</label>
-                            {join && (
-                                <Modall closeModal={() => {setJoin(!join);}}>
-                                <Join/>
+                            {hostJoin && (
+                                <Modall closeModal={() => {setHostJoin(!hostJoin);}}>
+                                <HostJoin/>
                                 </Modall>
                             )}
                         </div>
@@ -123,7 +124,7 @@ function Header() {
                 <li  className="nav-item"><a className="nav-link active" href="#">여행</a></li>
                 <li  className="nav-item"><a className="nav-link active" href="#">위시리스트</a></li>
                 <li  className="nav-item"><a className="nav-link active" href="#">계정</a></li>
-                <li  className="nav-item"><a className="nav-link active" href="#">도움말센터</a></li>
+                <li  className="nav-item"><a className="nav-link active" onClick={() => navigate('/guest/Account')}>도움말센터</a></li>
                 <li  className="nav-item"><a className="nav-link active"
                 onClick={() =>
                   Swal.fire({
