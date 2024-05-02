@@ -15,6 +15,7 @@ import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
+import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
 
 // host 계정
@@ -31,14 +32,15 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/guest/login" element={<GuestLogin />} />
-          <Route path="/guest/searchEmail" element={<SearchEmail />} />
-          <Route path="/guest/searchPw" element={<SearchPw />} />
-          <Route path="/guest/Account" element={<Account />} />
-          <Route path="/guest/Pay" element={<Pay />} />
+          <Route path="/guest/login" element={<GuestLogin/>}/>
+          <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
+          <Route path="/guest/searchPw" element={<SearchPw/>}/>
+          <Route path="/guest/Account" element={<Account/>}/>
+          <Route path="/guest/Pay" element={<Pay/>}/>
+          <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
+          <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
           <Route path="/guest/PayItem" element={<PayItem/>}/>
-          <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail />}/>
-
+         
           {/* host 계정 */}
           <Route path="/host/Login" element={<HostLogin />} />
           <Route path="/host/searchEmail" element={<SearchHostEmail />} />

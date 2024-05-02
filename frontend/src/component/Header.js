@@ -277,53 +277,200 @@ function Header() {
 
             <div align="right">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    프로필
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    여행
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    위시리스트
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    계정
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    도움말센터
-                  </a>
-                </li>
-                <li className="nav-item">
+                <li
+                  className="nav-item rounded"
+                  style={{ display: "inline-block" }}
+                >
                   <a
                     className="nav-link active"
                     onClick={() => {
-                      Swal.fire({
-                        icon: "question",
-                        title: "잠깐!",
-                        html: "로그아웃 하시겠습니까?",
-                        showCancelButton: true,
-                        confirmButtonText: "YES",
-                        cancelButtonText: "NO",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          localStorage.clear();
-                          sessionStorage.clear();
-                          removeCookies("guest");
-                          window.location.href = "/";
-                        }
-                      });
+                      setModal_1(true);
                     }}
                   >
-                    로그아웃
+                    로그인
+                  </a>
+                </li>
+                {modal_1 && (
+                  <div className="Modal" onClick={() => setModal_1(false)}>
+                    <div
+                      className="modalBody"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        id="modalCloseBtn"
+                        onClick={() => setModal_1(false)}
+                      >
+                        X
+                      </button>
+
+                      <div
+                        className="container min-vh-100"
+                        style={{ paddingTop: "15px" }}
+                      >
+                        <h3 class="text-bold">
+                          {" "}
+                          <img
+                            src="/img/login.png"
+                            width="35px"
+                            height="35px"
+                          />
+                          &nbsp;로그인
+                        </h3>
+                        <hr />
+                        <div class="aa">
+                          <div
+                            class="card-style1"
+                            onClick={() => {
+                              setModal_1(false);
+                              navigate("/guest/login");
+                            }}
+                          >
+                            <img
+                              src="/img/guest.png"
+                              width="100px"
+                              height="100px"
+                              style={{ marginLeft: "10px" }}
+                            />
+                            <label
+                              class="text-bold"
+                              style={{ paddingTop: "20px" }}
+                            >
+                              게스트
+                            </label>
+                          </div>
+
+                          <div
+                            class="card-style2"
+                            onClick={() => {
+                              setModal_1(false);
+                              navigate("/host/login");
+                            }}
+                          >
+                            <img
+                              src="/img/host.png"
+                              width="100px"
+                              height="100px"
+                            />
+                            <label
+                              class="text-bold"
+                              style={{ paddingTop: "20px" }}
+                            >
+                              호스트
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <li
+                  className="nav-item rounded"
+                  style={{ display: "inline-block" }}
+                >
+                  <a
+                    className="nav-link active"
+                    onClick={() => {
+                      setModal(true);
+                    }}
+                  >
+                    회원가입
+                  </a>
+                </li>
+                {modal && (
+                  <div className="Modal" onClick={() => setModal(false)}>
+                    <div
+                      className="modalBody"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        id="modalCloseBtn"
+                        onClick={() => setModal(false)}
+                      >
+                        X
+                      </button>
+
+                      <div
+                        className="container min-vh-100"
+                        style={{ paddingTop: "15px" }}
+                      >
+                        <h3 class="text-bold">
+                          {" "}
+                          <img src="/img/join.png" width="35px" height="35px" />
+                          회원가입
+                        </h3>
+                        <hr />
+                        <div class="aa">
+                          <div
+                            class="card-style1"
+                            onClick={() => {
+                              setJoin(!join);
+                            }}
+                          >
+                            <img
+                              src="/img/guest.png"
+                              width="100px"
+                              height="100px"
+                              style={{ marginLeft: "10px" }}
+                            />
+                            <label
+                              class="text-bold"
+                              style={{ paddingTop: "20px" }}
+                            >
+                              게스트
+                            </label>
+                            {join && (
+                              <Modall
+                                closeModal={() => {
+                                  setJoin(!join);
+                                }}
+                              >
+                                <Join />
+                              </Modall>
+                            )}
+                          </div>
+
+                          <div
+                            class="card-style2"
+                            onClick={() => {
+                              setJoin(!join);
+                            }}
+                          >
+                            <img
+                              src="/img/host.png"
+                              width="100px"
+                              height="100px"
+                            />
+                            <label
+                              class="text-bold"
+                              style={{ paddingTop: "20px" }}
+                            >
+                              호스트
+                            </label>
+                            {join && (
+                              <Modall
+                                closeModal={() => {
+                                  setJoin(!join);
+                                }}
+                              >
+                                <Join />
+                              </Modall>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <li
+                  className="nav-item rounded"
+                  style={{ display: "inline-block" }}
+                >
+                  <a
+                    className="nav-link active"
+                    onClick={() => navigate("/guest/Account")}
+                  >
+                    도움말센터
                   </a>
                 </li>
               </ul>
