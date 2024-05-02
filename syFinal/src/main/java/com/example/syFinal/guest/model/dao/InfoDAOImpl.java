@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.guest.model.dto.GuestDTO;
+
 @Repository
 public class InfoDAOImpl implements InfoDAO {
 	@Autowired
@@ -34,5 +36,11 @@ public class InfoDAOImpl implements InfoDAO {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public GuestDTO detail(String g_email) {
+		GuestDTO dto = sqlSession.selectOne("info.detail", g_email);
+		return dto;
 	}
 }

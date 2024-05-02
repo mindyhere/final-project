@@ -2,9 +2,14 @@ import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 import '../../asset/css/user.css'
 
+
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading,setLoading] = useState(true);
+    const cookies = new Cookies();
+    const g_name = cookies.get('g_name');
+    const g_email = cookies.get('g_email'); //쿠키변수명
+    const g_level = cookies.get('g_level');
 
     useEffect(() => {
         fetch(url)
