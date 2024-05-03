@@ -56,4 +56,16 @@ public class InfoDAOImpl implements InfoDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public String delete(int g_idx) {
+		String result = "";
+		try {
+			sqlSession.delete("info.delete", g_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
+	}
 }

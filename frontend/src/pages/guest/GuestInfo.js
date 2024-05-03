@@ -40,8 +40,8 @@ function GuestInfo() {
     const [inputValue, setInputValue] = useState(phone.key);
     const [alter, setAlter] = useState('dis');
     const img = useRef();
-    const navigate = useNavigate();
-
+    const image = useRef();
+    
     const handleSelect = (e) => {
         setSelected(e.target.value);    
     };
@@ -61,17 +61,27 @@ function GuestInfo() {
         }
     }
 
-    // const urlHandle = (e) => {
-    //     window.open(`http://localhost/static/images/guest/profile/${data.dto.g_url}`, '', 'width=800, height=800'); 
-    // } 
+    const removeCookies = () => {
+            cookies.remove("g_idx", { path: "/" }, 100);
+            cookies.remove("g_name", { path: "/" }, 100);
+            cookies.remove("g_email", { path: "/" }, new Date(Date.now()));
+            cookies.remove("g_level", { path: "/" }, new Date(Date.now()));
+            cookies.remove("g_phone", { path: "/" }, new Date(Date.now()));
+            cookies.remove("g_profile", { path: "/" }, new Date(Date.now()));
+        };
+
+     const urlHandle = (e) => {
+         window.open(`http://localhost/static/images/guest/photo/${data.dto.g_photo}`, '', 'width=500, height=500'); 
+     } 
 
     if(loading) {
         return (
             <div>loading</div>
         )
     } else {
-        const imgUrl = `http://localhost/static/images/guest/profile/${data.dto.g_url}`;
-        
+        // const imgUrl = `http://localhost/static/images/guest/profile/${data.dto.g_url}`;
+        const imgUrl = `http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
+
         return (
             <>
                 <div className="container min-vh-100">
@@ -80,9 +90,39 @@ function GuestInfo() {
                 <br/>
                 <div class="card-stylee mb-30">
                     <form>
-                        <div>
+                        <div style={{float:"left"}}>
                         <label class="label-1">이메일</label><br/>
                         <input type="text" style={{border: "0px", outline: "none"}} defaultValue={email.key} readOnly></input>
+                        </div>
+                        <div class="blankk"></div>
+                        <div>
+                        <label class="label-1">프로필 사진</label><br/>
+                        { data.dto.g_photo !== '-' ? 
+                        <>
+                        <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle} 
+                        //onClick={() => {
+                            // Swal.fire({
+                            //     icon: "info",
+                            //     text: "프로필 사진을 변경하시겠습니까?",
+                            //     confirmButtonText: "변경",
+                            //     cancelButtonText: "취소",
+                            //     showCancelButton: true,
+                            // }).then((result) => {
+                            //     if(result.isConfirmed) {
+                            //         setAlter('dis-1');
+                            //     } else {
+                            //         setAlter('dis');
+                            //     }
+                            // });
+                        //}}
+                        >{data.dto.g_photo}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type='file' ref={image}></input>
+                        </>
+                        :
+                        <>
+                        <input type='file' ref={image}></input>
+                        </>
+                        }
                         </div>
                         <hr/>
                         <div>
@@ -153,12 +193,13 @@ function GuestInfo() {
                         </>
                         :
                         <>
-                        <input type='file'></input>
+                        <input type='file' ref={img}></input>
                         </>
                         }
                         </div>
                         <hr/>
                         <br/>
+                        <div>
                         <button type='button' class="main-btn" onClick={() =>{
                             if(g_passwd.current.value != checkPwd.current.value) {
                                 Swal.fire({
@@ -168,7 +209,9 @@ function GuestInfo() {
                                 g_passwd.current.focus();
                                 return;
                             }
-                            if ((selected == '미인증' && img.current.files.length>0) || (selected == '미인증' && data.dto.g_url !== '')) {
+                        
+                            if ((selected == '미인증' && img.current.files.length !== 0) || (selected == '미인증' && data.dto.g_url !== '')) {
+                                
                                 Swal.fire({
                                     icon : 'warning',
                                     text : '인증 분류를 선택해 주세요',
@@ -191,8 +234,11 @@ function GuestInfo() {
                             if (selected !== profile.key) {
                                 form.append('g_profile', selected);
                             }
-                            if(img.current.files.length>0) {
+                            if(img.current.files.length !== 0) {
                                 form.append('img', img.current.files[0]);
+                            }
+                            if(image.current.files.length !== 0) {
+                                form.append('photo_img', image.current.files[0]);
                             }
                             let values = form.values();
                             let a= '';
@@ -266,6 +312,79 @@ function GuestInfo() {
                                 });
                             };
                         }} >정보 수정</button>
+                        <a href="#" style={{float: "right", color: "black"}} onClick={() => {
+                            Swal.fire({
+                                icon: "warning",
+                                text: "정말 삭제하시겠습니까?",
+                                confirmButtonText: "삭제",
+                                cancelButtonText: "취소",
+                                showCancelButton: true,
+                            }).then((result) => {
+                                if(result.isConfirmed) {
+                                    Swal.fire({
+                                        text: "현재 비밀번호를 입력해 주세요",
+                                        showCancelButton: true,
+                                        confirmButtonText: "인증",
+                                        cancelButtonText: "취소",
+                                        input: 'password',
+                                        preConfirm: (pwd) => {
+                                            const formData = new FormData();
+                                            formData.append('g_email', email.key);
+                                            formData.append('pwd', pwd);
+                                            return fetch('http://localhost/guest/info/confirmPwd', {
+                                                method: 'post',
+                                                body: formData,
+                                            }).then(response => response.json())
+                                            .then(data => {
+                                                if(data.result == 'success') {
+                                                    const form = new FormData();
+                                                    form.append('g_idx', idx.key);
+                                                    fetch('http://localhost/guest/info/delete', {
+                                                        method: 'post',
+                                                        encType: 'multipart/form-data',
+                                                        body: form,
+                                                        }).then((response) => response.json())
+                                                    .then(data => {
+                                                        if (data.result == 'success') {
+                                                            Swal.fire({
+                                                                title: '탈퇴 완료',
+                                                                showCancelButton: false,
+                                                                confirmButtonText: '확인',
+                                                            }).then((result) => {
+                                                                if(result.isConfirmed) {
+                                                                    removeCookies("guest");
+                                                                    window.location.href='/';
+                                                                }
+                                                            });
+                                                        } else {
+                                                            Swal.fire({
+                                                                title: '에러 발생',
+                                                                text: '관리자에게 문의하세요',
+                                                                showCancelButton: false,
+                                                                confirmButtonText: '확인',
+                                                            });
+                                                        }
+                                                    })
+                                                } else if(data.result == 'no') {
+                                                    Swal.fire({
+                                                        title: '비밀번호 불일치',
+                                                        showCancelButton: false,
+                                                        confirmButtonText: '확인',
+                                                    });
+                                                } else {
+                                                    Swal.fire({
+                                                        title: '에러 발생',
+                                                        showCancelButton: false,
+                                                        confirmButtonText: '확인',
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                } 
+                            });
+                        }}>회원 탈퇴</a>
+                        </div>
                     </form>
                 </div>
                 </div>
