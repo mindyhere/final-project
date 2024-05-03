@@ -4,16 +4,12 @@ import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
 import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
+import HotelAmenities from "./hotelDetailSection/HotelAmenities";
+import Reservation from "./hotelDetailSection/Reservation";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import moment from "moment";
 import "moment/locale/ko";
-import "../../asset/css/datepicker.css"
-
-import DatePicker from 'react-datepicker';
-import DateRangeSelector from "../../component/DateRangeSelector";
-import { DateRange } from "react-date-range";
-import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -40,6 +36,10 @@ function HotelDetail() {
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
+    const hostInfoForm = useRef();
+    const moveToHostInfo = () => {
+        hostInfoForm.current.scrollIntoView({behavior : 'smooth', block : 'start'});
+    };
 
     useEffect(() => {
         var myArr = localStorage.getItem('watched');
@@ -53,7 +53,6 @@ function HotelDetail() {
         myArr = [...myArr];
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
-
 
     const [state, setState] = useState([
         {
@@ -131,16 +130,13 @@ function HotelDetail() {
                                                     4.5/5.0 (샘플)
                                                 </div>
                                             </div>
-                                            <div className="col-5">
+                                            <div className="col-5" >
                                                 <div className="row">
                                                     <div className="col-1">
-                                                        <img src="/img/danger.png" width="auto" height="20px"/>
+                                                        <img src="/img/best.png" width="35px" height="35px"/>
                                                     </div>  
-                                                    <div className="col-8">
+                                                    <div className="col-10" style={{alignContent:'center'}}>
                                                         게스트 선호
-                                                    </div>
-                                                    <div className="col-1">
-                                                        <img src="/img/danger.png" width="auto" height="20px"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,8 +161,10 @@ function HotelDetail() {
                                     </div>
                                 </div>
                                 <div className="col-9" style={{alignSelf : 'center'}}>
+                                  
                                     <div><b> 호스트 : {data.h_name}님 </b></div>
                                     <div>{level} · 호스팅 경력 {regdate}</div>
+
                                 </div>
                             </div>
                             <hr />
@@ -198,7 +196,7 @@ function HotelDetail() {
                                 <KakaoMap />
                                 </div>
                             <hr />
-                            <h4 useRef={element} className="mb-30">호스트 소개</h4>
+                            <h4 useRef={hostInfoForm} className="mb-30">호스트 소개</h4>
                              <HostInfo />
                             <hr />
                             <h4 className="mb-20">알아두어야 할 사항</h4>
@@ -209,23 +207,7 @@ function HotelDetail() {
                     </div>
                     
                     <div className="col-4">
-                            <div className="card-style mb-30">
-                                <div> 날짜를 입력하여 요금을 확인하세요</div>
-                                {/* <DateRangeSelector/> */}
-                                <div className="card-style mb-30">
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <button type="button" onClick={() =>{
-                                              
-                                            }}>
-                                            체크인</button>
-                                        </div>
-                                        <div className="col-6">
-                                            체크아웃
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>    
+                        <Reservation />
                     </div>
                 </div>
             </div>
