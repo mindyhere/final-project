@@ -19,6 +19,7 @@ public class GuestDTO {
 	private String g_phone;
 	private String g_url;
 	private String g_profile;
+	private String g_join_date;
 	private int g_level;
 	private int g_card;
 	private String g_date;
@@ -31,4 +32,6 @@ public class GuestDTO {
 	private String o_ckin;
 	private String o_ckout; 
 	private int o_finalprice;
+	private String l_name;
+	private String g_photo;
 }

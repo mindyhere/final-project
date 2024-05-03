@@ -39,7 +39,11 @@ public class LoginController {
 			map.put("g_email", g_email);
 			map.put("g_name", map1.get("g_name"));
 			map.put("g_level", map1.get("g_level"));
+			map.put("g_idx", map1.get("g_idx"));
+			map.put("g_phone", map1.get("g_phone"));
+			map.put("g_profile", map1.get("g_profile"));
 			map.put("message", "success");
+			System.out.println(map);
 		} else if(passwd.equals("no")) {
 			map.put("message", "no");
 		} else {

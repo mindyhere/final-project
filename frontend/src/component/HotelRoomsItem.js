@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState} from 'react';
 
 function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${DImg1}`;
+    const [modal, setModal] = useState(false);
 
     if (loading) {
         return (
@@ -21,10 +22,28 @@ function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
         }
 
         return (
-            <div style={{ margin: '5px'}}>
+            <div style={{ margin: '5px', cursor: 'pointer'}} onClick={() => setModal(true)}>
                 <div style={{textAlign:'center'}}>
                 <span dangerouslySetInnerHTML={{__html: profile_url}}></span> 
-                    <div >{DRoomType}</div>
+                    <div>{DRoomType}</div>
+                    { modal &&
+                        <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
+                            <div className='modalBody' onClick={(e) => e.stopPropagation()}>
+                                <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
+                                    X
+                                </button>
+                                <div className="container">
+                                    이미지 1~3개
+                                    객실 유형 : 
+                                    수용 인원 :
+                                    면적 : 
+                                    침대수 : 
+                                    금연실 여부 :
+                                    가격 : 
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         )

@@ -9,7 +9,18 @@
 	insert into guest (g_email, g_passwd, g_name, g_phone, g_level) values (#{g_email}, #{g_passwd}, #{g_name}, #{g_phone}, 1) 
 </insert>
 
-<select id="detail">
-	select * from guest where g_email = #{g_email}
+<select id="detail" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+	select * from guest,level where g_idx = #{g_idx} and g_level=l_level
 </select>
+<!-- g_join_date, l_name, g_url from guest, level -->
+
+<update id="update">
+	update guest 
+	set g_passwd = #{g_passwd}, g_phone = #{g_phone}, g_url=#{g_url}, g_profile=#{g_profile}, g_photo=#{g_photo}
+	where g_idx = #{g_idx}
+</update>
+
+<delete id="delete">
+	delete from guest where g_idx = #{g_idx}
+</delete>
 </mapper>

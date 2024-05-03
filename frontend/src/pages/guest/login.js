@@ -6,10 +6,12 @@ import Join from "./join";
 import '../../asset/css/user.css'
 import './modall.css'
 import './aa.css'
+import {useNavigate} from "react-router-dom";
 
 
 function GuestLogin() {
     const [join, setJoin] = useState(false);       
+    const navigate = useNavigate();
     const g_email = useRef();
     const g_passwd = useRef();
     const [message, setMessage] = useState([]);
@@ -56,15 +58,14 @@ function GuestLogin() {
                                     setMessage(data);
                                     if(data.message == 'success') {
                                         const cookies = new Cookies();
-                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+3600)}); //30일
-                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+3600)});
-                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+3600)});
-                                        // window.location.href='/';
-                                        Swal.fire({
-                                            title: '로그인 성공',
-                                            showCancelButton: false,
-                                            confirmButtonText: '확인',
-                                        });
+                                        cookies.set('g_idx', {key: data.g_idx}, {path: '/', expires: new Date(Date.now()+2592000)}); 
+                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+2592000)}); 
+                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                        window.location.href='/';
+                                       
                                     } else if(data.message == 'no') {
                                         Swal.fire({
                                             title: '로그인 실패',
