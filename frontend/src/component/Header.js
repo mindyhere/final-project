@@ -10,6 +10,22 @@ import "../pages/host/modalH.css";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
+// function useFetch(url) {
+//   const [data,setData] = useState(null);
+//   const [loading,setLoading] = useState(true);
+
+//   useEffect(()=>{
+//       fetch(url)
+//           .then(response=>{
+//               return response.json();
+//           })
+//           .then(data=>{
+//               setData(data);
+//               setLoading(false);
+//           })
+//   }, []);
+//   return [data,loading];
+// }
 
 function Header() {
   const navigate = useNavigate(); 
@@ -33,6 +49,8 @@ function Header() {
   const userNo = cookies.get("userNo");
   const userId = cookies.get("userId");
   const userName = cookies.get("userName");
+
+  //const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx);
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -277,6 +295,14 @@ function Header() {
     } else if (g_level.key == 3) {
       level = "VIP";
     }
+
+    // let src='';
+    // let image_url='';
+    // if (data.g_photo != '-') {
+    //   src=`http://localhost/static/images/guest/photo/${data.g_photo}`;
+    //   image_url=`<img src=${src} width='300px' height='300px'/>`;
+    // }
+    // <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
@@ -300,7 +326,6 @@ function Header() {
                           프로필
                 </div></div>
                 </a>
-
                 {
                         modalOpen &&
                         <div className={'modal-container'} ref={modalBackground} onClick={e => {
@@ -310,7 +335,7 @@ function Header() {
                         }}>
                         <div className={'modal-content'}>
                             <h4>{g_name.key}님 프로필</h4>
-                            <img width="210px" height="210px"></img>
+                            <img src='http://localhost/static/images/guest/photo/cat.jpeg' width='210px' height='210px'></img>
                             <div style={{padding:'5px'}}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
                                 <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>

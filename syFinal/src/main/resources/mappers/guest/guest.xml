@@ -35,5 +35,9 @@
 		and g_idx=#{g_idx}
 		order BY o_orderdate
 	</select>
+	
+	<update id="payupdate">
+		
+	</update>
 
 </mapper>
