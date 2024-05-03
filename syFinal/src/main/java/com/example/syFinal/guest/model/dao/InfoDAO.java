@@ -16,5 +16,5 @@ public interface InfoDAO {
 
 	String delete(int g_idx);
 
-	List<MainDTO> wishlist(int g_idx);
+	
 }

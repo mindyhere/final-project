@@ -71,8 +71,5 @@ public class InfoDAOImpl implements InfoDAO {
 		return result;
 	}
 	
-	@Override
-	public List<MainDTO> wishlist(int g_idx) {
-		return sqlSession.selectList("info.wishlist", g_idx);
-	}
+
 }
