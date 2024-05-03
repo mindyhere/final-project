@@ -107,8 +107,8 @@ function HotelDetail() {
                             <div>                            
                                 {
                                     level === '슈퍼호스트'
-                                    ? <div className="card-style">
-                                        <div className="row" style={{alignItems: 'center'}}>
+                                    ? <div className="card-style" style={{textAlignLast:'center'}}>
+                                        <div className="row">
                                             <div className="col-3">
                                                 <div className="row">
                                                     <h5>별점</h5>
@@ -117,20 +117,20 @@ function HotelDetail() {
                                                     4.5/5.0 (샘플)
                                                 </div>
                                             </div>
-                                            <div className="col-6" style={{textAlign: 'center'}}>
+                                            <div className="col-5">
                                                 <div className="row">
-                                                    <div className="col-2">
-                                                        <img src="/img/danger.png" width="20px" height="20px"/>
-                                                    </div>
+                                                    <div className="col-1">
+                                                        <img src="/img/danger.png" width="auto" height="20px"/>
+                                                    </div>  
                                                     <div className="col-8">
                                                         게스트 선호
                                                     </div>
-                                                    <div className="col-2">
-                                                        <img src="/img/danger.png" width="20px" height="20px"/>
+                                                    <div className="col-1">
+                                                        <img src="/img/danger.png" width="auto" height="20px"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-3">
+                                            <div className="col-4">
                                                 <div className="row">
                                                     <h5>후기</h5>
                                                 </div>

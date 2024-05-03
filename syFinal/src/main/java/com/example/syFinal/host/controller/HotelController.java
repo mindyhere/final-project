@@ -45,23 +45,21 @@ public class HotelController {
 	
 	/* 호텔 편의시설 */
 	@GetMapping("/host/hotel/hotelAmenity/{hoIdx}")
-	public List<Map<String, Object>> hotelAmenity(@PathVariable(name = "hoIdx") int ho_idx) {
-		List<HotelAmenityDTO> list = hotelDao.hotelAmenity(ho_idx);
-		System.out.println("호텔 편의시설 :  " + list);
-		List<Map<String, Object>> hotelAmenity = new ArrayList<>();
-		for(int i = 0; i<list.size();i++) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("haIdx", list.get(i).getHa_idx());
-			map.put("haDIdx", list.get(i).getHa_d_idx());
-			map.put("mountainView", list.get(i).getMountain_view());
-			map.put("oceanView", list.get(i).getOcean_view());
-			map.put("wifi", list.get(i).getWifi());
-			map.put("parking", list.get(i).getParking_lot());
-			map.put("breakfast", list.get(i).getBreakfast());
-			map.put("fireAlam", list.get(i).getFire_alam());
-			map.put("fireExtinguisher", list.get(i).getFire_extinguisher());
-			hotelAmenity.add(map);
-		}
+	public Map<String, Object> hotelAmenity(@PathVariable(name = "hoIdx") int ho_idx) {
+		Map<String, Object> hotelAmenity = hotelDao.hotelAmenity(ho_idx);
+		System.out.println("호텔 편의시설 :  " + hotelAmenity);
+		/*
+		 * List<Map<String, Object>> hotelAmenity = new ArrayList<>(); for(int i = 0;
+		 * i<list.size();i++) { Map<String, Object> map = new HashMap<>();
+		 * map.put("haIdx", list.get(i).getHa_idx()); map.put("haDIdx",
+		 * list.get(i).getHa_d_idx()); map.put("mountainView",
+		 * list.get(i).getMountain_view()); map.put("oceanView",
+		 * list.get(i).getOcean_view()); map.put("wifi", list.get(i).getWifi());
+		 * map.put("parking", list.get(i).getParking_lot()); map.put("breakfast",
+		 * list.get(i).getBreakfast()); map.put("fireAlam", list.get(i).getFire_alam());
+		 * map.put("fireExtinguisher", list.get(i).getFire_extinguisher());
+		 * hotelAmenity.add(map); }
+		 */
 		return hotelAmenity;
 	}
 		
