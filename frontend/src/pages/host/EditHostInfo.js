@@ -29,24 +29,14 @@ function EditHostInfo() {
   const userNo = cookies.get("userNo");
   const userId = cookies.get("userId");
   const userName = cookies.get("userName");
-  const { hIdx } = useParams(); //App.js에서 전달한 파라미터
-
-  const [data, loading] = useFetch("http://localhost/api/host/account/" + hIdx);
-
-  // const paths = window.location.href.split("/");
-  // const url =
-  //   "http://localhost/api/host/" +
-  //   paths[paths.length - 2] +
-  //   "/" +
-  //   paths[paths.length - 1];
-
+  const phoneNum = cookies.get("userPhone");
+  console.log(phoneNum);
   const pwd = useRef();
-  const pwdChk = useRef();
+  const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
   const h_name = useRef();
-  const [phoneNum, setPhoneNum] = useState("");
   const h_phone = useRef();
-  const [businessNum, setBusinessNum] = useState("");
+  const [phone, setPhone] = useState(phoneNum.key);
   const h_business = useRef();
   const h_level = useRef();
   const h_status = useRef();
@@ -55,6 +45,10 @@ function EditHostInfo() {
   const h_description = useRef();
   const h_regdate = useRef();
   const navigate = useNavigate();
+  const [check, setCheck] = useState(false);
+  const [data, loading] = useFetch(
+    "http://localhost/api/host/account/" + userNo.key
+  );
 
   // 회원탈퇴 시 쿠키삭제
   const removeCookies = () => {
@@ -63,38 +57,21 @@ function EditHostInfo() {
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
   };
 
-  // const handleChange = (val, opt) => {
-  //   const phoneRegEx = /^[0-9\b -]{0,13}$/;
-  //   const businessRegEx = /^[0-9\b -]{0,12}$/;
-  //   switch (opt) {
-  //     case "phone":
-  //       console.log(opt);
-  //       if (phoneRegEx.test(val)) {
-  //         setPhoneNum(
-  //           val
-  //             .replace(/-/g, "")
-  //             .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-  //         );
-  //       }
-  //       break;
-  //     case "business":
-  //       console.log(opt);
-  //       if (businessRegEx.test(val)) {
-  //         setBusinessNum(
-  //           val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
-  //         );
-  //       }
-  //       break;
-  //   }
-  // };
-
   const handleChange = (val) => {
     const phoneRegEx = /^[0-9\b -]{0,13}$/;
-    console.log(val);
+
     if (phoneRegEx.test(val)) {
-      setPhoneNum(
+      setPhone(
         val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
       );
+    }
+  };
+
+  const handlePwdTest = (e) => {
+    if (pwd.current.value == "") {
+      setCheck(false);
+    } else {
+      e.target.value === pwd.current.value ? setCheck(true) : setCheck(false);
     }
   };
 
@@ -103,7 +80,7 @@ function EditHostInfo() {
   } else {
     let src = "";
     let profile_src = "";
-    //setPhoneNum(data.h_phone);
+
     if (data.h_profile !== "-" || data.h_profile !== "") {
       src = `http://localhost/static/images/host/profile/${data.h_profile}`;
       profile_src = `<img src=${src} width="300px" />`;
@@ -116,7 +93,7 @@ function EditHostInfo() {
         <div className="container min-vh-100">
           <h3 className="text-bold">
             <img src="/img/info.png" width="35px" height="35px" />
-            &nbsp; 회원 정보
+            &nbsp;회원 정보
           </h3>
           <hr />
           <div className="card-style mb-30">
@@ -126,6 +103,7 @@ function EditHostInfo() {
                 style={{ textAlign: "center", padding: 0 }}
               >
                 <div
+                  className="update-image"
                   dangerouslySetInnerHTML={{ __html: profile_src }}
                   style={{ marginTop: "50%" }}
                 ></div>
@@ -135,7 +113,6 @@ function EditHostInfo() {
                   <table className="tbl">
                     <colgroup>
                       <col style={{ width: "150px" }} />
-                      <col />
                     </colgroup>
                     <tbody>
                       <tr>
@@ -145,7 +122,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="email"
                             ref={h_email}
-                            defaultValue={data.h_email}
+                            defaultValue={userId.key}
                             readOnly
                           />
                         </td>
@@ -166,8 +143,12 @@ function EditHostInfo() {
                           <input
                             className="form-control"
                             type="password"
-                            ref={pwdChk}
-                            placeholder="비밀번호 확인"
+                            value={pwdChk}
+                            placeholder="비밀번호 확인을 위해 한번 더 입력해주세요"
+                            onChange={(e) => {
+                              setPwdChk(e.target.value);
+                              handlePwdTest(e);
+                            }}
                           />
                         </td>
                       </tr>
@@ -178,7 +159,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="text"
                             ref={h_name}
-                            defaultValue={data.h_name}
+                            defaultValue={userName.key}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -186,17 +167,16 @@ function EditHostInfo() {
                       <tr>
                         <th>전화번호</th>
                         <td colSpan={3}>
-                          {}
                           <input
                             className="form-control"
                             type="text"
-                            //defaultValue={data.h_phone}
-                            value={phoneNum}
+                            value={phone}
                             ref={h_phone}
+                            maxLength={13}
                             onChange={(e) => {
                               handleChange(e.target.value);
                             }}
-                            placeholder="숫자만 입력하세요"
+                            placeholder="숫자만 입력해주세요"
                           />
                         </td>
                       </tr>
@@ -239,9 +219,10 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           <textarea
                             rows={5}
-                            cols={60}
+                            cols={85}
                             defaultValue={data.h_description}
                             ref={h_description}
+                            placeholder="&nbsp;내용을 입력해주세요"
                             style={{
                               borderColor: "#FAE0E0",
                               borderRadius: "7px",
@@ -290,6 +271,7 @@ function EditHostInfo() {
                                     `http://localhost/static/images/host/profile/${data.h_file}`
                                   );
                                 }}
+                                style={{ cursor: "pointer" }}
                               />
                             </>
                           )}
@@ -309,17 +291,18 @@ function EditHostInfo() {
                       </tr>
                     </tbody>
                   </table>
-                  <p>
-                    프로필/사업자등록증 <strong>누락</strong> 시,
+                  <p style={{ textAlign: "center" }}>
+                    &nbsp;프로필/사업자등록증 <strong>누락</strong> 시,
                     <span style={{ color: "red" }}>
                       &nbsp;일부 서비스 이용이 제한
                     </span>
                     될 수 있음을 알려드립니다.
                   </p>
                   <br />
-                  <div style={{ textAlign: "center" }}>
+                  <div style={{ textAlign: "right" }}>
                     <button
                       type="button"
+                      value={check}
                       onClick={() => {
                         if (pwd.current.value == "") {
                           Swal.fire({
@@ -330,9 +313,7 @@ function EditHostInfo() {
                           });
                           return;
                         } else {
-                          if (pwd.current.value === pwdChk.current.value) {
-                            console.log("비밀번호 확인");
-                          } else {
+                          if (!check) {
                             Swal.fire({
                               icon: "warning",
                               title: "잠깐!",
@@ -360,17 +341,18 @@ function EditHostInfo() {
                           });
                           return;
                         }
-                        if (h_business.current.value == "") {
-                          Swal.fire({
-                            icon: "warning",
-                            title: "잠깐!",
-                            html: "사업자번호를 입력하세요.",
-                            confirmButtonText: "OK",
-                          });
-                          return;
-                        }
+                        // if (h_business.current.value == "") {
+                        //   Swal.fire({
+                        //     icon: "warning",
+                        //     title: "잠깐!",
+                        //     html: "사업자번호를 입력하세요.",
+                        //     confirmButtonText: "OK",
+                        //   });
+                        //   return;
+                        // }
 
                         const form = new FormData();
+                        form.append("h_idx", userNo.key);
                         form.append("pwd", pwd.current.value);
                         form.append("h_name", h_name.current.value);
                         form.append("h_phone", h_phone.current.value);
@@ -397,17 +379,25 @@ function EditHostInfo() {
                           .then((response) => response.json())
                           .then((data) => {
                             console.log(data);
-                            if (data.msg === "success") {
+                            if (data === "success") {
                               Swal.fire({
                                 icon: "success",
                                 title: "Check",
-                                html: "변경된 계정 정보로 업데이트 되었습니다.</br>메인 화면으로 이동합니다.",
+                                html: "계정 정보가 업데이트 되었습니다.</br>메인 화면으로 이동합니다.",
                                 confirmButtonText: "YES",
                               }).then((result) => {
                                 if (result.isConfirmed) {
                                   cookies.set(
                                     "userName",
                                     { key: h_name.current.value },
+                                    {
+                                      path: "/",
+                                      expires: new Date(Date.now() + 2592000),
+                                    }
+                                  );
+                                  cookies.set(
+                                    "userPhone",
+                                    { key: h_phone.current.value },
                                     {
                                       path: "/",
                                       expires: new Date(Date.now() + 2592000),
@@ -420,47 +410,91 @@ function EditHostInfo() {
                               Swal.fire({
                                 icon: "error",
                                 title: "잠깐!",
-                                html: "계정정보 수정이 불가합니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다",
+                                html: "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
                                 confirmButtonText: "OK",
                               });
                             }
                           });
                       }}
-                      className="main-btn"
+                      className={"main-btn " + (check ? "active" : "disabled")}
                     >
                       수정하기
                     </button>
-                    &nbsp;
+                    &nbsp;&nbsp;
                     <button
                       type="button"
                       onClick={() => {
                         Swal.fire({
-                          icon: "question",
-                          title: "잠깐!",
-                          html: "탈퇴하시겠습니까?",
+                          title: "정말 탈퇴하시겠습니까?",
+                          input: "password",
+                          inputLabel: "Password",
+                          inputPlaceholder: "비밀번호를 입력해주세요",
+                          inputAttributes: {
+                            autocapitalize: "off",
+                            autocorrect: "off",
+                          },
                           showCancelButton: true,
-                          confirmButtonText: "YES",
                           cancelButtonText: "NO",
+                          confirmButtonText: "YES",
+                          showLoaderOnConfirm: true,
+                          preConfirm: async (pwd) => {
+                            return fetch(
+                              `https://localhost/api/host/pwdCheck/${pwd}`,
+                              {
+                                method: "post",
+                                body: { userId: userId.key },
+                              }
+                            )
+                              .then((response) => {
+                                if (!response.ok) {
+                                  throw new Error(response);
+                                }
+                                return response.json();
+                              })
+                              .catch((error) => {
+                                Swal.showValidationMessage(
+                                  `Request failed: ${error}`
+                                );
+                              });
+                          },
+                          allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            fetch(
-                              `http://localhost/api/host/delete/${hIdx}`
-                            ).then(() => {
-                              localStorage.clear();
-                              sessionStorage.clear();
-                              removeCookies();
-                              navigate("/");
+                            Swal.fire({
+                              title: "탈퇴",
                             });
                           }
                         });
+                        //   Swal.fire({
+                        //     icon: "question",
+                        //     title: "잠깐!",
+                        //     html: "탈퇴하시겠습니까?",
+                        //     showCancelButton: true,
+                        //     confirmButtonText: "YES",
+                        //     cancelButtonText: "NO",
+                        //   }).then((result) => {
+                        //     if (result.isConfirmed) {
+                        //       fetch(
+                        //         `http://localhost/api/host/delete/${userNo}`
+                        //       ).then(() => {
+                        //         localStorage.clear();
+                        //         sessionStorage.clear();
+                        //         removeCookies();
+                        //         navigate("/");
+                        //       });
+                        //     }
+                        //   });
                       }}
                       className="main-btn"
                       style={{ backgroundColor: "#C6C7C8" }}
                     >
                       회원탈퇴
                     </button>
+                    &nbsp;&nbsp;
                   </div>
                 </form>
+                <br />
+                <br />
               </div>
             </div>
           </div>

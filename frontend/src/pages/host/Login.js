@@ -93,6 +93,11 @@ function HostLogin() {
                           { key: data.dto.h_name },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
+                        cookies.set(
+                          "phoneNum",
+                          { key: data.dto.h_phone },
+                          { path: "/", expires: new Date(Date.now() + 2592000) }
+                        );
                         navigate("/");
                         console.log("로그인 성공");
                       } else {

@@ -22,6 +22,7 @@ import PayItem from "./pages/guest/PayItem";
 import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/SearchEmail";
 import SearchHostPw from "./pages/host/SearchPw";
+import EditHostInfo from "./pages/host/EditHostInfo";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/host/Login" element={<HostLogin />} />
           <Route path="/host/SearchEmail" element={<SearchHostEmail />} />
           <Route path="/host/SearchPw" element={<SearchHostPw />} />
+          <Route path="/host/EditHostInfo/:idx" element={<EditHostInfo />} />
         </Routes>
         <Footer />
       </BrowserRouter>

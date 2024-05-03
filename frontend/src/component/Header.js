@@ -30,6 +30,7 @@ function Header() {
   const userNo = cookies.get("userNo");
   const userId = cookies.get("userId");
   const userName = cookies.get("userName");
+  const phoneNum = cookies.get("phoneNum");
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -46,6 +47,7 @@ function Header() {
         cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
         cookies.remove("userId", { path: "/" }, new Date(Date.now()));
         cookies.remove("userName", { path: "/" }, new Date(Date.now()));
+        cookies.remove("phoneNum", { path: "/" }, new Date(Date.now()));
         break;
     }
   };
