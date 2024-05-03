@@ -382,3 +382,15 @@ input.underline {
 	display: block;
 	float: left;
 }
+
+.wish {
+	border-radius: 20px;	
+}
+
+.wish-button {
+	border: 0; 
+	background-color: transparent;
+	position: absolute; 
+	top:20px;
+	left:270px;
+}

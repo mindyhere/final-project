@@ -17,6 +17,8 @@ import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
+import WishItem from "./pages/guest/wishItem";
+import WishList from "./pages/guest/wishList";
 
 // host 계정
 import HostLogin from "./pages/host/Login";
@@ -41,6 +43,8 @@ function App() {
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
           <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
           <Route path="/guest/PayItem" element={<PayItem/>}/>
+          <Route path="/guest/wishItem" element={<WishItem/>}/>
+          <Route path="/guest/wishList" element={<WishList/>}/>
          
           {/* host 계정 */}
           <Route path="/host/Login" element={<HostLogin />} />
