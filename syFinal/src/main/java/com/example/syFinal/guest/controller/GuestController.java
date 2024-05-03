@@ -29,6 +29,7 @@ public class GuestController {
 		//Map<String,Object> map = new HashMap<>();
 		//GuestDTO dto = new GuestDTO();
 		Map<String, Object> map = new HashMap<>();
+		//map.put("myphoto", mypage.getG_photo());
 		map.put("mypage", mypage);
 		//System.out.println(map);
 		System.out.println("마이페이지=="+map);
