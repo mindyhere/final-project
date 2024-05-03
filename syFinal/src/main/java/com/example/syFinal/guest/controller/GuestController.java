@@ -23,12 +23,16 @@ public class GuestController {
 	
 	
 	@GetMapping("/guest/my")
-	public GuestDTO my(@RequestParam(name="g_idx") int g_idx) {
+	public Map<String, Object> my(@RequestParam(name="g_idx") int g_idx) {
 		GuestDTO mypage = dao.my(g_idx);
+		//Map<String, Object> mypage = dao.my(g_idx);
 		//Map<String,Object> map = new HashMap<>();
 		//GuestDTO dto = new GuestDTO();
-		System.out.println("마이페이지=="+mypage);
-		return mypage;
+		Map<String, Object> map = new HashMap<>();
+		map.put("mypage", mypage);
+		//System.out.println(map);
+		System.out.println("마이페이지=="+map);
+		return map;
 	}
 	
 	@RequestMapping("/guest/pay")

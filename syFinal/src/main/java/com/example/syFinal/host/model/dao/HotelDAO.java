@@ -16,7 +16,7 @@ public interface HotelDAO {
 	List<HotelDetailDTO> hotelRooms(int ho_idx);
 	
 	/* 호텔 편의시설 */
-	List<HotelAmenityDTO> hotelAmenity(int ho_idx);
+	Map<String, Object> hotelAmenity(int ho_idx);
 	
 	/* 호스트 정보 */
 	Map<String, Object> hostInfo(int ho_idx);

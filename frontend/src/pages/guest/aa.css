@@ -20,6 +20,12 @@
     height: 50px;
 }
 
+.wish-blank{
+	float: left;
+    width: 50px;
+    height: 400px;
+}
+
 /* 이메일 형식 체크로 활성/비활성 */
 .check-btnDisabled { 
 	display: inline-flex;
@@ -381,4 +387,16 @@ input.underline {
 .dis-1 {
 	display: block;
 	float: left;
+}
+
+.wish {
+	border-radius: 20px;	
+}
+
+.wish-button {
+	border: 0; 
+	background-color: transparent;
+	position: absolute; 
+	top:20px;
+	left:270px;
 }

@@ -1,7 +1,9 @@
 package com.example.syFinal.guest.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dao.InfoDAO;
 import com.example.syFinal.guest.model.dao.LoginDAO;
+import com.example.syFinal.guest.model.dao.MainDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
+import com.example.syFinal.guest.model.dto.MainDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -164,4 +168,7 @@ public class InfoController {
 		map.put("result", result);
 		return map;
 	}
+	
+	
+	
 }

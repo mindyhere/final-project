@@ -1,8 +1,8 @@
 import React, { useState} from 'react';
 
-function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
+function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea, dBeds, dNonSmoking, dPrice}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${DImg1}`;
+    const url = `http://localhost/static/images/host/hotel/${dImg1}`;
     const [modal, setModal] = useState(false);
 
     if (loading) {
@@ -10,22 +10,45 @@ function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
             <div>로딩 중...</div>
         )
     } else {
-        let profile_src = '';
-        let profile_url = '';
-        
-        if(DImg1 !== '-'){
-            profile_src = `http://localhost/static/images/host/hotel/${DImg1}`;
-            profile_url = `<img src=${profile_src} width='90px' height='90px'/>`;
+        let img1_src = '';
+        let img1_url = '';        
+        if(dImg1 !== '-'){
+            img1_src = `http://localhost/static/images/host/hotel/${dImg1}`;
+            img1_url = `<img src=${img1_src} width='130px' height='120px'/>`;
         } else {
-            profile_src = `http://localhost/static/images/no-image.png`;
-            profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
+            img1_src = `http://localhost/static/images/no-image.png`;
+            img1_url = `<img src=${img1_src} width='70px' height='70px'/>`;
         }
 
+        let img2_src = '';
+        let img2_url = '';
+        if(dImg2 !== '-'){
+            img2_src = `http://localhost/static/images/host/hotel/${dImg2}`;
+            img2_url = `<img src=${img2_src} width='200px' height='130px'/>`;
+        } else {
+            img2_url = '';
+        }
+
+        let img3_src = '';
+        let img3_url = '';   
+        if(dImg3 !== '-'){
+            img3_src = `http://localhost/static/images/host/hotel/${dImg3}`;
+            img3_url = `<img src=${img3_src} width='200px' height='130px'/>`;
+        } else {
+            img3_url = '';
+        }
+
+        let NonSmoke = '';
+        if(dNonSmoking == 'Y'){
+            NonSmoke = '흡연 금지';
+        } else {
+            NonSmoke = '흡연 가능';
+        }
         return (
             <div style={{ margin: '5px', cursor: 'pointer'}} onClick={() => setModal(true)}>
                 <div style={{textAlign:'center'}}>
-                <span dangerouslySetInnerHTML={{__html: profile_url}}></span> 
-                    <div>{DRoomType}</div>
+                    <div className = "mb-10" dangerouslySetInnerHTML={{__html: img1_url}}></div> 
+                    <h5><div>{dRoomType}</div></h5>
                     { modal &&
                         <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
                             <div className='modalBody' onClick={(e) => e.stopPropagation()}>
@@ -33,13 +56,21 @@ function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
                                     X
                                 </button>
                                 <div className="container">
-                                    이미지 1~3개
-                                    객실 유형 : 
-                                    수용 인원 :
-                                    면적 : 
-                                    침대수 : 
-                                    금연실 여부 :
-                                    가격 : 
+                                <h3><div className='mb-30'>{dRoomType}</div></h3>
+                                    <div className='row'>
+                                        <div className="col-5" style={{textAlign : 'left'}}>
+                                            <p>수용 인원 : {dCapacity}명 </p>
+                                            <p>면적 : {dArea}㎡</p>
+                                            <p>침대수 : {dBeds}개</p>
+                                            <p>금연실 여부 : {NonSmoke}</p>
+                                            <p>가격 : {dPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
+                                        </div>
+                                        <div className="col-7" style={{alignContent : 'center'}}>
+                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img1_url}}></div>
+                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img2_url}}></div>
+                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img3_url}}></div> 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -48,5 +79,6 @@ function HotelRoomsItem({DIdx, DRoomType, DImg1}) {
             </div>
         )
     }
-}
+};
+
 export default HotelRoomsItem;

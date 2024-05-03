@@ -4,16 +4,12 @@ import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
 import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
+import HotelAmenities from "./hotelDetailSection/HotelAmenities";
+import Reservation from "./hotelDetailSection/Reservation";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import moment from "moment";
 import "moment/locale/ko";
-import "../../asset/css/datepicker.css"
-
-import DatePicker from 'react-datepicker';
-import DateRangeSelector from "../../component/DateRangeSelector";
-import { DateRange } from "react-date-range";
-import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -40,6 +36,23 @@ function HotelDetail() {
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
+    const hostInfoForm = useRef();
+    const moveToHostInfo = () => {
+        hostInfoForm.current.scrollIntoView({behavior : 'smooth', block : 'start'});
+    };
+
+    useEffect(() => {
+        var myArr = localStorage.getItem('watched');
+        if(myArr == null) {
+            myArr = [];
+        } else {
+            myArr = JSON.parse(myArr);
+        }
+        myArr.push(HoIdx);
+        myArr = new Set(myArr);
+        myArr = [...myArr];
+        localStorage.setItem('watched', JSON.stringify(myArr));
+    }, []);
 
     const [state, setState] = useState([
         {
@@ -59,7 +72,7 @@ function HotelDetail() {
         let answer = '';
         if (data.ho_level == 8){
             level = '호스트';
-            answer = '80%';
+            answer = '85%';
         } else {
             level = '슈퍼호스트';
             answer = '100%';
@@ -107,8 +120,8 @@ function HotelDetail() {
                             <div>                            
                                 {
                                     level === '슈퍼호스트'
-                                    ? <div className="card-style">
-                                        <div className="row" style={{alignItems: 'center'}}>
+                                    ? <div className="card-style" style={{textAlignLast:'center'}}>
+                                        <div className="row">
                                             <div className="col-3">
                                                 <div className="row">
                                                     <h5>별점</h5>
@@ -117,20 +130,17 @@ function HotelDetail() {
                                                     4.5/5.0 (샘플)
                                                 </div>
                                             </div>
-                                            <div className="col-6" style={{textAlign: 'center'}}>
+                                            <div className="col-5" >
                                                 <div className="row">
-                                                    <div className="col-2">
-                                                        <img src="/img/danger.png" width="20px" height="20px"/>
-                                                    </div>
-                                                    <div className="col-8">
+                                                    <div className="col-1">
+                                                        <img src="/img/best.png" width="35px" height="35px"/>
+                                                    </div>  
+                                                    <div className="col-10" style={{alignContent:'center'}}>
                                                         게스트 선호
-                                                    </div>
-                                                    <div className="col-2">
-                                                        <img src="/img/danger.png" width="20px" height="20px"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-3">
+                                            <div className="col-4">
                                                 <div className="row">
                                                     <h5>후기</h5>
                                                 </div>
@@ -151,13 +161,11 @@ function HotelDetail() {
                                     </div>
                                 </div>
                                 <div className="col-9" style={{alignSelf : 'center'}}>
+                                  
                                     <div><b> 호스트 : {data.h_name}님 </b></div>
                                     <div>{level} · 호스팅 경력 {regdate}</div>
+
                                 </div>
-                            </div>
-                            <hr />
-                            <div>
-                                셀프 체크인
                             </div>
                             <hr />
                             <h4 className="mb-20">숙소 소개</h4>
@@ -187,10 +195,10 @@ function HotelDetail() {
                             <br />
                                 <KakaoMap />
                                 </div>
-                            <br />
-                            <h4 useRef={element} className="mb-30">호스트 소개</h4>
+                            <hr />
+                            <h4 useRef={hostInfoForm} className="mb-30">호스트 소개</h4>
                              <HostInfo />
-                            <br />
+                            <hr />
                             <h4 className="mb-20">알아두어야 할 사항</h4>
                             <div>
                                 <HotelRule />
@@ -199,23 +207,7 @@ function HotelDetail() {
                     </div>
                     
                     <div className="col-4">
-                            <div className="card-style mb-30">
-                                <div> 날짜를 입력하여 요금을 확인하세요</div>
-                                {/* <DateRangeSelector/> */}
-                                <div className="card-style mb-30">
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <button type="button" onClick={() =>{
-                                              
-                                            }}>
-                                            체크인</button>
-                                        </div>
-                                        <div className="col-6">
-                                            체크아웃
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>    
+                        <Reservation />
                     </div>
                 </div>
             </div>

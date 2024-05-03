@@ -23,4 +23,6 @@
 <delete id="delete">
 	delete from guest where g_idx = #{g_idx}
 </delete>
+
+
 </mapper>
