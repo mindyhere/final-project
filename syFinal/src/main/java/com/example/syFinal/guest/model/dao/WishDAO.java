@@ -12,4 +12,6 @@ public interface WishDAO {
 	List<MainDTO> firstWish(int g_idx);
 
 	int countWish(int g_idx);
+
+	String delete(int w_idx);
 }

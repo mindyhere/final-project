@@ -33,4 +33,16 @@ public class WishDAOImpl implements WishDAO {
 	public List<MainDTO> firstWish(int g_idx) {
 		return sqlSession.selectList("wish.firstWish", g_idx);
 	}
+	
+	@Override
+	public String delete(int w_idx) {
+		String result = "";
+		try {
+			sqlSession.delete("wish.delete", w_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "error";
+		}
+		return result;
+	}
 }
