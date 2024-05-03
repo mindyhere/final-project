@@ -209,22 +209,22 @@ function GuestInfo() {
                                 g_passwd.current.focus();
                                 return;
                             }
-                        
-                            if ((selected == '미인증' && img.current.files.length !== 0) || (selected == '미인증' && data.dto.g_url !== '')) {
-                                
+                            console.log(selected !== '미인증' && img.current.files.length == 0 && data.dto.g_url == '-');
+                            if ((selected == '미인증' && img.current.files.length > 0) || (selected == '미인증' && data.dto.g_url == '')) {
                                 Swal.fire({
                                     icon : 'warning',
                                     text : '인증 분류를 선택해 주세요',
                                 });
+                                return;
                             }
-                            if (selected !== '미인증' && img.current.files.length == 0 && data.dto.g_url == '') {
+                            if (selected !== '미인증' && img.current.files.length == 0 && data.dto.g_url == '-') {
                                 Swal.fire({
                                     icon : 'warning',
                                     text : '신분증 파일이 없습니다',
                                 });
+                                return;
                             }
                             const form = new FormData();
-                            form.append('g_idx', idx.key);
                             if (g_passwd.current.value !== '') {
                                 form.append('g_passwd', g_passwd.current.value);
                             }
@@ -245,7 +245,9 @@ function GuestInfo() {
                             for (const pair of values) {
                                 a = a + '' + pair;
                             }
+                            console.log(a);
                             if (a !== '') {
+                                form.append('g_idx', idx.key);
                                 Swal.fire({
                                     text: "현재 비밀번호를 입력해 주세요",
                                     showCancelButton: true,
