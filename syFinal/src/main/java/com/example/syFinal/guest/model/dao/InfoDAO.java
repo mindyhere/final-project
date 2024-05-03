@@ -1,6 +1,9 @@
 package com.example.syFinal.guest.model.dao;
 
+import java.util.List;
+
 import com.example.syFinal.guest.model.dto.GuestDTO;
+import com.example.syFinal.guest.model.dto.MainDTO;
 
 public interface InfoDAO {
 	int checkId(String g_email);
@@ -12,4 +15,6 @@ public interface InfoDAO {
 	String update(GuestDTO dto);
 
 	String delete(int g_idx);
+
+	List<MainDTO> wishlist(int g_idx);
 }

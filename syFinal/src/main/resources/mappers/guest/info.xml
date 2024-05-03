@@ -23,4 +23,9 @@
 <delete id="delete">
 	delete from guest where g_idx = #{g_idx}
 </delete>
+
+<select id="wishlist" resultType="com.example.syFinal.guest.model.dto.MainDTO">
+	 select w_idx, ho_idx, ho_name, ho_img from hotel, wish
+	where w_gidx = #{g_idx} and w_hoidx = ho_idx
+</select>
 </mapper>
