@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.host.model.dto.HotelDTO;import com.example.syFinal.host.model.dto.HotelDetailDTO;
+import com.example.syFinal.host.model.dto.HotelAmenityDTO;
+import com.example.syFinal.host.model.dto.HotelDTO;
+import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 @Repository
 public class HotelDAOImpl implements HotelDAO {
@@ -24,6 +26,12 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public List<HotelDetailDTO> hotelRooms(int ho_idx) {
 		return sqlSession.selectList("hotel.getHotelRooms", ho_idx);
+	}
+
+	/* 호텔 편의시설 */
+	@Override
+	public List<HotelAmenityDTO> hotelAmenity(int ho_idx) {
+		return sqlSession.selectList("hotel.getHotelAmenity", ho_idx);
 	}
 
 	/* 호텔 호스트 정보 */

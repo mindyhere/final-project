@@ -21,6 +21,16 @@
 		WHERE d_ho_idx= #{ho_idx}
 	</select>
 
+	<!-- 호텔 편의시설 -->
+	<select id="getHotelAmenity" resultType="com.example.syFinal.host.model.dto.HotelAmenityDTO">
+		SELECT ha_idx, ha_d_idx, mountain_view, ocean_view, wifi, parking_lot, breakfast, fire_alam, fire_extinguisher
+		FROM hotel_amenity a, hotel h, hotel_detail d
+		WHERE ha_d_idx = d_idx
+		AND d_ho_idx = ho_idx
+		AND ho_idx = #{ho_idx}
+		ORDER BY ha_d_idx
+	</select>
+
 	<!-- 호텔 호스트 정보 -->
 	<select id="getHostInfo" resultType="java.util.HashMap">
 		SELECT h_name, h_phone,

@@ -1,11 +1,11 @@
 import React, {useRef, useEffect, useState} from "react";
 import KakaoMap from "../../component/KakaoMap";
+import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
 import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
-import Swal from "sweetalert2";
 import moment from "moment";
 import "moment/locale/ko";
 import "../../asset/css/datepicker.css"
@@ -13,6 +13,7 @@ import "../../asset/css/datepicker.css"
 import DatePicker from 'react-datepicker';
 import DateRangeSelector from "../../component/DateRangeSelector";
 import { DateRange } from "react-date-range";
+import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -94,7 +95,7 @@ function HotelDetail() {
                 <br />
                 <div className="row mb-30">
                     <div className="card-style">
-                        <span dangerouslySetInnerHTML={{__html : img_url}}></span>                        
+                        <span dangerouslySetInnerHTML={{__html : img_url}}></span>
                     </div>
                 </div>
                 <div className="row">
@@ -107,20 +108,22 @@ function HotelDetail() {
                                 {
                                     level === '슈퍼호스트'
                                     ? <div className="card-style">
-                                        <div className="row">
+                                        <div className="row" style={{alignItems: 'center'}}>
                                             <div className="col-3">
                                                 <div className="row">
-                                                 <h5>별점</h5>
+                                                    <h5>별점</h5>
                                                 </div>
-                                                4.5/5.0
+                                                <div className="row">
+                                                    4.5/5.0 (샘플)
+                                                </div>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-6" style={{textAlign: 'center'}}>
                                                 <div className="row">
                                                     <div className="col-2">
                                                         <img src="/img/danger.png" width="20px" height="20px"/>
                                                     </div>
                                                     <div className="col-8">
-                                                        <p>게스트 선호</p>
+                                                        게스트 선호
                                                     </div>
                                                     <div className="col-2">
                                                         <img src="/img/danger.png" width="20px" height="20px"/>
@@ -128,10 +131,14 @@ function HotelDetail() {
                                                 </div>
                                             </div>
                                             <div className="col-3">
-                                                후기
+                                                <div className="row">
+                                                    <h5>후기</h5>
+                                                </div>
+                                                <div className="row">
+                                                    15개 (샘플)
+                                                </div>
                                             </div>
                                         </div>
-
                                      </div>
                                     : <div> </div>
                                 }
@@ -153,17 +160,18 @@ function HotelDetail() {
                                 셀프 체크인
                             </div>
                             <hr />
-                            <h4>숙소 소개</h4>
-                            <b>더보기 버튼 클릭 시 전문 나오도록(타이틀 삭제?)</b><br />
-                            {data.ho_description}
+                            <h4 className="mb-20">숙소 소개</h4>
+                                <div>
+                                    <HotelDescription />
+                                </div>
                             <hr />
                             <h4 className="mb-20">선택 가능한 객실 유형</h4>
                                 <div> 
                                     <HotelRooms />
                                 </div>
                             <hr />
-                            <h4>숙소편의시설</h4>
-                            <button type="button">편의시설 모두보기</button>
+                            <h4 className="mb-20">숙소 편의시설</h4>
+                                <HotelAmenities />
                             <hr />
                             <h4>
                                 {data.ho_name}에서 
@@ -172,22 +180,18 @@ function HotelDetail() {
                                 {/* <DateRangeSelector/> */}
                                 </div>
                             <hr />
-                            <h4>
-                                숙소 후기
-                            </h4>
+                            <h4>숙소 후기</h4>
                             <hr />
                             <h4>숙소 위치</h4>
                             <div>{data.ho_address}
                             <br />
-
                                 <KakaoMap />
                                 </div>
                             <br />
                             <h4 useRef={element} className="mb-30">호스트 소개</h4>
                              <HostInfo />
                             <br />
-                            <h4>알아두어야 할 사항</h4>
-                            <br />
+                            <h4 className="mb-20">알아두어야 할 사항</h4>
                             <div>
                                 <HotelRule />
                             </div>

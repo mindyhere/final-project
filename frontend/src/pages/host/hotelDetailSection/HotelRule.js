@@ -27,7 +27,7 @@ function HotelRule() {
         )
     } else {
         return (
-            <div>
+            <div className="mb-40">
                 <div className="row">
                     <div className="col-4 mb-40">
                         <h6 className="mb-10">숙소 이용규칙</h6>
