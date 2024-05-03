@@ -372,3 +372,13 @@ input.underline {
 	background-color: rgb(245, 245, 245);
 
 }
+
+.dis {
+	display: none;
+	float: left;
+}
+
+.dis-1 {
+	display: block;
+	float: left;
+}

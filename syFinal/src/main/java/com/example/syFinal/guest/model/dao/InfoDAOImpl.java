@@ -39,8 +39,21 @@ public class InfoDAOImpl implements InfoDAO {
 	}
 	
 	@Override
-	public GuestDTO detail(String g_email) {
-		GuestDTO dto = sqlSession.selectOne("info.detail", g_email);
+	public GuestDTO detail(int g_idx) {
+		GuestDTO dto = sqlSession.selectOne("info.detail", g_idx);
 		return dto;
+	}
+	
+	
+	@Override
+	public String update(GuestDTO dto) {
+		String result = "";
+		try {
+			sqlSession.update("info.update", dto);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
 }

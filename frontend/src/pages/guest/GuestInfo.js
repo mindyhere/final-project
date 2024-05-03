@@ -1,15 +1,15 @@
 import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 import '../../asset/css/user.css'
+import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading,setLoading] = useState(true);
-    const cookies = new Cookies();
-    const g_name = cookies.get('g_name');
-    const g_email = cookies.get('g_email'); //쿠키변수명
-    const g_level = cookies.get('g_level');
+    
+    
 
     useEffect(() => {
         fetch(url)
@@ -26,28 +26,25 @@ function useFetch(url) {
 
 function GuestInfo() { 
     const cookies = new Cookies();
-    const level = cookies.get('g_level');
     const email = cookies.get('g_email');
     const name = cookies.get('g_name');
-    const [data, loading] = useFetch('http://localhost/guest/info/datail/'+email);
+    const idx = cookies.get('g_idx');
+    const phone = cookies.get('g_phone');
+    const profile = cookies.get('g_profile');
+    const [data, loading] = useFetch('http://localhost/guest/info/detail?g_idx='+idx.key);
     const g_passwd = useRef();
     const checkPwd = useRef();
     const g_phone = useRef();
-    const g_join_date = useRef();
-    const [selected, setSelected] = useState("없음");
+    const [selected, setSelected] = useState(profile.key);
     const selectList = ["미인증", "주민등록증", "여권", "운전면허증"];
-    const [inputValue, setInputValue] = useState('');
-    
+    const [inputValue, setInputValue] = useState(phone.key);
+    const [alter, setAlter] = useState('dis');
+    const img = useRef();
+    const navigate = useNavigate();
+
     const handleSelect = (e) => {
         setSelected(e.target.value);    
     };
-
-    const handleChange = (e) => {
-        const regex = /^[0-9\b -]{0,13}$/;
-        if (regex.test(e.target.value)){
-            setInputValue(e.target.value);
-        }
-    }
 
     useEffect(() => {
         if (inputValue.length > 0 ) {
@@ -57,13 +54,24 @@ function GuestInfo() {
         }
     }, [inputValue]);
 
+    const handleChange = (e) => {
+        const regex = /^[0-9\b -]{0,13}$/;
+        if (regex.test(e.target.value)){
+            setInputValue(e.target.value);
+        }
+    }
+
+    // const urlHandle = (e) => {
+    //     window.open(`http://localhost/static/images/guest/profile/${data.dto.g_url}`, '', 'width=800, height=800'); 
+    // } 
+
     if(loading) {
         return (
             <div>loading</div>
         )
     } else {
+        const imgUrl = `http://localhost/static/images/guest/profile/${data.dto.g_url}`;
         
-
         return (
             <>
                 <div className="container min-vh-100">
@@ -74,12 +82,12 @@ function GuestInfo() {
                     <form>
                         <div>
                         <label class="label-1">이메일</label><br/>
-                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={"a@naver.com"} readOnly></input>
+                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={email.key} readOnly></input>
                         </div>
                         <hr/>
                         <div>
                         <label class="label-1">이름</label><br/>
-                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={"흰둥이"} readOnly></input>
+                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={name.key} readOnly></input>
                         </div>
                         <hr/>
                         <div style={{float:"left"}}>
@@ -94,17 +102,19 @@ function GuestInfo() {
                         <hr/>
                         <div>
                         <label class="label-1">전화번호</label><br/>
-                        <input class="underline" type="text" ref={g_phone} onChange={handleChange}  value={inputValue} placeholder="숫자만 입력하세요"></input>
+                        <input class="underline" type="text" ref={g_phone} onChange={handleChange} value={inputValue} placeholder="숫자만 입력하세요">
+                        
+                        </input>
                         </div>
                         <hr/>
                         <div>
                         <label class="label-1">가입일자</label><br/>
-                        <input style={{border: "0px", outline: "none"}} defaultValue={"2024-04-30"} readOnly></input>
+                        <input style={{border: "0px", outline: "none"}} defaultValue={data.dto.g_join_date} readOnly></input>
                         </div>
                         <hr/>
                         <div>
                         <label class="label-1">레벨</label><br/>
-                        <input style={{border: "0px", outline: "none"}} defaultValue={"regular"} readOnly></input>
+                        <input style={{border: "0px", outline: "none"}} defaultValue={data.dto.l_name} readOnly></input>
                         </div>
                         <hr/>
                         <div style={{float:"left", width:"150px"}}>
@@ -120,11 +130,142 @@ function GuestInfo() {
                         <div class="blankk"></div>
                         <div>
                         <label class="label-1">신분증</label><br/>
+                        { data.dto.g_url !== '-' ? 
+                        <>
+                        <a href="#" style={{border: "0px", outline: "none"}} onClick={() => {
+                            Swal.fire({
+                                icon: "info",
+                                text: "이미 인증 이력이 있습니다. 변경하시겠습니까?",
+                                confirmButtonText: "변경",
+                                cancelButtonText: "취소",
+                                showCancelButton: true,
+                            }).then((result) => {
+                                if(result.isConfirmed) {
+                                    setAlter('dis-1');
+                                } else {
+                                    setAlter('dis');
+                                }
+                            });
+                        }}>{data.dto.g_url}</a>
+                        <div id="alterUrl" class={alter}>
+                        <input type='file' ref={img}></input>
+                        </div>
+                        </>
+                        :
+                        <>
                         <input type='file'></input>
+                        </>
+                        }
                         </div>
                         <hr/>
                         <br/>
-                        <button type='button' class="main-btn">정보 수정</button>
+                        <button type='button' class="main-btn" onClick={() =>{
+                            if(g_passwd.current.value != checkPwd.current.value) {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '변경 비밀번호가 일치하지 않습니다',
+                                });
+                                g_passwd.current.focus();
+                                return;
+                            }
+                            if ((selected == '미인증' && img.current.files.length>0) || (selected == '미인증' && data.dto.g_url !== '')) {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '인증 분류를 선택해 주세요',
+                                });
+                            }
+                            if (selected !== '미인증' && img.current.files.length == 0 && data.dto.g_url == '') {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '신분증 파일이 없습니다',
+                                });
+                            }
+                            const form = new FormData();
+                            form.append('g_idx', idx.key);
+                            if (g_passwd.current.value !== '') {
+                                form.append('g_passwd', g_passwd.current.value);
+                            }
+                            if (g_phone.current.value !== phone.key && g_phone.current.value !== '') {
+                                form.append('g_phone', g_phone.current.value);
+                            }
+                            if (selected !== profile.key) {
+                                form.append('g_profile', selected);
+                            }
+                            if(img.current.files.length>0) {
+                                form.append('img', img.current.files[0]);
+                            }
+                            let values = form.values();
+                            let a= '';
+                            for (const pair of values) {
+                                a = a + '' + pair;
+                            }
+                            if (a !== '') {
+                                Swal.fire({
+                                    text: "현재 비밀번호를 입력해 주세요",
+                                    showCancelButton: true,
+                                    confirmButtonText: "인증",
+                                    cancelButtonText: "취소",
+                                    input: 'password',
+                                    preConfirm: (pwd) => {
+                                        const formData = new FormData();
+                                        formData.append('g_email', email.key);
+                                        formData.append('pwd', pwd);
+                                        return fetch('http://localhost/guest/info/confirmPwd', {
+                                            method: 'post',
+                                            body: formData,
+                                        }).then(response => response.json())
+                                        .then(data => {
+                                            if(data.result == 'success') {
+                                                fetch('http://localhost/guest/info/update', {
+                                                    method: 'post',
+                                                    encType: 'multipart/form-data',
+                                                    body: form,
+                                                    }).then((response) => response.json())
+                                                .then(data => {
+                                                    if (data.result == 'success') {
+                                                        cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                                        cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                                        Swal.fire({
+                                                            title: '수정 완료',
+                                                            showCancelButton: false,
+                                                            confirmButtonText: '확인',
+                                                        }).then((result) => {
+                                                            if(result.isConfirmed) {
+                                                                window.location.href='/guest/GuestInfo';
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: '수정 실패',
+                                                            text: '관리자에게 문의하세요',
+                                                            showCancelButton: false,
+                                                            confirmButtonText: '확인',
+                                                        });
+                                                    }
+                                                })
+                                            } else if(data.result == 'no') {
+                                                Swal.fire({
+                                                    title: '비밀번호 불일치',
+                                                    showCancelButton: false,
+                                                    confirmButtonText: '확인',
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    title: '에러 발생',
+                                                    showCancelButton: false,
+                                                    confirmButtonText: '확인',
+                                                });
+                                            }
+                                        })
+                                    }
+                            });
+                                } else {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '변경 사항이 없습니다',
+                                });
+                            };
+                        }} >정보 수정</button>
                     </form>
                 </div>
                 </div>
