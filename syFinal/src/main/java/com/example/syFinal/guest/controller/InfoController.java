@@ -1,7 +1,9 @@
 package com.example.syFinal.guest.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dao.InfoDAO;
 import com.example.syFinal.guest.model.dao.LoginDAO;
+import com.example.syFinal.guest.model.dao.MainDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
+import com.example.syFinal.guest.model.dto.MainDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -163,5 +167,24 @@ public class InfoController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		return map;
+	}
+	
+	
+	@RequestMapping("wish")
+	@ResponseBody
+	public List<Map<String, Object>> wish(@RequestParam(name = "g_idx") int g_idx) {
+		System.out.println(g_idx);
+		List<MainDTO> main = dao.wishlist(g_idx);
+		List<Map<String, Object>> list = new ArrayList<>();
+		for(int i=0; i<main.size(); i++) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("wIdx", main.get(i).getW_idx());
+			map.put("HoIdx", main.get(i).getHo_idx());
+			map.put("HoName", main.get(i).getHo_name());
+			map.put("HoImg", main.get(i).getHo_img());
+			list.add(map);
+		}
+		System.out.println(list);
+		return list;
 	}
 }
