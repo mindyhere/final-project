@@ -84,7 +84,7 @@ public class InfoController {
 		//System.out.println(g_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		//System.out.println(map);
+		System.out.println(map);
 		return map;
 	}
 	
@@ -112,8 +112,10 @@ public class InfoController {
 			@RequestParam(name = "g_profile", defaultValue = "") String g_profile,
 			@RequestParam(name = "g_phone", defaultValue = "") String g_phone, 
 			@RequestParam(name = "g_passwd", defaultValue = "") String passwd, 
-			@RequestParam(name = "img", required = false ) MultipartFile img, HttpServletRequest request) {
+			@RequestParam(name = "img", required = false ) MultipartFile img, 
+			@RequestParam(name = "photo_img", required = false ) MultipartFile photo_img,HttpServletRequest request) {
 		String filename = "";
+		String photo = "";
 		//System.out.println(passwd);
 		GuestDTO dto = dao.detail(g_idx);
 		if (img != null && !img.isEmpty()) {
@@ -123,6 +125,17 @@ public class InfoController {
 				new File(path).mkdir();
 				img.transferTo(new File(path+filename));
 				dto.setG_url(filename);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		} 
+		if (photo_img != null && !photo_img.isEmpty()) {
+			photo = photo_img.getOriginalFilename();
+			try {
+				String path = "C:\\Users\\user\\git\\final-project\\syFinal\\src\\main\\webapp\\static\\images\\guest\\photo\\";
+				new File(path).mkdir();
+				photo_img.transferTo(new File(path+photo));
+				dto.setG_photo(photo);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -140,6 +153,15 @@ public class InfoController {
 		map.put("g_phone", dto.getG_phone());
 		map.put("result", result);
 		// System.out.println(map);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("delete") 
+	public Map<String, Object> delete(@RequestParam(name = "g_idx") int g_idx) {
+		String result = dao.delete(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
 		return map;
 	}
 }

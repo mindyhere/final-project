@@ -214,7 +214,7 @@ function Join() {
                             confirmButtonText: '확인',
                         }).then((result) => {
                             if(result.isConfirmed) {
-                                navigate("/guest/login");
+                                window.location.href="/guest/login";
                             }
                         });
                     } else {

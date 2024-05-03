@@ -16,7 +16,11 @@
 
 <update id="update">
 	update guest 
-	set g_passwd = #{g_passwd}, g_phone = #{g_phone}, g_url=#{g_url}, g_profile=#{g_profile}
+	set g_passwd = #{g_passwd}, g_phone = #{g_phone}, g_url=#{g_url}, g_profile=#{g_profile}, g_photo=#{g_photo}
 	where g_idx = #{g_idx}
 </update>
+
+<delete id="delete">
+	delete from guest where g_idx = #{g_idx}
+</delete>
 </mapper>

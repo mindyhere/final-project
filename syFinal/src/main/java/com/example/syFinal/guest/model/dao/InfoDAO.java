@@ -10,4 +10,6 @@ public interface InfoDAO {
 	GuestDTO detail(int g_idx);
 	
 	String update(GuestDTO dto);
+
+	String delete(int g_idx);
 }
