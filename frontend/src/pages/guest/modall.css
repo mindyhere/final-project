@@ -1,61 +1,63 @@
 .Modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-   
-  /* modal창 */
-  .modalBody {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    padding: 40px;
-    text-align: center;
-    z-index: 0;
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-  }
-   
-  #modalCloseBtn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    border: none;
-    color: rgba(0, 0, 0, 0.7);
-    background-color: transparent;
-    font-size: 20px;
-  }
-   
-  #modalCloseBtn:hover {
-    cursor: pointer;
-  }
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+/* modal창 */
+.modalBody {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  padding: 40px;
+  text-align: center;
+  z-index: 999;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+}
+ 
+#modalCloseBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
+  font-size: 20px;
+}
+ 
+#modalCloseBtn:hover {
+  cursor: pointer;
+}
 
-  .Modal_a {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.Modal_a {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .modalBody_a {
-    position: absolute;
-    width: 600px;
-    height: 850px;
-    padding: 40px;
-    text-align: center;
-    z-index: 1;
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-  }
+.modalBody_a {
+  position: absolute;
+  width: 600px;
+  height: 850px;
+  padding: 40px;
+  text-align: center;
+  z-index: 999;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+}
