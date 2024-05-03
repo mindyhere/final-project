@@ -33,9 +33,12 @@ function Header() {
   const removeCookies = (type) => {
     switch (type) {
       case "guest":
+        cookies.remove("g_idx", { path: "/" }, 100);
         cookies.remove("g_name", { path: "/" }, 100);
         cookies.remove("g_email", { path: "/" }, new Date(Date.now()));
         cookies.remove("g_level", { path: "/" }, new Date(Date.now()));
+        cookies.remove("g_phone", { path: "/" }, new Date(Date.now()));
+        cookies.remove("g_profile", { path: "/" }, new Date(Date.now()));
         break;
       case "host":
         cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
