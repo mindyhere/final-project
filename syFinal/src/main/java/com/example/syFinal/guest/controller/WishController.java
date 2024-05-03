@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ public class WishController {
 	@Autowired
 	WishDAO dao;
 	 
+	// guest/wishList
 	@RequestMapping("wishList")
 	@ResponseBody
 	public List<Map<String, Object>> wish(@RequestParam(name = "g_idx") int g_idx) {
@@ -36,11 +38,10 @@ public class WishController {
 		return list;
 	}
 	
+	// guest/wish
 	@RequestMapping("recentImg")
 	@ResponseBody
 	public Map<String, Object> recentImg(@RequestParam(name = "idx") int idx, @RequestParam(name = "g_idx") int g_idx) {
-		System.out.println(idx);
-		System.out.println(g_idx);
 		Map<String, Object> map = new HashMap<>();
 		if (idx == 0) {
 			map.put("firstRecent", "no-image.png");
@@ -55,7 +56,17 @@ public class WishController {
 			List<MainDTO> dto = dao.firstWish(g_idx);
 			map.put("firstWish", dto.get(0).getHo_img());
 		}
-		System.out.println(map);
 		return map;
 	}
+	
+	@PostMapping("delete")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam(name = "w_idx") int w_idx) {
+		System.out.println(w_idx);
+		Map<String, Object> map = new HashMap<>();
+		String result = dao.delete(w_idx);
+		map.put("result", result);
+		return map;
+	}
+	
 }

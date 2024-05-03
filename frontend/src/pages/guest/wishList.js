@@ -1,6 +1,7 @@
 import React, {useRef,useEffect,useState} from 'react';
 import WishItem from './wishItem';
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 function WishList() {
     const cookies = new Cookies();
@@ -24,7 +25,7 @@ function WishList() {
     return (
         <>
         <div className="container min-vh-100">
-            <h3 class="text-bold"> <img src="/img/heartt.png" width="30px" height="30px"/>
+            <h3 class="text-bold"> <img src="/img/heartt.png" width="30px" height="30px" />
             &nbsp; 위시리스트</h3>
             <br/>
             <hr/>

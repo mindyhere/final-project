@@ -19,4 +19,9 @@
 	select ho_img from hotel, wish 
 	where w_gidx = #{g_idx} and w_hoidx = ho_idx order by w_idx DESC
 </select>
+
+<delete id="delete">
+delete from wish where w_idx = #{w_idx}
+</delete>
+
 </mapper>
