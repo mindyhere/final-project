@@ -77,7 +77,7 @@ function HostInfo() {
                                 </div>
                             </div>
                             <br />
-                            <p><a href="/guest/mypage" style={{color: 'black', textDecorationLine: 'none'}}>더 보기 ▶</a></p>
+                            <p><a href="/host/hostAccount" style={{color: 'black', textDecorationLine: 'none'}}>더 보기 ▶</a></p>
                         </div>
                         <div className="col-6">
                             <h4>{data.h_name}님은 {level}입니다.</h4>

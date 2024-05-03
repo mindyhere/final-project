@@ -31,7 +31,7 @@ function HotelDescription() {
     } else {
         return (
             <div onClick={() => setModal(true)}>
-                <div className="hidden-text-target mb-10">
+                <div className="hidden-text-target mb-20">
                     {data.ho_description}
                 </div>
                 <div>

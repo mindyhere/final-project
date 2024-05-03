@@ -30,8 +30,8 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호텔 편의시설 */
 	@Override
-	public List<HotelAmenityDTO> hotelAmenity(int ho_idx) {
-		return sqlSession.selectList("hotel.getHotelAmenity", ho_idx);
+	public Map<String, Object> hotelAmenity(int ho_idx) {
+		return sqlSession.selectOne("hotel.getHotelAmenity", ho_idx);
 	}
 
 	/* 호텔 호스트 정보 */
