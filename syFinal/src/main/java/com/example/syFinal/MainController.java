@@ -32,7 +32,7 @@ public class MainController {
 			//MainDTO dto = new MainDTO(i.getHoIdx(),i.getHoName(),i.getHoImg);
 			list.add(map);
 		}
-		System.out.println("메인리스트====" + list);
+		// System.out.println("메인리스트====" + list);
 		
 		return list;
 	}

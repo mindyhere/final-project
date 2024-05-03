@@ -7,5 +7,7 @@ public interface InfoDAO {
 	
 	String join(String g_email, String g_passwd, String g_name, String g_phone);
 	
-	GuestDTO detail(String g_email);
+	GuestDTO detail(int g_idx);
+	
+	String update(GuestDTO dto);
 }

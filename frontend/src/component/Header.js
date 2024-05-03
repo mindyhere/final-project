@@ -19,6 +19,7 @@ function Header() {
   const cookies = new Cookies();
 
   //게스트 쿠키
+  const g_idx = cookies.get("g_idx");
   const g_name = cookies.get("g_name");
   const g_email = cookies.get("g_email"); //쿠키변수명
   const g_level = cookies.get("g_level");

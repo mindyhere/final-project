@@ -1,5 +1,6 @@
 package com.example.syFinal.guest.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,17 +11,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dao.InfoDAO;
+import com.example.syFinal.guest.model.dao.LoginDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("guest/info/*")
 public class InfoController {
 	@Autowired
 	InfoDAO dao;
+	
+	@Autowired
+	LoginDAO loginDao;
 	
 	@Autowired
 	EmailService emailService;
@@ -38,7 +46,7 @@ public class InfoController {
 			result = "fail";
 		} else if (count == 0) {
 			randomCode = emailService.getTempPassword();
-			System.out.println(randomCode);
+			//System.out.println(randomCode);
 			EmailDTO emailPw = new EmailDTO();
 			emailPw.setSubject("인증 코드 안내");
 			emailPw.setMessage(
@@ -70,12 +78,68 @@ public class InfoController {
 	}
 	
 	@ResponseBody
-	@PostMapping("detail")
-	public Map<String, Object> detail(@RequestParam(name = "g_email", defaultValue = "") String g_email) {
-		GuestDTO dto = dao.detail(g_email);
+	@RequestMapping("detail")
+	public Map<String, Object> detail(@RequestParam(name = "g_idx", defaultValue = "") int g_idx) {
+		GuestDTO dto = dao.detail(g_idx);
+		//System.out.println(g_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		System.out.println(map);
+		//System.out.println(map);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("confirmPwd")
+	public Map<String, Object> confirmPwd(@RequestParam(name = "g_email") String g_email, @RequestParam(name = "pwd") String g_passwd){
+		//System.out.println(g_email);
+		//System.out.println(g_passwd);
+		String passwd = loginDao.chkPw(g_email);
+		Map<String, Object> map = new HashMap<>();
+		if(pwdEncoder.matches(g_passwd, passwd)){ 
+			map.put("result", "success");
+		} else if(passwd.equals("no")) {
+			map.put("result", "error");
+		} else {
+			map.put("result", "no");
+		}
+		//System.out.println(map);
+		return map;		
+	}
+	
+	@ResponseBody
+	@RequestMapping("update")
+	public Map<String, Object> update(@RequestParam(name = "g_idx") int g_idx,
+			@RequestParam(name = "g_profile", defaultValue = "") String g_profile,
+			@RequestParam(name = "g_phone", defaultValue = "") String g_phone, 
+			@RequestParam(name = "g_passwd", defaultValue = "") String passwd, 
+			@RequestParam(name = "img", required = false ) MultipartFile img, HttpServletRequest request) {
+		String filename = "";
+		//System.out.println(passwd);
+		GuestDTO dto = dao.detail(g_idx);
+		if (img != null && !img.isEmpty()) {
+			filename = img.getOriginalFilename();
+			try {
+				String path = "C:\\Users\\user\\git\\final-project\\syFinal\\src\\main\\webapp\\static\\images\\guest\\profile\\";
+				new File(path).mkdir();
+				img.transferTo(new File(path+filename));
+				dto.setG_url(filename);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		} 
+		if (passwd != "" && passwd.length() > 0 ) {
+			String g_passwd = pwdEncoder.encode(passwd);
+			dto.setG_passwd(g_passwd);
+		}
+		if (g_phone != "" && g_phone.length() > 0) { dto.setG_phone(g_phone);}
+		if (g_profile != "" && g_profile.length() > 0) { dto.setG_profile(g_profile);}
+		//System.out.println(dto);
+		String result = dao.update(dto);
+		Map<String, Object> map = new HashMap<>();
+		map.put("g_profile", dto.getG_profile());
+		map.put("g_phone", dto.getG_phone());
+		map.put("result", result);
+		// System.out.println(map);
 		return map;
 	}
 }
