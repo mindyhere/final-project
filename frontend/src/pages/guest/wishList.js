@@ -16,8 +16,11 @@ function WishList() {
         setWishList(data);
     })
   }
-    
-    useEffect(() => {getWish(`http://localhost/guest/info/wish?g_idx=${idx.key}`);},[]);
+  var myArr = localStorage.getItem('watched');
+  myArr = JSON.parse(myArr);
+  const first = myArr[myArr.length - 1];
+  console.log(first);
+    useEffect(() => {getWish(`http://localhost/guest/wish/wishList?g_idx=${idx.key}`);},[]);
     return (
         <>
         <div className="container min-vh-100">

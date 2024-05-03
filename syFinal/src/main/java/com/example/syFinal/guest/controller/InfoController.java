@@ -170,21 +170,5 @@ public class InfoController {
 	}
 	
 	
-	@RequestMapping("wish")
-	@ResponseBody
-	public List<Map<String, Object>> wish(@RequestParam(name = "g_idx") int g_idx) {
-		System.out.println(g_idx);
-		List<MainDTO> main = dao.wishlist(g_idx);
-		List<Map<String, Object>> list = new ArrayList<>();
-		for(int i=0; i<main.size(); i++) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("wIdx", main.get(i).getW_idx());
-			map.put("HoIdx", main.get(i).getHo_idx());
-			map.put("HoName", main.get(i).getHo_name());
-			map.put("HoImg", main.get(i).getHo_img());
-			list.add(map);
-		}
-		System.out.println(list);
-		return list;
-	}
+	
 }

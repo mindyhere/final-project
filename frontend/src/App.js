@@ -19,6 +19,7 @@ import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
 import WishItem from "./pages/guest/wishItem";
 import WishList from "./pages/guest/wishList";
+import Wish from "./pages/guest/wish";
 
 // host 계정
 import HostLogin from "./pages/host/Login";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/guest/PayItem" element={<PayItem/>}/>
           <Route path="/guest/wishItem" element={<WishItem/>}/>
           <Route path="/guest/wishList" element={<WishList/>}/>
+          <Route path="/guest/wish" element={<Wish/>}/>
          
           {/* host 계정 */}
           <Route path="/host/Login" element={<HostLogin />} />
