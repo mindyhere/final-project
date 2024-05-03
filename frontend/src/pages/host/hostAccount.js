@@ -89,19 +89,19 @@ function HostAccount() {
     return (
       <>
         <div className="container min-vh-100">
-          <h3 class="text-bold">
+          <h3 className="text-bold">
             <img src="/img/info.png" width="35px" height="35px" />
             &nbsp; 회원 정보
           </h3>
           <hr />
           <div className="card-style mb-30">
             <div className="row">
-              <div class="col-4" style="text-align: center;">
+              <div className="col-4" style="text-align: center;">
                 <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
               </div>
-              <div class="col-8">
+              <div className="col-8">
                 <form>
-                  <table class="tbl">
+                  <table className="tbl">
                     <colgroup>
                       <col style="width: 25%" />
                       <col />

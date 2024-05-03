@@ -50,10 +50,10 @@ function App() {
           <Route path="/guest/wish" element={<Wish/>}/>
          
           {/* host 계정 */}
-          <Route path="/host/Login" element={<HostLogin />} />
-          <Route path="/host/SearchEmail" element={<SearchHostEmail />} />
-          <Route path="/host/SearchPw" element={<SearchHostPw />} />
-          <Route path="/host/EditHostInfo/:idx" element={<EditHostInfo />} />
+          <Route path="/host/login" element={<HostLogin />} />
+          <Route path="/host/searchEmail" element={<SearchHostEmail />} />
+          <Route path="/host/searchPw" element={<SearchHostPw />} />
+          <Route path="/api/host/account/:idx" element={<EditHostInfo />} />
         </Routes>
         <Footer />
       </BrowserRouter>

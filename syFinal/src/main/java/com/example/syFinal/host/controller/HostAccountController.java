@@ -20,6 +20,7 @@ import com.example.syFinal.host.model.dao.HostDAO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
+//@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/host/*")
 public class HostAccountController {
@@ -114,7 +115,7 @@ public class HostAccountController {
 	public String updateInfo(@PathVariable(name = "userNo") int h_idx, Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
-		System.out.println(h_idx);
+		System.out.println(map);
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
 		String h_profile = "no-image.png";
@@ -151,7 +152,8 @@ public class HostAccountController {
 		map.put("h_file", h_file);
 
 		// 비밀번호 암호화
-		String encodedPwd = pwdEncoder.encode((CharSequence) map.get("pwd"));
+		System.out.println("===> 암호화 전 pwd: " + map.get("pwd"));
+		String encodedPwd = pwdEncoder.encode(map.get("pwd").toString());
 		map.replace("pwd", encodedPwd);
 		System.out.println("===> map: " + map);
 

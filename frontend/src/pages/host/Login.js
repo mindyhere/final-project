@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import GuestJoin from "../guest/join";
 import HostJoin from "./Join_modal";
-import "../guest/aa.css";
+// import "../guest/aa.css";
 import "./modalH.css";
 
 function HostLogin() {
@@ -94,7 +94,7 @@ function HostLogin() {
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         cookies.set(
-                          "phoneNum",
+                          "userPhone",
                           { key: data.dto.h_phone },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );

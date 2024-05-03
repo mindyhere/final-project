@@ -32,9 +32,7 @@ public class HostLoginController {
 		String userId = (String) map.get("userId");
 		String pwd = (String) map.get("pwd");
 		String savedPwd = hostDao.pwdCheck(userId);
-		System.out.println("\"===> pwd: " + pwd + " / savedPwd: " + savedPwd);
 		Map<String, Object> data = new HashMap<>();
-		System.out.println("\"===> equals? " + pwd.equals(savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
 			data.put("dto", hostDao.makeCookie(userId));
 			data.put("msg", "success");

@@ -85,6 +85,7 @@ public class HostDAOImpl implements HostDAO {
 		switch (type) {
 		case "profile":
 			fileName = sqlSession.selectOne("host.getfile", params);
+			System.out.println("===> fileName? " + fileName);
 			break;
 		case "file":
 			fileName = sqlSession.selectOne("host.getfile", params);

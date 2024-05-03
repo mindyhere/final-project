@@ -9,14 +9,14 @@ import "./modalH.css";
 function useFetch(url) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log("===> " + data);
-
+        console.log("===> " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -28,9 +28,10 @@ function EditHostInfo() {
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
   const userId = cookies.get("userId");
-  const userName = cookies.get("userName");
   const phoneNum = cookies.get("userPhone");
-  console.log(phoneNum);
+  const [data, loading] = useFetch(
+    `http://localhost/api/host/account/${userNo.key}`
+  );
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
@@ -46,15 +47,13 @@ function EditHostInfo() {
   const h_regdate = useRef();
   const navigate = useNavigate();
   const [check, setCheck] = useState(false);
-  const [data, loading] = useFetch(
-    "http://localhost/api/host/account/" + userNo.key
-  );
 
   // 회원탈퇴 시 쿠키삭제
   const removeCookies = () => {
     cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
     cookies.remove("userId", { path: "/" }, new Date(Date.now()));
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
+    cookies.remove("userPhone", { path: "/" }, new Date(Date.now()));
   };
 
   const handleChange = (val) => {
@@ -80,6 +79,7 @@ function EditHostInfo() {
   } else {
     let src = "";
     let profile_src = "";
+    console.log("==> loading? " + loading);
 
     if (data.h_profile !== "-" || data.h_profile !== "") {
       src = `http://localhost/static/images/host/profile/${data.h_profile}`;
@@ -122,7 +122,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="email"
                             ref={h_email}
-                            defaultValue={userId.key}
+                            defaultValue={data.h_email}
                             readOnly
                           />
                         </td>
@@ -159,7 +159,8 @@ function EditHostInfo() {
                             className="form-control"
                             type="text"
                             ref={h_name}
-                            defaultValue={userName.key}
+                            defaultValue={data.h_name}
+                            //defaultValue={userName.key}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -218,6 +219,7 @@ function EditHostInfo() {
                         <th>소개</th>
                         <td colSpan={3}>
                           <textarea
+                            className="form-control"
                             rows={5}
                             cols={85}
                             defaultValue={data.h_description}
@@ -365,13 +367,13 @@ function EditHostInfo() {
                           form.append("profile", profile.current.files[0]);
                         }
                         if (
-                          data.map.h_status === "가입완료" &&
+                          data.h_status === "가입완료" &&
                           file.current.files.length > 0
                         ) {
                           form.append("file", file.current.files[0]);
                         }
 
-                        fetch(`http://localhost/api/host/update/${userNo}`, {
+                        fetch(`http://localhost/api/host/update/${userNo.key}`, {
                           method: "post",
                           endType: "multipart/form-data",
                           body: form,

@@ -75,12 +75,13 @@ delete from host where h_idx=#{h_idx}
 <!-- 첨부파일 확인 -->
 <select id="getFile" resultType="String">
 <choose>
-	<when test="type == 'profile'">
-		select h_profile from host where h_idx=#{h_idx}
+	<when test="#{type} == 'profile'">
+		select h_profile
 	</when>
 	<otherwise>
-		select h_file from host where h_idx=#{h_idx}
+		select h_file
 	</otherwise>
 </choose>
+		from host where h_idx=#{h_idx}
 </select>
 </mapper>
