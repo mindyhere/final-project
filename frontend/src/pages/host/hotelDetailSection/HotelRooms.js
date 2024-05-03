@@ -25,12 +25,19 @@ function HotelRule() {
             gridTemplateColumns:'1fr 1fr 1fr',
         }}>
         {list.map(
-                    ({DIdx, DRoomType, DImg1})=>(
+                    ({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea, dBeds, dNonSmoking, dPrice})=>(
                         <HotelRoomsItem
-                        DIdx={DIdx}
-                        DRoomType={DRoomType}
-                        DImg1={DImg1}
-                        key={DIdx}
+                        dIdx={dIdx}
+                        dRoomType={dRoomType}
+                        dImg1={dImg1}
+                        dImg2={dImg2}
+                        dImg3={dImg3}
+                        dCapacity={dCapacity}
+                        dArea={dArea}
+                        dBeds={dBeds}
+                        dNonSmoking={dNonSmoking}
+                        dPrice={dPrice}
+                        key={dIdx}
                         />
                     )
                 )}

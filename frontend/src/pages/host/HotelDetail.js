@@ -59,7 +59,7 @@ function HotelDetail() {
         let answer = '';
         if (data.ho_level == 8){
             level = '호스트';
-            answer = '80%';
+            answer = '85%';
         } else {
             level = '슈퍼호스트';
             answer = '100%';
@@ -156,10 +156,6 @@ function HotelDetail() {
                                 </div>
                             </div>
                             <hr />
-                            <div>
-                                셀프 체크인
-                            </div>
-                            <hr />
                             <h4 className="mb-20">숙소 소개</h4>
                                 <div>
                                     <HotelDescription />
@@ -187,10 +183,10 @@ function HotelDetail() {
                             <br />
                                 <KakaoMap />
                                 </div>
-                            <br />
+                            <hr />
                             <h4 useRef={element} className="mb-30">호스트 소개</h4>
                              <HostInfo />
-                            <br />
+                            <hr />
                             <h4 className="mb-20">알아두어야 할 사항</h4>
                             <div>
                                 <HotelRule />
