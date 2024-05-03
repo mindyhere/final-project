@@ -41,6 +41,20 @@ function HotelDetail() {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
 
+    useEffect(() => {
+        var myArr = localStorage.getItem('watched');
+        if(myArr == null) {
+            myArr = [];
+        } else {
+            myArr = JSON.parse(myArr);
+        }
+        myArr.push(HoIdx);
+        myArr = new Set(myArr);
+        myArr = [...myArr];
+        localStorage.setItem('watched', JSON.stringify(myArr));
+    }, []);
+
+
     const [state, setState] = useState([
         {
           startDate: new Date(),
