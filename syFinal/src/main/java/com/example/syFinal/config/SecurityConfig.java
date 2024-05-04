@@ -18,12 +18,6 @@ public class SecurityConfig {
 	@Bean
 	protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable);
-//		http.httpBasic().disable();
-//		http.csrf().disable(); // 외부 POST 요청 허용
-//		http.cors(); // ⭐ CORS를 커스텀하
-//		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//		http.authorizeHttpRequests().requestMatchers("/**").permitAll().anyRequest().authenticated();
 		return http.build();
 	}
 
