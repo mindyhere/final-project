@@ -3,32 +3,37 @@
 <mapper namespace="host">
 <!-- 회원가입 -->
 <insert id="insert">
-insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_level, h_profile, h_file) 
-values (#{userId}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, 9, #{h_profile}, #{h_file})
+insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_profile, h_file, h_description) 
+values (#{userEmail}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, #{h_profile}, #{h_file}, #{h_description})
 </insert>
 
 <!-- 비밀번호 확인 -->
 <select id="pwdCheck" resultType="String">
-select h_passwd from host where h_email=#{userId}
+select h_passwd from host where h_email=#{userEmail}
 </select>
 
 <!-- 아이디 중복검사 -->
 <select id="idCheck" resultType="int">
-select count(h_idx) from host where h_email=#{userId}
+select count(h_idx) from host where h_email=#{userEmail}
 </select>
 
 <!-- 로그인성공 시 쿠키로 저장할 host 데이터 -->
 <select id="makeCookie" resultType="com.example.syFinal.host.model.dto.HostDTO">
-select h_idx, h_email, h_name
+select h_idx, h_email, h_name, h_phone
 from host
-where h_email=#{userId}
+where h_email=#{userEmail}
 </select>
 
 <!-- host 회원정보 -->
-<select id="getAccount" resultType="com.example.syFinal.host.model.dto.HostDTO">
-select h_idx, h_email, h_name, h_status, h_phone, h_business, h_level, h_status, h_profile, h_file 
-from host
-where h_idx=#{h_idx}
+<select id="getAccount" resultType="java.util.Map">
+select 
+	h_idx, h_email, h_name, h_phone, h_business, 
+	h_level,
+	l_name l_name,
+	h_status, h_regdate, h_profile, h_file, h_regdate, h_description
+from host h, level l
+where h_idx=#{h_idx} 
+	AND h.h_level=l.l_level;
 </select>
 
 <!-- Host계정 아이디 찾기 -->
@@ -40,27 +45,35 @@ where h_name=#{h_name} and h_phone=#{h_phone} and h_business=#{h_business}
 <!-- Host계정 비밀번호 찾기 -->
 <select id="findPwd" resultType="int">
 select count(h_idx) from host
-where h_email=#{userId} and h_phone=#{h_phone} and h_business=#{h_business}
+where h_email=#{userEmail} and h_phone=#{h_phone} and h_business=#{h_business}
 </select>
 
 <update id="setTempPwd" parameterType="map">
 update host
 set h_passwd=#{pwd}
-where h_email=#{userId}
+where h_email=#{userEmail}
 </update>
 
-<!-- <resultMap id="update_result" type="java.util.Map"></resultMap>
-<select id="updateInfo" parameterType="map" statementType="CALLABLE" resultMap="update_result">
-{call update_hostInfo(
-		#{pwd, mode=IN, jdbcType=VARCHAR}, 
-		#{name, mode=IN, jdbcType=VARCHAR}, 
-		#{phone, mode=IN, jdbcType=VARCHAR}, 
-		#{business, mode=IN, jdbcType=VARCHAR}, 
-	)}
-</select> -->
-
+<!-- 회원정보 업데이트 -->
+<update id="update">
+update host
+<trim prefix="SET" suffixOverrides=",">
+	<if test="pwd != '' or pwd != null">h_passwd = #{pwd},</if>
+	<if test="h_name != '' or h_name != null">h_name = #{h_name},</if>
+	<if test="h_phone != '' or h_phone != null">h_phone = #{h_phone},</if>
+	<if test="h_profile != '' or h_profile != null">h_profile = #{h_profile},</if>
+	<if test="h_file != '' or h_file != null">h_file = #{h_file},</if>
+	<if test="h_description != '' or h_description != null">h_description = #{h_description}</if>
+</trim>
+where h_idx=#{h_idx}
+</update>
 
 <delete id="delete">
 delete from host where h_idx=#{h_idx}
 </delete>
+
+<!-- 첨부파일 확인 -->
+<select id="getFile" resultType="String">
+select ${type} from host where h_idx=#{h_idx}
+</select>
 </mapper>

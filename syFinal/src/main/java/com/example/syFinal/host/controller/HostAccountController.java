@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.example.syFinal.host.model.dao.HostDAO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
+//@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/host/*")
 public class HostAccountController {
@@ -33,32 +35,33 @@ public class HostAccountController {
 	EmailService emailService;
 
 	@PostMapping("idCheck")
-	public Map<String, Object> idCheck(@RequestParam(name = "userId", defaultValue = "") String userId) {
-		System.out.println("===> userid: " + userId);
+	public Map<String, Object> idCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail) {
+		System.out.println("===> userEmail: " + userEmail);
 		// id 중복검사
-		int checked = hostDao.idCheck(userId);
+		int checked = hostDao.idCheck(userEmail);
 		System.out.println("===> checked: " + checked);
 		Map<String, Object> data = new HashMap<>();
-		if (userId.equals("undefined") || checked > 0) {
+		if (userEmail.equals("undefined") || checked > 0) {
 			data.put("msg", "error");
 		} else {
 			data.put("msg", "ok");
 		}
 		return data;
 	}
+//
+//	@PostMapping("pwdCheck/{pwd}")
+//	public String pwdCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail,
+//			@PathVariable(name = "pwd") String pwd) {
+//		// TODO: process POST request
+//		String savedPwd = hostDao.pwdCheck(userEmail);
+//		if (pwdEncoder.matches(pwd, savedPwd)) {
+//			return "ok";
+//		} else {
+//			return "error";
+//		}
+//	}
 
-	@PostMapping("pwdCheck")
-	public String pwdCheck(@RequestParam(name = "userId", defaultValue = "") String userId,
-			@RequestParam(name = "pwd", defaultValue = "") String pwd) {
-		// TODO: process POST request
-		String savedPwd = hostDao.pwdCheck(userId);
-		if (pwdEncoder.matches(pwd, savedPwd)) {
-			return "ok";
-		} else {
-			return "error";
-		}
-	}
-
+	@Transactional
 	@PostMapping("join")
 	public Map<String, Object> join(@RequestParam Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
@@ -66,28 +69,31 @@ public class HostAccountController {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
 		String h_profile = "no-image.png";
-		String h_file = "no-image.png";
+		String h_file = "-";
 
 		if (profile != null && !profile.isEmpty()) {
-			h_profile = profile.getOriginalFilename();
 			try {
 				profile.transferTo(new File(path + h_profile));
-				map.put("h_profile", h_profile);
+				h_profile = profile.getOriginalFilename();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 프로필없음 ===");
 			}
 		}
+		map.put("h_profile", h_profile);
 		if (file != null && !file.isEmpty()) {
-			h_file = file.getOriginalFilename();
 			try {
 				file.transferTo(new File(path + h_file));
-				map.put("h_file", h_file);
+				h_file = file.getOriginalFilename();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 사업자등록증없음 ===");
 			}
 		}
+		map.put("h_file", h_file);
+
+//		String h_description = (map.get("h_description") != null ? (String) map.get("h_description") : "-");
+//		map.put("h_description", h_description);
 
 		// 비밀번호 암호화
 		String encodedPwd = pwdEncoder.encode((CharSequence) map.get("pwd"));
@@ -99,53 +105,104 @@ public class HostAccountController {
 		return data;
 	}
 
-	@GetMapping("account/{userNo}")
-	public Map<String, Object> getAccount(@PathVariable(name = "userNo") int h_idx) {
-		Map<String, Object> data = new HashMap<>();
-		data.put("dto", hostDao.getAccount(h_idx));
+	@GetMapping("account/{userIdx}")
+	public Map<String, Object> getAccount(@PathVariable(name = "userIdx") int h_idx) {
+		System.out.println("***회원정보 " + h_idx);
+		Map<String, Object> data = hostDao.getAccount(h_idx);
 		System.out.println("===> 결과: " + data);
 		return data;
 	}
 
-	@PostMapping("update/{userNo}")
-	public Map<String, Object> updateInfo(@PathVariable(name = "userNo") int h_idx, Map<String, Object> params,
+	@Transactional
+	@PostMapping("update/{userIdx}")
+	public void updateInfo(@PathVariable(name = "userIdx") int h_idx, @RequestParam Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
-
+		System.out.println("==> update 컨트롤러: " + map);
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
-//		
+		String h_profile = "";
+		String h_file = "";
 		if (profile != null && !profile.isEmpty()) {
-			String h_profile = profile.getOriginalFilename();
 			try {
+				String profile1 = hostDao.getFile(h_idx, "h_profile");
+				if (profile1 != null && !profile1.equals("no-image.png")) {
+					File file1 = new File(path + profile1);
+					if (file1.exists()) {
+						file1.delete();
+					}
+				}
+				h_profile = profile.getOriginalFilename();
 				profile.transferTo(new File(path + h_profile));
-				params.put("h_profile", h_profile);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 프로필없음 ===");
+				System.out.println("=== 프로필 삭제/저장 에러 ===");
 			}
+		} else {
+			h_profile = hostDao.getFile(h_idx, "h_profile");
 		}
+		map.put("h_profile", h_profile);
+
 		if (file != null && !file.isEmpty()) {
-			String h_file = file.getOriginalFilename();
+			h_file = file.getOriginalFilename();
 			try {
 				file.transferTo(new File(path + h_file));
-				params.put("h_file", h_file);
+				map.put("h_file", h_file);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 사업자등록증없음 ===");
+				System.out.println("=== 사업자등록증 저장 에러 ===");
 			}
+		} else {
+			h_file = hostDao.getFile(h_idx, "h_file");
 		}
+		map.put("h_file", h_file);
 
-		hostDao.updateInfo(params);
-		Map<String, Object> data = new HashMap<>();
-		data.put("params", "params");
-		data.put("msg", "success");
-		return data;
+		// 비밀번호 암호화
+		System.out.println("===> 암호화 전 pwd: " + map.get("pwd"));
+		String encodedPwd = pwdEncoder.encode(map.get("pwd").toString());
+		map.replace("pwd", encodedPwd);
+		System.out.println("===> map: " + map);
+
+		hostDao.updateInfo(map);
 	}
 
-	@GetMapping("delete/{userNo}")
-	public String deleteAccount(@PathVariable(name = "userNo") int h_idx) {
-		hostDao.deleteAccount(h_idx);
-		return "success";
+	@Transactional
+	@GetMapping("delete/{pwd}")
+	public String deleteAccount(@PathVariable(name = "pwd") String pwd,
+			@RequestParam(name = "userIdx", defaultValue = "") int h_idx,
+			@RequestParam(name = "userEmail", defaultValue = "") String h_email, HttpServletRequest request)
+			throws Exception {
+		String savedPwd = hostDao.pwdCheck(h_email);
+		System.out.println("==> delete? " + pwd + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
+		String result = "";
+		if (pwdEncoder.matches(pwd, savedPwd)) {
+			String h_profile = hostDao.getFile(h_idx, "h_profile");
+			String h_file = hostDao.getFile(h_idx, "h_file");
+
+			if (h_profile != null && !h_profile.equals("no-image.png")) {
+				ServletContext application = request.getSession().getServletContext();
+				String path = application.getRealPath("static/images/host/profile/");
+				File profile = new File(path + h_profile);
+				if (profile.exists()) {
+					System.out.println("===> 프로필삭제? " + profile.delete());
+					profile.delete();
+				}
+			}
+
+			if (h_file != null && !h_file.equals("-")) {
+				ServletContext application = request.getSession().getServletContext();
+				String path = application.getRealPath("static/images/host/profile/");
+				File file = new File(path + h_file);
+				if (file.exists()) {
+					System.out.println("===> 첨부파일삭제? " + file.delete());
+					file.delete();
+				}
+			}
+			hostDao.deleteAccount(h_idx);
+			return "complete";
+
+		} else {
+			throw new Exception();
+		}
 	}
 }

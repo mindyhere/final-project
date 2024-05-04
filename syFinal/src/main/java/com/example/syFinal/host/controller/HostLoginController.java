@@ -29,14 +29,12 @@ public class HostLoginController {
 	@PostMapping("/")
 	public Map<String, Object> login(@RequestParam Map<String, Object> map) {
 		System.out.println("===> map: " + map);
-		String userId = (String) map.get("userId");
+		String userEmail = (String) map.get("userEmail");
 		String pwd = (String) map.get("pwd");
-		String savedPwd = hostDao.pwdCheck(userId);
-		System.out.println("\"===> pwd: " + pwd + " / savedPwd: " + savedPwd);
+		String savedPwd = hostDao.pwdCheck(userEmail);
 		Map<String, Object> data = new HashMap<>();
-		System.out.println("\"===> equals? " + pwd.equals(savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
-			data.put("dto", hostDao.makeCookie(userId));
+			data.put("dto", hostDao.makeCookie(userEmail));
 			data.put("msg", "success");
 		} else {
 			data.put("msg", "error");
@@ -58,9 +56,10 @@ public class HostLoginController {
 		int cheked = hostDao.findPwd(map);
 		Map<String, Object> data = new HashMap<>();
 		if (cheked > 0) { // 입력한 정보와 일치하는 계정이 있을 경우,
-			String email = (String) map.get("userId");
+			String email = (String) map.get("userEmail");
 			String randomPw = emailService.getTempPassword();
-			map.put("pwd", randomPw);
+			String encodedPwd = pwdEncoder.encode(randomPw);
+			map.put("pwd", encodedPwd);
 			hostDao.setTempPwd(map); // 임시 비밀번호로 업데이트
 			EmailDTO emailPw = emailService.prepareTempPwdEmail(email, randomPw);
 			String msg = emailService.sendMail(emailPw);

@@ -5,14 +5,14 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import GuestJoin from "../guest/join";
 import HostJoin from "./Join_modal";
-import "../guest/aa.css";
+// import "../guest/aa.css";
 import "./modalH.css";
 
 function HostLogin() {
   const navigate = useNavigate();
   const [join, setJoin] = useState(false);
   //  데이터 setter
-  const userId = useRef();
+  const userEmail = useRef();
   const pwd = useRef();
   const [modal, setModal] = useState(false);
 
@@ -32,7 +32,7 @@ function HostLogin() {
             <div>
               <div className="input-stylee-1">
                 <label>이메일</label>
-                <input ref={userId} placeholder="이메일을 입력해주세요" />
+                <input ref={userEmail} placeholder="이메일을 입력해주세요" />
               </div>
               <div className="input-stylee-1">
                 <label>비밀번호</label>
@@ -46,14 +46,13 @@ function HostLogin() {
               <button
                 type="button"
                 onClick={() => {
-                  if (userId.current.value == "") {
+                  if (userEmail.current.value == "") {
                     Swal.fire({
                       icon: "warning",
                       title: "잠깐!",
                       html: "이메일을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    userId.current.focus();
                     return;
                   }
                   if (pwd.current.value == "") {
@@ -67,7 +66,7 @@ function HostLogin() {
                     return;
                   }
                   const form = new FormData();
-                  form.append("userId", userId.current.value);
+                  form.append("userEmail", userEmail.current.value);
                   form.append("pwd", pwd.current.value);
                   fetch("http://localhost/api/host/login/", {
                     method: "post",
@@ -79,18 +78,23 @@ function HostLogin() {
                       if (data.msg == "success") {
                         const cookies = new Cookies();
                         cookies.set(
-                          "userNo",
+                          "userIdx",
                           { key: data.dto.h_idx },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
-                          "userId",
+                          "userEmail",
                           { key: data.dto.h_email },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         ); //30일
                         cookies.set(
                           "userName",
                           { key: data.dto.h_name },
+                          { path: "/", expires: new Date(Date.now() + 2592000) }
+                        );
+                        cookies.set(
+                          "userPhone",
+                          { key: data.dto.h_phone },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         navigate("/");
@@ -131,7 +135,7 @@ function HostLogin() {
           </div>
           <div className="col text-center">
             <div className="btnLoginBottom">
-              <Link to="api/host/findPwd">
+              <Link to="/host/SearchPw">
                 <img src="/img/forgot.png" />
                 <br /> 비밀번호 찾기
               </Link>

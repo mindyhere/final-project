@@ -10,19 +10,19 @@ public interface HostDAO {
 	void insert(Map<String, Object> map);
 
 	// 아이디 중복 체크
-	int idCheck(String userId);
+	int idCheck(String userEmail);
 
 	// Host 로그인
 	String login(Map<String, Object> params);
 
 	// 암호화된 h_passwd
-	String pwdCheck(String userId);
+	String pwdCheck(String userEmail);
 
 	// 로그인 성공 시 계정정보(쿠키) 가져오기
-	HostDTO makeCookie(String userId);
+	HostDTO makeCookie(String userEmail);
 
 	// host 회원정보 가져오기
-	HostDTO getAccount(int h_idx);
+	Map<String, Object> getAccount(int h_idx);
 
 	// host 계정아이디 찾기
 	String findId(Map<String, Object> map);
@@ -34,9 +34,11 @@ public interface HostDAO {
 	void setTempPwd(Map<String, Object> map);
 
 	// Host 정보 수정
-	void updateInfo(Map<String, Object> params);
+	void updateInfo(Map<String, Object> map);
 
 	// Host 회원탈퇴
 	void deleteAccount(int h_idx);
+
+	String getFile(int h_idx, String type);
 
 }

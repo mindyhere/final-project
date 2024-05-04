@@ -25,6 +25,7 @@ import Wish from "./pages/guest/wish";
 import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/SearchEmail";
 import SearchHostPw from "./pages/host/SearchPw";
+import EditHostInfo from "./pages/host/EditHostInfo";
 
 
 function App() {
@@ -49,9 +50,10 @@ function App() {
           <Route path="/guest/wish" element={<Wish/>}/>
          
           {/* host 계정 */}
-          <Route path="/host/Login" element={<HostLogin />} />
-          <Route path="/host/SearchEmail" element={<SearchHostEmail />} />
-          <Route path="/host/SearchPw" element={<SearchHostPw />} />
+          <Route path="/host/login" element={<HostLogin />} />
+          <Route path="/host/searchEmail" element={<SearchHostEmail />} />
+          <Route path="/host/searchPw" element={<SearchHostPw />} />
+          <Route path="/api/host/account/:userIdx" element={<EditHostInfo />} />
         </Routes>
         <Footer />
       </BrowserRouter>
