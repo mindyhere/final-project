@@ -20,8 +20,8 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // 아이디 중복체크
-	public int idCheck(String userId) {
-		return sqlSession.selectOne("host.idCheck", userId);
+	public int idCheck(String userEmail) {
+		return sqlSession.selectOne("host.idCheck", userEmail);
 	}
 
 	@Override // Host 로그인
@@ -30,23 +30,18 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // 암호화된 h_passwd
-	public String pwdCheck(String userId) {
-		return sqlSession.selectOne("host.pwdCheck", userId);
+	public String pwdCheck(String userEmail) {
+		return sqlSession.selectOne("host.pwdCheck", userEmail);
 	}
 
 	@Override // 로그인 성공 시 계정정보(쿠키) 가져오기
-	public HostDTO makeCookie(String userId) {
-		return sqlSession.selectOne("host.makeCookie", userId);
+	public HostDTO makeCookie(String userEmail) {
+		return sqlSession.selectOne("host.makeCookie", userEmail);
 	}
 
 	@Override // host 회원정보 가져오기
 	public Map<String, Object> getAccount(int h_idx) {
 		Map<String, Object> data = sqlSession.selectOne("host.getAccount", h_idx);
-//		String str = (String) data.get("h_phone");
-//		String[] arr = str.split("-");
-//		String h_phone = String.join("", arr);
-//		data.put("h_phone", h_phone);
-//		System.out.println("==> join() 결과? " + h_phone);
 		return data;
 	}
 
@@ -66,8 +61,8 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // Host 정보수정
-	public void updateInfo(Map<String, Object> params) {
-		sqlSession.selectOne("host.updateInfo", params);
+	public void updateInfo(Map<String, Object> map) {
+		sqlSession.update("host.update", map);
 	}
 
 	@Override // Host 회원탈퇴
@@ -80,17 +75,7 @@ public class HostDAOImpl implements HostDAO {
 		Map<String, Object> params = new HashMap<>();
 		params.put("h_idx", h_idx);
 		params.put("type", type);
-		String fileName = "";
-
-		switch (type) {
-		case "profile":
-			fileName = sqlSession.selectOne("host.getfile", params);
-			System.out.println("===> fileName? " + fileName);
-			break;
-		case "file":
-			fileName = sqlSession.selectOne("host.getfile", params);
-			break;
-		}
+		String fileName = sqlSession.selectOne("host.getFile", params);
 		System.out.println("===> 파일명 확인: " + type + ", " + fileName);
 		return fileName;
 	}

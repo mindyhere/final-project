@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 function SearchPw() {
   const navigate = useNavigate();
-  const userId = useRef();
+  const userEmail = useRef();
   const h_phone = useRef();
   const h_business = useRef();
 
@@ -20,7 +20,7 @@ function SearchPw() {
           <form>
             <div className="input-style-1">
               <label>이메일</label>&nbsp;
-              <input ref={userId} placeholder="이메일을 입력해주세요" />
+              <input ref={userEmail} placeholder="이메일을 입력해주세요" />
             </div>
             <div className="input-style-1">
               <label>전화번호</label>&nbsp;
@@ -39,14 +39,13 @@ function SearchPw() {
               <button
                 type="button"
                 onClick={() => {
-                  if (userId.current.value == "") {
+                  if (userEmail.current.value == "") {
                     Swal.fire({
                       icon: "warning",
                       title: "잠깐!",
                       html: "이메일을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    userId.current.focus();
                     return;
                   }
                   if (h_phone.current.value == "") {
@@ -56,7 +55,6 @@ function SearchPw() {
                       html: "전화번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    h_phone.current.focus();
                     return;
                   }
                   if (h_business.current.value == "") {
@@ -66,11 +64,10 @@ function SearchPw() {
                       html: "사업자번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    h_business.current.focus();
                     return;
                   }
                   const form = new FormData();
-                  form.append("userId", userId.current.value);
+                  form.append("userEmail", userEmail.current.value);
                   form.append("h_phone", h_phone.current.value);
                   form.append("h_business", h_business.current.value);
                   fetch("http://localhost/api/host/login/findPwd", {
@@ -83,7 +80,7 @@ function SearchPw() {
                         Swal.fire({
                           icon: "success",
                           title: "Check",
-                          html: `<strong><p>${userId.current.value}</strong> 로 임시 비밀번호를 전송했습니다.</br>로그인 후 비밀번호를 변경해주세요.</p>`,
+                          html: `<strong><p>${userEmail.current.value}</strong> 로 임시 비밀번호를 전송했습니다.</br>로그인 후 비밀번호를 변경해주세요.</p>`,
                           confirmButtonText: "YES",
                         }).then((result) => {
                           if (result.isConfirmed) {

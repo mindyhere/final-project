@@ -53,7 +53,7 @@ function App() {
           <Route path="/host/login" element={<HostLogin />} />
           <Route path="/host/searchEmail" element={<SearchHostEmail />} />
           <Route path="/host/searchPw" element={<SearchHostPw />} />
-          <Route path="/api/host/account/:idx" element={<EditHostInfo />} />
+          <Route path="/api/host/account/:userIdx" element={<EditHostInfo />} />
         </Routes>
         <Footer />
       </BrowserRouter>

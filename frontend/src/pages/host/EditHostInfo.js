@@ -16,7 +16,7 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        console.log("===> " + JSON.stringify(data));
+        console.log("===> data? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -26,18 +26,18 @@ function useFetch(url) {
 
 function EditHostInfo() {
   const cookies = new Cookies();
-  const userNo = cookies.get("userNo");
-  const userId = cookies.get("userId");
-  const phoneNum = cookies.get("userPhone");
+  const userIdx = cookies.get("userIdx");
+  const userEmail = cookies.get("userEmail");
+  const userPhone = cookies.get("userPhone");
   const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userNo.key}`
+    `http://localhost/api/host/account/${userIdx.key}`
   );
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
   const h_name = useRef();
   const h_phone = useRef();
-  const [phone, setPhone] = useState(phoneNum.key);
+  const [phone, setPhone] = useState(userPhone.key);
   const h_business = useRef();
   const h_level = useRef();
   const h_status = useRef();
@@ -50,8 +50,8 @@ function EditHostInfo() {
 
   // 회원탈퇴 시 쿠키삭제
   const removeCookies = () => {
-    cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userId", { path: "/" }, new Date(Date.now()));
+    cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
+    cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
     cookies.remove("userPhone", { path: "/" }, new Date(Date.now()));
   };
@@ -79,7 +79,6 @@ function EditHostInfo() {
   } else {
     let src = "";
     let profile_src = "";
-    console.log("==> loading? " + loading);
 
     if (data.h_profile !== "-" || data.h_profile !== "") {
       src = `http://localhost/static/images/host/profile/${data.h_profile}`;
@@ -122,7 +121,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="email"
                             ref={h_email}
-                            defaultValue={data.h_email}
+                            defaultValue={userEmail.key}
                             readOnly
                           />
                         </td>
@@ -132,7 +131,7 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           <input
                             className="form-control"
-                            type="password"
+                            type="new-password"
                             ref={pwd}
                             placeholder="비밀번호를 입력해주세요"
                           />
@@ -142,7 +141,7 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           <input
                             className="form-control"
-                            type="password"
+                            type="new-password"
                             value={pwdChk}
                             placeholder="비밀번호 확인을 위해 한번 더 입력해주세요"
                             onChange={(e) => {
@@ -160,7 +159,6 @@ function EditHostInfo() {
                             type="text"
                             ref={h_name}
                             defaultValue={data.h_name}
-                            //defaultValue={userName.key}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -343,18 +341,9 @@ function EditHostInfo() {
                           });
                           return;
                         }
-                        // if (h_business.current.value == "") {
-                        //   Swal.fire({
-                        //     icon: "warning",
-                        //     title: "잠깐!",
-                        //     html: "사업자번호를 입력하세요.",
-                        //     confirmButtonText: "OK",
-                        //   });
-                        //   return;
-                        // }
 
                         const form = new FormData();
-                        form.append("h_idx", userNo.key);
+                        form.append("h_idx", userIdx.key);
                         form.append("pwd", pwd.current.value);
                         form.append("h_name", h_name.current.value);
                         form.append("h_phone", h_phone.current.value);
@@ -372,16 +361,18 @@ function EditHostInfo() {
                         ) {
                           form.append("file", file.current.files[0]);
                         }
-
-                        fetch(`http://localhost/api/host/update/${userNo.key}`, {
-                          method: "post",
-                          endType: "multipart/form-data",
-                          body: form,
-                        })
-                          .then((response) => response.json())
+                        fetch(
+                          `http://localhost/api/host/update/${userIdx.key}`,
+                          {
+                            method: "post",
+                            endType: "multipart/form-data",
+                            body: form,
+                          }
+                        )
+                          .then((response) => response.ok)
                           .then((data) => {
-                            console.log(data);
-                            if (data === "success") {
+                            console.log("===> 결과?" + data);
+                            if (data) {
                               Swal.fire({
                                 icon: "success",
                                 title: "Check",
@@ -416,6 +407,15 @@ function EditHostInfo() {
                                 confirmButtonText: "OK",
                               });
                             }
+                          })
+                          .catch((error) => {
+                            console.log("===> 결과?" + error);
+                            Swal.fire({
+                              icon: "error",
+                              title: "잠깐!",
+                              html: "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
+                              confirmButtonText: "OK",
+                            });
                           });
                       }}
                       className={"main-btn " + (check ? "active" : "disabled")}
@@ -444,7 +444,7 @@ function EditHostInfo() {
                               `https://localhost/api/host/pwdCheck/${pwd}`,
                               {
                                 method: "post",
-                                body: { userId: userId.key },
+                                body: { userIdx: userIdx.key },
                               }
                             )
                               .then((response) => {

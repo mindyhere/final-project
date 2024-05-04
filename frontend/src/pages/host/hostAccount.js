@@ -24,11 +24,11 @@ function useFetch(url) {
 
 function HostAccount() {
   const cookies = new Cookies();
-  const userNo = cookies.get("userNo");
-  const userId = cookies.get("userId");
+  const userIdx = cookies.get("userIdx");
+  const userEmail = cookies.get("userEmail");
   const userName = cookies.get("userName");
   const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userNo}`
+    `http://localhost/api/host/account/${userIdx.key}`
   );
   const pwd = useRef();
   const pwdChk = useRef();
@@ -43,13 +43,6 @@ function HostAccount() {
   const profile = useRef();
   const file = useRef();
   const navigate = useNavigate();
-
-  // 회원탈퇴 시 쿠키삭제
-  const removeCookies = () => {
-    cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userId", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userName", { path: "/" }, new Date(Date.now()));
-  };
 
   const handleChange = (val, opt) => {
     const phoneRegEx = /^[0-9\b -]{0,13}$/;
@@ -114,7 +107,7 @@ function HostAccount() {
                             className="form-control"
                             type="email"
                             ref={h_email}
-                            defaultValue={userId}
+                            defaultValue={userEmail.key}
                             readOnly
                           />
                         </td>
@@ -147,7 +140,7 @@ function HostAccount() {
                             className="form-control"
                             type="text"
                             ref={h_name}
-                            defaultValue={userName}
+                            defaultValue={userName.key}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -158,8 +151,7 @@ function HostAccount() {
                           <input
                             className="form-control"
                             type="text"
-                            defaultValue={data.dto.h_phone}
-                            value={phoneNum}
+                            defaultValue={userPhone.key}
                             ref={h_phone}
                             onChange={(e) => {
                               handleChange(e.target.value, "phone");
@@ -175,7 +167,6 @@ function HostAccount() {
                             className="form-control"
                             type="text"
                             defaultValue={data.dto.h_business}
-                            value={businessNum}
                             ref={h_business}
                             onChange={(e) => {
                               handleChange(e.target.value, "business");

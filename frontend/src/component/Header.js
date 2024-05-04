@@ -45,8 +45,8 @@ function Header() {
   const g_phone = cookies.get("g_phone");
 
   //호스트 쿠키
-  const userNo = cookies.get("userNo");
-  const userId = cookies.get("userId");
+  const userIdx = cookies.get("userIdx");
+  const userEmail = cookies.get("userEmail");
   const userName = cookies.get("userName");
   const phoneNum = cookies.get("phoneNum");
 
@@ -64,15 +64,15 @@ function Header() {
         cookies.remove("g_profile", { path: "/" }, new Date(Date.now()));
         break;
       case "host":
-        cookies.remove("userNo", { path: "/" }, new Date(Date.now()));
-        cookies.remove("userId", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
         cookies.remove("userName", { path: "/" }, new Date(Date.now()));
         cookies.remove("phoneNum", { path: "/" }, new Date(Date.now()));
         break;
     }
   };
 
-  if (userId == null && g_email == null) {
+  if (userEmail == null && g_email == null) {
     console.log("로그인X ==> " + cookies.stringify);
     //|| h_email == null || h_email == 'undefined'
     return (
@@ -280,7 +280,7 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userId == null && g_email != null) {
+  } else if (userEmail == null && g_email != null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
 
@@ -465,9 +465,9 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userId != null && g_email == null) {
+  } else if (userEmail != null && g_email == null) {
     //호스트계정으로 로그인 했을 때
-    console.log("host 로그인 ==> " + userId);
+    console.log("host 로그인 ==> " + userEmail);
 
     return (
       <nav className="navbar navbar-expand-lg">
@@ -488,7 +488,7 @@ function Header() {
               <li className="nav-item">
                 <a
                   className="nav-link active"
-                  onClick={() => navigate(`/api/host/account/${userNo.key}`)}
+                  onClick={() => navigate(`/api/host/account/${userIdx.key}`)}
                 >
                   계정
                 </a>

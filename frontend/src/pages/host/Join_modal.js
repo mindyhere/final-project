@@ -6,7 +6,7 @@ import "./modalH.css";
 
 function HostJoin() {
   const [email, setEmail] = useState("");
-  const userId = useRef();
+  const userEmail = useRef();
   const pwd = useRef();
   const pwdChk = useRef();
   const h_name = useRef();
@@ -78,7 +78,7 @@ function HostJoin() {
                       className="form-control"
                       type="email"
                       value={email}
-                      ref={userId}
+                      ref={userEmail}
                       onChange={(e) => {
                         setEmail(e.target.value);
                         emailCheck(e);
@@ -94,7 +94,7 @@ function HostJoin() {
                       className={"btnCheck " + (check ? "active" : "disabled")}
                       onClick={() => {
                         const form = new FormData();
-                        form.append("userId", userId.current.value);
+                        form.append("userEmail", userEmail.current.value);
                         fetch(`http://localhost/api/host/idCheck`, {
                           method: "post",
                           body: form,
@@ -224,14 +224,13 @@ function HostJoin() {
               <button
                 type="button"
                 onClick={() => {
-                  if (userId.current.value == "") {
+                  if (userEmail.current.value == "") {
                     Swal.fire({
                       icon: "warning",
                       title: "잠깐!",
                       html: "이메일을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    //</div>userId.current.focus();
                     return;
                   } else {
                     if (
@@ -254,7 +253,6 @@ function HostJoin() {
                       html: "비밀번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    // pwd.current.focus();
                     return;
                   } else {
                     if (pwd.current.value === pwdChk.current.value) {
@@ -276,7 +274,6 @@ function HostJoin() {
                       html: "이름을 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    // h_name.current.focus();
                     return;
                   }
                   if (h_phone.current.value == "") {
@@ -286,7 +283,6 @@ function HostJoin() {
                       html: "전화번호를 입력하세요.",
                       confirmButtonText: "OK",
                     });
-                    // h_phone.current.focus();
                     return;
                   }
                   if (h_business.current.value == "") {
@@ -295,13 +291,11 @@ function HostJoin() {
                       title: "잠깐!",
                       html: "사업자번호를 입력하세요.",
                       confirmButtonText: "OK",
-                    }); /*.then((result) => {
-                      if (result.isConfirmed) h_business.current.focus();
-                    });*/
+                    });
                     return;
                   }
                   const form = new FormData();
-                  form.append("userId", userId.current.value);
+                  form.append("userEmail", userEmail.current.value);
                   form.append("pwd", pwd.current.value);
                   form.append("h_name", h_name.current.value);
                   form.append("h_phone", h_phone.current.value);

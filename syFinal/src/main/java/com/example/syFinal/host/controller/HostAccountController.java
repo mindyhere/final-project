@@ -34,13 +34,13 @@ public class HostAccountController {
 	EmailService emailService;
 
 	@PostMapping("idCheck")
-	public Map<String, Object> idCheck(@RequestParam(name = "userId", defaultValue = "") String userId) {
-		System.out.println("===> userid: " + userId);
+	public Map<String, Object> idCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail) {
+		System.out.println("===> userEmail: " + userEmail);
 		// id 중복검사
-		int checked = hostDao.idCheck(userId);
+		int checked = hostDao.idCheck(userEmail);
 		System.out.println("===> checked: " + checked);
 		Map<String, Object> data = new HashMap<>();
-		if (userId.equals("undefined") || checked > 0) {
+		if (userEmail.equals("undefined") || checked > 0) {
 			data.put("msg", "error");
 		} else {
 			data.put("msg", "ok");
@@ -49,10 +49,10 @@ public class HostAccountController {
 	}
 
 	@PostMapping("pwdCheck/{pwd}")
-	public String pwdCheck(@RequestParam(name = "userId", defaultValue = "") String userId,
+	public String pwdCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail,
 			@PathVariable(name = "pwd") String pwd) {
 		// TODO: process POST request
-		String savedPwd = hostDao.pwdCheck(userId);
+		String savedPwd = hostDao.pwdCheck(userEmail);
 		if (pwdEncoder.matches(pwd, savedPwd)) {
 			return "ok";
 		} else {
@@ -103,39 +103,40 @@ public class HostAccountController {
 		return data;
 	}
 
-	@GetMapping("account/{userNo}")
-	public Map<String, Object> getAccount(@PathVariable(name = "userNo") int h_idx) {
+	@GetMapping("account/{userIdx}")
+	public Map<String, Object> getAccount(@PathVariable(name = "userIdx") int h_idx) {
 		System.out.println("***회원정보 " + h_idx);
 		Map<String, Object> data = hostDao.getAccount(h_idx);
 		System.out.println("===> 결과: " + data);
 		return data;
 	}
 
-	@PostMapping("update/{userNo}")
-	public String updateInfo(@PathVariable(name = "userNo") int h_idx, Map<String, Object> map,
+	@PostMapping("update/{userIdx}")
+	public void updateInfo(@PathVariable(name = "userIdx") int h_idx, @RequestParam Map<String, Object> map,
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
-		System.out.println(map);
+		System.out.println("==> update 컨트롤러: " + map);
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
-		String h_profile = "no-image.png";
-		String h_file = "-";
-
+		String h_profile = "";
+		String h_file = "";
 		if (profile != null && !profile.isEmpty()) {
-			h_profile = profile.getOriginalFilename();
 			try {
-				String profile1 = hostDao.getfile(h_idx, "profile");
+				String profile1 = hostDao.getfile(h_idx, "h_profile");
 				if (profile1 != null) {
 					File file1 = new File(path + profile1);
 					if (file1.exists()) {
 						file1.delete();
 					}
 				}
+				h_profile = profile.getOriginalFilename();
 				profile.transferTo(new File(path + h_profile));
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 프로필 저장 에러 ===");
+				System.out.println("=== 프로필 삭제/저장 에러 ===");
 			}
+		} else {
+			h_profile = hostDao.getfile(h_idx, "h_profile");
 		}
 		map.put("h_profile", h_profile);
 
@@ -148,6 +149,8 @@ public class HostAccountController {
 				e.printStackTrace();
 				System.out.println("=== 사업자등록증 저장 에러 ===");
 			}
+		} else {
+			h_file = hostDao.getfile(h_idx, "h_file");
 		}
 		map.put("h_file", h_file);
 
@@ -158,16 +161,12 @@ public class HostAccountController {
 		System.out.println("===> map: " + map);
 
 		hostDao.updateInfo(map);
-//		Map<String, Object> data = new HashMap<>();
-//		data.put("params", "params");
-//		data.put("msg", "success");
-		return "success";
 	}
 
 	@GetMapping("delete/{hIdx}")
 	public String deleteAccount(@PathVariable(name = "hIdx") int h_idx, HttpServletRequest request) {
-		String profileName = hostDao.getfile(h_idx, "profile");
-		String fileName = hostDao.getfile(h_idx, "file");
+		String profileName = hostDao.getfile(h_idx, "h_profile");
+		String fileName = hostDao.getfile(h_idx, "h_file");
 
 		if (profileName != null && !profileName.equals("no-image.png")) {
 			ServletContext application = request.getSession().getServletContext();
