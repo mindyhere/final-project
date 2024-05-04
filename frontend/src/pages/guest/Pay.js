@@ -1,11 +1,11 @@
 import React, {useRef,useEffect,useState} from 'react';
-import {useNavigate} from "react-router-dom";
+//import {useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import PayItem from "../../pages/guest/PayItem";
 
 function Pay() {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const modalBackground = useRef();
     const [paylist,setPayList] = useState([]);
@@ -42,6 +42,7 @@ function Pay() {
                                 <br/>
                                 <br/>
                                 <br/>
+                                <img type='button' src='/img/kakaopay.png'></img>
                                 <div>
                                     <div className={'btn-wrapper'}>
                                             <div className={'modal-open-btn'} onClick={() => setModalOpen(true)}>

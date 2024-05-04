@@ -10,6 +10,23 @@ import "../pages/host/modalH.css";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
+// function useFetch(url) {
+//   const [data,setData] = useState(null);
+//   const [loading,setLoading] = useState(true);
+
+//   useEffect(()=>{
+//       fetch(url)
+//           .then(response=>{
+//               return response.json();
+//           })
+//           .then(data=>{
+//               setData(data);
+//               setLoading(false);
+//           })
+//   }, []);
+//   return [data,loading];
+// }
+
 function Header() {
   const navigate = useNavigate();
   const [modal_1, setModal_1] = useState(false);
@@ -32,6 +49,8 @@ function Header() {
   const userId = cookies.get("userId");
   const userName = cookies.get("userName");
   const phoneNum = cookies.get("phoneNum");
+
+  //const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx);
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -273,6 +292,14 @@ function Header() {
     } else if (g_level.key == 3) {
       level = "VIP";
     }
+
+    // let src='';
+    // let image_url='';
+    // if (data.g_photo != '-') {
+    //   src=`http://localhost/static/images/guest/photo/${data.g_photo}`;
+    //   image_url=`<img src=${src} width='300px' height='300px'/>`;
+    // }
+    // <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
@@ -299,7 +326,6 @@ function Header() {
                     </div>
                   </div>
                 </a>
-
                 {modalOpen && (
                   <div
                     className={"modal-container"}
@@ -312,7 +338,11 @@ function Header() {
                   >
                     <div className={"modal-content"}>
                       <h4>{g_name.key}님 프로필</h4>
-                      <img width="210px" height="210px"></img>
+                      <img
+                        src="http://localhost/static/images/guest/photo/cat.jpeg"
+                        width="210px"
+                        height="210px"
+                      ></img>
                       <div style={{ padding: "5px" }}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
