@@ -39,6 +39,6 @@ public interface HostDAO {
 	// Host 회원탈퇴
 	void deleteAccount(int h_idx);
 
-	String getfile(int h_idx, String type);
+	String getFile(int h_idx, String type);
 
 }

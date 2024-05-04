@@ -71,7 +71,7 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override
-	public String getfile(int h_idx, String type) {
+	public String getFile(int h_idx, String type) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("h_idx", h_idx);
 		params.put("type", type);

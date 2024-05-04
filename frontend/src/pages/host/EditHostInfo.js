@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
@@ -248,7 +248,18 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           {data.h_status === "가입완료" ? (
                             <>
-                              파일명 : [ {data.h_file} ]
+                              &nbsp;파일명 : [&nbsp;
+                              <a
+                                onClick={() => {
+                                  window.open(
+                                    `http://localhost/static/images/host/profile/${data.h_file}`
+                                  );
+                                }}
+                                className="attach"
+                              >
+                                {data.h_file}
+                              </a>
+                              &nbsp;]
                               <input
                                 className="form-control"
                                 type="file"
@@ -432,38 +443,50 @@ function EditHostInfo() {
                           icon: "question",
                           title: "잠깐!",
                           input: "password",
-                          inputLabel: "정말 탈퇴하시겠습니까?",
+                          inputLabel: "정말로 탈퇴하시겠습니까?",
                           inputPlaceholder: "비밀번호를 입력해주세요",
                           inputAttributes: {
                             autocapitalize: "off",
                             autocorrect: "off",
                           },
                           showCancelButton: true,
-                          cancelButtonText: "NO",
-                          confirmButtonText: "YES",
+                          cancelButtonText: "CANCEL",
+                          confirmButtonText: "CONFIRM",
                           showLoaderOnConfirm: true,
-                          preConfirm: async (pwd) => {
-                            try {
-                              const url = `
+                          preConfirm: (pwd) => {
+                            const url = `
                               http://localhost/api/host/delete/${pwd}?userIdx=${userIdx.key}&userEmail=${userEmail.key}
                               `;
-                              const response = fetch(url);
-                              if (!response.ok) {
-                                return Swal.showValidationMessage(`
-                                  ${JSON.stringify( response.json())}
-                                `);
-                              }
-                              return response.text();
-                            } catch (error) {
-                              console.log(error);
-                            }
+                            return fetch(url)
+                              .then((response) => {
+                                if (!response.ok) {
+                                  throw new Error(response.statusText);
+                                }
+                                return response.text();
+                              })
+                              .catch((error) => {
+                                Swal.showValidationMessage(
+                                  `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                                );
+                              });
                           },
                           allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          console.log(result);
-                          Swal.fire({
-                            title:"확인"
-                          });
+                          if (result.isConfirmed) {
+                            console.log(result.value);
+                            Swal.fire({
+                              icon: "success",
+                              title: "Complete",
+                              html: "정상처리 되었습니다.<br/>그동안 이용해 주셔서 감사합니다.",
+                              showConfirmButton: false,
+                              timer: 2000,
+                            }).then(() => {
+                              localStorage.clear();
+                              sessionStorage.clear();
+                              removeCookies();
+                              navigate("/");
+                            });
+                          }
                         });
                       }}
                     >
