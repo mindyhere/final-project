@@ -425,6 +425,8 @@ function EditHostInfo() {
                     &nbsp;&nbsp;
                     <button
                       type="button"
+                      className="main-btn"
+                      style={{ backgroundColor: "#C6C7C8" }}
                       onClick={() => {
                         Swal.fire({
                           icon: "question",
@@ -441,58 +443,29 @@ function EditHostInfo() {
                           confirmButtonText: "YES",
                           showLoaderOnConfirm: true,
                           preConfirm: async (pwd) => {
-                            return fetch(
-                              `https://localhost/api/host/delete/${pwd}`,
-                              {
-                                method: "post",
-                                body: {
-                                  userIdx: userIdx.key,
-                                  userEmail: userEmail.key,
-                                },
+                            try {
+                              const url = `
+                              http://localhost/api/host/delete/${pwd}?userIdx=${userIdx.key}&userEmail=${userEmail.key}
+                              `;
+                              const response = fetch(url);
+                              if (!response.ok) {
+                                return Swal.showValidationMessage(`
+                                  ${JSON.stringify( response.json())}
+                                `);
                               }
-                            )
-                              .then((response) => {
-                                if (!response.ok) {
-                                  throw new Error(response);
-                                }
-                                return response.json();
-                              })
-                              .catch((error) => {
-                                Swal.showValidationMessage(
-                                  `Request failed: ${error}`
-                                );
-                              });
+                              return response.text();
+                            } catch (error) {
+                              console.log(error);
+                            }
                           },
                           allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          if (result.isConfirmed) {
-                            Swal.fire({
-                              title: "탈퇴",
-                            });
-                          }
+                          console.log(result);
+                          Swal.fire({
+                            title:"확인"
+                          });
                         });
-                        //   Swal.fire({
-                        //     icon: "question",
-                        //     title: "잠깐!",
-                        //     html: "탈퇴하시겠습니까?",
-                        //     showCancelButton: true,
-                        //     confirmButtonText: "YES",
-                        //     cancelButtonText: "NO",
-                        //   }).then((result) => {
-                        //     if (result.isConfirmed) {
-                        //       fetch(
-                        //         `http://localhost/api/host/delete/${userNo}`
-                        //       ).then(() => {
-                        //         localStorage.clear();
-                        //         sessionStorage.clear();
-                        //         removeCookies();
-                        //         navigate("/");
-                        //       });
-                        //     }
-                        //   });
                       }}
-                      className="main-btn"
-                      style={{ backgroundColor: "#C6C7C8" }}
                     >
                       회원탈퇴
                     </button>

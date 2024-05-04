@@ -163,14 +163,15 @@ public class HostAccountController {
 		hostDao.updateInfo(map);
 	}
 
-	@PostMapping("delete/{pwd}")
-	public String deleteAccount(@PathVariable(name = "pwd") String pwd, @RequestParam Map<String, Object> map,
-			HttpServletRequest request) {
-		String userEmail = (String) map.get("userEmail");
-		String savedPwd = hostDao.pwdCheck("userEmail");
-		System.out.println("==> delete? " + pwd + ", " + map + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
+	@GetMapping("delete/{pwd}")
+	public String deleteAccount(@PathVariable(name = "pwd") String pwd,
+			@RequestParam(name = "userIdx", defaultValue = "") int h_idx,
+			@RequestParam(name = "userEmail", defaultValue = "") String h_email, HttpServletRequest request) {
+		// String userEmail = (String) map.get("userEmail");
+		String savedPwd = hostDao.pwdCheck(h_email);
+		System.out.println("==> delete? " + pwd + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
-			int h_idx = (int) map.get("userIdx");
+			// int h_idx = (int) map.get("userIdx");
 			String h_profile = hostDao.getfile(h_idx, "h_profile");
 			String h_file = hostDao.getfile(h_idx, "h_file");
 
