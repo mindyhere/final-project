@@ -427,9 +427,10 @@ function EditHostInfo() {
                       type="button"
                       onClick={() => {
                         Swal.fire({
-                          title: "정말 탈퇴하시겠습니까?",
+                          icon: "question",
+                          title: "잠깐!",
                           input: "password",
-                          inputLabel: "Password",
+                          inputLabel: "정말 탈퇴하시겠습니까?",
                           inputPlaceholder: "비밀번호를 입력해주세요",
                           inputAttributes: {
                             autocapitalize: "off",
@@ -441,10 +442,13 @@ function EditHostInfo() {
                           showLoaderOnConfirm: true,
                           preConfirm: async (pwd) => {
                             return fetch(
-                              `https://localhost/api/host/pwdCheck/${pwd}`,
+                              `https://localhost/api/host/delete/${pwd}`,
                               {
                                 method: "post",
-                                body: { userIdx: userIdx.key },
+                                body: {
+                                  userIdx: userIdx.key,
+                                  userEmail: userEmail.key,
+                                },
                               }
                             )
                               .then((response) => {

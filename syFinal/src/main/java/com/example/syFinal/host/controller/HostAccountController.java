@@ -47,18 +47,18 @@ public class HostAccountController {
 		}
 		return data;
 	}
-
-	@PostMapping("pwdCheck/{pwd}")
-	public String pwdCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail,
-			@PathVariable(name = "pwd") String pwd) {
-		// TODO: process POST request
-		String savedPwd = hostDao.pwdCheck(userEmail);
-		if (pwdEncoder.matches(pwd, savedPwd)) {
-			return "ok";
-		} else {
-			return "error";
-		}
-	}
+//
+//	@PostMapping("pwdCheck/{pwd}")
+//	public String pwdCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail,
+//			@PathVariable(name = "pwd") String pwd) {
+//		// TODO: process POST request
+//		String savedPwd = hostDao.pwdCheck(userEmail);
+//		if (pwdEncoder.matches(pwd, savedPwd)) {
+//			return "ok";
+//		} else {
+//			return "error";
+//		}
+//	}
 
 	@PostMapping("join")
 	public Map<String, Object> join(@RequestParam Map<String, Object> map,
@@ -70,9 +70,9 @@ public class HostAccountController {
 		String h_file = "-";
 
 		if (profile != null && !profile.isEmpty()) {
-			h_profile = profile.getOriginalFilename();
 			try {
 				profile.transferTo(new File(path + h_profile));
+				h_profile = profile.getOriginalFilename();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 프로필없음 ===");
@@ -82,13 +82,13 @@ public class HostAccountController {
 		if (file != null && !file.isEmpty()) {
 			try {
 				file.transferTo(new File(path + h_file));
-				map.put("h_file", h_file);
+				h_file = file.getOriginalFilename();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 사업자등록증없음 ===");
 			}
 		}
-		h_file = file.getOriginalFilename();
+		map.put("h_file", h_file);
 
 //		String h_description = (map.get("h_description") != null ? (String) map.get("h_description") : "-");
 //		map.put("h_description", h_description);
@@ -163,28 +163,40 @@ public class HostAccountController {
 		hostDao.updateInfo(map);
 	}
 
-	@GetMapping("delete/{hIdx}")
-	public String deleteAccount(@PathVariable(name = "hIdx") int h_idx, HttpServletRequest request) {
-		String profileName = hostDao.getfile(h_idx, "h_profile");
-		String fileName = hostDao.getfile(h_idx, "h_file");
+	@PostMapping("delete/{pwd}")
+	public String deleteAccount(@PathVariable(name = "pwd") String pwd, @RequestParam Map<String, Object> map,
+			HttpServletRequest request) {
+		String userEmail = (String) map.get("userEmail");
+		String savedPwd = hostDao.pwdCheck("userEmail");
+		System.out.println("==> delete? " + pwd + ", " + map + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
+		if (pwdEncoder.matches(pwd, savedPwd)) {
+			int h_idx = (int) map.get("userIdx");
+			String h_profile = hostDao.getfile(h_idx, "h_profile");
+			String h_file = hostDao.getfile(h_idx, "h_file");
 
-		if (profileName != null && !profileName.equals("no-image.png")) {
-			ServletContext application = request.getSession().getServletContext();
-			String path = application.getRealPath("static/images/host/profile/");
-			File h_profile = new File(path + profileName);
-			if (h_profile.exists()) {
-				h_profile.delete();
+			if (h_profile != null && !h_profile.equals("no-image.png")) {
+				ServletContext application = request.getSession().getServletContext();
+				String path = application.getRealPath("static/images/host/profile/");
+				File profile = new File(path + h_profile);
+				if (profile.exists()) {
+					profile.delete();
+				}
 			}
-		}
-		if (fileName != null && !fileName.equals("-")) {
-			ServletContext application = request.getSession().getServletContext();
-			String path = application.getRealPath("static/images/host/profile/");
-			File h_file = new File(path + fileName);
-			if (h_file.exists()) {
-				h_file.delete();
+
+			if (h_file != null && !h_file.equals("-")) {
+				ServletContext application = request.getSession().getServletContext();
+				String path = application.getRealPath("static/images/host/profile/");
+				File file = new File(path + h_file);
+				if (file.exists()) {
+					file.delete();
+				}
 			}
+
+			// hostDao.deleteAccount(h_idx);
+			return "complete";
+		} else {
+			return "fail";
 		}
-		hostDao.deleteAccount(h_idx);
-		return "success";
+
 	}
 }

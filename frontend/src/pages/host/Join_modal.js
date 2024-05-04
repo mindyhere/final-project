@@ -35,7 +35,9 @@ function HostJoin() {
         console.log(opt);
         if (phoneRegEx.test(val)) {
           setPhoneNum(
-            val.replace(/-/g, "").replace(/(\d{2,3})(\d{2,4})(\d{4})/, "$1-$2-$3")
+            val
+              .replace(/-/g, "")
+              .replace(/(\d{2,3})(\d{2,4})(\d{4})/, "$1-$2-$3")
           );
         }
         break;
@@ -92,6 +94,7 @@ function HostJoin() {
                       type="button"
                       value={check}
                       className={"btnCheck " + (check ? "active" : "disabled")}
+                      disabled={check? false : true}
                       onClick={() => {
                         const form = new FormData();
                         form.append("userEmail", userEmail.current.value);
@@ -193,11 +196,7 @@ function HostJoin() {
                 <tr>
                   <th>프로필</th>
                   <td colSpan={2}>
-                    <input
-                      className="form-control"
-                      type="file"
-                      ref={profile}
-                    />
+                    <input className="form-control" type="file" ref={profile} />
                   </td>
                 </tr>
                 <tr>
