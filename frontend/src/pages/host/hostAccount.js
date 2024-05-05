@@ -6,7 +6,6 @@ import Reviews from "./hostAccount/Reviews";
 import Orders from "./hostAccount/Orders";
 
 import Swal from "sweetalert2";
-import "../../asset/css/main.css";
 import "./host1.css";
 
 function useFetch(url) {
@@ -32,22 +31,13 @@ function HostAccount() {
   const userIdx = cookies.get("userIdx");
   const userEmail = cookies.get("userEmail");
   const userName = cookies.get("userName");
+  const level = cookies.get("level");
+
+  const [check, setCheck] = useState(false);
+  const navigate = useNavigate();
   const [data, loading] = useFetch(
     `http://localhost/api/host/account/${userIdx.key}`
   );
-  //   const pwd = useRef();
-  //   const pwdChk = useRef();
-  //   const h_email = useRef();
-  //   const h_name = useRef();
-  //   const [phoneNum, setPhoneNum] = useState("");
-  //   const h_phone = useRef();
-  //   const [businessNum, setBusinessNum] = useState("");
-  //   const h_business = useRef();
-  //   const h_level = useRef();
-  //   const h_status = useRef();
-  //   const profile = useRef();
-  //   const file = useRef();
-  //   const navigate = useNavigate();
 
   if (loading) {
     return <div>loading</div>;
@@ -59,8 +49,26 @@ function HostAccount() {
       profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img src= http://localhost/static/images/host/profile/no-image.png' width='30%'/>";
+        "<img src= http://localhost/static/images/host/no-image.png' width='30%'/>";
     }
+
+    const handleEditInfo = ({data}) =>
+      navigate(`/host/edit/${userIdx.key}`, {
+        state: {
+          h_idx: `${data.h_idx}`,
+          h_email: `${data.h_email}`,
+          h_name: `${data.h_name}`,
+          h_phone: `${data.h_phone}`,
+          h_business: `${data.h_business}`,
+          h_level: `${data.h_level}`,
+          l_name: `${data.l_name}`,
+          h_status: `${data.h_status}`,
+          h_regdate: `${data.h_regdate}`,
+          h_profile: `${data.h_profile}`,
+          h_file: `${data.h_file}`,
+          h_description: `${data.h_description}`,
+        },
+      });
 
     return (
       <>
@@ -88,15 +96,25 @@ function HostAccount() {
                           boxSizing: "border-box",
                         }}
                       >
-                        <div
-                          className="col"
-                          style={{
-                            display: "block",
-                            position: "sticky",
-                          }}
-                        >
-                          <button className="main-btn">슈퍼호스트</button>
-                        </div>
+                        {level.key === 9 ? (
+                          <div
+                            className="col"
+                            style={{
+                              display: "block",
+                              position: "sticky",
+                            }}
+                          >
+                            <button
+                              className="btnCheck active"
+                              style={{ cursor: "none" }}
+                              disabled
+                            >
+                              SUPER
+                            </button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                         <div
                           className="col"
                           style={{
@@ -108,51 +126,19 @@ function HostAccount() {
                         ></div>
                       </td>
                       <th>이메일(ID)</th>
-                      <td colSpan={3}>
-                        <input
-                          className="form-control"
-                          type="email"
-                          // ref={h_email}
-                          // defaultValue={userEmail.key}
-                          readOnly
-                        />
-                      </td>
+                      <td colSpan={3}>&nbsp;&nbsp;{userEmail.key}</td>
                     </tr>
                     <tr>
-                      <th>이메일(ID)</th>
-                      <td colSpan={3}>
-                        <input
-                          className="form-control"
-                          type="email"
-                          // ref={h_email}
-                          // defaultValue={userEmail.key}
-                          readOnly
-                        />
-                      </td>
+                      <th>이름</th>
+                      <td colSpan={3}>&nbsp;&nbsp;{userName.key}</td>
                     </tr>
                     <tr>
-                      <th>이메일(ID)</th>
-                      <td colSpan={3}>
-                        <input
-                          className="form-control"
-                          type="email"
-                          // ref={h_email}
-                          // defaultValue={userEmail.key}
-                          readOnly
-                        />
-                      </td>
+                      <th>전화번호</th>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_phone}</td>
                     </tr>
                     <tr>
-                      <th>이메일(ID)</th>
-                      <td colSpan={3}>
-                        <input
-                          className="form-control"
-                          type="email"
-                          // ref={h_email}
-                          // defaultValue={userEmail.key}
-                          readOnly
-                        />
-                      </td>
+                      <th>상태</th>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_status}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -160,8 +146,49 @@ function HostAccount() {
                 <div style={{ textAlign: "right" }}>
                   <button
                     type="button"
-                    // onClick={() => {
                     className="main-btn"
+                    onClick={() => {
+                      Swal.fire({
+                        icon: "info",
+                        title: "잠깐!",
+                        input: "password",
+                        inputLabel:
+                          "정보 보호를 위해 비밀번호를 다시 한번 확인해주세요.",
+                        inputPlaceholder: "비밀번호를 입력해주세요",
+                        inputAttributes: {
+                          autocapitalize: "off",
+                          autocorrect: "off",
+                        },
+                        confirmButtonText: "CONFIRM",
+                        showLoaderOnConfirm: true,
+                        preConfirm: (pwd) => {
+                          return fetch(
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail.key}`
+                          )
+                            .then((response) => {
+                              if (!response.ok) {
+                                console.log("false: " + response.status);
+                                throw new Error("false: " + response.status);
+                              }
+                              console.log("확인: " + response.status);
+
+                              return response.json();
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                              Swal.showValidationMessage(
+                                `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                              );
+                            });
+                        },
+                        allowOutsideClick: () => !Swal.isLoading(),
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          console.log(result.value);
+                          handleEditInfo();
+                        }
+                      });
+                    }}
                   >
                     회원정보수정
                   </button>
@@ -170,57 +197,6 @@ function HostAccount() {
                     type="button"
                     className="main-btn"
                     style={{ backgroundColor: "#C6C7C8" }}
-                    // onClick={() => {
-                    //   Swal.fire({
-                    //     icon: "question",
-                    //     title: "잠깐!",
-                    //     input: "password",
-                    //     inputLabel: "정말로 탈퇴하시겠습니까?",
-                    //     inputPlaceholder: "비밀번호를 입력해주세요",
-                    //     inputAttributes: {
-                    //       autocapitalize: "off",
-                    //       autocorrect: "off",
-                    //     },
-                    //     showCancelButton: true,
-                    //     cancelButtonText: "CANCEL",
-                    //     confirmButtonText: "CONFIRM",
-                    //     showLoaderOnConfirm: true,
-                    //     preConfirm: (pwd) => {
-                    //       const url = `
-                    //         http://localhost/api/host/delete/${pwd}?userIdx=${userIdx.key}&userEmail=${userEmail.key}
-                    //         `;
-                    //       return fetch(url)
-                    //         .then((response) => {
-                    //           if (!response.ok) {
-                    //             throw new Error(response.statusText);
-                    //           }
-                    //           return response.text();
-                    //         })
-                    //         .catch((error) => {
-                    //           Swal.showValidationMessage(
-                    //             `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
-                    //           );
-                    //         });
-                    //     },
-                    //     allowOutsideClick: () => !Swal.isLoading(),
-                    //   }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //       console.log(result.value);
-                    //       Swal.fire({
-                    //         icon: "success",
-                    //         title: "Complete",
-                    //         html: "정상처리 되었습니다.<br/>그동안 이용해 주셔서 감사합니다.",
-                    //         showConfirmButton: false,
-                    //         timer: 2000,
-                    //       }).then(() => {
-                    //         localStorage.clear();
-                    //         sessionStorage.clear();
-                    //         removeCookies();
-                    //         navigate("/");
-                    //       });
-                    //     }
-                    //   });
-                    // }}
                   >
                     &nbsp;&nbsp;승급신청&nbsp;&nbsp;
                   </button>
@@ -260,7 +236,7 @@ function HostAccount() {
               >
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                 />
               </svg>

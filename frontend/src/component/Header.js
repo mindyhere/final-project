@@ -48,7 +48,6 @@ function Header() {
   const userIdx = cookies.get("userIdx");
   const userEmail = cookies.get("userEmail");
   const userName = cookies.get("userName");
-  const phoneNum = cookies.get("phoneNum");
 
   //const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx);
 
@@ -67,9 +66,7 @@ function Header() {
         cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
         cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
         cookies.remove("userName", { path: "/" }, new Date(Date.now()));
-        cookies.remove("phoneNum", { path: "/" }, new Date(Date.now()));
         cookies.remove("level", { path: "/" }, new Date(Date.now()));
-        cookies.remove("status", { path: "/" }, new Date(Date.now()));
         break;
     }
   };

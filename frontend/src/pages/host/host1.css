@@ -134,7 +134,7 @@ input::placeholder {
 }
 
 textarea::placeholder {
-	color: blue;
+	color: blue !important;
 	font-style: italic;
 }
 

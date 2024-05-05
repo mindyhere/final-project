@@ -93,18 +93,8 @@ function HostLogin() {
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         cookies.set(
-                          "userPhone",
-                          { key: data.dto.h_phone },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
                           "level",
                           { key: data.dto.h_level },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
-                          "status",
-                          { key: data.dto.h_status },
                           { path: "/", expires: new Date(Date.now() + 2592000) }
                         );
                         navigate("/");

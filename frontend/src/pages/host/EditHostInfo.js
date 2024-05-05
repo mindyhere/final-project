@@ -1,43 +1,47 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
 // import "../../asset/css/main.css";
 import "./host1.css";
 
-function useFetch(url) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+// function useFetch() {
+//   const [data, setData] = useState(null);
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("===> data? " + JSON.stringify(data));
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-  return [data, loading];
-}
+//   useEffect(() => {
+//     fetch(url)
+//       .then((response) => {
+//         return response.json();
+//       })
+//       .then((data) => {
+//         console.log("===> data? " + JSON.stringify(data));
+//         setData(data);
+//         setLoading(false);
+//       });
+//   }, []);
+//   return [data, loading];
+// }
 
 function EditHostInfo() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = { ...location.state };
+
   const cookies = new Cookies();
   const userIdx = cookies.get("userIdx");
   const userEmail = cookies.get("userEmail");
-  const userPhone = cookies.get("userPhone");
-  const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userIdx.key}`
-  );
+  const [page, loading] = useState(false);
+  // const [data, loading] = useFetch(
+  //   `http://localhost/api/host/account/${userIdx.key}`
+  // );
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
   const h_name = useRef();
   const h_phone = useRef();
-  const [phone, setPhone] = useState(userPhone.key);
+  const [phone, setPhone] = useState(userInfo.h_phone);
   const h_business = useRef();
   const h_level = useRef();
   const h_status = useRef();
@@ -45,7 +49,7 @@ function EditHostInfo() {
   const file = useRef();
   const h_description = useRef();
   const h_regdate = useRef();
-  const navigate = useNavigate();
+
   const [check, setCheck] = useState(false);
 
   // 회원탈퇴 시 쿠키삭제
@@ -53,9 +57,7 @@ function EditHostInfo() {
     cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
     cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userPhone", { path: "/" }, new Date(Date.now()));
     cookies.remove("level", { path: "/" }, new Date(Date.now()));
-    cookies.remove("status", { path: "/" }, new Date(Date.now()));
   };
 
   const handleChange = (val) => {
@@ -82,8 +84,8 @@ function EditHostInfo() {
     let url = "";
     let profile_src = "";
 
-    if (data.h_profile !== "-" || data.h_profile !== "") {
-      url = `http://localhost/static/images/host/profile/${data.h_profile}`;
+    if (userInfo.h_profile !== "-" || userInfo.h_profile !== "") {
+      url = `http://localhost/static/images/host/profile/${userInfo.h_profile}`;
       profile_src = `<img src=${url} width="300px" />`;
     } else {
       profile_src =
@@ -161,7 +163,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="text"
                             ref={h_name}
-                            defaultValue={data.h_name}
+                            defaultValue={userInfo.h_name}
                             placeholder="이름을 입력해주세요"
                           />
                         </td>
@@ -188,7 +190,7 @@ function EditHostInfo() {
                           <input
                             className="form-control"
                             type="text"
-                            defaultValue={data.h_business}
+                            defaultValue={userInfo.h_business}
                             ref={h_business}
                             readOnly
                           />
@@ -201,7 +203,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="text"
                             ref={h_level}
-                            defaultValue={data.l_name}
+                            defaultValue={userInfo.l_name}
                             readOnly
                           />
                         </td>
@@ -211,7 +213,7 @@ function EditHostInfo() {
                             className="form-control"
                             type="text"
                             ref={h_status}
-                            defaultValue={data.h_status}
+                            defaultValue={userInfo.h_status}
                             readOnly
                           />
                         </td>
@@ -223,9 +225,9 @@ function EditHostInfo() {
                             className="form-control"
                             rows={5}
                             cols={85}
-                            defaultValue={data.h_description}
+                            defaultValue={userInfo.h_description}
                             ref={h_description}
-                            placeholder="&nbsp;내용을 입력해주세요"
+                            placeholder="내용을 입력해주세요"
                             style={{
                               borderColor: "#FAE0E0",
                               borderRadius: "7px",
@@ -249,19 +251,19 @@ function EditHostInfo() {
                       <tr>
                         <th>사업자등록증</th>
                         <td colSpan={3}>
-                          {data.h_status === "가입완료" ? (
-                            data.h_file !== "-" ? (
+                          {userInfo.h_status === "가입완료" ? (
+                            userInfo.h_file !== "-" ? (
                               <>
                                 &nbsp;파일명 : [&nbsp;
                                 <a
                                   onClick={() => {
                                     window.open(
-                                      `http://localhost/static/images/host/profile/${data.h_file}`
+                                      `http://localhost/static/images/host/profile/${userInfo.h_file}`
                                     );
                                   }}
                                   className="attach"
                                 >
-                                  {data.h_file}
+                                  {userInfo.h_file}
                                 </a>
                                 &nbsp;]
                                 <input
@@ -288,13 +290,13 @@ function EditHostInfo() {
                               <input
                                 className="form-control"
                                 type="text"
-                                value={data.h_file}
+                                value={userInfo.h_file}
                                 ref={file}
                                 title="파일열기"
                                 readOnly
                                 onClick={() => {
                                   window.open(
-                                    `http://localhost/static/images/host/profile/${data.h_file}`
+                                    `http://localhost/static/images/host/profile/${userInfo.h_file}`
                                   );
                                 }}
                                 style={{ cursor: "pointer" }}
@@ -309,7 +311,7 @@ function EditHostInfo() {
                           <input
                             className="form-control"
                             type="text"
-                            defaultValue={data.h_regdate}
+                            defaultValue={userInfo.h_regdate}
                             ref={h_regdate}
                             readOnly
                           />
@@ -382,7 +384,7 @@ function EditHostInfo() {
                           form.append("profile", profile.current.files[0]);
                         }
                         if (
-                          data.h_status === "가입완료" &&
+                          userInfo.h_status === "가입완료" &&
                           file.current.files.length > 0
                         ) {
                           form.append("file", file.current.files[0]);
