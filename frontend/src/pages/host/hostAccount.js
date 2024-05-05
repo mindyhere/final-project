@@ -1,384 +1,277 @@
-// import React, { useRef, useEffect, useState } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
-// import Cookies from "universal-cookie";
+import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
-// import Swal from "sweetalert2";
-// import "./asset/css/main.css";
-// import "./host1.css";
+import Reviews from "./hostAccount/Reviews";
+import Orders from "./hostAccount/Orders";
 
-// function useFetch(url) {
-//   const [data, setData] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   useEffect(() => {
-//     fetch(url)
-//       .then((response) => {
-//         return response.json();
-//       })
-//       .then((data) => {
-//         setData(data);
-//         setLoading(false);
-//       });
-//   }, []);
-//   return [data, loading];
-// }
+import Swal from "sweetalert2";
+import "../../asset/css/main.css";
+import "./host1.css";
 
-// function HostAccount() {
-//   const cookies = new Cookies();
-//   const userIdx = cookies.get("userIdx");
-//   const userEmail = cookies.get("userEmail");
-//   const userName = cookies.get("userName");
-//   const [data, loading] = useFetch(
-//     `http://localhost/api/host/account/${userIdx.key}`
-//   );
-//   const pwd = useRef();
-//   const pwdChk = useRef();
-//   const h_email = useRef();
-//   const h_name = useRef();
-//   const [phoneNum, setPhoneNum] = useState("");
-//   const h_phone = useRef();
-//   const [businessNum, setBusinessNum] = useState("");
-//   const h_business = useRef();
-//   const h_level = useRef();
-//   const h_status = useRef();
-//   const profile = useRef();
-//   const file = useRef();
-//   const navigate = useNavigate();
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-//   const handleChange = (val, opt) => {
-//     const phoneRegEx = /^[0-9\b -]{0,13}$/;
-//     const businessRegEx = /^[0-9\b -]{0,12}$/;
-//     switch (opt) {
-//       case "phone":
-//         console.log(opt);
-//         if (phoneRegEx.test(val)) {
-//           setPhoneNum(
-//             val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-//           );
-//         }
-//         break;
-//       case "business":
-//         console.log(opt);
-//         if (businessRegEx.test(val)) {
-//           setBusinessNum(
-//             val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
-//           );
-//         }
-//         break;
-//     }
-//   };
+  useEffect(() => {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("===> data? " + JSON.stringify(data));
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+  return [data, loading];
+}
 
-//   if (loading) {
-//     return <div>loading</div>;
-//   } else {
-//     let src = "";
-//     // let src2 = "";
-//     if (data.dto.h_profile !== "-" || data.dto.h_profile !== "") {
-//       src = `http://localhost/static/images/host/profile/${dto.h_profile}`;
-//       profile_src = `<img src=${src1} width="200px" style={{backgroundSize:"contain";}} />`;
-//     } else {
-//       profile_src = "[미등록]";
-//     }
+function HostAccount() {
+  const cookies = new Cookies();
+  const userIdx = cookies.get("userIdx");
+  const userEmail = cookies.get("userEmail");
+  const userName = cookies.get("userName");
+  const [data, loading] = useFetch(
+    `http://localhost/api/host/account/${userIdx.key}`
+  );
+  //   const pwd = useRef();
+  //   const pwdChk = useRef();
+  //   const h_email = useRef();
+  //   const h_name = useRef();
+  //   const [phoneNum, setPhoneNum] = useState("");
+  //   const h_phone = useRef();
+  //   const [businessNum, setBusinessNum] = useState("");
+  //   const h_business = useRef();
+  //   const h_level = useRef();
+  //   const h_status = useRef();
+  //   const profile = useRef();
+  //   const file = useRef();
+  //   const navigate = useNavigate();
 
-//     return (
-//       <>
-//         <div className="container min-vh-100">
-//           <h3 className="text-bold">
-//             <img src="/img/info.png" width="35px" height="35px" />
-//             &nbsp; 회원 정보
-//           </h3>
-//           <hr />
-//           <div className="card-style mb-30">
-//             <div className="row">
-//               <div className="col-4" style="text-align: center;">
-//                 <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
-//               </div>
-//               <div className="col-8">
-//                 <form>
-//                   <table className="tbl">
-//                     <colgroup>
-//                       <col style="width: 25%" />
-//                       <col />
-//                     </colgroup>
-//                     <tbody>
-//                       <tr>
-//                         <th>이메일(ID)</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="email"
-//                             ref={h_email}
-//                             defaultValue={userEmail.key}
-//                             readOnly
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th rowSpan={2}>비밀번호</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="password"
-//                             ref={pwd}
-//                             placeholder="비밀번호를 입력해주세요"
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="password"
-//                             ref={pwdChk}
-//                             placeholder="비밀번호 확인"
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>이름</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="text"
-//                             ref={h_name}
-//                             defaultValue={userName.key}
-//                             placeholder="이름을 입력해주세요"
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>전화번호</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="text"
-//                             defaultValue={userPhone.key}
-//                             ref={h_phone}
-//                             onChange={(e) => {
-//                               handleChange(e.target.value, "phone");
-//                             }}
-//                             placeholder="숫자만 입력하세요"
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>사업자번호</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="text"
-//                             defaultValue={data.dto.h_business}
-//                             ref={h_business}
-//                             onChange={(e) => {
-//                               handleChange(e.target.value, "business");
-//                             }}
-//                             placeholder="숫자만 입력하세요"
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>등급</th>
-//                         <td>
-//                           <input
-//                             className="form-control"
-//                             type="text"
-//                             ref={h_level}
-//                             defaultValue={data.dto.h_level}
-//                             readOnly
-//                           />
-//                         </td>
-//                         <th>상태</th>
-//                         <td>
-//                           <input
-//                             className="form-control"
-//                             type="text"
-//                             ref={h_status}
-//                             defaultValue={data.dto.h_status}
-//                             readOnly
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>프로필</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="file"
-//                             defaultValue={data.dto.h_profile}
-//                             ref={profile}
-//                           />
-//                         </td>
-//                       </tr>
-//                       <tr>
-//                         <th>사업자등록증</th>
-//                         <td colSpan={3}>
-//                           <input
-//                             className="form-control"
-//                             type="file"
-//                             defaultValue={data.dto.h_file}
-//                             ref={file}
-//                           />
-//                         </td>
-//                       </tr>
-//                     </tbody>
-//                   </table>
-//                   <p>
-//                     프로필/사업자등록증 <strong>누락</strong> 시,
-//                     <br />
-//                     <span style={{ color: "red" }}>
-//                       일부 서비스 이용이 제한
-//                     </span>
-//                     될 수 있음을 알려드립니다.
-//                   </p>
-//                   <br />
-//                   <div style={{ textAlign: "center" }}>
-//                     <button
-//                       type="button"
-//                       onClick={() => {
-//                         if (pwd.current.value == "") {
-//                           Swal.fire({
-//                             icon: "warning",
-//                             title: "잠깐!",
-//                             html: "비밀번호를 입력하세요.",
-//                             confirmButtonText: "OK",
-//                           });
-//                           // pwd.current.focus();
-//                           return;
-//                         } else {
-//                           if (pwd.current.value === pwdChk.current.value) {
-//                             console.log("비밀번호 확인");
-//                           } else {
-//                             Swal.fire({
-//                               icon: "warning",
-//                               title: "잠깐!",
-//                               html: "비밀번호가 일치하지 않습니다.",
-//                               confirmButtonText: "OK",
-//                             });
-//                             return;
-//                           }
-//                         }
-//                         if (h_name.current.value == "") {
-//                           Swal.fire({
-//                             icon: "warning",
-//                             title: "잠깐!",
-//                             html: "이름을 입력하세요.",
-//                             confirmButtonText: "OK",
-//                           });
-//                           // h_name.current.focus();
-//                           return;
-//                         }
-//                         if (h_phone.current.value == "") {
-//                           Swal.fire({
-//                             icon: "warning",
-//                             title: "잠깐!",
-//                             html: "전화번호를 입력하세요.",
-//                             confirmButtonText: "OK",
-//                           });
-//                           // h_phone.current.focus();
-//                           return;
-//                         }
-//                         if (h_business.current.value == "") {
-//                           Swal.fire({
-//                             icon: "warning",
-//                             title: "잠깐!",
-//                             html: "사업자번호를 입력하세요.",
-//                             confirmButtonText: "OK",
-//                           }); /*.then((result) => {
-//                       if (result.isConfirmed) h_business.current.focus();
-//                     });*/
-//                           return;
-//                         }
+  if (loading) {
+    return <div>loading</div>;
+  } else {
+    let url = "";
+    let profile_src = "";
+    if (data.h_profile !== "-" || data.h_profile !== "") {
+      url = `http://localhost/static/images/host/profile/${data.h_profile}`;
+      profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
+    } else {
+      profile_src =
+        "<img src= http://localhost/static/images/host/profile/no-image.png' width='30%'/>";
+    }
 
-//                         const form = new FormData();
-//                         form.append("pwd", pwd.current.value);
-//                         form.append("h_name", h_name.current.value);
-//                         form.append("h_phone", h_phone.current.value);
-//                         form.append("h_business", h_business.current.value);
-
-//                         if (profile.current.files.length > 0) {
-//                           form.append("profile", profile.current.files[0]);
-//                         }
-//                         if (file.current.files.length > 0) {
-//                           form.append("file", file.current.files[0]);
-//                         }
-
-//                         fetch(`http://localhost/api/host/update/${userNo}`, {
-//                           method: "post",
-//                           endType: "multipart/form-data",
-//                           body: form,
-//                         })
-//                           .then((response) => response.json())
-//                           .then((data) => {
-//                             console.log(data);
-//                             if (data.msg === "success") {
-//                               Swal.fire({
-//                                 icon: "success",
-//                                 title: "Check",
-//                                 html: "계정 정보가 수정되었습니다.</br>메인 화면으로 이동합니다.",
-//                                 confirmButtonText: "YES",
-//                               }).then((result) => {
-//                                 if (result.isConfirmed) {
-//                                   cookies.set(
-//                                     "userName",
-//                                     { key: h_name.current.value },
-//                                     {
-//                                       path: "/",
-//                                       expires: new Date(Date.now() + 2592000),
-//                                     }
-//                                   );
-//                                   navigate("/");
-//                                 }
-//                               });
-//                             } else {
-//                               Swal.fire({
-//                                 icon: "error",
-//                                 title: "잠깐!",
-//                                 text: "관리자에게 문의 바랍니다",
-//                                 confirmButtonText: "OK",
-//                               });
-//                             }
-//                           });
-//                       }}
-//                       className="main-btn"
-//                     >
-//                       정보수정
-//                     </button>
-//                     &nbsp;
-//                     <button
-//                       type="button"
-//                       onClick={() => {
-//                         Swal.fire({
-//                           icon: "question",
-//                           title: "잠깐!",
-//                           html: "탈퇴하시겠습니까?",
-//                           showCancelButton: true,
-//                           confirmButtonText: "YES",
-//                           cancelButtonText: "NO",
-//                         }).then((result) => {
-//                           if (result.isConfirmed) {
-//                             fetch(
-//                               `http://localhost/api/host/delete/${userNo}`
-//                             ).then(() => {
-//                               localStorage.clear();
-//                               sessionStorage.clear();
-//                               removeCookies();
-//                               navigate("/");
-//                             });
-//                           }
-//                         });
-//                       }}
-//                       className="main-btn"
-//                       style={{ backgroundColor: "#C6C7C8" }}
-//                     >
-//                       회원탈퇴
-//                     </button>
-//                   </div>
-//                 </form>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </>
-//     );
-//   }
-// }
-// export default HostAccount;
+    return (
+      <>
+        <div className="container min-vh-100">
+          <div className="card-style">
+            <h3 className="text-bold">
+              <img src="/img/info.png" width="35px" height="35px" />
+              &nbsp;회원 정보
+            </h3>
+            <br />
+            <div className="row">
+              <form>
+                <table className="tbl">
+                  <colgroup>
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="60%" />
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <td
+                        className="col"
+                        rowSpan={5}
+                        style={{
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        <div
+                          className="col"
+                          style={{
+                            display: "block",
+                            position: "sticky",
+                          }}
+                        >
+                          <button className="main-btn">슈퍼호스트</button>
+                        </div>
+                        <div
+                          className="col"
+                          style={{
+                            display: "block",
+                            textAlign: "center",
+                            margin: "10% 0 10% 0",
+                          }}
+                          dangerouslySetInnerHTML={{ __html: profile_src }}
+                        ></div>
+                      </td>
+                      <th>이메일(ID)</th>
+                      <td colSpan={3}>
+                        <input
+                          className="form-control"
+                          type="email"
+                          // ref={h_email}
+                          // defaultValue={userEmail.key}
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>이메일(ID)</th>
+                      <td colSpan={3}>
+                        <input
+                          className="form-control"
+                          type="email"
+                          // ref={h_email}
+                          // defaultValue={userEmail.key}
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>이메일(ID)</th>
+                      <td colSpan={3}>
+                        <input
+                          className="form-control"
+                          type="email"
+                          // ref={h_email}
+                          // defaultValue={userEmail.key}
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>이메일(ID)</th>
+                      <td colSpan={3}>
+                        <input
+                          className="form-control"
+                          type="email"
+                          // ref={h_email}
+                          // defaultValue={userEmail.key}
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br />
+                <div style={{ textAlign: "right" }}>
+                  <button
+                    type="button"
+                    // onClick={() => {
+                    className="main-btn"
+                  >
+                    회원정보수정
+                  </button>
+                  &nbsp;&nbsp;
+                  <button
+                    type="button"
+                    className="main-btn"
+                    style={{ backgroundColor: "#C6C7C8" }}
+                    // onClick={() => {
+                    //   Swal.fire({
+                    //     icon: "question",
+                    //     title: "잠깐!",
+                    //     input: "password",
+                    //     inputLabel: "정말로 탈퇴하시겠습니까?",
+                    //     inputPlaceholder: "비밀번호를 입력해주세요",
+                    //     inputAttributes: {
+                    //       autocapitalize: "off",
+                    //       autocorrect: "off",
+                    //     },
+                    //     showCancelButton: true,
+                    //     cancelButtonText: "CANCEL",
+                    //     confirmButtonText: "CONFIRM",
+                    //     showLoaderOnConfirm: true,
+                    //     preConfirm: (pwd) => {
+                    //       const url = `
+                    //         http://localhost/api/host/delete/${pwd}?userIdx=${userIdx.key}&userEmail=${userEmail.key}
+                    //         `;
+                    //       return fetch(url)
+                    //         .then((response) => {
+                    //           if (!response.ok) {
+                    //             throw new Error(response.statusText);
+                    //           }
+                    //           return response.text();
+                    //         })
+                    //         .catch((error) => {
+                    //           Swal.showValidationMessage(
+                    //             `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                    //           );
+                    //         });
+                    //     },
+                    //     allowOutsideClick: () => !Swal.isLoading(),
+                    //   }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //       console.log(result.value);
+                    //       Swal.fire({
+                    //         icon: "success",
+                    //         title: "Complete",
+                    //         html: "정상처리 되었습니다.<br/>그동안 이용해 주셔서 감사합니다.",
+                    //         showConfirmButton: false,
+                    //         timer: 2000,
+                    //       }).then(() => {
+                    //         localStorage.clear();
+                    //         sessionStorage.clear();
+                    //         removeCookies();
+                    //         navigate("/");
+                    //       });
+                    //     }
+                    //   });
+                    // }}
+                  >
+                    &nbsp;&nbsp;승급신청&nbsp;&nbsp;
+                  </button>
+                  &nbsp;&nbsp;
+                </div>
+              </form>
+            </div>
+          </div>
+          <div className="container card-style">
+            <h3 className="text-bold">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="35"
+                height="35"
+                fill="currentColor"
+                className="bi bi-clipboard-data"
+                viewBox="0 0 16 16"
+              >
+                <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0z" />
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
+                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
+              </svg>
+              &nbsp;주문 현황
+            </h3>
+            <br />
+            <Orders />
+          </div>
+          <div className="container card-style mb-50">
+            <h3 className="text-bold">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="35"
+                height="35"
+                fill="currentColor"
+                className="bi bi-pencil-square"
+                viewBox="0 0 16 16"
+              >
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                />
+              </svg>
+              &nbsp;후기 관리
+            </h3>
+            <br />
+            <Reviews />
+          </div>
+        </div>
+      </>
+    );
+  }
+}
+export default HostAccount;

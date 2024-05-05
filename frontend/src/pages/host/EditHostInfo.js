@@ -77,14 +77,15 @@ function EditHostInfo() {
   if (loading) {
     return <div>loading</div>;
   } else {
-    let src = "";
+    let url = "";
     let profile_src = "";
 
     if (data.h_profile !== "-" || data.h_profile !== "") {
-      src = `http://localhost/static/images/host/profile/${data.h_profile}`;
-      profile_src = `<img src=${src} width="300px" />`;
+      url = `http://localhost/static/images/host/profile/${data.h_profile}`;
+      profile_src = `<img src=${url} width="300px" />`;
     } else {
-      profile_src = "[미등록]";
+      profile_src =
+        "<img src= http://localhost/static/images/host/profile/no-image.png' width='100px' height='100px'/>";
     }
 
     return (
