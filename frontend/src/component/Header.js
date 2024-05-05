@@ -5,7 +5,7 @@ import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/Join_modal";
 
 import "../pages/guest/modall.css";
-import "../pages/host/modalH.css";
+import "../pages/host/host1.css";
 
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
@@ -105,7 +105,7 @@ function Header() {
                 </a>
               </li>
               {modal_1 && (
-                <div className="Modal" onClick={() => setModal_1(false)}>
+                <div className="Modal" style={{zIndex:999}} onClick={() => setModal_1(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -187,7 +187,7 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" onClick={() => setModal(false)}>
+                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
