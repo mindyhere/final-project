@@ -25,6 +25,7 @@ import Wish from "./pages/guest/wish";
 import HostLogin from "./pages/host/Login";
 import SearchHostEmail from "./pages/host/SearchEmail";
 import SearchHostPw from "./pages/host/SearchPw";
+import HostAccount from "./pages/host/HostAccount";
 import EditHostInfo from "./pages/host/EditHostInfo";
 
 

@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
 import "../../asset/css/main.css";
-import "./modalH.css";
+import "./host1.css";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
