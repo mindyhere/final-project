@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
-import "../../asset/css/main.css";
+// import "../../asset/css/main.css";
 import "./host1.css";
 
 function useFetch(url) {
@@ -247,27 +247,39 @@ function EditHostInfo() {
                         <th>사업자등록증</th>
                         <td colSpan={3}>
                           {data.h_status === "가입완료" ? (
-                            <>
-                              &nbsp;파일명 : [&nbsp;
-                              <a
-                                onClick={() => {
-                                  window.open(
-                                    `http://localhost/static/images/host/profile/${data.h_file}`
-                                  );
-                                }}
-                                className="attach"
-                              >
-                                {data.h_file}
-                              </a>
-                              &nbsp;]
-                              <input
-                                className="form-control"
-                                type="file"
-                                ref={file}
-                                accept="jpg,.jpeg,.png,.pdf"
-                                title="확장자 : jpg, jpeg, png, pdf"
-                              />
-                            </>
+                            data.h_file !== "-" ? (
+                              <>
+                                &nbsp;파일명 : [&nbsp;
+                                <a
+                                  onClick={() => {
+                                    window.open(
+                                      `http://localhost/static/images/host/profile/${data.h_file}`
+                                    );
+                                  }}
+                                  className="attach"
+                                >
+                                  {data.h_file}
+                                </a>
+                                &nbsp;]
+                                <input
+                                  className="form-control"
+                                  type="file"
+                                  ref={file}
+                                  accept="jpg,.jpeg,.png,.pdf"
+                                  title="확장자 : jpg, jpeg, png, pdf"
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <input
+                                  className="form-control"
+                                  type="file"
+                                  ref={file}
+                                  accept="jpg,.jpeg,.png,.pdf"
+                                  title="확장자 : jpg, jpeg, png, pdf"
+                                />
+                              </>
+                            )
                           ) : (
                             <>
                               <input
