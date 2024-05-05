@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,6 @@ import com.example.syFinal.host.model.dao.HostDAO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
-//@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/host/*")
 public class HostAccountController {
@@ -48,18 +49,18 @@ public class HostAccountController {
 		}
 		return data;
 	}
-//
-//	@PostMapping("pwdCheck/{pwd}")
-//	public String pwdCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail,
-//			@PathVariable(name = "pwd") String pwd) {
-//		// TODO: process POST request
-//		String savedPwd = hostDao.pwdCheck(userEmail);
-//		if (pwdEncoder.matches(pwd, savedPwd)) {
-//			return "ok";
-//		} else {
-//			return "error";
-//		}
-//	}
+
+	@GetMapping("pwdCheck/{pwd}")
+	public ResponseEntity<String> pwdCheck(@PathVariable(name = "pwd") String pwd,
+			@RequestParam(name = "userEmail", defaultValue = "") String userEmail) {
+		String savedPwd = hostDao.pwdCheck(userEmail);
+		System.out.println("==> pwdCheck? " + pwd + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
+		if (pwdEncoder.matches(pwd, savedPwd)) {
+			return new ResponseEntity<>("true", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@Transactional
 	@PostMapping("join")
@@ -73,8 +74,8 @@ public class HostAccountController {
 
 		if (profile != null && !profile.isEmpty()) {
 			try {
-				profile.transferTo(new File(path + h_profile));
 				h_profile = profile.getOriginalFilename();
+				profile.transferTo(new File(path + h_profile));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("=== 프로필없음 ===");
@@ -167,18 +168,15 @@ public class HostAccountController {
 	}
 
 	@Transactional
-	@GetMapping("delete/{pwd}")
-	public String deleteAccount(@PathVariable(name = "pwd") String pwd,
-			@RequestParam(name = "userIdx", defaultValue = "") int h_idx,
+	@GetMapping("delete/{userIdx}")
+	public String deleteAccount(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "userEmail", defaultValue = "") String h_email, HttpServletRequest request)
 			throws Exception {
-		String savedPwd = hostDao.pwdCheck(h_email);
-		System.out.println("==> delete? " + pwd + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
+		System.out.println("==> delete? " + h_idx);
 		String result = "";
-		if (pwdEncoder.matches(pwd, savedPwd)) {
-			String h_profile = hostDao.getFile(h_idx, "h_profile");
-			String h_file = hostDao.getFile(h_idx, "h_file");
-
+		String h_profile = hostDao.getFile(h_idx, "h_profile");
+		String h_file = hostDao.getFile(h_idx, "h_file");
+		try {
 			if (h_profile != null && !h_profile.equals("no-image.png")) {
 				ServletContext application = request.getSession().getServletContext();
 				String path = application.getRealPath("static/images/host/profile/");
@@ -200,8 +198,7 @@ public class HostAccountController {
 			}
 			hostDao.deleteAccount(h_idx);
 			return "complete";
-
-		} else {
+		} catch (Exception e) {
 			throw new Exception();
 		}
 	}

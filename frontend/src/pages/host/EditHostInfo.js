@@ -54,6 +54,8 @@ function EditHostInfo() {
     cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
     cookies.remove("userName", { path: "/" }, new Date(Date.now()));
     cookies.remove("userPhone", { path: "/" }, new Date(Date.now()));
+    cookies.remove("level", { path: "/" }, new Date(Date.now()));
+    cookies.remove("status", { path: "/" }, new Date(Date.now()));
   };
 
   const handleChange = (val) => {
@@ -132,7 +134,7 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           <input
                             className="form-control"
-                            type="new-password"
+                            type="password"
                             ref={pwd}
                             placeholder="비밀번호를 입력해주세요"
                           />
@@ -142,7 +144,7 @@ function EditHostInfo() {
                         <td colSpan={3}>
                           <input
                             className="form-control"
-                            type="new-password"
+                            type="password"
                             value={pwdChk}
                             placeholder="비밀번호 확인을 위해 한번 더 입력해주세요"
                             onChange={(e) => {
@@ -467,17 +469,27 @@ function EditHostInfo() {
                           confirmButtonText: "CONFIRM",
                           showLoaderOnConfirm: true,
                           preConfirm: (pwd) => {
-                            const url = `
-                              http://localhost/api/host/delete/${pwd}?userIdx=${userIdx.key}&userEmail=${userEmail.key}
-                              `;
-                            return fetch(url)
+                            return fetch(
+                              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail.key}`
+                            )
                               .then((response) => {
                                 if (!response.ok) {
-                                  throw new Error(response.statusText);
+                                  console.log("false: " + response.status);
+                                  throw new Error("false: " + response.status);
                                 }
-                                return response.text();
+                                console.log("확인: " + response.status);
+
+                                return fetch(
+                                  `http://localhost/api/host/delete/${userIdx.key}?userEmail=${userEmail.key}`
+                                ).then((response) => {
+                                  if (!response.ok) {
+                                    throw new Error(response.statusText);
+                                  }
+                                  return response.text();
+                                });
                               })
                               .catch((error) => {
+                                console.log(error);
                                 Swal.showValidationMessage(
                                   `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                                 );

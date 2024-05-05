@@ -68,6 +68,8 @@ function Header() {
         cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
         cookies.remove("userName", { path: "/" }, new Date(Date.now()));
         cookies.remove("phoneNum", { path: "/" }, new Date(Date.now()));
+        cookies.remove("level", { path: "/" }, new Date(Date.now()));
+        cookies.remove("status", { path: "/" }, new Date(Date.now()));
         break;
     }
   };
@@ -105,7 +107,11 @@ function Header() {
                 </a>
               </li>
               {modal_1 && (
-                <div className="Modal" style={{zIndex:999}} onClick={() => setModal_1(false)}>
+                <div
+                  className="Modal"
+                  style={{ zIndex: 999 }}
+                  onClick={() => setModal_1(false)}
+                >
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -187,7 +193,11 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
+                <div
+                  className="Modal"
+                  style={{ zIndex: 999 }}
+                  onClick={() => setModal(false)}
+                >
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -519,18 +529,7 @@ function Header() {
                         localStorage.clear();
                         sessionStorage.clear();
                         removeCookies("host");
-                        try {
-                          window.location.reload();
-                        } catch {
-                          Swal.fire({
-                            icon: "info",
-                            title: "Check",
-                            html: "메인 페이지로 이동합니다.",
-                            confirmButtonText: "Yes",
-                          }).then((result) => {
-                            window.location.href = "/";
-                          });
-                        }
+                        navigate("/");
                       }
                     });
                   }}

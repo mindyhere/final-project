@@ -323,8 +323,10 @@ function HostJoin() {
                           denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
+                            //setModal(false);
                             navigate("/host/login");
                           } else if (result.isDenied) {
+                            //setModal(false);
                             navigate("/");
                           }
                         });
