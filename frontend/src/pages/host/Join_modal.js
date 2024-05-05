@@ -92,7 +92,7 @@ function HostJoin() {
                       type="button"
                       value={check}
                       className={"btnCheck " + (check ? "active" : "disabled")}
-                      disabled={check? false : true}
+                      disabled={check ? false : true}
                       onClick={() => {
                         const form = new FormData();
                         form.append("userEmail", userEmail.current.value);
@@ -323,11 +323,9 @@ function HostJoin() {
                           denyButtonText: "NO",
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            //setModal(false);
-                            navigate("/host/login");
+                            window.location.href = "/host/login";
                           } else if (result.isDenied) {
-                            //setModal(false);
-                            navigate("/");
+                            window.location.reload();
                           }
                         });
                       } else {
