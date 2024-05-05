@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import '../modalH.css'
+import '../host1.css'
 
 function useFetch(url) {
     const [data, setData] = useState(null);

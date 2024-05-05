@@ -12,6 +12,10 @@
 	border-radius: 7px;
 }
 
+.btnLoginBottom:hover {
+	cursor: pointer;
+}
+
 .btnLoginBottom>a {
 	text-decoration-line: none;
 	color: black;
