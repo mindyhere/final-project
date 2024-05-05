@@ -24,11 +24,6 @@ public class HostDAOImpl implements HostDAO {
 		return sqlSession.selectOne("host.idCheck", userEmail);
 	}
 
-	@Override // Host 로그인
-	public String login(Map<String, Object> params) {
-		return null;
-	}
-
 	@Override // 암호화된 h_passwd
 	public String pwdCheck(String userEmail) {
 		return sqlSession.selectOne("host.pwdCheck", userEmail);

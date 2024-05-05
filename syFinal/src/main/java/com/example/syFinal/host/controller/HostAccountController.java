@@ -69,7 +69,7 @@ public class HostAccountController {
 			@RequestParam(name = "file", required = false) MultipartFile file, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
-		String h_profile = "no-image.png";
+		String h_profile = "-";
 		String h_file = "-";
 
 		if (profile != null && !profile.isEmpty()) {
@@ -78,7 +78,6 @@ public class HostAccountController {
 				profile.transferTo(new File(path + h_profile));
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 프로필없음 ===");
 			}
 		}
 		map.put("h_profile", h_profile);
@@ -88,13 +87,9 @@ public class HostAccountController {
 				h_file = file.getOriginalFilename();
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 사업자등록증없음 ===");
 			}
 		}
 		map.put("h_file", h_file);
-
-//		String h_description = (map.get("h_description") != null ? (String) map.get("h_description") : "-");
-//		map.put("h_description", h_description);
 
 		// 비밀번호 암호화
 		String encodedPwd = pwdEncoder.encode((CharSequence) map.get("pwd"));
@@ -108,7 +103,6 @@ public class HostAccountController {
 
 	@GetMapping("account/{userIdx}")
 	public Map<String, Object> getAccount(@PathVariable(name = "userIdx") int h_idx) {
-		System.out.println("***회원정보 " + h_idx);
 		Map<String, Object> data = hostDao.getAccount(h_idx);
 		System.out.println("===> 결과: " + data);
 		return data;
@@ -124,23 +118,24 @@ public class HostAccountController {
 		String path = application.getRealPath("static/images/host/profile/");
 		String h_profile = "";
 		String h_file = "";
-		if (profile != null && !profile.isEmpty()) {
+		if (profile != null && !profile.isEmpty()) { // 새 프로필을 업로드 한 경우,
 			try {
 				String profile1 = hostDao.getFile(h_idx, "h_profile");
-				if (profile1 != null && !profile1.equals("no-image.png")) {
+				if (profile1 != null && !profile1.equals("-")) {
+					// 기존에 프로필이 설정되어 있으면 기존파일 삭제
 					File file1 = new File(path + profile1);
 					if (file1.exists()) {
 						file1.delete();
 					}
 				}
+				// 새로 업로드한 프로필을 저장
 				h_profile = profile.getOriginalFilename();
 				profile.transferTo(new File(path + h_profile));
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 프로필 삭제/저장 에러 ===");
 			}
 		} else {
-			h_profile = hostDao.getFile(h_idx, "h_profile");
+			h_profile = hostDao.getFile(h_idx, "h_profile"); // 새 파일을 업로드하지 않은 경우
 		}
 		map.put("h_profile", h_profile);
 
@@ -151,7 +146,6 @@ public class HostAccountController {
 				map.put("h_file", h_file);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("=== 사업자등록증 저장 에러 ===");
 			}
 		} else {
 			h_file = hostDao.getFile(h_idx, "h_file");
@@ -159,11 +153,10 @@ public class HostAccountController {
 		map.put("h_file", h_file);
 
 		// 비밀번호 암호화
-		System.out.println("===> 암호화 전 pwd: " + map.get("pwd"));
 		String encodedPwd = pwdEncoder.encode(map.get("pwd").toString());
 		map.replace("pwd", encodedPwd);
-		System.out.println("===> map: " + map);
 
+		System.out.println("===> map: " + map);
 		hostDao.updateInfo(map);
 	}
 
@@ -172,12 +165,10 @@ public class HostAccountController {
 	public String deleteAccount(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "userEmail", defaultValue = "") String h_email, HttpServletRequest request)
 			throws Exception {
-		System.out.println("==> delete? " + h_idx);
-		String result = "";
 		String h_profile = hostDao.getFile(h_idx, "h_profile");
 		String h_file = hostDao.getFile(h_idx, "h_file");
-		try {
-			if (h_profile != null && !h_profile.equals("no-image.png")) {
+		try { // 저장된 프로필, 첨부파일이 있으면 삭제
+			if (h_profile != null && !h_profile.equals("-")) {
 				ServletContext application = request.getSession().getServletContext();
 				String path = application.getRealPath("static/images/host/profile/");
 				File profile = new File(path + h_profile);
@@ -196,7 +187,7 @@ public class HostAccountController {
 					file.delete();
 				}
 			}
-			hostDao.deleteAccount(h_idx);
+			hostDao.deleteAccount(h_idx); // 테이블에서 해당 계정정보 delete
 			return "complete";
 		} catch (Exception e) {
 			throw new Exception();
