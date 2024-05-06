@@ -76,4 +76,11 @@ delete from host where h_idx=#{h_idx}
 <select id="getFile" resultType="String">
 select ${type} from host where h_idx=#{h_idx}
 </select>
+
+<!-- 호스트 승인 신청 -->
+<update id="levelUp">
+update host 
+set h_status="승인대기"
+where h_idx=#{h_idx}
+</update>
 </mapper>

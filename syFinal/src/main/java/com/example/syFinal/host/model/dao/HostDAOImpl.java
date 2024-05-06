@@ -75,4 +75,10 @@ public class HostDAOImpl implements HostDAO {
 		return fileName;
 	}
 
+	@Override
+	public void levelUp(int h_idx) {
+		System.out.println("==> idx? " + h_idx);
+		// sqlSession.update("host.levelUp", h_idx);
+	}
+
 }

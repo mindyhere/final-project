@@ -38,4 +38,6 @@ public interface HostDAO {
 
 	String getFile(int h_idx, String type);
 
+	void levelUp(int h_idx);
+
 }
