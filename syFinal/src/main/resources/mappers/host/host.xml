@@ -19,7 +19,7 @@ select count(h_idx) from host where h_email=#{userEmail}
 
 <!-- 로그인성공 시 쿠키로 저장할 host 데이터 -->
 <select id="makeCookie" resultType="com.example.syFinal.host.model.dto.HostDTO">
-select h_idx, h_email, h_name, h_phone
+select h_idx, h_email, h_name, h_level
 from host
 where h_email=#{userEmail}
 </select>
@@ -29,8 +29,8 @@ where h_email=#{userEmail}
 select 
 	h_idx, h_email, h_name, h_phone, h_business, 
 	h_level,
-	l_name l_name,
-	h_status, h_regdate, h_profile, h_file, h_regdate, h_description
+	l_name,
+	h_status, h_regdate, h_profile, h_file, h_description
 from host h, level l
 where h_idx=#{h_idx} 
 	AND h.h_level=l.l_level;
@@ -76,4 +76,9 @@ delete from host where h_idx=#{h_idx}
 <select id="getFile" resultType="String">
 select ${type} from host where h_idx=#{h_idx}
 </select>
+
+<!-- 호스트 승인 신청 -->
+<update id="levelUp">
+update host set h_status="승인대기" where h_idx=#{h_idx}
+</update>
 </mapper>

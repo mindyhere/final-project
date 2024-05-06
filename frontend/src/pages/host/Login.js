@@ -15,6 +15,28 @@ function HostLogin() {
   const pwd = useRef();
   const [modal, setModal] = useState(false);
 
+  const handleCookie = (data) => {
+    const time = 3600; // 1hr
+    const cookies = new Cookies();
+    const expiration = new Date(Date.now() + time * 1000);
+    cookies.set("userInfo", data, {
+      path: "/",
+      expires: expiration,
+    });
+    console.log(cookies.get("userInfo"))
+
+    setTimeout(() => {
+      Swal.fire({
+        icon: "info",
+        title: "Check",
+        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
+        timer: 2000,
+      }).then(() => {
+        navigate("/");
+      });
+    }, time * 1000);
+  };
+
   return (
     <>
       <div className="container min-vh-100">
@@ -76,29 +98,8 @@ function HostLogin() {
                     .then((data) => {
                       console.log(data);
                       if (data.msg == "success") {
-                        const cookies = new Cookies();
-                        cookies.set(
-                          "userIdx",
-                          { key: data.dto.h_idx },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        ); //30일
-                        cookies.set(
-                          "userEmail",
-                          { key: data.dto.h_email },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        ); //30일
-                        cookies.set(
-                          "userName",
-                          { key: data.dto.h_name },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
-                        cookies.set(
-                          "userPhone",
-                          { key: data.dto.h_phone },
-                          { path: "/", expires: new Date(Date.now() + 2592000) }
-                        );
+                        handleCookie(data.dto);
                         navigate("/");
-                        console.log("로그인 성공");
                       } else {
                         Swal.fire({
                           icon: "warning",

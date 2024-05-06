@@ -45,10 +45,7 @@ function Header() {
   const g_phone = cookies.get("g_phone");
 
   //호스트 쿠키
-  const userIdx = cookies.get("userIdx");
-  const userEmail = cookies.get("userEmail");
-  const userName = cookies.get("userName");
-  const phoneNum = cookies.get("phoneNum");
+  const userInfo = cookies.get("userInfo");
 
   //const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx);
 
@@ -64,16 +61,13 @@ function Header() {
         cookies.remove("g_profile", { path: "/" }, new Date(Date.now()));
         break;
       case "host":
-        cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
-        cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
-        cookies.remove("userName", { path: "/" }, new Date(Date.now()));
-        cookies.remove("phoneNum", { path: "/" }, new Date(Date.now()));
+        cookies.remove("userInfo", { path: "/" }, new Date(Date.now()));
         break;
     }
   };
 
-  if (userEmail == null && g_email == null) {
-    console.log("로그인X ==> " + cookies.stringify);
+  if (userInfo == null && g_email == null) {
+    console.log("로그인X cookie==> " + userInfo);
     //|| h_email == null || h_email == 'undefined'
     return (
       <nav className="navbar navbar-expand-lg">
@@ -105,7 +99,11 @@ function Header() {
                 </a>
               </li>
               {modal_1 && (
-                <div className="Modal" style={{zIndex:999}} onClick={() => setModal_1(false)}>
+                <div
+                  className="Modal"
+                  style={{ zIndex: 999 }}
+                  onClick={() => setModal_1(false)}
+                >
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -187,7 +185,11 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
+                <div
+                  className="Modal"
+                  style={{ zIndex: 999 }}
+                  onClick={() => setModal(false)}
+                >
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -280,7 +282,7 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userEmail == null && g_email != null) {
+  } else if (userInfo == null && g_email != null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
 
@@ -465,9 +467,10 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userEmail != null && g_email == null) {
+  } else if (userInfo != null && g_email == null) {
     //호스트계정으로 로그인 했을 때
-    console.log("host 로그인 ==> " + userEmail);
+    const userIdx = userInfo.h_idx;
+    // console.log("host userInfo ==> " + JSON.stringify(userInfo));
 
     return (
       <nav className="navbar navbar-expand-lg">
@@ -488,7 +491,7 @@ function Header() {
               <li className="nav-item">
                 <a
                   className="nav-link active"
-                  onClick={() => navigate(`/api/host/account/${userIdx.key}`)}
+                  onClick={() => navigate(`/api/host/account/${userIdx}`)}
                 >
                   계정
                 </a>
@@ -519,18 +522,7 @@ function Header() {
                         localStorage.clear();
                         sessionStorage.clear();
                         removeCookies("host");
-                        try {
-                          window.location.reload();
-                        } catch {
-                          Swal.fire({
-                            icon: "info",
-                            title: "Check",
-                            html: "메인 페이지로 이동합니다.",
-                            confirmButtonText: "Yes",
-                          }).then((result) => {
-                            window.location.href = "/";
-                          });
-                        }
+                        navigate("/");
                       }
                     });
                   }}

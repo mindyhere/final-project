@@ -24,11 +24,6 @@ public class HostDAOImpl implements HostDAO {
 		return sqlSession.selectOne("host.idCheck", userEmail);
 	}
 
-	@Override // Host 로그인
-	public String login(Map<String, Object> params) {
-		return null;
-	}
-
 	@Override // 암호화된 h_passwd
 	public String pwdCheck(String userEmail) {
 		return sqlSession.selectOne("host.pwdCheck", userEmail);
@@ -78,6 +73,11 @@ public class HostDAOImpl implements HostDAO {
 		String fileName = sqlSession.selectOne("host.getFile", params);
 		System.out.println("===> 파일명 확인: " + type + ", " + fileName);
 		return fileName;
+	}
+
+	@Override // Host 승인신청(가입완료 > 승인대기로 업데이트)
+	public void levelUp(int h_idx) {
+		sqlSession.update("host.levelUp", h_idx);
 	}
 
 }

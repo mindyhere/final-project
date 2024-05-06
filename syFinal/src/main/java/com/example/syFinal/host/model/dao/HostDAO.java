@@ -12,9 +12,6 @@ public interface HostDAO {
 	// 아이디 중복 체크
 	int idCheck(String userEmail);
 
-	// Host 로그인
-	String login(Map<String, Object> params);
-
 	// 암호화된 h_passwd
 	String pwdCheck(String userEmail);
 
@@ -40,5 +37,8 @@ public interface HostDAO {
 	void deleteAccount(int h_idx);
 
 	String getFile(int h_idx, String type);
+
+	// Host 승인신청
+	void levelUp(int h_idx);
 
 }

@@ -39,7 +39,7 @@ public class HostLoginController {
 		} else {
 			data.put("msg", "error");
 		}
-		System.out.println("로그인 결과= " + data);
+		System.out.println("==> 로그인 결과: 쿠키? " + data);
 		return data;
 	}
 
@@ -52,7 +52,6 @@ public class HostLoginController {
 
 	@PostMapping("findPwd")
 	public Map<String, Object> findPwd(@RequestParam Map<String, Object> map) {
-		System.out.println("***" + map);
 		int cheked = hostDao.findPwd(map);
 		Map<String, Object> data = new HashMap<>();
 		if (cheked > 0) { // 입력한 정보와 일치하는 계정이 있을 경우,
@@ -75,11 +74,5 @@ public class HostLoginController {
 		}
 		return data;
 	}
-//
-//	@GetMapping("logout")
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "/";
-//	}
 
 }
