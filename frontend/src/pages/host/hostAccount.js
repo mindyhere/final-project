@@ -28,15 +28,16 @@ function useFetch(url) {
 
 function HostAccount() {
   const cookies = new Cookies();
-  const userIdx = cookies.get("userIdx");
-  const userEmail = cookies.get("userEmail");
-  const userName = cookies.get("userName");
-  const level = cookies.get("level");
+  const userInfo = cookies.get("userInfo");
+  const userIdx = userInfo.h_idx;
+  const userEmail = userInfo.h_email;
+  const userName = userInfo.h_name;
+  const level = userInfo.h_level;
 
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
   const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userIdx.key}`
+    `http://localhost/api/host/account/${userIdx}`
   );
 
   if (loading) {
@@ -53,7 +54,7 @@ function HostAccount() {
     }
 
     const handleEditInfo = () => {
-      navigate(`/host/edit/${userIdx.key}`, {
+      navigate(`/host/edit/${userIdx}`, {
         state: {
           // 페이지 이동 시 전달할 데이터
           h_idx: `${data.h_idx}`,
@@ -129,11 +130,11 @@ function HostAccount() {
                         ></div>
                       </td>
                       <th>이메일(ID)</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userEmail.key}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{userEmail}</td>
                     </tr>
                     <tr>
                       <th>이름</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userName.key}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{userName}</td>
                     </tr>
                     <tr>
                       <th>전화번호</th>
@@ -141,7 +142,29 @@ function HostAccount() {
                     </tr>
                     <tr>
                       <th>상태</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{data.h_status}</td>
+                      <td colSpan={3}>
+                        <div className="row">
+                          <div className="col-8">
+                            &nbsp;&nbsp;{data.h_status}
+                          </div>
+                          <div className="col-4" style={{ textAlign: "end" }}>
+                            <button
+                              type="button"
+                              value={check}
+                              className={
+                                "btnCheck " + (check ? "active" : "disabled")
+                              }
+                              disabled={check ? false : true}
+                              style={{
+                                backgroundColor: "#C6C7C8",
+                              }}
+                            >
+                              Host승인신청
+                            </button>
+                            &nbsp;&nbsp;
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -166,7 +189,7 @@ function HostAccount() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail.key}`
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
                           )
                             .then((response) => {
                               if (!response.ok) {
@@ -194,14 +217,6 @@ function HostAccount() {
                     }}
                   >
                     회원정보수정
-                  </button>
-                  &nbsp;&nbsp;
-                  <button
-                    type="button"
-                    className="main-btn"
-                    style={{ backgroundColor: "#C6C7C8" }}
-                  >
-                    &nbsp;&nbsp;승급신청&nbsp;&nbsp;
                   </button>
                   &nbsp;&nbsp;
                 </div>

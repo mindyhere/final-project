@@ -23,6 +23,7 @@ function HostLogin() {
       path: "/",
       expires: expiration,
     });
+    console.log(cookies.get("userInfo"))
 
     setTimeout(() => {
       Swal.fire({

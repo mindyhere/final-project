@@ -9,17 +9,18 @@ import "./host1.css";
 function EditHostInfo() {
   const navigate = useNavigate();
   const location = useLocation();
-  const userInfo = { ...location.state };
+  const data = { ...location.state };
 
   const cookies = new Cookies();
-  const userIdx = cookies.get("userIdx");
-  const userEmail = cookies.get("userEmail");
+  const userInfo = cookies.get("userInfo");
+  const userIdx = userInfo.h_idx;
+  const userEmail = userInfo.h_email;
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
   const h_name = useRef();
   const h_phone = useRef();
-  const [phone, setPhone] = useState(userInfo.h_phone);
+  const [phone, setPhone] = useState(data.h_phone);
   const h_business = useRef();
   const h_level = useRef();
   const h_status = useRef();
@@ -29,14 +30,6 @@ function EditHostInfo() {
   const h_regdate = useRef();
 
   const [check, setCheck] = useState(false);
-
-  // 회원탈퇴 시 쿠키삭제
-  const removeCookies = () => {
-    cookies.remove("userIdx", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userEmail", { path: "/" }, new Date(Date.now()));
-    cookies.remove("userName", { path: "/" }, new Date(Date.now()));
-    cookies.remove("level", { path: "/" }, new Date(Date.now()));
-  };
 
   const handleChange = (val) => {
     const phoneRegEx = /^[0-9\b -]{0,13}$/;
@@ -56,13 +49,34 @@ function EditHostInfo() {
     }
   };
 
-  console.log("==> locatioin.state");
-  console.log(userInfo);
+  // 쿠키 정보 업데이트
+  const handleCookie = (data) => {
+    const time = 3600; // 1hr
+    const cookies = new Cookies();
+    const expiration = new Date(Date.now() + time * 1000);
+    cookies.set("userInfo", data, {
+      path: "/",
+      expires: expiration,
+    });
+    console.log(cookies.get("userInfo"));
+
+    setTimeout(() => {
+      Swal.fire({
+        icon: "info",
+        title: "Check",
+        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
+        timer: 2000,
+      }).then(() => {
+        navigate("/");
+      });
+    }, time * 1000);
+  };
+
   let url = "";
   let profile_src = "";
 
-  if (userInfo.h_profile !== "-" || userInfo.h_profile !== "") {
-    url = `http://localhost/static/images/host/profile/${userInfo.h_profile}`;
+  if (data.h_profile !== "-" || data.h_profile !== "") {
+    url = `http://localhost/static/images/host/profile/${data.h_profile}`;
     profile_src = `<img src=${url} width="300px" />`;
   } else {
     profile_src =
@@ -112,7 +126,7 @@ function EditHostInfo() {
                           className="form-control"
                           type="email"
                           ref={h_email}
-                          defaultValue={userEmail.key}
+                          defaultValue={userEmail}
                           readOnly
                         />
                       </td>
@@ -149,7 +163,7 @@ function EditHostInfo() {
                           className="form-control"
                           type="text"
                           ref={h_name}
-                          defaultValue={userInfo.h_name}
+                          defaultValue={data.h_name}
                           placeholder="이름을 입력해주세요"
                         />
                       </td>
@@ -176,7 +190,7 @@ function EditHostInfo() {
                         <input
                           className="form-control"
                           type="text"
-                          defaultValue={userInfo.h_business}
+                          defaultValue={data.h_business}
                           ref={h_business}
                           readOnly
                         />
@@ -188,8 +202,14 @@ function EditHostInfo() {
                         <input
                           className="form-control"
                           type="text"
+                          defaultValue={data.l_name}
+                          readOnly
+                        />
+                        <input
+                          className="form-control"
+                          type="hidden"
                           ref={h_level}
-                          defaultValue={userInfo.l_name}
+                          defaultValue={data.h_level}
                           readOnly
                         />
                       </td>
@@ -199,7 +219,7 @@ function EditHostInfo() {
                           className="form-control"
                           type="text"
                           ref={h_status}
-                          defaultValue={userInfo.h_status}
+                          defaultValue={data.h_status}
                           readOnly
                         />
                       </td>
@@ -211,7 +231,7 @@ function EditHostInfo() {
                           className="form-control"
                           rows={5}
                           cols={85}
-                          defaultValue={userInfo.h_description}
+                          defaultValue={data.h_description}
                           ref={h_description}
                           placeholder="내용을 입력해주세요"
                           style={{
@@ -237,26 +257,26 @@ function EditHostInfo() {
                     <tr>
                       <th>사업자등록증</th>
                       <td colSpan={3}>
-                        {userInfo.h_status === "가입완료" ? (
-                          userInfo.h_file !== "-" ? (
+                        {data.h_status === "가입완료" ? (
+                          data.h_file !== "-" ? (
                             <>
                               &nbsp;파일명 : [&nbsp;
                               <a
                                 onClick={() => {
                                   window.open(
-                                    `http://localhost/static/images/host/profile/${userInfo.h_file}`
+                                    `http://localhost/static/images/host/profile/${data.h_file}`
                                   );
                                 }}
                                 className="attach"
                               >
-                                {userInfo.h_file}
+                                {data.h_file}
                               </a>
                               &nbsp;]
                               <input
                                 className="form-control"
                                 type="file"
                                 ref={file}
-                                accept="jpg,.jpeg,.png,.pdf"
+                                accept=".jpg,.jpeg,.png,.pdf"
                                 title="확장자 : jpg, jpeg, png, pdf"
                               />
                             </>
@@ -266,7 +286,7 @@ function EditHostInfo() {
                                 className="form-control"
                                 type="file"
                                 ref={file}
-                                accept="jpg,.jpeg,.png,.pdf"
+                                accept=".jpg,.jpeg,.png,.pdf"
                                 title="확장자 : jpg, jpeg, png, pdf"
                               />
                             </>
@@ -276,13 +296,13 @@ function EditHostInfo() {
                             <input
                               className="form-control"
                               type="text"
-                              value={userInfo.h_file}
+                              value={data.h_file}
                               ref={file}
                               title="파일열기"
                               readOnly
                               onClick={() => {
                                 window.open(
-                                  `http://localhost/static/images/host/profile/${userInfo.h_file}`
+                                  `http://localhost/static/images/host/profile/${data.h_file}`
                                 );
                               }}
                               style={{ cursor: "pointer" }}
@@ -297,7 +317,7 @@ function EditHostInfo() {
                         <input
                           className="form-control"
                           type="text"
-                          defaultValue={userInfo.h_regdate}
+                          defaultValue={data.h_regdate}
                           ref={h_regdate}
                           readOnly
                         />
@@ -357,7 +377,7 @@ function EditHostInfo() {
                       }
 
                       const form = new FormData();
-                      form.append("h_idx", userIdx.key);
+                      form.append("h_idx", userIdx);
                       form.append("pwd", pwd.current.value);
                       form.append("h_name", h_name.current.value);
                       form.append("h_phone", h_phone.current.value);
@@ -367,12 +387,12 @@ function EditHostInfo() {
                         form.append("profile", profile.current.files[0]);
                       }
                       if (
-                        userInfo.h_status === "가입완료" &&
+                        data.h_status === "가입완료" &&
                         file.current.files.length > 0
                       ) {
                         form.append("file", file.current.files[0]);
                       }
-                      fetch(`http://localhost/api/host/update/${userIdx.key}`, {
+                      fetch(`http://localhost/api/host/update/${userIdx}`, {
                         method: "post",
                         endType: "multipart/form-data",
                         body: form,
@@ -388,21 +408,14 @@ function EditHostInfo() {
                               confirmButtonText: "YES",
                             }).then((result) => {
                               if (result.isConfirmed) {
-                                cookies.set(
-                                  "userName",
-                                  { key: h_name.current.value },
-                                  {
-                                    path: "/",
-                                    expires: new Date(Date.now() + 2592000),
-                                  }
-                                );
-                                cookies.set(
-                                  "userPhone",
-                                  { key: h_phone.current.value },
-                                  {
-                                    path: "/",
-                                    expires: new Date(Date.now() + 2592000),
-                                  }
+                                handleCookie({
+                                  h_idx: userIdx,
+                                  h_email: userEmail,
+                                  h_name: h_name.current.value,
+                                  h_level: h_level.current.value,
+                                });
+                                console.log(
+                                  "이동전? " + JSON.stringify(userInfo)
                                 );
                                 navigate("/");
                               }
@@ -452,7 +465,7 @@ function EditHostInfo() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail.key}`
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
                           )
                             .then((response) => {
                               if (!response.ok) {
@@ -462,7 +475,7 @@ function EditHostInfo() {
                               console.log("확인: " + response.status);
 
                               return fetch(
-                                `http://localhost/api/host/delete/${userIdx.key}?userEmail=${userEmail.key}`
+                                `http://localhost/api/host/delete/${userIdx}?userEmail=${userEmail}`
                               ).then((response) => {
                                 if (!response.ok) {
                                   throw new Error(response.statusText);
@@ -490,7 +503,11 @@ function EditHostInfo() {
                           }).then(() => {
                             localStorage.clear();
                             sessionStorage.clear();
-                            removeCookies();
+                            cookies.remove(
+                              "userInfo",
+                              { path: "/" },
+                              new Date(Date.now())
+                            );
                             navigate("/");
                           });
                         }

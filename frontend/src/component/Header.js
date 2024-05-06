@@ -470,8 +470,7 @@ function Header() {
   } else if (userInfo != null && g_email == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
-    const userEmail = userInfo.h_email;
-    console.log("host 로그인 ==> " + userEmail);
+    // console.log("host userInfo ==> " + JSON.stringify(userInfo));
 
     return (
       <nav className="navbar navbar-expand-lg">
