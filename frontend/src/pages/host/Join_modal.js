@@ -90,7 +90,6 @@ function HostJoin() {
                   <td>
                     <button
                       type="button"
-                      value={check}
                       className={"btnCheck " + (check ? "active" : "disabled")}
                       disabled={check ? false : true}
                       onClick={() => {
