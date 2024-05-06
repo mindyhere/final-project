@@ -52,9 +52,10 @@ function HostAccount() {
         "<img src= http://localhost/static/images/host/no-image.png' width='30%'/>";
     }
 
-    const handleEditInfo = ({data}) =>
+    const handleEditInfo = () => {
       navigate(`/host/edit/${userIdx.key}`, {
         state: {
+          // 페이지 이동 시 전달할 데이터
           h_idx: `${data.h_idx}`,
           h_email: `${data.h_email}`,
           h_name: `${data.h_name}`,
@@ -68,7 +69,9 @@ function HostAccount() {
           h_file: `${data.h_file}`,
           h_description: `${data.h_description}`,
         },
+        //replace: true, // 뒤로가기 시 root로 이동
       });
+    };
 
     return (
       <>
