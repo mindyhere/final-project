@@ -75,10 +75,9 @@ public class HostDAOImpl implements HostDAO {
 		return fileName;
 	}
 
-	@Override
+	@Override // Host 승인신청(가입완료 > 승인대기로 업데이트)
 	public void levelUp(int h_idx) {
-		System.out.println("==> idx? " + h_idx);
-		// sqlSession.update("host.levelUp", h_idx);
+		sqlSession.update("host.levelUp", h_idx);
 	}
 
 }

@@ -187,13 +187,3 @@ textarea::placeholder {
 	cursor: pointer;
 	z-index: 99;
 }
-
-.attach {
-	cursor: "pointer";
-	text-decoration: "underline";
-}
-
-.attach:active {
-	text-decoration: "none";
-	color: blue;
-}

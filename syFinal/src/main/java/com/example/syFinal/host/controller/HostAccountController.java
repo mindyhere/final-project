@@ -195,20 +195,14 @@ public class HostAccountController {
 	}
 
 	@Transactional
-	@PostMapping("levelUp/{userIdx}")
-	public ResponseEntity<String> levelUp(@PathVariable(name = "userIdx") int h_idx,
-			@RequestParam(name = "h_profile", defaultValue = "") String h_profile,
-			@RequestParam(name = "h_file", defaultValue = "") String h_file) {
-		if (!h_profile.equals("-") && !h_file.equals("-")) {
-			try {
-				hostDao.levelUp(h_idx);
-				return new ResponseEntity<>("true", HttpStatus.OK);
-			} catch (Exception e) {
-				// 에러발생
-				e.printStackTrace();
-				return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
-			}
-		} else {
+	@GetMapping("levelUp/{userIdx}")
+	public ResponseEntity<String> levelUp(@PathVariable(name = "userIdx") int h_idx) {
+		try {
+			hostDao.levelUp(h_idx);
+			return new ResponseEntity<>("true", HttpStatus.OK);
+		} catch (Exception e) {
+			// 에러발생
+			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
 	}

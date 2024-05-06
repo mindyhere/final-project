@@ -38,6 +38,7 @@ public interface HostDAO {
 
 	String getFile(int h_idx, String type);
 
+	// Host 승인신청
 	void levelUp(int h_idx);
 
 }

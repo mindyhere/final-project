@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
-// import "../../asset/css/main.css";
 import "./host1.css";
 
 function EditHostInfo() {
@@ -74,13 +73,13 @@ function EditHostInfo() {
 
   let url = "";
   let profile_src = "";
-
-  if (data.h_profile !== "-" || data.h_profile !== "") {
+  console.log(data.h_profile);
+  if (data.h_profile !== "-" && data.h_profile !== "") {
     url = `http://localhost/static/images/host/profile/${data.h_profile}`;
-    profile_src = `<img src=${url} width="300px" />`;
+    profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
   } else {
     profile_src =
-      "<img src= http://localhost/static/images/host/profile/no-image.png' width='100px' height='100px'/>";
+      "<img src='http://localhost/static/images/no-image.png' width='30%'/>";
   }
 
   return (
@@ -231,7 +230,11 @@ function EditHostInfo() {
                           className="form-control"
                           rows={5}
                           cols={85}
-                          defaultValue={data.h_description}
+                          defaultValue={
+                            data.h_description !== null
+                              ? data.h_description
+                              : ""
+                          }
                           ref={h_description}
                           placeholder="내용을 입력해주세요"
                           style={{
@@ -249,7 +252,7 @@ function EditHostInfo() {
                           className="form-control"
                           type="file"
                           ref={profile}
-                          accept="jpg,.jpeg,.png"
+                          accept=".jpg,.jpeg,.png"
                           title="확장자 : jpg, jpeg, png"
                         />
                       </td>
@@ -262,12 +265,13 @@ function EditHostInfo() {
                             <>
                               &nbsp;파일명 : [&nbsp;
                               <a
+                                className="attach"
+                                style={{cursor:"pointer"}}
                                 onClick={() => {
                                   window.open(
                                     `http://localhost/static/images/host/profile/${data.h_file}`
                                   );
                                 }}
-                                className="attach"
                               >
                                 {data.h_file}
                               </a>

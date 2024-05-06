@@ -39,39 +39,12 @@ function HostAccount() {
     `http://localhost/api/host/account/${userIdx}`
   );
 
-  // const levelUp = (userIdx) => {
-  //   console.log("==> idx? " + userIdx);
-  //   if (data.h_profile !== "-" && data.h_profile !== "") {
-  //     console.log("==> idx? " + `${data.h_profile}` + ", " + `${data.h_file}`);
-  //     fetch(`http://localhost/api/host/levelUp/${userIdx}`, {
-  //       method: "post",
-  //       body: {
-  //         h_profile: `${data.h_profile}`,
-  //         h_file: `${data.h_file}`,
-  //       },
-  //     })
-  //       .then((response) => {
-  //         console.log("response 확인: " + response.status);
-  //         if (!response.ok) {
-  //           throw new Error("false: " + response.status);
-  //         }
-  //         Swal.fire({
-  //           icon: "success",
-  //           title: "Check",
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // };
-
   if (loading) {
     return <div>loading</div>;
   } else {
     let url = "";
     let profile_src = "";
-    console.log(data.h_profile);
+
     if (data.h_profile !== "-" && data.h_profile !== "") {
       url = `http://localhost/static/images/host/profile/${data.h_profile}`;
       profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
@@ -192,7 +165,14 @@ function HostAccount() {
                                     type="button"
                                     className="btnCheck active"
                                     onClick={() => {
-                                      levelUp(userIdx);
+                                      if (
+                                        data.h_profile !== "-" &&
+                                        data.h_file !== "-"
+                                      ) {
+                                        levelUp(userIdx, 1);
+                                      } else {
+                                        levelUp(userIdx, 0);
+                                      }
                                     }}
                                   >
                                     Host승인신청
@@ -243,7 +223,6 @@ function HostAccount() {
                           )
                             .then((response) => {
                               if (!response.ok) {
-                                console.log("false: " + response.status);
                                 throw new Error("false: " + response.status);
                               }
                               console.log("확인: " + response.status);
@@ -260,7 +239,6 @@ function HostAccount() {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          console.log(result.value);
                           handleEditInfo();
                         }
                       });
@@ -319,17 +297,9 @@ function HostAccount() {
   }
 }
 
-function levelUp(userIdx, profile, file) {
-  console.log("==> idx? " + userIdx);
-  if (profile !== "-" && file !== "") {
-    console.log("==> idx? " + profile + ", " + file);
-    fetch(`http://localhost/api/host/levelUp/${userIdx}`, {
-      method: "post",
-      body: {
-        h_profile: profile,
-        h_file: file,
-      },
-    })
+function levelUp(userIdx, opt) {
+  if (opt === 1) {
+    fetch(`http://localhost/api/host/levelUp/${userIdx}`, {method: "get"})
       .then((response) => {
         console.log("response 확인: " + response.status);
         if (!response.ok) {
@@ -338,11 +308,25 @@ function levelUp(userIdx, profile, file) {
         Swal.fire({
           icon: "success",
           title: "Check",
+          html: "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
         });
       })
       .catch((error) => {
         console.log(error);
       });
+  } else {
+    console.log(opt);
+    Swal.fire({
+      icon: "warning",
+      title: "잠깐!",
+      html: "신청이 거부되었습니다.<br/>프로필/사업자등록증을 업로드해주세요.",
+      confirmButtonText: "OK",
+    });
   }
 }
 
