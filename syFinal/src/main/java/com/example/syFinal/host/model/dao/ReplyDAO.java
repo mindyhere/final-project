@@ -7,13 +7,13 @@ import com.example.syFinal.host.model.dto.ReplyDTO;
 
 public interface ReplyDAO {
 	// host 회원 1명 당 작성한 답글 목록
-	List<Map<String, Object>> myReplyList(int h_idx);
+	List<ReplyDTO> myReplyList(int h_idx);
 
 	// 답글 작성
-	String insert(ReplyDTO dto);
+	void insertReply(ReplyDTO dto);
 
-	// 답글 상세보기
-	ReplyDTO detailReply(int rp_idx);
+	// 답글 상세보기 → 후기글 번호와 매칭
+//	ReplyDTO detailReply(ReplyDTO dto);
 
 	// host → 작성한 답글 수정
 	void editReply(ReplyDTO dto);

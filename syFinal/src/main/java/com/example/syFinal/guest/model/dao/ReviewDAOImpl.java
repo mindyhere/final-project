@@ -3,33 +3,32 @@ package com.example.syFinal.guest.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.example.syFinal.guest.model.dto.ReviewDTO;
-import com.example.syFinal.host.model.dto.ReplyDTO;
 
+@Repository
 public class ReviewDAOImpl implements ReviewDAO {
+	@Autowired
+	SqlSession sqlSession;
 
 	@Override
-	public List<Map<String, Object>> myReviewList(int g_idx) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReviewDTO> myReviewList(int g_idx) {
+		// guest 회원 1명 당 작성한 리뷰글 목록
+		return sqlSession.selectList("review.myList", g_idx);
 	}
 
 	@Override
-	public String insertReview(ReviewDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ReplyDTO detailReview(int rv_idx) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertReview(ReviewDTO dto) {
+		// 숙박번호, 호텔번호 유효검사? -> insert
+		sqlSession.insert("review.insert", dto);
 	}
 
 	@Override
 	public void editReview(ReviewDTO dto) {
-		// TODO Auto-generated method stub
-
+		sqlSession.update("review.editReview", dto);
 	}
 
 	@Override
@@ -40,8 +39,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 	@Override
 	public void delete(int rv_idx) {
-		// TODO Auto-generated method stub
-
+		sqlSession.delete("review.delete", rv_idx);
 	}
 
 	@Override
