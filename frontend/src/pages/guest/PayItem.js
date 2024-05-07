@@ -22,8 +22,8 @@ function PayItem({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_fi
     }
     return (
         <div style={{ margin: '3px'}}>
-                <span dangerouslySetInnerHTML={{__html: img}}></span>
-                       <div>{O_state}&nbsp;·&nbsp;{O_orderdate}</div>
+               <div><span dangerouslySetInnerHTML={{__html: img}}></span></div>
+                    {O_state}&nbsp;·&nbsp;{O_orderdate}
                        <div style={{color: "#262626"}}>{O_payment}</div>
                        <div>{O_ckin}&nbsp;-&nbsp;{O_ckout}</div>
                        <div>₩{O_finalprice}</div>

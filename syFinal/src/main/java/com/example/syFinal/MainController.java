@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.guest.model.dao.MainDAO;
@@ -21,8 +22,9 @@ public class MainController {
 	MainDAO dao;
 	
 	@RequestMapping("/guest/main")
-	public List<Map<String, Object>> list() {
+	public List<Map<String, Object>> list(@RequestParam(name="HoName", defaultValue="") String HoName) {
 		List<MainDTO> main = dao.list();
+		
 		List<Map<String, Object>> list = new ArrayList<>();
 		for(int i=0; i<main.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
