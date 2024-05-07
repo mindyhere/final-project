@@ -129,12 +129,10 @@ td>input {
 }
 
 input::placeholder {
-	color: blue !important;
 	font-style: italic;
 }
 
 textarea::placeholder {
-	color: blue !important;
 	font-style: italic;
 }
 
