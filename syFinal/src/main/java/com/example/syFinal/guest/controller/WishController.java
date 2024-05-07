@@ -62,11 +62,57 @@ public class WishController {
 	@PostMapping("delete")
 	@ResponseBody
 	public Map<String, Object> delete(@RequestParam(name = "w_idx") int w_idx) {
-		System.out.println(w_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.delete(w_idx);
 		map.put("result", result);
 		return map;
 	}
 	
+	@PostMapping("recentList")
+	@ResponseBody
+	public List<Map<String, Object>> recentList(@RequestParam(name = "g_idx") int g_idx, 
+			@RequestParam(name="recentIdx", defaultValue ="") ArrayList<Integer> recentIdx) {
+		//List<MainDTO> dto = new ArrayList<MainDTO>();
+		List<Map<String, Object>> list = new ArrayList<>();
+		MainDTO recent = new MainDTO();
+		if (recentIdx.size() > 0) {
+			for(int i=0; i<recentIdx.size(); i++) {
+				// System.out.println(recentIdx.get(i));
+				Map<String, Object> map = new HashMap<>();
+				recent = dao.recentItem(recentIdx.get(i));
+				// System.out.println(recent);
+				map.put("HoIdx", recent.getHo_idx());
+				map.put("HoName", recent.getHo_name());
+				map.put("HoImg", recent.getHo_img());
+				int check = dao.recentCheck(g_idx, recentIdx.get(i));
+				map.put("check", check);
+				list.add(map);
+			}
+		}
+		// System.out.println(list);
+		// Map<String, Object> map = new HashMap<>();
+		return list;
+	}
+	
+	@PostMapping("wishDelete")
+	@ResponseBody
+	public Map<String, Object> wishDelete(@RequestParam(name = "g_idx") int g_idx, 
+			@RequestParam(name = "h_idx") int h_idx) {
+		System.out.println(h_idx);
+		Map<String, Object> map = new HashMap<>();
+		String result = dao.wishDelete(g_idx, h_idx);
+		map.put("result", result);
+		return map;
+	}
+	
+	@PostMapping("wishUpdate")
+	@ResponseBody
+	public Map<String, Object> wishUpdate(@RequestParam(name = "g_idx") int g_idx, 
+			@RequestParam(name = "h_idx") int h_idx) {
+		System.out.println(h_idx);
+		Map<String, Object> map = new HashMap<>();
+		String result = dao.wishUpdate(g_idx, h_idx);
+		map.put("result", result);
+		return map;
+	}
 }

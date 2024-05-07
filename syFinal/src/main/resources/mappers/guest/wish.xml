@@ -3,7 +3,7 @@
 <mapper namespace="wish">
 <select id="wishlist" resultType="com.example.syFinal.guest.model.dto.MainDTO">
 	 select w_idx, ho_idx, ho_name, ho_img from hotel, wish
-	where w_gidx = #{g_idx} and w_hoidx = ho_idx
+	where w_gidx = #{g_idx} and w_hoidx = ho_idx order by w_idx desc
 </select>
 
 <select id="firstRecent" resultType="String">
@@ -24,4 +24,20 @@
 delete from wish where w_idx = #{w_idx}
 </delete>
 
+<select id="recentItem" resultType="com.example.syFinal.guest.model.dto.MainDTO">
+select ho_idx, ho_name, ho_img from hotel where ho_idx = #{recentIdx}
+</select>
+
+<select id="recentCheck" resultType="Int">
+	select IFNULL((select count(w_idx) from wish 
+	WHERE w_gidx =#{g_idx} and w_hoidx = #{recentIdx}), 0)
+</select>
+
+<delete id="wishDelete">
+	delete from wish where w_gidx = #{g_idx} and w_hoidx = #{h_idx}
+</delete>
+
+<update id="wishUpdate">
+	insert into wish (w_gidx, w_hoidx) values (#{g_idx}, #{h_idx})
+</update>
 </mapper>
