@@ -13,7 +13,7 @@ public interface ReputationDAO {
 	ReplyDTO replyDetail(Map<String, Object> map);
 
 	// hotel 별 리뷰글 목록
-	List<ReviewDTO> getHotelReviews(int ho_idx);
+	List<Map<String, Object>> getHotelReviews(int ho_idx);
 
 	// hotel 리뷰 별 답글 목록
 	List<Map<String, Object>> getHotelReplys(int ho_idx);

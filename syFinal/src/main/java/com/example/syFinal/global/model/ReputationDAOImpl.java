@@ -28,9 +28,17 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public List<ReviewDTO> getHotelReviews(int ho_idx) {
+	public List<Map<String, Object>> getHotelReviews(int ho_idx) {
 		// hotel 별 리뷰글 목록
-		return sqlSession.selectList("reputation.getHotelReviews", ho_idx);
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		System.out.println("==>결과list? " + list);
+		return list;
 	}
 
 	@Override
