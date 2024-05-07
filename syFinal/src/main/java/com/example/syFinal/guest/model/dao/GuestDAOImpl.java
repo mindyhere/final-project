@@ -1,6 +1,7 @@
 package com.example.syFinal.guest.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,15 @@ public class GuestDAOImpl implements GuestDAO {
 	@Override
 	public List<GuestDTO> paylist(int g_idx) {
 		return sqlSession.selectList("guest.paylist", g_idx);
+	}
+	
+	@Override
+	public void cardupdate(Map<String,Object> map){
+		sqlSession.update("guest.cardupdate", map);
+	}
+	
+	@Override
+	public void carddelete(Map<String,Object> map){
+		sqlSession.update("guest.carddelete", map);
 	}
 }
