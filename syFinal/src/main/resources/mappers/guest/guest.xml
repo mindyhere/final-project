@@ -1,3 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="test"></mapper>
+<mapper namespace="guest">
+	
+	<select id="myguest" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+		select 
+		g_idx,
+		g_email,
+		g_name,
+		g_photo,
+		g_phone,
+		g_url,
+		g_profile,
+		g_level,
+		g_card,
+		g_date,
+		g_cvc,
+		g_point
+		from guest
+		where g_idx=#{g_idx}
+	</select>
+	
+	<select id="paylist" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+		SELECT 
+		g_idx,
+		d_img1, 
+		o_state, 
+		o_orderdate, 
+		o_payment, 
+		o_ckin, 
+		o_ckout, 
+		o_finalprice
+		FROM hotel_detail d, orders o, guest g
+		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx 
+		and g_idx=#{g_idx}
+		order BY o_orderdate
+	</select>
+	
+	<update id="payupdate">
+		update guest 
+		set g_card = #{g_card}, g_date = #{g_date}, g_cvc=#{g_cvc}
+		where g_idx = #{g_idx}
+	</update>
+
+</mapper>

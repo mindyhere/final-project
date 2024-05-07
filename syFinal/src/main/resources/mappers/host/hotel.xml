@@ -5,10 +5,46 @@
 	<!-- 호텔 상세 정보 -->
 	<select id="getHotelList"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT * FROM hotel
-		WHERE
-		ho_idx = #{ho_idx}
+		SELECT * FROM hotel h, hotel_detail d, host
+		WHERE ho_idx =
+		#{ho_idx}
+		AND h.ho_idx = d.d_ho_idx
+		AND h.ho_business = host.h_business
+		GROUP BY ho_idx
 	</select>
 
+	<!-- 호텔 객실 정보 -->
+	<select id="getHotelRooms"
+		resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
+		SELECT *
+		FROM hotel_detail
+		WHERE d_ho_idx= #{ho_idx}
+	</select>
 
+	<!-- 호텔 편의시설 -->
+	<select id="getHotelAmenity"
+		resultType="java.util.HashMap">
+		SELECT ha_idx, ha_ho_idx, mountain_view, ocean_view, wifi, parking_lot, breakfast, fire_alam, fire_extinguisher
+		FROM hotel_amenity a, hotel h
+		WHERE ha_ho_idx = ho_idx
+		AND ho_idx = #{ho_idx}
+	</select>
+
+	<!-- 호텔 호스트 정보 -->
+	<select id="getHostInfo" resultType="java.util.HashMap">
+		SELECT h_name, h_phone,
+		h_business, h_level, h_regdate, h_profile, h_description
+		FROM host h,
+		hotel ho
+		WHERE ho.ho_idx = #{ho_idx}
+		AND ho.ho_business = h.h_business
+	</select>
+
+	<!-- 호텔 이용규칙 -->
+	<select id="getHotelRule" resultType="java.util.HashMap">
+		SELECT ho_level, ho_floor,
+		ho_single, ho_double, ho_family, ho_suite , ho_check_in, ho_check_out
+		FROM hotel
+		WHERE ho_idx = #{ho_idx}
+	</select>
 </mapper>

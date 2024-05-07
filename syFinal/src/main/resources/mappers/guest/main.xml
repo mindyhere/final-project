@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main">
+	<select id="mainList" resultType="com.example.syFinal.guest.model.dto.MainDTO">
+		SELECT ho_idx, ho_name, ho_img
+		FROM hotel
+		WHERE ho_name like '%'|| #{ho_name} ||'%'
+		order BY ho_name
+	</select>
+
+</mapper>

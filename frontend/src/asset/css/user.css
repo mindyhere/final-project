@@ -12,6 +12,10 @@
 	border-radius: 7px;
 }
 
+.btnLoginBottom:hover {
+	cursor: pointer;
+}
+
 .btnLoginBottom>a {
 	text-decoration-line: none;
 	color: black;
@@ -109,6 +113,31 @@ ul.tabs li.current {
 	background-color: #ffffff;
 }
 
+.profile-image {
+	max-width: 100px;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin-right: 20px;
+	position: relative;
+	z-index: 1;
+	height: 100px;
+}
+
+.profile-image img {
+	width: 100%;
+		/* border-radius: 50%; */
+}
+
+/* 문장 3줄 이상일 때 */
+.hidden-text-target {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+  }
+
 /* ========== Buttons css ========== */
 .main-btn {
 	display: inline-flex;
@@ -132,7 +161,7 @@ ul.tabs li.current {
 	transition: all 0.4s ease-in-out;
 	border: 1px solid transparent;
 	overflow: hidden;
-	background: #FEC5BB;
+	background: #DBC4F0;
 	color: #000;
 	position: relative;
 	overflow: hidden;
@@ -156,7 +185,7 @@ h2, .h2 {
 
 h3, .h3 {
 	font-size: 24px;
-	font-weight: 500;
+	font-weight: 600;
 }
 
 h4, .h4 {
@@ -201,4 +230,25 @@ h6, .h6 {
 
 .text-xs {
 	font-size: 12px;
+}
+
+/* ============= margin css ============= */
+.mb-10{
+	margin-bottom: 10px;
+}
+
+.mb-20{
+	margin-bottom: 20px;
+}
+
+.mb-30{
+	margin-bottom: 30px;
+}
+
+.mb-40{
+	margin-bottom: 40px;
+}
+
+.mb-50{
+	margin-bottom: 50px;
 }

@@ -32,4 +32,8 @@ public class SyFinalApplication {
 		return new SqlSessionTemplate(factory);
 	}
 
+//	@Bean
+//	PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 }
