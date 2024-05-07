@@ -37,7 +37,9 @@
 	</select>
 	
 	<update id="payupdate">
-		
+		update guest 
+		set g_card = #{g_card}, g_date = #{g_date}, g_cvc=#{g_cvc}
+		where g_idx = #{g_idx}
 	</update>
 
 </mapper>
