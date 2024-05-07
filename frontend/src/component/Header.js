@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect,useFetch} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/Join_modal";
+import "../pages/guest/Pay.js";
 
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";
@@ -47,7 +48,6 @@ function Header() {
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
 
-  //const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx);
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -68,7 +68,6 @@ function Header() {
 
   if (userInfo == null && g_email == null) {
     console.log("로그인X cookie==> " + userInfo);
-    //|| h_email == null || h_email == 'undefined'
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
@@ -284,7 +283,7 @@ function Header() {
     );
   } else if (userInfo == null && g_email != null) {
     //게스트 계정으로 로그인
-    console.log("guest 로그인 ==> " + g_email);
+    console.log("guest 로그인 ==> " + g_email); 
 
     let level = "";
     if (g_level.key == 1) {
@@ -295,13 +294,15 @@ function Header() {
       level = "VIP";
     }
 
+    
     // let src='';
     // let image_url='';
-    // if (data.g_photo != '-') {
-    //   src=`http://localhost/static/images/guest/photo/${data.g_photo}`;
-    //   image_url=`<img src=${src} width='300px' height='300px'/>`;
+    // if (data.dto.g_photo != '-') {
+    //   //src=`http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
+    //   image_url=`<img src=${src} width='210px' height='210px'/>`;
     // }
-    // <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
+    
+    //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
@@ -322,7 +323,9 @@ function Header() {
                   <div className={"btn-wrapper2"}>
                     <div
                       className={"modal-open-btn"}
-                      onClick={() => setModalOpen(true)}
+                      onClick={() => 
+                        setModalOpen(true)
+                      }
                     >
                       프로필
                     </div>
@@ -340,6 +343,7 @@ function Header() {
                   >
                     <div className={"modal-content"}>
                       <h4>{g_name.key}님 프로필</h4>
+                      
                       <img
                         src="http://localhost/static/images/guest/photo/cat.jpeg"
                         width="210px"
@@ -536,6 +540,7 @@ function Header() {
       </nav>
     );
   }
+
 
   function Modall(props) {
     function closeModal() {

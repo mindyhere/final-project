@@ -263,6 +263,7 @@ function Pay() {
                                     </tr>
                                 </>
                                 }
+                                <br></br>
                                     <img type='button' src='/img/kakaopay.png' onClick={()=>{
                                         fetch('http://localhost/kakaoPay',{
                                             method:'post',
@@ -274,7 +275,8 @@ function Pay() {
                                             navigate('/');
                                         });
                                     }}></img>
-                                    
+                                    <br></br>
+                                    <button onClick={()=> navigate('/guest/Order')}>예약상세</button>
                                 <h3>결제내역</h3>
                                 <br/>
                                 {paylist.map(
