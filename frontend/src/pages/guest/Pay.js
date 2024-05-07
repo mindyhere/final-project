@@ -33,8 +33,88 @@ function Pay() {
 
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx.key);
     const g_card=useRef();
+    const [num, setNum] = useState('');
     const g_date=useRef();
+    const [num1, setNum1] = useState('');
     const g_cvc=useRef();
+    const [num2, setNum2] = useState('');
+
+    //카드번호 입력함수
+    const handleCard = (e) => {
+        const value = g_card.current.value.replace(/\D+/g, "");
+        const numberLength = 16;
+    
+        let result = "";  
+    
+        for (let i = 0; i < value.length && i < numberLength; i++) {
+          switch (i) {
+            case 4:
+              result += "-";
+              break;
+            case 8:
+              result += "-";
+              break;
+            case 12:
+                result += "-";
+                break;
+    
+            default:
+              break;
+          }
+    
+          result += value[i];
+        }
+    
+        g_card.current.value = result;
+    
+        setNum(e.target.value); 
+    };
+
+    //만료일 입력함수
+    const handleDate = (e) => {
+        const value1 = g_date.current.value.replace(/\D+/g, "");
+        const numberLength = 4;
+    
+        let result1 = "";  
+    
+        for (let i = 0; i < value1.length && i < numberLength; i++) {
+          switch (i) {
+            case 2:
+              result1 += "/";
+              break;
+    
+            default:
+              break;
+          }
+    
+          result1 += value1[i];
+        }
+    
+        g_date.current.value = result1;
+    
+        setNum1(e.target.value); 
+    };
+
+    //CVC 입력함수
+    const handleCVC = (e) => {
+        const value2 = g_cvc.current.value.replace(/\D+/g, "");
+        const numberLength = 3;
+    
+        let result2 = "";  
+    
+        for (let i = 0; i < value2.length && i < numberLength; i++) {
+          switch (i) {
+            default:
+              break;
+          }
+    
+          result2 += value2[i];
+        }
+    
+        g_cvc.current.value = result2;
+    
+        setNum2(e.target.value); 
+    };
 
     function getPay(url) {
         fetch(url)
@@ -100,21 +180,21 @@ function Pay() {
                                                         <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
                                                         <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                                                         </svg>&nbsp;
-                                                                <input className='form-control' ref={g_card} placeholder="카드번호" type='text'></input>
+                                                            <input value={num} className='form-control' ref={g_card} placeholder="카드번호(16자리)" type='text' onChange={handleCard}/>
                                                     </div>
                                                     <div style={{padding:'3px'}}>
                                                         
                                                         <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
                                                         <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                                                         &nbsp;
-                                                                <input className='form-control' ref={g_date} placeholder="만료일" type='text'></input>
+                                                                <input value={num1} className='form-control' ref={g_date} placeholder="만료일(MM/YY)" type='text' onChange={handleDate}></input>
                                                     </div>
                                                     <div style={{padding:'3px'}}>
                                                         
                                                         <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
                                                         <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                                                         &nbsp;
-                                                                <input className='form-control' ref={g_cvc} placeholder="CVC" type='text'></input>
+                                                                <input value={num2} className='form-control' ref={g_cvc} placeholder="CVC" type='text' onChange={handleCVC}></input>
                                                     </div>
                                                     <ul className="navbar-nav" align='center'>
                                                         <li style={{padding:'4px'}}>
