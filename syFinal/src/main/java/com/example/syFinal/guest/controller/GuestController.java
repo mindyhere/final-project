@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class GuestController {
 	@Autowired
 	GuestDAO dao;
 	
-	
-	@GetMapping("/guest/my")
+	//게스트 정보
+	@RequestMapping("/guest/my")
 	public Map<String, Object> my(@RequestParam(name="g_idx") int g_idx) {
 		GuestDTO mypage = dao.my(g_idx);
 		//Map<String, Object> mypage = dao.my(g_idx);
@@ -30,12 +31,23 @@ public class GuestController {
 		//GuestDTO dto = new GuestDTO();
 		Map<String, Object> map = new HashMap<>();
 		//map.put("myphoto", mypage.getG_photo());
-		map.put("mypage", mypage);
+		map.put("dto", mypage);
 		//System.out.println(map);
 		System.out.println("마이페이지=="+map);
 		return map;
 	}
 	
+	@PostMapping("/guest/cardupdate")
+	public void cardupdate (@RequestParam Map<String, Object> map) {
+		dao.cardupdate(map);
+	}
+	
+	@PostMapping("/guest/carddelete")
+	public void carddelete (@RequestParam Map<String, Object> map) {
+		dao.carddelete(map);
+	}
+	
+	//게스트 결제리스트
 	@RequestMapping("/guest/pay")
 	public List<Map<String, Object>> paylist(@RequestParam(name="g_idx") int g_idx) {
 		List<GuestDTO> dto = dao.paylist(g_idx);
