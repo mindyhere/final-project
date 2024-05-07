@@ -1,6 +1,8 @@
 package com.example.syFinal.guest.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,49 @@ public class WishDAOImpl implements WishDAO {
 		String result = "";
 		try {
 			sqlSession.delete("wish.delete", w_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "error";
+		}
+		return result;
+	}
+	
+	@Override
+	public MainDTO recentItem(Integer recentIdx) {
+		return sqlSession.selectOne("wish.recentItem", recentIdx);
+	}
+	
+	@Override
+	public int recentCheck(int g_idx, Integer recentIdx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("recentIdx", recentIdx);
+		map.put("g_idx", g_idx);
+		return sqlSession.selectOne("wish.recentCheck", map);
+	}
+	
+	@Override
+	public String wishDelete(int g_idx, int h_idx) {
+		String result = "";
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("g_idx", g_idx);
+		try {
+			sqlSession.delete("wish.wishDelete", map);
+			result = "success";
+		} catch (Exception e) {
+			result = "error";
+		}
+		return result;
+	}
+
+	@Override
+	public String wishUpdate(int g_idx, int h_idx) {
+		String result = "";
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("g_idx", g_idx);
+		try {
+			sqlSession.update("wish.wishUpdate", map);
 			result = "success";
 		} catch (Exception e) {
 			result = "error";

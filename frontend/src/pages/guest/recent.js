@@ -1,29 +1,33 @@
 import React, {useRef,useEffect,useState} from 'react';
-import WishItem from './wishItem';
+import RecentItem from './recentItem';
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 
-function WishList() {
+function Recent() {
     const cookies = new Cookies();
-    const [wishList, setWishList] = useState([]);
+    const [recentList, setRecentList] = useState([]);
     const idx = cookies.get('g_idx');
     
-    function getWish(url) {
-        fetch(url)
+    var myArr = localStorage.getItem('watched');
+    myArr = JSON.parse(myArr);
+    // const first = myArr[myArr.length - 1];
+    // console.log(typeof myArr, myArr);
+
+    function getRecent(url) {
+        const form = new FormData();
+        form.append('recentIdx', myArr);
+        form.append('g_idx', idx.key);
+        fetch(url, { method: 'post', body: form })
         .then(response => {
           return response.json();
     })
     .then(data => {
-        setWishList(data);
+        setRecentList(data);
     })
   }
+ 
 
-  var myArr = localStorage.getItem('watched');
-    myArr = JSON.parse(myArr);
-    // const first = myArr[myArr.length - 1];
-    console.log(typeof myArr, myArr);
-  
-    useEffect(() => {getWish(`http://localhost/guest/wish/wishList?g_idx=${idx.key}`);},[]);
+    useEffect(() => {getRecent('http://localhost/guest/wish/recentList');},[]);
     return (
         <>
         <div className="container min-vh-100">
@@ -38,13 +42,13 @@ function WishList() {
                 gridTemplateRows:'1fr',
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
-      {wishList.map(
-                ({HoImg,HoName,HoIdx,wIdx})=>(
-                    <WishItem
+            {recentList.map(
+                ({HoImg,HoName,HoIdx,check})=>(
+                    <RecentItem
                       HoIdx={HoIdx}
                       HoName={HoName}
                       HoImg={HoImg}
-                      wIdx={wIdx}
+                      check={check}
                     />
                 )
             )}
@@ -56,4 +60,4 @@ function WishList() {
 
 }
 
-export default WishList;
+export default Recent;
