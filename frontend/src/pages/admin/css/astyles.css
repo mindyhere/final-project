@@ -1,32 +1,21 @@
-* {
-  margin: 0;
-  padding: 0;
-  outline: none;
-  box-sizing: border-box;
-  line-height: 1.5em;
-  color: #747474;
-  font-family: "Open Sans", sans-serif;
-  font-size: 15px;
-}
-body {
+/*로그인 화면*/
+.body1 {
   height: 100vh;
   display: flex;
 }
-.main {
+.main1 {
   max-width: 450px;
   position: absolute;
   width: 100%;
   border-radius: 20px;
   padding-top: 10px;
   height: 300px;
-  top: 400px; /* 전체 높이 위에서부터 절반 */
-  left: 50%; /* 전체 넓이 왼쪽에서부터 절반 */
-  transform: translate(-50%, -50%); /* 해당 요소의 높이, 넓이의 절반만큼 돌아가기 */
-  /* display: flex; */
-  /* background: rgb(249, 63, 76); */
-  box-shadow: 0 0 8px rgba(241, 129, 129, 0.404);
+  top: 400px; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  box-shadow: 0 0 8px rgba(119, 167, 144, 0.192);
 }
-.btn {
+.btn1 {
   background: none;
   border: 2px solid white;
   border-radius: 150px;
@@ -39,41 +28,40 @@ body {
   cursor: pointer;
   transition: all 0.1s ease-in-out 0.1s;
 }
-.btn:hover {
+.btn1:hover {
   background: white;
-  color: rgba(249, 63, 75, 0.312);
+  color: rgba(119, 167, 144, 0.753);
 }
-.form-field{
+.form-field1{
   display: flex;
   flex-flow: column wrap;
   width: 60%;
 }
-.form-field input {
+.form-field1 input {
   border: none;
   padding: 5px;
   border-bottom: 1px solid rgba(116, 116, 116, 0.44);
   height: 30px;
   transition: border-bottom 0.1s ease-in-out 0.1s;
 }
-.form-field input:focus {
-  border-bottom: 1px solid rgb(249, 63, 76);
+.form-field1 input:focus {
+  border-bottom: 1px solid rgba(119, 167, 144, 0.719);
 }
-
-.organize-form h2 {
+.organize-form1 h2 {
   font-size: 1.4em;
   font-weight: normal;
 }
-.organize-form h2::after {
+.organize-form1 h2::after {
   content: "";
   display: block;
   width: 10%;
   height: 2px;
-  background: rgb(249, 63, 76);
+  background:  rgba(119, 167, 144, 0.719);
   margin: 0 auto;
 }
-.btn-sign {
+.btn-sign1 {
   border: none;
-  background: rgb(249, 63, 76);
+  background:  rgba(119, 167, 144, 0.473);
   color: white;
   font-weight: bold;
   width: 90%;
@@ -82,11 +70,11 @@ body {
   border-radius: 50px;
   cursor: pointer;
 }
-.btn-sign:hover {
-  background: rgb(249, 63, 76);
+.btn-sign1:hover {
+  background:  rgba(119, 167, 144, 0.705);
 }
-.bars-style {
-  color: rgb(249, 63, 76);
+.bars-style1 {
+  color: rgba(119, 167, 144, 0.404);
   cursor: pointer;
   font-size: 16px;
 }
