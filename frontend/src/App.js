@@ -23,6 +23,7 @@ import Wish from "./pages/guest/wish";
 import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
+import PreReservItem from "./pages/guest/preReservItem";
 
 // host 계정
 import HostLogin from "./pages/host/Login";
@@ -55,6 +56,7 @@ function App() {
           <Route path="/guest/recent" element={<Recent/>}/>
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
+          <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
          
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
