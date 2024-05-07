@@ -31,6 +31,9 @@ import SearchHostPw from "./pages/host/SearchPw";
 import HostAccount from "./pages/host/HostAccount";
 import EditHostInfo from "./pages/host/EditHostInfo";
 
+//review test 
+import Reputation from "./hotelDetailSection/Reputation";
+
 
 function App() {
   console.warn = function no_console() {};
@@ -62,6 +65,10 @@ function App() {
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
+
+          {/* review test */}
+          <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>

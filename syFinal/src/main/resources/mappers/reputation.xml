@@ -11,7 +11,7 @@ select * from reply
 where rp_rv_idx = #{rv_idx}
 </select>
 
-<select id="getHotelReviews" resultType="java.util.Map">
+<select id="getHotelReviews" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 select * from review
 where rv_hd_idx in 
 	(select d_idx from hotel_detail where d_ho_idx=#{ho_idx})
