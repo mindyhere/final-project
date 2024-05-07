@@ -30,6 +30,7 @@ function Wish() {
         myArr = JSON.parse(myArr);
         first = myArr[myArr.length - 1];
     }
+   
     const [data, loading] = useFetch('http://localhost/guest/wish/recentImg?idx='+first+'&g_idx='+idx.key);
 
     if(loading) {
@@ -54,7 +55,7 @@ function Wish() {
         return (
             <>
                 <div className="container min-vh-100">
-                <h3 class="text-bold"> <img src="/img/heartt.png" width="30px" height="30px"/>
+                <h3 class="text-bold"> <img src="/img/wish.png" width="30px" height="30px"/>
                 &nbsp; 위시리스트</h3>
                 <br/>
                 <hr/>
@@ -69,7 +70,7 @@ function Wish() {
                 </div>
                 <div class="wish-blank"></div>
                 <div>
-                <Link to={'/'} style={{textDecorationLine: 'none'}}>
+                <Link to={'/guest/recent'} style={{textDecorationLine: 'none'}}>
                 <span dangerouslySetInnerHTML={{__html: recentImage}}></span>
                     <div style={{fontSize:"20px", color: 'black'}}>최근 본 숙소</div>
                     </Link>

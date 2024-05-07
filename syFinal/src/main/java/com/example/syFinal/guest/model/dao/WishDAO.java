@@ -14,4 +14,14 @@ public interface WishDAO {
 	int countWish(int g_idx);
 
 	String delete(int w_idx);
+
+	MainDTO recentItem(Integer recentIdx);
+
+	int recentCheck(int g_idx, Integer recentIdx);
+
+	String wishDelete(int g_idx, int h_idx);
+
+	String wishUpdate(int g_idx, int h_idx);
+
+	
 }
