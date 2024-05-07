@@ -22,7 +22,7 @@ public class GuestDTO {
 	private String g_join_date;
 	private int g_level;
 	private String g_photo;
-	private int g_card;
+	private String g_card;
 	private String g_date;
 	private int g_cvc;
 	private int g_point;
