@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-import Reviews from "./hostAccount/Reviews";
-import Orders from "./hostAccount/Orders";
+import Reviews from "./Reviews";
+import Orders from "./Orders";
 
 import Swal from "sweetalert2";
-import "./host1.css";
+import "../host1.css";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
@@ -145,7 +145,7 @@ function HostAccount() {
                     <tr>
                       <th>이름</th>
                       <td colSpan={3}>&nbsp;&nbsp;{userName}</td>
-                    </tr>
+                    </tr> 
                     <tr>
                       <th>전화번호</th>
                       <td colSpan={3}>&nbsp;&nbsp;{data.h_phone}</td>
