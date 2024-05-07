@@ -2,8 +2,7 @@ import React, { useState, useRef,useEffect,useFetch} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Join from "../pages/guest/join";
-import HostJoin from "../pages/host/Join_modal";
-import "../pages/guest/Pay.js";
+import HostJoin from "../pages/host/login/Join_modal";
 
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";

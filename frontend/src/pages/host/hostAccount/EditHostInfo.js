@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
-import "./host1.css";
+import "../host1.css";
 
 function EditHostInfo() {
   const navigate = useNavigate();

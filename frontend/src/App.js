@@ -26,11 +26,14 @@ import Reservation from "./pages/guest/reservation";
 import PreReservItem from "./pages/guest/preReservItem";
 
 // host 계정
-import HostLogin from "./pages/host/Login";
-import SearchHostEmail from "./pages/host/SearchEmail";
-import SearchHostPw from "./pages/host/SearchPw";
-import HostAccount from "./pages/host/HostAccount";
-import EditHostInfo from "./pages/host/EditHostInfo";
+import HostLogin from "./pages/host/login/Login";
+import SearchHostEmail from "./pages/host/login/SearchEmail";
+import SearchHostPw from "./pages/host/login/SearchPw";
+import HostAccount from "./pages/host/hostAccount/HostAccount";
+import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
+
+//review test 
+//import Reputation from "./hotelDetailSection/Reputation";
 
 
 function App() {
@@ -64,6 +67,10 @@ function App() {
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
+
+          {/* review test */}
+          {/* <Route path="/host/edit/:userIdx" element={<Reputation />} /> */}
+
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -95,6 +95,7 @@ function ListReview() {
           <tr>
             <td colSpan={5}>
               <br />
+              <p>리뷰</p>
               <p>등록된 게시글이 없습니다.</p>
             </td>
           </tr>
