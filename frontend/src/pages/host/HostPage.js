@@ -22,12 +22,11 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function HostInfo() {
+function HostPage() {
     const navigate = useNavigate();
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
-    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
-    if(loading || loading2){
+    if(loading){
         return (
             <div className="text-center">로딩 중...</div>
         )
@@ -65,23 +64,12 @@ function HostInfo() {
                                         <h2>{data.h_name}</h2><br />
                                         <h6>{level}</h6>
                                     </div>
-                                    <div className="col-6">
-                                        <div className="text-xs">후기</div>
-                                        {review.list.length}개
-                                        <br />
-                                        <hr />
-                                        <div className="text-xs">평점</div>
-                                        {review.avg}
-                                        <br />
-                                        <hr />
-                                        <div className="text-xs">호스팅 경력</div>
-                                        {regdate}
-                                    </div>
+
                                 </div>
                             </div>
                             <br />
                             
-                            <div onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
+                            <div onClick={() => navigate()}>
                                 더 보기 ▶
                             </div>
                         </div>
@@ -114,4 +102,4 @@ function HostInfo() {
     }
 };
 
-export default HostInfo;
+export default HostPage;

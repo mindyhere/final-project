@@ -28,6 +28,8 @@ function useFetch(url) {
 function Reservation() {
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
+    const [info, setInfo] = useState(false);
+    const [view, setView] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
 
     const [state, setState] = useState({
@@ -46,7 +48,6 @@ function Reservation() {
         setView(true);
    };
 
-
    const start = moment(state.startDate);
    const end = moment(state.endDate);
    const dateChar  = moment.duration(end.diff(start)).asDays();
@@ -54,7 +55,7 @@ function Reservation() {
    const vat = price * 0.2;
    const totalPrice = price + vat;
 
-   const [view, setView] = useState(false);
+
 
     if(loading){
         return (
@@ -108,19 +109,31 @@ function Reservation() {
                     { view && 
                     <div className="container mb-20">
                         <div className="row">
-                            <div className="col-6" style={{textAlign:'left'}}>
+                            <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}}>
                                 ￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
                             </div>
                             <div className="col-6" style={{textAlign:'right'}}>
-                            ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-6" style={{textAlign:'left'}}>
+                            <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}} onClick={() => setInfo(true)}>
                                 에어비앤비 서비스 수수료
                             </div>
+                            { info &&
+                                <div className='Modal' onClick={() => setInfo(false)} style={{zIndex : 999}}>
+                                    <div className='modalBody' style={{height:'200px', width: '400px', padding: '20px'}} onClick={(e) => e.stopPropagation()}>
+                                            <button id = 'modalCloseBtn' onClick={() => setInfo(false)}>
+                                            X
+                                            </button>
+                                            <div className="container" style={{textAlign: 'left'}}>
+                                                수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다. 부가가치세(VAT)가 포함된 가격입니다.
+                                            </div>
+                                    </div>
+                                </div>
+                                }
                             <div className="col-6 " style={{textAlign:'right'}}>
-                            ￦{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                     </div>
