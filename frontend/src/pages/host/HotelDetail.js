@@ -6,6 +6,10 @@ import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
 import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
+
+// 리뷰
+import Reputation from "./hotelDetailSection/Reputation";
+
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import moment from "moment";
@@ -136,7 +140,7 @@ function HotelDetail() {
                                                         <img src="/img/best.png" width="35px" height="35px"/>
                                                     </div>  
                                                     <div className="col-10" style={{alignContent:'center'}}>
-                                                        게스트 선호
+                                                    <h5>게스트 선호</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,11 +159,7 @@ function HotelDetail() {
                             </div>
                             <br />
                             <div className="row">
-                                <div className="col-3">
-                                    <div className="profile-image" onClick={onMoveBox}>
-                                        <span dangerouslySetInnerHTML={{__html : profile_url}}></span>                        
-                                    </div>
-                                </div>
+                                <div className="col-3" style={{textAlign : 'center'}} dangerouslySetInnerHTML={{__html : profile_url}}></div>
                                 <div className="col-9" style={{alignSelf : 'center'}}>
                                   
                                     <div><b> 호스트 : {data.h_name}님 </b></div>
@@ -189,6 +189,10 @@ function HotelDetail() {
                                 </div>
                             <hr />
                             <h4>숙소 후기</h4>
+                            <br/>
+                            <div style={{ overflow: "hidden" }}>
+                                <Reputation />
+                            </div>
                             <hr />
                             <h4>숙소 위치</h4>
                             <div>{data.ho_address}

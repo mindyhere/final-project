@@ -73,4 +73,12 @@ public class HotelController {
 		hotelRule = hotelDao.hotelRule(ho_idx);
 		return hotelRule;
 	}
+	
+	/* 호텔 예약(1박 가격) */
+	@GetMapping("/host/hotel/hotelPrice/{hoIdx}")
+	public int hotelPrice(@PathVariable(name = "hoIdx") int ho_idx){
+		int hotelPrice = hotelDao.hotelPrice(ho_idx);
+	System.out.println("hotelPrice : " + hotelPrice);
+		return hotelPrice;
+	}
 }

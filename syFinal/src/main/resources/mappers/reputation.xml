@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reputation">
+
+<select id="reviewDetail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+select * from review where rv_idx = #{rv_idx}
+</select>
+
+<select id="replyDetail" resultType="com.example.syFinal.host.model.dto.ReplyDTO">
+select * from reply 
+where rp_rv_idx = #{rv_idx}
+</select>
+
+<select id="getHotelReviews" resultType="java.util.Map">
+select * from v_hotel_review 
+where ho_idx=#{ho_idx}
+order by rv_idx desc 
+</select>
+
+<select id="getHotelReplys" resultType="java.util.Map">
+select * 
+from reply
+where rp_rv_idx in 
+	(select rv_idx from review where rv_hd_idx IN (SELECT d_idx from hotel_detail WHERE d_ho_idx=#{ho_idx}))	
+</select>
+
+<select id="calcAvgRate" resultType="double">
+select avg(rv_star) from v_hotel_review where ho_idx = #{ho_idx}
+</select>
+</mapper>

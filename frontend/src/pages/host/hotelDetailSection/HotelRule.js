@@ -20,6 +20,8 @@ function useFetch(url) {
 
 function HotelRule() {
     const {HoIdx} = useParams();
+    const today = new Date();
+    const formattedDate = `${today.getMonth() + 1}월 ${today.getDate() + 6}일`;
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelRule/' + HoIdx);
     if(loading){
         return (
@@ -47,7 +49,7 @@ function HotelRule() {
                     </div>
                     <div className="col-4">
                         <h6 className="mb-10">환불 정책</h6>
-                        <b>!!data입력!!</b> 전에 취소하면 부분 환불을 받으실 수 있습니다.
+                        <b>{formattedDate}</b> 전에 취소하면 부분 환불을 받으실 수 있습니다.
                     </div>
                 </div>
             </div>

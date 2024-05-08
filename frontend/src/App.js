@@ -23,13 +23,16 @@ import Wish from "./pages/guest/wish";
 import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
+import PreReservItem from "./pages/guest/preReservItem";
+import Order from "./pages/guest/Order";
+import Kakao from "./pages/guest/kakao";
 
 // host 계정
-import HostLogin from "./pages/host/Login";
-import SearchHostEmail from "./pages/host/SearchEmail";
-import SearchHostPw from "./pages/host/SearchPw";
-import HostAccount from "./pages/host/HostAccount";
-import EditHostInfo from "./pages/host/EditHostInfo";
+import HostLogin from "./pages/host/login/Login";
+import SearchHostEmail from "./pages/host/login/SearchEmail";
+import SearchHostPw from "./pages/host/login/SearchPw";
+import HostAccount from "./pages/host/hostAccount/HostAccount";
+import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 
 
 function App() {
@@ -55,6 +58,9 @@ function App() {
           <Route path="/guest/recent" element={<Recent/>}/>
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
+          <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
+          <Route path="/guest/Order" element={<Order/>}/>
+          <Route path="/guest/kakao" element={<Kakao/>}/>
          
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
@@ -62,6 +68,7 @@ function App() {
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>

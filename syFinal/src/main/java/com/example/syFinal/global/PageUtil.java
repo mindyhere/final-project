@@ -1,9 +1,8 @@
 package com.example.syFinal.global;
 
-
 public class PageUtil {
-	public static final int PAGE_SCALE = 5;
-	public static final int BLOCK_SCALE = 5;
+	public static final int PAGE_SCALE = 10;
+	public static final int BLOCK_SCALE = 10;
 
 	private int curPage;
 	private int prevPage;
