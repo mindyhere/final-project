@@ -4,11 +4,13 @@ import Cookies from "universal-cookie";
 
 import ReviewItem from "../../../component/ReviewItem";
 import { StarFill } from "react-bootstrap-icons";
+import TotalReputation from "./Reputation_modal";
 
 function Reputation() {
   const { HoIdx } = useParams();
   const [list, setReviews] = useState([]);
-  // const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [totReputation, setTotalReputation] = useState(false);
   // const navigate = useNavigate();
   const [avg, setAvg] = useState("");
 
@@ -29,6 +31,28 @@ function Reputation() {
         setReviews(data.list);
         setAvg(data.avg);
       });
+  }
+
+  function Modal(props) {
+    function closeModal() {
+      props.closeModal();
+      setModal(false);
+    }
+
+    return (
+      <div className="modal_h" onClick={closeModal}>
+        <div
+          className="modalBody_h"
+          style={{width: "1000px"}}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className="btnClose" onClick={closeModal}>
+            X
+          </button>
+          {props.children}
+        </div>
+      </div>
+    );
   }
 
   useEffect(() => {
@@ -77,6 +101,7 @@ function Reputation() {
                 rv_star,
               }) => (
                 <ReviewItem
+                opt={1}
                   rv_idx={rv_idx}
                   g_name={g_name}
                   g_url={g_url}
@@ -92,7 +117,23 @@ function Reputation() {
           </div>
           {list.length >= 6 ? (
             <div>
-              <button className="main-btn">후기 모두보기</button>
+              <button
+                className="main-btn"
+                onClick={() => {
+                  setTotalReputation(!totReputation);
+                }}
+              >
+                {totReputation && (
+                  <Modal
+                    closeModal={() => {
+                      setTotalReputation(!totReputation);
+                    }}
+                  >
+                    <TotalReputation list={list} avg={avg} style={{zIndex:"999"}} />
+                  </Modal>
+                )}
+                후기 모두보기
+              </button>
             </div>
           ) : (
             ""

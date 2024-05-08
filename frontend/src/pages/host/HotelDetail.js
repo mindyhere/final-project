@@ -190,7 +190,7 @@ function HotelDetail() {
                             <hr />
                             <h4>숙소 후기</h4>
                             <br/>
-                            <div style={{ overflow: "hidden" }}>
+                            <div>
                                 <Reputation />
                             </div>
                             <hr />
