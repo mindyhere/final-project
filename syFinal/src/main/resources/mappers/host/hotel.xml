@@ -47,4 +47,11 @@
 		FROM hotel
 		WHERE ho_idx = #{ho_idx}
 	</select>
+	
+	<!-- 호텔 예약(1박 가격) -->
+	<select id="getPrice" resultType="int">
+		SELECT d_price FROM hotel_detail
+		WHERE d_ho_idx = #{ho_idx}
+		AND d_idx = 1 <!-- 추후 조건 기능 추가 -->
+	</select>
 </mapper>

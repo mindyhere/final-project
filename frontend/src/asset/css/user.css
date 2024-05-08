@@ -124,7 +124,7 @@ ul.tabs li.current {
 	height: 100px;
 }
 
-.profile-image img {
+.profile-image span {
 	width: 100%;
 		/* border-radius: 50%; */
 }
