@@ -9,7 +9,7 @@ import "../pages/host/host1.css";
 
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
-import { EnvelopeAt, Telephone } from "react-bootstrap-icons";
+import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
 
 // function useFetch(url) {
 //   const [data,setData] = useState(null);
