@@ -11,7 +11,7 @@ function Footer() {
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>사이트맵</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>한국의 변경된 환불 정책</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>회사 세부정보</a>&nbsp;·&nbsp;
-                <a href='/admin/amain' style={{textDecoration: "none", color: "#262626"}}>관리시스템</a>
+                <a href='/admin/amain' style={{textDecoration: "none", color: "#262626"}}>관리시스템</a> 
                 </div>
            
             <div align="center" style={{fontSize: "10px",color: "grey"}}>

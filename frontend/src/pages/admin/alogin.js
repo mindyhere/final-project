@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import '../admin/css/astyles.css';
 
 
-function AdminLogin() {
+function AdminLogin() { 
     const [params, setParams]=useSearchParams();  
     const msg = params.get('msg');
     const navigate = useNavigate();
@@ -69,7 +69,8 @@ function AdminLogin() {
 
                </div>
             </div>
-        </div>     
+        </div>   
+          
      </>          
     )
 }

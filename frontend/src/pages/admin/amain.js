@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
 
-function Amain() {
+function Amain(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const a_id = useRef();
@@ -15,7 +15,7 @@ function Amain() {
         
         if (adminId && adminPassword ) {
             setIsLoggedIn(true);
-        }
+        } 
     }, []);
 
     const handleLogout = () => {
