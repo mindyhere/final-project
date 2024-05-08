@@ -93,7 +93,7 @@ ul.tabs li.current {
 /* ========== table css ========== */
 .tbl {
 	width: 100%;
-	border: 1px solid #f1d59838;
+	border: 1px solid #F7EFFC;
 	margin-top: 15px;
 	margin-bottom: 20px;
 	margin-top: 15px;
@@ -102,7 +102,7 @@ ul.tabs li.current {
 .tbl th {
 	padding: 10px;
 	border: 1px solid #dee2e6;
-	background-color: #f1d59838;
+	background-color: #F7EFFC;
 	text-align: center;
 	font-weight: bold;
 }

@@ -6,13 +6,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker';
 import { ko } from "date-fns/locale";
 import DateRangeSelector from "../../../component/DateRangeSelector";
-import { DatePickers  } from "react-date-range";
-import { format, addDays} from "date-fns";
+import { DateRangePicker  } from "react-date-range";
+import { format, addDays, subDays} from "date-fns";
 import moment from "moment";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
-    console.log(data);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -29,12 +28,25 @@ function useFetch(url) {
 }
 
 function Reservation() {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
+
+    const [state, setState] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection"
+   });
+   const [show, setShow] = useState(false);
+
+   function formatDateDisplay(date, defaultText) {
+        if (!date) return defaultText;
+        return format(date, "yyyy년 MM월 dd일");
+   }
+
+   const handleSelect = ranges => {
+        setState(ranges.selection);
+   };
 
     if(loading){
         return (
@@ -44,51 +56,38 @@ function Reservation() {
         return (
                 <div className="card-style mb-30">
                     <div className="mb-20"><b>￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
-                    
-                    <div className="card-style mb-30">
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="row">체크인</div>
-                                <div className="row">
-                                    <DatePicker 
-                                        locale={ko}
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selected={startDate} 
-                                        onChange={date => setStartDate(date)}
-                                        selectsStart
-                                        startDate={startDate}
-                                        endDate={endDate}
-                                        months={2}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-6">
-                            <div className="row">체크아웃</div>
-                                <div className="row">
-                                    <DatePicker 
-                                        locale={ko}
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selected={endDate} 
-                                        onChange={date => setEndDate(date)}
-                                        selectsStart
-                                        startDate={startDate}
-                                        endDate={endDate}
-                                        minDate={startDate}
-                                        months={2}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="row">
-                            <div>
-                                <div onClick={() =>{}}> 인원선택</div>
-                            </div>
-                        </div>
-                    </div>
+                    <table className="tbl">
+                        <tbody>
+                            <tr>
+                                <th onClick={() => setModal(true)}>체크인</th>
+                                { modal &&
+                                   <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
+                                   <div className='Body' onClick={(e) => e.stopPropagation()}>
+                                         <DateRangePicker
+                                            locale={ko}
+                                            minDate={subDays(new Date(), 0)}             
+                                            onChange={handleSelect}
+                                            showSelectionPreview={true}
+                                            moveRangeOnFirstSelection={false}
+                                            months={2}
+                                            ranges={[state]}
+                                            direction="horizontal"
+                                        />
+                                        </div>
+                                    </div>
+                                }
+                                <th>체크아웃</th>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
+                                <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                            </tr>
+                            <tr><th colSpan={2}>인원 선택</th></tr>
+                        </tbody>
+                    </table>
                     <button className="main-btn mb-20" style={{width : '180px'}} type="button" onClick={() => {
 
-                    }}>예약하기</button>
+                    }} >예약하기</button>
                     
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     <hr />
