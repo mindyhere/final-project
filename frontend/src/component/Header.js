@@ -381,7 +381,7 @@ function Header() {
                 )}
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
+                <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
                   여행
                 </a>
               </li>

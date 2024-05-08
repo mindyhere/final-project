@@ -13,6 +13,7 @@ import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
+import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
@@ -24,6 +25,9 @@ import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
 import Order from "./pages/guest/Order";
+import LastReservItem from "./pages/guest/lastReservItem";
+import PreReservItem from "./pages/guest/preReservItem";
+
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -41,6 +45,7 @@ import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 
 
+
 function App() {
   console.warn = function no_console() {};
 
@@ -56,6 +61,7 @@ function App() {
           <Route path="/guest/Account" element={<Account/>}/>
           <Route path="/guest/Pay" element={<Pay/>}/>
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
+          <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />}/>
           <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
           <Route path="/guest/PayItem" element={<PayItem/>}/>
           <Route path="/guest/wishItem" element={<WishItem/>}/>
@@ -65,6 +71,8 @@ function App() {
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
           <Route path="/guest/Order" element={<Order/>}/>
+          <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
+          <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import './aa.css'
-import Slider from "react-slick";
 
 
 function PreReservItem({HoIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
