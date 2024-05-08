@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useFetch } from "react";
+import React, { useState, useRef, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Join from "../pages/guest/join";
@@ -11,22 +11,6 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
 
-// function useFetch(url) {
-//   const [data,setData] = useState(null);
-//   const [loading,setLoading] = useState(true);
-
-//   useEffect(()=>{
-//       fetch(url)
-//           .then(response=>{
-//               return response.json();
-//           })
-//           .then(data=>{
-//               setData(data);
-//               setLoading(false);
-//           })
-//   }, []);
-//   return [data,loading];
-// }
 
 function Header() {
   const navigate = useNavigate();
@@ -47,6 +31,7 @@ function Header() {
 
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
+
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -283,6 +268,7 @@ function Header() {
   } else if (userInfo == null && g_email != null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
+
 
     let level = "";
     if (g_level.key == 1) {
