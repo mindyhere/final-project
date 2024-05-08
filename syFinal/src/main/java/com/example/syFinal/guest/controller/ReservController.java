@@ -1,6 +1,8 @@
 package com.example.syFinal.guest.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,22 +24,46 @@ public class ReservController {
 	
 	@RequestMapping("list")
 	@ResponseBody
-	public List<Map<String, Object>> list(@RequestParam(name = "g_idx") int g_idx) {
+	public Map<String, Object> list(@RequestParam(name = "g_idx") int g_idx) {
 		List<ReservDTO> dto = dao.list(g_idx);
-		//System.out.println(dto);
-		List<Map<String, Object>> list = new ArrayList<>();
+		//System.out.println(dto);	
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date now = new Date();
+		Date ck = new Date();
+		List<Map<String, Object>> after = new ArrayList<>();
+		List<Map<String, Object>> before = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
 		for(int i=0; i<dto.size(); i++) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("HoIdx", dto.get(i).getD_ho_idx());
-			map.put("HoImg", dto.get(i).getHo_img());
-			map.put("OCkin", dto.get(i).getO_ckin());
-			map.put("OCkout", dto.get(i).getO_ckout());
-			map.put("HName", dto.get(i).getH_name());
-			map.put("HoAddress", dto.get(i).getHo_address());
-			map.put("HoName", dto.get(i).getHo_name());
-			list.add(map);
+			try {
+				ck = format.parse(dto.get(i).getO_ckin());
+			} catch (Exception e) {
+			}
+			System.out.println(ck.before(now));
+			if(ck.before(now)) {
+				Map<String, Object> map1 = new HashMap<>();
+				map1.put("HoIdx", dto.get(i).getD_ho_idx());
+				map1.put("HoImg", dto.get(i).getHo_img());
+				map1.put("OCkin", dto.get(i).getO_ckin());
+				map1.put("OCkout", dto.get(i).getO_ckout());
+				map1.put("HName", dto.get(i).getH_name());
+				map1.put("HoAddress", dto.get(i).getHo_address());
+				map1.put("HoName", dto.get(i).getHo_name());
+				before.add(map1);
+			} else {
+				Map<String, Object> map2 = new HashMap<>();
+				map2.put("HoIdx", dto.get(i).getD_ho_idx());
+				map2.put("HoImg", dto.get(i).getHo_img());
+				map2.put("OCkin", dto.get(i).getO_ckin());
+				map2.put("OCkout", dto.get(i).getO_ckout());
+				map2.put("HName", dto.get(i).getH_name());
+				map2.put("HoAddress", dto.get(i).getHo_address());
+				map2.put("HoName", dto.get(i).getHo_name());
+				after.add(map2);
+			}	
 		}
-		System.out.println(list);
-		return list;
+		map.put("before", before);
+		map.put("after", after);
+		System.out.println(map);
+		return map;
 	}
 }
