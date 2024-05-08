@@ -6,7 +6,7 @@
 </select>
 
 <select id="login" resultType="map">
-	select g_idx, g_name, g_level, g_phone, g_profile from GUEST where g_email = #{g_email} and g_passwd = #{g_passwd}
+	select g_idx, g_name, g_level, g_phone, g_profile, g_photo from GUEST where g_email = #{g_email} and g_passwd = #{g_passwd}
 </select>
 
 <select id="searchEmail" resultType="String">
