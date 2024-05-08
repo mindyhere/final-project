@@ -24,19 +24,20 @@ import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
 
-//admin 계정
+// admin 계정        
 import Amain from "./pages/admin/amain";
 import AdminLogin from "./pages/admin/alogin";
+import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
 
 
 // host 계정
-import HostLogin from "./pages/host/Login";
-import SearchHostEmail from "./pages/host/SearchEmail";
-import SearchHostPw from "./pages/host/SearchPw";
-import HostAccount from "./pages/host/HostAccount";
-import EditHostInfo from "./pages/host/EditHostInfo";
+import HostLogin from "./pages/host/login/Login";
+import SearchHostEmail from "./pages/host/login/SearchEmail";
+import SearchHostPw from "./pages/host/login/SearchPw";
+import HostAccount from "./pages/host/hostAccount/HostAccount";
+import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 
 
 function App() {
@@ -66,9 +67,9 @@ function App() {
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
           <Route path="/admin/alogin" element={<AdminLogin />} />
+          <Route path="/admin/ahost" element={<Ahost />} />
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
-
          
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
