@@ -1,12 +1,13 @@
 import React, { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import "moment/locale/ko";
-import "../../../asset/css/datepicker.css"
+import "react-datepicker/dist/react-datepicker.css";
 
 import DatePicker from 'react-datepicker';
+import { ko } from "date-fns/locale";
 import DateRangeSelector from "../../../component/DateRangeSelector";
-import { DateRange } from "react-date-range";
-import { addDays} from "date-fns";
+import { DateRangePicker  } from "react-date-range";
+import { format, addDays, subDays} from "date-fns";
 import moment from "moment";
 
 function useFetch(url) {
@@ -28,9 +29,24 @@ function useFetch(url) {
 
 function Reservation() {
     const {HoIdx} = useParams();
-    const [calendar, setCalendar] = useState(false); 
     const [modal, setModal] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
+
+    const [state, setState] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection"
+   });
+   const [show, setShow] = useState(false);
+
+   function formatDateDisplay(date, defaultText) {
+        if (!date) return defaultText;
+        return format(date, "yyyy년 MM월 dd일");
+   }
+
+   const handleSelect = ranges => {
+        setState(ranges.selection);
+   };
 
     if(loading){
         return (
@@ -39,45 +55,41 @@ function Reservation() {
     } else {
         return (
                 <div className="card-style mb-30">
-                    <b>￦ 1박 가격 데이터 </b> /박
-                    <br />
-                    <div className="card-style mb-30">
-                        <div className="row">
-                            <div className="col-6">
-                                <button type="button" onClick={() => setModal(true)}>
-                                체크인</button>
+                    <div className="mb-20"><b>￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
+                    <table className="tbl">
+                        <tbody>
+                            <tr>
+                                <th onClick={() => setModal(true)}>체크인</th>
                                 { modal &&
-                                    <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
-                                        <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                            <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                                X
-                                            </button>
-                                            <div>
-                                                <DateRangeSelector />
-                                            </div>
+                                   <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
+                                   <div className='Body' onClick={(e) => e.stopPropagation()}>
+                                         <DateRangePicker
+                                            locale={ko}
+                                            minDate={subDays(new Date(), 0)}             
+                                            onChange={handleSelect}
+                                            showSelectionPreview={true}
+                                            moveRangeOnFirstSelection={false}
+                                            months={2}
+                                            ranges={[state]}
+                                            direction="horizontal"
+                                        />
                                         </div>
                                     </div>
                                 }
-                            </div>
-                            <div className="col-6">
-                               <input type="text" placeholder="체크아웃" />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div>
-                                <button type="button" onClick={() =>{
-                                    
-                                }}>
-                                인원선택</button>
-                            </div>
-                        </div>
-                    </div>
+                                <th>체크아웃</th>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
+                                <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                            </tr>
+                            <tr><th colSpan={2}>인원 선택</th></tr>
+                        </tbody>
+                    </table>
                     <button className="main-btn mb-20" style={{width : '180px'}} type="button" onClick={() => {
 
-                    }}>예약하기</button>
+                    }} >예약하기</button>
                     
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
-
                     <hr />
                     <div className="row">
                         <div className="col-4" style={{textAlign : 'left'}}>

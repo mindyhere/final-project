@@ -1,7 +1,7 @@
 .dateRangePicker{
   /*position: right;*/
-  position: absolute; 
-  top:0;
+  /*position: absolute; */
+  top:600;
   right:0;
   border: 1px solid transparent;
 }

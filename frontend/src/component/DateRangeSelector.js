@@ -5,7 +5,7 @@ import ko from "date-fns/locale/ko";
 import "../asset/css/datepicker.css"
 
 const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
-     const [selectedDateRange, setSelectedDateRange] = useState({
+     const [state, setState] = useState({
           startDate: new Date(),
           endDate: new Date(),
           key: "selection"
@@ -18,7 +18,7 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
      }
 
      const handleSelect = ranges => {
-          setSelectedDateRange(ranges.selection);
+          setState(ranges.selection);
      };
 
      return (
@@ -32,7 +32,7 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                         showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
                         months={2}
-                        ranges={[selectedDateRange]}
+                        ranges={[state]}
                         direction="horizontal"
                     />
                     </div>
@@ -47,8 +47,8 @@ const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
                {show && 
                     <div className="h-100 mt-3 alert alert-transparent">
                          <p className="my-auto d-inline">
-                              Start Date :{" "} {formatDateDisplay(selectedDateRange.startDate)}{" | "}
-                              End Date :{" "} {formatDateDisplay(selectedDateRange.endDate)}
+                              {formatDateDisplay(state.startDate)}
+                               ~ {formatDateDisplay(state.endDate)}
                          </p>
                          <button className="mb-1 btn btn-transparent text-danger" onClick={() => setShow(false)} variant="outline-success"> Close</button>
                     </div>
