@@ -1,7 +1,5 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { AlignMiddle, AlignStart, StarFill } from "react-bootstrap-icons";
 
 // import Swal from "sweetalert2";
 // import "../host1.css";
@@ -17,9 +15,10 @@ function ReviewItem({
   rv_date,
   rv_star,
 }) {
+  const [reply, setReply] = useState("");
   let loading = false;
 
-  const url = `http://localhost/static/images/guest/profile/${g_url}`;
+  const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
 
   const rendering = (i) => {
     const star = "⭐";
@@ -30,12 +29,27 @@ function ReviewItem({
     return result;
   };
 
+  function getReply(url) {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("==> 답글 data? " + JSON.stringify(data.reply));
+        setReply(data.reply);
+      });
+  }
+
+  useEffect(() => {
+    getReply(`http://localhost/api/reputation/reply/${rv_idx}`);
+  }, []);
+
   if (loading) {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
     if (g_url !== "-") {
-      profile_src = `<img class='profile-img' src=${url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
+      profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
@@ -43,7 +57,7 @@ function ReviewItem({
 
     if (opt === 1) {
       // 호텔 상세에서 call
-      console.log("==> 리턴" + opt);
+      console.log("==> 리턴" + opt + ", " + rv_idx);
       return (
         <div>
           <div className="card-style">
@@ -76,15 +90,16 @@ function ReviewItem({
       );
     } else if (opt === 2) {
       // 모달창에서 call
+      console.log("==> 리턴" + opt + ", " + rv_idx);
       return (
         <div>
           <div className="card-style" style={{ textAlign: "left" }}>
-            <div className="row mb-20"style={{display:"flow"}}>
-                <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
-                {g_name}
-                <input type="hidden" defaultValue={rv_idx} />
-                <input type="hidden" defaultValue={g_email} />
-                &nbsp;({l_name})
+            <div className="row mb-20" style={{ display: "flow" }}>
+              <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
+              {g_name}
+              <input type="hidden" defaultValue={rv_idx} />
+              <input type="hidden" defaultValue={g_email} />
+              &nbsp;({l_name})
             </div>
             <div className="row mb-20" style={{ textAlign: "left" }}>
               <span style={{ display: "inline" }}>
@@ -103,6 +118,9 @@ function ReviewItem({
               }}
             >
               {rv_content}
+            </div>
+            <div className="row" style={{marginTop:"20px",textAlign:"right"}}>
+              {reply !== null ? <Link to="#">호스트답글</Link> : ""}
             </div>
           </div>
           <br />

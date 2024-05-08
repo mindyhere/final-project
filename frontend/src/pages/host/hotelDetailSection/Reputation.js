@@ -27,7 +27,7 @@ function Reputation() {
         return response.json();
       })
       .then((data) => {
-        console.log("==> 리뷰 data? " + data);
+        console.log("==> 리뷰 data? " + JSON.stringify(data));
         setReviews(data.list);
         setAvg(data.avg);
       });
@@ -43,7 +43,7 @@ function Reputation() {
       <div className="modal_h" onClick={closeModal}>
         <div
           className="modalBody_h"
-          style={{width: "1000px"}}
+          style={{ width: "1000px" }}
           onClick={(e) => e.stopPropagation()}
         >
           <button className="btnClose" onClick={closeModal}>
@@ -101,7 +101,7 @@ function Reputation() {
                 rv_star,
               }) => (
                 <ReviewItem
-                opt={1}
+                  opt={1}
                   rv_idx={rv_idx}
                   g_name={g_name}
                   g_url={g_url}
@@ -129,7 +129,11 @@ function Reputation() {
                       setTotalReputation(!totReputation);
                     }}
                   >
-                    <TotalReputation list={list} avg={avg} style={{zIndex:"999"}} />
+                    <TotalReputation
+                      list={list}
+                      avg={avg}
+                      style={{ zIndex: "999" }}
+                    />
                   </Modal>
                 )}
                 후기 모두보기

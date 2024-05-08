@@ -41,9 +41,9 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> getHotelReplys(int ho_idx) {
+	public List<ReplyDTO> getReply(int rv_idx) {
 		// hotel 리뷰 별 답글 목록
-		return sqlSession.selectList("reputation.getHotelReplys", ho_idx);
+		return sqlSession.selectOne("reputation.getReply", rv_idx);
 	}
 
 	@Override
