@@ -190,7 +190,9 @@ function HotelDetail() {
                             <hr />
                             <h4>숙소 후기</h4>
                             <br/>
-                                <Reputation/>
+                            <div style={{ overflow: "hidden" }}>
+                                <Reputation />
+                            </div>
                             <hr />
                             <h4>숙소 위치</h4>
                             <div>{data.ho_address}

@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { StarFill } from "react-bootstrap-icons";
+
 // import Swal from "sweetalert2";
 // import "../host1.css";
 
@@ -18,15 +20,24 @@ function ReviewItem({
 
   const url = `http://localhost/static/images/guest/profile/${g_url}`;
 
+  const rendering = (i) => {
+    const star = "⭐";
+    const result = [];
+    for (let j = 0; j < i; j++) {
+      result.push(<span key={j}>{star}</span>);
+    }
+    return result;
+  };
+
   if (loading) {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
     if (g_url !== "-") {
-      profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
+      profile_src = `<img class='profile-img' src=${url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img src='http://localhost/static/images/no-image.png' width='50px'/>";
+        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
     }
 
     return (
@@ -36,21 +47,21 @@ function ReviewItem({
             <div className="col-3">
               <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
             </div>
-            <div className="col-9">
-              {g_name}
+            <div className="col-9" style={{ paddingLeft: "5%" }}>
+              <strong>{g_name}</strong>
               <input type="hidden" defaultValue={rv_idx} />
               <input type="hidden" defaultValue={g_email} />
               <br />
               {l_name}
             </div>
           </div>
-          <div className="row mb-10">
-            {rv_star} | {rv_date}
+          <div className="row" >
+            <span style={{display:"inline"}}>
+              {rendering(rv_star)} {rv_star}&nbsp;&nbsp;|&nbsp;&nbsp;{rv_date}
+            </span>{" "}
           </div>
-          <div className="row mb-10">
-            {rv_content}
-          </div>
-          <Link to="#">더보기</Link>
+          <div className="row text-ellipsis" style={{padding:"4%"}}>{rv_content}</div>
+          {rv_content.length > 20 ? <Link to="#">더보기</Link> : <br />}
         </div>
         <br />
         &nbsp;
@@ -58,4 +69,5 @@ function ReviewItem({
     );
   }
 }
+
 export default ReviewItem;
