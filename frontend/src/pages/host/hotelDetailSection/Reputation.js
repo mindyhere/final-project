@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import Cookies from "universal-cookie";
 
 import ReviewItem from "../../../component/ReviewItem";
+import { StarFill } from "react-bootstrap-icons";
 
 function Reputation() {
   const { HoIdx } = useParams();
@@ -39,7 +40,7 @@ function Reputation() {
     return (
       <>
         <div className="container mb-30">
-          <hr2>후기 미등록</hr2>
+          <h2>후기 미등록</h2>
           <p>아직 등록된 후기가 없습니다.</p>
         </div>
       </>
@@ -51,7 +52,7 @@ function Reputation() {
         <div className="col mb-30" >
           <div className="row">
             <hr2>
-              ★ {avg} | 후기 {list.length}개
+              <StarFill/> {avg} | 후기 {list.length}개
             </hr2>
           </div>
           <div
