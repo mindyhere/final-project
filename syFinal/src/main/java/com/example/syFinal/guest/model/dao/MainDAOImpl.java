@@ -16,19 +16,11 @@ public class MainDAOImpl implements MainDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-//	@Override
-//	public List<MainDTO> list(String search_option, String search, int start, int end) {
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("search_option", search_option);
-//		map.put("search", search);
-//		map.put("start", start);
-//		map.put("end", end);
-//		return sqlSession.selectList("main.mainList",map);
-//	}
 	
 	@Override
-	public List<MainDTO> list() {
-		return sqlSession.selectList("main.mainList");
+	public List<MainDTO> list(String search) {
+		return sqlSession.selectList("main.mainList",search);
 	}
+
 
 }

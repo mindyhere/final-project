@@ -39,7 +39,8 @@ const Payment = (effect, deps) => {
         const {success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status} = response;
         if (success) {
             alert('결제성공');
-            window.location.href='/guest/Pay';
+            //결제성공시 결제내역페이지로 화면전환
+            //window.location.href='/guest/Pay'; 
         } else {
             alert('결제실패');
         }

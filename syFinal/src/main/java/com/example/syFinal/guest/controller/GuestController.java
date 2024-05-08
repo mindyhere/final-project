@@ -36,12 +36,12 @@ public class GuestController {
 		System.out.println("마이페이지=="+map);
 		return map;
 	}
-	
+	//카드정보등록
 	@PostMapping("/guest/cardupdate")
 	public void cardupdate (@RequestParam Map<String, Object> map) {
 		dao.cardupdate(map);
 	}
-	
+	//카드정보삭제
 	@PostMapping("/guest/carddelete")
 	public void carddelete (@RequestParam Map<String, Object> map) {
 		dao.carddelete(map);
