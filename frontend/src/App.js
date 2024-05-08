@@ -23,6 +23,8 @@ import Wish from "./pages/guest/wish";
 import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
+import LastReservItem from "./pages/guest/lastReservItem";
+import PreReservItem from "./pages/guest/preReservItem";
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -38,6 +40,7 @@ import SearchHostEmail from "./pages/host/login/SearchEmail";
 import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
+
 
 
 function App() {
@@ -63,6 +66,8 @@ function App() {
           <Route path="/guest/recent" element={<Recent/>}/>
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
+          <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
+          <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
