@@ -1,18 +1,15 @@
 import React, { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import "moment/locale/ko";
-import "react-datepicker/dist/react-datepicker.css";
-
-import DatePicker from 'react-datepicker';
-import { ko } from "date-fns/locale";
-import DateRangeSelector from "../../../component/DateRangeSelector";
-import { DatePickers  } from "react-date-range";
-import { format, addDays} from "date-fns";
 import moment from "moment";
+import "moment/locale/ko";
+import { DateRangePicker  } from "react-date-range";
+import ko from "date-fns/locale/ko";
+import { format, subDays} from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../../asset/css/datepicker.css";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
-    console.log(data);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -29,12 +26,36 @@ function useFetch(url) {
 }
 
 function Reservation() {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
+    const [info, setInfo] = useState(false);
+    const [view, setView] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
+
+    const [state, setState] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection"
+   });
+
+   function formatDateDisplay(date, defaultText) {
+        if (!date) return defaultText;
+        return format(date, "yyyy년 MM월 dd일");
+   }
+
+   const handleSelect = ranges => {
+        setState(ranges.selection);
+        setView(true);
+   };
+
+   const start = moment(state.startDate);
+   const end = moment(state.endDate);
+   const dateChar  = moment.duration(end.diff(start)).asDays();
+   const price = data * dateChar;
+   const vat = price * 0.2;
+   const totalPrice = price + vat;
+
+
 
     if(loading){
         return (
@@ -44,60 +65,87 @@ function Reservation() {
         return (
                 <div className="card-style mb-30">
                     <div className="mb-20"><b>￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
-                    
-                    <div className="card-style mb-30">
+                    <table className="tbl">
+                        <tbody>
+                            <tr>
+                                <th onClick={() => setModal(true)}>체크인</th>
+                                { modal &&
+                                   <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
+                                   <div className='Body' onClick={(e) => e.stopPropagation()}>
+                                         <DateRangePicker
+                                            locale={ko}
+                                            minDate={subDays(new Date(), 0)}             
+                                            onChange={handleSelect}
+                                            showSelectionPreview={true}
+                                            moveRangeOnFirstSelection={false}
+                                            months={2}
+                                            ranges={[state]}
+                                            direction="horizontal"
+                                            isClearable={true}
+                                        />
+                                        </div>
+                                    </div>
+                                }
+                                <th>체크아웃</th>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
+                                <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                            </tr>
+                            <tr>
+                                <th className="dropdown-toggle" colSpan={2}>인원 선택</th>                            
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button className="main-btn mb-20" style={{width : '200px'}} type="button" onClick={() => {
+
+                    }} >예약하기</button>
+                    <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
+                    { view && 
+                    <div className="container mb-20">
                         <div className="row">
-                            <div className="col-6">
-                                <div className="row">체크인</div>
-                                <div className="row">
-                                    <DatePicker 
-                                        locale={ko}
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selected={startDate} 
-                                        onChange={date => setStartDate(date)}
-                                        selectsStart
-                                        startDate={startDate}
-                                        endDate={endDate}
-                                        months={2}
-                                    />
-                                </div>
+                            <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}}>
+                                ￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
                             </div>
-                            <div className="col-6">
-                            <div className="row">체크아웃</div>
-                                <div className="row">
-                                    <DatePicker 
-                                        locale={ko}
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selected={endDate} 
-                                        onChange={date => setEndDate(date)}
-                                        selectsStart
-                                        startDate={startDate}
-                                        endDate={endDate}
-                                        minDate={startDate}
-                                        months={2}
-                                    />
-                                </div>
+                            <div className="col-6" style={{textAlign:'right'}}>
+                                ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
-                        
                         <div className="row">
-                            <div>
-                                <div onClick={() =>{}}> 인원선택</div>
+                            <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}} onClick={() => setInfo(true)}>
+                                에어비앤비 서비스 수수료
+                            </div>
+                            { info &&
+                                <div className='Modal' onClick={() => setInfo(false)} style={{zIndex : 999}}>
+                                    <div className='modalBody' style={{height:'200px', width: '400px', padding: '20px'}} onClick={(e) => e.stopPropagation()}>
+                                            <button id = 'modalCloseBtn' onClick={() => setInfo(false)}>
+                                            X
+                                            </button>
+                                            <div className="container" style={{textAlign: 'left'}}>
+                                                수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다. 부가가치세(VAT)가 포함된 가격입니다.
+                                            </div>
+                                    </div>
+                                </div>
+                                }
+                            <div className="col-6 " style={{textAlign:'right'}}>
+                                ￦{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                     </div>
-                    <button className="main-btn mb-20" style={{width : '180px'}} type="button" onClick={() => {
-
-                    }}>예약하기</button>
                     
-                    <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
+                    }
                     <hr />
                     <div className="row">
                         <div className="col-4" style={{textAlign : 'left'}}>
                             <b>총 합계</b>
                         </div>
                         <div className="col-8" style={{textAlign : 'right'}}>
-                           <b> ￦ 총합계 데이터</b>
+                           <b> ￦{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import PayItem from "../../pages/guest/PayItem";
 import Swal from "sweetalert2";
 
+
 function useFetch(url) {
     const [data,setData] = useState(null);
     const [loading,setLoading] = useState(true);
@@ -264,19 +265,8 @@ function Pay() {
                                 </>
                                 }
                                 <br></br>
-                                    <img type='button' src='/img/kakaopay.png' onClick={()=>{
-                                        fetch('http://localhost/kakaoPay',{
-                                            method:'post',
-                                            //encType:'multipart/form-data',
-                                            //body:form
-                                        }).then(()=>{
-                                            //alert(response.next_redirect_pc_url);
-                                            //location.href = response.next_redirect_pc_url;
-                                            navigate('/');
-                                        });
-                                    }}></img>
-                                    <br></br>
-                                    <button onClick={()=> navigate('/guest/Order')}>예약상세</button>
+                                
+                                <button onClick={()=> navigate('/guest/Order')}>예약상세</button>
                                 <h3>결제내역</h3>
                                 <br/>
                                 {paylist.map(

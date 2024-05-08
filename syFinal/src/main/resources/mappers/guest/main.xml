@@ -4,8 +4,7 @@
 	<select id="mainList" resultType="com.example.syFinal.guest.model.dto.MainDTO">
 		SELECT ho_idx, ho_name, ho_img
 		FROM hotel
-		WHERE ho_name like '%'|| #{ho_name} ||'%'
+		WHERE ho_name like '%'||#{search}||'%'
 		order BY ho_name
 	</select>
-
 </mapper>

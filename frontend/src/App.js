@@ -13,6 +13,7 @@ import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
+import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
@@ -23,7 +24,16 @@ import Wish from "./pages/guest/wish";
 import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
+import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
+
+// admin 계정        
+import Amain from "./pages/admin/amain";
+import AdminLogin from "./pages/admin/alogin";
+import Ahost from "./pages/admin/ahost";
+import NoticeList from "./pages/admin/notice/alist";
+import Awrite from "./pages/admin/notice/awrite";
+
 
 // host 계정
 import HostLogin from "./pages/host/login/Login";
@@ -31,6 +41,7 @@ import SearchHostEmail from "./pages/host/login/SearchEmail";
 import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
+
 
 
 function App() {
@@ -48,6 +59,7 @@ function App() {
           <Route path="/guest/Account" element={<Account/>}/>
           <Route path="/guest/Pay" element={<Pay/>}/>
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
+          <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />}/>
           <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
           <Route path="/guest/PayItem" element={<PayItem/>}/>
           <Route path="/guest/wishItem" element={<WishItem/>}/>
@@ -57,6 +69,14 @@ function App() {
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
+          <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
+
+          {/* admin 계정 */}
+          <Route path="/admin/amain" element={<Amain />} />
+          <Route path="/admin/alogin" element={<AdminLogin />} />
+          <Route path="/admin/ahost" element={<Ahost />} />
+          <Route path="/admin/notice/alist" element={<NoticeList />} />
+          <Route path="/admin/notice/awrite" element={<Awrite />} />
          
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
@@ -64,7 +84,6 @@ function App() {
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
-
         </Routes>
         <Footer />
       </BrowserRouter>
