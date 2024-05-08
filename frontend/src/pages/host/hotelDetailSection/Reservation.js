@@ -1,16 +1,18 @@
 import React, { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import "moment/locale/ko";
-import "../../../asset/css/datepicker.css"
+import "react-datepicker/dist/react-datepicker.css";
 
 import DatePicker from 'react-datepicker';
+import { ko } from "date-fns/locale";
 import DateRangeSelector from "../../../component/DateRangeSelector";
-import { DateRange } from "react-date-range";
-import { addDays} from "date-fns";
+import { DatePickers  } from "react-date-range";
+import { format, addDays} from "date-fns";
 import moment from "moment";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
+    console.log(data);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -27,10 +29,12 @@ function useFetch(url) {
 }
 
 function Reservation() {
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
     const {HoIdx} = useParams();
-    const [calendar, setCalendar] = useState(false); 
     const [modal, setModal] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
 
     if(loading){
         return (
@@ -39,36 +43,46 @@ function Reservation() {
     } else {
         return (
                 <div className="card-style mb-30">
-                    <b>￦ 1박 가격 데이터 </b> /박
-                    <br />
+                    <div className="mb-20"><b>￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
+                    
                     <div className="card-style mb-30">
                         <div className="row">
                             <div className="col-6">
-                                <button type="button" onClick={() => setModal(true)}>
-                                체크인</button>
-                                { modal &&
-                                    <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
-                                        <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                            <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                                X
-                                            </button>
-                                            <div>
-                                                <DateRangeSelector />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                                <div className="row">체크인</div>
+                                <div className="row">
+                                    <DatePicker 
+                                        locale={ko}
+                                        dateFormat="yyyy년 MM월 dd일"
+                                        selected={startDate} 
+                                        onChange={date => setStartDate(date)}
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        months={2}
+                                    />
+                                </div>
                             </div>
                             <div className="col-6">
-                               <input type="text" placeholder="체크아웃" />
+                            <div className="row">체크아웃</div>
+                                <div className="row">
+                                    <DatePicker 
+                                        locale={ko}
+                                        dateFormat="yyyy년 MM월 dd일"
+                                        selected={endDate} 
+                                        onChange={date => setEndDate(date)}
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        minDate={startDate}
+                                        months={2}
+                                    />
+                                </div>
                             </div>
                         </div>
+                        
                         <div className="row">
                             <div>
-                                <button type="button" onClick={() =>{
-                                    
-                                }}>
-                                인원선택</button>
+                                <div onClick={() =>{}}> 인원선택</div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +91,6 @@ function Reservation() {
                     }}>예약하기</button>
                     
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
-
                     <hr />
                     <div className="row">
                         <div className="col-4" style={{textAlign : 'left'}}>
