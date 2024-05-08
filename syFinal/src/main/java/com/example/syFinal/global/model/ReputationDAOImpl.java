@@ -34,10 +34,9 @@ public class ReputationDAOImpl implements ReputationDAO {
 		try {
 			list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
-		System.out.println("==>결과list? " + list);
+		System.out.println("==> getHotelReviews? " + list);
 		return list;
 	}
 
@@ -48,9 +47,9 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public double calcRate(int ho_idx) {
+	public double calcAvgRate(int ho_idx) {
 		// 호텔별 평점계산
-		return sqlSession.selectOne("reply.detail", ho_idx);
+		return sqlSession.selectOne("reputation.calcAvgRate", ho_idx);
 	}
 
 }

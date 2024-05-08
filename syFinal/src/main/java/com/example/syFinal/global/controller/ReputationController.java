@@ -20,16 +20,19 @@ public class ReputationController {
 	@Autowired
 	ReputationDAO reputationDao;
 
-	@GetMapping("list/{ho_idx}")
-	public Map<String, Object> getHotelReviews(@PathVariable(name = "ho_idx") int ho_idx) {
+	@GetMapping("list/{HoIdx}")
+	public Map<String, Object> getHotelReviews(@PathVariable(name = "HoIdx") int ho_idx) {
+		System.out.println("==> ho_idx? " + ho_idx);
 		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
 		Map<String, Object> data = new HashMap<>();
 		if (list.isEmpty() || list == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
 			data.put("list", list);
+			data.put("avg", reputationDao.calcAvgRate(ho_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
+		System.out.println("==> data? " + data);
 		return data;
 	}
 }

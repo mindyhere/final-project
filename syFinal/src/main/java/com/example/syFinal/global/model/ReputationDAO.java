@@ -18,6 +18,6 @@ public interface ReputationDAO {
 	// hotel 리뷰 별 답글 목록
 	List<Map<String, Object>> getHotelReplys(int ho_idx);
 
-	// 호텔별 평점계산
-	double calcRate(int ho_idx);
+	// 평점/개수 요약
+	double calcAvgRate(int ho_idx);
 }

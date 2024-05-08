@@ -6,6 +6,10 @@ import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
 import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
+
+// 리뷰
+import Reputation from "./hotelDetailSection/Reputation";
+
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import moment from "moment";
@@ -189,6 +193,8 @@ function HotelDetail() {
                                 </div>
                             <hr />
                             <h4>숙소 후기</h4>
+                            <br/>
+                                <Reputation/>
                             <hr />
                             <h4>숙소 위치</h4>
                             <div>{data.ho_address}
