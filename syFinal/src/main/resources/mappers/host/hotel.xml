@@ -6,8 +6,7 @@
 	<select id="getHotelList"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT * FROM hotel h, hotel_detail d, host
-		WHERE ho_idx =
-		#{ho_idx}
+		WHERE ho_idx = #{ho_idx}
 		AND h.ho_idx = d.d_ho_idx
 		AND h.ho_business = host.h_business
 		GROUP BY ho_idx

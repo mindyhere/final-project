@@ -58,14 +58,6 @@ function HotelDetail() {
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
 
-    const [state, setState] = useState([
-        {
-          startDate: new Date(),
-          // 달력에 1박 표시
-          endDate: addDays(new Date(), 1),
-          key: "selection",
-        },
-      ])
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
