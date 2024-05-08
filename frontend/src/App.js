@@ -13,6 +13,7 @@ import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
+import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
@@ -55,6 +56,7 @@ function App() {
           <Route path="/guest/Account" element={<Account/>}/>
           <Route path="/guest/Pay" element={<Pay/>}/>
           <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
+          <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />}/>
           <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
           <Route path="/guest/PayItem" element={<PayItem/>}/>
           <Route path="/guest/wishItem" element={<WishItem/>}/>

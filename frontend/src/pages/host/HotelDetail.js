@@ -6,10 +6,9 @@ import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
 import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
-
-// 리뷰
 import Reputation from "./hotelDetailSection/Reputation";
 
+import { StarFill } from "react-bootstrap-icons";
 import { useParams } from "react-router-dom";
 import { addDays} from "date-fns";
 import moment from "moment";
@@ -35,6 +34,7 @@ function useFetch(url) {
 function HotelDetail() {
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
+    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
     const [modal, setModal] = useState(false);
     const element = useRef<HTMLDivElement>(null);
     const onMoveBox = () => {
@@ -58,7 +58,7 @@ function HotelDetail() {
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
 
-    if(loading){
+    if(loading || loading2){
         return (
             <div className="text-center">로딩 중...</div>
         )
@@ -116,33 +116,31 @@ function HotelDetail() {
                             <div>                            
                                 {
                                     level === '슈퍼호스트'
-                                    ? <div className="card-style" style={{textAlignLast:'center'}}>
+                                    ? <div className="card-style" style={{textAlign:'center'}}>
                                         <div className="row">
                                             <div className="col-3">
                                                 <div className="row">
                                                     <h5>별점</h5>
                                                 </div>
-                                                <div className="row">
-                                                    4.5/5.0 (샘플)
-                                                </div>
+                                               <span>
+                                                    <StarFill /> {review.avg}
+                                              </span>
                                             </div>
-                                            <div className="col-5" >
+                                            <div className="col-5" style={{alignContent:'center'}}>
                                                 <div className="row">
-                                                    <div className="col-1">
+                                                    <span>
                                                         <img src="/img/best.png" width="35px" height="35px"/>
-                                                    </div>  
-                                                    <div className="col-10" style={{alignContent:'center'}}>
-                                                    <h5>게스트 선호</h5>
-                                                    </div>
+                                                        <strong>게스트 선호</strong>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div className="col-4">
                                                 <div className="row">
                                                     <h5>후기</h5>
                                                 </div>
-                                                <div className="row">
-                                                    15개 (샘플)
-                                                </div>
+                                                <span>
+                                                    {review.list.length} 개
+                                                </span>
                                             </div>
                                         </div>
                                      </div>

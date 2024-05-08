@@ -31,7 +31,7 @@
 
 	<!-- 호텔 호스트 정보 -->
 	<select id="getHostInfo" resultType="java.util.HashMap">
-		SELECT h_name, h_phone,
+		SELECT h_idx, h_name, h_phone,
 		h_business, h_level, h_regdate, h_profile, h_description
 		FROM host h,
 		hotel ho
