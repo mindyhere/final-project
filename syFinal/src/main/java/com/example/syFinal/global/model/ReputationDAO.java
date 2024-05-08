@@ -16,7 +16,7 @@ public interface ReputationDAO {
 	List<Map<String, Object>> getHotelReviews(int ho_idx);
 
 	// hotel 리뷰 별 답글 목록
-	List<ReplyDTO> getReply(int rv_idx);
+	Map<String, Object> getReply(int rv_idx);
 
 	// 평점/개수 요약
 	double calcAvgRate(int ho_idx);

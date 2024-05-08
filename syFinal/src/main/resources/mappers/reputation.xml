@@ -17,8 +17,8 @@ where ho_idx=#{ho_idx}
 order by rv_idx desc 
 </select>
 
-<select id="getReply" resultType="com.example.syFinal.host.model.dto.ReplyDTO">
-select * from reply where rp_rv_idx = #{rv_idx}
+<select id="getReply" resultType="java.util.Map">
+select * from v_host_reply where rp_rv_idx = #{rv_idx}
 </select>
 <!-- <select id="getHotelReplys" resultType="java.util.Map">
 select * 

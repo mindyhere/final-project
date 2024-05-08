@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.global.model.ReputationDAO;
-import com.example.syFinal.host.model.dto.ReplyDTO;
 
 @RestController
 @RequestMapping("api/reputation/*")
@@ -40,7 +39,7 @@ public class ReputationController {
 	@GetMapping("reply/{rv_idx}")
 	public Map<String, Object> getReply(@PathVariable(name = "rv_idx") int rv_idx) {
 		System.out.println("==> rv_idx? " + rv_idx);
-		List<ReplyDTO> reply = null;
+		Map<String, Object> reply = null;
 		Map<String, Object> data = new HashMap<>();
 		try {
 			reply = reputationDao.getReply(rv_idx);

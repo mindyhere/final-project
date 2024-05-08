@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// import Swal from "sweetalert2";
-// import "../host1.css";
+import { Send } from "react-bootstrap-icons";
+
+import Reply from "./Reply";
 
 function ReviewItem({
   opt,
@@ -16,6 +17,7 @@ function ReviewItem({
   rv_star,
 }) {
   const [reply, setReply] = useState("");
+  const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
 
   const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
@@ -119,9 +121,43 @@ function ReviewItem({
             >
               {rv_content}
             </div>
-            <div className="row" style={{marginTop:"20px",textAlign:"right"}}>
-              {reply !== null ? <Link to="#">호스트답글</Link> : ""}
+            <div
+              weidth="120px"
+              style={{
+                marginTop: "20px",
+                textAlign: "right",
+                alignSelf: "right",
+              }}
+            >
+              {reply !== null ? (
+                <button
+                  className="btnCheck active"
+                  weidth="120px"
+                  onClick={() => {
+                    setCollapsed(!isCollapsed);
+                  }}
+                >
+                  <Send size={16} />
+                  {isCollapsed ? "답글 펼치기" : "답글 접기"}
+                </button>
+              ) : (
+                ""
+              )}
             </div>
+            {isCollapsed && (
+              <div className="col-8" style={{ textAlign: "right" }}>
+                <Collapsible collapsed={isCollapsed}>
+                  <Reply
+                    rp_idx={reply.rp_idx}
+                    h_name={reply.h_name}
+                    h_profile={reply.h_profile}
+                    rp_content={reply.rp_content}
+                    rp_date={reply.rp_date}
+                    key={reply.rp_idx}
+                  />
+                </Collapsible>
+              </div>
+            )}
           </div>
           <br />
           <br />
