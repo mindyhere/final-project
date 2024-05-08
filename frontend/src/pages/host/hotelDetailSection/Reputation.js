@@ -49,11 +49,13 @@ function Reputation() {
     console.log("==> " + avg);
     return (
       <>
-        <div className="col mb-30" >
+        <div className="col mb-30">
           <div className="row">
-            <hr2>
-              <StarFill/> {avg} | 후기 {list.length}개
-            </hr2>
+            <span style={{ marginBottom: "2%" }}>
+              <strong>
+                <StarFill /> {avg} | 후기 {list.length}개
+              </strong>
+            </span>
           </div>
           <div
             className="row"
@@ -88,6 +90,13 @@ function Reputation() {
               )
             )}
           </div>
+          {list.length >= 6 ? (
+            <div>
+              <button className="main-btn">후기 모두보기</button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </>
     );
