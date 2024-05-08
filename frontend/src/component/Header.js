@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/login/Join_modal";
 
+
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";
 
@@ -28,6 +29,7 @@ function Header() {
   const g_email = cookies.get("g_email"); //쿠키변수명
   const g_level = cookies.get("g_level");
   const g_phone = cookies.get("g_phone");
+  const g_photo = cookies.get("g_photo");
 
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
@@ -43,6 +45,7 @@ function Header() {
         cookies.remove("g_level", { path: "/" }, new Date(Date.now()));
         cookies.remove("g_phone", { path: "/" }, new Date(Date.now()));
         cookies.remove("g_profile", { path: "/" }, new Date(Date.now()));
+        cookies.remove("g_photo", { path: "/" }, new Date(Date.now()));
         break;
       case "host":
         cookies.remove("userInfo", { path: "/" }, new Date(Date.now()));
@@ -269,7 +272,7 @@ function Header() {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
 
-
+    console.log(g_photo.key);
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -279,12 +282,18 @@ function Header() {
       level = "VIP";
     }
 
-    // let src='';
-    // let image_url='';
-    // if (data.dto.g_photo != '-') {
-    //   //src=`http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
-    //   image_url=`<img src=${src} width='210px' height='210px'/>`;
-    // }
+    let src='';
+    let image_url='';
+    let image='';
+    if (g_photo.key == '-') {
+      src='/img/image_no.png';
+      image_url=`<img src=${src} width='210px' height='210px'/>`;
+      image=`<img src=${src} width='45px' height='45px'/>`;
+    } else {
+      src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
+      image_url=`<img src=${src} width='210px' height='210px'/>`;
+      image=`<img src=${src} width='45px' height='45px'/>`;
+    }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
     return (
@@ -305,12 +314,8 @@ function Header() {
               <li className="nav-item">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
-                    <div
-                      className={"modal-open-btn"}
-                      onClick={() => setModalOpen(true)}
-                    >
-                      프로필
-                    </div>
+                      <span className={"modal-open-btn"}
+                      onClick={() => setModalOpen(true)} dangerouslySetInnerHTML={{ __html: image}}></span>
                   </div>
                 </a>
                 {modalOpen && (
@@ -325,12 +330,12 @@ function Header() {
                   >
                     <div className={"modal-content"}>
                       <h4>{g_name.key}님 프로필</h4>
-
-                      <img
-                        src="http://localhost/static/images/guest/photo/cat.jpeg"
+                      <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
+                      {/* <img
+                        src={g_photo.key}
                         width="210px"
                         height="210px"
-                      ></img>
+                      ></img> */}
                       <div style={{ padding: "5px" }}>
                         <EnvelopeAt size={25} />
                         &nbsp;
@@ -376,7 +381,7 @@ function Header() {
                 )}
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
+                <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
                   여행
                 </a>
               </li>
