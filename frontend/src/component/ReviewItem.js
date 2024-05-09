@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Send } from "react-bootstrap-icons";
+import { Send, SendFill } from "react-bootstrap-icons";
 
 import Reply from "./Reply";
 
@@ -16,9 +16,27 @@ function ReviewItem({
   rv_date,
   rv_star,
 }) {
-  const [reply, setReply] = useState("");
+  const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
+  const Collapsible = () => {
+    if (!isCollapsed && reply !== null) {
+      return (
+        <>
+          <Reply
+            rp_idx={reply.rp_idx}
+            h_name={reply.h_name}
+            h_profile={reply.h_profile}
+            rp_content={reply.rp_content}
+            rp_date={reply.rp_date}
+            key={reply.rp_idx}
+          />
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
 
   const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
 
@@ -37,7 +55,6 @@ function ReviewItem({
         return response.json();
       })
       .then((data) => {
-        console.log("==> 답글 data? " + JSON.stringify(data.reply));
         setReply(data.reply);
       });
   }
@@ -59,7 +76,6 @@ function ReviewItem({
 
     if (opt === 1) {
       // 호텔 상세에서 call
-      console.log("==> 리턴" + opt + ", " + rv_idx);
       return (
         <div>
           <div className="card-style">
@@ -92,7 +108,6 @@ function ReviewItem({
       );
     } else if (opt === 2) {
       // 모달창에서 call
-      console.log("==> 리턴" + opt + ", " + rv_idx);
       return (
         <div>
           <div className="card-style" style={{ textAlign: "left" }}>
@@ -107,7 +122,7 @@ function ReviewItem({
               <span style={{ display: "inline" }}>
                 {rendering(rv_star)} {rv_star}&nbsp;&nbsp;|&nbsp;&nbsp;
                 {rv_date}
-              </span>{" "}
+              </span>
             </div>
             <div
               className="row"
@@ -137,27 +152,14 @@ function ReviewItem({
                     setCollapsed(!isCollapsed);
                   }}
                 >
-                  <Send size={16} />
+                  {isCollapsed ? <Send size={16} /> : <SendFill size={16} />}
                   {isCollapsed ? "답글 펼치기" : "답글 접기"}
                 </button>
-              ) : (
-                ""
-              )}
+              ) : null}
             </div>
-            {isCollapsed && (
-              <div className="col-8" style={{ textAlign: "right" }}>
-                <Collapsible collapsed={isCollapsed}>
-                  <Reply
-                    rp_idx={reply.rp_idx}
-                    h_name={reply.h_name}
-                    h_profile={reply.h_profile}
-                    rp_content={reply.rp_content}
-                    rp_date={reply.rp_date}
-                    key={reply.rp_idx}
-                  />
-                </Collapsible>
-              </div>
-            )}
+            <div className="container m-0 p-0">
+              {!isCollapsed && <Collapsible />}
+            </div>
           </div>
           <br />
           <br />

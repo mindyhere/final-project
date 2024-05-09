@@ -27,7 +27,7 @@ function Reputation() {
         return response.json();
       })
       .then((data) => {
-        console.log("==> 리뷰 data? " + JSON.stringify(data));
+        // console.log("==> 리뷰 data? " + JSON.stringify(data));
         setReviews(data.list);
         setAvg(data.avg);
       });
@@ -60,7 +60,7 @@ function Reputation() {
   }, []);
 
   if (avg == null) {
-    console.log("==> avg null?" + (avg == null));
+    // console.log("==> avg null?" + (avg == null));
     return (
       <>
         <div className="container mb-30">
@@ -70,7 +70,7 @@ function Reputation() {
       </>
     );
   } else {
-    console.log("==> " + avg);
+    // console.log("==> " + avg);
     return (
       <>
         <div className="col mb-30">
