@@ -27,7 +27,7 @@ import Reservation from "./pages/guest/reservation";
 import Order from "./pages/guest/Order";
 import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
-
+import LastReservDetail from "./pages/guest/lastReservDetail";
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -73,6 +73,7 @@ function App() {
           <Route path="/guest/Order" element={<Order/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
           <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
+          <Route path="/guest/lastReservDetail" element={<LastReservDetail/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />

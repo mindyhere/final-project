@@ -58,9 +58,9 @@ function Reservation() {
                 <br/>
                 <Slider {...settings}>
                     {reservList.map(
-                    ({HoIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
+                    ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
                         <PreReservItem
-                        HoIdx={HoIdx}
+                        OIdx={OIdx}
                         HoName={HoName}
                         HoImg={HoImg}
                         OCkin={OCkin}
