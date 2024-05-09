@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { useParams } from "react-router-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import {Link, useNavigate} from "react-router-dom";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -90,7 +91,7 @@ function PreReservDetail() {
                     <hr/>
                     <div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 변경</p></div>
                     <hr/>
-                    <div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div>
+                    <Link to={`/guest/cancelReserv/${OIdx}`}><div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div></Link>
                 </div>
                 <div class='detail-blank'></div>
                 <div class='card-reservDetail'>

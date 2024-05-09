@@ -19,7 +19,7 @@ function LastReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
 
         return (
             <>
-            <div style={{width: '320px', marginTop: '50px', marginBottom:'50px', height:'100px'}}>
+            <div style={{width: '320px', marginBottom:'50px', height:'100px'}}>
             <Link to={`/guest/lastReservDetail/${OIdx}`}>
             <div style={{float: "left", width: "120px", marginTop: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>

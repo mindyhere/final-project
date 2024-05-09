@@ -72,10 +72,10 @@ var set = {
                 &nbsp; 여행</h3>
                 <br/>
                 <br/>
-                <div style={{paddingBottom: '50px'}}>
-                <div style={{width: "650px" ,  marginRight: '40px', float: 'left'}}>
+                <div>
+                <div style={{marginBottom:'50px',width: "650px" ,  height: '300px',marginRight: '40px', float: 'left'}}>
                 <h4>예정된 예약</h4>
-                <br/>
+                
                 
                 <Slider {...settings}>
                     {reservList.map(
@@ -115,6 +115,7 @@ var set = {
                     </div>
                
                 <div style={{ paddingBottom: '100px'}}>
+                    <br/>
                     <br/>
                     <h4>이전 예약</h4>
                     <br/>
