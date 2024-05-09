@@ -7,8 +7,7 @@ import Swal from "sweetalert2";
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading,setLoading] = useState(true);
-    
-    
+
 
     useEffect(() => {
         fetch(url)

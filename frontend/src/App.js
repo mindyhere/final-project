@@ -73,7 +73,7 @@ function App() {
           <Route path="/guest/Order" element={<Order/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
           <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
-          <Route path="/guest/lastReservDetail" element={<LastReservDetail/>}/>
+          <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />

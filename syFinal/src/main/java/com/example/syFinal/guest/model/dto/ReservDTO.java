@@ -21,4 +21,21 @@ public class ReservDTO {
 	private int o_idx;
 	private int h_idx;
 	private String ho_address;
+	
+	private String o_orderdate;
+	private int o_price;
+	private int o_discount;
+	private int o_finalprice;
+	
+	private String h_phone;
+	private String h_profile;
+	private String ho_check_in;
+	private String ho_check_out;
+	
+	private int d_area;
+	private String d_room_type;
+	private int d_beds;
+	private String d_non_smoking;
+	
+	
 }

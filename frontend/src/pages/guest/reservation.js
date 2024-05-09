@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 
+
 function Reservation() {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
@@ -56,6 +57,7 @@ function Reservation() {
                 <div style={{width: "650px"}}>
                 <h4>예정된 예약</h4>
                 <br/>
+                
                 <Slider {...settings}>
                     {reservList.map(
                     ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
@@ -83,9 +85,9 @@ function Reservation() {
                         gridTemplateColumns:'1fr 1fr 1fr',
                     }}>
                     {lastReservList.map(
-                    ({HoIdx, HoName, HoImg, OCkin, OCkout, HName})=>(
+                    ({OIdx, HoName, HoImg, OCkin, OCkout, HName})=>(
                         <LastReservItem
-                        HoIdx={HoIdx}
+                        OIdx={OIdx}
                         HoName={HoName}
                         HoImg={HoImg}
                         OCkin={OCkin}

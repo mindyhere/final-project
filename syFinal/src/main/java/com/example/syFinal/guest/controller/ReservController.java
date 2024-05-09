@@ -38,10 +38,10 @@ public class ReservController {
 				ck = format.parse(dto.get(i).getO_ckin());
 			} catch (Exception e) {
 			}
-			System.out.println(ck.before(now));
+			// System.out.println(ck.before(now));
 			if(ck.before(now)) {
 				Map<String, Object> map1 = new HashMap<>();
-				map1.put("HoIdx", dto.get(i).getD_ho_idx());
+				map1.put("OIdx", dto.get(i).getO_idx());
 				map1.put("HoImg", dto.get(i).getHo_img());
 				map1.put("OCkin", dto.get(i).getO_ckin());
 				map1.put("OCkout", dto.get(i).getO_ckout());
@@ -51,7 +51,8 @@ public class ReservController {
 				before.add(map1);
 			} else {
 				Map<String, Object> map2 = new HashMap<>();
-				map2.put("HoIdx", dto.get(i).getD_ho_idx());
+				//map2.put("HoIdx", dto.get(i).getD_ho_idx());
+				map2.put("OIdx", dto.get(i).getO_idx());
 				map2.put("HoImg", dto.get(i).getHo_img());
 				map2.put("OCkin", dto.get(i).getO_ckin());
 				map2.put("OCkout", dto.get(i).getO_ckout());
@@ -63,7 +64,17 @@ public class ReservController {
 		}
 		map.put("before", before);
 		map.put("after", after);
-		System.out.println(map);
+		// System.out.println(map);
+		return map;
+	}
+	
+	@RequestMapping("lastDetail")
+	@ResponseBody
+	public Map<String, Object> lastDetail(@RequestParam(name = "o_idx") int o_idx) {
+		ReservDTO dto = dao.lastDetail(o_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		// System.out.println(map);
 		return map;
 	}
 }
