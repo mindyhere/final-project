@@ -76,7 +76,7 @@ function PreReservDetail() {
             <>
             <div style={{width: '1500px', marginLeft: '200px', marginTop: '50px', overflow: 'hidden'}}>
                 <h3 class="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
-                &nbsp; 지난 예약 상세</h3>
+                &nbsp; 예정 예약 상세</h3>
                 <br/>
                 <br/>
                 <div style={{width: '500px', float:'left'}}>

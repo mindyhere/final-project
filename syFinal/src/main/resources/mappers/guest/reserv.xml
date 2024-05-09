@@ -7,9 +7,9 @@
 </select>
 
 <select id="lastDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
-select o_ckin, o_ckout, o_orderdate, o_price, o_discount, o_finalprice,
+select o_ckin, o_ckout, o_orderdate, o_price, o_discount, o_finalprice, o_reser, o_payment, o_state,
 h_name, h_phone, h_profile,
-ho_name, ho_address, ho_check_in, ho_check_out,
+ho_name, ho_address, ho_check_in, ho_check_out, ho_x, ho_y, 
 d_area, d_room_type, d_beds, d_non_smoking
 FROM orders, host, hotel, hotel_detail where
 o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business = h_business
