@@ -58,7 +58,7 @@ function EditHostInfo() {
       path: "/",
       expires: expiration,
     });
-    console.log(cookies.get("userInfo"));
+    // console.log(cookies.get("userInfo"));
 
     setTimeout(() => {
       Swal.fire({
@@ -74,7 +74,6 @@ function EditHostInfo() {
 
   let url = "";
   let profile_src = "";
-  console.log(data.h_profile);
   if (data.h_profile !== "-" && data.h_profile !== "") {
     url = `http://localhost/static/images/host/profile/${data.h_profile}`;
     profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
@@ -394,7 +393,7 @@ function EditHostInfo() {
                       })
                         .then((response) => response.ok)
                         .then((data) => {
-                          console.log("===> 결과?" + data);
+                          // console.log("===> 결과?" + data);
                           if (data) {
                             Swal.fire({
                               icon: "success",
@@ -409,9 +408,9 @@ function EditHostInfo() {
                                   h_name: h_name.current.value,
                                   h_level: h_level.current.value,
                                 });
-                                console.log(
-                                  "이동전? " + JSON.stringify(userInfo)
-                                );
+                                // console.log(
+                                //   "이동전? " + JSON.stringify(userInfo)
+                                // );
                                 navigate("/");
                               }
                             });
@@ -425,7 +424,7 @@ function EditHostInfo() {
                           }
                         })
                         .catch((error) => {
-                          console.log("===> 결과?" + error);
+                          // console.log("===> 결과?" + error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
@@ -464,10 +463,10 @@ function EditHostInfo() {
                           )
                             .then((response) => {
                               if (!response.ok) {
-                                console.log("false: " + response.status);
+                                // console.log("false: " + response.status);
                                 throw new Error("false: " + response.status);
                               }
-                              console.log("확인: " + response.status);
+                              // console.log("확인: " + response.status);
 
                               return fetch(
                                 `http://localhost/api/host/delete/${userIdx}?userEmail=${userEmail}`
@@ -479,7 +478,7 @@ function EditHostInfo() {
                               });
                             })
                             .catch((error) => {
-                              console.log(error);
+                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -488,7 +487,7 @@ function EditHostInfo() {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          console.log(result.value);
+                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Complete",

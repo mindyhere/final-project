@@ -25,7 +25,7 @@ public class ReputationController {
 		System.out.println("==> ho_idx? " + ho_idx);
 		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
 		Map<String, Object> data = new HashMap<>();
-		if (list.isEmpty() || list == null) {
+		if (list == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
 			data.put("list", list);
@@ -33,6 +33,24 @@ public class ReputationController {
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
 		System.out.println("==> data? " + data);
+		return data;
+	}
+
+	@GetMapping("reply/{rv_idx}")
+	public Map<String, Object> getReply(@PathVariable(name = "rv_idx") int rv_idx) {
+		System.out.println("==> rv_idx? " + rv_idx);
+		Map<String, Object> reply = null;
+		Map<String, Object> data = new HashMap<>();
+		try {
+			reply = reputationDao.getReply(rv_idx);
+			data.put("reply", reply);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("==> null?" + (reply == null));
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		}
+		System.out.println("==> reply? " + data);
 		return data;
 	}
 }

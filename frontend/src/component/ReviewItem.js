@@ -1,10 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { AlignMiddle, AlignStart, StarFill } from "react-bootstrap-icons";
+import { Send, SendFill } from "react-bootstrap-icons";
 
-// import Swal from "sweetalert2";
-// import "../host1.css";
+import Reply from "./Reply";
 
 function ReviewItem({
   opt,
@@ -17,9 +16,29 @@ function ReviewItem({
   rv_date,
   rv_star,
 }) {
+  const [reply, setReply] = useState(null);
+  const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
+  const Collapsible = () => {
+    if (!isCollapsed && reply !== null) {
+      return (
+        <>
+          <Reply
+            rp_idx={reply.rp_idx}
+            h_name={reply.h_name}
+            h_profile={reply.h_profile}
+            rp_content={reply.rp_content}
+            rp_date={reply.rp_date}
+            key={reply.rp_idx}
+          />
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
 
-  const url = `http://localhost/static/images/guest/profile/${g_url}`;
+  const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
 
   const rendering = (i) => {
     const star = "⭐";
@@ -30,12 +49,26 @@ function ReviewItem({
     return result;
   };
 
+  function getReply(url) {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setReply(data.reply);
+      });
+  }
+
+  useEffect(() => {
+    getReply(`http://localhost/api/reputation/reply/${rv_idx}`);
+  }, []);
+
   if (loading) {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
     if (g_url !== "-") {
-      profile_src = `<img class='profile-img' src=${url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
+      profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
@@ -43,7 +76,6 @@ function ReviewItem({
 
     if (opt === 1) {
       // 호텔 상세에서 call
-      console.log("==> 리턴" + opt);
       return (
         <div>
           <div className="card-style">
@@ -79,18 +111,18 @@ function ReviewItem({
       return (
         <div>
           <div className="card-style" style={{ textAlign: "left" }}>
-            <div className="row mb-20"style={{display:"flow"}}>
-                <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
-                {g_name}
-                <input type="hidden" defaultValue={rv_idx} />
-                <input type="hidden" defaultValue={g_email} />
-                &nbsp;({l_name})
+            <div className="row mb-20" style={{ display: "flow" }}>
+              <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
+              {g_name}
+              <input type="hidden" defaultValue={rv_idx} />
+              <input type="hidden" defaultValue={g_email} />
+              &nbsp;({l_name})
             </div>
             <div className="row mb-20" style={{ textAlign: "left" }}>
               <span style={{ display: "inline" }}>
                 {rendering(rv_star)} {rv_star}&nbsp;&nbsp;|&nbsp;&nbsp;
                 {rv_date}
-              </span>{" "}
+              </span>
             </div>
             <div
               className="row"
@@ -103,6 +135,30 @@ function ReviewItem({
               }}
             >
               {rv_content}
+            </div>
+            <div
+              weidth="120px"
+              style={{
+                marginTop: "20px",
+                textAlign: "right",
+                alignSelf: "right",
+              }}
+            >
+              {reply !== null ? (
+                <button
+                  className="btnCheck active"
+                  weidth="120px"
+                  onClick={() => {
+                    setCollapsed(!isCollapsed);
+                  }}
+                >
+                  {isCollapsed ? <Send size={16} /> : <SendFill size={16} />}
+                  {isCollapsed ? "답글 펼치기" : "답글 접기"}
+                </button>
+              ) : null}
+            </div>
+            <div className="container m-0 p-0">
+              {!isCollapsed && <Collapsible />}
             </div>
           </div>
           <br />

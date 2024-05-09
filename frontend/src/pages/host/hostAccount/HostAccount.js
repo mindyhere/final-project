@@ -24,7 +24,7 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        console.log("===> data? " + JSON.stringify(data));
+        // console.log("===> data? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -222,12 +222,12 @@ function HostAccount() {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);
                               }
-                              console.log("확인: " + response.status);
+                              // console.log("확인: " + response.status);
 
                               return response.json();
                             })
                             .catch((error) => {
-                              console.log(error);
+                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -274,7 +274,7 @@ function levelUp(userIdx, opt) {
   if (opt === 1) {
     fetch(`http://localhost/api/host/levelUp/${userIdx}`, { method: "get" })
       .then((response) => {
-        console.log("response 확인: " + response.status);
+        // console.log("response 확인: " + response.status);
         if (!response.ok) {
           throw new Error("false: " + response.status);
         }
@@ -290,10 +290,10 @@ function levelUp(userIdx, opt) {
         });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   } else {
-    console.log(opt);
+    // console.log(opt);
     Swal.fire({
       icon: "warning",
       title: "잠깐!",
