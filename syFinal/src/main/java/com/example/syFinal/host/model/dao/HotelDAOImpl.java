@@ -56,5 +56,11 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public Map<String, Object> hostPage(int h_idx) {
 		return sqlSession.selectOne("hotel.getHostPage", h_idx);
+	}
+
+	/* 호스트의 숙소 리스트 */
+	@Override
+	public Map<String, Object> hotelSummary(int h_idx) {
+		return sqlSession.selectOne("hotel.getHotelSummary", h_idx);
 	}	
 }
