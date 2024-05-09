@@ -12,4 +12,8 @@ public interface ReservDAO {
 
 	List<ReservDTO> reservReview(int g_idx);
 
+	ReservDTO delDetail(int o_idx);
+
+	String cancel(int o_idx);
+
 }
