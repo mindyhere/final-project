@@ -9,8 +9,8 @@ where rv_writer=(select g_email from guest where g_idx=#{g_idx})
 <insert id="insert">
 insert into review (rv_writer, rv_content, rv_re_idx, rv_star, rv_hd_idx)
 values (
-	#{rv_writer}, #{rv_content}, #{rv_re_idx}, #{rv_star}, 
-	(select o_didx from orders where o_idx=#{rv_re_idx})
+	#{rv_writer}, #{rv_content}, #{o_idx}, #{rv_star}, 
+	(select o_didx from orders where o_idx=#{o_idx})
 	)
 </insert>
 

@@ -1,5 +1,7 @@
 package com.example.syFinal.guest.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +36,10 @@ public class ReviewController {
 
 	@Transactional
 	@PostMapping("insert")
-	public ResponseEntity<String> insert(@RequestParam ReviewDTO dto) {
+	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
+		System.out.println("==> map? " + map + ", " + map.get("rv_writer"));
 		try {
-			reviewDao.insertReview(dto);
+			reviewDao.insertReview(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
 			// 에러발생

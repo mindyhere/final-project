@@ -9,7 +9,7 @@ public interface ReviewDAO {
 //	List<ReviewDTO> myReviewList(int g_idx);
 
 	// 리뷰 작성
-	void insertReview(ReviewDTO dto);
+	void insertReview(Map<String, Object> map);
 
 	// guest → 작성한 리뷰 수정
 	void editReview(ReviewDTO dto);
