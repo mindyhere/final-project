@@ -61,6 +61,6 @@
 		INSERT INTO orders 
 		(o_gidx,o_didx,o_ckin,o_ckout,o_reser,o_state,o_payment,o_price,o_finalprice,o_orderdate)
 		VALUES 
-		(#{g_idx},#{d_idx},#{체크인P},#{체크아웃P},#{예약인원P},'예약대기',#{수단선택},#{원가P},#{최종금액P},now())
+		(#{idx},#{didx},#{ckin},#{ckout},#{reser},'예약대기',#{pay},#{dprice},#{fprice},now())
 	</insert>
 </mapper>

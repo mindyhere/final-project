@@ -72,8 +72,10 @@ function PreReservDetail() {
         if ( hProfile != null) {
             img = `<img src=${url} width='30px' height='30px' /><br />`;
         }
+       
 
         return (
+           
             <>
             <div style={{width: '1500px', marginLeft: '200px', marginTop: '50px', overflow: 'hidden'}}>
                 <h3 class="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
@@ -87,11 +89,11 @@ function PreReservDetail() {
                     <p style={{fontWeight: 'bold'}}> 상태: {state}</p>
                     
                     <p style={{fontWeight: 'bold'}}> 환불 정책</p>
-                    <p>체크인 시간인 {data.dto.o_ckin} {data.dto.ho_check_in} 전에 취소하면 전체 환불을 받으실 수 있습니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</p>
+                    <p>{data.ref_date} {data.dto.ho_check_in} 전에 취소하면 전체 환불을 받으실 수 있습니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</p>
                     <hr/>
-                    <div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 변경</p></div>
+                    <Link to={`/guest/updateReserv/${OIdx}`} style={{textDecorationLine: 'none'}}><div><p style={{color: 'black'}}><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 변경</p></div></Link>
                     <hr/>
-                    <Link to={`/guest/cancelReserv/${OIdx}`}><div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div></Link>
+                    <Link to={`/guest/cancelReserv/${OIdx}`} style={{textDecorationLine: 'none'}}><div><p style={{color: 'black'}}><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div></Link>
                 </div>
                 <div class='detail-blank'></div>
                 <div class='card-reservDetail'>

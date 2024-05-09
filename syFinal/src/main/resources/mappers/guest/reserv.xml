@@ -3,7 +3,7 @@
 <mapper namespace="reserv">
 <select id="list" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
 	select DISTINCT(o_idx), ho_name, d_ho_idx, ho_address, ho_img, o_ckin, o_ckout, h_name, h_idx from hotel, hotel_detail, orders, host
-	where o_gidx=#{g_idx} and d_ho_idx = ho_idx and h_business = ho_business
+	where o_gidx=#{g_idx} and d_ho_idx = ho_idx and h_business = ho_business and o_state != 2
 </select>
 
 <select id="lastDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
@@ -20,4 +20,15 @@ SELECT o_idx, ho_img, o_ckin, o_ckout, ho_name, h_name FROM orders, hotel, host 
 o_idx NOT IN (SELECT o_idx FROM orders, review where o_idx = rv_re_idx AND rv_writer = (SELECT g_email FROM guest WHERE g_idx = #{g_idx}))
 AND o_gidx =#{g_idx} AND ho_business = h_business;
 </select>
+
+<select id="delDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
+select h_name, ho_name, ho_img, ho_check_in, ho_check_out,
+o_ckin, o_ckout, o_reser, o_finalprice
+from orders, host, hotel, hotel_detail
+where o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business = h_business
+</select>
+
+<update id="cancel">
+update orders set o_state = 2 where o_idx = #{o_idx}
+</update>
 </mapper>

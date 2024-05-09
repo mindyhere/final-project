@@ -49,7 +49,7 @@
 	
 	<!-- 호텔 예약(1박 가격) -->
 	<select id="getPrice" resultType="java.util.HashMap">
-		SELECT d_capacity, d_price FROM hotel_detail
+		SELECT d_idx, d_capacity, d_price FROM hotel_detail
 		WHERE d_ho_idx = #{ho_idx}
 		AND d_idx = 1 <!-- 추후 조건 기능 추가 -->
 	</select>
@@ -59,5 +59,14 @@
 		SELECT  h.*, COUNT(*) AS review_cnt, ROUND(AVG(rv_star), 1) AS star
 		FROM host h, v_hotel_review
 		WHERE h_idx = #{h_idx}
+	</select>
+	
+	<!-- 호스트의 숙소 리스트 -->
+	<select id="getHotelSummary" resultType="java.util.Map">
+		SELECT * FROM hotel
+		WHERE ho_business = 
+					(SELECT h_business FROM host
+						WHERE h_idx = #{h_idx}
+					)
 	</select>
 </mapper>

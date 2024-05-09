@@ -1,10 +1,8 @@
-import React, {useRef, useEffect, useState} from "react";
-import { Check, CheckLg, StarFill } from "react-bootstrap-icons";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { CheckLg, StarFill } from "react-bootstrap-icons";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import Swal from "sweetalert2";
-import Reputation from "./hotelDetailSection/Reputation";
+
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -23,13 +21,15 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function HostPage() {
-    const {HoIdx} = useParams();
+function HostPage({HoIdx, HoImg}) {
+    // const {HoIdx} = useParams();
     const {HIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostPage/' + HIdx);
     const [review, rvLoading] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
+    const [hotel, hotelLoading] = useFetch('http://localhost/host/hotel/hotelSummary/' + HIdx);
+
     
-    if(loading){
+    if(loading || hotelLoading){
         return (
             <div className="text-center">로딩 중...</div>
         )
@@ -51,6 +51,10 @@ function HostPage() {
             profile_src = `http://localhost/static/images/no-image.png`;
             profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
+
+        let hotel_src = `http://localhost/static/images/host/hotel/${hotel.ho_img}`;;
+        let hotel_url = `<img src=${hotel_src} width='150px' height='150'/>`;
+
         return (
             <div className="container">
                 <div className="row">
@@ -99,7 +103,8 @@ function HostPage() {
                         </div>
                     </div>
                     <div className="col-6">
-                        <h2>{data.h_name} 님 소개</h2>
+                        <h2 className="mt-20 mb-20">{data.h_name} 님 소개</h2>
+                            <div>{data.h_description}</div>
                         <hr />
                         <h4 className="mt-20 mb-20">{data.h_name} 님의 후기</h4>
                         <div className="card-style mb-30">
@@ -109,6 +114,15 @@ function HostPage() {
 
                         <hr />
                         <h4 className="mt-20 mb-20">{data.h_name} 님의 숙소·체험</h4>
+                            <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}`} style={{textDecoration:'none', color : 'black'}}>
+                                <div dangerouslySetInnerHTML={{__html: hotel_url}}></div>
+                                    <div className="text-semi-bold">
+                                        {hotel.ho_name}
+                                    </div>
+                                    <div className="text-xs">
+                                        {hotel.ho_address}
+                                    </div>
+                            </Link>
                     </div>
                 </div>
             </div>

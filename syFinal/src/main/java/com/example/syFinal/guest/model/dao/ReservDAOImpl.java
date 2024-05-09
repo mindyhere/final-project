@@ -27,4 +27,21 @@ public class ReservDAOImpl implements ReservDAO {
 	public List<ReservDTO> reservReview(int g_idx) {
 		return sqlSession.selectList("reserv.reservReview", g_idx);
 	}
+	
+	@Override
+	public ReservDTO delDetail(int o_idx) {
+		return sqlSession.selectOne("reserv.delDetail", o_idx);
+	}
+	
+	@Override
+	public String cancel(int o_idx) {
+		String result = "";
+		try {
+			sqlSession.update("reserv.cancel", o_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
+	}
 }

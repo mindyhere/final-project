@@ -29,4 +29,7 @@ public interface HotelDAO {
 	
 	/* 호스트 상세페이지(게스트용) */
 	Map<String, Object> hostPage(int h_idx);
+	
+	/* 호스트의 숙소 리스트 */
+	Map<String, Object> hotelSummary(int h_idx);
 }
