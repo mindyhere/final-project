@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import Swal from "sweetalert2";
+import Reputation from "./hotelDetailSection/Reputation";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -35,14 +36,12 @@ function HostPage() {
     } else {
         let regdate = moment(data.h_regdate).fromNow();
         let level = '';
-        let answer = '';
         if (data.ho_level == 8){
             level = '호스트';
-            answer = '85%';
         } else {
             level = '슈퍼호스트';
-            answer = '100%';
         }
+
         let profile_src = '';
         let profile_url = '';
         if(data.h_profile !== '-'){
@@ -59,9 +58,8 @@ function HostPage() {
                         <div className="card-style mb-30">
                             <div className="row">
                                 <div className="col-6" style={{textAlign:'center', alignContent:'center'}}>
-                                    <span dangerouslySetInnerHTML={{__html : profile_url}}></span>
-                                    <br />
-                                    <h2>{data.h_name}</h2><br />
+                                    <div className="mb-20" dangerouslySetInnerHTML={{__html : profile_url}}></div>
+                                    <h2 className="mb-10">{data.h_name}</h2>
                                     <h6>{level}</h6>
                                 </div>
                                 <div className="col-6">
@@ -79,25 +77,38 @@ function HostPage() {
                             </div>
                         </div>
                         <div className="card-style mb-30">
-                            <h4>{data.h_name} 님의 인증 정보</h4>
-                            <div>
-                                <CheckLg />
-                            </div>
-                            <div>
-                                <Check />
-                            </div>
+                            <h4 className="mb-30">{data.h_name} 님의 인증 정보</h4>
+                            {
+                                data.h_profile != '-'
+                                ?
+                                <div className="mb-10">
+                                    <CheckLg size={27} />
+                                    　사업자등록증
+                                </div>
+                                : ''
+                            }
+                            {
+                                data.h_phone != '-'
+                                ?
+                                <div className="mb-10">
+                                    <CheckLg size={27} />
+                                    　전화번호
+                                </div>
+                                : ''
+                            }
                         </div>
                     </div>
                     <div className="col-6">
                         <h2>{data.h_name} 님 소개</h2>
                         <hr />
-                        <h4>{data.h_name} 님의 후기</h4>
-                        <div className="card-style">
+                        <h4 className="mt-20 mb-20">{data.h_name} 님의 후기</h4>
+                        <div className="card-style mb-30">
                             
                         </div>
+                        후기 {data.review_cnt}개 모두 표시하기
 
                         <hr />
-                        <h4>{data.h_name} 님의 숙소·체험</h4>
+                        <h4 className="mt-20 mb-20">{data.h_name} 님의 숙소·체험</h4>
                     </div>
                 </div>
             </div>

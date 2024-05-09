@@ -28,7 +28,6 @@ import Order from "./pages/guest/Order";
 import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
 import LastReservDetail from "./pages/guest/lastReservDetail";
-import PreReservDetail from "./pages/guest/preReservDetail";
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -44,6 +43,7 @@ import SearchHostEmail from "./pages/host/login/SearchEmail";
 import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
+import MyHotelList from "./pages/host/MyHotelList";
 
 
 
@@ -74,8 +74,7 @@ function App() {
           <Route path="/guest/Order" element={<Order/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
           <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
-          <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>
-          <Route path="/guest/preReservDetail/:OIdx" element={<PreReservDetail/>}/>
+          <Route path="/guest/lastReservDetail" element={<LastReservDetail/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
@@ -90,6 +89,7 @@ function App() {
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
+          <Route path="/host/hotel/MyHotelList" element={<MyHotelList />}/>
         </Routes>
         <Footer />
       </BrowserRouter>
