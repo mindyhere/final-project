@@ -91,7 +91,7 @@ function PreReservDetail() {
                     <p style={{fontWeight: 'bold'}}> 환불 정책</p>
                     <p>{data.ref_date} {data.dto.ho_check_in} 전에 취소하면 전체 환불을 받으실 수 있습니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</p>
                     <hr/>
-                    <div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 변경</p></div>
+                    <Link to={`/guest/updateReserv/${OIdx}`} style={{textDecorationLine: 'none'}}><div><p style={{color: 'black'}}><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 변경</p></div></Link>
                     <hr/>
                     <Link to={`/guest/cancelReserv/${OIdx}`} style={{textDecorationLine: 'none'}}><div><p style={{color: 'black'}}><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div></Link>
                 </div>
