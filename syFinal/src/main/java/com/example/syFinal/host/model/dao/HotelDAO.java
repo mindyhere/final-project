@@ -26,4 +26,7 @@ public interface HotelDAO {
 	
 	/* 호텔 예약(1박 가격) */
 	Map<String, Object> hotelPrice(int ho_idx);
+	
+	/* 호스트 상세페이지(게스트용) */
+	Map<String, Object> hostPage(int h_idx);
 }

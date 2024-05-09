@@ -8,9 +8,8 @@ import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
 import Reputation from "./hotelDetailSection/Reputation";
 
-import { StarFill } from "react-bootstrap-icons";
+import { AwardFill, StarFill} from "react-bootstrap-icons";
 import { useParams } from "react-router-dom";
-import { addDays} from "date-fns";
 import moment from "moment";
 import "moment/locale/ko";
 
@@ -129,8 +128,9 @@ function HotelDetail() {
                                             <div className="col-5" style={{alignContent:'center'}}>
                                                 <div className="row">
                                                     <span>
-                                                        <img src="/img/best.png" width="35px" height="35px"/>
+                                                        <AwardFill  size={24}/>
                                                         <strong>게스트 선호</strong>
+                                                        <AwardFill  size={24}/>
                                                     </span>
                                                 </div>
                                             </div>

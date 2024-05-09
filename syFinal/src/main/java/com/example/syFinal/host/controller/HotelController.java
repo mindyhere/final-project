@@ -81,4 +81,14 @@ public class HotelController {
 		hotelPrice = hotelDao.hotelPrice(ho_idx);
 		return hotelPrice;
 	}
+	
+	/* 호스트 상세페이지(게스트용) */
+	@GetMapping("/host/hotel/hostPage/{hIdx}")
+	public Map<String, Object> hostPage(@PathVariable(name="hIdx") int h_idx){
+		System.out.println("호스트 상세 페이지로 이동~~~~");
+		System.out.println(h_idx);
+		Map<String, Object> hostPage = new HashMap<>();
+		hostPage = hotelDao.hostPage(h_idx);
+		return hostPage;
+	}
 }
