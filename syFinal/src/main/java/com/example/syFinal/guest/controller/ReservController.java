@@ -1,7 +1,9 @@
 package com.example.syFinal.guest.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +77,7 @@ public class ReservController {
 			map3.put("HoName", dto3.get(i).getHo_name());
 			review.add(map3);
 		}
+		
 		map.put("review", review);
 		map.put("before", before);
 		map.put("after", after);
@@ -88,7 +91,50 @@ public class ReservController {
 		ReservDTO dto = dao.lastDetail(o_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		// System.out.println(map);
+		LocalDate date = LocalDate.parse(dto.getO_ckin());
+		map.put("ref_date", date.minusDays(1));
+		return map;
+	}
+	
+	@RequestMapping("delDetail")
+	@ResponseBody
+	public Map<String, Object> delDetail(@RequestParam(name = "o_idx") int o_idx) {
+		ReservDTO dto = dao.delDetail(o_idx);
+		Map<String, Object> map = new HashMap<>();
+		
+		Date now = new Date();
+		Date ref_date = new Date();
+		String ck_time = dto.getO_ckin()+ " "+ dto.getHo_check_in();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Calendar cal1 = Calendar.getInstance();
+		try {
+			ref_date = format.parse(ck_time);
+			cal1.setTime(ref_date);
+			cal1.add(Calendar.DATE, -1);
+		} catch (Exception e) {
+		}
+		String refund = "";
+		int refund_money = 0;
+		ref_date = new Date(cal1.getTimeInMillis());
+		System.out.println(ref_date.before(now));
+		if (ref_date.before(now)) {
+			refund = "환불 불가능";
+		} else {
+			refund = "환불 가능";
+			refund_money = dto.getO_finalprice();
+		}
+		map.put("dto", dto);
+		map.put("refund", refund);
+		map.put("refund_money", refund_money);
+		return map;
+	}
+	
+	@RequestMapping("cancel")
+	@ResponseBody
+	public Map<String, Object> cancel(@RequestParam(name = "o_idx") int o_idx) {
+		String result = dao.cancel(o_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result",result);
 		return map;
 	}
 }
