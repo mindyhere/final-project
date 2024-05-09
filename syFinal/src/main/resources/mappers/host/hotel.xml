@@ -53,4 +53,11 @@
 		WHERE d_ho_idx = #{ho_idx}
 		AND d_idx = 1 <!-- 추후 조건 기능 추가 -->
 	</select>
+	
+	<!-- 호스트 상세페이지(게스트용) -->
+	<select id="getHostPage" resultType="java.util.HashMap">
+		SELECT  h.*, COUNT(*) AS review_cnt, ROUND(AVG(rv_star), 1) AS star
+		FROM host h, v_hotel_review
+		WHERE h_idx = #{h_idx}
+	</select>
 </mapper>
