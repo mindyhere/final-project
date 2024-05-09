@@ -1,8 +1,6 @@
 package com.example.syFinal.host.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.ReviewDAO;
-import com.example.syFinal.guest.model.dto.ReviewDTO;
 import com.example.syFinal.host.model.dao.ReplyDAO;
 import com.example.syFinal.host.model.dto.ReplyDTO;
 
@@ -51,25 +48,25 @@ public class ReplyController {
 		}
 	}
 
-	@GetMapping("detail/{idx}")
-	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
-		Map<String, Object> data = new HashMap<>();
-		try {
-			ReviewDTO review = reputationDao.reviewDetail(rv_idx);
-			data.put("review", review);
-			Map<String, Object> map = new HashMap<>();
-			ReplyDTO reply = reputationDao.replyDetail(map);
-			if (reply != null) {
-				data.put("reply", reply);
-			}
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
-		}
-		System.out.println("===> 결과: " + data);
-		return data;
-	}
+//	@GetMapping("detail/{idx}")
+//	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
+//		Map<String, Object> data = new HashMap<>();
+//		try {
+//			Map<String, Object> review = reputationDao.reviewDetail(rv_idx);
+//			data.put("review", review);
+//			Map<String, Object> map = new HashMap<>();
+//			ReplyDTO reply = reputationDao.replyDetail(map);
+//			if (reply != null) {
+//				data.put("reply", reply);
+//			}
+//			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+//		}
+//		System.out.println("===> 결과: " + data);
+//		return data;
+//	}
 
 	@Transactional
 	@PostMapping("edit/{idx}")

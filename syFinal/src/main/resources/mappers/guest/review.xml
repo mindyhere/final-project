@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="review">
-<select id="myList" resultType="java.util.Map">
+<!-- <select id="myList" resultType="java.util.Map">
 select * from review
 where rv_writer=(select g_email from guest where g_idx=#{g_idx})
-</select>
+</select> -->
 
 <insert id="insert">
 insert into review (rv_writer, rv_content, rv_re_idx, rv_star, rv_hd_idx)
-values (#{rv_writer}, #{rv_content}, #{rv_re_idx}, #{rv_star}, #{rv_hd_idx})
+values (
+	#{rv_writer}, #{rv_content}, #{rv_re_idx}, #{rv_star}, 
+	(select o_didx from orders where o_idx=#{rv_re_idx})
+	)
 </insert>
 
 <!-- <select id="detail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
-select * from review where rv_idx=#{rv_idx}
+select * from v_hotel_review where rv_idx=#{rv_idx}
 </select> -->
 
 <update id="editReview">
