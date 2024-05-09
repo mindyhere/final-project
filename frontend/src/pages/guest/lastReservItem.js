@@ -1,7 +1,7 @@
 import React,{useRef} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
-function LastReservItem({HoIdx, HoName, HoImg, OCkin, OCkout, HName}) {
+function LastReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     //const url = `../img/${HoImg}`;
@@ -28,7 +28,7 @@ function LastReservItem({HoIdx, HoName, HoImg, OCkin, OCkout, HName}) {
                 <p style={{fontSize: "18px"}}>{HName}</p>
                 <p style={{fontSize:"15px", color: 'black'}}>{OCkin}~{OCkout}</p>
                 <br/>
-                <input type='hidden' value={HoIdx}></input>
+                <input type='hidden' value={OIdx}></input>
             </div>  
             </div>              
             </>
