@@ -40,6 +40,7 @@ public class ReviewController {
 		System.out.println("==> map? " + map + ", " + map.get("rv_writer"));
 		try {
 			reviewDao.insertReview(map);
+			System.out.println("ok");
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
 			// 에러발생

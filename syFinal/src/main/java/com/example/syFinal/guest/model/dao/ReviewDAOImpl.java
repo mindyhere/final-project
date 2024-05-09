@@ -21,7 +21,6 @@ public class ReviewDAOImpl implements ReviewDAO {
 
 	@Override
 	public void insertReview(Map<String, Object> map) {
-		// 숙박번호, 호텔번호 유효검사? -> insert
 		sqlSession.insert("review.insert", map);
 	}
 

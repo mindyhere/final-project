@@ -38,8 +38,6 @@ function ReviewItem({
     }
   };
 
-  const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
-
   const rendering = (i) => {
     const star = "⭐";
     const result = [];
@@ -68,6 +66,7 @@ function ReviewItem({
   } else {
     let profile_src = "";
     if (g_url !== "-") {
+      const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
