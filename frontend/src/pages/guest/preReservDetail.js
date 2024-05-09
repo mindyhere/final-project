@@ -21,7 +21,7 @@ function useFetch(url) {
 }
 
 
-function LastReservDetail() {
+function PreReservDetail() {
     const {OIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/guest/reserv/lastDetail?o_idx=' + OIdx);
     const [check, setCheck] = useState(false);
@@ -76,11 +76,11 @@ function LastReservDetail() {
             <>
             <div style={{width: '1500px', marginLeft: '200px', marginTop: '50px', overflow: 'hidden'}}>
                 <h3 class="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
-                &nbsp; 지난 예약 상세</h3>
+                &nbsp; 예정 예약 상세</h3>
                 <br/>
                 <br/>
                 <div style={{width: '500px', float:'left'}}>
-                {/* <div class="card-reservDetail">
+                <div class="card-reservDetail">
                     <h4>예약 세부 정보</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}> 상태: {state}</p>
@@ -92,7 +92,7 @@ function LastReservDetail() {
                     <hr/>
                     <div><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div>
                 </div>
-                <div class='detail-blank'></div> */}
+                <div class='detail-blank'></div>
                 <div class='card-reservDetail'>
                     <h4>찾아가는 방법</h4>
                     <hr/>
@@ -152,4 +152,4 @@ function LastReservDetail() {
     }
 }
 
-export default LastReservDetail;
+export default PreReservDetail;

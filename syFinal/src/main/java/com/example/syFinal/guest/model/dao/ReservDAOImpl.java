@@ -17,5 +17,14 @@ public class ReservDAOImpl implements ReservDAO {
 	public List<ReservDTO> list(int g_idx) {
 		return sqlSession.selectList("reserv.list", g_idx);
 	}
-
+	
+	@Override
+	public ReservDTO lastDetail(int o_idx) {
+		return sqlSession.selectOne("reserv.lastDetail", o_idx);
+	}
+	
+	@Override
+	public List<ReservDTO> reservReview(int g_idx) {
+		return sqlSession.selectList("reserv.reservReview", g_idx);
+	}
 }

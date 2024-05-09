@@ -8,4 +8,8 @@ public interface ReservDAO {
 
 	List<ReservDTO> list(int g_idx);
 
+	ReservDTO lastDetail(int o_idx);
+
+	List<ReservDTO> reservReview(int g_idx);
+
 }

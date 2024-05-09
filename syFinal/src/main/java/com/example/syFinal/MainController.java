@@ -30,7 +30,7 @@ public class MainController {
 			search = "";
 			main = dao.list(search);
 		}
-		System.out.println("@@@@@@@@@@@@@"+main);
+		//System.out.println("@@@@@@@@@@@@@"+main);
 		List<Map<String, Object>> list = new ArrayList<>();
 		for(int i=0; i<main.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
@@ -41,7 +41,7 @@ public class MainController {
 			//MainDTO dto = new MainDTO(i.getHoIdx(),i.getHoName(),i.getHoImg);
 			list.add(map);
 		}
-		System.out.println("메인리스트====" + list);
+		//System.out.println("메인리스트====" + list);
 		
 		return list;
 	}

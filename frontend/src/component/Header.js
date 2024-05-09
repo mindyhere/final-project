@@ -460,7 +460,9 @@ function Header() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
+                <a className="nav-link active"
+                onClick={() => navigate(`/host/hotel/MyhotelList`)}
+                >
                   호텔
                 </a>
               </li>

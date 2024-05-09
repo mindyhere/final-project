@@ -19,13 +19,14 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
         }
 
         return (
+            <Link to={`/guest/preReservDetail/${OIdx}`}>
            <div class="card-reserv" >
                         <div style={{float: "left", width: "300px"}}>
                             <p style={{fontSize: "30px", color: 'black'}}>{HoName}</p>
                             <p style={{fontSize:"20px", color: 'black'}}>{OCkin}~{OCkout}</p>
                             <br/>
-                            <p style={{fontSize: "25px"}}>{HName}</p>
-                            <p style={{fontSize: "20px"}}>{HoAddress}</p>
+                            <p style={{fontSize: "25px", color: 'black' }}>{HName}</p>
+                            <p style={{fontSize: "20px", color: 'black' }}>{HoAddress}</p>
                             <input type='hidden' value={OIdx}></input>
                         </div>    
                         <div style={{float: "left", width: "300px"}}>
@@ -33,6 +34,7 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
                         </div>
 
                </div>
+               </Link>
             
         )
     }
