@@ -1,5 +1,5 @@
 import React,{useRef} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
     let loading = false;
@@ -20,7 +20,7 @@ function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
         return (
             <>
             <div style={{width: '600px', marginBottom:'50px', height:'50px', float: "left", marginLeft: '10px'}}>
-            <Link to={`/guest/cancelReserv/${OIdx}`}>
+            
             <div style={{float: "left", width: "120px", marginTop: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
             </div>
@@ -33,7 +33,7 @@ function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
             <div style={{width: "50px", marginLeft: '330px'}}>
                 <img src='/img/review.png' width='30px' height='30px' style={{marginTop:'28px'}}></img>
             </div>
-            </Link>
+            
             </div>              
             </>
         )
