@@ -30,6 +30,8 @@ import PreReservItem from "./pages/guest/preReservItem";
 import LastReservDetail from "./pages/guest/lastReservDetail";
 import ReservRevItem from "./pages/guest/reservRevItem";
 import PreReservDetail from "./pages/guest/preReservDetail";
+import CancelReserv from "./pages/guest/cancelReserv";
+
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -80,6 +82,7 @@ function App() {
           <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>
           <Route path="/guest/preReservDetail/:OIdx" element={<PreReservDetail/>}/>
           <Route path="/guest/reservRevItem" element={<ReservRevItem/>}/>
+          <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
