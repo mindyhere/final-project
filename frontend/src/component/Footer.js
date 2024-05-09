@@ -1,6 +1,11 @@
 import React from "react";
+import {useLocation } from "react-router-dom";
 
 function Footer() {
+    // 팝업창에서 푸터 제거
+    const locationNow = useLocation()
+    if (locationNow.pathname === "/guest/write") return null; 
+
     return (
         <div className="Footer">
             <br/>

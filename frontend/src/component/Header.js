@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/login/Join_modal";
 
@@ -15,6 +15,7 @@ import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
 
 function Header() {
   const navigate = useNavigate();
+  
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -52,6 +53,9 @@ function Header() {
         break;
     }
   };
+
+  const locationNow = useLocation(); // 팝업창에서 헤더제거
+  if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
 
   if (userInfo == null && g_email == null) {
     console.log("로그인X cookie==> " + userInfo);

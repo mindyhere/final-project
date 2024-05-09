@@ -49,7 +49,7 @@ import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/MyHotelList";
 
-
+import WriteReview from "./pages/guest/WriteReview";
 
 
 function App() {
@@ -99,6 +99,9 @@ function App() {
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />}/>
+
+          <Route path="/guest/write" element={<WriteReview />}/>
+
         </Routes>
         <Footer />
       </BrowserRouter>
