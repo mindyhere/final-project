@@ -79,7 +79,7 @@ function SearchEmail() {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
+                      // console.log(data);
                       if (data.h_email != null) {
                         Swal.fire({
                           icon: "info",
