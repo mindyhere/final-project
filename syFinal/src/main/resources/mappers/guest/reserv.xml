@@ -14,4 +14,10 @@ d_area, d_room_type, d_beds, d_non_smoking
 FROM orders, host, hotel, hotel_detail where
 o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business = h_business
 </select>
+
+<select id="reservReview" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
+SELECT o_idx, ho_img, o_ckin, o_ckout, ho_name, h_name FROM orders, hotel, host WHERE
+o_idx NOT IN (SELECT o_idx FROM orders, review where o_idx = rv_re_idx AND rv_writer = (SELECT g_email FROM guest WHERE g_idx = #{g_idx}))
+AND o_gidx =#{g_idx} AND ho_business = h_business;
+</select>
 </mapper>

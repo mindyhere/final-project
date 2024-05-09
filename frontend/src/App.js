@@ -28,6 +28,7 @@ import Order from "./pages/guest/Order";
 import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
 import LastReservDetail from "./pages/guest/lastReservDetail";
+import ReservRevItem from "./pages/guest/reservRevItem";
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -44,6 +45,7 @@ import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/MyHotelList";
+import PreReservDetail from "./pages/guest/preReservDetail";
 
 
 
@@ -74,7 +76,9 @@ function App() {
           <Route path="/guest/Order" element={<Order/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
           <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
-          <Route path="/guest/lastReservDetail" element={<LastReservDetail/>}/>
+          <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>
+          <Route path="/guest/preReservDetail/:OIdx" element={<PreReservDetail/>}/>
+          <Route path="/guest/reservRevItem" element={<ReservRevItem/>}/>
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />

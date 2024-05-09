@@ -6,6 +6,9 @@ import LastReservItem from "./lastReservItem";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slid from "react-slick";
+import Sld from "react-slick";
+import ReservRevItem from "./reservRevItem";
 
 
 
@@ -14,13 +17,9 @@ import "slick-carousel/slick/slick-theme.css";
 function Reservation() {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
-    const photo = cookies.get('g_photo');
-
-    // const [data, loading] = useFetch('http://localhost/guest/reserv?g_idx='+idx.key);
     const [reservList, setReservList] = useState([]);
     const [lastReservList, setLastReservList] = useState([]);
-    const idxx = photo.key;
-    console.log(idxx);
+    const [review, setReview] = useState([]);
 
     function getReserv(url) {
         const form = new FormData();
@@ -30,12 +29,31 @@ function Reservation() {
           return response.json();
     })
     .then(data => {
+        console.log(data);
         setReservList(data.after);
         setLastReservList(data.before);
+        setReview(data.review);
     })
   }
 
   var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+};
+
+var setting = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+};
+
+var set = {
+    rows: 3,
     dots: true,
     infinite: false,
     speed: 500,
@@ -49,12 +67,13 @@ function Reservation() {
         return (
             <>
 
-                 <div className="container min-vh-100">
+                 <div className="container min-vh-100" >
                  <h3 class="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
                 &nbsp; 여행</h3>
                 <br/>
                 <br/>
-                <div style={{width: "650px"}}>
+                <div style={{paddingBottom: '50px'}}>
+                <div style={{width: "650px" ,  marginRight: '40px', float: 'left'}}>
                 <h4>예정된 예약</h4>
                 <br/>
                 
@@ -74,16 +93,32 @@ function Reservation() {
                 )} 
                 </Slider>
                 </div> 
+                    <div style={{height: '400px', width:'600px', float: 'left'}}>
+                    <h4>&nbsp;&nbsp;리뷰를 작성해 주세요</h4>
+                    <br/>
+                    <Sld {...set}>
+                    {review.map(
+                    ({OIdx, HoName, HoImg, OCkin, OCkout, HName})=>(
+                        <ReservRevItem
+                        OIdx={OIdx}
+                        HoName={HoName}
+                        HoImg={HoImg}
+                        OCkin={OCkin}
+                        OCkout={OCkout}
+                        HName={HName}
+                        />
+                    )
+                )} 
 
-                <div style={{marginTop: "50px"}}>
+                </Sld>
+                    </div>
+                    </div>
+               
+                <div style={{ paddingBottom: '100px'}}>
+                    <br/>
                     <h4>이전 예약</h4>
                     <br/>
-                    <div style={{alignContent: 'center', alignItems: 'center'}}>
-                    <div style={{
-                        display:'grid',
-                        gridTemplateRows:'1fr',
-                        gridTemplateColumns:'1fr 1fr 1fr',
-                    }}>
+                    <Slid {...setting}>
                     {lastReservList.map(
                     ({OIdx, HoName, HoImg, OCkin, OCkout, HName})=>(
                         <LastReservItem
@@ -96,8 +131,8 @@ function Reservation() {
                         />
                     )
                 )} 
-      </div>
-      </div>
+
+      </Slid>
                 </div>
                  </div>
             </>

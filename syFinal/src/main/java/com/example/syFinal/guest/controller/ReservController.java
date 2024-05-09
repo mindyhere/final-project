@@ -32,6 +32,7 @@ public class ReservController {
 		Date ck = new Date();
 		List<Map<String, Object>> after = new ArrayList<>();
 		List<Map<String, Object>> before = new ArrayList<>();
+		List<Map<String, Object>> review = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
 		for(int i=0; i<dto.size(); i++) {
 			try {
@@ -62,6 +63,19 @@ public class ReservController {
 				after.add(map2);
 			}	
 		}
+		List<ReservDTO> dto3 = dao.reservReview(g_idx);
+		for(int i=0; i<dto3.size(); i++) {
+			Map<String, Object> map3 = new HashMap<>();			
+			map3.put("OIdx", dto3.get(i).getO_idx());
+			map3.put("HoImg", dto3.get(i).getHo_img());
+			map3.put("OCkin", dto3.get(i).getO_ckin());
+			map3.put("OCkout", dto3.get(i).getO_ckout());
+			map3.put("HName", dto3.get(i).getH_name());
+			map3.put("HoAddress", dto3.get(i).getHo_address());
+			map3.put("HoName", dto3.get(i).getHo_name());
+			review.add(map3);
+		}
+		map.put("review", review);
 		map.put("before", before);
 		map.put("after", after);
 		// System.out.println(map);
