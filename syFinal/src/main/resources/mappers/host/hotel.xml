@@ -60,4 +60,13 @@
 		FROM host h, v_hotel_review
 		WHERE h_idx = #{h_idx}
 	</select>
+	
+	<!-- 호스트의 숙소 리스트 -->
+	<select id="getHotelSummary" resultType="java.util.Map">
+		SELECT * FROM hotel
+		WHERE ho_business = 
+					(SELECT h_business FROM host
+						WHERE h_idx = #{h_idx}
+					)
+	</select>
 </mapper>

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.host.model.dao.HotelDAO;
@@ -85,10 +86,17 @@ public class HotelController {
 	/* 호스트 상세페이지(게스트용) */
 	@GetMapping("/host/hotel/hostPage/{hIdx}")
 	public Map<String, Object> hostPage(@PathVariable(name="hIdx") int h_idx){
-		System.out.println("호스트 상세 페이지로 이동~~~~");
-		System.out.println(h_idx);
 		Map<String, Object> hostPage = new HashMap<>();
 		hostPage = hotelDao.hostPage(h_idx);
 		return hostPage;
+	}
+	
+	/* 호스트의 숙소 리스트 */
+	@GetMapping("/host/hotel/hotelSummary/{hIdx}")
+	public Map<String, Object> hotelSummary(@PathVariable(name="hIdx") int h_idx){
+		Map<String, Object> hotelSummary = new HashMap<>();
+		System.out.println("hotelSummary  : " + hotelSummary);
+		hotelSummary = hotelDao.hotelSummary(h_idx);
+		return hotelSummary;
 	}
 }
