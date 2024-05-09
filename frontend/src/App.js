@@ -29,6 +29,7 @@ import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
 import LastReservDetail from "./pages/guest/lastReservDetail";
 import ReservRevItem from "./pages/guest/reservRevItem";
+import PreReservDetail from "./pages/guest/preReservDetail";
 
 // admin 계정        
 import Amain from "./pages/admin/amain";
@@ -45,7 +46,7 @@ import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/MyHotelList";
-import PreReservDetail from "./pages/guest/preReservDetail";
+
 
 
 
