@@ -71,24 +71,22 @@ public class GuestController {
 		return paylist;
 	}
 	
-//	@RequestMapping("/guest/hotelinfo")
-//	public Map<String, Object> hotelinfo(@RequestParam(name="ho_idx") int ho_idx) {
-//		HotelDTO hotel = dao1.hoteLlist(ho_idx);
-//		//Map<String, Object> mypage = dao.my(g_idx);
-//		//GuestDTO dto = new GuestDTO();
-//		Map<String, Object> map1 = new HashMap<>();
-//		//map.put("myphoto", mypage.getG_photo());
-//		map1.put("hotelinfo", hotel);
-//		//System.out.println(map);
-//		return map1;
-//	}
-	
 	//예약요청
 	@RequestMapping("/guest/order")
-	public void order() {
-		//@RequestParam(name="g_idx") int g_idx
-		
-		//Map<String, Object> map1 = new HashMap<>();
-		dao.order();
+	public void order(@RequestParam(name="idx") int idx,@RequestParam(name="didx") int didx,
+			@RequestParam(name="ckin") int ckin, @RequestParam(name="ckout") int ckout,
+			@RequestParam(name="reser") int reser, @RequestParam(name="pay") int pay,
+			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice) {
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("idx", idx);
+		map1.put("didx", didx);
+		map1.put("ckin", ckin);
+		map1.put("ckout", ckout);
+		map1.put("reser", reser);
+		map1.put("pay", pay);
+		map1.put("dprice", dprice);
+		map1.put("fprice", fprice);
+		System.out.println("");
+		dao.order(map1);
 	}
 }

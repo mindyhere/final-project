@@ -27,6 +27,7 @@ public class HotelDTO {
 	private String chk_in;
 	private String chk_out;
 	
+	private int d_idx;
 	private String d_room_type;
 	private int d_capacity;
 	private int d_area;

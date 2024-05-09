@@ -1,7 +1,8 @@
 import React, {useEffect,useState} from 'react';
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
+import Swal from "sweetalert2";
 
 function useFetch(url) {
     const [data,setData] = useState(null);
@@ -23,12 +24,28 @@ function useFetch(url) {
 function Order() {
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
-    const {HoIdx} = useParams();
+    //const {HoIdx} = useParams();
+    const location = useLocation();
+    const HoIdx = location.state.HoIdx;
+    const ckin = location.state.ckin;
+    const ckout = location.state.ckout;
+    const reser = location.state.reser;
+    const dprice = location.state.dprice;
+    const pprice = location.state.pprice;
+    const fprice = location.state.fprice;
+    const dateChar = location.state.dateChar;
+    const vat = location.state.vat;
+    const didx = location.state.didx;
+    
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
-    //const [hotel] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx);
+    const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx);
+    
+    const [pay, setPay] = useState("Card");
+    const onSelect = (event) => {
+        setPay(event.target.value);
+    };
 
-
-    if(loading){
+    if(loading || loading2){
         return(
             <div>loading</div>
         )
@@ -38,8 +55,8 @@ function Order() {
             card = data.dto.g_card.substring(15,19);
         }
         
-        //let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
-        //let image_url=`<img src=${src} width='100px' height='100px'/>`;
+        let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
+        let image_url=`<img src=${src} width='100px' height='100px'/>`;
 
     return (
         <>
@@ -63,17 +80,19 @@ function Order() {
                                 <h4>예약정보</h4>
                                 <br></br>
                                 <div>날짜</div>
+                                <div>{ckin} ~ {ckout}</div>
                                 <br></br>
                                 <div>게스트</div>
+                                <div>{reser}명</div>
                                 <hr/>
                                 <h4>결제수단</h4>
                                 <br/>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Card</option>
+                                <select value={pay} class="form-select" aria-label="Default select example" onChange={onSelect}>
+                                    <option value="Card">Card</option>
                                     <option value="KakaoPay">KakaoPay</option>
                                     <option value="Point">Point</option>
                                 </select>
-                                        {data.dto.g_card === null 
+                                        {pay === "Card" &&data.dto.g_card === null
                                         ?
                                         <div style={{fontSize: '10px'}}>* 카드로 결제시 
                                         <svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fill-rule="evenodd"></path></svg>
@@ -88,15 +107,12 @@ function Order() {
                                             </td>
                                             <div>* 카드로 결제시 등록된 카드에서 결제될 예정입니다.</div>
                                         </div>
-                                        
                                         }
-
-                               
-
                                 <hr/>
                                 <h4>호스트에게 메시지 보내기</h4>
                                 <div>여행 목적, 동반 일행, 이 숙소를 선택한 이유 등을 알려주세요.</div>
                                 <div>호스트 정보</div>
+                                <div>host : {hotel.h_name}님</div>
                                 <hr/>
                                 <h4>환불 정책</h4>
                                 <div>체크인 전날 12시까지 100% 가능 / 이후 불가능 </div>
@@ -106,9 +122,39 @@ function Order() {
                                 <hr/>
                                 <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
                                 <br/>
-                                <button className="btn btn-dark">예약 요청</button>
-                                {
-
+                                {pay === "Card" || pay === "Point"
+                                ?
+                                //카드 or 포인트로 결제시 버튼 클릭하면 DB에 바로 insert
+                                <button className="btn btn-dark" onClick={()=>{
+                                    if(data.dto.g_card ==null) {
+                                        Swal.fire({
+                                            icon : 'warning',
+                                            text : '계정 > 결제 > 결제수단에서 카드를 등록해주세요.',
+                                        });
+                                    } else {
+                                        const form = new FormData();
+                                        form.append('idx',idx);
+                                        form.append('didx',didx);
+                                        form.append('ckin',ckin);
+                                        form.append('ckout',ckout);
+                                        form.append('reser',reser);
+                                        form.append('pay',pay);
+                                        form.append('dprice',dprice);
+                                        form.append('fprice',fprice);
+                                        fetch('http://localhost/guest/order',{
+                                            method:'post',
+                                            encType:'multipart/form-data',
+                                            body:form
+                                        }).then(()=>{
+                                            //navigate('/guest/Pay');
+                                            //예약완료시 예약내역페이지로 이동
+                                            //window.location.href='/guest/preReservDetail';
+                                        });
+                                    }
+                                }}>예약 요청</button>
+                                :
+                                //카페로 결제시 카페결제화면 거치고 성공하면 DB에 insert
+                                <button className="btn btn-dark">카카오페이 결제</button>
                                 }
                                 <br/>
                                 <br/>
@@ -119,15 +165,14 @@ function Order() {
                 <div className="col-5">
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
                         <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'400px', padding:'20px'}}>
-                            <div>호텔사진 + 호텔명</div>
-                            {/* <span dangerouslySetInnerHTML={{ __html: image_url}}></span><div>{hotel.ho_name}</div> */}
+                            <span dangerouslySetInnerHTML={{ __html: image_url}}></span><div>{hotel.ho_name}</div>
                             <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: '12px', width: '12px', fill: 'currentcolor'}}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>평점</div>
                             <hr/>
                             <h4>요금세부정보</h4>
-                            <div>₩~~~~ X 몇박</div>
-                            <div>수수료</div>
+                            <div>원가 ₩{dprice} X {dateChar}박 = {pprice}</div>
+                            <div>수수료 : {vat}</div>
                             <hr/>
-                            <div>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩~~~~~원</div>
+                            <div>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice}원</div>
                         </div>
                     </div>
                 </div>

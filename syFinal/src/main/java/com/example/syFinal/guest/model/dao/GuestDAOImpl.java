@@ -36,8 +36,8 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	
 	@Override
-	public void order(){
-		sqlSession.insert("guest.order");
+	public void order(Map<String,Object> map){
+		sqlSession.insert("guest.order",map);
 	}
 	
 }
