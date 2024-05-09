@@ -12,6 +12,14 @@
 	border-radius: 7px;
 }
 
+.dropdown-basic {
+	background: transparent;
+	border-color: transparent;
+	color: black;
+	font-weight: 600;
+	width: 200px;
+}
+
 .btnLoginBottom:hover {
 	cursor: pointer;
 }

@@ -5,6 +5,8 @@ import "moment/locale/ko";
 import { DateRangePicker  } from "react-date-range";
 import ko from "date-fns/locale/ko";
 import { format, subDays} from "date-fns";
+import { Dropdown } from "react-bootstrap";
+import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../asset/css/datepicker.css";
 
@@ -30,7 +32,7 @@ function Reservation() {
     const [modal, setModal] = useState(false);
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelPrice/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
 
     const [state, setState] = useState({
         startDate: new Date(),
@@ -48,23 +50,72 @@ function Reservation() {
         setView(true);
    };
 
-   const start = moment(state.startDate);
-   const end = moment(state.endDate);
-   const dateChar  = moment.duration(end.diff(start)).asDays();
-   const price = data * dateChar;
-   const vat = price * 0.2;
-   const totalPrice = price + vat;
+   const [adult, setAdult] = useState(1);
+   const [teenager, setTeenager] = useState(0);
+   const [child, setChild] = useState(0);
 
+   function adultPlusBtn(){
+    setAdult(adult + 1);
+   }
 
+   function adultMinusBtn(){
+    if(adult == 0){
+        Swal.fire({
+            icon : 'warning',
+            text : '0 미만으로 선택할 수 없습니다.',
+        });
+    } else {
+        setAdult(adult - 1);
+    }
+   }
 
+   function teenagerPlusBtn(){
+    setTeenager(teenager + 1);
+   }
+
+   function teenagerMinusBtn(){
+    if(teenager == 0){
+        Swal.fire({
+            icon : 'warning',
+            text : '0 미만으로 선택할 수 없습니다.',
+        });
+    } else {
+        setTeenager(teenager - 1);
+    }
+   }
+
+   function childPlusBtn(){
+    setChild(child + 1);
+   }
+
+   function childMinusBtn(){
+    if(child == 0){
+        Swal.fire({
+            icon : 'warning',
+            text : '0 미만으로 선택할 수 없습니다.',
+        });
+    } else {
+        setChild(child - 1);
+    }
+   }
+
+ 
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
         )
     } else {
+        const start = moment(state.startDate);
+        const end = moment(state.endDate);
+        const dateChar  = moment.duration(end.diff(start)).asDays();
+        const price = (data.d_price) * dateChar;
+        const vat = price * 0.2;
+        const totalPrice = price + vat;
+        const guestCounter = adult + teenager + child
+
         return (
                 <div className="card-style mb-30">
-                    <div className="mb-20"><b>￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
+                    <div className="mb-20"><b>￦{data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
                     <table className="tbl">
                         <tbody>
                             <tr>
@@ -82,6 +133,7 @@ function Reservation() {
                                             ranges={[state]}
                                             direction="horizontal"
                                             isClearable={true}
+                                            rangeColors={["#DBC4F0"]}
                                         />
                                         </div>
                                     </div>
@@ -93,12 +145,39 @@ function Reservation() {
                                 <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
                             </tr>
                             <tr>
-                                <th className="dropdown-toggle" colSpan={2}>인원 선택</th>                            
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                                <th colSpan={2}>
+                                    <Dropdown>
+                                        <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" style={{backgroundColor: 'transparent'}}>
+                                            인원 선택
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu className="col-12">
+                                            
+                                            <Dropdown.Item className="col-6">성인</Dropdown.Item>
+                                                <button style={{marginRight: '10px'}} onClick={adultMinusBtn}> - </button>
+                                                {adult}
+                                                <button style={{marginLeft: '10px'}} onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+
+                                            <Dropdown.Item>어린이</Dropdown.Item>
+                                                <button style={{marginRight: '10px'}} onClick={teenagerMinusBtn}> - </button>
+                                                {teenager}
+                                                <button style={{marginLeft: '10px'}} onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                            
+                                            <Dropdown.Item>유아</Dropdown.Item>
+                                                <button style={{marginRight: '10px'}} onClick={childMinusBtn}> - </button>
+                                                {child}
+                                                <button style={{marginLeft: '10px'}} onClick={childPlusBtn}> + </button>
+                                           
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    {
+                                        guestCounter > 0
+                                        ?
+                                        <div>
+                                        게스트 {guestCounter}명
+                                        </div>
+                                        : ''
+                                    }
+                                </th>
                             </tr>
                         </tbody>
                     </table>
@@ -110,7 +189,7 @@ function Reservation() {
                     <div className="container mb-20">
                         <div className="row">
                             <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}}>
-                                ￦{data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
+                                ￦{data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
                             </div>
                             <div className="col-6" style={{textAlign:'right'}}>
                                 ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
