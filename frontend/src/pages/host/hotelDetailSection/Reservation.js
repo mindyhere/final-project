@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/ko";
 import { DateRangePicker  } from "react-date-range";
@@ -9,6 +9,7 @@ import { Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../asset/css/datepicker.css";
+import FormCheckInput from "react-bootstrap/esm/FormCheckInput";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -33,6 +34,7 @@ function Reservation() {
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
+    const navigate = useNavigate();
 
     const [state, setState] = useState({
         startDate: new Date(),
@@ -186,8 +188,21 @@ function Reservation() {
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
-                        } else { // 결제창으로 이동
-
+                        } else {
+                            navigate('/guest/Order', {
+                                state: {
+                                    ckin:formatDateDisplay(state.startDate),
+                                    ckout:formatDateDisplay(state.endDate),
+                                    reser: guestCounter,
+                                    dprice: data.d_price,
+                                    pprice: price,
+                                    fprice: totalPrice,
+                                    dateChar : dateChar,
+                                    vat:vat,
+                                    HoIdx: HoIdx,
+                                    didx: data.d_idx
+                                }
+                            });
                         }
                     }} >예약하기</button>
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
