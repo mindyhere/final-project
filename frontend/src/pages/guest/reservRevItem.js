@@ -1,11 +1,25 @@
-import React,{useRef} from 'react';
+import React,{useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
-function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
+ function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     //const url = `../img/${HoImg}`;
     const navigate = useNavigate();
+
+     // 글쓰기 데이터 이동 test
+    const reservData =  {
+        // 페이지 이동 시 전달할 데이터
+        OIdx: `${OIdx}`,
+        HoName: `${HoName}`,
+        OCkin: `${OCkin}`,
+        OCkout: `${OCkout}`,
+    }
+    const openPopup = () => {
+        const popup = window.open("./write", "name(Write)", "width=500,height=600,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
+        return popup;
+    }; // ...여기까지
+
 
     if (loading) {
         return (
@@ -31,9 +45,13 @@ function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
                 <input type='hidden' value={OIdx}></input>
             </div>  
             <div style={{width: "50px", marginLeft: '330px'}}>
-                <img src='/img/review.png' width='30px' height='30px' style={{marginTop:'28px'}}></img>
+                <img src='/img/review.png' width='30px' height='30px' style={{marginTop:'28px'}}
+                onClick={() => {
+                    localStorage.setItem('reservData',JSON.stringify(reservData));
+                    openPopup();
+                  }}
+                ></img>
             </div>
-            
             </div>              
             </>
         )

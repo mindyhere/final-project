@@ -290,10 +290,9 @@ function levelUp(userIdx, opt) {
         });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   } else {
-    // console.log(opt);
     Swal.fire({
       icon: "warning",
       title: "잠깐!",
