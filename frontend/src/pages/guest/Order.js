@@ -1,8 +1,46 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
+import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Cookies from 'universal-cookie';
+
+function useFetch(url) {
+    const [data,setData] = useState(null);
+    const [loading,setLoading] = useState(true);
+
+    useEffect(()=>{
+        fetch(url)
+            .then(response=>{
+                return response.json();
+            })
+            .then(data=>{
+                setData(data);
+                setLoading(false);
+            })
+    }, []);
+    return [data,loading];
+}
 
 function Order() {
+    const cookies = new Cookies();
+    const idx=cookies.get('g_idx');
+    const {HoIdx} = useParams();
+    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
+    //const [hotel] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx);
+
+
+    if(loading){
+        return(
+            <div>loading</div>
+        )
+    } else {
+        let card='';
+        if(data.dto.g_card != null) {
+            card = data.dto.g_card.substring(15,19);
+        }
+        
+        //let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
+        //let image_url=`<img src=${src} width='100px' height='100px'/>`;
+
     return (
         <>
         <div className="container" align='center' style={{position: 'static'}}>
@@ -30,18 +68,30 @@ function Order() {
                                 <hr/>
                                 <h4>결제수단</h4>
                                 <br/>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Card</option>
+                                    <option value="KakaoPay">KakaoPay</option>
+                                    <option value="Point">Point</option>
+                                </select>
+                                        {data.dto.g_card === null 
+                                        ?
+                                        <div style={{fontSize: '10px'}}>* 카드로 결제시 
+                                        <svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fill-rule="evenodd"></path></svg>
+                                        결제
+                                        <svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fill-rule="evenodd"></path></svg>
+                                        결제수단에서 카드를 등록해주세요.
+                                        </div>
+                                        :
+                                        <div style={{fontSize: '10px'}}>
+                                            <td>등록된 카드정보
+                                                <tr>****{card}</tr>
+                                            </td>
+                                            <div>* 카드로 결제시 등록된 카드에서 결제될 예정입니다.</div>
+                                        </div>
+                                        
+                                        }
 
-                                
-                                <Dropdown>
-                                    <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" style={{padding: '.5rem'}}>
-                                       수단 선택
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu className="col-12">
-                                        <Dropdown.Item href="#/action-1">카드</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">카카오페이</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">포인트</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                               
 
                                 <hr/>
                                 <h4>호스트에게 메시지 보내기</h4>
@@ -49,13 +99,17 @@ function Order() {
                                 <div>호스트 정보</div>
                                 <hr/>
                                 <h4>환불 정책</h4>
+                                <div>체크인 전날 12시까지 100% 가능 / 이후 불가능 </div>
                                 <hr/>
                                 <div><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: '32px', width: '32px', fill: 'rgb(227, 28, 95)', stroke: 'currentcolor'}}><g><g stroke="none"><path d="M43 8v21.295L32.295 40l-10.359.001A11.971 11.971 0 0 0 26 31c0-6.627-5.373-12-12-12a12.02 12.02 0 0 0-3.001.378L11 8h32z" fill-opacity=".2"></path><path d="M32 42v-8a5 5 0 0 1 4.783-4.995L37 29h8V6H34v2h-2V6H22v2h-2V6H9v14.5H7V6a2 2 0 0 1 1.85-1.995L9 4h11V2h2v2h10V2h2v2h11a2 2 0 0 1 1.995 1.85L47 6v24.953L33.953 44H15v-2h17zm12.123-11H37a3 3 0 0 0-2.995 2.824L34 34v7.122L44.123 31z"></path></g><g fill="none" stroke-width="2"><path d="M14 43c.328 0 .653-.013.974-.039C21.146 42.465 26 37.299 26 31c0-6.627-5.373-12-12-12A11.995 11.995 0 0 0 2 31c0 6.627 5.373 12 12 12z"></path><path d="M23 31h-9v-9"></path></g></g></svg></div>
-                                <div>호스트가 24시간 이내 예약 요청을 수락하기 전까지는 예약이 아직 확정된 것이 아닙니다. 예약 확정 전까지는 요금이 청구되지 않습니다.</div>
+                                <div>호스트가 24시간 이내 예약 요청을 수락하기 전까지는 예약이 아직 확정된 것이 아닙니다.</div>
                                 <hr/>
                                 <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
                                 <br/>
                                 <button className="btn btn-dark">예약 요청</button>
+                                {
+
+                                }
                                 <br/>
                                 <br/>
                             </div>
@@ -66,11 +120,12 @@ function Order() {
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
                         <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'400px', padding:'20px'}}>
                             <div>호텔사진 + 호텔명</div>
+                            {/* <span dangerouslySetInnerHTML={{ __html: image_url}}></span><div>{hotel.ho_name}</div> */}
                             <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: '12px', width: '12px', fill: 'currentcolor'}}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>평점</div>
                             <hr/>
                             <h4>요금세부정보</h4>
                             <div>₩~~~~ X 몇박</div>
-                            <div>쿠폰 및 할인?</div>
+                            <div>수수료</div>
                             <hr/>
                             <div>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩~~~~~원</div>
                         </div>
@@ -81,5 +136,6 @@ function Order() {
 
         </>
     )
+}
 }
 export default Order;
