@@ -48,7 +48,7 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호텔 예약(1박 가격) */
 	@Override
-	public int hotelPrice(int ho_idx) {
+	public Map<String, Object> hotelPrice(int ho_idx) {
 		return sqlSession.selectOne("hotel.getPrice", ho_idx);
 	}
 }

@@ -25,5 +25,5 @@ public interface HotelDAO {
 	Map<String, Object> hotelRule(int ho_idx);
 	
 	/* 호텔 예약(1박 가격) */
-	int hotelPrice(int ho_idx);
+	Map<String, Object> hotelPrice(int ho_idx);
 }
