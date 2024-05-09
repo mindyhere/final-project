@@ -135,6 +135,10 @@ function Pay() {
             <div>loading</div>
         )
     } else {
+        let card='';
+        if(data.dto.g_card != null) {
+            card = '****'+data.dto.g_card.substring(15,19);
+        }
         return (
             <>
                 <div>
@@ -225,9 +229,11 @@ function Pay() {
                                 </>
                                 :
                                 <>
+                                    <br/>
+                                    <h5>등록된 카드정보</h5>
                                     <tr>
                                         <td>카드번호</td>
-                                        <td><input className='form-control' defaultValue={data.dto.g_card} readOnly/></td>
+                                        <td><input className='form-control' defaultValue={card} readOnly/></td>
                                     </tr>
                                     <tr>
                                         <td>카드 유효기간</td>

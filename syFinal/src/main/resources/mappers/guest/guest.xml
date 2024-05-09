@@ -47,5 +47,20 @@
 		set g_card = null, g_date = null, g_cvc= null
 		where g_idx = #{g_idx}
 	</update>
-
+	
+	<!-- 예약시 호텔정보 -->
+	<select id="hotelinfo" resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT d_idx,ho_img,ho_name,d_price
+		FROM hotel h, hotel_detail d
+		WHERE h.ho_idx = d.d_ho_idx
+		AND d_idx = #{d_idx}
+	</select>
+	
+	<!-- 예약요청 -->
+	<insert id="order">
+		INSERT INTO orders 
+		(o_gidx,o_didx,o_ckin,o_ckout,o_reser,o_state,o_payment,o_price,o_finalprice,o_orderdate)
+		VALUES 
+		(#{g_idx},#{d_idx},#{체크인P},#{체크아웃P},#{예약인원P},'예약대기',#{수단선택},#{원가P},#{최종금액P},now())
+	</insert>
 </mapper>

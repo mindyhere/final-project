@@ -10,4 +10,5 @@ public interface GuestDAO {
 	List<GuestDTO> paylist(int g_idx);
 	void cardupdate(Map<String,Object> map);
 	void carddelete(Map<String,Object> map);
+	void order();
 }

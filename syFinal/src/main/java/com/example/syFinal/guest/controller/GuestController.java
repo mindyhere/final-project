@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.syFinal.guest.model.dao.GuestDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.guest.model.dto.MainDTO;
+import com.example.syFinal.host.model.dao.HotelDAO;
+import com.example.syFinal.host.model.dto.HotelDTO;
 
 @RestController
 public class GuestController {
@@ -67,5 +69,26 @@ public class GuestController {
 		System.out.println("결제리스트====" + paylist);
 		
 		return paylist;
+	}
+	
+//	@RequestMapping("/guest/hotelinfo")
+//	public Map<String, Object> hotelinfo(@RequestParam(name="ho_idx") int ho_idx) {
+//		HotelDTO hotel = dao1.hoteLlist(ho_idx);
+//		//Map<String, Object> mypage = dao.my(g_idx);
+//		//GuestDTO dto = new GuestDTO();
+//		Map<String, Object> map1 = new HashMap<>();
+//		//map.put("myphoto", mypage.getG_photo());
+//		map1.put("hotelinfo", hotel);
+//		//System.out.println(map);
+//		return map1;
+//	}
+	
+	//예약요청
+	@RequestMapping("/guest/order")
+	public void order() {
+		//@RequestParam(name="g_idx") int g_idx
+		
+		//Map<String, Object> map1 = new HashMap<>();
+		dao.order();
 	}
 }
