@@ -99,7 +99,6 @@ function Reservation() {
     }
    }
 
- 
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
@@ -182,7 +181,14 @@ function Reservation() {
                         </tbody>
                     </table>
                     <button className="main-btn mb-20" style={{width : '200px'}} type="button" onClick={() => {
+                        if(totalPrice == 0){
+                            Swal.fire({
+                                icon : 'warning',
+                                text : '숙박날짜를 선택해주세요.',
+                            });
+                        } else { // 결제창으로 이동
 
+                        }
                     }} >예약하기</button>
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     { view && 
