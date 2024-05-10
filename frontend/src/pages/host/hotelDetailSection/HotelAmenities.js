@@ -23,7 +23,6 @@ function HotelAmenities() {
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelAmenity/' + HoIdx);
-    console.log(data);
     
     if(loading){
         return (
