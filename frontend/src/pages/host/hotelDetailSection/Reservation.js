@@ -183,7 +183,7 @@ function Reservation() {
                             </tr>
                         
                     </table>
-                    <button className="main-btn mb-20" style={{width : '200px'}} type="button" onClick={() => {
+                    <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
                         if(totalPrice == 0){
                             Swal.fire({
                                 icon : 'warning',
