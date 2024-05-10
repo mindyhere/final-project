@@ -44,6 +44,15 @@ public class ReputationController {
 		if (list == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
+			for (Map<String, Object> m : list) {
+				Map<String, Object> reply = null;
+				try {
+					reply = reputationDao.getReply((int) m.get("rv_idx"), true);
+				} catch (Exception e) {
+					reply = null;
+				}
+				m.put("rp_idx", reply);
+			}
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
@@ -58,7 +67,7 @@ public class ReputationController {
 		Map<String, Object> reply = null;
 		Map<String, Object> data = new HashMap<>();
 		try {
-			reply = reputationDao.getReply(rv_idx);
+			reply = reputationDao.getReply(rv_idx, false);
 			data.put("reply", reply);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		} catch (Exception e) {

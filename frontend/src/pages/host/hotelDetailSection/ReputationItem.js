@@ -5,7 +5,7 @@ import { Send, SendFill } from "react-bootstrap-icons";
 
 import Reply from "../../../component/Reply";
 
-function ReviewItem({
+function ReputationItem({
   opt,
   rv_idx,
   g_name,
@@ -170,4 +170,4 @@ function ReviewItem({
   }
 }
 
-export default ReviewItem;
+export default ReputationItem;

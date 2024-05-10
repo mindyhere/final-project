@@ -1,5 +1,6 @@
 package com.example.syFinal.global.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public Map<String, Object> getReply(int rv_idx) {
+	public Map<String, Object> getReply(int rv_idx, Boolean opt) {
 		// hotel 리뷰 별 답글 목록
+		Map<String, Object> map = new HashMap<>();
+		map.put("rv_idx", rv_idx);
+		map.put("opt", opt);
 		return sqlSession.selectOne("reputation.getReply", rv_idx);
 	}
 

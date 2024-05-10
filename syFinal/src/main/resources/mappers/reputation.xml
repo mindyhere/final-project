@@ -18,7 +18,14 @@ order by rv_idx desc
 </select>
 
 <select id="getReply" resultType="java.util.Map">
-select * from v_host_reply where rp_rv_idx = #{rv_idx}
+<choose>
+	<when test="opt == true">
+		select rp_idx v_host_reply where rp_rv_idx = #{rv_idx}
+	</when>
+	<otherwise>
+		select * from v_host_reply where rp_rv_idx = #{rv_idx}
+	</otherwise>
+</choose>
 </select>
 <!-- <select id="getHotelReplys" resultType="java.util.Map">
 select * 
