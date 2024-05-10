@@ -1,19 +1,108 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import Cookies from "universal-cookie";
+import { Search } from "react-bootstrap-icons";
+
+import ReviewItem from "./ReviewItem";
 
 function ListReview() {
   const navigate = useNavigate();
-  const [list, setReviewList] = useState([]);
+  const [list, setList] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [moreDetail, setMoreDetail] = useState(false);
   const searchKey = useRef();
   const search = useRef();
 
-  // function getList(url) {
-  // }
+  const cookies = new Cookies();
+  const userInfo = cookies.get("userInfo");
+  const userIdx = userInfo.h_idx;
 
-  // useEffect(()=>{("");}, []);
+  function getList(url) {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("==> 리뷰 data? " + JSON.stringify(data));
+        setList(data.list);
+        // setAvg(data.avgList);
+      });
+  }
+
+  function Modal(props) {
+    function closeModal() {
+      props.closeModal();
+      setModal(false);
+    }
+
+    return (
+      <div className="modal_h" onClick={closeModal}>
+        <div
+          className="modalBody_h"
+          style={{ width: "1000px" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className="btnClose" onClick={closeModal}>
+            X
+          </button>
+          {props.children}
+        </div>
+      </div>
+    );
+  }
+
+  useEffect(() => {
+    getList(`http://localhost/api/reputation/manage/list/${userIdx}`);
+  }, []);
 
   return (
     <>
+      <div id="section1" className="input-group row mb-3">
+        <br />
+        <div className="col-8">
+          <form
+            className="d-flex input-group"
+            id="form1"
+            name="form1"
+            method="post"
+          >
+            <div className="col-2">
+              <div className="input-group d-flex">
+                <select
+                  className="form-select form-select opt"
+                  id="opt"
+                  style={{
+                    size: "3",
+                    borderRadius: "30px 0 0 30px",
+                    height: "48.33px",
+                  }}
+                >
+                  <option defaultValue="1" selected>
+                    최신순
+                  </option>
+                  <option value="2">높은평점순&nbsp;&nbsp;</option>
+                  <option value="3">낮은평점순&nbsp;&nbsp;</option>
+                </select>
+              </div>
+            </div>
+            <input
+              id="keyword"
+              type="text"
+              className="form-control search"
+              placeholder="검색어를 입력하세요"
+            />
+            <button
+              className="btn main-btn"
+              type="button"
+              id="btnSearch"
+              onClick="formCheck()"
+              style={{ backgroundColor: "#FEC5BB !important" }}
+            >
+              <Search size="16px" />
+            </button>
+          </form>
+        </div>
+      </div>
       <table
         id="review"
         className="table table-sm table-hover align-middle text-center"
@@ -21,9 +110,10 @@ function ListReview() {
         <colgroup>
           <col width="5%" />
           <col width="10%" />
-          <col width="70%" />
+          <col width="25%" />
+          <col width="25%" />
+          <col width="15%" />
           <col width="10%" />
-          <col width="5%" />
         </colgroup>
         <thead>
           <tr className="align-middle">
@@ -31,29 +121,19 @@ function ListReview() {
               <strong>no.</strong>
             </th>
             <th scope="col">
-              <strong>Writer</strong>
+              <strong>구분</strong>
             </th>
             <th scope="col">
-              <strong>Review</strong>
+              <strong>작성자</strong>
             </th>
             <th scope="col">
-              <strong>Date</strong>
+              <strong>작성날짜</strong>
             </th>
             <th scope="col">
-              {/* <c:choose>
-			<c:when test="${sessionScope.mId !=null}">
-				<input type="checkbox" id="deleteU" name="deleteU" checked="false">
-				<label className="btn" for="deleteU"><i className="bi bi-eraser-fill"></i></label>
-			</c:when>
-			<c:when test="${sessionScope.a_id !=null}">
-				<input type="checkbox" id="deleteA" name="deleteA" checked="false">
-				<label className="btn" for="deleteA"><i className="bi bi-eraser-fill"></i></label>
-			</c:when>
-			<c:otherwise>
-				<input type="checkbox" id="none" checked="false" disabled>
-				<label className="btn" for="none" style="cursor:none;" disabled><i className="bi bi-eraser-fill"></i></label>
-			</c:otherwise>
-		  </c:choose> */}
+              <strong>평점</strong>
+            </th>
+            <th scope="col">
+              <strong>답변</strong>
             </th>
           </tr>
         </thead>
@@ -61,44 +141,14 @@ function ListReview() {
           className="table-group-divider"
           style={{ borderColor: "#DBC4F0" }}
         >
-          {/* <c:choose>
-		  <c:when test="${reviews.size() !=0 }">
-			<c:forEach var="item" items="${reviews }">
-			  <tr className="align-middle">
-				<th scope="row">${item.ROWNUM}</th>
-				<td>${item.WRITER}</td>
-				<td>${item.CONTENTS}</td>
-				<td>${item.POST_DATE}</td>
-				<td>
-				  <c:choose>
-					<c:when test="${sessionScope.mId !=null && item.M_ID == sessionScope.mId }">
-						<input type="checkbox" name="checkIdx" value="${item.IDX}">
-					</c:when>
-					<c:when test="${sessionScope.a_id !=null }">
-						<input type="checkbox" name="checkIdx" value="${item.IDX}">
-					</c:when>
-					<c:otherwise>
-						<input type="checkbox" name="checkIdx" style="display:none">
-					</c:otherwise>
-				  </c:choose>
-				</td>
-			  </tr>
-			</c:forEach>
-		  </c:when>
-		  
-		  <c:otherwise>
-		  <tr className="align-middle">
-		  	<td colspan="5" ><br><p>등록된 게시글이 없습니다.</p></td>
-		  </tr>	
-		  </c:otherwise>	
-		</c:choose>	 */}
-          <tr>
-            <td colSpan={5}>
-              <br />
-              <p>리뷰</p>
-              <p>등록된 게시글이 없습니다.</p>
-            </td>
-          </tr>
+          {list.length === 0 ? (
+            <tr>
+              <td colSpan={6}>
+                <br />
+                <p>등록된 후기가 없습니다.</p>
+              </td>
+            </tr>
+          ) : null}
         </tbody>
       </table>
     </>

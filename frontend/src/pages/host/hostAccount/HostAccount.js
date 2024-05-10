@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-import Reviews from "./Reviews";
+import ManageReviews from "./ManageReviews";
 import Orders from "./Orders";
 
 import {
@@ -262,9 +262,12 @@ function HostAccount() {
               &nbsp;후기 관리
             </h3>
             <br />
-            <Reviews />
+            <ManageReviews />
           </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
       </>
     );
   }
