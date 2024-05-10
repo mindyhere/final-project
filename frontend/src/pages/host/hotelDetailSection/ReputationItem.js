@@ -15,7 +15,9 @@ function ReputationItem({
   rv_content,
   rv_date,
   rv_star,
+  rp_idx,
 }) {
+  console.log("==> idx? " + rp_idx);
   const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
@@ -58,7 +60,7 @@ function ReputationItem({
   }
 
   useEffect(() => {
-    getReply(`http://localhost/api/reputation/reply/${rv_idx}`);
+    getReply(`http://localhost/api/reputation/reply/${rp_idx}`);
   }, []);
 
   if (loading) {
@@ -143,7 +145,7 @@ function ReputationItem({
                 alignSelf: "right",
               }}
             >
-              {reply !== null ? (
+              {rp_idx !== 0 ? (
                 <button
                   className="btnCheck active"
                   weidth="120px"
@@ -165,7 +167,6 @@ function ReputationItem({
         </div>
       );
     } else if (opt === 2) {
-
     }
   }
 }

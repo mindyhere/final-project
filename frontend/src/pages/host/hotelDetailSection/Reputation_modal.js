@@ -91,6 +91,7 @@ function TotalReputation({ list, avg }) {
               rv_content,
               rv_date,
               rv_star,
+              rp_idx,
             }) => (
               <ReputationItem
                 opt={2}
@@ -102,6 +103,7 @@ function TotalReputation({ list, avg }) {
                 rv_content={rv_content}
                 rv_date={rv_date}
                 rv_star={rv_star}
+                rp_idx={rp_idx}
                 key={rv_idx}
               />
             )

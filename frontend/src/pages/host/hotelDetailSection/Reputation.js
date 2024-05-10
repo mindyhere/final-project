@@ -11,15 +11,7 @@ function Reputation() {
   const [list, setReviews] = useState([]);
   const [modal, setModal] = useState(false);
   const [totReputation, setTotalReputation] = useState(false);
-  // const navigate = useNavigate();
   const [avg, setAvg] = useState("");
-
-  // const cookies = new Cookies();
-  // //게스트 쿠키
-  // const g_idx = cookies.get("g_idx");
-  // const g_email = cookies.get("g_email"); //쿠키변수명
-  // //호스트 쿠키
-  // const userInfo = cookies.get("userInfo");
 
   function getReviews(url) {
     fetch(url)
@@ -60,7 +52,6 @@ function Reputation() {
   }, []);
 
   if (avg == null) {
-    // console.log("==> avg null?" + (avg == null));
     return (
       <>
         <div className="container mb-30">
@@ -70,7 +61,6 @@ function Reputation() {
       </>
     );
   } else {
-    // console.log("==> " + avg);
     return (
       <>
         <div className="col mb-30">
@@ -99,6 +89,7 @@ function Reputation() {
                 rv_content,
                 rv_date,
                 rv_star,
+                rp_idx,
               }) => (
                 <ReputationItem
                   opt={1}
@@ -110,6 +101,7 @@ function Reputation() {
                   rv_content={rv_content}
                   rv_date={rv_date}
                   rv_star={rv_star}
+                  rp_idx={rp_idx}
                   key={rv_idx}
                 />
               )
@@ -139,9 +131,7 @@ function Reputation() {
                 후기 모두보기
               </button>
             </div>
-          ) : (
-            ""
-          )}
+          ) : null}
         </div>
       </>
     );
