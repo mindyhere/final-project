@@ -8,9 +8,6 @@ const WriteReview = () => {
   let loading = false;
   const data = JSON.parse(localStorage.getItem("reservData"));
   const cookies = new Cookies();
-  // console.log(
-  //   "==> 팝업창? " + JSON.stringify(data) + ", " + JSON.stringify(cookies)
-  // );
 
   const g_name = cookies.get("g_name");
   const g_email = cookies.get("g_email");
@@ -25,10 +22,22 @@ const WriteReview = () => {
     return (
       <span>
         {[...Array(star)].map((a, i) => (
-          <StarFill key={i} onClick={() => setStar(i + 1)} />
+          <StarFill
+            size={20}
+            color="#FCD53F"
+            style={{ margin: "0 1px 2% 0" }}
+            key={i}
+            onClick={() => setStar(i + 1)}
+          />
         ))}
         {[...Array(5 - star)].map((a, i) => (
-          <Star key={i} onClick={() => setStar(star + i + 1)} />
+          <Star
+            size={20}
+            color="grey"
+            style={{ margin: "0 1px 2% 0" }}
+            key={i}
+            onClick={() => setStar(star + i + 1)}
+          />
         ))}
         <input type="hidden" value={star} ref={rv_star} />
       </span>
@@ -63,7 +72,7 @@ const WriteReview = () => {
               &nbsp;후기작성
             </h3>
             <hr />
-            <div className="input-group mb-3">
+            <div className="input-group">
               <br />
               <div
                 className="card-style col-12 mb-3"
@@ -93,24 +102,24 @@ const WriteReview = () => {
                     </strong>
                   </div>
                 </div>
-              </div>
-              <div
-                className="card-style col-12 mb-3"
-                style={{
-                  textAlign: "left",
-                }}
-              >
-                <b>예약번호</b> :&nbsp;&nbsp;{data.OIdx}
-                <br />
-                <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout}
-                <br />
+                <hr />
+                <div
+                  style={{
+                    textAlign: "left",
+                  }}
+                >
+                  <b>예약번호</b> :&nbsp;&nbsp;{data.OIdx}
+                  <br />
+                  <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout}
+                  <br />
+                </div>
               </div>
               <div className="card-style col-12 mb-30">
                 <div
                   className="col-12 mb-3"
                   style={{ float: "left", display: "inline" }}
                 >
-                  <b>⭐평점 </b>: &nbsp;&nbsp;{StarRate()}
+                  <b>⭐평점 </b>: &nbsp;{StarRate()}
                 </div>
 
                 <textarea
@@ -124,7 +133,6 @@ const WriteReview = () => {
                     borderRadius: "7px",
                   }}
                   onChange={() => {
-                    console.log("***" + rv_content.current.value.length);
                     if (
                       rv_content.current.value.trim() !== "" &&
                       rv_content.current.value !== null
@@ -153,7 +161,6 @@ const WriteReview = () => {
                       });
                       return;
                     } else if (rv_content.current.value.length <= 15) {
-                      console.log("***" + rv_content.current.value.size);
                       Swal.fire({
                         icon: "warning",
                         title: "잠깐!",
@@ -167,14 +174,11 @@ const WriteReview = () => {
                       form.append("rv_content", rv_content.current.value);
                       form.append("o_idx", data.OIdx);
                       form.append("rv_star", rv_star.current.value);
-                      console.log(data.OIdx);
-                      console.log(JSON.stringify(form));
                       fetch("http://localhost/api/review/insert", {
                         method: "post",
                         body: form,
                       })
                         .then((response) => {
-                          console.log(response);
                           if (!response.ok) {
                             throw new Error("false: " + response.status);
                           }
@@ -185,7 +189,9 @@ const WriteReview = () => {
                             confirmButtonText: "OK",
                           }).then((result) => {
                             if (result.isConfirmed) {
-                              window.close();
+                              localStorage.removeItem("reservData"); // localStorage 비우기
+                              window.opener.location.reload(); // 부모창(reservRevItem) 새로고침(리뷰 미작성 목록 새로고침)
+                              window.close(); // 창닫기
                             }
                           });
                         })
