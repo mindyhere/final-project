@@ -1,6 +1,5 @@
 package com.example.syFinal.global.model;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,17 +36,13 @@ public class ReputationDAOImpl implements ReputationDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("==> getHotelReviews? " + list);
 		return list;
 	}
 
 	@Override
-	public Map<String, Object> getReply(int rv_idx, Boolean opt) {
+	public Map<String, Object> getReply(int rp_idx) {
 		// hotel 리뷰 별 답글 목록
-		Map<String, Object> map = new HashMap<>();
-		map.put("rv_idx", rv_idx);
-		map.put("opt", opt);
-		return sqlSession.selectOne("reputation.getReply", rv_idx);
+		return sqlSession.selectOne("reputation.getReply", rp_idx);
 	}
 
 	@Override
@@ -67,7 +62,6 @@ public class ReputationDAOImpl implements ReputationDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("==> getAllReviews? " + list);
 		return list;
 	}
 

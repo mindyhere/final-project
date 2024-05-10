@@ -113,17 +113,18 @@ function ListReviews() {
         className="table table-sm table-hover align-middle text-center"
       >
         <colgroup>
-          <col width="5%" />
           <col width="10%" />
-          <col width="25%" />
-          <col width="25%" />
           <col width="15%" />
+          <col width="15%" />
+          <col width="10%" />
+          <col width="20%" />
+          <col width="20%" />
           <col width="10%" />
         </colgroup>
         <thead>
           <tr className="align-middle">
             <th scope="col">
-              <strong>no.</strong>
+              <strong>글번호</strong>
             </th>
             <th scope="col">
               <strong>구분</strong>
@@ -132,13 +133,16 @@ function ListReviews() {
               <strong>작성자</strong>
             </th>
             <th scope="col">
-              <strong>작성날짜</strong>
+              <strong>예약번호</strong>
+            </th>
+            <th scope="col">
+              <strong>작성일</strong>
             </th>
             <th scope="col">
               <strong>평점</strong>
             </th>
             <th scope="col">
-              <strong>답변</strong>
+              <strong>답글</strong>
             </th>
           </tr>
         </thead>
@@ -152,20 +156,20 @@ function ListReviews() {
               ho_name,
               g_name,
               g_email,
-              rv_content,
               rv_date,
               rv_star,
               o_idx,
+              rp_idx
             }) => (
-              <ListReviews
-                rv_idx={rv_idx}
-                ho_name={ho_name}
-                g_name={g_name}
-                g_email={g_email}
-                rv_content={rv_content}
-                rv_date={rv_date}
-                rv_star={rv_star}
-                o_idx={o_idx}
+              <ReviewItem
+              rv_idx={rv_idx}
+              ho_name={ho_name}
+              g_name={g_name}
+              g_email={g_email}
+              rv_date={rv_date}
+              rv_star={rv_star}
+              o_idx={o_idx}
+              rp_idx={rp_idx}
                 key={rv_idx}
               />
             )
