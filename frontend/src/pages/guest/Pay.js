@@ -43,11 +43,11 @@ function Pay() {
     //카드번호 입력함수
     const handleCard = (e) => {
         const value = g_card.current.value.replace(/\D+/g, "");
-        const numberLength = 16;
+        const numberLength1 = 16;
     
         let result = "";  
     
-        for (let i = 0; i < value.length && i < numberLength; i++) {
+        for (let i = 0; i < value.length && i < numberLength1; i++) {
           switch (i) {
             case 4:
               result += "-";
@@ -209,13 +209,43 @@ function Pay() {
                                                             form.append('g_card',g_card.current.value);
                                                             form.append('g_date',g_date.current.value);
                                                             form.append('g_cvc',g_cvc.current.value);
+                                                            if(g_card.current.value.length !== 19){
+                                                                Swal.fire({
+                                                                    icon : 'warning',
+                                                                    text : '카드번호 16자리를 입력하세요',
+                                                                    confirmButtonText: '확인'
+                                                                });
+                                                                return;
+                                                            }
+                                                            if(g_date.current.value.length !== 5){
+                                                                Swal.fire({
+                                                                    icon : 'warning',
+                                                                    text : '만료일을 정확히 입력하세요.',
+                                                                    confirmButtonText: '확인'
+                                                                });
+                                                                return;
+                                                            }
+                                                            if(g_cvc.current.value.length !== 3){
+                                                                Swal.fire({
+                                                                    icon : 'warning',
+                                                                    text : 'CVC 3자리를 입력하세요.',
+                                                                    confirmButtonText: '확인'
+                                                                });
+                                                                return;
+                                                            }
                                                             fetch('http://localhost/guest/cardupdate',{
                                                                 method:'post',
-                                                                encType:'multipart/form-data',
                                                                 body:form
                                                             }).then(()=>{
-                                                                //navigate('/guest/Pay');
-                                                                window.location.href='/guest/Pay';
+                                                                Swal.fire({
+                                                                    icon : 'success',
+                                                                    text : '카드등록이 완료되었습니다.',
+                                                                    confirmButtonText: '확인'
+                                                                }).then((result) => {
+                                                                    if(result.isConfirmed) {
+                                                                        window.location.href='/guest/Pay';
+                                                                    }
+                                                                });
                                                             });
                                                         }} className='btn btn-dark'>등록</button></li>
                                                         <li style={{padding:'4px'}}>
@@ -271,8 +301,6 @@ function Pay() {
                                 </>
                                 }
                                 <br></br>
-                                
-                                <button onClick={()=> navigate('/guest/Order')}>예약상세</button>
                                 <h3>결제내역</h3>
                                 <br/>
                                 {paylist.map(

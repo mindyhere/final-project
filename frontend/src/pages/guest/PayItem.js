@@ -11,13 +11,17 @@ function PayItem({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_fi
         img = `<img src=${url} width='50px' height='50px' /><br />`;
     }
     if (O_state == 1) {
-        O_state = "결제완료";
+        O_state = "예약대기";
+    } else if (O_state == 2) {
+        O_state = "예약취소";
+    } else if (O_state == 3) {
+        O_state = "예약확정";
     }
     if (O_payment == 1) {
-        O_payment = "KakaoPay";
-    } else if (O_payment == 2) {
         O_payment = "Card";
-    } else {
+    } else if (O_payment == 2) {
+        O_payment = "KakaoPay";
+    } else if (O_payment == 3) {
         O_payment = "Point";
     }
     return (

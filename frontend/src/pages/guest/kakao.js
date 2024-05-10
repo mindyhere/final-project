@@ -43,6 +43,8 @@ const Payment = (effect, deps) => {
             //window.location.href='/guest/Pay'; 
         } else {
             alert('결제실패');
+            //결제실패시 예약요청페이지로 화면전환
+            //window.location.href='/guest/Pay'; 
         }
         //버튼 클릭 시 handleClick 함수 실행
         document.getElementById('check_module').addEventListener('click', onClickPayment);
@@ -53,10 +55,8 @@ const Payment = (effect, deps) => {
         };
     }
 
-    
-
     return (
-        <button onClick={onClickPayment}>결제하기</button>
+        <button onClick={onClickPayment}>카카오페이 결제하기</button>
         // <img id='check_module' type='button' src='/img/kakaopay.png' onClick={()=>{
         //     fetch('http://localhost/kakaoPay',{
         //         method:'post',
@@ -82,7 +82,7 @@ const Payment = (effect, deps) => {
 //             const handleClick = () => {
 //                 // 결제 요청
 //                 IMP.request_pay({
-//                     pg: 'kakao',
+//                     pg: 'kakaopay',
 //                     pay_method: 'card',
 //                     merchant_uid: 'merchant_' + new Date().getTime(),
 //                     name: '주문명 : 아메리카노',
@@ -114,7 +114,7 @@ const Payment = (effect, deps) => {
 
 //     };
 //     return (
-//         //<button id="check_module">결제하기</button>
+//         <button id="check_module">결제하기</button>
 //         <img id='check_module' type='button' src='/img/kakaopay.png' onClick={()=>{
 //             fetch('http://localhost/kakaoPay',{
 //                 method:'post',
