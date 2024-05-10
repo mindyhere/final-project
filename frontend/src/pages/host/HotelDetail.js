@@ -76,9 +76,27 @@ function HotelDetail() {
         let img_url = '';
         if(data.ho_img !== '-'){
             src = `http://localhost/static/images/host/hotel/${data.ho_img}`;
-            img_url = `<img src=${src} width='600px' height='300px'/>`;
+            img_url = `<img src=${src} style="height:100%; width:100%;"/>`;
         } else {
             img_url = '';
+        }
+
+        let hotel_src2 = '';
+        let hotel_url2 = '';
+        if(data.d_img1 !== '-'){
+            hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
+            hotel_url2 = `<img src=${hotel_src2} width='100%' height='50%'/>`;
+        } else {
+            hotel_url2 = '';
+        }
+
+        let hotel_src3 = '';
+        let hotel_url3 = '';
+        if(data.d_img2 !== '-'){
+            hotel_src3 = `http://localhost/static/images/host/hotel/${data.d_img2}`;
+            hotel_url3 = `<img src=${hotel_src3} width='100%' height='50%'/>`;
+        } else {
+            hotel_url3 = '';
         }
 
         let profile_src = '';
@@ -103,7 +121,21 @@ function HotelDetail() {
                 <br />
                 <div className="row mb-30">
                     <div className="card-style">
-                        <span dangerouslySetInnerHTML={{__html : img_url}}></span>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-6" style={{paddingRight : '2px'}}>
+                                    <div dangerouslySetInnerHTML={{__html : img_url}}></div>
+                                </div>
+                                <div className="col-6">
+                                    <div className="row">
+                                        <div className="col" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -130,7 +162,6 @@ function HotelDetail() {
                                                     <span>
                                                         <AwardFill  size={24}/>
                                                         <strong>게스트 선호</strong>
-                                                        <AwardFill  size={24}/>
                                                     </span>
                                                 </div>
                                             </div>

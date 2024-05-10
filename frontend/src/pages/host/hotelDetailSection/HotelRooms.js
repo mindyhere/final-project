@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import HotelRoomsItem from "../../../component/HotelRoomsItem";
 
-function HotelRule() {
+function HotelRooms() {
     const {HoIdx} = useParams();
     const [list,setItemList] = useState([]);
   
@@ -45,4 +45,4 @@ function HotelRule() {
     )
 };
 
-export default HotelRule;
+export default HotelRooms;
