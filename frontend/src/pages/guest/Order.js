@@ -36,14 +36,98 @@ function Order() {
     const dateChar = location.state.dateChar;
     const vat = location.state.vat;
     const didx = location.state.didx;
-    
+   
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
     const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx);
     
-    const [pay, setPay] = useState("Card");
+    const [pay, setPay] = useState("1");
     const onSelect = (event) => {
         setPay(event.target.value);
     };
+
+    //포트원 연동 카카오페이 결제
+    useEffect(() => {
+        const jquery = document.createElement("script");
+        jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+        const iamport = document.createElement("script");
+        iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+        document.head.appendChild(jquery);
+        document.head.appendChild(iamport);
+        return () => {
+            document.head.removeChild(jquery);
+            document.head.removeChild(iamport);
+        }
+    }, []);
+
+    const onClickPayment = () => {
+        const { IMP } = window; // IMP 객체 가져오기
+        IMP.init('imp40362238');
+        const data1 = {
+            pg: 'kakaopay',
+            pay_method: 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: hotel.ho_name,
+            amount: fprice,
+            buyer_name: data.dto.g_name,
+            buyer_tel: data.dto.g_tel,
+            buyer_postcode: '123-456',
+        };
+        IMP.request_pay(data1, callbacks);
+    }
+
+    const callbacks = (response) => {
+        const {success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status} = response;
+        if (success) {
+            const form = new FormData();
+            form.append('idx',idx.key);
+            form.append('didx',didx);
+            form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('reser',reser);
+            form.append('pay',pay);
+            form.append('dprice',dprice);
+            form.append('fprice',fprice);
+            
+            fetch('http://localhost/guest/order',{
+                method:'post',
+                body:form
+            }).then(()=>{
+                //예약완료시 모달로 확인 후 예약내역페이지로 이동
+                Swal.fire({
+                    icon : 'success',
+                    text : '예약요청이 완료되었습니다.',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.href='/guest/reservation';
+                    }
+                });
+            });
+        } else {
+            // alert('결제실패');
+            // return;
+            //결제실패시 예약요청페이지로 화면전환
+            //window.location.href='/guest/reservation'; 
+            Swal.fire({
+                icon : 'warning',
+                title: '결제실패',
+                text : '다시 시도해주세요.',
+                confirmButtonText: '확인'
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    return;
+                    //window.location.href='/';
+                }
+            });
+        }
+        //버튼 클릭 시 handleClick 함수 실행
+        document.getElementById('check_module').addEventListener('click', onClickPayment);
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 제거
+        return () => {
+            document.getElementById('check_module').removeEventListener('click', onClickPayment);
+        };
+    }
 
     if(loading || loading2){
         return(
@@ -87,12 +171,13 @@ function Order() {
                                 <hr/>
                                 <h4>결제수단</h4>
                                 <br/>
-                                <select value={pay} class="form-select" aria-label="Default select example" onChange={onSelect}>
-                                    <option value="Card">Card</option>
-                                    <option value="KakaoPay">KakaoPay</option>
-                                    <option value="Point">Point</option>
+                                <select value={pay} className="form-select" aria-label="Default select example" onChange={onSelect}>
+                                    <option value="1">Card</option>
+                                    <option value="2">KakaoPay</option>
+                                    <option value="3">Point</option>
+                                   
                                 </select>
-                                        {pay === "Card" &&data.dto.g_card === null
+                                        {pay === "1" &&data.dto.g_card === null
                                         ?
                                         <div style={{fontSize: '10px'}}>* 카드로 결제시 
                                         <svg viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fill-rule="evenodd"></path></svg>
@@ -102,9 +187,9 @@ function Order() {
                                         </div>
                                         :
                                         <div style={{fontSize: '10px'}}>
-                                            <td>등록된 카드정보
-                                                <tr>****{card}</tr>
-                                            </td>
+                                            <tr>등록된 카드정보
+                                                <td>****{card}</td>
+                                            </tr>
                                             <div>* 카드로 결제시 등록된 카드에서 결제될 예정입니다.</div>
                                         </div>
                                         }
@@ -122,39 +207,47 @@ function Order() {
                                 <hr/>
                                 <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
                                 <br/>
-                                {pay === "Card" || pay === "Point"
+                                {pay === "1" || pay === "3"
                                 ?
                                 //카드 or 포인트로 결제시 버튼 클릭하면 DB에 바로 insert
                                 <button className="btn btn-dark" onClick={()=>{
                                     if(data.dto.g_card ==null) {
                                         Swal.fire({
+                                            title: "카드 미등록상태",
                                             icon : 'warning',
                                             text : '계정 > 결제 > 결제수단에서 카드를 등록해주세요.',
                                         });
                                     } else {
                                         const form = new FormData();
-                                        form.append('idx',idx);
+                                        form.append('idx',idx.key);
                                         form.append('didx',didx);
-                                        form.append('ckin',ckin);
-                                        form.append('ckout',ckout);
+                                        form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+                                        form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
                                         form.append('reser',reser);
                                         form.append('pay',pay);
                                         form.append('dprice',dprice);
                                         form.append('fprice',fprice);
+                                        
                                         fetch('http://localhost/guest/order',{
                                             method:'post',
-                                            encType:'multipart/form-data',
                                             body:form
                                         }).then(()=>{
-                                            //navigate('/guest/Pay');
-                                            //예약완료시 예약내역페이지로 이동
-                                            //window.location.href='/guest/preReservDetail';
+                                            //예약완료시 모달로 확인 후 예약내역페이지로 이동
+                                            Swal.fire({
+                                                icon : 'success',
+                                                text : '예약요청이 완료되었습니다.',
+                                                confirmButtonText: '확인'
+                                            }).then((result) => {
+                                                if(result.isConfirmed) {
+                                                    window.location.href='/guest/reservation';
+                                                }
+                                            });
                                         });
                                     }
                                 }}>예약 요청</button>
                                 :
                                 //카페로 결제시 카페결제화면 거치고 성공하면 DB에 insert
-                                <button className="btn btn-dark">카카오페이 결제</button>
+                                <button onClick={onClickPayment} className="btn btn-dark">카카오페이 결제</button>
                                 }
                                 <br/>
                                 <br/>
@@ -162,6 +255,7 @@ function Order() {
                         </div>
                     </div>
                 </div>
+                
                 <div className="col-5">
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
                         <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'400px', padding:'20px'}}>
