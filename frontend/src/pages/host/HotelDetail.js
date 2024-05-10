@@ -130,7 +130,6 @@ function HotelDetail() {
                                                     <span>
                                                         <AwardFill  size={24}/>
                                                         <strong>게스트 선호</strong>
-                                                        <AwardFill  size={24}/>
                                                     </span>
                                                 </div>
                                             </div>

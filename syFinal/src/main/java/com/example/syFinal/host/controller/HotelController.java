@@ -91,12 +91,21 @@ public class HotelController {
 		return hostPage;
 	}
 	
-	/* 호스트의 숙소 리스트 */
+	/* 호스트의 호텔 리스트 */
 	@GetMapping("/host/hotel/hotelSummary/{hIdx}")
 	public Map<String, Object> hotelSummary(@PathVariable(name="hIdx") int h_idx){
 		Map<String, Object> hotelSummary = new HashMap<>();
-		System.out.println("hotelSummary  : " + hotelSummary);
 		hotelSummary = hotelDao.hotelSummary(h_idx);
 		return hotelSummary;
+	}
+	
+	/* 호스트의 모든 호텔 리뷰 */
+	@GetMapping("/host/hotel/allReview/{hIdx}")
+	public List<Map<String, Object>> allReviews(@PathVariable(name="hIdx") int h_idx){
+		System.out.println("hhhhhhh : " + h_idx);
+		List<Map<String, Object>> allReviews = new ArrayList<>();
+		allReviews = hotelDao.allReviews(h_idx);
+		System.out.println("allReviews  : " + allReviews);
+		return allReviews;
 	}
 }
