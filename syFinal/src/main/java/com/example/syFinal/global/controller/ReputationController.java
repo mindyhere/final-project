@@ -36,6 +36,22 @@ public class ReputationController {
 		return data;
 	}
 
+	@GetMapping("manage/list/{userIdx}")
+	public Map<String, Object> getAllReviews(@PathVariable(name = "userIdx") int h_idx) {
+		System.out.println("==> 후기관리 h_idx? " + h_idx);
+		List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx);
+		Map<String, Object> data = new HashMap<>();
+		if (list == null) {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			data.put("list", list);
+			data.put("avgList", reputationDao.getAvgRate(h_idx));
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> data? " + data);
+		return data;
+	}
+
 	@GetMapping("reply/{rv_idx}")
 	public Map<String, Object> getReply(@PathVariable(name = "rv_idx") int rv_idx) {
 		System.out.println("==> rv_idx? " + rv_idx);

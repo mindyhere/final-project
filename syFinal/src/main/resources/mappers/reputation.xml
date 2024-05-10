@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reputation">
 
-<select id="reviewDetail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+<!-- <select id="reviewDetail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 select * from review where rv_idx = #{rv_idx}
-</select>
+</select> -->
 
-<select id="replyDetail" resultType="com.example.syFinal.host.model.dto.ReplyDTO">
+<!-- <select id="replyDetail" resultType="com.example.syFinal.host.model.dto.ReplyDTO">
 select * from reply 
 where rp_rv_idx = #{rv_idx}
-</select>
+</select> -->
 
 <select id="getHotelReviews" resultType="java.util.Map">
 select * from v_hotel_review 
@@ -30,4 +30,15 @@ where rp_rv_idx in
 <select id="calcAvgRate" resultType="float">
 select avg(rv_star) from v_hotel_review where ho_idx = #{ho_idx}
 </select>
+
+<select id="getAvgRate" resultType="java.util.Map">
+SELECT * FROM v_rate where h_idx=#{h_idx}
+</select>
+
+<select id="getAllReviews" resultType="java.util.Map">
+select * from v_hotel_review 
+where h_idx=#{h_idx}
+order by rv_idx desc 
+</select>
+
 </mapper>
