@@ -118,33 +118,34 @@ function Reservation() {
                 <div className="card-style mb-30">
                     <div className="mb-20"><b>￦{data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} </b> / 박</div>
                     <table className="tbl">
-                        <tbody>
-                            <tr>
-                                <th onClick={() => setModal(true)}>체크인</th>
-                                { modal &&
-                                   <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
-                                   <div className='Body' onClick={(e) => e.stopPropagation()}>
-                                         <DateRangePicker
-                                            locale={ko}
-                                            minDate={subDays(new Date(), 0)}             
-                                            onChange={handleSelect}
-                                            showSelectionPreview={true}
-                                            moveRangeOnFirstSelection={false}
-                                            months={2}
-                                            ranges={[state]}
-                                            direction="horizontal"
-                                            isClearable={true}
-                                            rangeColors={["#DBC4F0"]}
-                                        />
-                                        </div>
+                        <tbody onClick={() => setModal(true)}>
+                                <tr>
+                                    <th>체크인</th>
+                                    <th>체크아웃</th>
+                                </tr>
+                                <tr>
+                                    <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
+                                    <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                                </tr>
+                            </tbody>
+                            { modal &&
+                                <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
+                                <div className='Body' onClick={(e) => e.stopPropagation()}>
+                                        <DateRangePicker
+                                        locale={ko}
+                                        minDate={subDays(new Date(), 0)}             
+                                        onChange={handleSelect}
+                                        showSelectionPreview={true}
+                                        moveRangeOnFirstSelection={false}
+                                        months={2}
+                                        ranges={[state]}
+                                        direction="horizontal"
+                                        isClearable={true}
+                                        rangeColors={["#DBC4F0"]}
+                                    />
                                     </div>
-                                }
-                                <th>체크아웃</th>
-                            </tr>
-                            <tr>
-                                <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
-                                <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
-                            </tr>
+                                </div>
+                            }
                             <tr>
                                 <th colSpan={2}>
                                     <Dropdown>
@@ -180,7 +181,7 @@ function Reservation() {
                                     }
                                 </th>
                             </tr>
-                        </tbody>
+                        
                     </table>
                     <button className="main-btn mb-20" style={{width : '200px'}} type="button" onClick={() => {
                         if(totalPrice == 0){
