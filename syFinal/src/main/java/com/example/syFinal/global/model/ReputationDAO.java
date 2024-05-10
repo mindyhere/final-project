@@ -19,6 +19,6 @@ public interface ReputationDAO {
 	Map<String, Object> getReply(int rv_idx);
 
 	// 평점/개수 요약
-	double calcAvgRate(int ho_idx);
+	String calcAvgRate(int ho_idx);
 
 }

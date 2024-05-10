@@ -27,7 +27,7 @@ where rp_rv_idx in
 	(select rv_idx from review where rv_hd_idx IN (SELECT d_idx from hotel_detail WHERE d_ho_idx=#{ho_idx}))	
 </select> -->
 
-<select id="calcAvgRate" resultType="double">
+<select id="calcAvgRate" resultType="float">
 select avg(rv_star) from v_hotel_review where ho_idx = #{ho_idx}
 </select>
 </mapper>

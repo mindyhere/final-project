@@ -47,9 +47,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public double calcAvgRate(int ho_idx) {
+	public String calcAvgRate(int ho_idx) {
 		// 호텔별 평점계산
-		return sqlSession.selectOne("reputation.calcAvgRate", ho_idx);
+		float result = sqlSession.selectOne("reputation.calcAvgRate", ho_idx);
+		String avg = String.format("%.2f", result);
+		return avg;
 	}
 
 }
