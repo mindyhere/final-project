@@ -57,7 +57,7 @@ function HostInfo() {
                 <div className="card-style" style={{backgroundColor : "#F6F2F9"}}>
                     <div className="row">
                         <div className="col-6">
-                            <div className="card-style">
+                            <div className="card-style mb-30">
                                 <div className="row">
                                     <div className="col-6 text-center">
                                         <span dangerouslySetInnerHTML={{__html : profile_url}}></span>
@@ -79,21 +79,21 @@ function HostInfo() {
                                     </div>
                                 </div>
                             </div>
-                            <br />
-                            
-                            <div onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
+                            <div style={{cursor : 'pointer'}} onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
                                 더 보기 ▶
                             </div>
                         </div>
+
                         <div className="col-6">
-                            <h4>{data.h_name}님은 {level}입니다.</h4>
-                            <span className="mb-40">
-                            {data.h_description}
-                            </span>
-                            <h5>호스트 상세 정보</h5> <br />
-                            응답률 : {answer} <br />
-                            1시간 이내에 응답
-                            <br />
+                            <h4 className="mb-10">{data.h_name}님은 {level}입니다.</h4>
+                            <div className="mb-20">
+                                {data.h_description}
+                            </div>
+                            <h4 className="mb-10">호스트 상세 정보</h4>
+                            <div className="mb-20">
+                                응답률 : {answer} <br />
+                                1시간 이내에 응답
+                            </div>
                             <button type="button" onClick={() => {
                                 Swal.fire({
                                     title: '나중에 URL 연결',
