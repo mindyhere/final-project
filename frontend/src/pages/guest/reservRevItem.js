@@ -16,7 +16,7 @@ import {useNavigate} from "react-router-dom";
         OCkout: `${OCkout}`,
     }
     const openPopup = () => {
-        const popup = window.open("./write", "name(Write)", "width=500,height=600,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
+        const popup = window.open("./write", "name(Write)", "width=500,height=640,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
         return popup;
     }; // ...여기까지
 
