@@ -25,6 +25,7 @@ import Recent from "./pages/guest/recent";
 import RecentItem from "./pages/guest/recentItem";
 import Reservation from "./pages/guest/reservation";
 import Order from "./pages/guest/Order";
+import Coupon from "./pages/guest/coupon";
 import LastReservItem from "./pages/guest/lastReservItem";
 import PreReservItem from "./pages/guest/preReservItem";
 import LastReservDetail from "./pages/guest/lastReservDetail";
@@ -77,6 +78,7 @@ function App() {
           <Route path="/guest/recentItem" element={<RecentItem/>}/>
           <Route path="/guest/reservation" element={<Reservation/>}/>
           <Route path="/guest/Order" element={<Order/>}/>
+          <Route path="/guest/coupon" element={<Coupon/>}/>
           <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
           <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
           <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>

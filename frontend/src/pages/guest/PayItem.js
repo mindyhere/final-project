@@ -30,7 +30,7 @@ function PayItem({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_fi
                     {O_state}&nbsp;·&nbsp;{O_orderdate}
                        <div style={{color: "#262626"}}>{O_payment}</div>
                        <div>{O_ckin}&nbsp;-&nbsp;{O_ckout}</div>
-                       <div>₩{O_finalprice}</div>
+                       <div>₩{O_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
                 <br />
                 &nbsp;
         </div>
