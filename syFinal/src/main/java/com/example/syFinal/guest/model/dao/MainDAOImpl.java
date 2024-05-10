@@ -19,8 +19,8 @@ public class MainDAOImpl implements MainDAO {
 	
 	@Override
 	public List<MainDTO> list(String search) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
 		return sqlSession.selectList("main.mainList",search);
 	}
-
-
 }
