@@ -19,6 +19,6 @@ public class ReviewDTO {
 	private String rv_content;
 	private Date rv_date;
 	private int rv_re_index;
-	private double rv_star;
+	private float rv_star;
 	private int rv_hd_idx;
 }

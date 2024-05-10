@@ -22,7 +22,7 @@ public class ReputationController {
 
 	@GetMapping("list/{HoIdx}")
 	public Map<String, Object> getHotelReviews(@PathVariable(name = "HoIdx") int ho_idx) {
-		System.out.println("==> ho_idx? " + ho_idx);
+//		System.out.println("==> ho_idx? " + ho_idx);
 		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
 		Map<String, Object> data = new HashMap<>();
 		if (list == null) {
@@ -32,24 +32,38 @@ public class ReputationController {
 			data.put("avg", reputationDao.calcAvgRate(ho_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> data? " + data);
+//		System.out.println("==> data? " + data);
 		return data;
 	}
 
-	@GetMapping("reply/{rv_idx}")
-	public Map<String, Object> getReply(@PathVariable(name = "rv_idx") int rv_idx) {
-		System.out.println("==> rv_idx? " + rv_idx);
+	@GetMapping("manage/list/{userIdx}")
+	public Map<String, Object> getAllReviews(@PathVariable(name = "userIdx") int h_idx) {
+		List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx);
+		Map<String, Object> data = new HashMap<>();
+		if (list == null) {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			data.put("list", list);
+			data.put("avgList", reputationDao.getAvgRate(h_idx));
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> list? " + data.get("list"));
+		return data;
+	}
+
+	@GetMapping("reply/{rp_idx}")
+	public Map<String, Object> getReply(@PathVariable(name = "rp_idx") int rp_idx) {
+		System.out.println("==> rp_idx? " + rp_idx);
 		Map<String, Object> reply = null;
 		Map<String, Object> data = new HashMap<>();
-		try {
-			reply = reputationDao.getReply(rv_idx);
-			data.put("reply", reply);
+		if (rp_idx != 0) {
+			reply = reputationDao.getReply(rp_idx);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("==> null?" + (reply == null));
+		} else {
+			System.out.println("==> reply:0? " + rp_idx);
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		}
+		data.put("reply", reply);
 		System.out.println("==> reply? " + data);
 		return data;
 	}

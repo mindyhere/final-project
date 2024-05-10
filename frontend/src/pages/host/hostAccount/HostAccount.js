@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-import Reviews from "./Reviews";
+import ListReviews from "./ListReviews";
 import Orders from "./Orders";
 
 import {
@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap-icons";
 
 import Swal from "sweetalert2";
-import "../host1.css";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
@@ -262,9 +261,12 @@ function HostAccount() {
               &nbsp;후기 관리
             </h3>
             <br />
-            <Reviews />
+            <ListReviews />
           </div>
         </div>
+        <br />
+        <br />
+        <br />
       </>
     );
   }

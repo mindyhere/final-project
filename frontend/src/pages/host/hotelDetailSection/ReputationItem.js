@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Send, SendFill } from "react-bootstrap-icons";
 
-import Reply from "./Reply";
+import Reply from "../../../component/Reply";
 
-function ReviewItem({
+function ReputationItem({
   opt,
   rv_idx,
   g_name,
@@ -15,7 +15,9 @@ function ReviewItem({
   rv_content,
   rv_date,
   rv_star,
+  rp_idx,
 }) {
+  console.log("==> idx? " + rp_idx);
   const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
@@ -58,7 +60,7 @@ function ReviewItem({
   }
 
   useEffect(() => {
-    getReply(`http://localhost/api/reputation/reply/${rv_idx}`);
+    getReply(`http://localhost/api/reputation/reply/${rp_idx}`);
   }, []);
 
   if (loading) {
@@ -143,7 +145,7 @@ function ReviewItem({
                 alignSelf: "right",
               }}
             >
-              {reply !== null ? (
+              {rp_idx !== 0 ? (
                 <button
                   className="btnCheck active"
                   weidth="120px"
@@ -164,8 +166,9 @@ function ReviewItem({
           <br />
         </div>
       );
+    } else if (opt === 2) {
     }
   }
 }
 
-export default ReviewItem;
+export default ReputationItem;

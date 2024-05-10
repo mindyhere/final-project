@@ -16,9 +16,15 @@ public interface ReputationDAO {
 	List<Map<String, Object>> getHotelReviews(int ho_idx);
 
 	// hotel 리뷰 별 답글 목록
-	Map<String, Object> getReply(int rv_idx);
+	Map<String, Object> getReply(int rp_idx);
 
 	// 평점/개수 요약
-	double calcAvgRate(int ho_idx);
+	String calcAvgRate(int ho_idx);
+
+	// 후기관리 : 호텔별 평점 가져오기
+	List<Map<String, Object>> getAvgRate(int h_idx);
+
+	// host → 후기관리(호스트가 등록한 호텔의 전체 리뷰목록 가져오기)
+	List<Map<String, Object>> getAllReviews(int h_idx);
 
 }
