@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap-icons";
 
 import Swal from "sweetalert2";
-import "../host1.css";
 
 function useFetch(url) {
   const [data, setData] = useState(null);

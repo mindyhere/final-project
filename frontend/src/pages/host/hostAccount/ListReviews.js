@@ -15,7 +15,7 @@ function ListReviews() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   function getList(url) {
     fetch(url)
       .then((response) => {
@@ -28,6 +28,10 @@ function ListReviews() {
         setLoading(false);
       });
   }
+
+  useEffect(() => {
+    getList(`http://localhost/api/reputation/manage/list/${userIdx}`);
+  }, []);
 
   // function Modal(props) {
   //   function closeModal() {
@@ -51,15 +55,10 @@ function ListReviews() {
   //   );
   // }
 
-  useEffect(() => {
-    getList(`http://localhost/api/reputation/manage/list/${userIdx}`);
-  }, []);
-
   if (loading) {
     return <div>loading...</div>;
   } else {
-    console.log("loading:" + loading);
-
+    // console.log(list[0]);
     return (
       <>
         <div id="section1" className="input-group mb-3">
@@ -85,11 +84,9 @@ function ListReviews() {
                       textAlign: "left",
                     }}
                   >
-                    <option defaultValue="1" selected>
-                      &nbsp;구분
-                    </option>
-                    <option value="2">&nbsp;최근업로드</option>
-                    <option value="3">&nbsp;낮은평점순</option>
+                    <option defaultValue={1}>&nbsp;구분</option>
+                    <option defaultValue={2}>&nbsp;최근업로드</option>
+                    <option defaultValue={3}>&nbsp;낮은평점순</option>
                   </select>
                 </div>
               </div>
@@ -104,7 +101,6 @@ function ListReviews() {
                 className="btn main-btn p-0"
                 type="button"
                 id="btnSearch"
-                onClick="formCheck()"
                 style={{
                   height: "35px",
                   backgroundColor: "#FEC5BB !important",
@@ -155,38 +151,16 @@ function ListReviews() {
             className="table-group-divider"
             style={{ borderColor: "#DBC4F0" }}
           >
-            {list.map(
-              ({
-                rv_idx,
-                ho_name,
-                g_name,
-                g_email,
-                g_url,
-                rv_date,
-                rv_star,
-              }) => {
-                //console.log(i)
-                <ReviewItem
-                  idx={rv_idx}
-                  ho_name={ho_name}
-                  g_name={g_name}
-                  email={g_email}
-                  g_url={g_url}
-                  rv_date={rv_date}
-                  rv_star={rv_star}
-                  key={rv_idx}
-                />;
-              }
-            )}
-            {/* //{" "}
-          <tr>
-            //{" "}
-            <td colSpan={6}>
-              // <br />
-              // <p>등록된 후기가 없습니다.</p>
-              //{" "}
-            </td>
-            //{" "} */}
+            {list.map((
+              {rv_idx, ho_name}
+            )=>(
+              <ListReviews 
+                rv_idx={rv_idx}
+                ho_name={ho_name}
+                key={rv_idx}
+              />
+            )
+          )}
           </tbody>
         </table>
       </>
