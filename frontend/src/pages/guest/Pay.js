@@ -141,29 +141,25 @@ function Pay() {
         }
         return (
             <>
-                <div>
-                    <div align='center'>
-                        <div className="page-direction" style={{padding: "20px"}}>
-                            <div className="navi">
-                                <span style={{fontWeight: "bold",fontSize: "28px"}}>결제</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div style={{paddingLeft: '250px'}}>
-                            <div align='left'>
+            <div className="container" align='center' style={{position: 'static'}}>
+                <div className="row">
+                
+                <div className="col-5">
+                <div className="container-lg">
+                        <div style={{paddingLeft: '100px'}}>
+				            <div align='left'>
                                 <h3>결제수단</h3>
+                                <br/>
                                 {data.dto.g_date === null
                                 ?
                                 <>
+                                <div class="card-stylee mb-30" >
                                     <br/>
                                     <br/>
                                     <br/>
-                                    &nbsp;&nbsp;카드를 등록해주세요.
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카드를 등록해주세요.
                                     <br/>
                                     <br/>
-                                    <br/>
-
                                     <div>
                                         <div className={'btn-wrapper'}>
                                                 <div className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
@@ -255,11 +251,11 @@ function Pay() {
                                                 </div>
                                             }
                                         </div>
-
+                                        </div>
                                 </>
                                 :
                                 <>
-                                    <br/>
+                                    <div class="card-stylee mb-30" >
                                     <h5>등록된 카드정보</h5>
                                     <tr>
                                         <td>카드번호</td>
@@ -275,8 +271,6 @@ function Pay() {
                                     </tr>
                                     <tr>
                                         <button className='btn btn-outline-dark' onClick={()=>{
-                                            
-
                                             Swal.fire({
                                                 title: "",
                                                 html: `카드정보를 삭제하시겠습니까?`,
@@ -298,34 +292,46 @@ function Pay() {
 
                                         }}>삭제</button>
                                     </tr>
+                                    </div>
+                                    
+                                
                                 </>
                                 }
-                                <br></br>
-                                <h3>결제내역</h3>
-                                <br/>
-                                {paylist.map(
-                                    ({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
-                                        <PayItem
-                                        G_idx={G_idx}
-                                        D_img1={D_img1}
-                                        O_state={O_state}
-                                        O_orderdate={O_orderdate}
-                                        O_payment={O_payment}
-                                        O_ckin={O_ckin}
-                                        O_ckout={O_ckout}
-                                        O_finalprice={O_finalprice}
-                                        key={G_idx}
-                                            //싱글가격
-                                            //평점
-                                        />
-                                    )
-                                )}
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
+
+                                <div className="col-5" align='left'>
+                                    <div style={{marginBottom: '30px',marginLeft: '50px'}}>
+                                    <h3>결제내역</h3>
+                                            <br/>
+                                            {paylist.map(
+                                                ({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
+                                                    <PayItem
+                                                    G_idx={G_idx}
+                                                    D_img1={D_img1}
+                                                    O_state={O_state}
+                                                    O_orderdate={O_orderdate}
+                                                    O_payment={O_payment}
+                                                    O_ckin={O_ckin}
+                                                    O_ckout={O_ckout}
+                                                    O_finalprice={O_finalprice}
+                                                    key={G_idx}
+                                                        //싱글가격
+                                                        //평점
+                                                    />
+                                                )
+                                            )}
+                                    </div>
+                                </div>
+                            
+                            
+                        </div>
+                    </div>
             </>
         )
     }
+
 }
 export default Pay;

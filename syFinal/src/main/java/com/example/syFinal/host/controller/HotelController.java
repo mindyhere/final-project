@@ -48,6 +48,7 @@ public class HotelController {
 			map.put("dPrice", list.get(i).getD_price());
 			hotelRooms.add(map);
 		}
+		System.out.println("호디엑스"+list);
 		System.out.println("결과 확인 :  " + hotelRooms);
 		return hotelRooms;
 	}

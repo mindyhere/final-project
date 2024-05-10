@@ -24,7 +24,7 @@ function Main() {
   return (
       <>
         <div className='container-fluid' align="center">
-          <input type="text" ref={search} placeholder="Search" className='shadow w-25 p-1 mb-5 border border-success p-2 border-opacity-10 rounded'/>
+          <input title="호텔명으로 검색" type="text" ref={search} placeholder="Search" className='shadow w-25 p-1 mb-5 border border-success p-2 border-opacity-10 rounded'/>
           &nbsp;
           <button type='button' onClick={()=>{
               getMain(`http://localhost/guest/main?search=${search.current.value}`)
