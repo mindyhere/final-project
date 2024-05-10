@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Send, SendFill } from "react-bootstrap-icons";
 
-import Reply from "./Reply";
+import Reply from "../../../component/Reply";
 
 function ReviewItem({
   opt,
@@ -164,6 +164,8 @@ function ReviewItem({
           <br />
         </div>
       );
+    } else if (opt === 2) {
+
     }
   }
 }

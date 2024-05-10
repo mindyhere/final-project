@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Cookies from "universal-cookie";
 
-import ReviewItem from "../../../component/ReviewItem";
+import ReputationItem from "./ReputationItem";
 import { StarFill } from "react-bootstrap-icons";
 import TotalReputation from "./Reputation_modal";
 
@@ -100,7 +100,7 @@ function Reputation() {
                 rv_date,
                 rv_star,
               }) => (
-                <ReviewItem
+                <ReputationItem
                   opt={1}
                   rv_idx={rv_idx}
                   g_name={g_name}

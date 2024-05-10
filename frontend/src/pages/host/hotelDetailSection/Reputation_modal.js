@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChatLeftQuote, Search } from "react-bootstrap-icons";
 
-import ReviewItem from "../../../component/ReviewItem";
+import ReputationItem from "./ReputationItem";
 
 function TotalReputation({ list, avg }) {
   const [email, setEmail] = useState("");
@@ -92,7 +92,7 @@ function TotalReputation({ list, avg }) {
               rv_date,
               rv_star,
             }) => (
-              <ReviewItem
+              <ReputationItem
                 opt={2}
                 rv_idx={rv_idx}
                 g_name={g_name}
