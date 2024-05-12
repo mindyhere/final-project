@@ -85,7 +85,7 @@ function HotelDetail() {
         let hotel_url2 = '';
         if(data.d_img1 !== '-'){
             hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
-            hotel_url2 = `<img src=${hotel_src2} width='100%' height='50%'/>`;
+            hotel_url2 = `<img src=${hotel_src2} style="height:100%; width:100%;"/>`;
         } else {
             hotel_url2 = '';
         }
@@ -94,7 +94,7 @@ function HotelDetail() {
         let hotel_url3 = '';
         if(data.d_img2 !== '-'){
             hotel_src3 = `http://localhost/static/images/host/hotel/${data.d_img2}`;
-            hotel_url3 = `<img src=${hotel_src3} width='100%' height='50%'/>`;
+            hotel_url3 = `<img src=${hotel_src3} style="height:100%; width:100%;"/>`;
         } else {
             hotel_url3 = '';
         }
@@ -121,21 +121,12 @@ function HotelDetail() {
                 <br />
                 <div className="row mb-30">
                     <div className="card-style">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-6" style={{paddingRight : '2px'}}>
-                                    <div dangerouslySetInnerHTML={{__html : img_url}}></div>
-                                </div>
-                                <div className="col-6">
-                                    <div className="row">
-                                        <div className="col" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="row">
+                            <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
+                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
+                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
                         </div>
+                        {/* <button type="button" className="main-btn">사진 모두 보기</button> */}
                     </div>
                 </div>
                 <div className="row">

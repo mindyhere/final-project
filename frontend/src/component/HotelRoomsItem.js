@@ -45,7 +45,7 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
             NonSmoke = '흡연 가능';
         }
         return (
-            <div className="container">
+            <div>
                 <div onClick={() => setModal(true)}>
                     <div style={{textAlign:'center'}}>
                         <div className = "mb-10" dangerouslySetInnerHTML={{__html: img1_url}}></div> 
