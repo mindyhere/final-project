@@ -6,10 +6,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.admin.model.dao.AGuestDAO;
@@ -35,19 +37,51 @@ public class AGuestController {
 		return list;
 	}
 
-	@GetMapping("/admin/ag_detail")
-	public Map<String, Object> detail(@PathVariable(name = "g_idx") int g_idx) {
-		return dao.detail(g_idx);
+	@ResponseBody
+	@PostMapping("/admin/ag_detail")
+	public Map<String, Object> detail(@RequestParam(name = "g_idx", defaultValue = "") int g_idx) {
+		AGuestDTO dto = dao.detail(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		System.out.println(map);
+		return map;
 	}
 
 	@PostMapping("/admin/ag_update")
-	public void update(@RequestParam Map<String, Object> map) {
-		dao.update(map);
+	public Map<String, Object> update(@RequestParam(name = "g_idx") int g_idx,
+			@RequestParam(name = "g_level", defaultValue = "") int g_level,
+			@RequestParam(name = "g_point", defaultValue = "") int g_point) {
+		AGuestDTO dto = dao.detail(g_idx);
+		dto.setG_level(g_level);
+		dto.setG_point(g_point);
+		String result = dao.update(dto);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("g_idx", g_idx);
+		map.put("g_level", g_level);
+		map.put("g_point", g_point);
+		map.put("result", result);
+		return map;
 	}
 
-	@PostMapping("admin/ag_delete")
-	public void delete(@RequestParam(name = "g_idx") int g_idx) {
-		dao.delete(g_idx);
+	@PostMapping("/admin/ag_delete")
+	public Map<String, Object> delete(@RequestParam(name = "g_idx") int g_idx) {
+		String result = dao.delete(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
 	}
-
+	
+//	@PostMapping("/admin/ag_coupon")
+//	  public String gCoupon(int g_level) {
+//	        String coupon = "";
+//	        if (g_level <= 5) {
+//	            coupon = "5% 할인 쿠폰";
+//	        } else if (g_level >= 10) {
+//	            coupon = "20% 할인 쿠폰";
+//	        } else {
+//	            coupon = "30% 할인 쿠폰";
+//	        }
+//	        return coupon;
+//	    }	
 }

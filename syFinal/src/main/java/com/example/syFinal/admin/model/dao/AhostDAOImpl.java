@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.admin.model.dto.AGuestDTO;
 import com.example.syFinal.admin.model.dto.AHostDTO;
 
 @Repository
@@ -25,7 +26,21 @@ public class AhostDAOImpl implements AhostDAO {
 	}
 
 	@Override
-	public void delete(int h_idx) {
-		sqlSession.selectOne("admin.ah_delete", h_idx);
+	public String delete(int h_idx) {
+		String result = "";
+		try {
+			sqlSession.delete("admin.ah_delete", h_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
+
+	@Override
+	public AHostDTO detail(int g_idx) {
+		AHostDTO dto = sqlSession.selectOne("admin.ah_detail", g_idx);
+		return dto;
+	}
+		
 }

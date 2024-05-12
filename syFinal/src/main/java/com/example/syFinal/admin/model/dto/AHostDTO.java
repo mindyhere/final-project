@@ -11,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AHostDTO {
 	private int h_idx;
+	private String h_description;
 	private String h_email;
 	private String h_passwd;
 	private String h_name;
