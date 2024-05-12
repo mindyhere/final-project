@@ -1,12 +1,12 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 
-const WriteReply = () => {
+const EditReply = () => {
   let loading = false;
-  const data = JSON.parse(localStorage.getItem("reviewData"));
+  const data = JSON.parse(localStorage.getItem("editData"));
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
@@ -14,6 +14,7 @@ const WriteReply = () => {
   const userName = userInfo.h_name;
   const rp_rv_idx = useRef();
   const rp_content = useRef();
+  const [reply, setReply] = useState(null);
   const [check, setCheck] = useState(false);
 
   const rendering = (i) => {
@@ -24,6 +25,20 @@ const WriteReply = () => {
     }
     return result;
   };
+
+  function getReply(url) {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setReply(data.reply);
+      });
+  }
+
+  useEffect(() => {
+    getReply(`http://localhost/api/reputation/reply/${data.rp_idx}`);
+  }, []);
 
   if (loading) {
     return <div>loading...</div>;
@@ -79,15 +94,13 @@ const WriteReply = () => {
                     dangerouslySetInnerHTML={{ __html: profile_src }}
                   ></div>
                   <div className="col-10" width="100%">
-                    <strong>
-                      <b>예약번호</b> :&nbsp;&nbsp;{data.o_idx}&nbsp;&nbsp;
-                      |&nbsp;&nbsp;<b>객실유형</b> :&nbsp;&nbsp;{data.d_idx}
-                      <br />
-                      <b>평점</b>: &nbsp;{rendering(data.rv_star)}
-                      <br />
-                      <b>후기작성일</b> :&nbsp;&nbsp;{data.rv_date}
-                      {/* <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout} */}
-                    </strong>
+                    <b>예약번호</b> :&nbsp;&nbsp;{data.o_idx}&nbsp;&nbsp;
+                    |&nbsp;&nbsp;<b>객실유형</b> :&nbsp;&nbsp;{data.d_idx}
+                    <br />
+                    <b>평점</b>: &nbsp;{rendering(data.rv_star)}
+                    <br />
+                    <b>후기작성일</b> :&nbsp;&nbsp;{data.rv_date}
+                    {/* <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout} */}
                   </div>
                 </div>
                 <hr />
@@ -121,6 +134,7 @@ const WriteReply = () => {
                   className="form-control mb-3"
                   rows={5}
                   cols={85}
+                  defaultValue={reply.rp_content}
                   ref={rp_content}
                   placeholder="내용을 입력해주세요"
                   style={{
@@ -214,4 +228,4 @@ const WriteReply = () => {
   }
 };
 
-export default WriteReply;
+export default EditReply;

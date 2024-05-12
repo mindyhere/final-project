@@ -41,16 +41,37 @@ function ReviewItem({
     d_idx: `${d_idx}`,
   };
 
-  const replyData = {
+  const editData = {
+    // 전달할 데이터
     rp_idx: `${rp_idx}`,
+    rv_idx: `${rv_idx}`,
+    ho_name: `${ho_name}`,
+    g_name: `${g_name}`,
+    g_url: `${g_url}`,
+    g_email: `${g_email}`,
+    rv_date: `${rv_date}`,
+    rv_content: `${rv_content}`,
+    rv_star: `${rv_star}`,
+    o_idx: `${o_idx}`,
+    d_idx: `${d_idx}`,
   };
 
-  const openPopup = (rv_idx) => {
-    const popup = window.open(
-      `../../../host/account/manage/review`,
-      "name(Write)",
-      "width=500,height=700,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
-    );
+  const openPopup = (opt) => {
+    let popup = null;
+    if (opt === "write") {
+      popup = window.open(
+        `../../../host/account/manage/review`,
+        "name(Write)",
+        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+      );
+    } else {
+      console.log("==> opt?" + opt);
+      popup = window.open(
+        `../../../host/account/manage/reply`,
+        "name(Edit)",
+        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+      );
+    }
     return popup;
   };
 
@@ -82,8 +103,7 @@ function ReviewItem({
                     "reviewData",
                     JSON.stringify(reviewData)
                   );
-                  localStorage.setItem("replyData", JSON.stringify(replyData));
-                  openPopup(`${rv_idx}`);
+                  openPopup("write");
                 }}
               >
                 &nbsp;&nbsp;미등록&nbsp;&nbsp;
@@ -92,11 +112,8 @@ function ReviewItem({
               <button
                 className="btnCheck disabled"
                 onClick={() => {
-                  localStorage.setItem(
-                    "reviewData",
-                    JSON.stringify(reviewData)
-                  );
-                  openPopup(`${rv_idx}`);
+                  localStorage.setItem("editData", JSON.stringify(editData));
+                  openPopup("edit");
                 }}
               >
                 등록완료

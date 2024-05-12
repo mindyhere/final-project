@@ -34,6 +34,8 @@ import PreReservDetail from "./pages/guest/preReservDetail";
 import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 
+import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
+
 // admin 계정
 import Amain from "./pages/admin/amain";
 import AdminLogin from "./pages/admin/alogin";
@@ -49,9 +51,8 @@ import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/MyHotelList";
 
-import WriteReview from "./pages/guest/WriteReview";
-
 import WriteReply from "./pages/host/hostAccount/WriteReply";
+import EditReply from "./pages/host/hostAccount/EditReply";
 
 function App() {
   console.warn = function no_console() {};
@@ -110,13 +111,13 @@ function App() {
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
+          {/* host 리뷰 관리 */}
+          <Route path="/host/account/manage/review" element={<WriteReply />} />
+          <Route path="/host/account/manage/reply" element={<EditReply />} />
 
+          {/* guest 리뷰 등록 */}
           <Route path="/guest/write" element={<WriteReview />} />
 
-          <Route
-            path="/host/account/manage/review"
-            element={<WriteReply />}
-          />
         </Routes>
         <Footer />
       </BrowserRouter>
