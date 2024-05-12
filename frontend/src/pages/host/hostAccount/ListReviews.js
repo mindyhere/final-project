@@ -1,32 +1,35 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
-// import { Search } from "react-bootstrap-icons";
+import {
+  ChevronDoubleLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDoubleRight,
+} from "react-bootstrap-icons";
 
 import ReviewItem from "./ReviewItem";
-import Pagination from "../../../component/Pagination";
 
 function ListReviews() {
   const [list, setList] = useState([]);
   const [starList, setAvg] = useState([]);
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
-  // const [modal, setModal] = useState(false);
-  // const [moreDetail, setMoreDetail] = useState(false);
-  // const searchKey = useRef();
-  // const search = useRef();
+  const [pageNum, setPageNum] = useState("1");
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  let pageNum = 1;
-  function getList(url) {
-    fetch(url)
+  function getList(pageNum) {
+    console.log("==> pageNum? " + pageNum);
+    fetch(
+      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
+    )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        //console.log("==> 리뷰 data? " + JSON.stringify(data));
+        // console.log("==> 리뷰 data? " + JSON.stringify(data.page));
         setList(data.list);
         setAvg(data.avgList);
         setPaging(data.page);
@@ -35,32 +38,40 @@ function ListReviews() {
   }
 
   useEffect(() => {
-    getList(
-      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
-    );
-  }, []);
+    getList(pageNum);
+  }, [pageNum]);
 
-  // function Modal(props) {
-  //   function closeModal() {
-  //     props.closeModal();
-  //     setModal(false);
-  //   }
+  const pageList = () => {
+    const result = [];
+    const begin = page.blockStart;
+    const end = page.blockEnd;
 
-  //   return (
-  //     <div className="modal_h" onClick={closeModal}>
-  //       <div
-  //         className="modalBody_h"
-  //         style={{ width: "1000px" }}
-  //         onClick={(e) => e.stopPropagation()}
-  //       >
-  //         <button className="btnClose" onClick={closeModal}>
-  //           X
-  //         </button>
-  //         {props.children}
-  //       </div>
-  //     </div>
-  //   );
-  // }
+    for (let i = begin; i <= end; i++) {
+      if (i === page.curPage) {
+        result.push(
+          <li className="page-item">
+            <a key={i} className="page-link" href="#">
+              <strong>{i}</strong>
+            </a>
+          </li>
+        );
+      } else {
+        result.push(
+          <li className="page-item">
+            <a
+              key={i}
+              className="page-link"
+              href="#"
+              onClick={() => getList(`${i}`)}
+            >
+              {i}
+            </a>
+          </li>
+        );
+      }
+    }
+    return result;
+  };
 
   // console.log("** => " + JSON.stringify(page));
   return (
@@ -197,7 +208,70 @@ function ListReviews() {
         </tbody>
       </table>
       <div className="d-flex justify-content-center">
-        <Pagination page={page}/>
+        <nav className="page-navibar">
+          <ul className="pagination">
+            {page.curPage > 1 ? (
+              <li className="page-item">
+                <a key={page.pageBegin} className="page-link" href="#">
+                  <span aria-hidden="true" onClick={() => getList("1")}>
+                    <ChevronDoubleLeft />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+            {page.curBlock > 1 ? (
+              <li className="page-item">
+                <a
+                  key={page.prevPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="Previous"
+                >
+                  <span
+                    aria-hidden="true"
+                    onclick={() => getList(`${page.prevPage}`)}
+                  >
+                    <ChevronLeft />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+
+            {pageList()}
+
+            {page.curBlock < page.totBlock ? (
+              <li className="page-item">
+                <a
+                  key={page.nextPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="Next"
+                >
+                  <span
+                    aria-hidden="true"
+                    onClick={() => getList(`${page.nextPage}`)}
+                  >
+                    <ChevronRight />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+            {page.curPage < page.totPage ? (
+              <li className="page-item">
+                <a
+                  key={page.totPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="End"
+                >
+                  <span onClick={() => getList(`${page.totPage}`)}>
+                    <ChevronDoubleRight />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+          </ul>
+        </nav>
       </div>
     </>
   );
