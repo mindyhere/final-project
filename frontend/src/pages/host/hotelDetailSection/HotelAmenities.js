@@ -79,7 +79,7 @@ function HotelAmenities() {
         }
 
         return (
-            <div className="container">
+            <div>
                 <div onClick={() => setModal(true)}>
                     <div className="hidden-text-target mb-30">
                         <div className="mb-10"dangerouslySetInnerHTML={{__html : mountain_url}}></div>
