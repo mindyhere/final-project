@@ -79,7 +79,7 @@ function HostInfo() {
                                     </div>
                                 </div>
                             </div>
-                            <div style={{cursor : 'pointer'}} onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
+                            <div style={{cursor : 'pointer', textDecoration:'underline'}} onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
                                 더 보기 ▶
                             </div>
                         </div>
