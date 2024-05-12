@@ -5,6 +5,7 @@ function Footer() {
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
     if (locationNow.pathname === "/guest/write") return null; 
+    if (locationNow.pathname === "/host/account/manage/review") return null; // 팝업창에서 헤더 제거
 
     return (
         <div className="Footer">

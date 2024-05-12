@@ -1,6 +1,6 @@
 package com.example.syFinal.host.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,16 +30,13 @@ public class ReplyController {
 	@Autowired
 	ReputationDAO reputationDao;
 
-	@GetMapping("list/{userIdx}")
-	public List<ReplyDTO> myReplyList(@PathVariable(name = "userIdx") int h_idx) {
-		return replyDao.myReplyList(h_idx);
-	}
-
 	@Transactional
 	@PostMapping("insert")
-	public ResponseEntity<String> insert(@RequestParam ReplyDTO dto) {
+	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
+		System.out.println("==> map? " + map);
 		try {
-			replyDao.insertReply(dto);
+			replyDao.insertReply(map);
+			System.out.println("ok");
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
 			// 에러발생

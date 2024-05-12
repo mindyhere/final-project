@@ -41,7 +41,7 @@ function ListReviews() {
     getList(pageNum);
   }, [pageNum]);
 
-  const pageList = () => {
+  const setPagination = () => {
     const result = [];
     const begin = page.blockStart;
     const end = page.blockEnd;
@@ -177,10 +177,13 @@ function ListReviews() {
                 rv_idx,
                 ho_name,
                 g_name,
+                g_url,
                 g_email,
                 rv_date,
+                rv_content,
                 rv_star,
                 o_idx,
+                d_idx,
                 rp_idx,
               }) => (
                 <ReviewItem
@@ -188,10 +191,13 @@ function ListReviews() {
                   rv_idx={rv_idx}
                   ho_name={ho_name}
                   g_name={g_name}
+                  g_url={g_url}
                   g_email={g_email}
                   rv_date={rv_date}
+                  rv_content={rv_content}
                   rv_star={rv_star}
                   o_idx={o_idx}
+                  d_idx={d_idx}
                   rp_idx={rp_idx}
                   key={rv_idx}
                 />
@@ -237,7 +243,7 @@ function ListReviews() {
               </li>
             ) : null}
 
-            {pageList()}
+            {setPagination()}
 
             {page.curBlock < page.totBlock ? (
               <li className="page-item">
