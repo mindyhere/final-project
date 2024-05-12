@@ -5,6 +5,7 @@ function Footer() {
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
     if (locationNow.pathname === "/guest/write") return null; 
+    if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
 
     return (
         <div className="Footer">

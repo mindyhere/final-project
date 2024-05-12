@@ -1,59 +1,79 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
-// import { Search } from "react-bootstrap-icons";
+import {
+  ChevronDoubleLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDoubleRight,
+} from "react-bootstrap-icons";
 
 import ReviewItem from "./ReviewItem";
 
 function ListReviews() {
   const [list, setList] = useState([]);
-  // const [modal, setModal] = useState(false);
-  // const [moreDetail, setMoreDetail] = useState(false);
-  // const searchKey = useRef();
-  // const search = useRef();
+  const [starList, setAvg] = useState([]);
+  const [page, setPaging] = useState("");
+  const [count, setCount] = useState("");
+  const [pageNum, setPageNum] = useState("1");
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  function getList(url) {
-    fetch(url)
+  function getList(pageNum) {
+    console.log("==> pageNum? " + pageNum);
+    fetch(
+      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
+    )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        //console.log("==> 리뷰 data? " + JSON.stringify(data));
+        // console.log("==> 리뷰 data? " + JSON.stringify(data.page));
         setList(data.list);
-        // setAvg(data.avgList);
+        setAvg(data.avgList);
+        setPaging(data.page);
+        setCount(data.count);
       });
   }
 
   useEffect(() => {
-    getList(`http://localhost/api/reputation/manage/list/${userIdx}`);
-  }, []);
+    getList(pageNum);
+  }, [pageNum]);
 
-  // function Modal(props) {
-  //   function closeModal() {
-  //     props.closeModal();
-  //     setModal(false);
-  //   }
+  const setPagination = () => {
+    const result = [];
+    const begin = page.blockStart;
+    const end = page.blockEnd;
 
-  //   return (
-  //     <div className="modal_h" onClick={closeModal}>
-  //       <div
-  //         className="modalBody_h"
-  //         style={{ width: "1000px" }}
-  //         onClick={(e) => e.stopPropagation()}
-  //       >
-  //         <button className="btnClose" onClick={closeModal}>
-  //           X
-  //         </button>
-  //         {props.children}
-  //       </div>
-  //     </div>
-  //   );
-  // }
+    for (let i = begin; i <= end; i++) {
+      if (i === page.curPage) {
+        result.push(
+          <li className="page-item">
+            <a key={i} className="page-link" href="#">
+              <strong>{i}</strong>
+            </a>
+          </li>
+        );
+      } else {
+        result.push(
+          <li className="page-item">
+            <a
+              key={i}
+              className="page-link"
+              href="#"
+              onClick={() => getList(`${i}`)}
+            >
+              {i}
+            </a>
+          </li>
+        );
+      }
+    }
+    return result;
+  };
 
-  // console.log(list[0]);
+  // console.log("** => " + JSON.stringify(page));
   return (
     <>
       <div id="section1" className="input-group mb-3">
@@ -117,23 +137,23 @@ function ListReviews() {
           <col width="15%" />
           <col width="15%" />
           <col width="10%" />
+          <col width="15%" />
           <col width="20%" />
-          <col width="20%" />
-          <col width="10%" />
+          <col width="15%" />
         </colgroup>
         <thead>
           <tr className="align-middle">
             <th scope="col">
-              <strong>글번호</strong>
+              <strong>no.</strong>
+            </th>
+            <th scope="col">
+              <strong>예약번호</strong>
             </th>
             <th scope="col">
               <strong>구분</strong>
             </th>
             <th scope="col">
               <strong>작성자</strong>
-            </th>
-            <th scope="col">
-              <strong>예약번호</strong>
             </th>
             <th scope="col">
               <strong>작성일</strong>
@@ -150,32 +170,115 @@ function ListReviews() {
           className="table-group-divider"
           style={{ borderColor: "#DBC4F0" }}
         >
-          {list.map(
-            ({
-              rv_idx,
-              ho_name,
-              g_name,
-              g_email,
-              rv_date,
-              rv_star,
-              o_idx,
-              rp_idx
-            }) => (
-              <ReviewItem
-              rv_idx={rv_idx}
-              ho_name={ho_name}
-              g_name={g_name}
-              g_email={g_email}
-              rv_date={rv_date}
-              rv_star={rv_star}
-              o_idx={o_idx}
-              rp_idx={rp_idx}
-                key={rv_idx}
-              />
+          {count > 0 ? (
+            list.map(
+              ({
+                rownum,
+                rv_idx,
+                ho_name,
+                g_name,
+                g_url,
+                g_email,
+                rv_date,
+                rv_content,
+                rv_star,
+                o_idx,
+                d_idx,
+                rp_idx,
+              }) => (
+                <ReviewItem
+                  rownum={rownum}
+                  rv_idx={rv_idx}
+                  ho_name={ho_name}
+                  g_name={g_name}
+                  g_url={g_url}
+                  g_email={g_email}
+                  rv_date={rv_date}
+                  rv_content={rv_content}
+                  rv_star={rv_star}
+                  o_idx={o_idx}
+                  d_idx={d_idx}
+                  rp_idx={rp_idx}
+                  key={rv_idx}
+                />
+              )
             )
+          ) : (
+            <tr className="align-middle">
+              <td colSpan="7">
+                <br />
+                <p>등록된 게시글이 없습니다.</p>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
+      <div className="d-flex justify-content-center">
+        <nav className="page-navibar">
+          <ul className="pagination">
+            {page.curPage > 1 ? (
+              <li className="page-item">
+                <a key={page.pageBegin} className="page-link" href="#">
+                  <span aria-hidden="true" onClick={() => getList("1")}>
+                    <ChevronDoubleLeft />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+            {page.curBlock > 1 ? (
+              <li className="page-item">
+                <a
+                  key={page.prevPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="Previous"
+                >
+                  <span
+                    aria-hidden="true"
+                    onclick={() => getList(`${page.prevPage}`)}
+                  >
+                    <ChevronLeft />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+
+            {setPagination()}
+
+            {page.curBlock < page.totBlock ? (
+              <li className="page-item">
+                <a
+                  key={page.nextPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="Next"
+                >
+                  <span
+                    aria-hidden="true"
+                    onClick={() => getList(`${page.nextPage}`)}
+                  >
+                    <ChevronRight />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+            {page.curPage < page.totPage ? (
+              <li className="page-item">
+                <a
+                  key={page.totPage}
+                  className="page-link"
+                  href="#"
+                  aria-label="End"
+                >
+                  <span onClick={() => getList(`${page.totPage}`)}>
+                    <ChevronDoubleRight />
+                  </span>
+                </a>
+              </li>
+            ) : null}
+          </ul>
+        </nav>
+      </div>
     </>
   );
 }

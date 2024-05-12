@@ -1,5 +1,6 @@
 package com.example.syFinal.global.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,14 +55,13 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllReviews(int h_idx) {
+	public List<Map<String, Object>> getAllReviews(int h_idx, int start, int end) {
 		// host → 후기관리(호스트가 등록한 호텔의 전체 리뷰목록 가져오기)
-		List<Map<String, Object>> list = null;
-		try {
-			list = sqlSession.selectList("reputation.getAllReviews", h_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("start", start);
+		map.put("end", end);
+		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAllReviews", map);
 		return list;
 	}
 
@@ -74,6 +74,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 		}
 		System.out.println("==> 반복끝, result? " + list);
 		return list;
+	}
+
+	@Override
+	public int countRecord(int h_idx) {
+		return sqlSession.selectOne("reputation.countRecord", h_idx);
 	}
 
 }

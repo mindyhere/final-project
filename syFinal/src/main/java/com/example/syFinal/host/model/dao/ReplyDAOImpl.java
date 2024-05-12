@@ -21,8 +21,8 @@ public class ReplyDAOImpl implements ReplyDAO {
 	}
 
 	@Override
-	public void insertReply(ReplyDTO dto) {
-		sqlSession.insert("reply.insert", dto);
+	public void insertReply(Map<String, Object> map) {
+		sqlSession.insert("reply.insert", map);
 	}
 
 //	@Override

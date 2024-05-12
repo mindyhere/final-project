@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.syFinal.global.PageUtil;
 import com.example.syFinal.global.model.ReputationDAO;
 
 @RestController
@@ -37,12 +39,22 @@ public class ReputationController {
 	}
 
 	@GetMapping("manage/list/{userIdx}")
-	public Map<String, Object> getAllReviews(@PathVariable(name = "userIdx") int h_idx) {
-		List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx);
+	public Map<String, Object> getAllReviews(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum) {
+		System.out.println("==> h_idx? " + h_idx + ", pageNum? " + pageNum);
+		int cnt = reputationDao.countRecord(h_idx);
 		Map<String, Object> data = new HashMap<>();
-		if (list == null) {
+		if (cnt == 0) {
+			data.put("count", cnt);
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
+			PageUtil page = new PageUtil(cnt, pageNum);
+			int start = page.getPageBegin();
+			int end = page.getPageEnd();
+			System.out.println("==> start? " + start + ", end? " + end);
+			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start, end);
+			data.put("count", cnt);
+			data.put("page", page);
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));

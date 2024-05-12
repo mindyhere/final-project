@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./asset/css/user.css"; 
+import "./asset/css/user.css";
 import "./asset/css/main.css";
 
 import Main from "./Main";
@@ -34,13 +34,14 @@ import PreReservDetail from "./pages/guest/preReservDetail";
 import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 
-// admin 계정        
+import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
+
+// admin 계정
 import Amain from "./pages/admin/amain";
 import AdminLogin from "./pages/admin/alogin";
 import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
-
 
 // host 계정
 import HostLogin from "./pages/host/login/Login";
@@ -50,8 +51,8 @@ import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/MyHotelList";
 
-import WriteReview from "./pages/guest/WriteReview";
-
+import WriteReply from "./pages/host/hostAccount/WriteReply";
+import EditReply from "./pages/host/hostAccount/EditReply";
 
 function App() {
   console.warn = function no_console() {};
@@ -62,30 +63,39 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/guest/login" element={<GuestLogin/>}/>
-          <Route path="/guest/searchEmail" element={<SearchEmail/>}/>
-          <Route path="/guest/searchPw" element={<SearchPw/>}/>
-          <Route path="/guest/Account" element={<Account/>}/>
-          <Route path="/guest/Pay" element={<Pay/>}/>
-          <Route path="/host/hotel/hotelDetail/:HoIdx" element={<HotelDetail/>}/>
-          <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />}/>
-          <Route path="/guest/GuestInfo" element={<GuestInfo/>}/>
-          <Route path="/guest/PayItem" element={<PayItem/>}/>
-          <Route path="/guest/wishItem" element={<WishItem/>}/>
-          <Route path="/guest/wishList" element={<WishList/>}/>
-          <Route path="/guest/wish" element={<Wish/>}/>
-          <Route path="/guest/recent" element={<Recent/>}/>
-          <Route path="/guest/recentItem" element={<RecentItem/>}/>
-          <Route path="/guest/reservation" element={<Reservation/>}/>
-          <Route path="/guest/Order" element={<Order/>}/>
-          <Route path="/guest/coupon" element={<Coupon/>}/>
-          <Route path="/guest/preReservItem" element={<PreReservItem/>}/>
-          <Route path="/guest/lastReservItem" element={<LastReservItem/>}/>
-          <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail/>}/>
-          <Route path="/guest/preReservDetail/:OIdx" element={<PreReservDetail/>}/>
-          <Route path="/guest/reservRevItem" element={<ReservRevItem/>}/>
-          <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv/>}/>
-          <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv/>}/>
+          <Route path="/guest/login" element={<GuestLogin />} />
+          <Route path="/guest/searchEmail" element={<SearchEmail />} />
+          <Route path="/guest/searchPw" element={<SearchPw />} />
+          <Route path="/guest/Account" element={<Account />} />
+          <Route path="/guest/Pay" element={<Pay />} />
+          <Route
+            path="/host/hotel/hotelDetail/:HoIdx"
+            element={<HotelDetail />}
+          />
+          <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />} />
+          <Route path="/guest/GuestInfo" element={<GuestInfo />} />
+          <Route path="/guest/PayItem" element={<PayItem />} />
+          <Route path="/guest/wishItem" element={<WishItem />} />
+          <Route path="/guest/wishList" element={<WishList />} />
+          <Route path="/guest/wish" element={<Wish />} />
+          <Route path="/guest/recent" element={<Recent />} />
+          <Route path="/guest/recentItem" element={<RecentItem />} />
+          <Route path="/guest/reservation" element={<Reservation />} />
+          <Route path="/guest/Order" element={<Order />} />
+          <Route path="/guest/coupon" element={<Coupon />} />
+          <Route path="/guest/preReservItem" element={<PreReservItem />} />
+          <Route path="/guest/lastReservItem" element={<LastReservItem />} />
+          <Route
+            path="/guest/lastReservDetail/:OIdx"
+            element={<LastReservDetail />}
+          />
+          <Route
+            path="/guest/preReservDetail/:OIdx"
+            element={<PreReservDetail />}
+          />
+          <Route path="/guest/reservRevItem" element={<ReservRevItem />} />
+          <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv />} />
+          <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
@@ -93,16 +103,20 @@ function App() {
           <Route path="/admin/ahost" element={<Ahost />} />
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
-         
+
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
           <Route path="/host/searchEmail" element={<SearchHostEmail />} />
           <Route path="/host/searchPw" element={<SearchHostPw />} />
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
-          <Route path="/host/hotel/MyHotelList" element={<MyHotelList />}/>
+          <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
+          {/* host 리뷰 관리 */}
+          <Route path="/host/account/manage/review" element={<WriteReply />} />
+          <Route path="/host/account/manage/reply" element={<EditReply />} />
 
-          <Route path="/guest/write" element={<WriteReview />}/>
+          {/* guest 리뷰 등록 */}
+          <Route path="/guest/write" element={<WriteReview />} />
 
         </Routes>
         <Footer />

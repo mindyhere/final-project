@@ -29,11 +29,6 @@ public class ReviewController {
 	@Autowired
 	ReputationDAO reputationDao;
 
-//	@GetMapping("list/{g_idx}")
-//	public List<ReviewDTO> myReviewList(@PathVariable(name = "g_idx") int g_idx) {
-//		return reviewDao.myReviewList(g_idx);
-//	}
-
 	@Transactional
 	@PostMapping("insert")
 	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {

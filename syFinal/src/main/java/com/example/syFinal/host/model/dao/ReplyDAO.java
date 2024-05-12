@@ -10,7 +10,7 @@ public interface ReplyDAO {
 	List<ReplyDTO> myReplyList(int h_idx);
 
 	// 답글 작성
-	void insertReply(ReplyDTO dto);
+	void insertReply(Map<String, Object> map);
 
 	// 답글 상세보기 → 후기글 번호와 매칭
 //	ReplyDTO detailReply(ReplyDTO dto);
