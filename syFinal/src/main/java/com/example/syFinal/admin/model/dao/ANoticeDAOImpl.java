@@ -8,42 +8,53 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.admin.model.dto.ANoticeDTO;
+
 @Repository
 public class ANoticeDAOImpl implements ANoticeDAO {
 
 	@Autowired
 	SqlSession sqlSession;
 
-	public List<Map<String, Object>> list(String searchkey, String search) {
-		if (searchkey.equals("title_contents")) {
-			return sqlSession.selectList("notice.list_all", "%" + search + "%");
-		} else {
-			Map<String, Object> map = new HashMap<>();
-			map.put("searchkey", searchkey);
-			map.put("search", "%" + search + "%");
-			return sqlSession.selectList("notice.list", map);
-		}
+	public List<ANoticeDTO> list(String searchkey, String search) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("searchkey", searchkey);
+		map.put("search", search);
+		System.out.println("DATIMPL : " + searchkey);
+		return sqlSession.selectList("notice.list", map);
 	}
 
-	public void insert(Map<String, Object> map) {
-		sqlSession.insert("notice.insert", map);
-	}
-
-	public Map<String, Object> detail(int n_idx) {
+	public ANoticeDTO detail(int n_idx) {
 		return sqlSession.selectOne("notice.detail", n_idx);
 	}
 
-	public Map<String, Object> ncheck(int n_idx, String n_writer) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("n_writer", n_writer);
-		return sqlSession.selectOne("notice.n_check", map);
+	public String delete(int n_idx) {
+		String result = "";
+		try {
+			sqlSession.delete("notice.delete", n_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
 
-	public void update(Map<String, Object> map) {
-		sqlSession.update("notice.update", map);
+	@Override
+	public String update(ANoticeDTO dto) {
+		String result = "";
+		try {
+			sqlSession.update("admin.ag_update", dto);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
 
-	public void delete(int n_idx) {
-		sqlSession.delete("notice.delete", n_idx);
+	@Override
+	public String insert(ANoticeDTO dto) {
+		return sqlSession.selectOne("notice.insert", dto);
+
 	}
+
 }

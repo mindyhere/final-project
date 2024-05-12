@@ -36,9 +36,9 @@ import UpdateReserv from "./pages/guest/updateReserv";
 
 import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
 
-// admin 계정
+// admin 계정 
 import Amain from "./pages/admin/amain";
-import AdminLogin from "./pages/admin/alogin";
+import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
@@ -99,10 +99,11 @@ function App() {
 
           {/* admin 계정 */}
           <Route path="/admin/amain" element={<Amain />} />
-          <Route path="/admin/alogin" element={<AdminLogin />} />
           <Route path="/admin/ahost" element={<Ahost />} />
+          <Route path="/admin/aguest" element={<AGuest />} />
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
+          <Route path="/admin/notice/adetail" element={<Adetail />} />
 
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
