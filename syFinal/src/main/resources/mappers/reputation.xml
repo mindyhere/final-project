@@ -21,9 +21,15 @@ SELECT * FROM v_rate where h_idx=#{h_idx}
 </select>
 
 <select id="getAllReviews" resultType="java.util.Map">
-select * from v_hotel_review 
+select @rownum:=@rownum+1 as rownum, v.* 
+from v_hotel_review v, (select @rownum:=0) tmp
 where h_idx=#{h_idx}
-order by rv_idx desc 
+ORDER BY rv_idx desc
+limit #{start}, #{end};
+</select>
+
+<select id="countRecord" resultType="int">
+select count(*) from v_hotel_review where h_idx=#{h_idx}
 </select>
 
 </mapper>

@@ -197,3 +197,8 @@ textarea::placeholder {
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 }
+
+/* paging */
+.nav-link, .page-item li, a {
+	color: black !important;
+}

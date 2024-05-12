@@ -4,9 +4,13 @@ import Cookies from "universal-cookie";
 // import { Search } from "react-bootstrap-icons";
 
 import ReviewItem from "./ReviewItem";
+import Pagination from "../../../component/Pagination";
 
 function ListReviews() {
   const [list, setList] = useState([]);
+  const [starList, setAvg] = useState([]);
+  const [page, setPaging] = useState("");
+  const [count, setCount] = useState("");
   // const [modal, setModal] = useState(false);
   // const [moreDetail, setMoreDetail] = useState(false);
   // const searchKey = useRef();
@@ -15,6 +19,7 @@ function ListReviews() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
+  let pageNum = 1;
   function getList(url) {
     fetch(url)
       .then((response) => {
@@ -23,12 +28,16 @@ function ListReviews() {
       .then((data) => {
         //console.log("==> 리뷰 data? " + JSON.stringify(data));
         setList(data.list);
-        // setAvg(data.avgList);
+        setAvg(data.avgList);
+        setPaging(data.page);
+        setCount(data.count);
       });
   }
 
   useEffect(() => {
-    getList(`http://localhost/api/reputation/manage/list/${userIdx}`);
+    getList(
+      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
+    );
   }, []);
 
   // function Modal(props) {
@@ -53,7 +62,7 @@ function ListReviews() {
   //   );
   // }
 
-  // console.log(list[0]);
+  // console.log("** => " + JSON.stringify(page));
   return (
     <>
       <div id="section1" className="input-group mb-3">
@@ -117,23 +126,23 @@ function ListReviews() {
           <col width="15%" />
           <col width="15%" />
           <col width="10%" />
+          <col width="15%" />
           <col width="20%" />
-          <col width="20%" />
-          <col width="10%" />
+          <col width="15%" />
         </colgroup>
         <thead>
           <tr className="align-middle">
             <th scope="col">
-              <strong>글번호</strong>
+              <strong>no.</strong>
+            </th>
+            <th scope="col">
+              <strong>예약번호</strong>
             </th>
             <th scope="col">
               <strong>구분</strong>
             </th>
             <th scope="col">
               <strong>작성자</strong>
-            </th>
-            <th scope="col">
-              <strong>예약번호</strong>
             </th>
             <th scope="col">
               <strong>작성일</strong>
@@ -150,32 +159,46 @@ function ListReviews() {
           className="table-group-divider"
           style={{ borderColor: "#DBC4F0" }}
         >
-          {list.map(
-            ({
-              rv_idx,
-              ho_name,
-              g_name,
-              g_email,
-              rv_date,
-              rv_star,
-              o_idx,
-              rp_idx
-            }) => (
-              <ReviewItem
-              rv_idx={rv_idx}
-              ho_name={ho_name}
-              g_name={g_name}
-              g_email={g_email}
-              rv_date={rv_date}
-              rv_star={rv_star}
-              o_idx={o_idx}
-              rp_idx={rp_idx}
-                key={rv_idx}
-              />
+          {count > 0 ? (
+            list.map(
+              ({
+                rownum,
+                rv_idx,
+                ho_name,
+                g_name,
+                g_email,
+                rv_date,
+                rv_star,
+                o_idx,
+                rp_idx,
+              }) => (
+                <ReviewItem
+                  rownum={rownum}
+                  rv_idx={rv_idx}
+                  ho_name={ho_name}
+                  g_name={g_name}
+                  g_email={g_email}
+                  rv_date={rv_date}
+                  rv_star={rv_star}
+                  o_idx={o_idx}
+                  rp_idx={rp_idx}
+                  key={rv_idx}
+                />
+              )
             )
+          ) : (
+            <tr className="align-middle">
+              <td colSpan="7">
+                <br />
+                <p>등록된 게시글이 없습니다.</p>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
+      <div className="d-flex justify-content-center">
+        <Pagination page={page}/>
+      </div>
     </>
   );
 }

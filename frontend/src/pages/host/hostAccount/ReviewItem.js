@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 
 function ReviewItem({
+  rownum,
   rv_idx,
   ho_name,
   g_name,
@@ -12,6 +13,7 @@ function ReviewItem({
 }) {
   let loading = false;
   const guest_email = useRef();
+  const review_idx = useRef();
   const reply_idx = useRef();
   const rendering = (i) => {
     const star = "⭐";
@@ -25,7 +27,14 @@ function ReviewItem({
   return (
     <>
       <tr className="align-middle">
-        <th>{rv_idx}</th>
+        <th>{rownum}</th>
+        <td>{o_idx}
+        <input
+            type="hidden"
+            defaultValue={rv_idx}
+            ref={review_idx}
+          />
+        </td>
         <td>{ho_name}</td>
         <td>
           {g_name}
@@ -35,7 +44,6 @@ function ReviewItem({
             ref={guest_email}
           />
         </td>
-        <td>{o_idx}</td>
         <td>{rv_date}</td>
         <td>{rendering(rv_star)}</td>
         <td>
