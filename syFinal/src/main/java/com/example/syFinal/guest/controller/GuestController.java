@@ -66,27 +66,32 @@ public class GuestController {
 			map.put("O_finalprice", dto.get(i).getO_finalprice());
 			paylist.add(map);
 		}
-		System.out.println("결제리스트====" + paylist);
+		//System.out.println("결제리스트====" + paylist);
 		
 		return paylist;
 	}
 	
 	//예약요청
 	@PostMapping("/guest/order")
-	public void order(@RequestParam(name="idx") int idx,@RequestParam(name="didx") int didx,
+	public void order(@RequestParam(name="idx") int idx,@RequestParam(name="dIdx") int didx,
 			@RequestParam(name="ckin") String ckin, @RequestParam(name="ckout") String ckout,
-			@RequestParam(name="reser") int reser, @RequestParam(name="pay") String pay,
+			@RequestParam(name="adult") int adult, @RequestParam(name="pay") String pay,
+			@RequestParam(name="child") int child, @RequestParam(name="baby") String baby,
 			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);
 		map1.put("ckin", ckin);
 		map1.put("ckout", ckout);
-		map1.put("reser", reser);
+		map1.put("adult", adult);
+		map1.put("child", child);
+		map1.put("baby", baby);
 		map1.put("pay", pay);
 		map1.put("dprice", dprice);
 		map1.put("fprice", fprice);
 		System.out.println("예약요청"+map1);
 		dao.order(map1);
 	}
+	
+	
 }

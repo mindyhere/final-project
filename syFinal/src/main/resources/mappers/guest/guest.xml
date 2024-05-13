@@ -59,8 +59,8 @@
 	<!-- 예약요청 -->
 	<insert id="order">
 		INSERT INTO orders 
-		(o_gidx,o_didx,o_ckin,o_ckout,o_reser,o_payment,o_price,o_finalprice,o_orderdate)
+		(o_gidx,o_didx,o_ckin,o_ckout,o_adult,o_child,o_baby,o_payment,o_price,o_finalprice,o_orderdate)
 		VALUES 
-		(#{idx},#{didx},#{ckin},#{ckout},#{reser},#{pay},#{dprice},#{fprice},now())
+		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{dprice},#{fprice},now())
 	</insert>
 </mapper>
