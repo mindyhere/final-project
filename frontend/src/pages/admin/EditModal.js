@@ -5,89 +5,7 @@ import React,{useRef,useEffect,useState} from 'react';
 
 function EditModal({ list, onClose }) {
     const [formData, setFormData] = useState(list);
-    const cookies = new Cookies();    
-
-    const removeCookies = () => {
-        cookies.remove("g_idx", { path: "/" }, 100);
-        cookies.remove("g_name", { path: "/" }, 100);
-        cookies.remove("g_email", { path: "/" },100);
-        cookies.remove("g_passwd", { path: "/" },100);
-        cookies.remove("g_level", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_card", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_phone", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_photo", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_join_date", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_cvc", { path: "/" }, new Date(Date.now()));
-        cookies.remove("g_date", { path: "/" }, new Date(Date.now()));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault(); 
-        if (window.confirm('회원 정보를 수정하시겠습니까?')) {
-            fetch(`http://localhost/admin/ag_update`, {
-                method: 'POST',
-                body: 'formData'                   
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    Swal.fire({
-                        title: '수정 완료',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            removeCookies("guest");
-                            window.location.href = '/admin/aguest';
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: '에러 발생',
-                        text: '관리자에게 문의하세요',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error updating user:', error);
-            });
-        }
-    };
-
-    const handleDelete = () => {        
-        if (window.confirm('정말로 탈퇴시키겠습니까?')) {
-            fetch(`http://localhost/admin/ag_delete?g_idx=${formData.g_idx}`, {
-                method: 'POST' 
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    Swal.fire({
-                        title: '회원 삭제 완료',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                    }).then((result) => {
-                        if(result.isConfirmed) {
-                            removeCookies("guest");
-                            window.location.href='/admin/aguest';
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: '에러 발생',
-                        text: '관리자에게 문의하세요',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-            });
-        } 
-    };
+  
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -96,7 +14,6 @@ function EditModal({ list, onClose }) {
             [name]: value,
         }));
     };
-
     return (
         <div className="modal" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
             <div className="modal-dialog modal-lg modal-dialog-centered" style={{ borderRadius: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.3)' }}>
@@ -108,7 +25,6 @@ function EditModal({ list, onClose }) {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-md-4">
                                     <label>프로필</label>
@@ -124,11 +40,6 @@ function EditModal({ list, onClose }) {
                                 <label>아이디</label>
                                 <input type="text" className="form-control"
                                     name="g_email" value={formData.g_email} onChange={handleChange} readOnly />
-                            </div>
-                            <div className="form-group">
-                                <label>비밀번호</label>
-                                <input type="text" className="form-control"
-                                    name="g_passwd" value={formData.g_passwd}  onChange={handleChange} readOnly />
                             </div>
                             <div className="form-group">
                                 <label>전화번호</label>
@@ -165,9 +76,6 @@ function EditModal({ list, onClose }) {
                                     name="g_point" value={formData.g_point}
                                     onChange={handleChange} />
                             </div>
-                            <button type="submit" className="btn btn-secondary" style={{ backgroundColor: 'rgba(119, 167, 144, 0.753)', borderRadius: '10px' }}>수정</button>
-                            <button type="button" className="btn btn-secondary" onClick={handleDelete} style={{ backgroundColor: ' rgba(119, 167, 144, 0.753)', borderRadius: '10px' }}>삭제</button>
-                        </form>
                     </div>
                 </div>
             </div>

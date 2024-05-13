@@ -83,18 +83,18 @@ function GuestInfo() {
         return (
             <>
                 <div className="container min-vh-100">
-                <h3 class="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
+                <h3 className="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
                 &nbsp; 회원 정보</h3>
                 <br/>
-                <div class="card-stylee mb-30">
+                <div className="card-stylee mb-30">
                     <form>
                         <div style={{float:"left"}}>
-                        <label class="label-1">이메일</label><br/>
+                        <label className="label-1">이메일</label><br/>
                         <input type="text" style={{border: "0px", outline: "none"}} defaultValue={email.key} readOnly></input>
                         </div>
-                        <div class="blankk"></div>
+                        <div className="blankk"></div>
                         <div>
-                        <label class="label-1">프로필 사진</label><br/>
+                        <label className="label-1">프로필 사진</label><br/>
                         { data.dto.g_photo !== '-' ? 
                         <>
                         <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle} 
@@ -124,39 +124,39 @@ function GuestInfo() {
                         </div>
                         <hr/>
                         <div>
-                        <label class="label-1">이름</label><br/>
+                        <label className="label-1">이름</label><br/>
                         <input type="text" style={{border: "0px", outline: "none"}} defaultValue={name.key} readOnly></input>
                         </div>
                         <hr/>
                         <div style={{float:"left"}}>
-                        <label class="label-1">비밀번호</label><br/>
-                        <input class="underline" type="password"  ref={g_passwd}></input>
+                        <label className="label-1">비밀번호</label><br/>
+                        <input className="underline" type="password"  ref={g_passwd}></input>
                         </div>
-                        <div class="blankk"></div>
+                        <div className="blankk"></div>
                         <div>
-                        <label class="label-1">비밀번호 확인</label><br/>
-                        <input class="underline" type="password" ref={checkPwd}></input>
+                        <label className="label-1">비밀번호 확인</label><br/>
+                        <input className="underline" type="password" ref={checkPwd}></input>
                         </div>
                         <hr/>
                         <div>
-                        <label class="label-1">전화번호</label><br/>
-                        <input class="underline" type="text" ref={g_phone} onChange={handleChange} value={inputValue} placeholder="숫자만 입력하세요">
+                        <label className="label-1">전화번호</label><br/>
+                        <input className="underline" type="text" ref={g_phone} onChange={handleChange} value={inputValue} placeholder="숫자만 입력하세요">
                         
                         </input>
                         </div>
                         <hr/>
                         <div>
-                        <label class="label-1">가입일자</label><br/>
+                        <label className="label-1">가입일자</label><br/>
                         <input style={{border: "0px", outline: "none"}} defaultValue={data.dto.g_join_date} readOnly></input>
                         </div>
                         <hr/>
                         <div>
-                        <label class="label-1">레벨</label><br/>
+                        <label className="label-1">레벨</label><br/>
                         <input style={{border: "0px", outline: "none"}} defaultValue={data.dto.l_name} readOnly></input>
                         </div>
                         <hr/>
                         <div style={{float:"left", width:"150px"}}>
-                        <label class="label-1">인증</label><br/>
+                        <label className="label-1">인증</label><br/>
                         <select onChange={handleSelect} value={selected} >
                             {selectList.map((item) => (
                                 <option value={item} key={item}>
@@ -165,9 +165,9 @@ function GuestInfo() {
                             ))}
                         </select> 
                         </div>
-                        <div class="blankk"></div>
+                        <div className="blankk"></div>
                         <div>
-                        <label class="label-1">신분증</label><br/>
+                        <label className="label-1">신분증</label><br/>
                         { data.dto.g_url !== '-' ? 
                         <>
                         <a href="#" style={{border: "0px", outline: "none"}} onClick={() => {
@@ -185,7 +185,7 @@ function GuestInfo() {
                                 }
                             });
                         }}>{data.dto.g_url}</a>
-                        <div id="alterUrl" class={alter}>
+                        <div id="alterUrl" className={alter}>
                         <input type='file' ref={img}></input>
                         </div>
                         </>
@@ -198,7 +198,7 @@ function GuestInfo() {
                         <hr/>
                         <br/>
                         <div>
-                        <button type='button' class="main-btn" onClick={() =>{
+                        <button type='button' className="main-btn" onClick={() =>{
                             if(g_passwd.current.value != checkPwd.current.value) {
                                 Swal.fire({
                                     icon : 'warning',

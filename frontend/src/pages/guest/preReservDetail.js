@@ -78,12 +78,12 @@ function PreReservDetail() {
            
             <>
             <div style={{width: '1500px', marginLeft: '200px', marginTop: '50px', overflow: 'hidden'}}>
-                <h3 class="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
+                <h3 className="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
                 &nbsp; 예정 예약 상세</h3>
                 <br/>
                 <br/>
                 <div style={{width: '500px', float:'left'}}>
-                <div class="card-reservDetail">
+                <div className="card-reservDetail">
                     <h4>예약 세부 정보</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}> 상태: {state}</p>
@@ -95,8 +95,8 @@ function PreReservDetail() {
                     <hr/>
                     <Link to={`/guest/cancelReserv/${OIdx}`} style={{textDecorationLine: 'none'}}><div><p style={{color: 'black'}}><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;예약 취소</p></div></Link>
                 </div>
-                <div class='detail-blank'></div>
-                <div class='card-reservDetail'>
+                <div className='detail-blank'></div>
+                <div className='card-reservDetail'>
                     <h4>찾아가는 방법</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}> 주소</p>
@@ -104,8 +104,8 @@ function PreReservDetail() {
                     <hr/>
                     <div onClick={() => handleCopyClick(address)}><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;주소 복사하기</p></div>            
                 </div>
-                <div class='detail-blank'></div>
-                <div class='card-reservDetail'>
+                <div className='detail-blank'></div>
+                <div className='card-reservDetail'>
                     <h4>숙소 안내 및 일정</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}>예약 일정</p>
@@ -114,22 +114,22 @@ function PreReservDetail() {
                     <p style={{fontWeight: 'bold'}}> 숙소 안내</p>
                     <p>면적: {data.dto.d_area} <br/> 룸 타입: {data.dto.d_room_type} <br/> 침대 수: {data.dto.d_beds} <br/> 흡연실 여부: {data.dto.d_non_smoking} </p>
                 </div>
-                <div class='detail-blank'></div>
-                <div class='card-reservDetail'>
+                <div className='detail-blank'></div>
+                <div className='card-reservDetail'>
                     <h4>호스트 안내</h4>
                     <hr/>
                     <div style={{float: 'left', marginRight: '10px'}}><span dangerouslySetInnerHTML={{__html: img}}></span></div><p style={{fontSize: '20px'}}>{data.dto.h_name}님 <br/></p>
                     <p>연락처: {data.dto.h_phone}</p>
                 </div>
-                <div class='detail-blank'></div>
-                <div class='card-reservDetail'  style={{marginBottom: '100px'}}>
+                <div className='detail-blank'></div>
+                <div className='card-reservDetail'  style={{marginBottom: '100px'}}>
                     <h4>결제 정보</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}>결제 세부 정보</p>
                     <p>{data.dto.o_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                     <hr/>
                     <div onClick={() => {setCheck(!check)}}><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;상세 내역</p></div>
-                    <div class={check? 'abl' : 'dis'}>
+                    <div className={check? 'abl' : 'dis'}>
                         <p>주문 날짜: {data.dto.o_orderdate} <br/>
                         결제 수단: {payment} <br/>
                         할인 금액: {data.dto.o_discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 <br/>

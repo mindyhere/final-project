@@ -31,7 +31,7 @@ function Recent() {
     return (
         <>
         <div className="container min-vh-100">
-            <h3 class="text-bold"> <img src="/img/wish.png" width="30px" height="30px" />
+            <h3 className="text-bold"> <img src="/img/wish.png" width="30px" height="30px" />
             &nbsp; 위시리스트</h3>
             <br/>
             <hr/>

@@ -7,10 +7,12 @@ import '../../asset/css/user.css'
 import './modall.css'
 import './aa.css'
 import {useNavigate} from "react-router-dom";
+import HostJoin from "../host/login/Join_modal";
 
 
 function GuestLogin() {
-    const [join, setJoin] = useState(false);       
+    const [join, setJoin] = useState(false);     
+    const [hostJoin, setHostJoin] = useState(false);  
     const navigate = useNavigate();
     const g_email = useRef();
     const g_passwd = useRef();
@@ -20,18 +22,18 @@ function GuestLogin() {
     return (
         <>
             <div className="container min-vh-100">
-            <h3 class="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
+            <h3 className="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
                 로그인</h3>
                 <br/>
-		    <p class="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
+		    <p className="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
 			있습니다.</p>
-            <div class="card-stylee mb-30">
+            <div className="card-stylee mb-30">
                 <form>
                     <div>
-                    <div class="input-stylee-1">
+                    <div className="input-stylee-1">
 						<label>이메일</label> <input ref={g_email} placeholder="이메일을 입력해주세요"/>
 					</div>
-                    <div class="input-stylee-1">
+                    <div className="input-stylee-1">
 						<label>비밀번호</label> <input type='password' ref={g_passwd} />
 					</div>
                     <br/>
@@ -84,28 +86,28 @@ function GuestLogin() {
                                         });
                                     }
                                 });
-                            }} class="main-btnn">로그인</button>
+                            }} className="main-btnn">로그인</button>
                             &nbsp;
                             
             </div>
             </form>
             </div>
-            <div class="card-stylee d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
-            <div class="col text-center">
-            <div class="btnLoginBottom">
+            <div className="card-stylee d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
+            <div className="col text-center">
+            <div className="btnLoginBottom">
             <Link to="/guest/searchEmail"><img src="/img/id.png" /><br/> 이메일 찾기</Link>
             </div>
             </div>
-            <div class="col text-center">
-            <div class="btnLoginBottom">
+            <div className="col text-center">
+            <div className="btnLoginBottom">
             <Link to="/guest/searchPw"><img src="/img/forgot.png" /><br/> 비밀번호 찾기</Link>
             </div>
             </div>
-            <div class="col text-center">
-            <div class="btnLoginBottom">
+            <div className="col text-center">
+            <div className="btnLoginBottom">
 
             <div onClick={() => setModal(true)}>
-            <img src="/img/join.png" /><br/> <label class="text-bold">회원가입</label>
+            <img src="/img/join.png" /><br/> <label className="text-bold">회원가입</label>
             </div>
 
             { modal &&
@@ -116,28 +118,30 @@ function GuestLogin() {
                 </button>
 
                     <div className="container min-vh-100" style={{paddingTop: "15px"}}>
-                        <h3 class="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>회원가입</h3>
+                        <h3 className="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>회원가입</h3>
                         <hr/>
-                       <div class="aa">
-                        <div class="card-style1" onClick={() => {setJoin(!join);}}> 
+                       <div className="aa">
+                        <div className="card-style1" onClick={() => {setJoin(!join);}}> 
                             <img src="/img/guest.png" width="100px" height="100px" style={{marginLeft: "10px"}}/>
-                            <label class="text-bold" style={{paddingTop: "20px"}}>게스트</label>
-                            {join && (
+                            <label className="text-bold" style={{paddingTop: "20px"}}>게스트</label>
+                            
+                        </div>
+                        {join && (
                                 <Modall closeModal={() => {setJoin(!join);}}>
                                 <Join />
                                 </Modall>
                             )}
-                        </div>
 
-                        <div class="card-style2" onClick={() => {setJoin(!join);}}> 
+                        <div className="card-style2" onClick={() => {setHostJoin(!hostJoin);}}> 
                             <img src="/img/host.png" width="100px" height="100px" />
-                            <label class="text-bold" style={{paddingTop: "20px"}}>호스트</label>
-                            {join && (
-                                <Modall closeModal={() => {setJoin(!join);}}>
-                                <Join />
+                            <label className="text-bold" style={{paddingTop: "20px"}}>호스트</label>
+                            
+                        </div>
+                        {hostJoin && (
+                                <Modall closeModal={() => {setHostJoin(!hostJoin);}}>
+                                <HostJoin />
                                 </Modall>
                             )}
-                        </div>
                 </div>
         </div>
             </div>
@@ -158,7 +162,7 @@ function GuestLogin() {
 
     
         return (
-            <div className='Modal_a' onClick={closeModal}>
+            <div className='Modal_a' >
                 <div className='modalBody_a' onClick={(e) => e.stopPropagation()}>
                     <button id = 'modalCloseBtn' onClick={closeModal} >
                         X
