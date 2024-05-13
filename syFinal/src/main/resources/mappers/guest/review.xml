@@ -14,9 +14,9 @@ values (
 	)
 </insert>
 
-<!-- <select id="detail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+<select id="detail" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 select * from v_hotel_review where rv_idx=#{rv_idx}
-</select> -->
+</select>
 
 <update id="editReview">
 update review
@@ -27,7 +27,7 @@ update review
 where rv_idx=#{rv_idx}
 </update>
 
-<delete id="delete">
+<delete id="updateDeleted">
 update review
 set rv_deleted=1
 where rv_idx=#{rv_idx}
