@@ -30,8 +30,10 @@ function ListReviews() {
       })
       .then((data) => {
         // console.log("==> 리뷰 data? " + JSON.stringify(data.page));
-        setList(data.list);
-        setAvg(data.avgList);
+        if (data.list !== null) {
+          setList(data.list);
+          setAvg(data.avgList);
+        }
         setPaging(data.page);
         setCount(data.count);
       });
