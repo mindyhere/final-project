@@ -44,22 +44,21 @@ public class ReputationController {
 		System.out.println("==> h_idx? " + h_idx + ", pageNum? " + pageNum);
 		int cnt = reputationDao.countRecord(h_idx);
 		Map<String, Object> data = new HashMap<>();
+		PageUtil page = new PageUtil(cnt, pageNum);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
 		if (cnt == 0) {
-			data.put("count", cnt);
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-			PageUtil page = new PageUtil(cnt, pageNum);
-			int start = page.getPageBegin();
-			int end = page.getPageEnd();
 			System.out.println("==> start? " + start + ", end? " + end);
 			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start, end);
-			data.put("count", cnt);
-			data.put("page", page);
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> list? " + data.get("list"));
+		data.put("count", cnt);
+		data.put("page", page);
+		System.out.println("==> list? " + data.get("list") + ", data? " + data);
 		return data;
 	}
 
