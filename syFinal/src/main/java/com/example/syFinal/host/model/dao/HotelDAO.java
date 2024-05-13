@@ -34,4 +34,10 @@ public interface HotelDAO {
 	
 	/* 호스트의 모든 호텔 리뷰 */
 	List<Map<String, Object>> allReviews(int h_idx);
+	
+	/* 호스트의 호텔 현황 */
+	Map<String, Object> hotelStatus(int h_idx);
+	
+	/* 호스트의 호텔 목록 */
+	List<Map<String, Object>> hostAllHotel(int h_idx);
 }

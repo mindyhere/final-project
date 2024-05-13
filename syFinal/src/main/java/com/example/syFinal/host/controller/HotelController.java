@@ -23,16 +23,14 @@ public class HotelController {
 	HotelDAO hotelDao;
 
 	/* 호텔 상세 정보 */
-	@RequestMapping("/host/hotel/hotelDetail/{hoIdx}/{dIdx}")
-	public Map<String, Object> hotelList(@PathVariable(name = "hoIdx") int ho_idx, @PathVariable(name = "dIdx") int d_idx) {
-		System.out.println("d_idx   : "  + d_idx);
+	@GetMapping("/host/hotel/hotelDetail/{hoIdx}/{dIdx}")
+	public Map<String, Object> hotelList(@PathVariable(name = "hoIdx") int ho_idx,
+			@PathVariable(name = "dIdx") int d_idx) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("ho_idx", ho_idx);
 		map.put("d_idx", d_idx);
-		
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hoteLlist(map);
-		System.out.println("map : " + map);
 		return hotelList;
 	}
 
@@ -111,5 +109,19 @@ public class HotelController {
 		List<Map<String, Object>> allReviews = new ArrayList<>();
 		allReviews = hotelDao.allReviews(h_idx);
 		return allReviews;
+	}
+
+	/* 호스트의 호텔 현황 */
+	@GetMapping("/host/hotel/hotelManagement/{hIdx}")
+	public Map<String, Object> hotelManagement(@PathVariable(name = "hIdx") int h_idx) {
+		Map<String, Object> hotelStatus = hotelDao.hotelStatus(h_idx);
+		List<Map<String, Object>> hotelList = hotelDao.hostAllHotel(h_idx);
+		Map<String, Object> hotelManagement = new HashMap<>();
+		hotelManagement.put("status", hotelStatus);
+		hotelManagement.put("list", hotelList);
+		System.out.println("====> status : " + hotelStatus);
+		System.out.println("====> list : " + hotelList);
+		System.out.println("====> hotelManagement : " + hotelManagement);
+		return hotelManagement;
 	}
 }

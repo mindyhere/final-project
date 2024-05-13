@@ -1,6 +1,8 @@
 package com.example.syFinal.guest.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +45,60 @@ public class ReservDAOImpl implements ReservDAO {
 			result = "fail";
 		}
 		return result;
+	}
+	
+	@Override
+	public ReservDTO upDetail(int o_idx) {
+		return sqlSession.selectOne("reserv.upDetail", o_idx);
+	}
+	
+	@Override
+	public String insert(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ru_idx", ru_idx);
+		map.put("ru_startDate", ru_startDate);
+		map.put("ru_endDate", ru_endDate);
+		map.put("ru_adult", ru_adult);
+		map.put("ru_child", ru_child);
+		map.put("ru_baby", ru_baby);
+		String result = "";
+		try {
+			sqlSession.insert("reserv.insert", map);
+			sqlSession.update("reserv.state",ru_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
+	}
+	
+	@Override
+	public int check(int ru_idx) {
+		return sqlSession.selectOne("reserv.check", ru_idx);
+	}
+	
+	@Override
+	public String update(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ru_idx", ru_idx);
+		map.put("ru_startDate", ru_startDate);
+		map.put("ru_endDate", ru_endDate);
+		map.put("ru_adult", ru_adult);
+		map.put("ru_child", ru_child);
+		map.put("ru_baby", ru_baby);
+		String result = "";
+		try {
+			sqlSession.update("reserv.update", map);
+			sqlSession.update("reserv.state",ru_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
+	}
+	
+	@Override
+	public ReservDTO confirm(int ru_idx) {
+		return sqlSession.selectOne("reserv.confirm", ru_idx);
 	}
 }

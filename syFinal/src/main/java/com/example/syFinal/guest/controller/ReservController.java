@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,12 +90,12 @@ public class ReservController {
 	@ResponseBody
 	public Map<String, Object> lastDetail(@RequestParam(name = "o_idx") int o_idx) {
 		ReservDTO dto = dao.lastDetail(o_idx);
+		int o_reser = dto.getO_adult() + dto.getO_child();
+		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		System.out.println(dto);
 		LocalDate date = LocalDate.parse(dto.getO_ckin());
 		map.put("ref_date", date.minusDays(1));
-		System.out.println(map);
 		return map;
 	}
 
@@ -102,8 +103,9 @@ public class ReservController {
 	@ResponseBody
 	public Map<String, Object> delDetail(@RequestParam(name = "o_idx") int o_idx) {
 		ReservDTO dto = dao.delDetail(o_idx);
+		int o_reser = dto.getO_adult() + dto.getO_child();
+		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
-
 		Date now = new Date();
 		Date ref_date = new Date();
 		String ck_time = dto.getO_ckin() + " " + dto.getHo_check_in();
@@ -118,7 +120,7 @@ public class ReservController {
 		String refund = "";
 		int refund_money = 0;
 		ref_date = new Date(cal1.getTimeInMillis()); // 환불 가능 기한
-		System.out.println(ref_date.before(now));
+		// System.out.println(ref_date.before(now));
 		if (ref_date.before(now)) {
 			refund = "환불 불가능";
 		} else {
@@ -139,4 +141,73 @@ public class ReservController {
 		map.put("result", result);
 		return map;
 	}
+
+	@RequestMapping("upDetail")
+	@ResponseBody
+	public Map<String, Object> upDetail(@RequestParam(name = "o_idx") int o_idx) {
+		ReservDTO dto = dao.upDetail(o_idx);
+		int check = dao.check(o_idx);
+		Date ref_date = new Date();
+		String alter = "";
+		String date2 = dto.getO_ckin(); // 날짜1
+		String date1 = dto.getO_ckout(); // 날짜2
+		long diffSec = 0;
+		long diffDays = 0;
+		try {
+			Date format1 = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
+			Date format2 = new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+			diffSec = (format1.getTime() - format2.getTime()) / 1000;
+			diffDays = diffSec / (24 * 60 * 60);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (check == 0) {
+			dto.setO_reser(dto.getO_adult() + dto.getO_child());
+			String ck_time = dto.getO_ckin() + " " + dto.getHo_check_in();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Calendar cal1 = Calendar.getInstance();
+			try {
+				ref_date = format.parse(ck_time);
+				cal1.setTime(ref_date);
+				cal1.add(Calendar.DATE, -1);
+			} catch (Exception e) {
+			}
+			ref_date = new Date(cal1.getTimeInMillis()); // 환불 가능 기한
+		} else if (check == 1) {
+			ReservDTO dto2 = dao.confirm(o_idx);
+			dto.setO_ckin(dto2.getRu_startDate());
+			dto.setO_ckout(dto2.getRu_endDate());
+			dto.setO_baby(dto2.getRu_adult());
+			dto.setO_child(dto2.getRu_child());
+			dto.setO_adult(dto2.getRu_adult());
+			alter = "이미 아래와 같은 변경 신청 이력이 있습니다.";
+		}
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		map.put("alter", alter);
+		map.put("ref_date", ref_date);
+		map.put("diffDays", diffDays);
+		return map;
+	}
+
+	@PostMapping("insert")
+	@ResponseBody
+	public Map<String, Object> insert(@RequestParam(name = "ru_idx") int ru_idx,
+			@RequestParam(name = "ru_adult") int ru_adult, @RequestParam(name = "ru_child") int ru_child,
+			@RequestParam(name = "ru_baby") int ru_baby, @RequestParam(name = "ru_startDate") String ru_startDate,
+			@RequestParam(name = "ru_endDate") String ru_endDate) {
+		System.out.println(ru_idx);
+		int check = dao.check(ru_idx);
+		String result = "";
+		if (check == 1) {
+			result = dao.update(ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
+		} else if (check == 0) {
+			result = dao.insert(ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
+	}
+
 }
