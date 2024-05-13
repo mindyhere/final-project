@@ -11,8 +11,8 @@ const EditReply = () => {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
+  const userEmail = userInfo.h_email;
   const userName = userInfo.h_name;
-  const rp_rv_idx = useRef();
   const rp_content = useRef();
   const [reply, setReply] = useState(null);
   const [content, setContent] = useState("");
@@ -94,15 +94,15 @@ const EditReply = () => {
                   <div
                     className="col-2"
                     dangerouslySetInnerHTML={{ __html: profile_src }}
+                    style={{ marginRight: "2%" }}
                   ></div>
-                  <div className="col-10" width="100%">
+                  <div className="col-8" width="100%">
                     <b>예약번호</b> :&nbsp;&nbsp;{data.o_idx}&nbsp;&nbsp;
                     |&nbsp;&nbsp;<b>객실유형</b> :&nbsp;&nbsp;{data.d_idx}
                     <br />
                     <b>평점</b>: &nbsp;{rendering(data.rv_star)}
                     <br />
                     <b>후기작성일</b> :&nbsp;&nbsp;{data.rv_date}
-                    {/* <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout} */}
                   </div>
                 </div>
                 <hr />
@@ -117,6 +117,7 @@ const EditReply = () => {
                     cols={85}
                     defaultValue={data.rv_content}
                     style={{
+                      cursor: "auto",
                       borderColor: "#FAE0E0",
                       borderRadius: "7px",
                     }}
@@ -131,7 +132,6 @@ const EditReply = () => {
                 >
                   <b>REPLY</b>
                 </div>
-
                 <textarea
                   className="form-control mb-3"
                   rows={5}
@@ -180,41 +180,71 @@ const EditReply = () => {
                       });
                       return;
                     } else {
-                      const form = new FormData();
-                      form.append("rp_rv_idx", data.rv_idx);
-                      form.append("rp_writer", userIdx);
-                      form.append("rp_content", rp_content.current.value);
-                      console.log("==> form?" + JSON.stringify(form));
-                      fetch("http://localhost/api/reply/edit", {
-                        method: "post",
-                        body: form,
-                      })
-                        .then((response) => {
-                          if (!response.ok) {
-                            throw new Error("false: " + response.status);
-                          }
+                      Swal.fire({
+                        icon: "info",
+                        title: "잠깐!",
+                        input: "password",
+                        inputLabel: "답변을 수정하시겠습니까?",
+                        inputPlaceholder: "비밀번호를 입력해주세요",
+                        inputAttributes: {
+                          autocapitalize: "off",
+                          autocorrect: "off",
+                        },
+                        showCancelButton: true,
+                        cancelButtonText: "CANCEL",
+                        confirmButtonText: "CONFIRM",
+                        showLoaderOnConfirm: true,
+                        preConfirm: (pwd) => {
+                          return fetch(
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                          )
+                            .then((response) => {
+                              if (!response.ok) {
+                                throw new Error("false: " + response.status);
+                              }
+
+                              const form = new FormData();
+                              form.append("rp_idx", data.rp_idx);
+                              form.append(
+                                "rp_content",
+                                rp_content.current.value
+                              );
+                              console.log("==> form?" + JSON.stringify(form));
+
+                              return fetch(`http://localhost/api/reply/edit`, {
+                                method: "post",
+                                body: form,
+                              }).then((response) => {
+                                if (!response.ok) {
+                                  throw new Error("false: " + response.status);
+                                }
+                                return response.text();
+                              });
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                              Swal.showValidationMessage(
+                                `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                              );
+                            });
+                        },
+                        allowOutsideClick: () => !Swal.isLoading(),
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
-                            title: "Thank you!",
-                            html: "정상 처리되었습니다.",
-                            confirmButtonText: "OK",
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              localStorage.removeItem("reviewData"); // localStorage 비우기
-                              window.opener.location.reload(); // 부모창(reservRevItem) 새로고침(리뷰 미작성 목록 새로고침)
-                              window.close(); // 창닫기
-                            }
+                            title: "Success",
+                            html: "정상처리 되었습니다.",
+                            showConfirmButton: false,
+                            timer: 2000,
+                          }).then(() => {
+                            localStorage.removeItem("editData");
+                            window.opener.location.reload(); // 부모창
+                            window.close(); // 창닫기
                           });
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                          Swal.fire({
-                            icon: "error",
-                            title: "잠깐!",
-                            html: "처리 중 문제가 발생했습니다.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.",
-                            confirmButtonText: "OK",
-                          });
-                        });
+                        }
+                      });
                     }
                   }}
                 >
@@ -224,6 +254,64 @@ const EditReply = () => {
                 <button
                   className={"main-btn"}
                   style={{ backgroundColor: "#C6C7C8" }}
+                  onClick={() => {
+                    Swal.fire({
+                      icon: "info",
+                      title: "잠깐!",
+                      input: "password",
+                      inputLabel: "답변을 삭제하시겠습니까?",
+                      inputPlaceholder: "비밀번호를 입력해주세요",
+                      inputAttributes: {
+                        autocapitalize: "off",
+                        autocorrect: "off",
+                      },
+                      showCancelButton: true,
+                      cancelButtonText: "CANCEL",
+                      confirmButtonText: "CONFIRM",
+                      showLoaderOnConfirm: true,
+                      preConfirm: (pwd) => {
+                        return fetch(
+                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                        )
+                          .then((response) => {
+                            if (!response.ok) {
+                              throw new Error("false: " + response.status);
+                            }
+                            let rp_idx = data.rp_idx;
+                            return fetch(
+                              `http://localhost/api/reply/delete/${rp_idx}`
+                            ).then((response) => {
+                              if (!response.ok) {
+                                throw new Error("false: " + response.status);
+                              }
+                              return response.text();
+                            });
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                              `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                            );
+                          });
+                      },
+                      allowOutsideClick: () => !Swal.isLoading(),
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        // console.log(result.value);
+                        Swal.fire({
+                          icon: "success",
+                          title: "Success",
+                          html: "정상처리 되었습니다.",
+                          showConfirmButton: false,
+                          timer: 2000,
+                        }).then(() => {
+                          localStorage.removeItem("editData");
+                          window.opener.location.reload(); // 부모창
+                          window.close(); // 창닫기
+                        });
+                      }
+                    });
+                  }}
                 >
                   &nbsp;&nbsp;&nbsp;삭제하기&nbsp;&nbsp;&nbsp;
                 </button>
