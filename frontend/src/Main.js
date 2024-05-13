@@ -2,7 +2,7 @@ import React, {useRef,useEffect,useState} from 'react';
 
 import HotelItem from './component/HotelItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 //import Button from "react-bootstrap/Button";
 
 function Main() {
@@ -27,6 +27,14 @@ function Main() {
           <input title="호텔명으로 검색" type="text" ref={search} placeholder="Search" className='shadow w-25 p-1 mb-5 border border-success p-2 border-opacity-10 rounded'/>
           &nbsp;
           <button type='button' onClick={()=>{
+              if(search.current.value === "") {
+                Swal.fire({
+                  icon : 'warning',
+                  text : '검색어를 입력해주세요',
+                  confirmButtonText: '확인'
+                });
+                return;
+              }
               getMain(`http://localhost/guest/main?search=${search.current.value}`)
               //검색
           }} className='shadow p-1 mb-2 border border-success p-2 border-opacity-10 rounded'><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
