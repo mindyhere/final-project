@@ -93,6 +93,7 @@ function Header() {
                 <div
                   className="Modal"
                   style={{ zIndex: 999 }}
+                  onClick={() => setModal_1(false)}
                   
                 >
                   <div
@@ -178,7 +179,7 @@ function Header() {
               {modal && (
                 <div
                   className="Modal"
-
+                  onClick={() => setModal(false)}
                 >
                   <div
                     className="modalBody"
