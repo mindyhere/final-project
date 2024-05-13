@@ -34,15 +34,10 @@ function HotelDetail() {
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
     const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
-    const [modal, setModal] = useState(false);
-    const element = useRef<HTMLDivElement>(null);
+    const element = useRef(null);
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
-    const hostInfoForm = useRef();
-    const moveToHostInfo = () => {
-        hostInfoForm.current.scrollIntoView({behavior : 'smooth', block : 'start'});
-    };
 
     useEffect(() => {
         var myArr = localStorage.getItem('watched');
@@ -170,7 +165,7 @@ function HotelDetail() {
                                 }
                             </div>
                             <br />
-                            <div className="row">
+                            <div className="row" onClick={onMoveBox}>
                                 <div className="col-3" style={{textAlign : 'center'}} dangerouslySetInnerHTML={{__html : profile_url}}></div>
                                 <div className="col-9" style={{alignSelf : 'center'}}>
                                   
@@ -207,18 +202,18 @@ function HotelDetail() {
                             </div>
                             <hr />
                             <h4>숙소 위치</h4>
-                            <div>{data.ho_address}
-                            <br />
-                                <KakaoMap />
+                                <div>{data.ho_address}
+                                <br />
+                                    <KakaoMap />
                                 </div>
                             <hr />
-                            <h4 useRef={hostInfoForm} className="mb-30">호스트 소개</h4>
-                             <HostInfo />
+                            <h4 className="mb-30">호스트 소개</h4>
+                                <div ref={element}><HostInfo /></div>
                             <hr />
                             <h4 className="mb-20">알아두어야 할 사항</h4>
-                            <div>
-                                <HotelRule />
-                            </div>
+                                <div>
+                                    <HotelRule />
+                                </div>
                         </div>
                     </div>
                     

@@ -277,7 +277,6 @@ function Header() {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
 
-    console.log(g_photo.key);
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -319,75 +318,9 @@ function Header() {
               <li className="nav-item">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
-                      <span className={"modal-open-btn"}
-                      onClick={() => {
-                        if (window.location.pathname !== "/guest/reservation") {
-                          setModalOpen(true);
-                        }
-                      }} dangerouslySetInnerHTML={{ __html: image}}></span>
+                      <span onClick={() =>  navigate("/guest/Profile")} dangerouslySetInnerHTML={{ __html: image}}></span>
                   </div>
                 </a>
-                {modalOpen && (
-                  <div
-                    className={"modal-container"}
-                    ref={modalBackground}
-                    onClick={(e) => {
-                      if (e.target === modalBackground.current) {
-                        setModalOpen(false);
-                      }
-                    }}
-                  >
-                    <div className={"modal-content"}>
-                      <h4>{g_name.key}님 프로필</h4>
-                      <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
-                      {/* <img
-                        src={g_photo.key}
-                        width="210px"
-                        height="210px"
-                      ></img> */}
-                      <div style={{ padding: "5px" }}>
-                        <EnvelopeAt size={25} />
-                        &nbsp;
-                        <input
-                          type="text"
-                          defaultValue={g_email.key}
-                          className="form-control"
-                          readOnly
-                        ></input>
-                      </div>
-                      <div style={{ padding: "5px" }}>
-                        <Telephone size={25} />
-                        &nbsp;
-                        <input
-                          type="tel"
-                          defaultValue={g_phone.key}
-                          className="form-control"
-                          readOnly
-                        ></input>
-                      </div>
-                      <div style={{ padding: "5px" }}>
-                        <Star size={25} />
-                        &nbsp;
-                        <input
-                          type="text"
-                          defaultValue={level}
-                          className="form-control"
-                          readOnly
-                        ></input>
-                      </div>
-                      <ul className="navbar-nav">
-                        <li style={{ padding: "4px" }}>
-                          <button
-                            className="btn btn-dark"
-                            onClick={() => setModalOpen(false)}
-                          >
-                            닫기
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                )}
               </li>
               <li className="nav-item">
                 <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>

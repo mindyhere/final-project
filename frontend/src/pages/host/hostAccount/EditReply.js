@@ -15,6 +15,7 @@ const EditReply = () => {
   const rp_rv_idx = useRef();
   const rp_content = useRef();
   const [reply, setReply] = useState(null);
+  const [content, setContent] = useState("");
   const [check, setCheck] = useState(false);
 
   const rendering = (i) => {
@@ -33,6 +34,7 @@ const EditReply = () => {
       })
       .then((data) => {
         setReply(data.reply);
+        setContent(data.reply.rp_content);
       });
   }
 
@@ -51,7 +53,7 @@ const EditReply = () => {
       profile_src =
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
     }
-
+    console.log("==>" + JSON.stringify(reply));
     return (
       <>
         <div className="m-2 p-2">
@@ -134,7 +136,7 @@ const EditReply = () => {
                   className="form-control mb-3"
                   rows={5}
                   cols={85}
-                  defaultValue={reply.rp_content}
+                  defaultValue={content}
                   ref={rp_content}
                   placeholder="내용을 입력해주세요"
                   style={{
@@ -183,7 +185,7 @@ const EditReply = () => {
                       form.append("rp_writer", userIdx);
                       form.append("rp_content", rp_content.current.value);
                       console.log("==> form?" + JSON.stringify(form));
-                      fetch("http://localhost/api/reply/insert", {
+                      fetch("http://localhost/api/reply/edit", {
                         method: "post",
                         body: form,
                       })
@@ -216,9 +218,15 @@ const EditReply = () => {
                     }
                   }}
                 >
-                  &nbsp;&nbsp;&nbsp;작성완료&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;수정하기&nbsp;&nbsp;&nbsp;
                 </button>
                 &nbsp;&nbsp;
+                <button
+                  className={"main-btn"}
+                  style={{ backgroundColor: "#C6C7C8" }}
+                >
+                  &nbsp;&nbsp;&nbsp;삭제하기&nbsp;&nbsp;&nbsp;
+                </button>
               </div>
             </div>
           </div>
