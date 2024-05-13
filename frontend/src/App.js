@@ -72,7 +72,7 @@ function App() {
           <Route path="/guest/Profile" element={<Profile />} />
           <Route path="/guest/Pay" element={<Pay />} />
           <Route
-            path="/host/hotel/hotelDetail/:HoIdx"
+            path="/host/hotel/hotelDetail/:HoIdx/:dIdx"
             element={<HotelDetail />}
           />
           <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />} />

@@ -1,4 +1,5 @@
 import React, {useRef, useEffect, useState} from "react";
+import { useLocation } from "react-router-dom";
 import KakaoMap from "../../component/KakaoMap";
 import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
@@ -20,6 +21,7 @@ function useFetch(url) {
     useEffect(() => {
         fetch(url)
         .then(response => {
+            console.log('response'+ response);
             return response.json();
         })
         .then(data => {
@@ -31,8 +33,10 @@ function useFetch(url) {
 }
 
 function HotelDetail() {
+    const location = useLocation();
     const {HoIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
+    let {dIdx} = useParams();
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
     const element = useRef(null);
     const onMoveBox = () => {
