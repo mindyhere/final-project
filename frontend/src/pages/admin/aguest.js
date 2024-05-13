@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { PersonWorkspace,PencilSquare } from "react-bootstrap-icons";
 import EditModal from "./EditModal"; 
 import { useNavigate } from 'react-router';
-
 
 function AGuest() {
     const navigate = useNavigate();
@@ -14,12 +13,34 @@ function AGuest() {
 
     const getLevel = (g_Level) => {
         if (g_Level <= 5) {
-            return '일반회원';
+            return 'REGULAR';
         } else if (g_Level >= 10) {
             return 'SUPER';
         } else {
             return 'VIP';
         }
+    };
+
+    useEffect(() => {
+        fetchguest();
+      }, [])
+
+    const fetchguest = () => {
+        const form = new FormData();
+        form.append('searchkey', searchkey.current.value);
+        form.append('search', search.current.value);
+        fetch('http://localhost/admin/ag_list', {
+            method: 'post',
+            body: form,
+        })
+        .then(response => response.json())
+        .then(list => {
+            console.log('list', list);
+            setAgitem(list);
+        })
+        .catch(error => {
+            console.error('Error fetching user list:', error);
+        });
     };
 
     const handleEditClick = (list) => {
@@ -44,23 +65,8 @@ function AGuest() {
                 &nbsp;
                 <input ref={search} />
                 &nbsp;
-                <button type='button' className="btn btn-outline-success" onClick={() => {
-                    const form = new FormData();
-                    form.append('searchkey', searchkey.current.value);
-                    form.append('search', search.current.value);
-                    fetch('http://localhost/admin/ag_list', {
-                        method: 'post',
-                        body: form,
-                    })
-                    .then(response => response.json())
-                    .then(list => {
-                        console.log('list', list);
-                        setAgitem(list);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching user list:', error);
-                    });
-                }}>조회</button>
+                <button type='button' className="btn btn-outline-success" 
+                onClick={fetchguest}>조회</button>
                 <br /><br />
                 <table className="table table-hover">
                     <thead>
@@ -71,13 +77,13 @@ function AGuest() {
                             <th>회원ID</th>
                             <th>전화번호</th>
                             <th>가입날짜</th>
-                            <th>등급</th>
-                            <th>관리</th>
+                            <th>등급관리</th>
+                            <th>상세</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {agItem && agItem.map((list) =>
-                            <tr key={list.g_idx}>
+                        {agItem && agItem.map((list,index) =>
+                            <tr key={index}>
                                 <td>{list.g_idx}</td>
                                 <td><img src={list.g_photo} style={{ width: '50px', height: '50px' }}/></td>
                                 <td>{list.g_name}</td>
