@@ -63,11 +63,13 @@
 	
 	<!-- 호스트의 호텔 리스트 -->
 	<select id="getHotelSummary" resultType="java.util.Map">
-		SELECT * FROM hotel
+		SELECT * FROM hotel, hotel_detail
 		WHERE ho_business = 
 					(SELECT h_business FROM host
 						WHERE h_idx = #{h_idx}
 					)
+		GROUP BY ho_idx
+		ORDER BY d_idx
 	</select>
 	
 	<!-- 호스트의 모든 호텔 리뷰 -->
@@ -79,5 +81,27 @@
 		WHERE ho_idx IN
 							(SELECT ho_idx FROM hotel
 							WHERE ho_h_idx = #{h_idx})
+	</select>
+	
+	<!-- 호스트의 호텔 현황 -->
+	<select id="getHotelStatus" resultType="java.util.HashMap">
+		SELECT
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 1) wait, 
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 2) open, 
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 3) close
+		FROM hotel
+		WHERE ho_h_idx = #{h_idx} LIMIT 1;
+	</select>
+	
+	<!-- 호스트의 호텔 목록 -->
+	<select id="getHostAllHotel" resultType="java.util.HashMap">
+		SELECT *, 
+			CASE
+				WHEN ho_status= 1 THEN '승인 대기'
+			    WHEN ho_status= 2 THEN '영업 중'
+			    ELSE '영업 중지'
+			 END AS status
+		FROM hotel
+		WHERE ho_h_idx = #{h_idx}
 	</select>
 </mapper>

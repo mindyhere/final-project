@@ -33,7 +33,6 @@ function useFetch(url) {
 }
 
 function HotelDetail() {
-    const location = useLocation();
     const {HoIdx} = useParams();
     let {dIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
