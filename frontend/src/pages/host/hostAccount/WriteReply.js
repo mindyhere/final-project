@@ -102,6 +102,7 @@ const WriteReply = () => {
                     cols={85}
                     defaultValue={data.rv_content}
                     style={{
+                      cursor:"auto",
                       borderColor: "#FAE0E0",
                       borderRadius: "7px",
                     }}
