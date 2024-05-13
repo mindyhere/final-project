@@ -24,7 +24,9 @@ function Profile() {
     const idx=cookies.get('g_idx');
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
 
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen1, setModalOpen1] = useState(false);
+    const [modalOpen2, setModalOpen2] = useState(false);
+    const [modalOpen3, setModalOpen3] = useState(false);
     const modalBackground = useRef();
 
 if(loading){
@@ -36,10 +38,10 @@ if(loading){
     let image_url='';
     if (data.dto.g_photo == '-') {
       src='/img/image_no.png';
-      image_url=`<img src=${src} width='100px' height='100px'/>`;
+      image_url=`<img src=${src} width='120px' height='120px'/>`;
     } else {
       src=`http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
-      image_url=`<img src=${src} width='100px' height='100px'/>`; 
+      image_url=`<img src=${src} width='120px' height='120px'/>`; 
     }
  return (
     <>
@@ -53,7 +55,7 @@ if(loading){
                                 <div class="card-stylee mb-50" >
                                     <div class="container text-center">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col" style={{ lineHeight: '2.1'}}>
                                             <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
                                             <h4>{data.dto.g_name}</h4>
                                             <div>게스트</div>
@@ -79,10 +81,10 @@ if(loading){
                                     
                                 </div>
                                 {/* 인증정보구간 */}
-                                <div className="card" style={{width: '20rem',height: '14rem'}}>
+                                <div className="card" style={{width: '21rem',height: '15rem', padding:'0.5rem'}}>
                                     <div className="card-body" align='left'>
                                         <h4>{data.dto.g_name}님의 인증 정보</h4>
-                                        <div style={{lineHeight: '2.6'}}>
+                                        <div style={{lineHeight: '2.8'}}>
                                          <tr>
                                             <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '24px', width: '24px', stroke: 'currentcolor', strokeWidth: '2.66667', overflow: 'visible'}}><path fill="none" d="m4 16.5 8 8 16-16"></path></svg></td>
                                             <td>신분증</td>
@@ -99,16 +101,16 @@ if(loading){
                                         <a className="nav-link active">
                                             <div className={"btn-wrapper2"}>
                                                 <a className={"modal-open-btn"}
-                                                onClick={() => setModalOpen(true)}>본인 인증 절차 자세히 알아보기</a>
+                                                onClick={() => setModalOpen1(true)}>본인 인증 절차 자세히 알아보기</a>
                                             </div>
                                             </a>
-                                            {modalOpen && (
+                                            {modalOpen1 && (
                                             <div
                                                 className={"modal-container3"}
                                                 ref={modalBackground}
                                                 onClick={(e) => {
                                                 if (e.target === modalBackground.current) {
-                                                    setModalOpen(false);
+                                                    setModalOpen1(false);
                                                 }
                                                 }}
                                             >
@@ -130,9 +132,59 @@ if(loading){
                     <div className="col-7">
                         <div className="container-lg"></div>
                         <div align='left'>
-                            <h2>{data.dto.g_name}님 소개</h2>
+                            <h2>{data.dto.g_name} 님 소개</h2>
                             <hr></hr>
-                            <h4>내가 작성한 후기</h4>
+                            <h3>{data.dto.g_name} 님에 대한 호스트의 후기</h3>
+                            <a className="nav-link active">호스트 후기 모두 표시하기
+                                <div className={"btn-wrapper2"}>
+                                    <a className={"modal-open-btn"}
+                                    onClick={() => setModalOpen2(true)}>호스트 후기</a>
+                                </div>
+                            </a>
+                            {modalOpen2 && (
+                            <div
+                                className={"modal-container3"}
+                                ref={modalBackground}
+                                onClick={(e) => {
+                                if (e.target === modalBackground.current) {
+                                    setModalOpen2(false);
+                                }
+                                }}
+                            >
+                                <div className={"modal-content3"}>
+                                    {/* <svg align='left' onClick={() => setModalOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg> */}
+                                <h4>본22222</h4>
+                                <hr></hr>
+                                <p>'본인 인증'22222</p>
+                                </div>
+                            </div>
+                            )}
+                            <hr></hr>
+                            <h3>내가 작성한 후기</h3>
+                            <a className="nav-link active">나의 후기 모두 표시하기
+                                <div className={"btn-wrapper2"}>
+                                    <a className={"modal-open-btn"}
+                                    onClick={() => setModalOpen3(true)}>나의 후기</a>
+                                </div>
+                            </a>
+                            {modalOpen3 && (
+                            <div
+                                className={"modal-container3"}
+                                ref={modalBackground}
+                                onClick={(e) => {
+                                if (e.target === modalBackground.current) {
+                                    setModalOpen3(false);
+                                }
+                                }}
+                            >
+                                <div className={"modal-content3"}>
+                                    {/* <svg align='left' onClick={() => setModalOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg> */}
+                                <h4>본3333</h4>
+                                <hr></hr>
+                                <p>모달33333</p>
+                                </div>
+                            </div>
+                            )}
                         </div> 
                     </div>
                 </div>

@@ -194,29 +194,33 @@ function Reservation() {
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
-                        } else if (gidx == null||userInfo==null) {
+                        } else if(userInfo != null && gidx == null) {
                             Swal.fire({
                                 icon : 'warning',
-                                text : '게스트로 로그인시 이용 가능합니다.',
-                                confirmButtonText: '확인'
+                                text : '게스트 로그인시 예약가능합니다.',
                             });
                             return;
-                        } else {
+                        }
+                        else {
                             navigate('/guest/Order', {
                                 state: {
                                     ckin:formatDateDisplay(state.startDate),
                                     ckout:formatDateDisplay(state.endDate),
                                     reser: guestCounter,
+                                    adult: adult,
+                                    child: teenager,
+                                    baby: child,
                                     dprice: data.d_price,
                                     pprice: price,
                                     fprice: totalPrice,
                                     dateChar : dateChar,
                                     vat:vat,
                                     HoIdx: HoIdx,
-                                    didx: data.d_idx
+                                    dIdx: dIdx
                                 }
                             });
                         }
+                        
                     }} >예약하기</button>
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     { view && 
