@@ -21,4 +21,5 @@ public class ReviewDTO {
 	private int rv_re_index;
 	private float rv_star;
 	private int rv_hd_idx;
+	private int rv_deleted;
 }

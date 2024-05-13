@@ -28,6 +28,8 @@ where rv_idx=#{rv_idx}
 </update>
 
 <delete id="delete">
-delete from review where where rv_idx=#{rv_idx}
+update review
+set rv_deleted=1
+where rv_idx=#{rv_idx}
 </delete>
 </mapper>
