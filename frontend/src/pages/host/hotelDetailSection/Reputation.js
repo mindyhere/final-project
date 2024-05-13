@@ -81,6 +81,7 @@ function Reputation() {
           >
             {list.map(
               ({
+                rownum,
                 rv_idx,
                 g_name,
                 g_url,
@@ -93,6 +94,7 @@ function Reputation() {
               }) => (
                 <ReputationItem
                   opt={1}
+                  rownum={rownum}
                   rv_idx={rv_idx}
                   g_name={g_name}
                   g_url={g_url}
