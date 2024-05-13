@@ -93,7 +93,7 @@ function Header() {
                 <div
                   className="Modal"
                   style={{ zIndex: 999 }}
-                  onClick={() => setModal_1(false)}
+                  
                 >
                   <div
                     className="modalBody"
@@ -178,8 +178,7 @@ function Header() {
               {modal && (
                 <div
                   className="Modal"
-                  style={{ zIndex: 999 }}
-                  onClick={() => setModal(false)}
+
                 >
                   <div
                     className="modalBody"
@@ -217,17 +216,15 @@ function Header() {
                             style={{ paddingTop: "20px" }}
                           >
                             게스트
-                          </label>
-                          {join && (
+                          </label> 
+                        </div>
+                        {join && (
                             <Modall
-                              closeModal={() => {
-                                setJoin(!join);
-                              }}
+                              
                             >
                               <Join />
                             </Modall>
                           )}
-                        </div>
 
                         <div
                           className="card-style2"
@@ -446,14 +443,13 @@ function Header() {
 
   function Modall(props) {
     function closeModal() {
-      props.closeModal();
-      setModal(false);
+      setJoin(!join)
     }
 
     return (
-      <div className="Modal_a" onClick={closeModal}>
+      <div className="Modal_a" >
         <div className="modalBody_a" onClick={(e) => e.stopPropagation()}>
-          <button id="modalCloseBtn" onClick={closeModal}>
+          <button id="modalCloseBtn" onClick={()=> {closeModal(); setModal(false);}}>
             X
           </button>
           {props.children}

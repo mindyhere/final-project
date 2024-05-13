@@ -17,7 +17,7 @@
     height: 600px;
     padding: 40px;
     text-align: center;
-    z-index: 998;
+    z-index: 997;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -46,7 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 997;
+    z-index: 998;
   }
 
   .modalBody_a {
