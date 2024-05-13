@@ -7,6 +7,7 @@ import Reply from "../../../component/Reply";
 
 function ReputationItem({
   opt,
+  rownum,
   rv_idx,
   g_name,
   g_url,
@@ -17,7 +18,7 @@ function ReputationItem({
   rv_star,
   rp_idx,
 }) {
-  console.log("==> idx? " + rp_idx);
+  // console.log("==> idx? " + rp_idx);
   const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
@@ -75,11 +76,16 @@ function ReputationItem({
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
     }
 
-    if (opt === 1) {
+    if (opt === 1 && rownum < 7) {
       // 호텔 상세에서 call
+      if (rv_content.length > 20) {
+        let arr = "";
+        rv_content = arr.concat(rv_content.substring(0, 20) + "...");
+        // console.log("==> arr? " + arr + ", rv_content? " + rv_content);
+      }
       return (
         <div>
-          <div className="card-style">
+          <div className="card-style" style={{ maxHeight: "210px" }}>
             <div className="row mb-20">
               <div className="col-3">
                 <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
@@ -99,9 +105,9 @@ function ReputationItem({
               </span>{" "}
             </div>
             <div className="row text-ellipsis" style={{ padding: "4%" }}>
-              {rv_content}
+              {rv_content}&nbsp;
+              {rv_content.length > 20 ? <Link to="#">더보기</Link> : <br />}
             </div>
-            {rv_content.length > 20 ? <Link to="#">더보기</Link> : <br />}
           </div>
           <br />
           &nbsp;
@@ -119,9 +125,15 @@ function ReputationItem({
               <input type="hidden" defaultValue={g_email} />
               &nbsp;({l_name})
             </div>
-            <div className="row mb-20" style={{ textAlign: "left" }}>
+            <div
+              className="row mb-20"
+              style={{ textAlign: "left", fontWeight: "normal" }}
+            >
               <span style={{ display: "inline" }}>
-                {rendering(rv_star)} {rv_star}&nbsp;&nbsp;|&nbsp;&nbsp;
+                <b>
+                  {rendering(rv_star)} {rv_star}
+                </b>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
                 {rv_date}
               </span>
             </div>
@@ -133,6 +145,7 @@ function ReputationItem({
                 whiteSpace: "pre-line",
                 textAlign: "left",
                 padding: "0 1.5% 0 1.5%",
+                fontWeight: "normal",
               }}
             >
               {rv_content}
