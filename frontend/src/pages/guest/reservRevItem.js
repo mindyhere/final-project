@@ -33,7 +33,7 @@ import {useNavigate} from "react-router-dom";
 
         return (
             <>
-            <div style={{width: '600px', marginBottom:'50px', height:'50px', float: "left", marginLeft: '10px'}}>
+            <div style={{zIndex: 0, width: '600px', marginBottom:'50px', height:'50px', float: "left", marginLeft: '10px'}}>
             
             <div style={{float: "left", width: "120px", marginTop: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>

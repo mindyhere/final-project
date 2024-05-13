@@ -320,7 +320,11 @@ function Header() {
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
                       <span className={"modal-open-btn"}
-                      onClick={() => setModalOpen(true)} dangerouslySetInnerHTML={{ __html: image}}></span>
+                      onClick={() => {
+                        if (window.location.pathname !== "/guest/reservation") {
+                          setModalOpen(true);
+                        }
+                      }} dangerouslySetInnerHTML={{ __html: image}}></span>
                   </div>
                 </a>
                 {modalOpen && (
