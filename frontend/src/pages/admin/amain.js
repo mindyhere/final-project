@@ -4,18 +4,12 @@ import { HouseFill, JustifyLeft, PersonWorkspace, PersonCircle, PersonVcard, Per
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import '../admin/css/astyles.css';
 
 
 function Amain() {
-    const [params, setParams] = useSearchParams();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showLoginModal, setLoginModal] = useState(false);
     const navigate = useNavigate();
-    const a_id = useRef();
-    const a_passwd = useRef();
-    const msg = params.get('msg');
-    const [message, setMessage] = useState('');
+   
 
     useEffect(() => {
         const cookies = new Cookies();
@@ -31,55 +25,35 @@ function Amain() {
             const cookies = new Cookies();
             cookies.remove('a_id', { path: '/' });
             cookies.remove('a_passwd', { path: '/' });
-            setIsLoggedIn(false);
+            setIsLoggedIn(true);
             navigate('/admin/amain');
         }
     };
-
-    const handleLogin = () => {
-
-        if (a_id.current.value === '') {
-            window.alert('아이디를 입력하세요.');
-            a_id.current.focus();
-            return;
+    const handlelogin = () => {
+        if (window.confirm('로그인 페이지로 이동하시겠습니까?')) {
+            setIsLoggedIn(false);
+            navigate('/admin/alogin');
         }
-        if (a_passwd.current.value === '') {
-            window.alert('비밀번호를 입력하세요.');
-            a_passwd.current.focus();
-            return;
-        }
-        const form = new FormData();
-        form.append('a_id', a_id.current.value);
-        form.append('a_passwd', a_passwd.current.value);
-        fetch('http://localhost/admin/adlogin', {
-            method: 'post',
-            body: form
-        })
-            .then(response => response.json())
-            .then(data => {
-                setMessage(data.message);
-                if (data.message === 'success') {
-                    const cookies = new Cookies();
-                    cookies.set('a_id', data.a_id, { path: '/', expires: new Date(Date.now() + 2592000) });
-                    cookies.set('a_passwd', data.a_passwd, { path: '/', expires: new Date(Date.now() + 2592000) });
-                    setIsLoggedIn(true);
-                    window.alert('관리자님 환영합니다 :)');
-                    setLoginModal(false);
-                    navigate('/admin/amain');
-
-                } else {
-                    navigate('/admin/amain?msg=error');
-                }
-            });
     };
 
     const AdminClick = (event, page) => {
         event.preventDefault();
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
             window.alert('관리자 권한이 필요한 서비스입니다.');
             navigate('/admin/amain');
         } else {
             navigate(page);
+        }
+    };
+
+    const Adminout = (event, page) => {
+        event.preventDefault();
+        if (isLoggedIn) {
+            window.alert('메인 화면으로 이동하시겠습니까?');
+            navigate('/');
+        } else if (!isLoggedIn){
+            window.alert('관리자 계정으로 로그인 중입니다.');
+            return;
         }
     };
 
@@ -89,47 +63,15 @@ function Amain() {
                 <a className="navbar-brand">
                     <PersonWorkspace width="50" height="50" />&nbsp; 관리자 페이지
                 </a>
-                {isLoggedIn ? <button onClick={handleLogout} className="btn">로그아웃</button> : <button onClick={() => setLoginModal(true)} className="btn">로그인</button>}
+                {!isLoggedIn? <button onClick={handleLogout} className="btn">로그아웃</button> : <button onClick={handlelogin} className="btn">로그인</button>} 
             </nav>
             <br /><br />
-            {/* Login Modal */}
-            {showLoginModal && (
-                <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }} >
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content" style={{ width: "100%", height: "50%", content: "center " }}><br />
-                            <div className="modal-header">
-                                <h5 className="modal-title">관리자 로그인</h5>
-                                <button type="button" className="btn-close" aria-label="Close" onClick={() => setLoginModal(false)}></button>
-                            </div>
-                            <div className="modal-body"><br />
-                                <div className="form-field1">
-                                    <input className='input' type="text" name="a_id" id="a_id" ref={a_id} placeholder="id" align='center' />
-                                </div>
-                                <br />
-                                <div className="form-field1">
-                                    <input className='input' type="password" name="a_passwd" id="a_passwd" placeholder="password" ref={a_passwd} />
-                                </div> <br />
-                                <div class="form-check form-switch">
-                                    <label>
-                                        <input class="form-check-input" type="checkbox" role="switch" id="Checked" />자동로그인
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="submit" className="btn-sign1" onClick={handleLogin}>로그인</button>
-                                {msg === 'error' ? <p style={{ color: 'red' }}>로그인 정보가 일치하지 않습니다.</p> : null}
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
             <div className="row">
                 <div className="col-4">
                     <nav id="navbar-example3" className="h-100 flex-column align-items-stretch pe-4 border-end">
                         <nav className="nav nav-pills flex-column">
                             <a className="nav-link" href="#item-1" /><br />
-                            <a className="nav-link ms-3 my-1" href="./amain">
+                            <a className="nav-link ms-3 my-1" onClick={(e) => !Adminout(e, '/')}>
                                 <HouseDoor width="30" height="30" />&nbsp; home
                             </a>                        
                             <NavDropdown title={<>&nbsp;&nbsp;<PersonFill width="30" height="30" />&nbsp;회원정보관리</>}>

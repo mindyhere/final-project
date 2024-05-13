@@ -44,17 +44,17 @@ function Join() {
     return( 
         <>
         <div className="container min-vh-100" style={{ zIndex: "1000", paddingTop: "15px"}}>
-        <h3 class="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>
+        <h3 className="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>
         회원가입</h3>
         <hr/>
-        <div class="card-style mb-30">
+        <div className="card-style mb-30">
         <form>
         <h4>이메일</h4>
         <br/>
-        <div class="input-style-a" >
-			<div class="fl" style={{marginLeft:"20px"}}><input type='text' ref={g_email} onChange={changeButton} placeholder="이메일을 입력해주세요" /></div>
-            <div class="blank"></div>
-            <div class="fl" style={{paddingBottom: "20px"}}><button type="button" value={check} disabled={!check} class={"check-btn" + (check?'Active':'Disabled')} onClick={() => {
+        <div className="input-style-a" >
+			<div className="fl" style={{marginLeft:"20px"}}><input type='text' ref={g_email} onChange={changeButton} placeholder="이메일을 입력해주세요" /></div>
+            <div className="blank"></div>
+            <div className="fl" style={{paddingBottom: "20px"}}><button type="button" value={check} disabled={!check} className={"check-btn" + (check?'Active':'Disabled')} onClick={() => {
                 if(g_email.current.value == '') {
                     Swal.fire({
                         icon : 'warning',
@@ -98,10 +98,10 @@ function Join() {
             }}>아이디 확인</button></div>
         </div>
         <br/>
-        <div class="input-style-check">
-			<div class="fl" style={{marginLeft:"20px"}}><input ref={checkEmail} placeholder="인증 코드" /></div>
-            <div class="blank"></div>
-            <div class="fl" style={{paddingBottom: "30px"}}><button type="button" class="main-btn-check" onClick={() => {
+        <div className="input-style-check">
+			<div className="fl" style={{marginLeft:"20px"}}><input ref={checkEmail} placeholder="인증 코드" /></div>
+            <div className="blank"></div>
+            <div className="fl" style={{paddingBottom: "30px"}}><button type="button" className="main-btn-check" onClick={() => {
                 if (checkEmail.current.value == info_code) {
                     Swal.fire({
                         title: '인증 성공',
@@ -120,33 +120,33 @@ function Join() {
             }}>코드 확인</button></div>
         </div>
         <br/>
-        <div class="fl"style={{marginBottom: "20px"}}><h4>&nbsp;&nbsp;&nbsp;비밀번호</h4>
+        <div className="fl"style={{marginBottom: "20px"}}><h4>&nbsp;&nbsp;&nbsp;비밀번호</h4>
         <br/>
-        <div class="input-style-b" style={{marginLeft: "20px"}}>
+        <div className="input-style-b" style={{marginLeft: "20px"}}>
 			<input type='password' ref={g_passwd} />
         </div>
         </div>
         <br/>
-        <div class="blank"></div>
-        <div class="fl" style={{marginBottom: "20px", marginRight: "2px"}}><h4>비밀번호 확인</h4>
+        <div className="blank"></div>
+        <div className="fl" style={{marginBottom: "20px", marginRight: "2px"}}><h4>비밀번호 확인</h4>
         <br/>
-        <div class="input-style-b" style={{marginRight: "12px"}}>
+        <div className="input-style-b" style={{marginRight: "12px"}}>
 			<input type='password' ref={passwdCheck} />
         </div>
         </div>
-        <div class="fl"><h4>이름</h4>
+        <div className="fl"><h4>이름</h4>
         <br/>
-        <div class="input-style-c" style={{marginLeft: "20px"}}>
+        <div className="input-style-c" style={{marginLeft: "20px"}}>
 			<input type='text' ref={g_name} />
         </div>
         </div>
-        <div class="blankk"></div>
+        <div className="blankk"></div>
         
-        <div class="fl" style={{marginBottom: "20px"}}><h4>전화번호</h4>
+        <div className="fl" style={{marginBottom: "20px"}}><h4>전화번호</h4>
         <br/>
-        <div class="input-style-d" style={{marginRight: "12px"}}>
+        <div className="input-style-d" style={{marginRight: "12px"}}>
 			<input type='text' ref={g_phone} onChange={handleChange} value={inputValue} placeholder="숫자만 입력하세요"/>
-            <div class="blank"></div>
+            <div className="blank"></div>
         </div>
         </div>
         
@@ -226,7 +226,7 @@ function Join() {
                         });
                     }
                 });
-            }} value={checkCode} disabled={!checkCode} class={"main-btnn" + (checkCode?'Active':'Disabled')} >회원가입</button>
+            }} value={checkCode} disabled={!checkCode} className={"main-btnn" + (checkCode?'Active':'Disabled')} >회원가입</button>
         </div>
         </form>
         </div>

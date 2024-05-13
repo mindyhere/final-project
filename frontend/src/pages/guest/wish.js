@@ -42,20 +42,20 @@ function Wish() {
         let wishImage = '';
         if (data.firstWish != null) {
             url = `http://localhost/static/images/host/hotel/${data.firstWish}`;
-            wishImage = `<img src=${url} width='330px' height='330px' class="wish" /><br />`;
+            wishImage = `<img src=${url} width='330px' height='330px' className="wish" /><br />`;
         }
 
         let src = '';
         let recentImage = '';
         if (data.firstRecent != null) {
             src = `http://localhost/static/images/host/hotel/${data.firstRecent}`;
-            recentImage = `<img src=${src} width='330px' height='330px' class="wish" /><br />`;
+            recentImage = `<img src=${src} width='330px' height='330px' className="wish" /><br />`;
         }
 
         return (
             <>
                 <div className="container min-vh-100">
-                <h3 class="text-bold"> <img src="/img/wish.png" width="30px" height="30px"/>
+                <h3 className="text-bold"> <img src="/img/wish.png" width="30px" height="30px"/>
                 &nbsp; 위시리스트</h3>
                 <br/>
                 <hr/>
@@ -68,7 +68,7 @@ function Wish() {
                 <br />
                 &nbsp;
                 </div>
-                <div class="wish-blank"></div>
+                <div className="wish-blank"></div>
                 <div>
                 <Link to={'/guest/recent'} style={{textDecorationLine: 'none'}}>
                 <span dangerouslySetInnerHTML={{__html: recentImage}}></span>

@@ -3,13 +3,13 @@
 <mapper namespace="hotel">
 
 	<!-- 호텔 상세 정보 -->
-	<select id="getHotelList"
-		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT * FROM hotel h, hotel_detail d, host
-		WHERE ho_idx = #{ho_idx}
-		AND h.ho_idx = d.d_ho_idx
-		AND h.ho_business = host.h_business
-		GROUP BY ho_idx
+	<select id="getHotelList" resultType="java.util.HashMap">
+		SELECT *
+			FROM hotel h, hotel_detail d, host
+				WHERE ho_idx = #{ho_idx}
+				AND h.ho_idx = d.d_ho_idx
+				AND h.ho_business = host.h_business
+				AND d_idx = #{d_idx}
 	</select>
 
 	<!-- 호텔 객실 정보 -->
@@ -63,11 +63,13 @@
 	
 	<!-- 호스트의 호텔 리스트 -->
 	<select id="getHotelSummary" resultType="java.util.Map">
-		SELECT * FROM hotel
+		SELECT * FROM hotel, hotel_detail
 		WHERE ho_business = 
 					(SELECT h_business FROM host
 						WHERE h_idx = #{h_idx}
 					)
+		GROUP BY ho_idx
+		ORDER BY d_idx
 	</select>
 	
 	<!-- 호스트의 모든 호텔 리뷰 -->

@@ -18,7 +18,7 @@ function WishItem({HoIdx, HoName, HoImg, wIdx}) {
         let img = '';
         if (HoImg != null) {
             img = `
-           <img src=${url} width='330px' height='330px' class="wish" /><br />`;
+           <img src=${url} width='330px' height='330px' className="wish" /><br />`;
         }
 
         return (
@@ -32,7 +32,7 @@ function WishItem({HoIdx, HoName, HoImg, wIdx}) {
                     <input type="hidden" value={wIdx}></input>
                     
                     </Link>
-                    <button type='button' class="wish-button" onClick={() => {
+                    <button type='button' className="wish-button" onClick={() => {
                 Swal.fire({
                     text: '정말 삭제하시겠습니까?',
                     confirmButtonText: "삭제",

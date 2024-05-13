@@ -26,7 +26,7 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function HostPage({HoIdx}) {
+function HostPage({}) {
     const {HIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostPage/' + HIdx);
     const [rv, rvLoading] = useFetch(`http://localhost/host/hotel/allReview/${HIdx}`);
@@ -170,7 +170,7 @@ function HostPage({HoIdx}) {
                             } */}
                         <hr />
                         <h4 className="mt-20 mb-20">{data.h_name} 님의 숙소·체험</h4>
-                            <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}`} style={{textDecoration:'none', color : 'black'}}>
+                            <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}/${hotel.d_idx}`} style={{textDecoration:'none', color : 'black'}}>
                                 <div dangerouslySetInnerHTML={{__html: hotel_url}}></div>
                                     <div className="text-semi-bold">
                                         {hotel.ho_name}
