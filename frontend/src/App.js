@@ -51,10 +51,11 @@ import SearchHostEmail from "./pages/host/login/SearchEmail";
 import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
-import MyHotelList from "./pages/host/MyHotelList";
+
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
+import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
 
 function App() {
   console.warn = function no_console() {};

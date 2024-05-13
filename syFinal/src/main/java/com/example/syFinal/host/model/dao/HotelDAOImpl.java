@@ -69,4 +69,16 @@ public class HotelDAOImpl implements HotelDAO {
 	public List<Map<String, Object>> allReviews(int h_idx) {
 		return sqlSession.selectList("hotel.getAllReviews", h_idx);
 	}
+
+	/* 호스트의 호텔 현황 */
+	@Override
+	public Map<String, Object> hotelStatus(int h_idx) {
+		return sqlSession.selectOne("hotel.getHotelStatus", h_idx);
+	}	
+	
+	/* 호스트의 호텔 목록 */
+	@Override
+	public List<Map<String, Object>> hostAllHotel(int h_idx) {
+		return sqlSession.selectList("hotel.getHostAllHotel", h_idx);
+	}	
 }

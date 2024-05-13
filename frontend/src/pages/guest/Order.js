@@ -27,18 +27,22 @@ function Order() {
     //const {HoIdx} = useParams();
     const location = useLocation();
     const HoIdx = location.state.HoIdx;
+    const dIdx = location.state.dIdx;
     const ckin = location.state.ckin;
     const ckout = location.state.ckout;
     const reser = location.state.reser;
+    const adult = location.state.adult;
+    const child = location.state.child;
+    const baby = location.state.baby;
     const dprice = location.state.dprice;
     const pprice = location.state.pprice;
     const fprice = location.state.fprice;
     const dateChar = location.state.dateChar;
     const vat = location.state.vat;
-    const didx = location.state.didx;
+    console.log("디아이디엑스"+dIdx);
    
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
-    const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx);
+    const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx+'/'+dIdx);
     
     const [pay, setPay] = useState("1");
     const onSelect = (event) => {
@@ -80,10 +84,12 @@ function Order() {
         if (success) {
             const form = new FormData();
             form.append('idx',idx.key);
-            form.append('didx',didx);
+            form.append('dIdx',dIdx);
             form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
             form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-            form.append('reser',reser);
+            form.append('adult',adult);
+            form.append('child',child);
+            form.append('baby',baby);
             form.append('pay',pay);
             form.append('dprice',dprice);
             form.append('fprice',fprice);
@@ -162,12 +168,13 @@ function Order() {
                                 </div>
                                     
                                 <h4>예약정보</h4>
+                                <div>{hotel.d_room_type}</div>
                                 <br></br>
                                 <div>날짜</div>
                                 <div>{ckin} ~ {ckout}</div>
                                 <br></br>
                                 <div>게스트</div>
-                                <div>{reser}명</div>
+                                <div>{reser}명 + 유아 {baby}명</div>
                                 <hr/>
                                 <h4>결제수단</h4>
                                 <br/>
@@ -220,10 +227,12 @@ function Order() {
                                     } else {
                                         const form = new FormData();
                                         form.append('idx',idx.key);
-                                        form.append('didx',didx);
+                                        form.append('dIdx',dIdx);
                                         form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
                                         form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-                                        form.append('reser',reser);
+                                        form.append('adult',adult);
+                                        form.append('child',child);
+                                        form.append('baby',baby);
                                         form.append('pay',pay);
                                         form.append('dprice',dprice);
                                         form.append('fprice',fprice);

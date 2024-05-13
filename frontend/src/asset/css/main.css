@@ -111,9 +111,10 @@ li:hover {
 .modal-content3 {
   background-color: #ffffff;
   border-radius: 10px;
-  width: 600px;
-  height: 170px;
-  padding: 15px;
+  width: 610px;
+  height: 180px;
+  padding: 24px;
+  line-height: 25px;
 }
 
 .main-btn,
