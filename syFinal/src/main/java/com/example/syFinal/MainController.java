@@ -23,12 +23,8 @@ public class MainController {
 	
 	@RequestMapping("/guest/main")
 	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search) {
-		System.out.println("검색어 ===="+search);
 		List<MainDTO> main = dao.list(search);
-//		if(search != null) {
-//			main = dao.list(search);
-//		}
-		System.out.println("@@@@@@@@@@@@@"+main);
+
 		List<Map<String, Object>> list = new ArrayList<>();
 		for(int i=0; i<main.size(); i++) {
 			Map<String, Object> map = new HashMap<>();

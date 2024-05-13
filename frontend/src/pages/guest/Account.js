@@ -1,23 +1,48 @@
 import React, {useRef,useEffect,useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import Cookies from 'universal-cookie';
 
+function useFetch(url) {
+    const [data,setData] = useState(null);
+    const [loading,setLoading] = useState(true);
+
+    useEffect(()=>{
+        fetch(url)
+            .then(response=>{
+                return response.json();
+            })
+            .then(data=>{
+                setData(data);
+                setLoading(false);
+            })
+    }, []);
+    return [data,loading];
+}
 
 function Account() {
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const modalBackground = useRef(); 
 
+    const cookies = new Cookies();
+    const idx=cookies.get('g_idx');
+    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
+
+    if(loading){
+        return(
+            <div>loading</div>
+        )
+    } else { 
     return(
         <>
-        <div>
-            <div align='center'>
-                <div className="page-direction" style={{padding: "20px"}}>
-                    <div className="navi">
+        <div  className="container" align='center' style={{position: 'static'}}>
+            <div className="row">
+                <div className="col-12">
+                    <div className="container-lg">
                         <span style={{fontWeight: "bold",fontSize: "28px"}}>계정</span>
                     </div>
-                </div>
+                    <div>{data.dto.g_name}, {data.dto.g_email} · <a onClick={() => navigate('/guest/Profile')}>프로필로 이동</a></div>
+                
                 <br />
-            </div>
+            
                 <div align='center'>
                     <div className={'btn-wrapper'}>
                         <div className='shadow p-1 mb-5 border border-success p-2 border-opacity-10 rounded' style={{width: '300px', height: '200px'}} onClick={() => navigate('/guest/Guestinfo')}>
@@ -42,11 +67,13 @@ function Account() {
                         </div>
                     </div>
                 </div>
-            </div>
+            
             <br/>
             <br/>
-            <br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/>
+            </div></div></div>
         </>
     )
+}
 }
 export default Account;

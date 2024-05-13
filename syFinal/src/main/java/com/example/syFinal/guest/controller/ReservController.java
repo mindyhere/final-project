@@ -115,7 +115,7 @@ public class ReservController {
 		}
 		String refund = "";
 		int refund_money = 0;
-		ref_date = new Date(cal1.getTimeInMillis());
+		ref_date = new Date(cal1.getTimeInMillis()); // 환불 가능 기한
 		System.out.println(ref_date.before(now));
 		if (ref_date.before(now)) {
 			refund = "환불 불가능";
