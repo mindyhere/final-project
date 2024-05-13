@@ -1,10 +1,14 @@
 import React, { useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+
 
 function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea, dBeds, dNonSmoking, dPrice}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${dImg1}`;
     const [modal, setModal] = useState(false);
-
+    const navigate = useNavigate();
+    const {HoIdx} = useParams();
     if (loading) {
         return (
             <div>로딩 중...</div>
@@ -59,8 +63,8 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
                             <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
                                 X
                             </button>
-                            <div className="container">
-                            <h3><div className='mb-30'>{dRoomType}</div></h3>
+                            <div className="mt-20">
+                            <h3><div className='mb-20'>{dRoomType}</div></h3>
                                 <div className='row'>
                                     <div className="col-5" style={{textAlign : 'left'}}>
                                         <p>수용 인원 : {dCapacity}명 </p>
@@ -76,6 +80,11 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
                                     </div>
                                 </div>
                             </div>
+                            <button className="main-btn" onClick={() => {
+                                fetch(`http://localhost/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx)
+                                 .then(() => {
+                                    window.location.href = `/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx;
+                                })}}>해당 객실로 예약하기</button>
                         </div>
                     </div>
                 }

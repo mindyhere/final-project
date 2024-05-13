@@ -18,8 +18,8 @@ public class HotelDAOImpl implements HotelDAO {
 	SqlSession sqlSession;
 
 	/* 호텔 상세 정보 */
-	public HotelDTO hoteLlist(int ho_idx) {
-		return sqlSession.selectOne("hotel.getHotelList", ho_idx);
+	public Map<String, Object> hoteLlist(Map<String, Object> map) {
+		return sqlSession.selectOne("hotel.getHotelList", map);
 	}
 
 	/* 호텔 객실 정보 */
