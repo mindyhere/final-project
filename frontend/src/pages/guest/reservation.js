@@ -59,6 +59,7 @@ var set = {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    
 };
 
   useEffect(() => {getReserv('http://localhost/guest/reserv/list');},[]);
@@ -73,10 +74,8 @@ var set = {
                 <br/>
                 <br/>
                 <div>
-                <div style={{marginBottom:'50px',width: "650px" ,  height: '300px',marginRight: '40px', float: 'left'}}>
+                <div style={{zIndex: 0, marginBottom:'50px',width: "650px" ,  height: '300px',marginRight: '40px', float: 'left'}}>
                 <h4>예정된 예약</h4>
-                
-                
                 <Slider {...settings}>
                     {reservList.map(
                     ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
@@ -93,7 +92,7 @@ var set = {
                 )} 
                 </Slider>
                 </div> 
-                    <div style={{height: '400px', width:'600px', float: 'left'}}>
+                    <div style={{zIndex: 0, height: '400px', width:'600px', float: 'left'}}>
                     <h4>&nbsp;&nbsp;리뷰를 작성해 주세요</h4>
                     <br/>
                     <Sld {...set}>
@@ -114,7 +113,7 @@ var set = {
                     </div>
                     </div>
                
-                <div style={{ paddingBottom: '100px'}}>
+                <div style={{ zIndex: 0, paddingBottom: '100px'}}>
                     <br/>
                     <br/>
                     <h4>이전 예약</h4>
