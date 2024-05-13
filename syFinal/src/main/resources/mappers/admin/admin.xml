@@ -4,8 +4,88 @@
 
 	<!-- 관리자 로그인 -->
 	<select id="a_login" resultType="String">
-		select a_name 
+		select a_name
 		from admin
-		where a_id = #{a_id} and a_passwd = #{a_passwd}
+		where
+		a_id = #{a_id} and a_passwd = #{a_passwd}
 	</select>
+
+	<!-- 회원 목록 -->
+	<select id="ag_list"
+		resultType="com.example.syFinal.admin.model.dto.AGuestDTO">
+		select
+		g_idx,
+		g_email,
+		g_name,
+		g_photo,
+		g_phone,
+		g_url,
+		g_profile,
+		g_level,
+		g_card,
+		g_join_date,
+		g_date,
+		g_cvc,
+		g_point,
+		g_photo
+		from
+		guest
+		where
+		${searchkey} like CONCAT('%',#{search},'%')
+	</select>
+
+	<!-- 회원 상세 -->
+	<select id="ag_detail"
+		resultType="com.example.syFinal.admin.model.dto.AGuestDTO">
+		select
+		g_idx,g_email,g_passwd,
+		g_name, g_phone,
+		g_url,
+		g_level,
+		g_point,g_photo,
+		g_card,g_profile,g_join_date ,g_date
+		from guest
+		, levle
+		where
+		g_idx = #{g_idx} and
+		g_level = l_level
+	</select>
+
+	<!-- 회원 수정 -->
+	<update id="ag_update">
+		update guest
+		set
+		g_level=#{g_level},
+		g_point=#{g_point}
+		where g_idx = #{g_idx}
+	</update>
+
+	<!-- 회원 삭제 -->
+	<delete id="ag_delete">
+		delete
+		from guest
+		where g_idx = #{g_idx}
+	</delete>
+
+ <!-- 회원 쿠폰 발급 -->
+<insert id="gcoupon">
+</insert>
+
+	<!-- 사업자 목록 -->
+	<select id="ah_list"
+		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
+		select h_idx, h_email, h_name, h_phone, h_level, h_status,h_business,
+		h_regdate, h_profile, h_description
+		from host
+		where ${searchkey} like
+		CONCAT('%',#{search},'%')
+	</select>
+
+	<!-- 사업자 삭제 -->
+	<delete id="ah_delete">
+		delete
+		from host
+		WHERE h_idx = #{h_idx}
+	</delete>
+
 </mapper>

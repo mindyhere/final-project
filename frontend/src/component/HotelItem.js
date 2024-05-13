@@ -14,11 +14,11 @@ function HotelItem({HoIdx,HoName, HoImg}) {
     } else {
         let img = '';
         if (HoImg != null) {
-            img = `<img src=${url} width='330px' height='330px' /><br />`;
+            img = `<img src=${url} width='380px' height='380px' /><br />`;
         }
 
         return (
-            <div style={{ margin: '5px'}}>
+            <div style={{ margin: '5px',paddingLeft: '100px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                     <Link to={`/host/hotel/hotelDetail/${HoIdx}`}> 
                         <div style={{fontSize:"23px"}}>{HoName}</div>

@@ -17,15 +17,17 @@ function WishList() {
         setWishList(data);
     })
   }
+
   var myArr = localStorage.getItem('watched');
-  myArr = JSON.parse(myArr);
-  const first = myArr[myArr.length - 1];
-  console.log(first);
+    myArr = JSON.parse(myArr);
+    // const first = myArr[myArr.length - 1];
+    console.log(typeof myArr, myArr);
+  
     useEffect(() => {getWish(`http://localhost/guest/wish/wishList?g_idx=${idx.key}`);},[]);
     return (
         <>
         <div className="container min-vh-100">
-            <h3 class="text-bold"> <img src="/img/heartt.png" width="30px" height="30px" />
+            <h3 class="text-bold"> <img src="/img/wish.png" width="30px" height="30px" />
             &nbsp; 위시리스트</h3>
             <br/>
             <hr/>

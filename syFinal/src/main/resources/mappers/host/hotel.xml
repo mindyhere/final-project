@@ -6,8 +6,7 @@
 	<select id="getHotelList"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT * FROM hotel h, hotel_detail d, host
-		WHERE ho_idx =
-		#{ho_idx}
+		WHERE ho_idx = #{ho_idx}
 		AND h.ho_idx = d.d_ho_idx
 		AND h.ho_business = host.h_business
 		GROUP BY ho_idx
@@ -32,7 +31,7 @@
 
 	<!-- 호텔 호스트 정보 -->
 	<select id="getHostInfo" resultType="java.util.HashMap">
-		SELECT h_name, h_phone,
+		SELECT h_idx, h_name, h_phone,
 		h_business, h_level, h_regdate, h_profile, h_description
 		FROM host h,
 		hotel ho
@@ -46,5 +45,39 @@
 		ho_single, ho_double, ho_family, ho_suite , ho_check_in, ho_check_out
 		FROM hotel
 		WHERE ho_idx = #{ho_idx}
+	</select>
+	
+	<!-- 호텔 예약(1박 가격) -->
+	<select id="getPrice" resultType="java.util.HashMap">
+		SELECT d_idx, d_capacity, d_price FROM hotel_detail
+		WHERE d_ho_idx = #{ho_idx}
+		AND d_idx = 1 <!-- 추후 조건 기능 추가 -->
+	</select>
+	
+	<!-- 호스트 상세페이지(게스트용) -->
+	<select id="getHostPage" resultType="java.util.HashMap">
+		SELECT  h.*, COUNT(*) AS review_cnt, ROUND(AVG(rv_star), 1) AS star
+		FROM host h, v_hotel_review
+		WHERE h.h_idx = #{h_idx}
+	</select>
+	
+	<!-- 호스트의 호텔 리스트 -->
+	<select id="getHotelSummary" resultType="java.util.Map">
+		SELECT * FROM hotel
+		WHERE ho_business = 
+					(SELECT h_business FROM host
+						WHERE h_idx = #{h_idx}
+					)
+	</select>
+	
+	<!-- 호스트의 모든 호텔 리뷰 -->
+	<select id="getAllReviews" resultType="java.util.Map">
+		SELECT rv_idx, g_name, g_url, rv_content, rv_date, rv_star,
+		(SELECT rv_idx FROM v_hotel_review where rv_idx &lt; r.rv_idx ORDER BY rv_idx  LIMIT 1) prev_idx,
+		(SELECT rv_idx FROM v_hotel_review where rv_idx  &gt; r.rv_idx ORDER BY rv_idx  LIMIT 1) next_idx
+		FROM v_hotel_review r
+		WHERE ho_idx IN
+							(SELECT ho_idx FROM hotel
+							WHERE ho_h_idx = #{h_idx})
 	</select>
 </mapper>

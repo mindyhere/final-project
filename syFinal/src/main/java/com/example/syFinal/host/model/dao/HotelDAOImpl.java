@@ -45,4 +45,28 @@ public class HotelDAOImpl implements HotelDAO {
 	public Map<String, Object> hotelRule(int ho_idx){
 		return sqlSession.selectOne("hotel.getHotelRule", ho_idx);
 	}
+
+	/* 호텔 예약(1박 가격) */
+	@Override
+	public Map<String, Object> hotelPrice(int ho_idx) {
+		return sqlSession.selectOne("hotel.getPrice", ho_idx);
+	}
+
+	/* 호스트 상세페이지(게스트용) */
+	@Override
+	public Map<String, Object> hostPage(int h_idx) {
+		return sqlSession.selectOne("hotel.getHostPage", h_idx);
+	}
+
+	/* 호스트의 호텔 리스트 */
+	@Override
+	public Map<String, Object> hotelSummary(int h_idx) {
+		return sqlSession.selectOne("hotel.getHotelSummary", h_idx);
+	}
+
+	/* 호스트의 모든 호텔 리뷰 */
+	@Override
+	public List<Map<String, Object>> allReviews(int h_idx) {
+		return sqlSession.selectList("hotel.getAllReviews", h_idx);
+	}
 }

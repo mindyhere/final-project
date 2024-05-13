@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
-import "../guest/aa.css";
-import "./host1.css";
+import "../../guest/aa.css";
+import "../host1.css";
 
 function HostJoin() {
   const [email, setEmail] = useState("");
@@ -32,7 +32,6 @@ function HostJoin() {
     const businessRegEx = /^[0-9\b -]{0,12}$/;
     switch (opt) {
       case "phone":
-        console.log(opt);
         if (phoneRegEx.test(val)) {
           setPhoneNum(
             val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
@@ -40,7 +39,6 @@ function HostJoin() {
         }
         break;
       case "business":
-        console.log(opt);
         if (businessRegEx.test(val)) {
           setBusinessNum(
             val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
@@ -101,7 +99,6 @@ function HostJoin() {
                         })
                           .then((response) => response.json())
                           .then((data) => {
-                            console.log(data);
                             if (data.msg === "ok") {
                               Swal.fire({
                                 icon: "success",
@@ -252,7 +249,6 @@ function HostJoin() {
                     return;
                   } else {
                     if (pwd.current.value === pwdChk.current.value) {
-                      console.log("비밀번호 확인");
                     } else {
                       Swal.fire({
                         icon: "warning",
@@ -311,7 +307,6 @@ function HostJoin() {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
                       if (data.msg === "success") {
                         Swal.fire({
                           icon: "success",

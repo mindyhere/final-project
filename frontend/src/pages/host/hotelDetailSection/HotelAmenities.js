@@ -23,7 +23,6 @@ function HotelAmenities() {
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelAmenity/' + HoIdx);
-    console.log(data);
     
     if(loading){
         return (
@@ -80,18 +79,20 @@ function HotelAmenities() {
         }
 
         return (
-            <div onClick={() => setModal(true)}>
-                <div className="hidden-text-target mb-30">
-                    <div className="mb-10"dangerouslySetInnerHTML={{__html : mountain_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : ocean_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : wifi_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : parking_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : breakfast_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : fire_alam_url}}></div>
-                    <div className="mb-10" dangerouslySetInnerHTML={{__html : fireExt_url}}></div>
-                </div>
-                <div>
-                    <button type="button" className="main-btn">편의시설 모두보기</button>
+            <div>
+                <div onClick={() => setModal(true)}>
+                    <div className="hidden-text-target mb-30">
+                        <div className="mb-10"dangerouslySetInnerHTML={{__html : mountain_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : ocean_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : wifi_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : parking_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : breakfast_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : fire_alam_url}}></div>
+                        <div className="mb-10" dangerouslySetInnerHTML={{__html : fireExt_url}}></div>
+                    </div>
+                    <div>
+                        <button type="button" className="main-btn">편의시설 모두보기</button>
+                    </div>
                 </div>
                 { modal &&
                     <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>

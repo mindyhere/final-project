@@ -22,19 +22,20 @@ public class MainController {
 	MainDAO dao;
 	
 	@RequestMapping("/guest/main")
-	public List<Map<String, Object>> list(@RequestParam(name="HoName", defaultValue="") String HoName) {
-		List<MainDTO> main = dao.list();
-		
+	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search) {
+		List<MainDTO> main = dao.list(search);
+
 		List<Map<String, Object>> list = new ArrayList<>();
 		for(int i=0; i<main.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("HoIdx", main.get(i).getHo_idx());
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
+			map.put("search", search);
 			//MainDTO dto = new MainDTO(i.getHoIdx(),i.getHoName(),i.getHoImg);
 			list.add(map);
 		}
-		// System.out.println("메인리스트====" + list);
+		System.out.println("메인리스트====" + list);
 		
 		return list;
 	}

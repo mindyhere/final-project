@@ -12,6 +12,14 @@
 	border-radius: 7px;
 }
 
+.dropdown-basic {
+	background: transparent;
+	border-color: transparent;
+	color: black;
+	font-weight: 600;
+	width: 200px;
+}
+
 .btnLoginBottom:hover {
 	cursor: pointer;
 }
@@ -93,7 +101,7 @@ ul.tabs li.current {
 /* ========== table css ========== */
 .tbl {
 	width: 100%;
-	border: 1px solid #f1d59838;
+	border: 1px solid #F7EFFC;
 	margin-top: 15px;
 	margin-bottom: 20px;
 	margin-top: 15px;
@@ -102,7 +110,7 @@ ul.tabs li.current {
 .tbl th {
 	padding: 10px;
 	border: 1px solid #dee2e6;
-	background-color: #f1d59838;
+	background-color: #F7EFFC;
 	text-align: center;
 	font-weight: bold;
 }
@@ -124,7 +132,7 @@ ul.tabs li.current {
 	height: 100px;
 }
 
-.profile-image img {
+.profile-image span {
 	width: 100%;
 		/* border-radius: 50%; */
 }
@@ -251,4 +259,24 @@ h6, .h6 {
 
 .mb-50{
 	margin-bottom: 50px;
+}
+
+.mt-10{
+	margin-top: 10px;
+}
+
+.mt-20{
+	margin-top: 20px;
+}
+
+.mt-30{
+	margin-top: 30px;
+}
+
+.mt-40{
+	margin-top: 40px;
+}
+
+.mt-50{
+	margin-top: 50px;
 }

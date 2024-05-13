@@ -2,14 +2,12 @@ import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 import '../../asset/css/user.css'
 import Swal from "sweetalert2";
-import {useNavigate} from "react-router-dom";
 
 
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading,setLoading] = useState(true);
-    
-    
+
 
     useEffect(() => {
         fetch(url)

@@ -1,4 +1,5 @@
 import React, {useRef, useEffect, useState} from "react";
+import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import moment from "moment";
@@ -22,9 +23,11 @@ function useFetch(url) {
 }
 
 function HostInfo() {
+    const navigate = useNavigate();
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
-    if(loading){
+    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
+    if(loading || loading2){
         return (
             <div className="text-center">로딩 중...</div>
         )
@@ -54,7 +57,7 @@ function HostInfo() {
                 <div className="card-style" style={{backgroundColor : "#F6F2F9"}}>
                     <div className="row">
                         <div className="col-6">
-                            <div className="card-style">
+                            <div className="card-style mb-30">
                                 <div className="row">
                                     <div className="col-6 text-center">
                                         <span dangerouslySetInnerHTML={{__html : profile_url}}></span>
@@ -64,11 +67,11 @@ function HostInfo() {
                                     </div>
                                     <div className="col-6">
                                         <div className="text-xs">후기</div>
-                                        15개
+                                        {review.list.length}개
                                         <br />
                                         <hr />
                                         <div className="text-xs">평점</div>
-                                        {}
+                                        {review.avg}
                                         <br />
                                         <hr />
                                         <div className="text-xs">호스팅 경력</div>
@@ -76,18 +79,21 @@ function HostInfo() {
                                     </div>
                                 </div>
                             </div>
-                            <br />
-                            <p><a href="/host/hostAccount" style={{color: 'black', textDecorationLine: 'none'}}>더 보기 ▶</a></p>
+                            <div style={{cursor : 'pointer', textDecoration:'underline'}} onClick={() => navigate(`/host/hotel/hostPage/${data.h_idx}`)}>
+                                더 보기 ▶
+                            </div>
                         </div>
+
                         <div className="col-6">
-                            <h4>{data.h_name}님은 {level}입니다.</h4>
-                            <span className="mb-40">
-                            {data.h_description}
-                            </span>
-                            <h5>호스트 상세 정보</h5> <br />
-                            응답률 : {answer} <br />
-                            1시간 이내에 응답
-                            <br />
+                            <h4 className="mb-10">{data.h_name}님은 {level}입니다.</h4>
+                            <div className="mb-20">
+                                {data.h_description}
+                            </div>
+                            <h4 className="mb-10">호스트 상세 정보</h4>
+                            <div className="mb-20">
+                                응답률 : {answer} <br />
+                                1시간 이내에 응답
+                            </div>
                             <button type="button" onClick={() => {
                                 Swal.fire({
                                     title: '나중에 URL 연결',

@@ -1,50 +1,48 @@
 import React, {useRef,useEffect,useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import Cookies from 'universal-cookie';
 
+function useFetch(url) {
+    const [data,setData] = useState(null);
+    const [loading,setLoading] = useState(true);
+
+    useEffect(()=>{
+        fetch(url)
+            .then(response=>{
+                return response.json();
+            })
+            .then(data=>{
+                setData(data);
+                setLoading(false);
+            })
+    }, []);
+    return [data,loading];
+}
 
 function Account() {
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const modalBackground = useRef(); 
-    //모달
-    // const customModalStyles: ReactModal.Styles = {
-    //     overlay: {
-    //       backgroundColor: " rgba(0, 0, 0, 0.4)",
-    //       width: "100%",
-    //       height: "100vh",
-    //       zIndex: "10",
-    //       position: "fixed",
-    //       top: "0",
-    //       left: "0",
-    //     },
-    //     content: {
-    //       width: "360px",
-    //       height: "180px",
-    //       zIndex: "150",
-    //       position: "absolute",
-    //       top: "50%",
-    //       left: "50%",
-    //       transform: "translate(-50%, -50%)",
-    //       borderRadius: "10px",
-    //       boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-    //       backgroundColor: "white",
-    //       justifyContent: "center",
-    //       overflow: "auto",
-    //     },
-    // };
 
+    const cookies = new Cookies();
+    const idx=cookies.get('g_idx');
+    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
+
+    if(loading){
+        return(
+            <div>loading</div>
+        )
+    } else { 
     return(
         <>
-        <div>
-            <div align='center'>
-                <div className="page-direction" style={{padding: "20px"}}>
-                    <div className="navi">
+        <div  className="container" align='center' style={{position: 'static'}}>
+            <div className="row">
+                <div className="col-12">
+                    <div className="container-lg">
                         <span style={{fontWeight: "bold",fontSize: "28px"}}>계정</span>
                     </div>
-                    이름, 이메일
-                </div>
+                    <div>{data.dto.g_name}, {data.dto.g_email} · <a onClick={() => navigate('/guest/Profile')}>프로필로 이동</a></div>
+                
                 <br />
-            </div>
+            
                 <div align='center'>
                     <div className={'btn-wrapper'}>
                         <div className='shadow p-1 mb-5 border border-success p-2 border-opacity-10 rounded' style={{width: '300px', height: '200px'}} onClick={() => navigate('/guest/Guestinfo')}>
@@ -62,18 +60,20 @@ function Account() {
                         </div>
                     </div>
                     <div className={'btn-wrapper'}>
-                        <div className='shadow p-1 mb-5 border border-success p-2 border-opacity-10 rounded' style={{width: '300px', height: '200px'}}>
+                        <div className='shadow p-1 mb-5 border border-success p-2 border-opacity-10 rounded' style={{width: '300px', height: '200px'}} onClick={() => navigate('/guest/Coupon')}>
                         <br/><br/>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{marginBottom: '10px', display: "block", height: "32px", width: "32px", fill: "currentcolor"}}><path d="M28 2a2 2 0 0 1 2 1.85V28a2 2 0 0 1-1.85 2H4a2 2 0 0 1-2-1.85V4a2 2 0 0 1 1.85-2H4zM13.59 17H4v11h11v-9.59l-4.3 4.3-1.4-1.42zM28 17h-9.59l4.3 4.3-1.42 1.4L17 18.42V28h11zM15 4H4v11h3.54a4 4 0 0 1 6.28-4.84c.29.28.68.85 1.18 1.74zm6 7c-.53 0-.98.17-1.42.6-.21.2-.63.87-1.22 1.98l-.25.47-.5.95H21a2 2 0 0 0 1.98-1.7l.01-.15L23 13a2 2 0 0 0-2-2zm7-7H17v7.9c.5-.89.89-1.46 1.18-1.74A4 4 0 0 1 24.46 15H28zm-17 7a2 2 0 0 0-2 2v.15A2 2 0 0 0 11 15h3.38l-.49-.95-.36-.69c-.54-.98-.91-1.58-1.1-1.76-.45-.43-.9-.6-1.43-.6z"></path></svg>
-                        <div style={{fontSize: '20px'}}>쿠폰</div>
+                        <div style={{fontSize: '20px'}}>쿠폰 및 포인트</div>
                         </div>
                     </div>
                 </div>
-            </div>
+            
             <br/>
             <br/>
-            <br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/>
+            </div></div></div>
         </>
     )
+}
 }
 export default Account;

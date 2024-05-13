@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
-import "./host1.css";
+import "../host1.css";
+import { PersonExclamation } from "react-bootstrap-icons";
 
 function EditHostInfo() {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ function EditHostInfo() {
       path: "/",
       expires: expiration,
     });
-    console.log(cookies.get("userInfo"));
+    // console.log(cookies.get("userInfo"));
 
     setTimeout(() => {
       Swal.fire({
@@ -73,7 +74,6 @@ function EditHostInfo() {
 
   let url = "";
   let profile_src = "";
-  console.log(data.h_profile);
   if (data.h_profile !== "-" && data.h_profile !== "") {
     url = `http://localhost/static/images/host/profile/${data.h_profile}`;
     profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
@@ -86,17 +86,7 @@ function EditHostInfo() {
     <>
       <div className="container min-vh-100">
         <h3 className="text-bold">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="35"
-            height="35"
-            fill="currentColor"
-            className="bi bi-person-exclamation"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
-            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-          </svg>
+          <PersonExclamation size={35} />
           &nbsp;회원정보수정
         </h3>
         <hr />
@@ -266,7 +256,7 @@ function EditHostInfo() {
                               &nbsp;파일명 : [&nbsp;
                               <a
                                 className="attach"
-                                style={{cursor:"pointer"}}
+                                style={{ cursor: "pointer" }}
                                 onClick={() => {
                                   window.open(
                                     `http://localhost/static/images/host/profile/${data.h_file}`
@@ -403,7 +393,7 @@ function EditHostInfo() {
                       })
                         .then((response) => response.ok)
                         .then((data) => {
-                          console.log("===> 결과?" + data);
+                          // console.log("===> 결과?" + data);
                           if (data) {
                             Swal.fire({
                               icon: "success",
@@ -418,9 +408,9 @@ function EditHostInfo() {
                                   h_name: h_name.current.value,
                                   h_level: h_level.current.value,
                                 });
-                                console.log(
-                                  "이동전? " + JSON.stringify(userInfo)
-                                );
+                                // console.log(
+                                //   "이동전? " + JSON.stringify(userInfo)
+                                // );
                                 navigate("/");
                               }
                             });
@@ -434,7 +424,7 @@ function EditHostInfo() {
                           }
                         })
                         .catch((error) => {
-                          console.log("===> 결과?" + error);
+                          // console.log("===> 결과?" + error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
@@ -473,10 +463,10 @@ function EditHostInfo() {
                           )
                             .then((response) => {
                               if (!response.ok) {
-                                console.log("false: " + response.status);
+                                // console.log("false: " + response.status);
                                 throw new Error("false: " + response.status);
                               }
-                              console.log("확인: " + response.status);
+                              // console.log("확인: " + response.status);
 
                               return fetch(
                                 `http://localhost/api/host/delete/${userIdx}?userEmail=${userEmail}`
@@ -488,7 +478,7 @@ function EditHostInfo() {
                               });
                             })
                             .catch((error) => {
-                              console.log(error);
+                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -497,7 +487,7 @@ function EditHostInfo() {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          console.log(result.value);
+                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Complete",

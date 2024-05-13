@@ -45,37 +45,40 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
             NonSmoke = '흡연 가능';
         }
         return (
-            <div style={{ margin: '5px', cursor: 'pointer'}} onClick={() => setModal(true)}>
-                <div style={{textAlign:'center'}}>
-                    <div className = "mb-10" dangerouslySetInnerHTML={{__html: img1_url}}></div> 
-                    <h5><div>{dRoomType}</div></h5>
-                    { modal &&
-                        <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
-                            <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                    X
-                                </button>
-                                <div className="container">
-                                <h3><div className='mb-30'>{dRoomType}</div></h3>
-                                    <div className='row'>
-                                        <div className="col-5" style={{textAlign : 'left'}}>
-                                            <p>수용 인원 : {dCapacity}명 </p>
-                                            <p>면적 : {dArea}㎡</p>
-                                            <p>침대수 : {dBeds}개</p>
-                                            <p>금연실 여부 : {NonSmoke}</p>
-                                            <p>가격 : {dPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
-                                        </div>
-                                        <div className="col-7" style={{alignContent : 'center'}}>
-                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img1_url}}></div>
-                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img2_url}}></div>
-                                            <div className="mb-20" dangerouslySetInnerHTML={{__html: img3_url}}></div> 
-                                        </div>
+            <div>
+                <div onClick={() => setModal(true)}>
+                    <div style={{textAlign:'center'}}>
+                        <div className = "mb-10" dangerouslySetInnerHTML={{__html: img1_url}}></div> 
+                        <h5><div>{dRoomType}</div></h5>
+                        
+                    </div>
+                </div>
+                { modal &&
+                    <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
+                        <div className='modalBody' onClick={(e) => e.stopPropagation()}>
+                            <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
+                                X
+                            </button>
+                            <div className="container">
+                            <h3><div className='mb-30'>{dRoomType}</div></h3>
+                                <div className='row'>
+                                    <div className="col-5" style={{textAlign : 'left'}}>
+                                        <p>수용 인원 : {dCapacity}명 </p>
+                                        <p>면적 : {dArea}㎡</p>
+                                        <p>침대수 : {dBeds}개</p>
+                                        <p>금연실 여부 : {NonSmoke}</p>
+                                        <p>가격 : {dPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
+                                    </div>
+                                    <div className="col-7" style={{alignContent : 'center'}}>
+                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img1_url}}></div>
+                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img2_url}}></div>
+                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img3_url}}></div> 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             </div>
         )
     }

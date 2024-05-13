@@ -30,12 +30,14 @@ function HotelDescription() {
         )
     } else {
         return (
-            <div onClick={() => setModal(true)}>
-                <div className="hidden-text-target mb-20">
-                    {data.ho_description}
-                </div>
-                <div>
-                    <button type="button" className="main-btn">더보기</button>
+            <div>
+                <div onClick={() => setModal(true)}>
+                    <div className="hidden-text-target mb-20">
+                        {data.ho_description}
+                    </div>
+                    <div>
+                        <button type="button" className="main-btn">더보기</button>
+                    </div>
                 </div>
                 { modal &&
                     <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>

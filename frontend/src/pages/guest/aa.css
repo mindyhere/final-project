@@ -317,6 +317,71 @@
 	margin-bottom: 30px;
 }
 
+.card-reserv {
+	background: #fff;
+	box-sizing: border-box;
+	padding: 25px 30px;
+	width: 660px;
+	height: 300px;
+	box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px
+		0px rgba(145, 158, 171, 0.2);
+	border-radius: 7px;
+	margin-bottom: 30px;
+	z-index: 0;
+	
+}
+
+.card-reservDetail {
+	background: #fff;
+	box-sizing: border-box;
+	padding: 25px 30px;
+	width: 500px;
+	box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px
+		0px rgba(145, 158, 171, 0.2);
+	border-radius: 7px;
+	z-index: 0;
+}
+
+.card-UpdateReserv {
+	background: #fff;
+	box-sizing: border-box;
+	padding: 25px 30px;
+	width: 700px;
+	box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px
+		0px rgba(145, 158, 171, 0.2);
+	border-radius: 7px;
+	z-index: 0;
+}
+
+.detail-blank {
+	background: #dbdbdb;
+	box-sizing: border-box;
+	width: 500px;
+	height: 5px;
+}
+
+
+.dis {
+	display: none;
+}
+
+.abl {
+	display: inline;
+}
+
+.card-disReserv {
+	background: #fff;
+	box-sizing: border-box;
+	padding: 25px 30px;
+	width: 500px;
+	height: 230px;
+	box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px
+		0px rgba(145, 158, 171, 0.2);
+	border-radius: 7px;
+	z-index: 0;
+}
+
+
 .input-stylee-1, .input-stylee-2 {
 	margin-bottom: 30px;
 }

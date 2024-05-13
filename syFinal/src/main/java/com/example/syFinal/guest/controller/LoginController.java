@@ -42,6 +42,7 @@ public class LoginController {
 			map.put("g_idx", map1.get("g_idx"));
 			map.put("g_phone", map1.get("g_phone"));
 			map.put("g_profile", map1.get("g_profile"));
+			map.put("g_photo", map1.get("g_photo"));
 			map.put("message", "success");
 			System.out.println(map);
 		} else if(passwd.equals("no")) {

@@ -88,7 +88,7 @@ function SearchPw() {
                           }
                         });
                       } else if (data.msg === "fail") {
-                        console.log(data);
+                        // console.log(data);
                         Swal.fire({
                           icon: "warning",
                           title: "잠깐!",
@@ -96,7 +96,7 @@ function SearchPw() {
                           confirmButtonText: "YES",
                         });
                       } else {
-                        console.log(data);
+                        // console.log(data);
                         Swal.fire({
                           icon: "error",
                           title: "잠깐!",

@@ -122,8 +122,8 @@
 }
 
 /* form-control */
-td>input {
-	border-color: #FAE0E0 !important;
+td>input, textarea {
+	border-color: #f7effc !important;
 	outline: none;
 	box-shadow: none !important;
 }
@@ -147,9 +147,9 @@ textarea::placeholder {
 	z-index: 1;
 }
 
-.profile-image img {
-	width: 100%;
-	/* 	border-radius: 50%; */
+.profile-img {
+	border-radius: 100%;
+	overflow: hidden;
 }
 
 .profile-image .update-image {
@@ -184,4 +184,21 @@ textarea::placeholder {
 .profile-image .update-image label {
 	cursor: pointer;
 	z-index: 99;
+}
+
+/* 말줄임표 적용 */
+.text-ellipsis {
+	/* box-sizing: border-box; */
+	width: 370px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis !important;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+/* paging */
+.nav-link, .page-item li, a {
+	color: black !important;
 }

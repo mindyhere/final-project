@@ -3,9 +3,9 @@ import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import GuestJoin from "../guest/join";
+import GuestJoin from "../../guest/join";
 import HostJoin from "./Join_modal";
-import "./host1.css";
+import "../host1.css";
 
 function HostLogin() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function HostLogin() {
       path: "/",
       expires: expiration,
     });
-    console.log(cookies.get("userInfo"))
+    // console.log(cookies.get("userInfo"))
 
     setTimeout(() => {
       Swal.fire({

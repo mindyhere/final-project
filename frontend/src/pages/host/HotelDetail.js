@@ -6,8 +6,10 @@ import HostInfo from "./hotelDetailSection/HostInfo";
 import HotelRule from "./hotelDetailSection/HotelRule";
 import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
+import Reputation from "./hotelDetailSection/Reputation";
+
+import { AwardFill, StarFill} from "react-bootstrap-icons";
 import { useParams } from "react-router-dom";
-import { addDays} from "date-fns";
 import moment from "moment";
 import "moment/locale/ko";
 
@@ -31,15 +33,11 @@ function useFetch(url) {
 function HotelDetail() {
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
-    const [modal, setModal] = useState(false);
-    const element = useRef<HTMLDivElement>(null);
+    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
+    const element = useRef(null);
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
-    const hostInfoForm = useRef();
-    const moveToHostInfo = () => {
-        hostInfoForm.current.scrollIntoView({behavior : 'smooth', block : 'start'});
-    };
 
     useEffect(() => {
         var myArr = localStorage.getItem('watched');
@@ -54,15 +52,7 @@ function HotelDetail() {
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
 
-    const [state, setState] = useState([
-        {
-          startDate: new Date(),
-          // 달력에 1박 표시
-          endDate: addDays(new Date(), 1),
-          key: "selection",
-        },
-      ])
-    if(loading){
+    if(loading || loading2){
         return (
             <div className="text-center">로딩 중...</div>
         )
@@ -81,9 +71,27 @@ function HotelDetail() {
         let img_url = '';
         if(data.ho_img !== '-'){
             src = `http://localhost/static/images/host/hotel/${data.ho_img}`;
-            img_url = `<img src=${src} width='600px' height='300px'/>`;
+            img_url = `<img src=${src} style="height:100%; width:100%;"/>`;
         } else {
             img_url = '';
+        }
+
+        let hotel_src2 = '';
+        let hotel_url2 = '';
+        if(data.d_img1 !== '-'){
+            hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
+            hotel_url2 = `<img src=${hotel_src2} style="height:100%; width:100%;"/>`;
+        } else {
+            hotel_url2 = '';
+        }
+
+        let hotel_src3 = '';
+        let hotel_url3 = '';
+        if(data.d_img2 !== '-'){
+            hotel_src3 = `http://localhost/static/images/host/hotel/${data.d_img2}`;
+            hotel_url3 = `<img src=${hotel_src3} style="height:100%; width:100%;"/>`;
+        } else {
+            hotel_url3 = '';
         }
 
         let profile_src = '';
@@ -108,7 +116,12 @@ function HotelDetail() {
                 <br />
                 <div className="row mb-30">
                     <div className="card-style">
-                        <span dangerouslySetInnerHTML={{__html : img_url}}></span>
+                        <div className="row">
+                            <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
+                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
+                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
+                        </div>
+                        {/* <button type="button" className="main-btn">사진 모두 보기</button> */}
                     </div>
                 </div>
                 <div className="row">
@@ -120,33 +133,31 @@ function HotelDetail() {
                             <div>                            
                                 {
                                     level === '슈퍼호스트'
-                                    ? <div className="card-style" style={{textAlignLast:'center'}}>
+                                    ? <div className="card-style" style={{textAlign:'center'}}>
                                         <div className="row">
                                             <div className="col-3">
                                                 <div className="row">
                                                     <h5>별점</h5>
                                                 </div>
-                                                <div className="row">
-                                                    4.5/5.0 (샘플)
-                                                </div>
+                                               <span>
+                                                    <StarFill /> {review.avg}
+                                              </span>
                                             </div>
-                                            <div className="col-5" >
+                                            <div className="col-5" style={{alignContent:'center'}}>
                                                 <div className="row">
-                                                    <div className="col-1">
-                                                        <img src="/img/best.png" width="35px" height="35px"/>
-                                                    </div>  
-                                                    <div className="col-10" style={{alignContent:'center'}}>
-                                                        게스트 선호
-                                                    </div>
+                                                    <span>
+                                                        <AwardFill  size={24}/>
+                                                        <strong>게스트 선호</strong>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div className="col-4">
                                                 <div className="row">
                                                     <h5>후기</h5>
                                                 </div>
-                                                <div className="row">
-                                                    15개 (샘플)
-                                                </div>
+                                                <span>
+                                                    {review.list.length} 개
+                                                </span>
                                             </div>
                                         </div>
                                      </div>
@@ -154,12 +165,8 @@ function HotelDetail() {
                                 }
                             </div>
                             <br />
-                            <div className="row">
-                                <div className="col-3">
-                                    <div className="profile-image" onClick={onMoveBox}>
-                                        <span dangerouslySetInnerHTML={{__html : profile_url}}></span>                        
-                                    </div>
-                                </div>
+                            <div className="row" onClick={onMoveBox}>
+                                <div className="col-3" style={{textAlign : 'center'}} dangerouslySetInnerHTML={{__html : profile_url}}></div>
                                 <div className="col-9" style={{alignSelf : 'center'}}>
                                   
                                     <div><b> 호스트 : {data.h_name}님 </b></div>
@@ -189,20 +196,24 @@ function HotelDetail() {
                                 </div>
                             <hr />
                             <h4>숙소 후기</h4>
+                            <br/>
+                            <div>
+                                <Reputation />
+                            </div>
                             <hr />
                             <h4>숙소 위치</h4>
-                            <div>{data.ho_address}
-                            <br />
-                                <KakaoMap />
+                                <div>{data.ho_address}
+                                <br />
+                                    <KakaoMap />
                                 </div>
                             <hr />
-                            <h4 useRef={hostInfoForm} className="mb-30">호스트 소개</h4>
-                             <HostInfo />
+                            <h4 className="mb-30">호스트 소개</h4>
+                                <div ref={element}><HostInfo /></div>
                             <hr />
                             <h4 className="mb-20">알아두어야 할 사항</h4>
-                            <div>
-                                <HotelRule />
-                            </div>
+                                <div>
+                                    <HotelRule />
+                                </div>
                         </div>
                     </div>
                     
