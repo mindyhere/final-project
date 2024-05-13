@@ -1,5 +1,6 @@
 import React, { useEffect, useState} from "react";
 import { useParams,useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
 import moment from "moment";
 import "moment/locale/ko";
 import { DateRangePicker  } from "react-date-range";
@@ -29,11 +30,15 @@ function useFetch(url) {
 }
 
 function Reservation() {
+    const cookies = new Cookies();
+    const gidx = cookies.get("g_idx");
+    const userInfo = cookies.get("userInfo");
     const {HoIdx} = useParams();
+    const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const navigate = useNavigate();
 
     const [state, setState] = useState({
@@ -189,6 +194,13 @@ function Reservation() {
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
+                        } else if (gidx == null||userInfo==null) {
+                            Swal.fire({
+                                icon : 'warning',
+                                text : '게스트로 로그인시 이용 가능합니다.',
+                                confirmButtonText: '확인'
+                            });
+                            return;
                         } else {
                             navigate('/guest/Order', {
                                 state: {
