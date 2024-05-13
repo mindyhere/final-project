@@ -49,7 +49,7 @@ function ListReviews() {
     for (let i = begin; i <= end; i++) {
       if (i === page.curPage) {
         result.push(
-          <li className="page-item">
+          <li key={"page-item" + i} className="page-item">
             <a key={i} className="page-link" href="#">
               <strong>{i}</strong>
             </a>
@@ -57,7 +57,7 @@ function ListReviews() {
         );
       } else {
         result.push(
-          <li className="page-item">
+          <li key={"page-item" + i} className="page-item">
             <a
               key={i}
               className="page-link"
@@ -218,7 +218,7 @@ function ListReviews() {
           <ul className="pagination">
             {page.curPage > 1 ? (
               <li className="page-item">
-                <a key={page.pageBegin} className="page-link" href="#">
+                <a className="page-link" href="#">
                   <span aria-hidden="true" onClick={() => getList("1")}>
                     <ChevronDoubleLeft />
                   </span>
@@ -227,12 +227,7 @@ function ListReviews() {
             ) : null}
             {page.curBlock > 1 ? (
               <li className="page-item">
-                <a
-                  key={page.prevPage}
-                  className="page-link"
-                  href="#"
-                  aria-label="Previous"
-                >
+                <a className="page-link" href="#" aria-label="Previous">
                   <span
                     aria-hidden="true"
                     onclick={() => getList(`${page.prevPage}`)}
@@ -247,12 +242,7 @@ function ListReviews() {
 
             {page.curBlock < page.totBlock ? (
               <li className="page-item">
-                <a
-                  key={page.nextPage}
-                  className="page-link"
-                  href="#"
-                  aria-label="Next"
-                >
+                <a className="page-link" href="#" aria-label="Next">
                   <span
                     aria-hidden="true"
                     onClick={() => getList(`${page.nextPage}`)}
@@ -264,12 +254,7 @@ function ListReviews() {
             ) : null}
             {page.curPage < page.totPage ? (
               <li className="page-item">
-                <a
-                  key={page.totPage}
-                  className="page-link"
-                  href="#"
-                  aria-label="End"
-                >
+                <a className="page-link" href="#" aria-label="End">
                   <span onClick={() => getList(`${page.totPage}`)}>
                     <ChevronDoubleRight />
                   </span>
