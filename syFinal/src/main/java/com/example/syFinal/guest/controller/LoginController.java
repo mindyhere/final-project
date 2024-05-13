@@ -64,7 +64,9 @@ public class LoginController {
 			result = "no";
 		} else if (check == 1) {
 			String randomPw = emailService.getTempPassword();
-			dao.randomPw(g_email, randomPw);
+			String passwd = pwdEncoder.encode(randomPw);
+			dao.randomPw(g_email, passwd);
+			System.out.println(randomPw);
 			EmailDTO dto = emailService.prepareTempPwdEmail(g_email, randomPw);
 			result = emailService.sendMail(dto); 
 		} else {
