@@ -53,7 +53,7 @@ import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
 import RegistHotel from "./pages/host/hotelManagement/RegistHotel";
-import UpdateHotel from "./pages/host/hotelManagement/UpdateHotel";
+import DetailHotel from "./pages/host/hotelManagement/DetailHotel";
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
@@ -118,7 +118,7 @@ function App() {
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
           <Route path="/host/hotel/registHotel" element={<RegistHotel />} />
-          <Route path="/host/hotel/updateHotel" element={<UpdateHotel />} />
+          <Route path="/host/hotel/detailHotel" element={<DetailHotel />} />
           {/* host 리뷰 관리 */}
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />

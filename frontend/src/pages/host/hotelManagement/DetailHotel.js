@@ -18,7 +18,7 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function UpdateHotel() {
+function DetailHotel() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const userName = userInfo.h_name;
@@ -109,4 +109,4 @@ function UpdateHotel() {
     }
 };
 
-export default UpdateHotel;
+export default DetailHotel;
