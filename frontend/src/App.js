@@ -51,11 +51,12 @@ import SearchHostEmail from "./pages/host/login/SearchEmail";
 import SearchHostPw from "./pages/host/login/SearchPw";
 import HostAccount from "./pages/host/hostAccount/HostAccount";
 import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
-
+import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
+import RegistHotel from "./pages/host/hotelManagement/RegistHotel";
+import UpdateHotel from "./pages/host/hotelManagement/UpdateHotel";
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
-import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
 
 function App() {
   console.warn = function no_console() {};
@@ -116,6 +117,8 @@ function App() {
           <Route path="/api/host/account/:userIdx" element={<HostAccount />} />
           <Route path="/host/edit/:userIdx" element={<EditHostInfo />} />
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
+          <Route path="/host/hotel/registHotel" element={<RegistHotel />} />
+          <Route path="/host/hotel/updateHotel" element={<UpdateHotel />} />
           {/* host 리뷰 관리 */}
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />
