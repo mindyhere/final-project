@@ -31,17 +31,4 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public void updateDeleted(int rv_idx) {
 		sqlSession.update("review.updateDeleted", rv_idx);
 	}
-
-//	@Override
-//	public List<Map<String, Object>> search(Map<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Map<String, Object>> searchAll(String keyword) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }

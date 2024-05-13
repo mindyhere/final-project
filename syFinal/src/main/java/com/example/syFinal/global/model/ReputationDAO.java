@@ -27,4 +27,11 @@ public interface ReputationDAO {
 	// 페이징 적용 : h_idx 기준 전체 review 개수
 	int countRecord(int h_idx);
 
+	int count(Map<String, Object> map);
+
+	// 후기 검색
+	List<Map<String, Object>> reviewSearch(Map<String, Object> map);
+//
+//	List<Map<String, Object>> searchAll(String keyword);
+
 }

@@ -25,17 +25,4 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public void delete(int rp_idx) {
 		sqlSession.delete("reply.delete", rp_idx);
 	}
-
-//	@Override
-//	public List<Map<String, Object>> search(Map<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Map<String, Object>> searchAll(String keyword) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }

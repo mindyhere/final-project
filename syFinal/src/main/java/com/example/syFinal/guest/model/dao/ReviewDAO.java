@@ -14,9 +14,4 @@ public interface ReviewDAO {
 
 	// guest → 작성한 리뷰 삭제
 	void updateDeleted(int rv_idx);
-
-	// 작성한 글 검색
-//	List<Map<String, Object>> search(Map<String, Object> map);
-//
-//	List<Map<String, Object>> searchAll(String keyword);
 }
