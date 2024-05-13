@@ -1,0 +1,80 @@
+/*로그인 화면*/
+.body1 {
+  height: 100vh;
+  display: flex;
+} 
+.main1 {
+  max-width: 450px;
+  position: absolute;
+  width: 100%;
+  border-radius: 20px;
+  padding-top: 10px;
+  height: 300px;
+  top: 400px; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  box-shadow: 0 0 8px rgba(119, 167, 144, 0.192);
+}
+.btn1 {
+  background: none;
+  border: 2px solid white;
+  border-radius: 150px;
+  align-self: center;
+  width: 150px;
+  padding: 8px 16px;
+  margin: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out 0.1s;
+}
+.btn1:hover {
+  background: white;
+  color: rgba(119, 167, 144, 0.753);
+}
+.form-field1{
+  display: flex;
+  flex-flow: column wrap;
+  width: 60%;
+}
+.form-field1 input {
+  border: none;
+  padding: 5px;
+  border-bottom: 1px solid rgba(116, 116, 116, 0.44);
+  height: 30px;
+  transition: border-bottom 0.1s ease-in-out 0.1s;
+}
+.form-field1 input:focus {
+  border-bottom: 1px solid rgba(119, 167, 144, 0.719);
+}
+.organize-form1 h2 {
+  font-size: 1.4em;
+  font-weight: normal;
+}
+.organize-form1 h2::after {
+  content: "";
+  display: block;
+  width: 10%;
+  height: 2px;
+  background:  rgba(119, 167, 144, 0.719);
+  margin: 0 auto;
+}
+.btn-sign1 {
+  border: none;
+  background:  rgba(119, 167, 144, 0.473);
+  color: white;
+  font-weight: bold;
+  width: 90%;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.btn-sign1:hover {
+  background:  rgba(119, 167, 144, 0.705);
+}
+.bars-style1 {
+  color: rgba(119, 167, 144, 0.404);
+  cursor: pointer;
+  font-size: 16px;
+}
