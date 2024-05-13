@@ -65,7 +65,7 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
               height="62px"
@@ -303,7 +303,7 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
               height="70px"
@@ -380,7 +380,7 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
               height="70px"
