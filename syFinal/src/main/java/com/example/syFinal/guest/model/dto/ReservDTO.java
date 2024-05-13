@@ -29,6 +29,10 @@ public class ReservDTO {
 	private int o_payment;
 	private int o_reser;
 	
+	private int o_adult;
+	private int o_child;
+	private int o_baby;
+	
 	private String h_phone;
 	private String h_profile;
 	private String ho_check_in;
@@ -43,5 +47,12 @@ public class ReservDTO {
 	private int d_beds;
 	private String d_non_smoking;
 	
+	private int d_capacity;
 	
+	private int ru_idx;
+	private String ru_startDate;
+	private String ru_endDate;
+	private int ru_adult;
+	private int ru_child;
+	private int ru_baby;
 }
