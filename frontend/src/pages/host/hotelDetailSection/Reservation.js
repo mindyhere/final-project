@@ -34,10 +34,11 @@ function Reservation() {
     const gidx = cookies.get("g_idx");
     const userInfo = cookies.get("userInfo");
     const {HoIdx} = useParams();
+    const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const navigate = useNavigate();
 
     const [state, setState] = useState({
@@ -91,7 +92,7 @@ function Reservation() {
    }
 
    function childPlusBtn(){
-    setChild(child + 1);
+        setChild(child + 1)
    }
 
    function childMinusBtn(){
@@ -116,7 +117,7 @@ function Reservation() {
         const price = (data.d_price) * dateChar;
         const vat = price * 0.2;
         const totalPrice = price + vat;
-        const guestCounter = adult + teenager + child
+        const guestCounter = adult + teenager;
 
         return (
                 <div className="card-style mb-30">
@@ -171,7 +172,7 @@ function Reservation() {
                                             <Dropdown.Item>유아</Dropdown.Item>
                                                 <button style={{marginRight: '10px'}} onClick={childMinusBtn}> - </button>
                                                 {child}
-                                                <button style={{marginLeft: '10px'}} onClick={childPlusBtn}> + </button>
+                                                <button style={{marginLeft: '10px'}} onClick={childPlusBtn} disabled={child >= 5 ? true : false}> + </button>
                                            
                                         </Dropdown.Menu>
                                     </Dropdown>
@@ -193,29 +194,33 @@ function Reservation() {
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
-                        } else if (gidx == null||userInfo==null) {
+                        } else if(userInfo != undefined || gidx == undefined) {
                             Swal.fire({
                                 icon : 'warning',
-                                text : '게스트로 로그인시 이용 가능합니다.',
-                                confirmButtonText: '확인'
+                                text : '게스트 로그인시 예약가능합니다.',
                             });
                             return;
-                        } else {
+                        }
+                        else {
                             navigate('/guest/Order', {
                                 state: {
                                     ckin:formatDateDisplay(state.startDate),
                                     ckout:formatDateDisplay(state.endDate),
                                     reser: guestCounter,
+                                    adult: adult,
+                                    child: teenager,
+                                    baby: child,
                                     dprice: data.d_price,
                                     pprice: price,
                                     fprice: totalPrice,
                                     dateChar : dateChar,
                                     vat:vat,
                                     HoIdx: HoIdx,
-                                    didx: data.d_idx
+                                    dIdx: dIdx
                                 }
                             });
                         }
+                        
                     }} >예약하기</button>
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     { view && 

@@ -27,7 +27,7 @@ function Ahost() {
     };
 
     const btndelete =() =>{
-        if (window.confirm('정말로 탈퇴시키겠습니까?')) {
+        if (window.confirm('정말 탈퇴시키겠습니까?')) {
             fetch(`http://localhost/admin/ah_delete?h_idx=${selectedItem.h_idx}`, {
                 method: 'POST' 
             })
@@ -59,6 +59,24 @@ function Ahost() {
         } 
     };
 
+    useEffect(() => {
+        fetchhost();
+      }, [])
+
+    const fetchhost = () => {
+        const form = new FormData();
+        form.append('searchkey', searchkey.current.value);
+        form.append('search', search.current.value);
+        fetch('http://localhost/admin/ah_list', {
+            method: 'post',
+            body: form
+        }).then(response => response.json())
+            .then(list => {
+                console.log('list' + JSON.stringify(list));
+                setAhitem(list);
+            });
+    };
+   
     const handleChange = (e) => {
         setInputValue(e.target.value);
     }
@@ -88,19 +106,8 @@ function Ahost() {
                 &nbsp;
                 <input ref={search} />
                 &nbsp;
-                <button type='button' className="btn btn-outline-success" onClick={() => {
-                    const form = new FormData();
-                    form.append('searchkey', searchkey.current.value);
-                    form.append('search', search.current.value);
-                    fetch('http://localhost/admin/ah_list', {
-                        method: 'post',
-                        body: form
-                    }).then(response => response.json())
-                        .then(list => {
-                            console.log('list' + JSON.stringify(list));
-                            setAhitem(list);
-                        });
-                }}>조회</button>
+                <button type='button' className="btn btn-outline-success" 
+                onClick={fetchhost}>조회</button>
                 <br /><br />
 
                 <table className="table table-hover">
@@ -114,7 +121,7 @@ function Ahost() {
                             <th>가입날짜</th>
                             <th>등급</th>
                             <th>가입승인</th>
-                            <th>관리</th> 
+                            <th>상세</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -195,10 +202,6 @@ function Ahost() {
                                         <input type="text" className="form-control"
                                             name="g_phone" value={selectedItem.h_description} onChange={handleChange} readOnly />
                                     </div>                               
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={closeModal}>닫기</button>
-                                    <button type="button" className="btn btn-secondary" onClick={btndelete}>삭제</button>
                                 </div>
                             </div>
                         </div>
