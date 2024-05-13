@@ -63,7 +63,7 @@ function RecentItem({HoIdx, HoName, HoImg, check}) {
         let img = '';
         if (HoImg != null) {
             img = `
-           <img src=${url} width='330px' height='330px' class="wish" /><br />`;
+           <img src=${url} width='330px' height='330px' className="wish" /><br />`;
         }
 
         return (
@@ -76,7 +76,7 @@ function RecentItem({HoIdx, HoName, HoImg, check}) {
                     <div style={{fontSize:"20px", color: 'black'}}>{HoName}</div>
                     
                     </Link>
-                    <button type='button' class="wish-button" onClick={() => handleClick()}>
+                    <button type='button' className="wish-button" onClick={() => handleClick()}>
                     <img src = {image}  width='28px' height='35px'/>
                 </button>
                 <br />

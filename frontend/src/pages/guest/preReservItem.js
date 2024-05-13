@@ -15,12 +15,12 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
         let img = '';
         if (HoImg != null) {
             img = `
-           <img src=${url} width='250px' height='250px' class="wish" /><br />`;
+           <img src=${url} width='250px' height='250px' className="wish" /><br />`;
         }
 
         return (
             <Link to={`/guest/preReservDetail/${OIdx}`}>
-           <div class="card-reserv" style={{zIndex: 0}} >
+           <div className="card-reserv" style={{zIndex: 0}} >
                         <div style={{float: "left", width: "300px"}}>
                             <p style={{fontSize: "30px", color: 'black'}}>{HoName}</p>
                             <p style={{fontSize:"20px", color: 'black'}}>{OCkin}~{OCkout}</p>

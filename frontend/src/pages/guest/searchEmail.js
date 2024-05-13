@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,21 +9,37 @@ function SearchEmail() {
     const navigate = useNavigate();
     const g_name = useRef();
     const g_phone = useRef();
+    const [inputValue, setInputValue] = useState('');
     const [message, setMessage] = useState([]);
+
+    const handleChange = (e) => {
+        const regex = /^[0-9\b -]{0,13}$/;
+        if (regex.test(e.target.value)){
+            setInputValue(e.target.value);
+        }
+    }
+
+    useEffect(() => {
+        if (inputValue.length > 0 ) {
+            setInputValue(inputValue
+                .replace(/-/g, '')
+                .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+        }
+    }, [inputValue]);
 
     return (
         <>
             <div className="container min-vh-100">
-            <h3 class="text-bold"> <img src="/img/search_id.png" width="35px" height="35px"/>
+            <h3 className="text-bold"> <img src="/img/search_id.png" width="35px" height="35px"/>
                 이메일 찾기</h3>
             <hr/>
-            <div class="card-style mb-30">
+            <div className="card-style mb-30">
                 <form>
-                    <div class="input-style-1">
+                    <div className="input-style-1">
 						<label>이름</label> <input ref={g_name} placeholder="이름을 입력해주세요"/>
 					</div>
-                    <div class="input-style-1">
-						<label>전화번호</label> <input type='tel' ref={g_phone} placeholder="숫자만 입력하세요" />
+                    <div className="input-style-1">
+						<label>전화번호</label> <input type='tel' ref={g_phone} onChange={handleChange} value={inputValue} placeholder="숫자만 입력하세요" />
 					</div>
                     <br/>
                     <div style={{textAlign: 'center'}}>

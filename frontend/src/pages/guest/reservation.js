@@ -69,7 +69,7 @@ var set = {
             <>
 
                  <div className="container min-vh-100" >
-                 <h3 class="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
+                 <h3 className="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
                 &nbsp; 여행</h3>
                 <br/>
                 <br/>

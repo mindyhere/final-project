@@ -41,7 +41,7 @@ function CancelReserv() {
             <>
             <div className="container min-vh-100">
                 <div style={{float: 'left', width: '500px', marginRight:'50px'}}>
-                <h3 class="text-bold">취소 확인하기</h3>
+                <h3 className="text-bold">취소 확인하기</h3>
                 <br/>
                 <div>
                 <div style={{float:'left', marginRight:'100px'}}>
@@ -64,7 +64,7 @@ function CancelReserv() {
                 <div style={{paddingBottom:'40px'}}>
                     <h4>총 환불 금액<p style={{float:'right'}}>{data.refund_money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p></h4>
                 </div>
-                <button type='button' class="main-btn" onClick={() => {
+                <button type='button' className="main-btn" onClick={() => {
                     const form = new FormData();
                     form.append('o_idx', OIdx);
                     fetch('http://localhost/guest/reserv/cancel', {
@@ -95,7 +95,7 @@ function CancelReserv() {
                 }}>예약 취소</button>
                 </div>
 
-                <div class='card-reservDetail' style={{float: 'left'}}>
+                <div className='card-reservDetail' style={{float: 'left'}}>
                     <div style={{float:'left', marginRight: '10px'}}><span dangerouslySetInnerHTML={{__html: img}}></span></div>
                     <div>
                         <p>{data.dto.ho_name}<br/>
