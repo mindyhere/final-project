@@ -194,7 +194,7 @@ function Reservation() {
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
-                        } else if(userInfo != null && gidx == null) {
+                        } else if(userInfo != undefined || gidx == undefined) {
                             Swal.fire({
                                 icon : 'warning',
                                 text : '게스트 로그인시 예약가능합니다.',
