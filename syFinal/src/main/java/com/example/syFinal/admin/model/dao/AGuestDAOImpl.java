@@ -26,21 +26,33 @@ public class AGuestDAOImpl implements AGuestDAO {
 		return sqlSession.selectList("admin.ag_list", map);
 	}
 
-	// 회원 상세
 	@Override
-	public Map<String, Object> detail(int g_idx) {
-		return sqlSession.selectOne("admin.ag_detail", g_idx);
+	public AGuestDTO detail(int g_idx) {
+		AGuestDTO dto = sqlSession.selectOne("admin.ag_detail", g_idx);
+		return dto;
 	}
 
 	@Override
-	public void delete(int g_idx) {
-		sqlSession.selectOne("admin.ag_delete", g_idx);
-
+	public String delete(int g_idx) {
+		String result = "";
+		try {
+			sqlSession.delete("admin.ag_delete", g_idx);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
 
 	@Override
-	public void update(Map<String, Object> map) {
-		sqlSession.selectOne("admin.ag_update", map);
-
+	public String update(AGuestDTO dto) {
+		String result = "";
+		try {
+			sqlSession.update("admin.ag_update", dto);
+			result = "success";
+		} catch (Exception e) {
+			result = "fail";
+		}
+		return result;
 	}
 }
