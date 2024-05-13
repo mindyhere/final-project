@@ -1,7 +1,8 @@
 import React,{useRef} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 function HotelItem({HoIdx,HoName, HoImg}) {
+    const dIdx = 1;
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     //const url = `../img/${HoImg}`;
@@ -20,7 +21,7 @@ function HotelItem({HoIdx,HoName, HoImg}) {
         return (
             <div style={{ margin: '5px',paddingLeft: '100px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                    <Link to={`/host/hotel/hotelDetail/${HoIdx}`}> 
+                    <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}> 
                         <div style={{fontSize:"23px"}}>{HoName}</div>
                             ₩68,717 /박
                     </Link>

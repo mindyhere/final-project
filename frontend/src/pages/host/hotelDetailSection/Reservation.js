@@ -30,10 +30,11 @@ function useFetch(url) {
 
 function Reservation() {
     const {HoIdx} = useParams();
+    const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const navigate = useNavigate();
 
     const [state, setState] = useState({

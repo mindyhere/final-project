@@ -8,11 +8,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.host.model.dao.HotelDAO;
-import com.example.syFinal.host.model.dto.HotelAmenityDTO;
 import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
@@ -23,9 +23,16 @@ public class HotelController {
 	HotelDAO hotelDao;
 
 	/* 호텔 상세 정보 */
-	@GetMapping("/host/hotel/hotelDetail/{hoIdx}")
-	public HotelDTO hotelList(@PathVariable(name = "hoIdx") int ho_idx) {
-		HotelDTO hotelList = hotelDao.hoteLlist(ho_idx);
+	@RequestMapping("/host/hotel/hotelDetail/{hoIdx}/{dIdx}")
+	public Map<String, Object> hotelList(@PathVariable(name = "hoIdx") int ho_idx, @PathVariable(name = "dIdx") int d_idx) {
+		System.out.println("d_idx   : "  + d_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		
+		Map<String, Object> hotelList = new HashMap<>();
+		hotelList = hotelDao.hoteLlist(map);
+		System.out.println("map : " + map);
 		return hotelList;
 	}
 
@@ -48,8 +55,6 @@ public class HotelController {
 			map.put("dPrice", list.get(i).getD_price());
 			hotelRooms.add(map);
 		}
-		System.out.println("호디엑스"+list);
-		System.out.println("결과 확인 :  " + hotelRooms);
 		return hotelRooms;
 	}
 
@@ -83,30 +88,28 @@ public class HotelController {
 		hotelPrice = hotelDao.hotelPrice(ho_idx);
 		return hotelPrice;
 	}
-	
+
 	/* 호스트 상세페이지(게스트용) */
 	@GetMapping("/host/hotel/hostPage/{hIdx}")
-	public Map<String, Object> hostPage(@PathVariable(name="hIdx") int h_idx){
+	public Map<String, Object> hostPage(@PathVariable(name = "hIdx") int h_idx) {
 		Map<String, Object> hostPage = new HashMap<>();
 		hostPage = hotelDao.hostPage(h_idx);
 		return hostPage;
 	}
-	
+
 	/* 호스트의 호텔 리스트 */
 	@GetMapping("/host/hotel/hotelSummary/{hIdx}")
-	public Map<String, Object> hotelSummary(@PathVariable(name="hIdx") int h_idx){
+	public Map<String, Object> hotelSummary(@PathVariable(name = "hIdx") int h_idx) {
 		Map<String, Object> hotelSummary = new HashMap<>();
 		hotelSummary = hotelDao.hotelSummary(h_idx);
 		return hotelSummary;
 	}
-	
+
 	/* 호스트의 모든 호텔 리뷰 */
 	@GetMapping("/host/hotel/allReview/{hIdx}")
-	public List<Map<String, Object>> allReviews(@PathVariable(name="hIdx") int h_idx){
-		System.out.println("hhhhhhh : " + h_idx);
+	public List<Map<String, Object>> allReviews(@PathVariable(name = "hIdx") int h_idx) {
 		List<Map<String, Object>> allReviews = new ArrayList<>();
 		allReviews = hotelDao.allReviews(h_idx);
-		System.out.println("allReviews  : " + allReviews);
 		return allReviews;
 	}
 }
