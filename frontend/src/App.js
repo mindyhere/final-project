@@ -15,6 +15,7 @@ import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
+import Profile from "./pages/guest/Profile";
 import Pay from "./pages/guest/Pay";
 import GuestInfo from "./pages/guest/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
@@ -67,6 +68,7 @@ function App() {
           <Route path="/guest/searchEmail" element={<SearchEmail />} />
           <Route path="/guest/searchPw" element={<SearchPw />} />
           <Route path="/guest/Account" element={<Account />} />
+          <Route path="/guest/Profile" element={<Profile />} />
           <Route path="/guest/Pay" element={<Pay />} />
           <Route
             path="/host/hotel/hotelDetail/:HoIdx"
