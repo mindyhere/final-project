@@ -32,12 +32,12 @@ limit #{start}, #{end};
 select count(*) from v_hotel_review where h_idx=#{h_idx}
 </select>
 
-<select id="count" resultType="int">
+<!-- <select id="count" resultType="int">
 select count(*) from v_hotel_review 
 where
 	ho_idx=#{ho_idx}
 	and rv_content like concat('%', #{keyword}, '%')
-</select>
+</select> -->
 
 <select id="reviewSearch" resultType="java.util.Map">
 select rv_idx, g_name, g_url, l_name, g_email, rv_content, rv_date, rv_star, rp_idx
@@ -46,10 +46,10 @@ where
 	ho_idx=#{ho_idx}
 	and rv_content like concat('%', #{keyword}, '%')
   <choose>
-	<when test="opt == 'highest'">
+	<when test="sort == 'highest'">
 		order by rv_star desc, rv_idx desc
 	</when>
-	<when test="opt == 'lowest'">
+	<when test="sort == 'lowest'">
 		order by rv_star, rv_idx desc
 	</when>
 	<otherwise>

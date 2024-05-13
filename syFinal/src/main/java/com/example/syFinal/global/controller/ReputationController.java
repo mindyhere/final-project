@@ -83,17 +83,15 @@ public class ReputationController {
 	@PostMapping("review/search")
 	public Map<String, Object> reviewSearch(@RequestParam Map<String, Object> map) {
 		System.out.println("==> reviewSearch? " + map);
-		int cnt = reputationDao.count(map);
+		List<Map<String, Object>> list = reputationDao.reviewSearch(map);
 		Map<String, Object> data = new HashMap<>();
-		if (cnt == 0) {
+		if (list == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-			List<Map<String, Object>> list = reputationDao.reviewSearch(map);
 			data.put("list", list);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
 		System.out.println("==> data? " + data);
-		data.put("count", cnt);
 		return data;
 	}
 

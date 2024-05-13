@@ -63,7 +63,6 @@ public class ReputationDAOImpl implements ReputationDAO {
 		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAvgRate", h_idx);
 		for (Map<String, Object> m : list) {
 			String avg = String.format("%.2f", m.get("avg"));
-			m.replace("avg", avg);
 		}
 //		System.out.println("==> 반복끝, result? " + list);
 		return list;
@@ -82,11 +81,17 @@ public class ReputationDAOImpl implements ReputationDAO {
 	@Override
 	public List<Map<String, Object>> reviewSearch(Map<String, Object> map) {
 		String keyword = (String) map.get("keyword");
-		List<Map<String, Object>> list = sqlSession.selectList("reputation.reviewSearch", map);
-		for (Map<String, Object> m : list) {
-			String rv_content = (String) m.get("rv_content");
-			rv_content = rv_content.replace(keyword, "<span style='bakground-color:#F7EFFC'>" + keyword + "</span>");
-			m.put("rv_content", rv_content);
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("reputation.reviewSearch", map);
+//			for (Map<String, Object> m : list) {
+//				String rv_content = (String) m.get("rv_content");
+//				rv_content = rv_content.replace(keyword,
+//						"<span style={{bakgroundColor:'#F7EFFC'}}>" + keyword + "</span>");
+//				m.put("rv_content", rv_content);
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		System.out.println("==> 반복끝, result? " + list);
 		return list;
