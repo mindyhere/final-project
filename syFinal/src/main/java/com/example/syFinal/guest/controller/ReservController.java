@@ -94,10 +94,8 @@ public class ReservController {
 		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		System.out.println(dto);
 		LocalDate date = LocalDate.parse(dto.getO_ckin());
 		map.put("ref_date", date.minusDays(1));
-		System.out.println(map);
 		return map;
 	}
 
