@@ -139,10 +139,23 @@ if(loading||loading1||loading2){
                                     <div className="card-body" align='left'>
                                         <h4>{data.dto.g_name}님의 인증 정보</h4>
                                         <div style={{lineHeight: '2.8'}}>
-                                         <tr>
-                                            <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '24px', width: '24px', stroke: 'currentcolor', strokeWidth: '2.66667', overflow: 'visible'}}><path fill="none" d="m4 16.5 8 8 16-16"></path></svg></td>
-                                            <td>신분증</td>
-                                         </tr>
+                                         
+                                            {data.dto.g_profile === "미인증"
+                                            ?
+                                            <tr>
+                                                <td><svg xmlns="http://www.w3.org/2000/svg" color='red' width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                                </svg></td>
+                                                <td>신분증</td>
+                                            </tr>
+                                            :
+                                            <tr>
+                                                <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '24px', width: '24px', stroke: 'currentcolor', strokeWidth: '2.66667', overflow: 'visible'}}><path fill="none" d="m4 16.5 8 8 16-16"></path></svg></td>
+                                                <td>신분증</td>
+                                            </tr>
+                                            }
+
+                                         
                                          <tr>
                                             <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '24px', width: '24px', stroke: 'currentcolor', strokeWidth: '2.66667', overflow: 'visible'}}><path fill="none" d="m4 16.5 8 8 16-16"></path></svg></td>
                                             <td>이메일 주소</td>

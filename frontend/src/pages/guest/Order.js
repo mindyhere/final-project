@@ -219,11 +219,17 @@ function Order() {
                                 ?
                                 //카드 or 포인트로 결제시 버튼 클릭하면 DB에 바로 insert
                                 <button className="btn btn-dark" onClick={()=>{
-                                    if(data.dto.g_card ==null) {
+                                    if(data.dto.g_card === null) {
                                         Swal.fire({
                                             title: "카드 미등록상태",
                                             icon : 'warning',
                                             text : '계정 > 결제 > 결제수단에서 카드를 등록해주세요.',
+                                        });
+                                    } else if(data.dto.g_profile === '미인증'){
+                                        Swal.fire({
+                                            title: "신분증 미등록상태",
+                                            icon : 'warning',
+                                            text : '계정 > 로그인 및 보안 > 인증에서 신분증을 등록해주세요.',
                                         });
                                     } else {
                                         const form = new FormData();
