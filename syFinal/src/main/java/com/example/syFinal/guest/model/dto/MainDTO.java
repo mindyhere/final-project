@@ -19,4 +19,5 @@ public class MainDTO {
 	private String ho_img;
 	
 	private int w_idx; 
+	private int d_idx;
 }

@@ -23,4 +23,13 @@ public class MainDAOImpl implements MainDAO {
 		map.put("search", search);
 		return sqlSession.selectList("main.mainList",search);
 	}
+	
+
+	@Override
+	public int check(int ho_idx, int g_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("g_idx", g_idx);
+		return sqlSession.selectOne("main.check", map);
+	}
 }

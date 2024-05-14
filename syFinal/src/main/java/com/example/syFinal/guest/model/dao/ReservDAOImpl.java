@@ -1,5 +1,9 @@
 package com.example.syFinal.guest.model.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +40,11 @@ public class ReservDAOImpl implements ReservDAO {
 	}
 	
 	@Override
-	public String cancel(int o_idx) {
+	public String cancel(int o_idx, int g_idx) {
 		String result = "";
 		try {
 			sqlSession.update("reserv.cancel", o_idx);
+			sqlSession.update("reserv.down_pro",g_idx);
 			result = "success";
 		} catch (Exception e) {
 			result = "fail";
@@ -53,7 +58,7 @@ public class ReservDAOImpl implements ReservDAO {
 	}
 	
 	@Override
-	public String insert(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
+	public String insert(int g_idx, int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("ru_idx", ru_idx);
 		map.put("ru_startDate", ru_startDate);
@@ -65,6 +70,7 @@ public class ReservDAOImpl implements ReservDAO {
 		try {
 			sqlSession.insert("reserv.insert", map);
 			sqlSession.update("reserv.state",ru_idx);
+			sqlSession.update("reserv.down_pro",g_idx);
 			result = "success";
 		} catch (Exception e) {
 			result = "fail";
@@ -78,7 +84,7 @@ public class ReservDAOImpl implements ReservDAO {
 	}
 	
 	@Override
-	public String update(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
+	public String update(int g_idx, int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("ru_idx", ru_idx);
 		map.put("ru_startDate", ru_startDate);
@@ -90,6 +96,7 @@ public class ReservDAOImpl implements ReservDAO {
 		try {
 			sqlSession.update("reserv.update", map);
 			sqlSession.update("reserv.state",ru_idx);
+			sqlSession.update("reserv.down_pro",g_idx);
 			result = "success";
 		} catch (Exception e) {
 			result = "fail";
@@ -100,5 +107,14 @@ public class ReservDAOImpl implements ReservDAO {
 	@Override
 	public ReservDTO confirm(int ru_idx) {
 		return sqlSession.selectOne("reserv.confirm", ru_idx);
+	}
+	
+	@Override
+	public List<ReservDTO> date(int o_idx, int ho_idx, int o_didx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("o_didx", o_didx);
+		map.put("o_idx", o_idx);
+		return sqlSession.selectList("reserv.imp_date", map);
 	}
 }

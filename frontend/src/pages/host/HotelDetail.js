@@ -1,5 +1,4 @@
 import React, {useRef, useEffect, useState} from "react";
-import { useLocation } from "react-router-dom";
 import KakaoMap from "../../component/KakaoMap";
 import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
@@ -113,7 +112,7 @@ function HotelDetail() {
                         <h2>{data.ho_name}</h2>
                     </div>
                     <div className="col-3">
-                    <img src="/img/share.png" width="20px" height="20px"/> <a href="" style={{color:'black'}}>공유하기</a> | ♡ wish
+                    <img src="/img/share.png" width="20px" height="20px"/> <a href="" style={{color:'black'}}>공유하기</a>
                     </div>
                 </div>
                 <br />

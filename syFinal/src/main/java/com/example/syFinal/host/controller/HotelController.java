@@ -8,12 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.syFinal.host.model.dao.HotelDAO;
-import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 @RestController
@@ -119,9 +119,14 @@ public class HotelController {
 		Map<String, Object> hotelManagement = new HashMap<>();
 		hotelManagement.put("status", hotelStatus);
 		hotelManagement.put("list", hotelList);
-		System.out.println("====> status : " + hotelStatus);
-		System.out.println("====> list : " + hotelList);
-		System.out.println("====> hotelManagement : " + hotelManagement);
 		return hotelManagement;
+	}
+	
+	/* 신규 호텔 등록 */
+	@PostMapping("/host/hotel/registHotel")
+	public void registHotel (@RequestParam Map<String, Object> map,
+			@RequestParam(name = "img", required = false) MultipartFile img) {
+		System.out.println("map : " + map);
+		System.out.println("img" + img);
 	}
 }

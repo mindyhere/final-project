@@ -20,6 +20,7 @@ public class ReservDTO {
 	private String h_name;
 	private int o_idx;
 	private int h_idx;
+	private int ho_idx;
 	private String ho_address;
 	
 	private String o_orderdate;
@@ -28,6 +29,7 @@ public class ReservDTO {
 	private int o_finalprice;
 	private int o_payment;
 	private int o_reser;
+	private int o_didx;
 	
 	private int o_adult;
 	private int o_child;

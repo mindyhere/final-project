@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -24,6 +25,8 @@ function useFetch(url) {
 function CancelReserv() {
     const {OIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
+    const cookies = new Cookies();
+    const idx = cookies.get('g_idx');
     
 
     if(loading) {
@@ -67,6 +70,7 @@ function CancelReserv() {
                 <button type='button' className="main-btn" onClick={() => {
                     const form = new FormData();
                     form.append('o_idx', OIdx);
+                    form.append('g_idx', idx.key);
                     fetch('http://localhost/guest/reserv/cancel', {
                         method: 'post',
                         body: form,

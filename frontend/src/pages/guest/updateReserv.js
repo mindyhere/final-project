@@ -9,6 +9,7 @@ import { format, subDays} from "date-fns";
 import { Dropdown } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../asset/css/datepicker.css";
+import Cookies from "universal-cookie";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -31,6 +32,8 @@ function useFetch(url) {
 function UpdateReserv() {
     const {OIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/guest/reserv/upDetail?o_idx=' + OIdx);
+    const cookies = new Cookies();
+    const idx = cookies.get('g_idx');
     
 
     if(loading) {
@@ -211,6 +214,7 @@ function UpdateReserv() {
                                             direction="horizontal"
                                             isClearable={true}
                                             rangeColors={["#DBC4F0"]}
+                                            disabledDates={data.imp_dates}
                                         />
                                         </div>
                                     </div>
@@ -269,6 +273,7 @@ function UpdateReserv() {
                             });
                         } else {
                             const form = new FormData();
+                            form.append('g_idx', idx.key);
                             form.append('ru_idx', OIdx);
                             form.append('ru_startDate', format(state.startDate, "yyyy-MM-dd"));
                             form.append('ru_endDate', format(state.endDate, "yyyy-MM-dd"));

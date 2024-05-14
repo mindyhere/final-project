@@ -19,4 +19,8 @@ public class HotelDetailDTO {
 	private String d_img1;
 	private String d_img2;
 	private String d_img3;
+	
+	
+	private String o_ckin;
+	private String o_ckout;
 }
