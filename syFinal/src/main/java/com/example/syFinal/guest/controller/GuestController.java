@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.syFinal.guest.model.dao.GuestDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.guest.model.dto.MainDTO;
+import com.example.syFinal.guest.model.dto.ReviewDTO;
 import com.example.syFinal.host.model.dao.HotelDAO;
 import com.example.syFinal.host.model.dto.HotelDTO;
 
@@ -92,6 +93,34 @@ public class GuestController {
 		System.out.println("예약요청"+map1);
 		dao.order(map1);
 	}
-	
+	//게스트 후기목록
+	@RequestMapping("/guest/reviews")
+	public List<Map<String, Object>> reviews(@RequestParam(name="g_idx") int g_idx) {
+		//dao.my(g_idx);
+		ReviewDTO reviews = dao.reviews(g_idx);
+		//Map<String, Object> mypage = dao.my(g_idx);
+		//Map<String,Object> map = new HashMap<>();
+		//GuestDTO dto = new GuestDTO();
+		List<Map<String, Object>> map = new ArrayList<>();
+		//map.put("myphoto", mypage.getG_photo());
+		map.add("reviews", reviews);
+		//System.out.println(map);
+		System.out.println("리뷰목록=="+map);
+		return map;
+	}
+	//게스트 후기의 호스트 답변목록
+	@RequestMapping("/guest/replys")
+	public Map<String, Object> replys(@RequestParam(name="g_idx") int g_idx) {
+		//dao.my(g_idx);
+		//Map<String, Object> mypage = dao.my(g_idx);
+		//Map<String,Object> map = new HashMap<>();
+		//GuestDTO dto = new GuestDTO();
+		Map<String, Object> map = new HashMap<>();
+		//map.put("myphoto", mypage.getG_photo());
+		map.put("dto", dao.replys(g_idx));
+		//System.out.println(map);
+		System.out.println("리뷰목록=="+map);
+		return map;
+	}
 	
 }

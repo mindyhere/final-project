@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.syFinal.guest.model.dto.GuestDTO;
+import com.example.syFinal.guest.model.dto.ReviewDTO;
 
 @Repository
 public class GuestDAOImpl implements GuestDAO {
@@ -40,4 +41,13 @@ public class GuestDAOImpl implements GuestDAO {
 		sqlSession.insert("guest.order",map);
 	}
 	
+	@Override
+	public ReviewDTO reviews(int g_idx) {
+		return sqlSession.selectOne("guest.reviews", g_idx);
+	}
+	
+	@Override
+	public Map<String,Object> replys(int g_idx) {
+		return sqlSession.selectOne("guest.replys", g_idx);
+	}
 }

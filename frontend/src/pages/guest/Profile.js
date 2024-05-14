@@ -1,4 +1,5 @@
 import React, {useRef,useEffect,useState} from 'react';
+//import { ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 
@@ -135,6 +136,33 @@ if(loading){
                             <h2>{data.dto.g_name} 님 소개</h2>
                             <hr></hr>
                             <h3>{data.dto.g_name} 님에 대한 호스트의 후기</h3>
+                            
+                                    
+                                     {/* <div className="col-1" style={{alignContent:'center'}}>
+                                        <div onClick={previous} style={{cursor:'pointer'}}>
+                                            <ArrowLeftCircle size={35} color="#CD9EED" />
+                                        </div>
+                                    </div>
+                                    <div className="col-1" style={{alignContent:'center'}}> 
+                                        <div onClick={next} style={{cursor:'pointer'}}>
+                                            <ArrowRightCircle size={35} color="#CD9EED" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="card-style mb-30">
+                                        <Slider {...settings} ref={slickRef}>
+                                            {rv.map((item, idx) => (
+                                                <SliderReviewItems
+                                                    key={idx}
+                                                    g_name={item.g_name}
+                                                    g_url={item.g_url}
+                                                    rv_date={item.rv_date}
+                                                    rv_star={item.rv_star}
+                                                    rv_content={item.rv_content}
+                                                />
+                                            ))}
+                                        </Slider>
+                                    </div> */}
                             <a className="nav-link active">호스트 후기 모두 표시하기
                                 <div className={"btn-wrapper2"}>
                                     <a className={"modal-open-btn"}
