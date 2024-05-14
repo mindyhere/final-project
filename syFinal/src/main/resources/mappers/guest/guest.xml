@@ -25,10 +25,10 @@
 		g_idx,
 		d_img1, 
 		o_state, 
-		o_orderdate, 
+		DATE_FORMAT(o_orderdate, '%Y년 %m월 %d일') as o_orderdate, 
 		o_payment, 
-		o_ckin, 
-		o_ckout, 
+		DATE_FORMAT(o_ckin, '%Y/%m/%d') as o_ckin, 
+		DATE_FORMAT(o_ckout, '%Y/%m/%d') as o_ckout, 
 		o_finalprice
 		FROM hotel_detail d, orders o, guest g
 		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx 

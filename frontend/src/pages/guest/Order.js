@@ -196,7 +196,7 @@ function Order() {
                                         :
                                         <div style={{fontSize: '10px'}}>
                                             <tr>등록된 카드정보
-                                                <td>****{card}</td>
+                                                <td>****-****-****-{card}</td>
                                             </tr>
                                             <div>* 카드로 결제시 등록된 카드에서 결제될 예정입니다.</div>
                                         </div>
@@ -285,7 +285,7 @@ function Order() {
                             <div>원가 ₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = {pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                             <div>수수료 : {vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                             <hr/>
-                            <div>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
+                            <div>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                         </div>
                     </div>
                 </div>
