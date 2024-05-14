@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.guest.model.dto.ReservDTO;
-import com.example.syFinal.host.model.dto.HotelAmenityDTO;
-import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 @Repository
@@ -20,8 +17,13 @@ public class HotelDAOImpl implements HotelDAO {
 	SqlSession sqlSession;
 
 	/* 호텔 상세 정보 */
-	public Map<String, Object> hoteLlist(Map<String, Object> map) {
+	public Map<String, Object> hoteList(Map<String, Object> map) {
 		return sqlSession.selectOne("hotel.getHotelList", map);
+	}
+	
+	/* 호텔 이미지 정보 */
+	public List<HotelDetailDTO> hotelImg(int ho_idx) {
+		return sqlSession.selectList("hotel.getHotelList", ho_idx);
 	}
 
 	/* 호텔 객실 정보 */
@@ -91,4 +93,10 @@ public class HotelDAOImpl implements HotelDAO {
 		map.put("d_idx", d_idx);
 		return sqlSession.selectList("hotel.imp_date", map);
 	}
+	
+	/* 호텔 상세 정보 조회 */
+	@Override
+	public List<Map<String, Object>> detailMyHotel(int ho_idx) {
+		return sqlSession.selectList("hotel.getDetailMyHotel", ho_idx);
+	}	
 }

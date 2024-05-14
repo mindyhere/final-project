@@ -12,6 +12,12 @@
 				AND d_idx = #{d_idx}
 	</select>
 	
+	<select id="getHotelImg" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
+		SELECT d_img1, d_img2, d_img3
+		FROM hotel, hotel_detail
+		WHERE ho_idx = #{ho_idx}
+	</select>
+		
 	<!-- 이미 예약된 날짜 정보 -->
 	<select id="imp_date" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
 		SELECT distinct(o_idx), o_ckin, o_ckout from orders, hotel, hotel_detail
@@ -109,5 +115,14 @@
 			 END AS status
 		FROM hotel
 		WHERE ho_h_idx = #{h_idx}
+	</select>
+	
+	<!-- 호텔 상세 정보 조회 -->
+	<select id="getDetailMyHotel" resultType="java.util.HashMap">
+		SELECT * 
+		FROM hotel, hotel_detail, hotel_amenity
+		WHERE ho_idx = #{ho_idx}
+		AND ho_idx = d_ho_idx
+		AND d_ho_idx = ha_ho_idx
 	</select>
 </mapper>
