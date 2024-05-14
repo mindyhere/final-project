@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/login/Join_modal";
-
 
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";
@@ -12,10 +11,9 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
 
-
 function Header() {
   const navigate = useNavigate();
-  
+
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +32,6 @@ function Header() {
 
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
-
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -56,8 +53,16 @@ function Header() {
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
   if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/admin/*" || locationNow.pathname === "/admin/alogin") return null; 
+  if (
+    locationNow.pathname === "/host/account/manage/review" ||
+    locationNow.pathname === "/host/account/manage/reply"
+  )
+    return null; // 팝업창에서 헤더 제거
+  if (
+    locationNow.pathname === "/admin/*" ||
+    locationNow.pathname === "/admin/alogin"
+  )
+    return null;
 
   if (userInfo == null && g_email == null) {
     console.log("로그인X cookie==> " + userInfo);
@@ -95,7 +100,6 @@ function Header() {
                   className="Modal"
                   style={{ zIndex: 999 }}
                   onClick={() => setModal_1(false)}
-                  
                 >
                   <div
                     className="modalBody"
@@ -178,10 +182,7 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div
-                  className="Modal"
-                  onClick={() => setModal(false)}
-                >
+                <div className="Modal" onClick={() => setModal(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -218,15 +219,13 @@ function Header() {
                             style={{ paddingTop: "20px" }}
                           >
                             게스트
-                          </label> 
+                          </label>
                         </div>
                         {join && (
-                            <Modall
-                              
-                            >
-                              <Join />
-                            </Modall>
-                          )}
+                          <Modall>
+                            <Join />
+                          </Modall>
+                        )}
 
                         <div
                           className="card-style2"
@@ -314,7 +313,10 @@ function Header() {
               <li className="nav-item rounded">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
-                      <span onClick={() =>  navigate("/guest/Profile")} dangerouslySetInnerHTML={{ __html: image}}></span>
+                    <span
+                      onClick={() => navigate("/guest/Profile")}
+                      dangerouslySetInnerHTML={{ __html: image }}
+                    ></span>
                   </div>
                 </a>
               </li>
@@ -404,9 +406,12 @@ function Header() {
                   호텔
                 </a>
               </li>
-              <li className="nav-item rounded">
-                <a className="nav-link active" href="#">
-                  주문
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/api/order/manage/list/${userIdx}`)}
+                >
+                  예약관리
                 </a>
               </li>
               <li className="nav-item rounded">
@@ -442,13 +447,19 @@ function Header() {
 
   function Modall(props) {
     function closeModal() {
-      setJoin(!join)
+      setJoin(!join);
     }
 
     return (
-      <div className="Modal_a" >
+      <div className="Modal_a">
         <div className="modalBody_a" onClick={(e) => e.stopPropagation()}>
-          <button id="modalCloseBtn" onClick={()=> {closeModal(); setModal(false);}}>
+          <button
+            id="modalCloseBtn"
+            onClick={() => {
+              closeModal();
+              setModal(false);
+            }}
+          >
             X
           </button>
           {props.children}

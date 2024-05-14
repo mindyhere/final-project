@@ -55,6 +55,7 @@ import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
 import RegistHotel from "./pages/host/hotelManagement/RegistHotel";
 import RegistHotelDetail from "./pages/host/hotelManagement/RegistHotelDetail";
 import EditHotel from "./pages/host/hotelManagement/EditHotel";
+import ManageOrders from "./pages/host/orders/ManageOrders";
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
@@ -74,10 +75,7 @@ function App() {
           <Route path="/guest/Account" element={<Account />} />
           <Route path="/guest/Profile" element={<Profile />} />
           <Route path="/guest/Pay" element={<Pay />} />
-          <Route
-            path="/host/hotel/hotelDetail/:HoIdx/:dIdx"
-            element={<HotelDetail />}
-          />
+          <Route path="/host/hotel/hotelDetail/:HoIdx/:dIdx" element={<HotelDetail />} />
           <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />} />
           <Route path="/guest/GuestInfo" element={<GuestInfo />} />
           <Route path="/guest/PayItem" element={<PayItem />} />
@@ -91,14 +89,8 @@ function App() {
           <Route path="/guest/coupon" element={<Coupon />} />
           <Route path="/guest/preReservItem" element={<PreReservItem />} />
           <Route path="/guest/lastReservItem" element={<LastReservItem />} />
-          <Route
-            path="/guest/lastReservDetail/:OIdx"
-            element={<LastReservDetail />}
-          />
-          <Route
-            path="/guest/preReservDetail/:OIdx"
-            element={<PreReservDetail />}
-          />
+          <Route path="/guest/lastReservDetail/:OIdx" element={<LastReservDetail />} />
+          <Route path="/guest/preReservDetail/:OIdx" element={<PreReservDetail />} />
           <Route path="/guest/reservRevItem" element={<ReservRevItem />} />
           <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv />} />
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
@@ -121,14 +113,14 @@ function App() {
           <Route path="/host/hotel/editHotel" element={<EditHotel />} />
           <Route path="/host/hotel/registHotel" element={<RegistHotel />} />
           <Route path="/host/hotel/registHotelDetail" element={<RegistHotelDetail />} />
-  
+          <Route path="/api/order/manage/list/:userIdx" element={<ManageOrders />} />
+          
           {/* host 리뷰 관리 */}
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />
 
           {/* guest 리뷰 등록 */}
           <Route path="/guest/write" element={<WriteReview />} />
-
         </Routes>
         <Footer />
       </BrowserRouter>
