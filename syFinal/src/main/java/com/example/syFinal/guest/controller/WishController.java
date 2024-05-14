@@ -106,6 +106,7 @@ public class WishController {
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishDelete(g_idx, h_idx);
 		map.put("result", result);
+		map.put("check", 0);
 		return map;
 	}
 	
@@ -117,6 +118,7 @@ public class WishController {
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishUpdate(g_idx, h_idx);
 		map.put("result", result);
+		map.put("check", 1);
 		return map;
 	}
 }
