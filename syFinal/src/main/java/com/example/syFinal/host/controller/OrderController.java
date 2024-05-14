@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.global.PageUtil;
+import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.host.model.dao.HostDAO;
 import com.example.syFinal.host.model.dao.OrderDAO;
 
@@ -40,7 +41,7 @@ public class OrderController {
 		map.put("init", init);
 		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
 		data.put("hotels", hotels);
-		data.put("init", "0");
+		data.put("init", init);
 
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
@@ -68,43 +69,12 @@ public class OrderController {
 		return data;
 	}
 
-//	@GetMapping("manage/total/{userIdx}")
-//	public Map<String, Object> getTotalList(@PathVariable(name = "userIdx") int h_idx) {
-//		System.out.println("==> userIdx? " + h_idx);
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("h_idx", h_idx);
-//		map.put("ho_idx", 0);
-//		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
-//		List<Map<String, Object>> list = orderDao.getList(map);
-//		Map<String, Object> data = new HashMap<>();
-//		data.put("hotels", hotels);
-//		if (hotels == null) {
-//			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
-//		} else {
-//			data.put("list", list);
-//			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-//		}
-//		System.out.println("==> data확인? " + data);
-//		return data;
-//	}
-
-	@GetMapping("manage/list/{userIdx}/{hoIdx}")
-	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
-			@PathVariable(name = "hoIdx") int ho_idx) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("h_idx", h_idx);
-		map.put("ho_idx", ho_idx);
-		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
-		List<Map<String, Object>> list = orderDao.getList(map);
+	@GetMapping("manage/detail/get/{g_idx}")
+	public Map<String, Object> getGuestInfo(@PathVariable(name = "g_idx") int g_idx) {
 		Map<String, Object> data = new HashMap<>();
-		data.put("hotels", hotels);
-		if (hotels == null) {
-			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
-		} else {
-			data.put("list", list);
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		}
-//		System.out.println("==> data확인? " + data);
+		GuestDTO guest = orderDao.getGuestInfo(g_idx);
+//		System.out.println("==> g_url 확인? " + g_url);
+		data.put("guest", guest);
 		return data;
 	}
 }

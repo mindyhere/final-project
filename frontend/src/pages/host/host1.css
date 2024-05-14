@@ -122,7 +122,9 @@
 }
 
 /* form-control */
-td>input, textarea {
+td>input,
+textarea,
+[type="radio"] {
 	border-color: #f7effc !important;
 	outline: none;
 	box-shadow: none !important;
@@ -199,6 +201,14 @@ textarea::placeholder {
 }
 
 /* paging */
-.nav-link, .page-item li, a {
+.nav-link,
+.page-item li,
+a {
 	color: black !important;
+}
+
+/* 라디오버튼 */
+[type="radio"]:checked {
+	background: #DBC4F0;
+	border-color: #DBC4F0;
 }

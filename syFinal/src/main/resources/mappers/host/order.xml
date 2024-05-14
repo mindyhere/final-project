@@ -40,4 +40,9 @@ select count(*) from v_host_order
 </choose>
 </select>
 
+<select id="getGuestProfile" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+select g_name, g_email, g_phone, g_url 
+from guest where g_idx=#{g_idx}
+</select>
+
 </mapper>

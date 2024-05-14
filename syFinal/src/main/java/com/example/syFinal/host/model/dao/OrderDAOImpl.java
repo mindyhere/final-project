@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.guest.model.dto.GuestDTO;
+
 @Repository
 public class OrderDAOImpl implements OrderDAO {
 	@Autowired
@@ -64,6 +66,11 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public int countRecord(Map<String, Object> map) {
 		return sqlSession.selectOne("order.countRecord", map);
+	}
+
+	@Override
+	public GuestDTO getGuestInfo(int g_idx) {
+		return sqlSession.selectOne("order.getGuestProfile", g_idx);
 	}
 
 }

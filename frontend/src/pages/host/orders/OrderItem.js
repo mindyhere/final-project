@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 function OrderItem({
   rownum,
-  hotel_idx,
+  ho_idx,
   o_idx,
   g_idx,
   d_idx,
@@ -23,10 +23,9 @@ function OrderItem({
   o_finalprice,
   o_benefit,
   o_orderdate,
-  OrderDetail,
   handleModal,
+  sum
 }) {
-  console.log("==> list? " + status);
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
@@ -34,11 +33,34 @@ function OrderItem({
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
 
+  const dataset = {
+    // 전달할 데이터
+    ho_idx: `${ho_idx}`,
+    o_idx: `${o_idx}`,
+    g_idx: `${g_idx}`,
+    d_idx: `${d_idx}`,
+    o_ckin: `${o_ckin}`,
+    o_ckout: `${o_ckout}`,
+    o_adult: `${o_adult}`,
+    o_child: `${o_child}`,
+    o_baby: `${o_baby}`,
+    o_state: `${o_state}`,
+    status: `${status}`,
+    o_payment: `${o_payment}`,
+    o_price: `${o_price}`,
+    o_discount: `${o_discount}`,
+    o_finalprice: `${o_finalprice}`,
+    o_benefit: `${o_benefit}`,
+    o_orderdate: `${o_orderdate}`,
+    sum: `${sum}`,
+  };
+  // console.log("==> list? " + JSON.stringify(dataset));
   return (
     <tr
       className="align-middle"
       onClick={() => {
-        handleModal(this);
+        localStorage.setItem("dataset", JSON.stringify(dataset));
+        handleModal(o_idx);
       }}
     >
       <th>{rownum}</th>

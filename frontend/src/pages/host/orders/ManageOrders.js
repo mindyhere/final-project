@@ -22,16 +22,17 @@ function ManageOrders() {
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
   const [loading, setLoading] = useState("");
-  const [init, setInitialize] = useState("");
+  const [init, setInitialize] = useState("1");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [pageNum, setPageNum] = useState("1");
   const [modal, setModal] = useState(false);
-  const [OrderDetail, setOrderDetail] = useState(false);
+  const [onDetail, setOnDetail] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
   const [hoIdx, setHotelIdx] = useState("");
+  const [selected, isSelected] = useState("");
 
   function getList(hoIdx, init, pageNum) {
     console.log(pageNum);
@@ -41,24 +42,14 @@ function ManageOrders() {
     } else {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&init=${init}&pageNum=${pageNum}`;
     }
-    console.log(
-      "==> init? " +
-        init +
-        "/ idx?" +
-        hoIdx +
-        "/ url " +
-        url +
-        ",/ pageNum? " +
-        pageNum
-    );
 
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log("==> init data? " + data.init);
         setInitialize(data.init);
+        console.log("==> init data? " + data.init);
         setCount(data.count);
         setPaging(data.page);
         setOrders(data.list);
@@ -69,7 +60,7 @@ function ManageOrders() {
 
   useEffect(() => {
     getList(hoIdx, init, pageNum);
-  }, [hoIdx]);
+  }, [hoIdx, init, pageNum]);
 
   const handleClick = (e) => {
     setHotelIdx(e);
@@ -77,10 +68,9 @@ function ManageOrders() {
     getList(e, 0);
     // console.log("==> 호출? " +{ hoIdx });
   };
-
-  const handleModal = (e) => {
-    console.log("==> 클릭? " + e);
-    setOrderDetail(!OrderDetail);
+  const handleModal = (oder_idx) => {
+    isSelected(oder_idx);
+    setOnDetail(!onDetail);
   };
 
   const setPagination = () => {
@@ -120,7 +110,7 @@ function ManageOrders() {
       <div className="modal_h" onClick={closeModal}>
         <div
           className="modalBody_h"
-          style={{ width: "1000px" }}
+          style={{ width: "1000px", padding: "40px" }}
           onClick={(e) => e.stopPropagation()}
         >
           <button className="btnClose" onClick={closeModal}>
@@ -164,10 +154,14 @@ function ManageOrders() {
                     : null}
                 </ul>
               </div>
-              <div className="card-body">
+              <div
+                className="card-body"
+                style={{ zIndex: "1", position: "relative" }}
+              >
                 <table
                   id="review"
                   className="table table-sm table-hover align-middle text-center"
+                  style={{ zIndex: "3", position: "relative" }}
                 >
                   <colgroup>
                     <col width="5%" />
@@ -215,7 +209,7 @@ function ManageOrders() {
                       list.map(
                         ({
                           rownum,
-                          hoIdx,
+                          d_ho_idx,
                           o_idx,
                           o_gidx,
                           o_didx,
@@ -232,10 +226,11 @@ function ManageOrders() {
                           o_finalprice,
                           o_benefit,
                           o_orderdate,
+                          sum
                         }) => (
                           <OrderItem
                             rownum={rownum}
-                            hotel_idx={hoIdx}
+                            ho_idx={d_ho_idx}
                             o_idx={o_idx}
                             g_idx={o_gidx}
                             d_idx={o_didx}
@@ -252,19 +247,10 @@ function ManageOrders() {
                             o_finalprice={o_finalprice}
                             o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
+                            sum={sum}
                             handleModal={handleModal}
                             key={o_idx}
-                          >
-                            {OrderDetail && (
-                              <Modal
-                                closeModal={() => {
-                                  setOrderDetail(!OrderDetail);
-                                }}
-                              >
-                                <OrderDetail rownum={rownum} />
-                              </Modal>
-                            )}
-                          </OrderItem>
+                          />
                         )
                       )
                     ) : (
@@ -275,9 +261,25 @@ function ManageOrders() {
                         </td>
                       </tr>
                     )}
+                    {onDetail && (
+                      <Modal
+                        style={{ zIndex: "10", position: "relative" }}
+                        closeModal={() => {
+                          setOnDetail(!onDetail);
+                        }}
+                      >
+                        <OrderDetail
+                          order_idx={selected}
+                          style={{ zIndex: "999" }}
+                        />
+                      </Modal>
+                    )}
                   </tbody>
                 </table>
-                <div className="d-flex justify-content-center">
+                <div
+                  className="d-flex justify-content-center"
+                  style={{ zIndex: "2", position: "relative" }}
+                >
                   <nav className="page-navibar">
                     <ul className="pagination">
                       {page.curPage > 1 ? (
@@ -334,7 +336,12 @@ function ManageOrders() {
               </div>
             </div>
           </div>
-          <div className="card-style mb-30">이용통계</div>
+          <div
+            className="card-style mb-30"
+            style={{ zIndex: "0", position: "relative" }}
+          >
+            이용통계
+          </div>
         </div>
       </>
     );
