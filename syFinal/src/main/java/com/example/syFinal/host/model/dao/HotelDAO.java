@@ -40,4 +40,6 @@ public interface HotelDAO {
 	
 	/* 호스트의 호텔 목록 */
 	List<Map<String, Object>> hostAllHotel(int h_idx);
+	
+	List<HotelDetailDTO> imp_date(int ho_idx, int d_idx);
 }

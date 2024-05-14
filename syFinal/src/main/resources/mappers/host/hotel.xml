@@ -11,6 +11,12 @@
 				AND h.ho_business = host.h_business
 				AND d_idx = #{d_idx}
 	</select>
+	
+	<!-- 이미 예약된 날짜 정보 -->
+	<select id="imp_date" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
+		SELECT distinct(o_idx), o_ckin, o_ckout from orders, hotel, hotel_detail
+		where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{d_idx}
+	</select>
 
 	<!-- 호텔 객실 정보 -->
 	<select id="getHotelRooms"

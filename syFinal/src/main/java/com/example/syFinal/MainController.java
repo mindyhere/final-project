@@ -1,7 +1,10 @@
 package com.example.syFinal;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,5 +41,32 @@ public class MainController {
 		System.out.println("메인리스트====" + list);
 		
 		return list;
+	}
+	
+	public List<String> dateBetween(String stDate, String etDate) {
+		List<String> dates = new ArrayList<String>();
+		String sDate = stDate.replace("-", "");
+		String eDate = etDate.replace("-", "");
+		String inputStartDate = stDate;
+		String inputEndDate = etDate;
+		Date startDate = new Date();
+		Date endDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentDate = new Date();
+		try {
+			startDate = sdf.parse(inputStartDate);
+			endDate = sdf.parse(inputEndDate);
+			currentDate	= startDate;
+			while (currentDate.compareTo(endDate) <= 0) {
+				dates.add(sdf.format(currentDate));
+				Calendar c = Calendar.getInstance();
+				c.setTime(currentDate);
+				c.add(Calendar.DATE, 1);
+				currentDate = c.getTime();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dates;
 	}
 }

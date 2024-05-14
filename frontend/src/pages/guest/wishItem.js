@@ -4,7 +4,7 @@ import './aa.css'
 import Swal from "sweetalert2";
 
 
-function WishItem({HoIdx, HoName, HoImg, wIdx}) {
+function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     const navigate = useNavigate(); 
@@ -25,7 +25,7 @@ function WishItem({HoIdx, HoName, HoImg, wIdx}) {
             <div style={{ margin: '5px', paddingLeft: '30px'}} >
                 
                 <div id="Img" style={{position: 'relative'}}>
-                <Link to={`/host/hotel/hotelDetail/${HoIdx}`} style={{textDecorationLine: 'none'}}>
+                <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`} style={{textDecorationLine: 'none'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                 
                     <div style={{fontSize:"20px", color: 'black'}}>{HoName}</div>
