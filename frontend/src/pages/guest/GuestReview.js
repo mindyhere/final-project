@@ -32,8 +32,10 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,H_profile,H_name,Ho_name,D_img1,R
                     <div className="col-2" dangerouslySetInnerHTML={{__html: profile}} onClick={() => navigate(`/host/hotel/hotelDetail/${Ho_idx}/${D_idx}`)}></div> 
                     <div className="col-10">
                         <strong>{Ho_name}</strong><br />
-                        {Rv_date}
+                        {Rv_date}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className='btn btn-outline-dark' type='button' align='right'>수정하기</div>
                     </div>
+                    
                 </div>
             </div>
         )

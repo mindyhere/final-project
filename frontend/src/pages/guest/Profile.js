@@ -307,6 +307,7 @@ if(loading||loading1||loading2){
                                 </div>
                             </div>
                             )}
+                            <br></br>
                         </div> 
                     </div>
                 </div>
