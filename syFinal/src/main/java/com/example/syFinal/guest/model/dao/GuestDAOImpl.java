@@ -42,12 +42,22 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	
 	@Override
-	public ReviewDTO reviews(int g_idx) {
-		return sqlSession.selectOne("guest.reviews", g_idx);
+	public List<ReviewDTO> review(int g_idx) {
+		return sqlSession.selectList("guest.reviewlist", g_idx);
 	}
 	
 	@Override
-	public Map<String,Object> replys(int g_idx) {
-		return sqlSession.selectOne("guest.replys", g_idx);
+	public List<ReviewDTO> reply(int g_idx) {
+		return sqlSession.selectList("guest.replylist", g_idx);
+	}
+	
+	@Override
+	public ReviewDTO reviewcount(int g_idx) {
+		return sqlSession.selectOne("guest.reviewcount", g_idx);
+	}
+	
+	@Override
+	public GuestDTO joindate(int g_idx) {
+		return sqlSession.selectOne("guest.joindate", g_idx);
 	}
 }

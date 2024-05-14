@@ -286,16 +286,13 @@ function Header() {
     }
 
     let src='';
-    let image_url='';
     let image='';
     if (g_photo.key == '-') {
       src='/img/image_no.png';
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>

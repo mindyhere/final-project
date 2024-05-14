@@ -52,7 +52,6 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
         }
     })
 
-
     if (loading) {
         return (
             <div>loading...</div>
