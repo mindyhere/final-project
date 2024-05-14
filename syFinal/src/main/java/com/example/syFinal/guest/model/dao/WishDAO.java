@@ -23,5 +23,8 @@ public interface WishDAO {
 
 	String wishUpdate(int g_idx, int h_idx);
 
+	int sel_didx(int ho_idx);
+	
+
 	
 }

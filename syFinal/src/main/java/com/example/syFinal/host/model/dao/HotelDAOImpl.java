@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.guest.model.dto.ReservDTO;
 import com.example.syFinal.host.model.dto.HotelAmenityDTO;
 import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
@@ -81,4 +83,12 @@ public class HotelDAOImpl implements HotelDAO {
 	public List<Map<String, Object>> hostAllHotel(int h_idx) {
 		return sqlSession.selectList("hotel.getHostAllHotel", h_idx);
 	}	
+	
+	@Override
+	public List<HotelDetailDTO> imp_date(int ho_idx, int d_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		return sqlSession.selectList("hotel.imp_date", map);
+	}
 }

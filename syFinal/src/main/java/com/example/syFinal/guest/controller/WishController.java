@@ -33,6 +33,7 @@ public class WishController {
 			map.put("HoIdx", main.get(i).getHo_idx());
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
+			map.put("dIdx", main.get(i).getD_idx());
 			list.add(map);
 		}
 		return list;
@@ -75,17 +76,20 @@ public class WishController {
 		//List<MainDTO> dto = new ArrayList<MainDTO>();
 		List<Map<String, Object>> list = new ArrayList<>();
 		MainDTO recent = new MainDTO();
+		// System.out.println(g_idx+""+ recentIdx);
 		if (recentIdx.size() > 0) {
 			for(int i=0; i<recentIdx.size(); i++) {
-				// System.out.println(recentIdx.get(i));
 				Map<String, Object> map = new HashMap<>();
 				recent = dao.recentItem(recentIdx.get(i));
-				// System.out.println(recent);
 				map.put("HoIdx", recent.getHo_idx());
 				map.put("HoName", recent.getHo_name());
 				map.put("HoImg", recent.getHo_img());
+				map.put("dIdx", recent.getD_idx());
+				System.out.println(recent.getHo_idx());
 				int check = dao.recentCheck(g_idx, recentIdx.get(i));
 				map.put("check", check);
+//				int didx = dao.sel_didx(recent.getHo_idx());
+//				map.put("dIdx", didx);
 				list.add(map);
 			}
 		}
