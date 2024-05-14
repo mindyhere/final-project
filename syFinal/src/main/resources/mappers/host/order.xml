@@ -7,4 +7,8 @@ FROM v_host_order v, (SELECT @rownum:=0) as tmp
 WHERE d_ho_idx IN (SELECT ho_idx FROM hotel WHERE ho_h_idx=#{h_idx});
 </select>
 
+<select id="getHotelList" resultType="java.util.Map">
+select ho_idx, ho_name from hotel where ho_h_idx=#{h_idx} order by ho_idx;
+</select>
+
 </mapper>

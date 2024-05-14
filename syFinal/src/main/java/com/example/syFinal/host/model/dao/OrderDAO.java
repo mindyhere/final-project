@@ -9,4 +9,7 @@ public interface OrderDAO {
 
 	// orders 목록 가져오기
 	List<Map<String, Object>> getList(int h_idx);
+
+	// host의 hotel 목록 가져오기
+	List<Map<String, Object>> getHotelList(int h_idx);
 }

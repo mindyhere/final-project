@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 
 import Cookies from "universal-cookie";
 
-function BriefOrders() {
+function BriefReservation() {
   const navigate = useNavigate();
   const [list, setReviewList] = useState([]);
   const searchKey = useRef();
@@ -25,6 +25,4 @@ function BriefOrders() {
   );
 }
 
-export default function Orders() {
-  return <BriefOrders />;
-}
+export default BriefReservation;

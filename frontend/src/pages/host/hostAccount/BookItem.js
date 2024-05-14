@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-function OrderItem({}) {
+function BookItem({}) {
   let loading = false;
 
   if (loading) {
@@ -9,4 +9,4 @@ function OrderItem({}) {
     return <div>test...</div>;
   }
 }
-export default OrderItem;
+export default BookItem;

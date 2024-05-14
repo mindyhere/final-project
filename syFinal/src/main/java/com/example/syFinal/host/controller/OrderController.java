@@ -25,11 +25,13 @@ public class OrderController {
 	HostDAO hostDAO;
 
 	@GetMapping("manage/list/{userIdx}")
-	public Map<String, Object> getHotelReviews(@PathVariable(name = "userIdx") int h_idx) {
+	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx) {
 		System.out.println("==> userIdx? " + h_idx);
+		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
 		List<Map<String, Object>> list = orderDao.getList(h_idx);
 		Map<String, Object> data = new HashMap<>();
-		if (list == null) {
+		data.put("hotels", hotels);
+		if (hotels == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
 			data.put("list", list);

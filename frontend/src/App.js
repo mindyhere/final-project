@@ -54,6 +54,7 @@ import EditHostInfo from "./pages/host/hostAccount/EditHostInfo";
 import MyHotelList from "./pages/host/hotelManagement/MyHotelList";
 import RegistHotel from "./pages/host/hotelManagement/RegistHotel";
 import DetailHotel from "./pages/host/hotelManagement/DetailHotel";
+import ManageOrders from "./pages/host/orders/ManageOrders";
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
@@ -119,13 +120,16 @@ function App() {
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
           <Route path="/host/hotel/registHotel" element={<RegistHotel />} />
           <Route path="/host/hotel/detailHotel" element={<DetailHotel />} />
+          <Route
+            path="/api/order/manage/list/:userIdx"
+            element={<ManageOrders />}
+          />
           {/* host 리뷰 관리 */}
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />
 
           {/* guest 리뷰 등록 */}
           <Route path="/guest/write" element={<WriteReview />} />
-
         </Routes>
         <Footer />
       </BrowserRouter>

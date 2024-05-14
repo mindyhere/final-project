@@ -30,4 +30,16 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 
+	@Override
+	public List<Map<String, Object>> getHotelList(int h_idx) {
+		List<Map<String, Object>> hotels = null;
+		try {
+			hotels = sqlSession.selectList("order.getHotelList", h_idx);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return hotels;
+	}
+
 }
