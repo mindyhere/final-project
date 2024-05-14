@@ -7,4 +7,10 @@
 		WHERE ho_name like CONCAT('%',#{search},'%')
 		order BY ho_name
 	</select>
+	
+	
+<select id="check" resultType="Int">
+	select IFNULL((select count(w_idx) from wish 
+	WHERE w_gidx =#{g_idx} and w_hoidx = #{ho_idx}), 0)
+</select>
 </mapper>

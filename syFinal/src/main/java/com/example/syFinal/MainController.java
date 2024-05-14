@@ -24,8 +24,10 @@ public class MainController {
 	@Autowired
 	MainDAO dao;
 	
+	
 	@RequestMapping("/guest/main")
-	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search) {
+	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search,
+			@RequestParam(name="g_idx", defaultValue="0") int g_idx) {
 		List<MainDTO> main = dao.list(search);
 
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -35,11 +37,13 @@ public class MainController {
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
 			map.put("search", search);
-			//MainDTO dto = new MainDTO(i.getHoIdx(),i.getHoName(),i.getHoImg);
+			if (g_idx != 0) {
+				int check = dao.check(main.get(i).getHo_idx(), g_idx);
+				map.put("check", check);
+			}
 			list.add(map);
 		}
-		System.out.println("메인리스트====" + list);
-		
+		// System.out.println("메인리스트====" + list);
 		return list;
 	}
 	
