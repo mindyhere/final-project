@@ -74,7 +74,7 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="62px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -284,17 +284,14 @@ function Header() {
       level = "VIP";
     }
 
-    let src = "";
-    let image_url = "";
-    let image = "";
-    if (g_photo.key == "-") {
-      src = "/img/image_no.png";
-      image_url = `<img src=${src} width='210px' height='210px'/>`;
-      image = `<img src=${src} width='45px' height='45px'/>`;
+    let src='';
+    let image='';
+    if (g_photo.key == '-') {
+      src='/img/image_no.png';
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src = `http://localhost/static/images/guest/photo/${g_photo.key}`;
-      image_url = `<img src=${src} width='210px' height='210px'/>`;
-      image = `<img src=${src} width='45px' height='45px'/>`;
+      src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
@@ -306,14 +303,14 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
 
           <div align="right">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+            <ul className="navbar-nav">
+              <li className="nav-item rounded">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
                     <span
@@ -323,15 +320,12 @@ function Header() {
                   </div>
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  onClick={() => navigate("/guest/reservation")}
-                >
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
+                <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
                   여행
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/wish")}
@@ -339,7 +333,7 @@ function Header() {
                   위시리스트
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/Account")}
@@ -347,10 +341,10 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a className="nav-link active">도움말센터</a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() =>
@@ -389,7 +383,7 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -397,7 +391,7 @@ function Header() {
           {/* 호스트로그인 후 상단 */}
           <div align="right">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => navigate(`/api/host/account/${userIdx}`)}
@@ -405,10 +399,9 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  onClick={() => navigate(`/host/hotel/MyhotelList`)}
+              <li className="nav-item rounded">
+                <a className="nav-link active"
+                onClick={() => navigate(`/host/hotel/MyhotelList`)}
                 >
                   호텔
                 </a>
@@ -421,7 +414,7 @@ function Header() {
                   예약관리
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => {

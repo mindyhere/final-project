@@ -39,12 +39,13 @@ function WishList() {
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
       {wishList.map(
-                ({HoImg,HoName,HoIdx,wIdx})=>(
+                ({HoImg,HoName,HoIdx,wIdx, dIdx})=>(
                     <WishItem
                       HoIdx={HoIdx}
                       HoName={HoName}
                       HoImg={HoImg}
                       wIdx={wIdx}
+                      dIdx={dIdx}
                     />
                 )
             )}

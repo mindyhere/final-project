@@ -137,7 +137,7 @@ function Pay() {
     } else {
         let card='';
         if(data.dto.g_card != null) {
-            card = '****'+data.dto.g_card.substring(15,19);
+            card = '****-****-****-'+data.dto.g_card.substring(15,19);
         }
         return (
             <>
@@ -302,10 +302,10 @@ function Pay() {
                     </div>
                 </div>
 
-                                <div className="col-5" align='left'>
+                                <div className="col-7" align='left'>
                                     <div style={{marginBottom: '30px',marginLeft: '50px'}}>
                                     <h3>결제내역</h3>
-                                            <br/>
+                                            
                                             {paylist.map(
                                                 ({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
                                                     <PayItem

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState} from "react";
+import { useNavigate } from "react-router";
 import { Building, BuildingAdd, BuildingCheck, BuildingDash, Hearts } from "react-bootstrap-icons";
 import { useParams } from "react-router";
 import Cookies from "universal-cookie";
@@ -22,6 +23,7 @@ function useFetch(url) {
 }
 
 function MyHotelList() {
+    const navigate = useNavigate();
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const userIdx = userInfo.h_idx;
@@ -42,30 +44,35 @@ function MyHotelList() {
                     <div><BuildingDash size={30} /> 영업 중지  {data.status.close}개</div>
                 </div>
                 <div style={{textAlign:'right'}}>
-                    <button className="main-btn mb-20" onClick={() => {
-
-                    }}>호텔 등록하기</button>
+                    <button className="main-btn mb-20" onClick={() => 
+                    navigate('/host/hotel/registHotel')}>호텔 등록하기</button>
                 </div>
                 <div className="card-style mb-20">
                     <table className="tbl">
                         <thead>
-
-                        </thead>
-                        <tbody>
-                            <tr>
+                             <tr>
                                 <th>번호</th>
                                 <th>호텔명</th>
                                 <th>주소</th>
                                 <th>상태</th>
                                 <th>-</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {data.list.map((item, idx) => (
                                 <tr style={{textAlign:'center'}}>
                                     <td>{idx + 1}</td>
                                     <td>{item.ho_name}</td>
                                     <td>{item.ho_address}</td>
                                     <td>{item.status}</td>
-                                    <td><button className="main-btn">수정</button></td>
+                                    <td><button className="main-btn" onClick={() => {
+                                        navigate('/host/hotel/editHotel', {
+                                            state : {
+                                                hoIdx : item.ho_idx,
+                                                hoName : item.ho_name
+                                            }
+                                        })
+                                    }}>수정</button></td>
                                 </tr>
                             ))}
                         </tbody>

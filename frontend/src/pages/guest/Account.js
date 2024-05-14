@@ -39,7 +39,7 @@ function Account() {
                     <div className="container-lg">
                         <span style={{fontWeight: "bold",fontSize: "28px"}}>계정</span>
                     </div>
-                    <div>{data.dto.g_name}, {data.dto.g_email} · <a onClick={() => navigate('/guest/Profile')}>프로필로 이동</a></div>
+                    <div>{data.dto.g_name}, {data.dto.g_email} · <a style={{fontWeight: 'bold'}} onClick={() => navigate('/guest/Profile')}>프로필로 이동</a></div>
                 
                 <br />
             
@@ -69,7 +69,7 @@ function Account() {
                 </div>
             
             <br/>
-            <br/>
+            <br/><br/><br/><br/>
             <br/><br/><br/><br/><br/><br/>
             </div></div></div>
         </>

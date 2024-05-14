@@ -1,5 +1,4 @@
 import React, {useRef, useEffect, useState} from "react";
-import { useLocation } from "react-router-dom";
 import KakaoMap from "../../component/KakaoMap";
 import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
@@ -35,6 +34,7 @@ function useFetch(url) {
 function HotelDetail() {
     const {HoIdx} = useParams();
     let {dIdx} = useParams();
+    const [modal, setModal] = useState(false);
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
     const element = useRef(null);
@@ -113,7 +113,7 @@ function HotelDetail() {
                         <h2>{data.ho_name}</h2>
                     </div>
                     <div className="col-3">
-                    <img src="/img/share.png" width="20px" height="20px"/> <a href="" style={{color:'black'}}>공유하기</a> | ♡ wish
+                    <img src="/img/share.png" width="20px" height="20px"/> <a href="" style={{color:'black'}}>공유하기</a>
                     </div>
                 </div>
                 <br />
@@ -124,7 +124,9 @@ function HotelDetail() {
                             <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
                             <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
                         </div>
-                        {/* <button type="button" className="main-btn">사진 모두 보기</button> */}
+                        {/* <div style={{}}>
+                            <button className="main-btn" onClick={() => setModal(true)}>사진 모두 보기</button>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row">

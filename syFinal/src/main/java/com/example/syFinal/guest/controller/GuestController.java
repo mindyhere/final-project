@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.syFinal.guest.model.dao.GuestDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.guest.model.dto.MainDTO;
+import com.example.syFinal.guest.model.dto.ReviewDTO;
 import com.example.syFinal.host.model.dao.HotelDAO;
 import com.example.syFinal.host.model.dto.HotelDTO;
 
@@ -35,7 +36,7 @@ public class GuestController {
 		//map.put("myphoto", mypage.getG_photo());
 		map.put("dto", mypage);
 		//System.out.println(map);
-		System.out.println("마이페이지=="+map);
+		//System.out.println("마이페이지=="+map);
 		return map;
 	}
 	//카드정보등록
@@ -89,9 +90,65 @@ public class GuestController {
 		map1.put("pay", pay);
 		map1.put("dprice", dprice);
 		map1.put("fprice", fprice);
-		System.out.println("예약요청"+map1);
+		//System.out.println("예약요청"+map1);
 		dao.order(map1);
 	}
-	
-	
+	//게스트 후기목록
+	@RequestMapping("/guest/review")
+	public List<Map<String, Object>> reviewlist(@RequestParam(name="g_idx") int gidx) {
+		List<ReviewDTO> dto1 = dao.review(gidx);
+		List<Map<String, Object>> reviewlist = new ArrayList<>();
+		
+		for(int i=0; i<dto1.size(); i++) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("G_idx", dto1.get(i).getG_idx());
+			map.put("H_idx", dto1.get(i).getH_idx());
+			map.put("D_idx", dto1.get(i).getD_idx());
+			map.put("Ho_idx", dto1.get(i).getHo_idx());
+			map.put("H_profile", dto1.get(i).getH_profile());
+			map.put("H_name", dto1.get(i).getH_name());
+			map.put("Ho_name", dto1.get(i).getHo_name());
+			map.put("D_img1", dto1.get(i).getD_img1());
+			map.put("Rv_date", dto1.get(i).getRv_date());
+			map.put("Rv_content", dto1.get(i).getRv_content());
+			reviewlist.add(map);
+		}
+		//System.out.println("리뷰리스트===="+reviewlist);
+		return reviewlist;
+	}
+	//게스트 후기의 호스트 답변목록
+	@RequestMapping("/guest/reply")
+	public List<Map<String, Object>> replylist(@RequestParam(name="g_idx") int gidx) {
+		List<ReviewDTO> dto2 = dao.reply(gidx);
+		List<Map<String, Object>> replylist = new ArrayList<>();
+		
+		for(int i=0; i<dto2.size(); i++) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("G_idx", dto2.get(i).getG_idx());
+			map.put("H_idx", dto2.get(i).getH_idx());
+			map.put("H_profile", dto2.get(i).getH_profile());
+			map.put("H_name", dto2.get(i).getH_name());
+			map.put("Rp_date", dto2.get(i).getRp_date());
+			map.put("Rp_content", dto2.get(i).getRp_content());
+			replylist.add(map);
+		}
+		//System.out.println("답변리스트===="+replylist);
+		return replylist;
+	}
+	//후기갯수
+	@RequestMapping("/guest/reviewcount")
+	public Map<String, Object> reviewcount(@RequestParam(name="g_idx") int gidx) {
+		ReviewDTO reviewcount = dao.reviewcount(gidx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", reviewcount);
+		return map;
+	}
+	//가입기간
+	@RequestMapping("/guest/joindate")
+	public Map<String, Object> joindate(@RequestParam(name="g_idx") int gidx) {
+		GuestDTO joindate = dao.joindate(gidx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", joindate);
+		return map;
+	}
 }
