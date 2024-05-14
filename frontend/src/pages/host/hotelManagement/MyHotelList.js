@@ -66,7 +66,12 @@ function MyHotelList() {
                                     <td>{item.ho_address}</td>
                                     <td>{item.status}</td>
                                     <td><button className="main-btn" onClick={() => {
-                                        
+                                        navigate('/host/hotel/editHotel', {
+                                            state : {
+                                                hoIdx : item.ho_idx,
+                                                hoName : item.ho_name
+                                            }
+                                        })
                                     }}>수정</button></td>
                                 </tr>
                             ))}

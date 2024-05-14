@@ -129,4 +129,18 @@ public class HotelController {
 		System.out.println("map : " + map);
 		System.out.println("img" + img);
 	}
+	
+	/* 호텔 상세 정보 조회 */
+	@GetMapping("/host/hotel/detailMyHotel")
+	public List<Map<String, Object>> detailMyHotel(@RequestParam(name="ho_idx") int ho_idx){
+		System.out.println("~~~~~~ ho_idx : " + ho_idx);
+		
+		List<Map<String, Object>> detailMyHotel = new ArrayList<>();
+		detailMyHotel = hotelDao.detailMyHotel(ho_idx);
+		return detailMyHotel;
+	}
+	/* 호텔 정보 수정 */
+	
+	/* 호텔 삭제 */
+	
 }
