@@ -3,24 +3,15 @@ import { Calendar2Week } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 
 import Cookies from "universal-cookie";
+import HotelNavItem from "./HotelNavItem";
+import OrderDetail from "./OrderDetail";
 
-function useFetch(url) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // console.log("===> data? " + JSON.stringify(data));
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-  return [data, loading];
-}
+import {
+  ChevronDoubleLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDoubleRight,
+} from "react-bootstrap-icons";
 
 function ManageOrders() {
   const cookies = new Cookies();
@@ -29,53 +20,93 @@ function ManageOrders() {
   const userEmail = userInfo.h_email;
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
+  const [loading, setLoading] = useState("");
+  const [init, setInitialize] = useState("");
+  const [page, setPaging] = useState("");
+  const [count, setCount] = useState("");
+  const [pageNum, setPageNum] = useState("1");
+
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const ho_idx = useRef();
   const navigate = useNavigate();
+  const [hoIdx, setHotelIdx] = useState("");
 
-  const [data, loading] = useFetch(
-    `http://localhost/api/order/manage/list/${userIdx}`
-  );
+  function getList(hoIdx, init, pageNum) {
+    console.log(pageNum);
+    let url = "";
+    if (init == "") {
+      url = `http://localhost/api/order/manage/list/${userIdx}`;
+    } else {
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&init=${init}&pageNum=${pageNum}`;
+    }
+    console.log(
+      "==> init? " +
+        init +
+        "/ idx?" +
+        hoIdx +
+        "/ url " +
+        url +
+        ",/ pageNum? " +
+        pageNum
+    );
 
-  const rendering = (hotels) => {
-    let name = "";
-    let hoIdx = "";
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("==> init data? " + data.init);
+        setInitialize(data.init);
+        setCount(data.count);
+        setPaging(data.page);
+        setOrders(data.list);
+        setHotels(data.hotels);
+        setLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    getList(hoIdx, init, pageNum);
+  }, [hoIdx]);
+
+  const handleClick = (e) => {
+    setHotelIdx(e);
+    console.log("==> 클릭? " + e);
+    getList(e, 0);
+    // alert("==> 호출? " + e + "," + { hoIdx });
+    // console.log("==> 호출? " +{ hoIdx });
+  };
+
+  const setPagination = () => {
     const result = [];
-    for (let i = 0; i < hotels.length; i++) {
-      name = hotels[i].ho_name;
-      hoIdx = hotels[i].ho_idx;
-      // console.log(i + " : " + hotels[i].ho_name + ", " + hotels[i].ho_idx);
-      if ((i = 0)) {
+    const begin = page.blockStart;
+    const end = page.blockEnd;
+
+    for (let i = begin; i <= end; i++) {
+      if (i === page.curPage) {
         result.push(
-          <li key={"nav-item-" + i} className="nav-item">
-            <a key={"nav-link-" + i} className="nav-link active">
-              name
+          <li key={"page-item" + i} className="page-item">
+            <a key={i} className="page-link">
+              <strong>{i}</strong>
             </a>
-            <input type="hidden" defaultValue={hoIdx} ref={ho_idx} />
           </li>
         );
       } else {
         result.push(
-          <li key={"nav-item-" + i} className="nav-item" onClick={""}>
-            <a key={"nav-link-" + i} className="nav-link">
-              name
+          <li key={"page-item" + i} className="page-item">
+            <a key={i} className="page-link" onClick={() => getList(`${i}`)}>
+              {i}
             </a>
-            <input type="hidden" defaultValue={hoIdx} ref={ho_idx} />
           </li>
         );
       }
     }
-    console.log("==>? " + result);
     return result;
   };
 
   if (loading) {
     return <div>loading...</div>;
   } else {
-    setOrders(data.list);
-    setHotels(data.hotels);
-
     return (
       <>
         <div className="container min-vh-100">
@@ -91,21 +122,172 @@ function ManageOrders() {
                 style={{ backgroundColor: "#F7EFFC" }}
               >
                 <ul className="nav nav-tabs card-header-tabs">
-                  {/* <li className="nav-item" onClick={""}>
-                    <a className="nav-link active">Active</a>
-                  </li> */}
-                  {rendering(hotels)}
+                  {hotels != null
+                    ? hotels.map(({ rownum, ho_idx, ho_name, userIdx }) => (
+                        <HotelNavItem
+                          rownum={rownum}
+                          ho_idx={ho_idx}
+                          ho_name={ho_name}
+                          userIdx={userIdx}
+                          handleClick={handleClick}
+                          key={ho_idx}
+                        />
+                      ))
+                    : null}
                 </ul>
               </div>
               <div className="card-body">
-                <h5 className="card-title">Special title treatment</h5>
-                <p className="card-text">
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
+                <table
+                  id="review"
+                  className="table table-sm table-hover align-middle text-center"
+                >
+                  <colgroup>
+                    <col width="10%" />
+                    <col width="15%" />
+                    <col width="15%" />
+                    <col width="10%" />
+                    <col width="15%" />
+                    <col width="20%" />
+                    <col width="15%" />
+                  </colgroup>
+                  <thead>
+                    <tr className="align-middle">
+                      <th scope="col">
+                        <strong>no.</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>예약번호</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>구분</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>체크인</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>체크아웃</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>결제</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>상태</strong>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    className="table-group-divider"
+                    style={{ borderColor: "#DBC4F0" }}
+                  >
+                    {count > 0 ? (
+                      list.map(
+                        ({
+                          rownum,
+                          hoIdx,
+                          o_idx,
+                          o_gidx,
+                          o_didx,
+                          o_ckin,
+                          o_ckout,
+                          o_adult,
+                          o_child,
+                          o_baby,
+                          o_state,
+                          status,
+                          o_payment,
+                          o_price,
+                          o_discount,
+                          o_finalprice,
+                          o_benefit,
+                          o_orderdate,
+                        }) => (
+                          <OrderDetail
+                            rownum={rownum}
+                            hotel_idx={hoIdx}
+                            o_idx={o_idx}
+                            g_idx={o_gidx}
+                            d_idx={o_didx}
+                            o_ckin={o_ckin}
+                            o_ckout={o_ckout}
+                            o_adult={o_adult}
+                            o_child={o_child}
+                            o_baby={o_baby}
+                            o_state={o_state}
+                            status={status}
+                            o_payment={o_payment}
+                            o_price={o_price}
+                            o_discount={o_discount}
+                            o_finalprice={o_finalprice}
+                            o_benefit={o_benefit}
+                            o_orderdate={o_orderdate}
+                            key={o_idx}
+                          />
+                        )
+                      )
+                    ) : (
+                      <tr className="align-middle">
+                        <td colSpan="7">
+                          <br />
+                          <p>등록된 게시글이 없습니다.</p>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+                <div className="d-flex justify-content-center">
+                  <nav className="page-navibar">
+                    <ul className="pagination">
+                      {page.curPage > 1 ? (
+                        <li className="page-item">
+                          <a className="page-link">
+                            <span
+                              aria-hidden="true"
+                              onClick={() => getList("1")}
+                            >
+                              <ChevronDoubleLeft />
+                            </span>
+                          </a>
+                        </li>
+                      ) : null}
+                      {page.curBlock > 1 ? (
+                        <li className="page-item">
+                          <a className="page-link" aria-label="Previous">
+                            <span
+                              aria-hidden="true"
+                              onclick={() => getList(`${page.prevPage}`)}
+                            >
+                              <ChevronLeft />
+                            </span>
+                          </a>
+                        </li>
+                      ) : null}
+
+                      {setPagination()}
+
+                      {page.curBlock < page.totBlock ? (
+                        <li className="page-item">
+                          <a className="page-link" aria-label="Next">
+                            <span
+                              aria-hidden="true"
+                              onClick={() => getList(`${page.nextPage}`)}
+                            >
+                              <ChevronRight />
+                            </span>
+                          </a>
+                        </li>
+                      ) : null}
+                      {page.curPage < page.totPage ? (
+                        <li className="page-item">
+                          <a className="page-link" aria-label="End">
+                            <span onClick={() => getList(`${page.totPage}`)}>
+                              <ChevronDoubleRight />
+                            </span>
+                          </a>
+                        </li>
+                      ) : null}
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>

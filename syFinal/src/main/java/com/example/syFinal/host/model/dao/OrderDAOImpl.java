@@ -19,11 +19,30 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> getList(int h_idx) {
+	public List<Map<String, Object>> getList(Map<String, Object> map) {
 		List<Map<String, Object>> list = null;
 		try {
-			list = sqlSession.selectList("order.getList", h_idx);
+			list = sqlSession.selectList("order.getList", map);
+			if (list != null) {
+				for (Map<String, Object> m : list) {
+					String o_state = (String) m.get("o_state");
 
+					System.out.println("==> ?" + m.get("o_state") + ", " + o_state);
+					System.out.println("==> ?" + m.get("o_state"));
+					switch (o_state) {
+					case "1":
+						m.put("status", "예약대기");
+						break;
+					case "2":
+						m.put("status", "예약취소");
+						break;
+					case "3":
+						m.put("status", "예약확정");
+						break;
+					}
+					System.out.println("==> m? " + m + ", " + m.get("status"));
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,6 +59,11 @@ public class OrderDAOImpl implements OrderDAO {
 			e.printStackTrace();
 		}
 		return hotels;
+	}
+
+	@Override
+	public int countRecord(Map<String, Object> map) {
+		return sqlSession.selectOne("order.countRecord", map);
 	}
 
 }

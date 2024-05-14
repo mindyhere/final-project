@@ -120,10 +120,7 @@ function App() {
           <Route path="/host/hotel/MyHotelList" element={<MyHotelList />} />
           <Route path="/host/hotel/registHotel" element={<RegistHotel />} />
           <Route path="/host/hotel/detailHotel" element={<DetailHotel />} />
-          <Route
-            path="/api/order/manage/list/:userIdx"
-            element={<ManageOrders />}
-          />
+          <Route path="/api/order/manage/list/:userIdx" element={<ManageOrders />} />
           {/* host 리뷰 관리 */}
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />
