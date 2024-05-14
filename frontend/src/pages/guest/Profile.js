@@ -205,19 +205,20 @@ if(loading||loading1||loading2){
 
                             <div align='right'>
                                     <div className="col-6">
-                                        <div className="col-1">
-                                            <div onClick={previous} style={{cursor:'pointer'}}>
+                                        <a className="col-1">
+                                            <a onClick={previous} style={{cursor:'pointer'}}>
                                                 <ArrowLeftCircle size={35} color="#CD9EED" />
-                                            </div>
-                                        </div>
-                                        <div className="col-1"> 
-                                            <div onClick={next} style={{cursor:'pointer'}}>
+                                            </a>
+                                        </a>
+                                        &nbsp;
+                                        <a className="col-1"> 
+                                            <a onClick={next} style={{cursor:'pointer'}}>
                                                 <ArrowRightCircle size={35} color="#CD9EED" />
-                                            </div>
-                                        </div>
+                                            </a>
+                                        </a>
                                     </div>
                                   </div>
-                                
+                                  &nbsp;
                                     <div className="card-style mb-30">
                                         <Slider1 {...settings} ref={slickRef}>
                                             {replylist.map(({G_idx,H_idx,H_profile,H_name,Rp_date,Rp_content}) => (
@@ -267,19 +268,20 @@ if(loading||loading1||loading2){
 
                             <div align='right'>
                                     <div className="col-6">
-                                        <div className="col-1" style={{alignContent:'center'}}>
-                                            <div onClick={previous2} style={{cursor:'pointer'}}>
+                                        <a className="col-1" style={{alignContent:'center'}}>
+                                            <a onClick={previous2} style={{cursor:'pointer'}}>
                                                 <ArrowLeftCircle size={35} color="#CD9EED" />
-                                            </div>
-                                        </div>
-                                        <div className="col-1" style={{alignContent:'center'}}> 
-                                            <div onClick={next2} style={{cursor:'pointer'}}>
+                                            </a>
+                                        </a>
+                                        &nbsp;
+                                        <a className="col-1" style={{alignContent:'center'}}> 
+                                            <a onClick={next2} style={{cursor:'pointer'}}>
                                                 <ArrowRightCircle size={35} color="#CD9EED" />
-                                            </div>
-                                        </div>
+                                            </a>
+                                        </a>
                                     </div>
                                   </div>
-                                
+                                  &nbsp;
                                     <div className="card-style mb-30">
                                         <Slider {...settings} ref={slickRef2}>
                                             {reviewlist.map(({G_idx,H_idx,D_img1,Ho_name,Rv_date,Rv_content}) => (

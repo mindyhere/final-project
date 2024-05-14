@@ -17,13 +17,13 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
         const form = new FormData();
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
-        if (check == 1) {
+        if (check === 1) {
             fetch('http://localhost/guest/wish/wishDelete', {
                 method: 'post',
                 body: form,
             }).then((response) => response.json())
             .then(data => {
-                if(data.result == 'success') {
+                if(data.result === 'success') {
                     window.location.href='/';
                 }
             })
@@ -43,9 +43,9 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
     }
     
     useEffect(() => {
-        if (check == 1) {
+        if (check === 1) {
             setImage("/img/black_heart.png");
-        } else if (check == 0) {
+        } else if (check === 0) {
             setImage("/img/heart.png");
         } else {
             setImage('');
@@ -58,27 +58,26 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
         )
     } else {
         let img = '';
-        if (HoImg != null) {
+        if (HoImg !== null) {
             img = `<img src=${url} width='380px' height='380px' /><br />`;
         }
 
         return (
             <div style={{ margin: '5px',paddingLeft: '100px'}}>
+                    <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}> 
                 <div id="Img" style={{position: 'relative'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                    <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}> 
                         <div style={{fontSize:"23px"}}>{HoName}</div>
                             ₩68,717 /박
-                    </Link>
-                    {check == null ? '' :
+                    {check === null ? '' :
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
                     top:'20px', left:'320px'}} onClick={() => {handleClick()}}>
                     <img src={image} width='28px' height='35px' />
                     </button>
                     }
                 <br />
-                &nbsp;
                 </div>
+                    </Link>
             </div>
         )
     }

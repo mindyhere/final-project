@@ -7,33 +7,44 @@ function PayItem({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_fi
     const navigate = useNavigate();
 
     let img ='';
-    if (D_img1 != null) {
-        img = `<img src=${url} width='50px' height='50px' /><br />`;
+    if (D_img1 !== null) {
+        img = `<img src=${url} width='70px' height='70px' /><br />`;
     }
-    if (O_state == 1) {
+    if (O_state === 1) {
         O_state = "예약대기";
-    } else if (O_state == 2) {
+    } else if (O_state === 2) {
         O_state = "예약취소";
     } else if (O_state == 3) {
         O_state = "예약확정";
     }
-    if (O_payment == 1) {
+    if (O_payment === 1) {
         O_payment = "Card";
-    } else if (O_payment == 2) {
+    } else if (O_payment === 2) {
         O_payment = "KakaoPay";
-    } else if (O_payment == 3) {
+    } else if (O_payment === 3) {
         O_payment = "Point";
     }
     return (
-        <div style={{ margin: '3px'}}>
-               <div><span dangerouslySetInnerHTML={{__html: img}}></span></div>
-                    {O_state}&nbsp;·&nbsp;{O_orderdate}
+        <div className='container'>
+            <div className='row row-cols-2'>
+                <div className="col-2"><span dangerouslySetInnerHTML={{__html: img}}></span></div>
+                <div className="col-5">
+                <h5>{O_state}&nbsp;·&nbsp;{O_orderdate}</h5>
                        <div style={{color: "#262626"}}>{O_payment}</div>
                        <div>{O_ckin}&nbsp;-&nbsp;{O_ckout}</div>
-                       <div>₩{O_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
-                <br />
-                &nbsp;
+                </div>
+                <div className="col-2"><div>₩{O_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div></div>
+            </div>
         </div>
+        // <div style={{ margin: '3px'}}>
+        //        <div><span dangerouslySetInnerHTML={{__html: img}}></span></div>
+        //             {O_state}&nbsp;·&nbsp;{O_orderdate}
+        //                <div style={{color: "#262626"}}>{O_payment}</div>
+        //                <div>{O_ckin}&nbsp;-&nbsp;{O_ckout}</div>
+        //                <div>₩{O_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
+        //         <br />
+        //         &nbsp;
+        // </div>
         
         // <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         //         <li  className="nav-item"><a className="nav-link active" href="#">프로필</a></li>
