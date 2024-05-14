@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 
 import Cookies from "universal-cookie";
 import HotelNavItem from "./HotelNavItem";
-import OrderDetail from "./OrderDetail";
+import OrderItem from "./OrderItem";
+import OrderDetail from "./OrderDetail_modal";
 
 import {
   ChevronDoubleLeft,
@@ -25,7 +26,8 @@ function ManageOrders() {
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [pageNum, setPageNum] = useState("1");
-
+  const [modal, setModal] = useState(false);
+  const [OrderDetail, setOrderDetail] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
@@ -73,8 +75,12 @@ function ManageOrders() {
     setHotelIdx(e);
     console.log("==> 클릭? " + e);
     getList(e, 0);
-    // alert("==> 호출? " + e + "," + { hoIdx });
     // console.log("==> 호출? " +{ hoIdx });
+  };
+
+  const handleModal = (e) => {
+    console.log("==> 클릭? " + e);
+    setOrderDetail(!OrderDetail);
   };
 
   const setPagination = () => {
@@ -103,6 +109,28 @@ function ManageOrders() {
     }
     return result;
   };
+
+  function Modal(props) {
+    function closeModal() {
+      props.closeModal();
+      setModal(false);
+    }
+
+    return (
+      <div className="modal_h" onClick={closeModal}>
+        <div
+          className="modalBody_h"
+          style={{ width: "1000px" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className="btnClose" onClick={closeModal}>
+            X
+          </button>
+          {props.children}
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return <div>loading...</div>;
@@ -142,13 +170,14 @@ function ManageOrders() {
                   className="table table-sm table-hover align-middle text-center"
                 >
                   <colgroup>
+                    <col width="5%" />
+                    <col width="10%" />
                     <col width="10%" />
                     <col width="15%" />
                     <col width="15%" />
-                    <col width="10%" />
                     <col width="15%" />
+                    <col width="10%" />
                     <col width="20%" />
-                    <col width="15%" />
                   </colgroup>
                   <thead>
                     <tr className="align-middle">
@@ -159,7 +188,7 @@ function ManageOrders() {
                         <strong>예약번호</strong>
                       </th>
                       <th scope="col">
-                        <strong>구분</strong>
+                        <strong>객실유형</strong>
                       </th>
                       <th scope="col">
                         <strong>체크인</strong>
@@ -169,6 +198,9 @@ function ManageOrders() {
                       </th>
                       <th scope="col">
                         <strong>결제</strong>
+                      </th>
+                      <th scope="col">
+                        <strong>예약일</strong>
                       </th>
                       <th scope="col">
                         <strong>상태</strong>
@@ -201,7 +233,7 @@ function ManageOrders() {
                           o_benefit,
                           o_orderdate,
                         }) => (
-                          <OrderDetail
+                          <OrderItem
                             rownum={rownum}
                             hotel_idx={hoIdx}
                             o_idx={o_idx}
@@ -220,8 +252,19 @@ function ManageOrders() {
                             o_finalprice={o_finalprice}
                             o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
+                            handleModal={handleModal}
                             key={o_idx}
-                          />
+                          >
+                            {OrderDetail && (
+                              <Modal
+                                closeModal={() => {
+                                  setOrderDetail(!OrderDetail);
+                                }}
+                              >
+                                <OrderDetail rownum={rownum} />
+                              </Modal>
+                            )}
+                          </OrderItem>
                         )
                       )
                     ) : (
