@@ -63,4 +63,19 @@
 		VALUES 
 		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{dprice},#{fprice},now())
 	</insert>
+	
+	<select id="reviews" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+		SELECT g_idx, h_idx,h_profile, h_name, rv_date, rv_content
+		FROM guest g, host h, review rv, hotel_detail hd, hotel ho
+		WHERE g.g_email = rv.rv_writer AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
+		AND g_idx=#{g_idx}
+	</select>
+	
+	<select id="replys" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+		SELECT g_idx, h_idx, h_profile, h_name, rp_date, rp_content
+		FROM guest g, host h, reply rp, review rv, hotel_detail hd, hotel ho
+		WHERE g.g_email = rv.rv_writer AND rp.rp_rv_idx = rv.rv_idx AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
+		AND g_idx=#{g_idx}
+	</select>
+
 </mapper>
