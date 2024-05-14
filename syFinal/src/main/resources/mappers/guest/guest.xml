@@ -64,18 +64,45 @@
 		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{dprice},#{fprice},now())
 	</insert>
 	
-	<select id="reviews" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
-		SELECT g_idx, h_idx,h_profile, h_name, rv_date, rv_content
+	<select id="reviewlist" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+		SELECT 
+		g_idx, 
+		h_idx,
+		d_idx,
+		ho_idx,
+		ho_name,
+		d_img1,
+		h_profile, 
+		h_name, 
+		DATE_FORMAT(rv_date, '%Y년 %m월 %d일') as rv_date,
+		rv_content
 		FROM guest g, host h, review rv, hotel_detail hd, hotel ho
 		WHERE g.g_email = rv.rv_writer AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
-		AND g_idx=#{g_idx}
+		AND g_idx=#{gidx}
 	</select>
 	
-	<select id="replys" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
-		SELECT g_idx, h_idx, h_profile, h_name, rp_date, rp_content
+	<select id="replylist" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+		SELECT 
+		g_idx, 
+		h_idx, 
+		h_profile, 
+		h_name, 
+		DATE_FORMAT(rp_date, '%Y년 %m월 %d일') as rp_date,
+		rp_content
 		FROM guest g, host h, reply rp, review rv, hotel_detail hd, hotel ho
 		WHERE g.g_email = rv.rv_writer AND rp.rp_rv_idx = rv.rv_idx AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
-		AND g_idx=#{g_idx}
+		AND g_idx=#{gidx}
 	</select>
-
+	
+	<select id="reviewcount" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
+		SELECT COUNT(*) as reviewcount
+		FROM review
+		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx})
+	</select>
+	
+	<select id="joindate" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+		SELECT (TO_DAYS(now()) - TO_DAYS(g_join_date)) AS joindate
+		FROM guest
+		WHERE g_idx=#{gidx}
+	</select>
 </mapper>

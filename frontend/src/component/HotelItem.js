@@ -6,7 +6,6 @@ function HotelItem({HoIdx,HoName, HoImg}) {
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     //const url = `../img/${HoImg}`;
-    const navigate = useNavigate();
 
     if (loading) {
         return (

@@ -12,6 +12,8 @@ public interface GuestDAO {
 	void cardupdate(Map<String,Object> map);
 	void carddelete(Map<String,Object> map);
 	void order(Map<String,Object> map);
-	ReviewDTO reviews(int g_idx);
-	Map<String, Object> replys(int g_idx);
+	List<ReviewDTO> review(int g_idx);
+	List<ReviewDTO> reply(int g_idx);
+	ReviewDTO reviewcount(int g_idx);
+	GuestDTO joindate(int g_idx);
 }
