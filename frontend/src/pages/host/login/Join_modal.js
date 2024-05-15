@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
-import "../../guest/aa.css";
-import "../host1.css";
+// import "../../guest/aa.css";
+// import "../host1.css";
 
 function HostJoin() {
   const [email, setEmail] = useState("");

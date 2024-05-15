@@ -41,14 +41,16 @@ function Recent() {
                 display:'grid',
                 gridTemplateRows:'1fr',
                 gridTemplateColumns:'1fr 1fr 1fr',
-      }}>
-            {recentList.map(
-                ({HoImg,HoName,HoIdx,check})=>(
+                }}>
+            {recentList &&
+             recentList.map(
+                ({HoImg,HoName,HoIdx,check,dIdx})=>(
                     <RecentItem
                       HoIdx={HoIdx}
                       HoName={HoName}
                       HoImg={HoImg}
                       check={check}
+                      dIdx={dIdx}
                     />
                 )
             )}

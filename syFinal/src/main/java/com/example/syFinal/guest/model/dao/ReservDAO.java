@@ -15,16 +15,19 @@ public interface ReservDAO {
 
 	ReservDTO delDetail(int o_idx);
 
-	String cancel(int o_idx);
+	String cancel(int o_idx, int g_idx);
 
 	ReservDTO upDetail(int o_idx);
 
-	String insert(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby);
+	String insert(int g_idx, int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby);
 
 	int check(int ru_idx);
 
-	String update(int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby);
+	String update(int g_idx, int ru_idx, String ru_startDate, String ru_endDate, int ru_adult, int ru_child, int ru_baby);
 
 	ReservDTO confirm(int ru_idx);
+
+	List<ReservDTO> date(int o_idx, int ho_idx, int o_didx);
+	
 
 }
