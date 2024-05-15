@@ -143,7 +143,7 @@ function OrderDetail(order_idx) {
                           // disabled={!disabled}
                           id="rdo1"
                         />
-                        <label className="form-check-label" for="rdo1">
+                        <label className="form-check-label" htmlFor="rdo1">
                           대기
                         </label>
                       </div>
@@ -159,7 +159,7 @@ function OrderDetail(order_idx) {
                           id="rdo2"
                         />
 
-                        <label className="form-check-label" for="rdo2">
+                        <label className="form-check-label" htmlFor="rdo2">
                           취소
                         </label>
                       </div>
@@ -174,7 +174,7 @@ function OrderDetail(order_idx) {
                           // disabled={!disabled}
                           id="rdo3"
                         />
-                        <label className="form-check-label" for="rdo3">
+                        <label className="form-check-label" htmlFor="rdo3">
                           확정
                         </label>
                       </div>
@@ -229,8 +229,8 @@ function OrderDetail(order_idx) {
                           if (!response.ok) {
                             throw new Error("false: " + response.status);
                           }
-
                           const form = new FormData();
+                          form.append("opt", 1);
                           form.append("oidx", dataset.o_idx);
                           form.append("hidx", userIdx);
                           form.append("idx", dataset.g_idx);
@@ -259,7 +259,7 @@ function OrderDetail(order_idx) {
                     allowOutsideClick: () => !Swal.isLoading(),
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      // console.log(result.value);
+                      console.log(result.value);
                       Swal.fire({
                         icon: "success",
                         title: "Success",
@@ -309,9 +309,19 @@ function OrderDetail(order_idx) {
                           if (!response.ok) {
                             throw new Error("false: " + response.status);
                           }
-                          let rp_idx = data.rp_idx;
+                          const form = new FormData();
+                          form.append("opt", 0);
+                          form.append("oidx", dataset.o_idx);
+                          form.append("hidx", userIdx);
+                          form.append("idx", dataset.g_idx);
+                          console.log("==> form?" + JSON.stringify(form));
+
                           return fetch(
-                            `http://localhost/api/order/manage/calcel/${dataset.o_idx}`
+                            `http://localhost/api/order/manage/cancel/${dataset.o_idx}`,
+                            {
+                              method: "post",
+                              body: form,
+                            }
                           ).then((response) => {
                             if (!response.ok) {
                               throw new Error("false: " + response.status);
@@ -329,7 +339,7 @@ function OrderDetail(order_idx) {
                     allowOutsideClick: () => !Swal.isLoading(),
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      // console.log(result.value);
+                      console.log(result.value);
                       Swal.fire({
                         icon: "success",
                         title: "Success",

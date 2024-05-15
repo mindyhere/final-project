@@ -52,6 +52,7 @@
 
 <select id="confirm" statementType="CALLABLE">
 {	call p_order_confirm(
+		#{opt, mode=IN, jdbcType=INTEGER}, 
 		#{oidx, mode=IN, jdbcType=INTEGER}, 
 		#{hidx, mode=IN, jdbcType=INTEGER}, 
 		#{level, mode=OUT, jdbcType=INTEGER}, 
@@ -60,8 +61,12 @@
 }
 </select>
 
-<select id="guestLevelUp" statementType="CALLABLE">
+<select id="levelUp" statementType="CALLABLE">
 {	call level_up(#{idx}) }
+</select>
+
+<select id="levelDown" statementType="CALLABLE">
+{	call level_down(#{idx}) }
 </select>
 
 </mapper>

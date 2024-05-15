@@ -80,23 +80,31 @@ public class OrderController {
 		Map<String, Object> data = new HashMap<>();
 		orderDao.confirm(params);
 		if ((int) params.get("result") == 1) {
-			int result = orderDao.guestLevelUp(params);
+			int result = orderDao.guestLevelUpate(params);
 			params.replace("result", result);
-			data.put("data", params);
+			data.put("level", params.get("level"));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		} else {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> confirm결과 ?" + params);
+		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
 		return data;
 	}
 
-	@GetMapping("cancel/{o_idx}")
-	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx) {
-		System.out.println(o_idx);
+	@PostMapping("manage/cancel/{o_idx}")
+	public Map<String, Object> cancel(@PathVariable(name = "o_idx") int o_idx,
+			@RequestParam Map<String, Object> params) {
 		Map<String, Object> data = new HashMap<>();
-		data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-
+		orderDao.confirm(params);
+		if ((int) params.get("result") == 1) {
+			int result = orderDao.guestLevelUpate(params);
+			params.replace("result", result);
+			data.put("level", params.get("level"));
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		} else {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+		}
+		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
 		return data;
 	}
 
