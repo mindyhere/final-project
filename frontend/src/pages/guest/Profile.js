@@ -135,10 +135,10 @@ if(loading||loading1||loading2){
                                     
                                 </div>
                                 {/* 인증정보구간 */}
-                                <div className="card" style={{width: '22rem',height: '15.5rem', padding:'0.7rem'}}>
+                                <div className="card" style={{width: '23rem',height: '16rem', padding:'1rem'}}>
                                     <div className="card-body" align='left'>
                                         <h4>{data.dto.g_name}님의 인증 정보</h4>
-                                        <div style={{lineHeight: '2.8'}}>
+                                        <div style={{lineHeight: '2.9'}}>
                                          
                                             {data.dto.g_profile === "미인증"
                                             ?
@@ -210,7 +210,7 @@ if(loading||loading1||loading2){
                                                 <ArrowLeftCircle size={35} color="#CD9EED" />
                                             </a>
                                         </a>
-                                        &nbsp;
+                                        &nbsp;&nbsp;
                                         <a className="col-1"> 
                                             <a onClick={next} style={{cursor:'pointer'}}>
                                                 <ArrowRightCircle size={35} color="#CD9EED" />
@@ -273,7 +273,7 @@ if(loading||loading1||loading2){
                                                 <ArrowLeftCircle size={35} color="#CD9EED" />
                                             </a>
                                         </a>
-                                        &nbsp;
+                                        &nbsp;&nbsp;
                                         <a className="col-1" style={{alignContent:'center'}}> 
                                             <a onClick={next2} style={{cursor:'pointer'}}>
                                                 <ArrowRightCircle size={35} color="#CD9EED" />
