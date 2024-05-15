@@ -209,15 +209,18 @@ function ManageOrders() {
                       list.map(
                         ({
                           rownum,
-                          d_ho_idx,
                           o_idx,
-                          o_gidx,
-                          o_didx,
+                          g_idx,
+                          ho_idx,
+                          ho_name,
+                          d_idx,
+                          d_room_type,
                           o_ckin,
                           o_ckout,
                           o_adult,
                           o_child,
                           o_baby,
+                          sum,
                           o_state,
                           status,
                           o_payment,
@@ -226,19 +229,21 @@ function ManageOrders() {
                           o_finalprice,
                           o_benefit,
                           o_orderdate,
-                          sum
                         }) => (
                           <OrderItem
                             rownum={rownum}
-                            ho_idx={d_ho_idx}
                             o_idx={o_idx}
-                            g_idx={o_gidx}
-                            d_idx={o_didx}
+                            g_idx={g_idx}
+                            ho_idx={ho_idx}
+                            ho_name={ho_name}
+                            d_idx={d_idx}
+                            d_room_type={d_room_type}
                             o_ckin={o_ckin}
                             o_ckout={o_ckout}
                             o_adult={o_adult}
                             o_child={o_child}
                             o_baby={o_baby}
+                            sum={sum}
                             o_state={o_state}
                             status={status}
                             o_payment={o_payment}
@@ -247,7 +252,6 @@ function ManageOrders() {
                             o_finalprice={o_finalprice}
                             o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
-                            sum={sum}
                             handleModal={handleModal}
                             key={o_idx}
                           />

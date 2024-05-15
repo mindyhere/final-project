@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,10 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			list = sqlSession.selectList("order.getList", map);
 			if (list != null) {
+				DecimalFormat df = new DecimalFormat("###,###");
 				for (Map<String, Object> m : list) {
 					String o_state = (String) m.get("o_state");
-
-					System.out.println("==> ?" + m.get("o_state") + ", " + o_state);
-					System.out.println("==> ?" + m.get("o_state"));
+					// 상태 처리
 					switch (o_state) {
 					case "1":
 						m.put("status", "예약대기");
@@ -42,7 +42,28 @@ public class OrderDAOImpl implements OrderDAO {
 						m.put("status", "예약확정");
 						break;
 					}
-					System.out.println("==> m? " + m + ", " + m.get("status"));
+					// 금액 1000단위 포맷
+					String o_price = df.format(m.get("o_price"));
+					String o_discount = df.format(m.get("o_discount"));
+					String o_finalprice = df.format(m.get("o_finalprice"));
+					System.out.println("==> m? " + o_price + ", " + o_finalprice + ", " + o_discount);
+					m.replace("o_price", o_price);
+					m.replace("o_discount", o_discount);
+					m.replace("o_finalprice", o_finalprice);
+
+					String o_payment = (String) m.get("o_payment");
+
+					switch (o_payment) {
+					case "1":
+						m.replace("o_payment", "Card");
+						break;
+					case "2":
+						m.replace("o_payment", "KakaoPay");
+						break;
+					case "3":
+						m.replace("o_payment", "Point");
+						break;
+					}
 				}
 			}
 		} catch (Exception e) {

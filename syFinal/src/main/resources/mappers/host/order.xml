@@ -6,13 +6,13 @@ select @rownum:=@rownum+1 AS rownum, v.*
 from v_host_order v, (select @rownum:=(#{start}-1)) tmp
 <choose>
 	<when test="ho_idx == 0 and init == 1"> <!-- 최초접속 -->
-		where d_ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
+		where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
 	</when>
 	<when test="ho_idx != 0 and init != 1"> <!-- 호텔 선택조회 -->
-		where d_ho_idx = #{ho_idx}
+		where ho_idx = #{ho_idx}
 	</when>
 	<otherwise> <!-- 전체조회 -->
-		where d_ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		where ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
 	</otherwise>
 </choose>
 limit #{start}, #{end};
@@ -29,13 +29,13 @@ where ho_h_idx=#{h_idx} order by ho_idx
 select count(*) from v_host_order
 <choose>
 	<when test="ho_idx == 0 and init == 1"> <!-- 최초접속 -->
-		where d_ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
+		where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
 	</when>
 	<when test="ho_idx != 0 and init != 1"> <!-- 호텔 선택조회 -->
-		where d_ho_idx = #{ho_idx}
+		where ho_idx = #{ho_idx}
 	</when>
 	<otherwise> <!-- 전체조회 -->
-		where d_ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		where ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
 	</otherwise>
 </choose>
 </select>

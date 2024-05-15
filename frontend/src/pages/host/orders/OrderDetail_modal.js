@@ -100,9 +100,9 @@ function OrderDetail(order_idx) {
                   </tr>
                   <tr>
                     <th>구분</th>
-                    <td>&nbsp;&nbsp;{dataset.ho_idx}</td>
+                    <td>&nbsp;&nbsp;{dataset.ho_name}</td>
                     <th style={{ width: "25%" }}>객실유형</th>
-                    <td>&nbsp;&nbsp;{dataset.d_idx}</td>
+                    <td>&nbsp;&nbsp;{dataset.d_room_type}</td>
                   </tr>
                   <tr>
                     <th>체크인</th>
@@ -119,15 +119,15 @@ function OrderDetail(order_idx) {
                     <td colSpan={2}>
                       &nbsp;&nbsp;성인(
                       <b>
-                        {dataset.o_adult != "undefined" ? dataset.o_adult : 0}
+                        {dataset.o_adult}
                       </b>
                       ) , 어린이(
                       <b>
-                        {dataset.o_child != "undefined" ? dataset.o_child : 0}
+                        {dataset.o_child}
                       </b>
                       ), 유아(
                       <b>
-                        {dataset.o_baby != "undefined" ? dataset.o_baby : 0}
+                        {dataset.o_baby}
                       </b>
                       )
                     </td>
