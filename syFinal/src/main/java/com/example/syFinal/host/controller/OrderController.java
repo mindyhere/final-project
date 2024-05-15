@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,4 +73,25 @@ public class OrderController {
 		data.put("guest", guest);
 		return data;
 	}
+
+	@PostMapping("confirm/{o_idx}")
+	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx, @RequestParam Map<String, Object> map) {
+		// TODO: process POST request
+		System.out.println(map);
+		Map<String, Object> data = new HashMap<>();
+		data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+
+		return data;
+	}
+
+	@GetMapping("cancel/{o_idx}")
+	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx) {
+		// TODO: process POST request
+		System.out.println(o_idx);
+		Map<String, Object> data = new HashMap<>();
+		data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+
+		return data;
+	}
+
 }

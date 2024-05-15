@@ -52,12 +52,12 @@ function ManageOrders() {
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        console.log(
-          "==> 데이터셋: " +
-            JSON.stringify(data.list) +
-            " / " +
-            JSON.stringify(data.page)
-        );
+        // console.log(
+        //   "==> 데이터셋: " +
+        //     JSON.stringify(data.list) +
+        //     " / " +
+        //     JSON.stringify(data.page)
+        // );
       });
   }
 
