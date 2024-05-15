@@ -30,7 +30,7 @@ public class HotelController {
 		map.put("ho_idx", ho_idx);
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
-		hotelList = hotelDao.hoteLlist(map);
+		hotelList = hotelDao.hoteList(map);
 		return hotelList;
 	}
 

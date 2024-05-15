@@ -7,7 +7,6 @@ function HotelNavItem({
   ho_name,
   userIdx,
   handleClick,
-  init,
   active,
 }) {
   const hotel_idx = useRef();
@@ -18,10 +17,10 @@ function HotelNavItem({
   // };
 
   // console.log(
-  //   "==> 확인 init?" + init + "," + rownum + ", " + ho_name + "/" + active
+  //   "==> 확인 " + rownum + ", " + ho_name + "/" + active
   // );
 
-  if ({ init } == 1 && rownum == 1) {
+  if (rownum == 1) {
     return (
       <li
         key={ho_idx}
