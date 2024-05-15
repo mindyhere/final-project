@@ -35,7 +35,7 @@ function ManageOrders() {
   const [selected, isSelected] = useState("");
 
   function getList(hoIdx, init, pageNum) {
-    console.log(pageNum);
+    console.log("==> 리스트: " + hoIdx + ", " + init + ", " + pageNum);
     let url = "";
     if (init == "") {
       url = `http://localhost/api/order/manage/list/${userIdx}`;
@@ -90,7 +90,11 @@ function ManageOrders() {
       } else {
         result.push(
           <li key={"page-item" + i} className="page-item">
-            <a key={i} className="page-link" onClick={() => getList(`${i}`)}>
+            <a
+              key={i}
+              className="page-link"
+              onClick={() => getList(hoIdx, 0, `${i}`)}
+            >
               {i}
             </a>
           </li>
@@ -291,7 +295,7 @@ function ManageOrders() {
                           <a className="page-link">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList("1")}
+                              onClick={() => getList(hoIdx, 0, "1")}
                             >
                               <ChevronDoubleLeft />
                             </span>
@@ -303,7 +307,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Previous">
                             <span
                               aria-hidden="true"
-                              onclick={() => getList(`${page.prevPage}`)}
+                              onclick={() =>
+                                getList(hoIdx, 0, `${page.prevPage}`)
+                              }
                             >
                               <ChevronLeft />
                             </span>
@@ -318,7 +324,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Next">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(`${page.nextPage}`)}
+                              onClick={() =>
+                                getList(hoIdx, 0, `${page.nextPage}`)
+                              }
                             >
                               <ChevronRight />
                             </span>
@@ -328,7 +336,11 @@ function ManageOrders() {
                       {page.curPage < page.totPage ? (
                         <li className="page-item">
                           <a className="page-link" aria-label="End">
-                            <span onClick={() => getList(`${page.totPage}`)}>
+                            <span
+                              onClick={() =>
+                                getList(hoIdx, 0, `${page.totPage}`)
+                              }
+                            >
                               <ChevronDoubleRight />
                             </span>
                           </a>
