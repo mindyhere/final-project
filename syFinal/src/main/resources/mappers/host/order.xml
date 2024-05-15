@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+<select id="getList" resultType="java.util.Map">
+select @rownum:=@rownum+1 AS rownum, v.* 
+from v_host_order v, (select @rownum:=(#{start}-1)) tmp
+<choose>
+	<when test="ho_idx == 0 and init == 1"> <!-- 최초접속 -->
+		where d_ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
+	</when>
+	<when test="ho_idx != 0 and init != 1"> <!-- 호텔 선택조회 -->
+		where d_ho_idx = #{ho_idx}
+	</when>
+	<otherwise> <!-- 전체조회 -->
+		where d_ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
+	</otherwise>
+</choose>
+limit #{start}, #{end};
+</select>
+
+<select id="getHotelList" resultType="java.util.Map">
+<!-- select ho_idx, ho_name from hotel where ho_h_idx=#{h_idx} order by ho_idx;-->
+select @rownum:=@rownum+1 AS rownum, ho_idx, ho_name 
+from hotel, (select @rownum:=0) tmp
+where ho_h_idx=#{h_idx} order by ho_idx
+</select>
+
+<select id="countRecord" resultType="int">
+select count(*) from v_host_order
+<choose>
+	<when test="ho_idx == 0 and init == 1"> <!-- 최초접속 -->
+		where d_ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
+	</when>
+	<when test="ho_idx != 0 and init != 1"> <!-- 호텔 선택조회 -->
+		where d_ho_idx = #{ho_idx}
+	</when>
+	<otherwise> <!-- 전체조회 -->
+		where d_ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
+	</otherwise>
+</choose>
+</select>
+
+<select id="getGuestProfile" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
+select g_name, g_email, g_phone, g_url 
+from guest where g_idx=#{g_idx}
+</select>
+
+</mapper>

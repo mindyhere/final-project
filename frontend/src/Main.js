@@ -3,20 +3,36 @@ import React, {useRef,useEffect,useState} from 'react';
 import HotelItem from './component/HotelItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
 //import Button from "react-bootstrap/Button";
 
 function Main() {
   const [list,setMainList] = useState([]);
   const search = useRef();
+  const cookies = new Cookies();
+  const idx = cookies.get('g_idx');
 
   function getMain(url) {
-    fetch(url)
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      setMainList(data);
-    });
+    if (idx == null) {
+      fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        setMainList(data);
+      });
+    } else {
+      const form = new FormData();
+      form.append('g_idx', idx.key);
+      fetch(url, {method: 'post', body: form})
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        setMainList(data);
+      });
+    }
+   
   }
 
   useEffect(() => {getMain('http://localhost/guest/main');},[]);
@@ -49,12 +65,13 @@ function Main() {
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
       {list.map(
-                ({HoName,HoImg,HoIdx})=>(
+                ({HoName,HoImg,HoIdx,check})=>(
                     <HotelItem
                       HoIdx={HoIdx}
                       HoName={HoName}
                       HoImg={HoImg}
                       key={HoIdx}
+                      check={check}
                           //싱글가격
                           //평점
                     />
@@ -69,12 +86,7 @@ function Main() {
       <br />
       <br />
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      
     </>
   );
 }

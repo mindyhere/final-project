@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.syFinal.MainController;
 import com.example.syFinal.guest.model.dao.ReservDAO;
 import com.example.syFinal.guest.model.dto.ReservDTO;
 
@@ -52,6 +53,7 @@ public class ReservController {
 				map1.put("HName", dto.get(i).getH_name());
 				map1.put("HoAddress", dto.get(i).getHo_address());
 				map1.put("HoName", dto.get(i).getHo_name());
+				map1.put("OdIdx", dto.get(i).getO_didx());
 				before.add(map1);
 			} else {
 				Map<String, Object> map2 = new HashMap<>();
@@ -63,6 +65,7 @@ public class ReservController {
 				map2.put("HName", dto.get(i).getH_name());
 				map2.put("HoAddress", dto.get(i).getHo_address());
 				map2.put("HoName", dto.get(i).getHo_name());
+				map2.put("OdIdx", dto.get(i).getO_didx());
 				after.add(map2);
 			}
 		}
@@ -76,9 +79,9 @@ public class ReservController {
 			map3.put("HName", dto3.get(i).getH_name());
 			map3.put("HoAddress", dto3.get(i).getHo_address());
 			map3.put("HoName", dto3.get(i).getHo_name());
+			map3.put("OdIdx", dto.get(i).getO_didx());
 			review.add(map3);
 		}
-
 		map.put("review", review);
 		map.put("before", before);
 		map.put("after", after);
@@ -135,8 +138,9 @@ public class ReservController {
 
 	@RequestMapping("cancel")
 	@ResponseBody
-	public Map<String, Object> cancel(@RequestParam(name = "o_idx") int o_idx) {
-		String result = dao.cancel(o_idx);
+	public Map<String, Object> cancel(@RequestParam(name = "o_idx") int o_idx,
+			@RequestParam(name = "g_idx") int g_idx) {
+		String result = dao.cancel(o_idx, g_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		return map;
@@ -145,8 +149,18 @@ public class ReservController {
 	@RequestMapping("upDetail")
 	@ResponseBody
 	public Map<String, Object> upDetail(@RequestParam(name = "o_idx") int o_idx) {
+		List<String> bet_dates = new ArrayList<String>();	
+		List<String> imp_dates = new ArrayList<String>();
 		ReservDTO dto = dao.upDetail(o_idx);
 		int check = dao.check(o_idx);
+		MainController main = new MainController();
+		List<ReservDTO> date = dao.date(o_idx, dto.getHo_idx(), dto.getO_didx());
+		for(int i=0; i < date.size(); i++) {
+			bet_dates = main.dateBetween(date.get(i).getO_ckin(), date.get(i).getO_ckout());
+			for(int j=0; j < bet_dates.size(); j++) {
+				imp_dates.add(bet_dates.get(j));
+			}
+		}
 		Date ref_date = new Date();
 		String alter = "";
 		String date2 = dto.getO_ckin(); // 날짜1
@@ -188,26 +202,30 @@ public class ReservController {
 		map.put("alter", alter);
 		map.put("ref_date", ref_date);
 		map.put("diffDays", diffDays);
+		map.put("imp_dates", imp_dates);
 		return map;
 	}
 
 	@PostMapping("insert")
 	@ResponseBody
 	public Map<String, Object> insert(@RequestParam(name = "ru_idx") int ru_idx,
-			@RequestParam(name = "ru_adult") int ru_adult, @RequestParam(name = "ru_child") int ru_child,
-			@RequestParam(name = "ru_baby") int ru_baby, @RequestParam(name = "ru_startDate") String ru_startDate,
+			@RequestParam(name = "g_idx") int g_idx, @RequestParam(name = "ru_adult") int ru_adult,
+			@RequestParam(name = "ru_child") int ru_child, @RequestParam(name = "ru_baby") int ru_baby,
+			@RequestParam(name = "ru_startDate") String ru_startDate,
 			@RequestParam(name = "ru_endDate") String ru_endDate) {
 		System.out.println(ru_idx);
 		int check = dao.check(ru_idx);
 		String result = "";
 		if (check == 1) {
-			result = dao.update(ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
+			result = dao.update(g_idx, ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
 		} else if (check == 0) {
-			result = dao.insert(ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
+			result = dao.insert(g_idx, ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		return map;
 	}
+	
+	
 
 }

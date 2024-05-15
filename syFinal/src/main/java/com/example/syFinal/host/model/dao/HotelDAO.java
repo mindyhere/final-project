@@ -3,13 +3,12 @@ package com.example.syFinal.host.model.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 public interface HotelDAO {
 
 	/* 호텔 상세 정보 */
-	Map<String, Object> hoteLlist(Map<String, Object> map);
+	Map<String, Object> hoteList(Map<String, Object> map);
 	
 	/* 호텔 객실 정보 */
 	List<HotelDetailDTO> hotelRooms(int ho_idx);
@@ -40,4 +39,9 @@ public interface HotelDAO {
 	
 	/* 호스트의 호텔 목록 */
 	List<Map<String, Object>> hostAllHotel(int h_idx);
+	
+	List<HotelDetailDTO> imp_date(int ho_idx, int d_idx);
+	
+	/* 호텔 상세 정보 조회 */
+	List<Map<String, Object>> detailMyHotel(int ho_idx);
 }

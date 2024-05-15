@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import './aa.css'
-import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 
-function RecentItem({HoIdx, HoName, HoImg, check}) {
+function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
@@ -16,7 +15,6 @@ function RecentItem({HoIdx, HoName, HoImg, check}) {
     let Image = '';
     
     const handleClick = () => {
-        console.log("check:" + idx.key);
         const form = new FormData();
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
@@ -70,7 +68,7 @@ function RecentItem({HoIdx, HoName, HoImg, check}) {
             <div style={{ margin: '5px', paddingLeft: '30px'}} >
                 
                 <div id="Img" style={{position: 'relative'}}>
-                <Link to={`/host/hotel/hotelDetail/${HoIdx}`} style={{textDecorationLine: 'none'}}>
+                <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`} style={{textDecorationLine: 'none'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                 
                     <div style={{fontSize:"20px", color: 'black'}}>{HoName}</div>

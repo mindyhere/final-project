@@ -147,6 +147,7 @@ function Reservation() {
                                         direction="horizontal"
                                         isClearable={true}
                                         rangeColors={["#DBC4F0"]}
+                                        disabledDates={data.imp_dates}
                                     />
                                     </div>
                                 </div>

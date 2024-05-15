@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/join";
 import HostJoin from "../pages/host/login/Join_modal";
-
 
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";
@@ -12,10 +11,9 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
 
-
 function Header() {
   const navigate = useNavigate();
-  
+
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +32,6 @@ function Header() {
 
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
-
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -56,8 +53,16 @@ function Header() {
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
   if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/admin/*" || locationNow.pathname === "/admin/alogin") return null; 
+  if (
+    locationNow.pathname === "/host/account/manage/review" ||
+    locationNow.pathname === "/host/account/manage/reply"
+  )
+    return null; // 팝업창에서 헤더 제거
+  if (
+    locationNow.pathname === "/admin/*" ||
+    locationNow.pathname === "/admin/alogin"
+  )
+    return null;
 
   if (userInfo == null && g_email == null) {
     console.log("로그인X cookie==> " + userInfo);
@@ -69,7 +74,7 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="62px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -95,7 +100,6 @@ function Header() {
                   className="Modal"
                   style={{ zIndex: 999 }}
                   onClick={() => setModal_1(false)}
-                  
                 >
                   <div
                     className="modalBody"
@@ -178,10 +182,7 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div
-                  className="Modal"
-                  onClick={() => setModal(false)}
-                >
+                <div className="Modal" onClick={() => setModal(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -218,15 +219,13 @@ function Header() {
                             style={{ paddingTop: "20px" }}
                           >
                             게스트
-                          </label> 
+                          </label>
                         </div>
                         {join && (
-                            <Modall
-                              
-                            >
-                              <Join />
-                            </Modall>
-                          )}
+                          <Modall>
+                            <Join />
+                          </Modall>
+                        )}
 
                         <div
                           className="card-style2"
@@ -286,16 +285,13 @@ function Header() {
     }
 
     let src='';
-    let image_url='';
     let image='';
     if (g_photo.key == '-') {
       src='/img/image_no.png';
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
@@ -307,26 +303,29 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
 
           <div align="right">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+            <ul className="navbar-nav">
+              <li className="nav-item rounded">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
-                      <span onClick={() =>  navigate("/guest/Profile")} dangerouslySetInnerHTML={{ __html: image}}></span>
+                    <span
+                      onClick={() => navigate("/guest/Profile")}
+                      dangerouslySetInnerHTML={{ __html: image }}
+                    ></span>
                   </div>
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
                   여행
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/wish")}
@@ -334,7 +333,7 @@ function Header() {
                   위시리스트
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/Account")}
@@ -342,10 +341,10 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a className="nav-link active">도움말센터</a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
                   className="nav-link active"
                   onClick={() =>
@@ -384,7 +383,7 @@ function Header() {
               src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -392,7 +391,7 @@ function Header() {
           {/* 호스트로그인 후 상단 */}
           <div align="right">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => navigate(`/api/host/account/${userIdx}`)}
@@ -400,7 +399,7 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a className="nav-link active"
                 onClick={() => navigate(`/host/hotel/MyhotelList`)}
                 >
@@ -408,11 +407,14 @@ function Header() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  주문
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/api/order/manage/list/${userIdx}`)}
+                >
+                  예약관리
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => {
@@ -445,13 +447,19 @@ function Header() {
 
   function Modall(props) {
     function closeModal() {
-      setJoin(!join)
+      setJoin(!join);
     }
 
     return (
-      <div className="Modal_a" >
+      <div className="Modal_a">
         <div className="modalBody_a" onClick={(e) => e.stopPropagation()}>
-          <button id="modalCloseBtn" onClick={()=> {closeModal(); setModal(false);}}>
+          <button
+            id="modalCloseBtn"
+            onClick={() => {
+              closeModal();
+              setModal(false);
+            }}
+          >
             X
           </button>
           {props.children}
