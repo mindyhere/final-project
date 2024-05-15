@@ -177,7 +177,7 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" onClick={() => setModal(false)}>
+                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}

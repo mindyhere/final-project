@@ -22,10 +22,8 @@ function ManageOrders() {
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
   const [loading, setLoading] = useState("");
-  const [init, setInitialize] = useState("1");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
-  const [pageNum, setPageNum] = useState("1");
   const [modal, setModal] = useState(false);
   const [onDetail, setOnDetail] = useState(false);
   const [list, setOrders] = useState([]);
@@ -33,39 +31,44 @@ function ManageOrders() {
   const navigate = useNavigate();
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
+  const [pageNum, setPageNum] = useState("1");
 
-  function getList(hoIdx, init, pageNum) {
-    console.log("==> 리스트: " + hoIdx + ", " + init + ", " + pageNum);
+  function getList(hoIdx, pageNum) {
     let url = "";
-    if (init == "") {
-      url = `http://localhost/api/order/manage/list/${userIdx}`;
+    // console.log("==> page? " + pageNum + ", " + typeof pageNum);
+    if (pageNum != "0") {
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&init=${init}&pageNum=${pageNum}`;
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1`;
     }
-
+    // console.log("==> 리스트: " + hoIdx + ", page " + pageNum + "/ url? " + url);
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setInitialize(data.init);
-        console.log("==> init data? " + data.init);
+        setLoading(false);
         setCount(data.count);
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        setLoading(false);
+        // console.log(
+        //   "==> 데이터셋: " +
+        //     JSON.stringify(data.list) +
+        //     " / " +
+        //     JSON.stringify(data.page)
+        // );
       });
   }
 
   useEffect(() => {
-    getList(hoIdx, init, pageNum);
-  }, [hoIdx, init, pageNum]);
+    getList(hoIdx, pageNum);
+  }, [hoIdx, pageNum]);
 
   const handleClick = (e) => {
     setHotelIdx(e);
     console.log("==> 클릭? " + e);
-    getList(e, 0);
+    getList(e, 0, 1);
     // console.log("==> 호출? " +{ hoIdx });
   };
   const handleModal = (oder_idx) => {
@@ -93,7 +96,7 @@ function ManageOrders() {
             <a
               key={i}
               className="page-link"
-              onClick={() => getList(hoIdx, 0, `${i}`)}
+              onClick={() => getList(hoIdx, `${i}`)}
             >
               {i}
             </a>
@@ -295,7 +298,7 @@ function ManageOrders() {
                           <a className="page-link">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(hoIdx, 0, "1")}
+                              onClick={() => getList(hoIdx, "1")}
                             >
                               <ChevronDoubleLeft />
                             </span>
@@ -307,9 +310,7 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Previous">
                             <span
                               aria-hidden="true"
-                              onclick={() =>
-                                getList(hoIdx, 0, `${page.prevPage}`)
-                              }
+                              onclick={() => getList(hoIdx, `${page.prevPage}`)}
                             >
                               <ChevronLeft />
                             </span>
@@ -324,9 +325,7 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Next">
                             <span
                               aria-hidden="true"
-                              onClick={() =>
-                                getList(hoIdx, 0, `${page.nextPage}`)
-                              }
+                              onClick={() => getList(hoIdx, `${page.nextPage}`)}
                             >
                               <ChevronRight />
                             </span>
@@ -337,9 +336,7 @@ function ManageOrders() {
                         <li className="page-item">
                           <a className="page-link" aria-label="End">
                             <span
-                              onClick={() =>
-                                getList(hoIdx, 0, `${page.totPage}`)
-                              }
+                              onClick={() => getList(hoIdx, `${page.totPage}`)}
                             >
                               <ChevronDoubleRight />
                             </span>

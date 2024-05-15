@@ -74,7 +74,13 @@ function OrderItem({
       <td>{o_ckout}</td>
       <td>{o_finalprice}</td>
       <td>{o_orderdate}</td>
-      <td>{status}</td>
+      {o_state == "1" ? (
+        <td style={{ color: "red" }}>{status}</td>
+      ) : (
+        <td>
+          <b>{status}</b>
+        </td>
+      )}
     </tr>
   );
 }

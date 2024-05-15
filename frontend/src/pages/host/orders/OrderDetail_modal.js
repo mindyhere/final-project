@@ -28,20 +28,16 @@ function OrderDetail(order_idx) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  const [img, setImage] = useState("");
-  const [check, setCheck] = useState(false);
+  const userEmail = userInfo.h_email;
+  const [rdo, setRadio] = useState(dataset.o_state);
+  const [disabled, isDisabled] = useState("");
+  const [check, setCheck] = useState("");
   console.log(JSON.stringify(dataset));
   // console.log(order_idx);
 
-  // function getImage(url) {
-  //   fetch(url)
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       setImage(data.img);
-  //     });
-  // }
+  function handleStatusChange(e) {
+    setRadio(e.target.value);
+  }
 
   const [data, loading] = useFetch(
     `http://localhost/api/order/manage/detail/get/${dataset.g_idx}`
@@ -90,125 +86,130 @@ function OrderDetail(order_idx) {
             <div style={{ textAlign: "left" }}>
               <table className="tbl">
                 <colgroup>
-                  <col style={{ width: "25%" }} />
-                  <col />
+                  <col width={"20%"} />
+                  <col width={"30%"} />
+                  <col width={"20%"} />
+                  <col width={"30%"} />
                 </colgroup>
                 <tbody>
                   <tr>
-                    <th>예약번호</th>
+                    <th colSpan={1}>예약번호</th>
                     <td colSpan={3}>&nbsp;&nbsp;{dataset.o_idx}</td>
                   </tr>
                   <tr>
-                    <th>구분</th>
-                    <td>&nbsp;&nbsp;{dataset.ho_name}</td>
-                    <th style={{ width: "25%" }}>객실유형</th>
-                    <td>&nbsp;&nbsp;{dataset.d_room_type}</td>
+                    <th colSpan={1}>구분</th>
+                    <td colSpan={1}>&nbsp;&nbsp;{dataset.ho_name}</td>
+                    <th colSpan={1} style={{ width: "25%" }}>
+                      객실유형
+                    </th>
+                    <td colSpan={1}>&nbsp;&nbsp;{dataset.d_room_type}</td>
                   </tr>
                   <tr>
-                    <th>체크인</th>
-                    <td>&nbsp;&nbsp;{dataset.o_ckin}</td>
-                    <th style={{ width: "25%" }}>체크아웃</th>
-                    <td>&nbsp;&nbsp;{dataset.o_ckin}</td>
+                    <th colSpan={1}>체크인</th>
+                    <td colSpan={1}>&nbsp;&nbsp;{dataset.o_ckin}</td>
+                    <th colSpan={1} style={{ width: "25%" }}>
+                      체크아웃
+                    </th>
+                    <td colSpan={1}>&nbsp;&nbsp;{dataset.o_ckin}</td>
                   </tr>
                   <tr>
-                    <th>투숙인원</th>
+                    <th colSpan={1}>투숙인원</th>
                     <td colSpan={1}>
                       &nbsp;&nbsp;총&nbsp;<b>{dataset.sum}</b>
                       &nbsp;명
                     </td>
                     <td colSpan={2}>
                       &nbsp;&nbsp;성인(
-                      <b>
-                        {dataset.o_adult}
-                      </b>
-                      ) , 어린이(
-                      <b>
-                        {dataset.o_child}
-                      </b>
+                      <b>{dataset.o_adult}</b>) , 어린이(
+                      <b>{dataset.o_child}</b>
                       ), 유아(
-                      <b>
-                        {dataset.o_baby}
-                      </b>
-                      )
+                      <b>{dataset.o_baby}</b>)
                     </td>
                   </tr>
                   <tr>
-                    <th>예약상태</th>
+                    <th colSpan={1}>예약상태</th>
                     <td colSpan={3}>
                       <div
-                        className="form-check"
-                        style={{ float: "left", margin: "0 5% 0 2%" }}
+                        className="form-check form-check-inline"
+                        style={{ marginLeft: "2%" }}
                       >
                         <input
                           className="form-check-input"
                           type="radio"
-                          name="state"
+                          name="o_state"
+                          value="1"
+                          checked={rdo == "1"}
+                          onChange={handleStatusChange}
+                          // disabled={!disabled}
                           id="rdo1"
                         />
                         <label className="form-check-label" for="rdo1">
-                          test1
+                          대기
                         </label>
                       </div>
-                      <div
-                        className="form-check"
-                        style={{ float: "left", marginRight: "5%" }}
-                      >
+                      <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="radio"
-                          name="state"
+                          name="o_state"
+                          value="2"
+                          checked={rdo == "2"}
+                          onChange={handleStatusChange}
+                          // disabled={disabled}
                           id="rdo2"
                         />
+
                         <label className="form-check-label" for="rdo2">
-                          test2
+                          취소
                         </label>
                       </div>
-                      <div
-                        className="form-check"
-                        style={{ float: "left", marginRight: "5%" }}
-                      >
+                      <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
                           type="radio"
-                          name="state"
+                          name="o_state"
+                          value="3"
+                          checked={rdo == "3"}
+                          onChange={handleStatusChange}
+                          // disabled={!disabled}
                           id="rdo3"
                         />
                         <label className="form-check-label" for="rdo3">
-                          test3
+                          확정
                         </label>
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <th>총 결제금액</th>
-                    <td>&nbsp;&nbsp;{dataset.o_finalprice}</td>
-                    <th>결제방법</th>
-                    <td>&nbsp;&nbsp;{dataset.o_payment}</td>
+                    <th colSpan={1}>총 금액</th>
+                    <td colSpan={1}>
+                      &nbsp;&nbsp;{dataset.o_finalprice}&nbsp;&nbsp;원
+                    </td>
+                    <th colSpan={1}>결제방법</th>
+                    <td colSpan={1}>&nbsp;&nbsp;{dataset.o_payment}</td>
                   </tr>
                   <tr>
-                    <th>예약접수일</th>
+                    <th colSpan={1}>예약접수일</th>
                     <td colSpan={3}>&nbsp;&nbsp;{dataset.o_orderdate}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div>
-            <button
-              className={check ? "main-btn active" : "main-btn disabled"}
-              onClick={() => {
-                if (!check) {
+          <div style={{ textAlign: "right" }}>
+            {dataset.o_state == "1" ? (
+              <button
+                className={rdo == "3" ? "main-btn active" : "main-btn disabled"}
+                disabled={rdo == "3" ? false : true}
+                style={
+                  rdo == "3"
+                    ? { cursor: "pointer", marginRight: "3%" }
+                    : { cursor: "auto", marginRight: "3%" }
+                }
+                onClick={() => {
                   Swal.fire({
-                    icon: "warning",
-                    title: "잠깐!",
-                    html: "변경사항이 없습니다.<br/>예약상태를 다시 한번 확인해주세요.",
-                    confirmButtonText: "OK",
-                  });
-                  return;
-                } else {
-                  Swal.fire({
-                    icon: "info",
-                    title: "잠깐!",
+                    icon: "question",
+                    title: "Check",
                     input: "password",
                     inputLabel: "예약을 확정할까요?",
                     inputPlaceholder: "비밀번호를 입력해주세요",
@@ -221,36 +222,39 @@ function OrderDetail(order_idx) {
                     confirmButtonText: "CONFIRM",
                     showLoaderOnConfirm: true,
                     preConfirm: (pwd) => {
-                      return (
-                        fetch()
-                          //`http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
-                          .then((response) => {
+                      return fetch(
+                        `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                      )
+                        .then((response) => {
+                          if (!response.ok) {
+                            throw new Error("false: " + response.status);
+                          }
+
+                          const form = new FormData();
+                          form.append("oidx", dataset.o_idx);
+                          form.append("hidx", userIdx);
+                          form.append("idx", dataset.g_idx);
+                          console.log("==> form?" + JSON.stringify(form));
+
+                          return fetch(
+                            `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
+                            {
+                              method: "post",
+                              body: form,
+                            }
+                          ).then((response) => {
                             if (!response.ok) {
                               throw new Error("false: " + response.status);
                             }
-
-                            const form = new FormData();
-                            form.append("o_idx", dataset.o_idx);
-                            // form.append("oder_state", o_state.current.value);
-                            console.log("==> form?" + JSON.stringify(form));
-
-                            // return fetch(`http://localhost/api/reply/edit`, {
-                            //   method: "post",
-                            //   body: form,
-                            // }).then((response) => {
-                            //   if (!response.ok) {
-                            //     throw new Error("false: " + response.status);
-                            //   }
-                            //   return response.text();
-                            // });
-                          })
-                          .catch((error) => {
-                            console.log(error);
-                            Swal.showValidationMessage(
-                              `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
-                            );
-                          })
-                      );
+                            return response.text();
+                          });
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          Swal.showValidationMessage(
+                            `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                          );
+                        });
                     },
                     allowOutsideClick: () => !Swal.isLoading(),
                   }).then((result) => {
@@ -264,81 +268,86 @@ function OrderDetail(order_idx) {
                         timer: 2000,
                       }).then(() => {
                         localStorage.removeItem("dataset");
-                        window.opener.location.reload(); // 부모창
-                        window.close(); // 창닫기
+                        window.location.reload();
                       });
                     }
                   });
+                }}
+              >
+                &nbsp;&nbsp;&nbsp;예약확정&nbsp;&nbsp;&nbsp;
+              </button>
+            ) : null}
+            {dataset.o_state == "2" ? null : (
+              <button
+                className={"main-btn"}
+                disabled={rdo == "2" ? false : true}
+                style={
+                  rdo == "2"
+                    ? { cursor: "pointer", backgroundColor: "#C6C7C8" }
+                    : { cursor: "auto", backgroundColor: "#C6C7C8" }
                 }
-              }}
-            >
-              &nbsp;&nbsp;&nbsp;예약확정&nbsp;&nbsp;&nbsp;
-            </button>
+                onClick={() => {
+                  Swal.fire({
+                    icon: "warning",
+                    title: "잠깐!",
+                    input: "password",
+                    inputLabel: "예약을 취소하시겠습니까?",
+                    inputPlaceholder: "비밀번호를 입력해주세요",
+                    inputAttributes: {
+                      autocapitalize: "off",
+                      autocorrect: "off",
+                    },
+                    showCancelButton: true,
+                    cancelButtonText: "CANCEL",
+                    confirmButtonText: "CONFIRM",
+                    showLoaderOnConfirm: true,
+                    preConfirm: (pwd) => {
+                      return fetch(
+                        `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                      )
+                        .then((response) => {
+                          if (!response.ok) {
+                            throw new Error("false: " + response.status);
+                          }
+                          let rp_idx = data.rp_idx;
+                          return fetch(
+                            `http://localhost/api/order/manage/calcel/${dataset.o_idx}`
+                          ).then((response) => {
+                            if (!response.ok) {
+                              throw new Error("false: " + response.status);
+                            }
+                            return response.text();
+                          });
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          Swal.showValidationMessage(
+                            `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                          );
+                        });
+                    },
+                    allowOutsideClick: () => !Swal.isLoading(),
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      // console.log(result.value);
+                      Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        html: "정상처리 되었습니다.",
+                        showConfirmButton: false,
+                        timer: 2000,
+                      }).then(() => {
+                        localStorage.removeItem("dataset");
+                        window.location.reload();
+                      });
+                    }
+                  });
+                }}
+              >
+                &nbsp;&nbsp;&nbsp;예약취소&nbsp;&nbsp;&nbsp;
+              </button>
+            )}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button
-              className={"main-btn"}
-              style={{ backgroundColor: "#C6C7C8" }}
-              // onClick={() => {
-              //   Swal.fire({
-              //     icon: "info",
-              //     title: "잠깐!",
-              //     input: "password",
-              //     inputLabel: "예약을 취소하시겠습니까?",
-              //     inputPlaceholder: "비밀번호를 입력해주세요",
-              //     inputAttributes: {
-              //       autocapitalize: "off",
-              //       autocorrect: "off",
-              //     },
-              //     showCancelButton: true,
-              //     cancelButtonText: "CANCEL",
-              //     confirmButtonText: "CONFIRM",
-              //     showLoaderOnConfirm: true,
-              //     preConfirm: (pwd) => {
-              //       return fetch(
-              //         `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
-              //       )
-              //         .then((response) => {
-              //           if (!response.ok) {
-              //             throw new Error("false: " + response.status);
-              //           }
-              //           let rp_idx = data.rp_idx;
-              //           return fetch(
-              //             `http://localhost/api/reply/delete/${rp_idx}`
-              //           ).then((response) => {
-              //             if (!response.ok) {
-              //               throw new Error("false: " + response.status);
-              //             }
-              //             return response.text();
-              //           });
-              //         })
-              //         .catch((error) => {
-              //           console.log(error);
-              //           Swal.showValidationMessage(
-              //             `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
-              //           );
-              //         });
-              //     },
-              //     allowOutsideClick: () => !Swal.isLoading(),
-              //   }).then((result) => {
-              //     if (result.isConfirmed) {
-              //       // console.log(result.value);
-              //       Swal.fire({
-              //         icon: "success",
-              //         title: "Success",
-              //         html: "정상처리 되었습니다.",
-              //         showConfirmButton: false,
-              //         timer: 2000,
-              //       }).then(() => {
-              //         localStorage.removeItem("editData");
-              //         window.opener.location.reload(); // 부모창
-              //         window.close(); // 창닫기
-              //       });
-              //     }
-              //   });
-              // }}
-            >
-              &nbsp;&nbsp;&nbsp;예약취소&nbsp;&nbsp;&nbsp;
-            </button>
           </div>
         </div>
       </>

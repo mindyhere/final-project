@@ -44,22 +44,6 @@ public class ReplyController {
 		}
 	}
 
-//	@GetMapping("{rp_idx}")
-//	public Map<String, Object> getReply(@PathVariable(name = "rp_idx") int rp_idx) {
-//		System.out.println("==> rp_idx? " + rp_idx);
-//		Map<String, Object> data = new HashMap<>();
-//		try {
-//			Map<String, Object> reply = reputationDao.getReply(rp_idx);
-//			data.put("reply", reply);
-//			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-//		} catch (Exception e) {
-//			System.out.println("==> reply:0? " + rp_idx);
-//			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
-//		}
-//		System.out.println("==> reply? " + data);
-//		return data;
-//	}
-
 	@Transactional
 	@PostMapping("edit")
 	public ResponseEntity<String> editReply(@RequestParam Map<String, Object> map) {

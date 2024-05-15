@@ -16,9 +16,9 @@ public class OrderDAOImpl implements OrderDAO {
 	SqlSession sqlSession;
 
 	@Override
-	public int confirm(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void confirm(Map<String, Object> params) {
+		sqlSession.selectOne("order.confirm", params);
+		System.err.println("==> confirm? " + params + params.get("level") + ", " + params.get("result"));
 	}
 
 	@Override
@@ -46,7 +46,6 @@ public class OrderDAOImpl implements OrderDAO {
 					String o_price = df.format(m.get("o_price"));
 					String o_discount = df.format(m.get("o_discount"));
 					String o_finalprice = df.format(m.get("o_finalprice"));
-					System.out.println("==> m? " + o_price + ", " + o_finalprice + ", " + o_discount);
 					m.replace("o_price", o_price);
 					m.replace("o_discount", o_discount);
 					m.replace("o_finalprice", o_finalprice);
@@ -69,6 +68,7 @@ public class OrderDAOImpl implements OrderDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+//		System.out.println("==> DAO리스트? " + list);
 		return list;
 	}
 
@@ -92,6 +92,20 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public GuestDTO getGuestInfo(int g_idx) {
 		return sqlSession.selectOne("order.getGuestProfile", g_idx);
+	}
+
+	@Override
+	public int guestLevelUp(Map<String, Object> param) {
+		int result = 0;
+		try {
+			sqlSession.selectOne("order.guestLevelUp", param);
+			result = 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("==> 에러? " + e);
+		}
+		System.err.println("==> 레벨업? " + result);
+		return result;
 	}
 
 }
