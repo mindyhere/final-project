@@ -35,7 +35,7 @@ function ManageOrders() {
   const [selected, isSelected] = useState("");
 
   function getList(hoIdx, init, pageNum) {
-    console.log(pageNum);
+    console.log("==> 리스트: " + hoIdx + ", " + init + ", " + pageNum);
     let url = "";
     if (init == "") {
       url = `http://localhost/api/order/manage/list/${userIdx}`;
@@ -90,7 +90,11 @@ function ManageOrders() {
       } else {
         result.push(
           <li key={"page-item" + i} className="page-item">
-            <a key={i} className="page-link" onClick={() => getList(`${i}`)}>
+            <a
+              key={i}
+              className="page-link"
+              onClick={() => getList(hoIdx, 0, `${i}`)}
+            >
               {i}
             </a>
           </li>
@@ -209,15 +213,18 @@ function ManageOrders() {
                       list.map(
                         ({
                           rownum,
-                          d_ho_idx,
                           o_idx,
-                          o_gidx,
-                          o_didx,
+                          g_idx,
+                          ho_idx,
+                          ho_name,
+                          d_idx,
+                          d_room_type,
                           o_ckin,
                           o_ckout,
                           o_adult,
                           o_child,
                           o_baby,
+                          sum,
                           o_state,
                           status,
                           o_payment,
@@ -226,19 +233,21 @@ function ManageOrders() {
                           o_finalprice,
                           o_benefit,
                           o_orderdate,
-                          sum
                         }) => (
                           <OrderItem
                             rownum={rownum}
-                            ho_idx={d_ho_idx}
                             o_idx={o_idx}
-                            g_idx={o_gidx}
-                            d_idx={o_didx}
+                            g_idx={g_idx}
+                            ho_idx={ho_idx}
+                            ho_name={ho_name}
+                            d_idx={d_idx}
+                            d_room_type={d_room_type}
                             o_ckin={o_ckin}
                             o_ckout={o_ckout}
                             o_adult={o_adult}
                             o_child={o_child}
                             o_baby={o_baby}
+                            sum={sum}
                             o_state={o_state}
                             status={status}
                             o_payment={o_payment}
@@ -247,7 +256,6 @@ function ManageOrders() {
                             o_finalprice={o_finalprice}
                             o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
-                            sum={sum}
                             handleModal={handleModal}
                             key={o_idx}
                           />
@@ -287,7 +295,7 @@ function ManageOrders() {
                           <a className="page-link">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList("1")}
+                              onClick={() => getList(hoIdx, 0, "1")}
                             >
                               <ChevronDoubleLeft />
                             </span>
@@ -299,7 +307,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Previous">
                             <span
                               aria-hidden="true"
-                              onclick={() => getList(`${page.prevPage}`)}
+                              onclick={() =>
+                                getList(hoIdx, 0, `${page.prevPage}`)
+                              }
                             >
                               <ChevronLeft />
                             </span>
@@ -314,7 +324,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Next">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(`${page.nextPage}`)}
+                              onClick={() =>
+                                getList(hoIdx, 0, `${page.nextPage}`)
+                              }
                             >
                               <ChevronRight />
                             </span>
@@ -324,7 +336,11 @@ function ManageOrders() {
                       {page.curPage < page.totPage ? (
                         <li className="page-item">
                           <a className="page-link" aria-label="End">
-                            <span onClick={() => getList(`${page.totPage}`)}>
+                            <span
+                              onClick={() =>
+                                getList(hoIdx, 0, `${page.totPage}`)
+                              }
+                            >
                               <ChevronDoubleRight />
                             </span>
                           </a>
