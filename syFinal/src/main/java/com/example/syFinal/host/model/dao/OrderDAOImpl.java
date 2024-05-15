@@ -46,7 +46,6 @@ public class OrderDAOImpl implements OrderDAO {
 					String o_price = df.format(m.get("o_price"));
 					String o_discount = df.format(m.get("o_discount"));
 					String o_finalprice = df.format(m.get("o_finalprice"));
-					System.out.println("==> m? " + o_price + ", " + o_finalprice + ", " + o_discount);
 					m.replace("o_price", o_price);
 					m.replace("o_discount", o_discount);
 					m.replace("o_finalprice", o_finalprice);
@@ -69,6 +68,7 @@ public class OrderDAOImpl implements OrderDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+//		System.out.println("==> DAO리스트? " + list);
 		return list;
 	}
 

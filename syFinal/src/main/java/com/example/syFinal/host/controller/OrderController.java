@@ -27,21 +27,18 @@ public class OrderController {
 	@Autowired
 	HostDAO hostDAO;
 
-	@GetMapping("manage/list/{userIdx}")
+	@RequestMapping("manage/list/{userIdx}")
 	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "hoIdx", defaultValue = "0") int ho_idx,
-			@RequestParam(name = "init", defaultValue = "1") int init,
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum) {
-		System.out.println("==> getOrderList? " + ho_idx + ", pageNum? " + pageNum + "," + init);
+		System.out.println("==> ho_idx? " + ho_idx + ", pageNum? " + pageNum);
 		Map<String, Object> data = new HashMap<>();
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
 		map.put("ho_idx", ho_idx);
-		map.put("init", init);
 		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
 		data.put("hotels", hotels);
-		data.put("init", init);
 
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
@@ -61,11 +58,9 @@ public class OrderController {
 				List<Map<String, Object>> list = orderDao.getList(map);
 				data.put("list", list);
 				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-				System.out.println("==> list? " + list);
 			}
 		}
-		System.out.println("==> 리턴? " + data.get("list") + ", data? " + data);
-
+		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
 		return data;
 	}
 
