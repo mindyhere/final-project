@@ -36,6 +36,7 @@ import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 
 import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
+import EditReview from "./pages/guest/EditReview"; // guest:review 수정
 
 // admin 계정
 import Alogin from "./pages/admin/alogin";
@@ -119,8 +120,9 @@ function App() {
           <Route path="/host/account/manage/review" element={<WriteReply />} />
           <Route path="/host/account/manage/reply" element={<EditReply />} />
 
-          {/* guest 리뷰 등록 */}
+          {/* guest 리뷰 등록/수정 */}
           <Route path="/guest/write" element={<WriteReview />} />
+          <Route path="/guest/edit" element={<EditReview />} />
         </Routes>
         <Footer />
       </BrowserRouter>

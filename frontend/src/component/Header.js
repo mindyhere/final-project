@@ -52,7 +52,8 @@ function Header() {
   };
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
-  if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
+  if (locationNow.pathname === "/guest/write" ||
+  locationNow.pathname === "/guest/edit") return null; // 팝업창에서 헤더 제거
   if (
     locationNow.pathname === "/host/account/manage/review" ||
     locationNow.pathname === "/host/account/manage/reply"

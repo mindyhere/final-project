@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
@@ -13,6 +13,7 @@ const EditReview = () => {
   const g_email = cookies.get("g_email");
   const g_photo = cookies.get("g_photo");
   const rv_content = useRef();
+  const rv_star = useRef();
   const [review, setReview] = useState(null);
   const [content, setContent] = useState("");
   const [check, setCheck] = useState(false);
@@ -29,7 +30,7 @@ const EditReview = () => {
   }
 
   useEffect(() => {
-    getReply(`http://localhost/api/review/detail/${data.rv_idx}`);
+    getDetail(`http://localhost/api/review/detail/${data.rv_idx}`);
   }, []);
 
   function StarRate() {
@@ -54,6 +55,7 @@ const EditReview = () => {
             onClick={() => setStar(star + i + 1)}
           />
         ))}
+        <input type="hidden" value={star} ref={rv_star} />
         <input type="hidden" value={star} ref={rv_star} />
       </span>
     );
@@ -220,7 +222,7 @@ const EditReview = () => {
                               );
                               console.log("==> form?" + JSON.stringify(form));
 
-                              return fetch(`http://localhost/api/reply/edit`, {
+                              return fetch(`http://localhost/api/review/edit`, {
                                 method: "post",
                                 body: form,
                               }).then((response) => {
