@@ -6,8 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.guest.model.dto.ReviewDTO;
-
 @Repository
 public class ReviewDAOImpl implements ReviewDAO {
 	@Autowired
@@ -25,31 +23,12 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 
 	@Override
-	public void editReview(ReviewDTO dto) {
-		sqlSession.update("review.editReview", dto);
+	public void editReview(Map<String, Object> map) {
+		sqlSession.update("review.editReview", map);
 	}
 
 	@Override
-	public void delete(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-
+	public void updateDeleted(int rv_idx) {
+		sqlSession.update("review.updateDeleted", rv_idx);
 	}
-
-	@Override
-	public void delete(int rv_idx) {
-		sqlSession.delete("review.delete", rv_idx);
-	}
-
-//	@Override
-//	public List<Map<String, Object>> search(Map<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Map<String, Object>> searchAll(String keyword) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }

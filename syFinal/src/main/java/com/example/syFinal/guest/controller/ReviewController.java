@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.ReviewDAO;
-import com.example.syFinal.guest.model.dto.ReviewDTO;
 
 @RestController
 @RequestMapping("api/review/*")
@@ -65,11 +64,10 @@ public class ReviewController {
 //	}
 
 	@Transactional
-	@PostMapping("edit/{idx}")
-	public ResponseEntity<String> editReview(@PathVariable(name = "idx") int rv_idx,
-			@RequestParam(name = "dto") ReviewDTO dto) {
+	@PostMapping("edit")
+	public ResponseEntity<String> editReview(@RequestParam Map<String, Object> map) {
 		try {
-			reviewDao.editReview(dto);
+			reviewDao.editReview(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
 			// 에러발생
@@ -80,9 +78,10 @@ public class ReviewController {
 
 	@Transactional
 	@GetMapping("delete/{idx}")
-	public ResponseEntity<String> insert(@PathVariable(name = "idx") int rv_idx) {
+	public ResponseEntity<String> updateDeleted(@PathVariable(name = "idx") int rv_idx) {
+		System.out.println("==> delete" + rv_idx);
 		try {
-			reviewDao.delete(rv_idx);
+			reviewDao.updateDeleted(rv_idx);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
 			// 에러발생

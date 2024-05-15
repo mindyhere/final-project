@@ -126,6 +126,7 @@ function Reputation() {
                     <TotalReputation
                       list={list}
                       avg={avg}
+                      HoIdx={HoIdx}
                       style={{ zIndex: "999" }}
                     />
                   </Modal>

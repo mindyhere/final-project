@@ -1,7 +1,5 @@
 package com.example.syFinal.guest.model.dto;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,7 @@ public class ReviewDTO {
 	private int rv_re_index;
 	private float rv_star;
 	private int rv_hd_idx;
-	
+	private int rv_deleted;
 	private int g_idx;
 	private String g_email;
 	private int h_idx;
@@ -33,6 +31,5 @@ public class ReviewDTO {
 	private String d_img1;
 	private String rp_date;
 	private String rp_content;
-	
 	private String reviewcount;
 }

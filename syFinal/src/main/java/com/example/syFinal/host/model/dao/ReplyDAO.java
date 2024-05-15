@@ -12,9 +12,4 @@ public interface ReplyDAO {
 
 	// host → 작성한 답글 삭제
 	void delete(int rp_idx);
-
-	// 작성한 글 검색
-//	List<Map<String, Object>> search(Map<String, Object> map);
-//	List<Map<String, Object>> searchAll(String keyword);
-
 }
