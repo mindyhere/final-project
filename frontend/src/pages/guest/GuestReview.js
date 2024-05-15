@@ -10,6 +10,33 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,H_profile,H_name,Ho_name,D_img1,R
     //const date = new Date();
     //let rv = Rv_date;
     //rv = moment(date).format('YYYY년 MMMM Do');
+
+    // 리뷰수정 데이터 이동 test
+    const editData = {
+        // 전달할 데이터
+        // rv_idx: `${rv_idx}`,
+        h_idx: `${H_idx}`,
+        ho_idx: `${Ho_idx}`,
+        ho_name: `${Ho_name}`,
+        g_idx: `${G_idx}`,
+        // g_url: `${g_url}`,
+        // g_email: `${g_email}`,
+        rv_date: `${Rv_date}`,
+        rv_content: `${Rv_content}`,
+        // rv_star: `${rv_star}`,
+        // o_idx: `${o_idx}`,
+        d_idx: `${D_idx}`,
+    };
+
+    const openPopup = () => {
+        const popup = window.open(
+            `./edit`,
+            "name(Edit)",
+            "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+        );
+        return popup;
+    }; // ... test 여기까지
+
     if (loading) {
         return (
             <div>로딩 중...</div>
@@ -33,7 +60,12 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,H_profile,H_name,Ho_name,D_img1,R
                     <div className="col-10">
                         <strong>{Ho_name}</strong><br />
                         {Rv_date}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div className='btn btn-outline-dark' type='button' align='right'>수정하기</div>
+                        <div className='btn btn-outline-dark' type='button' align='right' 
+                            onClick={() => {
+                            localStorage.setItem("editData", JSON.stringify(editData));
+                            openPopup();
+                        }
+                    }>수정하기</div>
                     </div>
                     
                 </div>

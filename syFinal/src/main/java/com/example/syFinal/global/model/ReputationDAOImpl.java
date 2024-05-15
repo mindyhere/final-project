@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.syFinal.guest.model.dto.ReviewDTO;
-import com.example.syFinal.host.model.dto.ReplyDTO;
 
 @Repository
 public class ReputationDAOImpl implements ReputationDAO {
@@ -20,12 +19,6 @@ public class ReputationDAOImpl implements ReputationDAO {
 	public ReviewDTO reviewDetail(int rv_idx) {
 		// 리뷰글 상세 가져오기
 		return sqlSession.selectOne("reputation.reviewDetail", rv_idx);
-	}
-
-	@Override
-	public ReplyDTO replyDetail(Map<String, Object> map) {
-		// 리뷰글 상세페이지 → 답글 가져오기
-		return sqlSession.selectOne("reputation.replyDetail", map);
 	}
 
 	@Override
@@ -70,15 +63,38 @@ public class ReputationDAOImpl implements ReputationDAO {
 		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAvgRate", h_idx);
 		for (Map<String, Object> m : list) {
 			String avg = String.format("%.2f", m.get("avg"));
-			m.replace("avg", avg);
 		}
-		System.out.println("==> 반복끝, result? " + list);
+//		System.out.println("==> 반복끝, result? " + list);
 		return list;
 	}
 
 	@Override
 	public int countRecord(int h_idx) {
 		return sqlSession.selectOne("reputation.countRecord", h_idx);
+	}
+
+	@Override
+	public int count(Map<String, Object> map) {
+		return sqlSession.selectOne("reputation.count", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> reviewSearch(Map<String, Object> map) {
+		String keyword = (String) map.get("keyword");
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("reputation.reviewSearch", map);
+//			for (Map<String, Object> m : list) {
+//				String rv_content = (String) m.get("rv_content");
+//				rv_content = rv_content.replace(keyword,
+//						"<span style={{bakgroundColor:'#F7EFFC'}}>" + keyword + "</span>");
+//				m.put("rv_content", rv_content);
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("==> 반복끝, result? " + list);
+		return list;
 	}
 
 }
