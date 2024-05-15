@@ -1,13 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useParams } from "react";
 import { ChatLeftQuote, Search } from "react-bootstrap-icons";
 
 import ReputationItem from "./ReputationItem";
 
-function TotalReputation({ list, avg }) {
-  const [email, setEmail] = useState("");
+function TotalReputation({ list, avg, HoIdx }) {
+  console.log("==> HoIdx? " + HoIdx);
+  const [review, setList] = useState(list);
   const userEmail = useRef();
   const pwd = useRef();
   const pwdChk = useRef();
+  const sort = useRef();
+  const keyword = useRef();
+
+  function getList(url) {
+    // const form = new FormData();
+    // form.append("sort", sort.current.value);
+    // form.append("keyword", keyword.current.value);
+    // form.append("ho_idx", HoIdx);
+    // console.log("==> form? " + JSON.stringify(form));
+    // fetch(url, { method: "post", body: form })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("==> data? " + JSON.stringify(data));
+    //     setList(data.list);
+    //   });
+  }
+
+  useEffect(() => {
+    getList("http://localhost/api/reputation/review/search");
+   // getList("http://localhost/api/reputation/review/search");
+  }, [review]);
 
   return (
     <>
@@ -26,7 +50,7 @@ function TotalReputation({ list, avg }) {
             style={{ boxSizing: "border-box", marginTop: "12px" }}
           >
             <h3>
-              ⭐&nbsp;{avg} | {list.length}개
+              ⭐&nbsp;{avg} | {review.length}개
             </h3>
           </div>
           <div className="col-8">
@@ -40,23 +64,24 @@ function TotalReputation({ list, avg }) {
                 <div className="input-group d-flex">
                   <select
                     className="form-select form-select opt"
-                    id="opt"
+                    ref={sort}
                     style={{
                       size: "3",
                       borderRadius: "30px 0 0 30px",
                       height: "48.33px",
                     }}
                   >
-                    <option defaultValue="1" selected>
+                    <option defaultValue="latest" selected>
                       최신순
                     </option>
-                    <option value="2">높은평점순&nbsp;&nbsp;</option>
-                    <option value="3">낮은평점순&nbsp;&nbsp;</option>
+                    <option value="highest">높은평점순&nbsp;&nbsp;</option>
+                    <option value="lowest">낮은평점순&nbsp;&nbsp;</option>
                   </select>
                 </div>
               </div>
               <input
                 id="keyword"
+                ref={keyword}
                 type="text"
                 className="form-control search"
                 placeholder="검색어를 입력하세요"
@@ -81,7 +106,7 @@ function TotalReputation({ list, avg }) {
             gridTemplateRows: "1fr",
           }}
         >
-          {list.map(
+          {review.map(
             ({
               rv_idx,
               g_name,
