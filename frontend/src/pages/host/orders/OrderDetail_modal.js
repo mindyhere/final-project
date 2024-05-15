@@ -231,8 +231,9 @@ function OrderDetail(order_idx) {
                           }
 
                           const form = new FormData();
-                          form.append("o_idx", dataset.o_idx);
-                          form.append("h_id", userIdx);
+                          form.append("oidx", dataset.o_idx);
+                          form.append("hidx", userIdx);
+                          form.append("idx", dataset.g_idx);
                           console.log("==> form?" + JSON.stringify(form));
 
                           return fetch(

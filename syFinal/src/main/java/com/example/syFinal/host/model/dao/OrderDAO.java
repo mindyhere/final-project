@@ -6,8 +6,8 @@ import java.util.Map;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 
 public interface OrderDAO {
-	// 예약 확정(호스트 레벨 체크 프로시저 구현)
-	int confirm(Map<String, Object> map);
+	// 예약 확정(예약 업데이트 및 호스트 레벨 체크 프로시저 호출)
+	void confirm(Map<String, Object> param);
 
 	// orders 목록 가져오기
 	List<Map<String, Object>> getList(Map<String, Object> map);
@@ -19,4 +19,8 @@ public interface OrderDAO {
 	int countRecord(Map<String, Object> map);
 
 	GuestDTO getGuestInfo(int g_idx);
+
+	// 예약 확정 시 게스트 레벨 업데이트
+	int guestLevelUp(Map<String, Object> param);
+
 }

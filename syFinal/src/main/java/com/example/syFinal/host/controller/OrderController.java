@@ -74,19 +74,25 @@ public class OrderController {
 		return data;
 	}
 
-	@PostMapping("confirm/{o_idx}")
-	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx, @RequestParam Map<String, Object> map) {
-		// TODO: process POST request
-		System.out.println(map);
+	@PostMapping("manage/confirm/{o_idx}")
+	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx,
+			@RequestParam Map<String, Object> params) {
 		Map<String, Object> data = new HashMap<>();
-		data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-
+		orderDao.confirm(params);
+		if ((int) params.get("result") == 1) {
+			int result = orderDao.guestLevelUp(params);
+			params.replace("result", result);
+			data.put("data", params);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		} else {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+		}
+		System.out.println("==> confirm결과 ?" + params);
 		return data;
 	}
 
 	@GetMapping("cancel/{o_idx}")
 	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx) {
-		// TODO: process POST request
 		System.out.println(o_idx);
 		Map<String, Object> data = new HashMap<>();
 		data.put("response", new ResponseEntity<>("true", HttpStatus.OK));

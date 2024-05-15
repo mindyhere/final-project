@@ -16,9 +16,9 @@ public class OrderDAOImpl implements OrderDAO {
 	SqlSession sqlSession;
 
 	@Override
-	public int confirm(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void confirm(Map<String, Object> params) {
+		sqlSession.selectOne("order.confirm", params);
+		System.err.println("==> confirm? " + params + params.get("level") + ", " + params.get("result"));
 	}
 
 	@Override
@@ -92,6 +92,20 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public GuestDTO getGuestInfo(int g_idx) {
 		return sqlSession.selectOne("order.getGuestProfile", g_idx);
+	}
+
+	@Override
+	public int guestLevelUp(Map<String, Object> param) {
+		int result = 0;
+		try {
+			sqlSession.selectOne("order.guestLevelUp", param);
+			result = 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("==> 에러? " + e);
+		}
+		System.err.println("==> 레벨업? " + result);
+		return result;
 	}
 
 }

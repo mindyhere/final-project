@@ -50,4 +50,18 @@
 	from guest where g_idx=#{g_idx}
 </select>
 
+<select id="confirm" statementType="CALLABLE">
+{	call p_order_confirm(
+		#{oidx, mode=IN, jdbcType=INTEGER}, 
+		#{hidx, mode=IN, jdbcType=INTEGER}, 
+		#{level, mode=OUT, jdbcType=INTEGER}, 
+		#{result, mode=OUT, jdbcType=INTEGER}
+	)
+}
+</select>
+
+<select id="guestLevelUp" statementType="CALLABLE">
+{	call level_up(#{idx}) }
+</select>
+
 </mapper>
