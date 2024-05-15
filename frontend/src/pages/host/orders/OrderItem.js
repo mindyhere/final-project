@@ -6,15 +6,18 @@ import Swal from "sweetalert2";
 
 function OrderItem({
   rownum,
-  ho_idx,
   o_idx,
   g_idx,
+  ho_idx,
+  ho_name,
   d_idx,
+  d_room_type,
   o_ckin,
   o_ckout,
   o_adult,
   o_child,
   o_baby,
+  sum,
   o_state,
   status,
   o_payment,
@@ -24,7 +27,6 @@ function OrderItem({
   o_benefit,
   o_orderdate,
   handleModal,
-  sum
 }) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
@@ -35,15 +37,18 @@ function OrderItem({
 
   const dataset = {
     // 전달할 데이터
-    ho_idx: `${ho_idx}`,
     o_idx: `${o_idx}`,
     g_idx: `${g_idx}`,
+    ho_idx: `${ho_idx}`,
+    ho_name: `${ho_name}`,
     d_idx: `${d_idx}`,
+    d_room_type: `${d_room_type}`,
     o_ckin: `${o_ckin}`,
     o_ckout: `${o_ckout}`,
     o_adult: `${o_adult}`,
     o_child: `${o_child}`,
     o_baby: `${o_baby}`,
+    sum: `${sum}`,
     o_state: `${o_state}`,
     status: `${status}`,
     o_payment: `${o_payment}`,
@@ -52,7 +57,6 @@ function OrderItem({
     o_finalprice: `${o_finalprice}`,
     o_benefit: `${o_benefit}`,
     o_orderdate: `${o_orderdate}`,
-    sum: `${sum}`,
   };
   // console.log("==> list? " + JSON.stringify(dataset));
   return (
@@ -65,12 +69,18 @@ function OrderItem({
     >
       <th>{rownum}</th>
       <td>{o_idx}</td>
-      <td>{d_idx}</td>
+      <td>{d_room_type}</td>
       <td>{o_ckin}</td>
       <td>{o_ckout}</td>
       <td>{o_finalprice}</td>
       <td>{o_orderdate}</td>
-      <td>{status}</td>
+      {o_state == "1" ? (
+        <td style={{ color: "red" }}>{status}</td>
+      ) : (
+        <td>
+          <b>{status}</b>
+        </td>
+      )}
     </tr>
   );
 }

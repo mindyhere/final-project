@@ -46,17 +46,17 @@ public class KakaoPay {
 		    
 		    // 서버로 요청할 Body
 		    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		    params.add("cid", "TC0ONETIME");
-		    params.add("partner_order_id", "1001");
-		    params.add("partner_user_id", "testuser");
-		    params.add("item_name", "test");
-		    params.add("quantity", "1");
-		    params.add("vat_amount", "1500");
-		    params.add("total_amount", "2000");
-		    params.add("tax_free_amount", "0");
-		    params.add("approval_url", "https://developers.kakao.com/success");
-		    params.add("cancel_url", "https://developers.kakao.com/fail");
-		    params.add("fail_url", "https://developers.kakao.com/cancel");
+		    params.set("cid", "TC0ONETIME");
+		    params.set("partner_order_id", "1001");
+		    params.set("partner_user_id", "testuser");
+		    params.set("item_name", "test");
+		    params.set("quantity", "1");
+		    params.set("vat_amount", "1500");
+		    params.set("total_amount", "2000");
+		    params.set("tax_free_amount", "0");
+		    params.set("approval_url", "https://developers.kakao.com/success");
+		    params.set("cancel_url", "https://developers.kakao.com/fail");
+		    params.set("fail_url", "https://developers.kakao.com/cancel");
 		    
 		    HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 		    
@@ -95,12 +95,12 @@ public class KakaoPay {
 	 
 	        // 서버로 요청할 Body
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-	        params.add("cid", "TC0ONETIME");
-	        params.add("tid", KakaoPayReadydto.getTid());
-	        params.add("partner_order_id", "1001");
-	        params.add("partner_user_id", "testuser");
-	        params.add("pg_token", pg_token);
-	        params.add("total_amount", "2000");
+	        params.set("cid", "TC0ONETIME");
+	        params.set("tid", KakaoPayReadydto.getTid());
+	        params.set("partner_order_id", "1001");
+	        params.set("partner_user_id", "testuser");
+	        params.set("pg_token", pg_token);
+	        params.set("total_amount", "2000");
 	        
 	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	        

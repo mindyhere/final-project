@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +16,9 @@ public class OrderDAOImpl implements OrderDAO {
 	SqlSession sqlSession;
 
 	@Override
-	public int confirm(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void confirm(Map<String, Object> params) {
+		sqlSession.selectOne("order.confirm", params);
+		System.err.println("==> confirm? " + params + params.get("level") + ", " + params.get("result"));
 	}
 
 	@Override
@@ -26,11 +27,10 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			list = sqlSession.selectList("order.getList", map);
 			if (list != null) {
+				DecimalFormat df = new DecimalFormat("###,###");
 				for (Map<String, Object> m : list) {
 					String o_state = (String) m.get("o_state");
-
-					System.out.println("==> ?" + m.get("o_state") + ", " + o_state);
-					System.out.println("==> ?" + m.get("o_state"));
+					// 상태 처리
 					switch (o_state) {
 					case "1":
 						m.put("status", "예약대기");
@@ -42,12 +42,33 @@ public class OrderDAOImpl implements OrderDAO {
 						m.put("status", "예약확정");
 						break;
 					}
-					System.out.println("==> m? " + m + ", " + m.get("status"));
+					// 금액 1000단위 포맷
+					String o_price = df.format(m.get("o_price"));
+					String o_discount = df.format(m.get("o_discount"));
+					String o_finalprice = df.format(m.get("o_finalprice"));
+					m.replace("o_price", o_price);
+					m.replace("o_discount", o_discount);
+					m.replace("o_finalprice", o_finalprice);
+
+					String o_payment = (String) m.get("o_payment");
+
+					switch (o_payment) {
+					case "1":
+						m.replace("o_payment", "Card");
+						break;
+					case "2":
+						m.replace("o_payment", "KakaoPay");
+						break;
+					case "3":
+						m.replace("o_payment", "Point");
+						break;
+					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+//		System.out.println("==> DAO리스트? " + list);
 		return list;
 	}
 
@@ -71,6 +92,24 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public GuestDTO getGuestInfo(int g_idx) {
 		return sqlSession.selectOne("order.getGuestProfile", g_idx);
+	}
+
+	@Override
+	public int guestLevelUpate(Map<String, Object> param) {
+		int result = 0;
+		String opt = (String) param.get("opt");
+		try {
+			if (opt.equals("1")) {
+				sqlSession.selectOne("order.levelUp", param);
+			} else {
+				sqlSession.selectOne("order.levelDown", param);
+			}
+			result = 1;
+		} catch (Exception e) {
+			System.err.println("==> 에러? " + e);
+		}
+		System.err.println("==> 레벨업데이트? " + opt + ", " + result);
+		return result;
 	}
 
 }

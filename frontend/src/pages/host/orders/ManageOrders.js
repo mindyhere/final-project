@@ -22,10 +22,8 @@ function ManageOrders() {
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
   const [loading, setLoading] = useState("");
-  const [init, setInitialize] = useState("1");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
-  const [pageNum, setPageNum] = useState("1");
   const [modal, setModal] = useState(false);
   const [onDetail, setOnDetail] = useState(false);
   const [list, setOrders] = useState([]);
@@ -33,39 +31,44 @@ function ManageOrders() {
   const navigate = useNavigate();
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
+  const [pageNum, setPageNum] = useState("1");
 
-  function getList(hoIdx, init, pageNum) {
-    console.log(pageNum);
+  function getList(hoIdx, pageNum) {
     let url = "";
-    if (init == "") {
-      url = `http://localhost/api/order/manage/list/${userIdx}`;
+    // console.log("==> page? " + pageNum + ", " + typeof pageNum);
+    if (pageNum != "0") {
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&init=${init}&pageNum=${pageNum}`;
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1`;
     }
-
+    // console.log("==> 리스트: " + hoIdx + ", page " + pageNum + "/ url? " + url);
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setInitialize(data.init);
-        console.log("==> init data? " + data.init);
+        setLoading(false);
         setCount(data.count);
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        setLoading(false);
+        // console.log(
+        //   "==> 데이터셋: " +
+        //     JSON.stringify(data.list) +
+        //     " / " +
+        //     JSON.stringify(data.page)
+        // );
       });
   }
 
   useEffect(() => {
-    getList(hoIdx, init, pageNum);
-  }, [hoIdx, init, pageNum]);
+    getList(hoIdx, pageNum);
+  }, [hoIdx, pageNum]);
 
   const handleClick = (e) => {
     setHotelIdx(e);
     console.log("==> 클릭? " + e);
-    getList(e, 0);
+    getList(e, 0, 1);
     // console.log("==> 호출? " +{ hoIdx });
   };
   const handleModal = (oder_idx) => {
@@ -90,7 +93,11 @@ function ManageOrders() {
       } else {
         result.push(
           <li key={"page-item" + i} className="page-item">
-            <a key={i} className="page-link" onClick={() => getList(`${i}`)}>
+            <a
+              key={i}
+              className="page-link"
+              onClick={() => getList(hoIdx, `${i}`)}
+            >
               {i}
             </a>
           </li>
@@ -209,15 +216,18 @@ function ManageOrders() {
                       list.map(
                         ({
                           rownum,
-                          d_ho_idx,
                           o_idx,
-                          o_gidx,
-                          o_didx,
+                          g_idx,
+                          ho_idx,
+                          ho_name,
+                          d_idx,
+                          d_room_type,
                           o_ckin,
                           o_ckout,
                           o_adult,
                           o_child,
                           o_baby,
+                          sum,
                           o_state,
                           status,
                           o_payment,
@@ -226,19 +236,21 @@ function ManageOrders() {
                           o_finalprice,
                           o_benefit,
                           o_orderdate,
-                          sum
                         }) => (
                           <OrderItem
                             rownum={rownum}
-                            ho_idx={d_ho_idx}
                             o_idx={o_idx}
-                            g_idx={o_gidx}
-                            d_idx={o_didx}
+                            g_idx={g_idx}
+                            ho_idx={ho_idx}
+                            ho_name={ho_name}
+                            d_idx={d_idx}
+                            d_room_type={d_room_type}
                             o_ckin={o_ckin}
                             o_ckout={o_ckout}
                             o_adult={o_adult}
                             o_child={o_child}
                             o_baby={o_baby}
+                            sum={sum}
                             o_state={o_state}
                             status={status}
                             o_payment={o_payment}
@@ -247,7 +259,6 @@ function ManageOrders() {
                             o_finalprice={o_finalprice}
                             o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
-                            sum={sum}
                             handleModal={handleModal}
                             key={o_idx}
                           />
@@ -255,7 +266,7 @@ function ManageOrders() {
                       )
                     ) : (
                       <tr className="align-middle">
-                        <td colSpan="7">
+                        <td colSpan="8">
                           <br />
                           <p>등록된 게시글이 없습니다.</p>
                         </td>
@@ -263,14 +274,14 @@ function ManageOrders() {
                     )}
                     {onDetail && (
                       <Modal
-                        style={{ zIndex: "10", position: "relative" }}
+                        style={{ zIndex: "100", position: "relative" }}
                         closeModal={() => {
                           setOnDetail(!onDetail);
                         }}
                       >
                         <OrderDetail
                           order_idx={selected}
-                          style={{ zIndex: "999" }}
+                          style={{ zIndex: "999", position: "relative" }}
                         />
                       </Modal>
                     )}
@@ -287,7 +298,7 @@ function ManageOrders() {
                           <a className="page-link">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList("1")}
+                              onClick={() => getList(hoIdx, "1")}
                             >
                               <ChevronDoubleLeft />
                             </span>
@@ -299,7 +310,7 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Previous">
                             <span
                               aria-hidden="true"
-                              onclick={() => getList(`${page.prevPage}`)}
+                              onclick={() => getList(hoIdx, `${page.prevPage}`)}
                             >
                               <ChevronLeft />
                             </span>
@@ -314,7 +325,7 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Next">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(`${page.nextPage}`)}
+                              onClick={() => getList(hoIdx, `${page.nextPage}`)}
                             >
                               <ChevronRight />
                             </span>
@@ -324,7 +335,9 @@ function ManageOrders() {
                       {page.curPage < page.totPage ? (
                         <li className="page-item">
                           <a className="page-link" aria-label="End">
-                            <span onClick={() => getList(`${page.totPage}`)}>
+                            <span
+                              onClick={() => getList(hoIdx, `${page.totPage}`)}
+                            >
                               <ChevronDoubleRight />
                             </span>
                           </a>

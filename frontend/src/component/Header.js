@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/join";
@@ -16,18 +16,13 @@ function Header() {
 
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const modalBackground = useRef();
   const [join, setJoin] = useState(false);
   const [hostJoin, setHostJoin] = useState(false);
   const cookies = new Cookies();
 
   //게스트 쿠키
-  const g_idx = cookies.get("g_idx");
-  const g_name = cookies.get("g_name");
   const g_email = cookies.get("g_email"); //쿠키변수명
   const g_level = cookies.get("g_level");
-  const g_phone = cookies.get("g_phone");
   const g_photo = cookies.get("g_photo");
 
   //호스트 쿠키
@@ -183,7 +178,7 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" onClick={() => setModal(false)}>
+                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -265,6 +260,12 @@ function Header() {
                 className="nav-item rounded"
                 style={{ display: "inline-block" }}
               >
+                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+              </li>
+              <li
+                className="nav-item rounded"
+                style={{ display: "inline-block" }}
+              >
                 <a className="nav-link active">도움말센터</a>
               </li>
             </ul>
@@ -342,6 +343,12 @@ function Header() {
                   계정
                 </a>
               </li>
+              <li
+                className="nav-item rounded"
+                style={{paddingTop: '10px'}}
+              >
+                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+              </li>
               <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a className="nav-link active">도움말센터</a>
               </li>
@@ -414,6 +421,12 @@ function Header() {
                 >
                   예약관리
                 </a>
+              </li>
+              <li
+                className="nav-item rounded"
+                style={{ display: "inline-block" }}
+              >
+                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
               </li>
               <li className="nav-item rounded">
                 <a
