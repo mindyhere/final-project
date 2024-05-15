@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 import Swal from "sweetalert2";
 import Kakaopay from "../guest/kakaopay";
+import Nicepay from "../guest/Nicepay";
+
 
 function useFetch(url) {
     const [data,setData] = useState(null);
@@ -56,11 +58,15 @@ function Order() {
     //     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
     //     const iamport = document.createElement("script");
     //     iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    //     const nicepay = document.createElement("script");
+    //     nicepay.src="https://pay.nicepay.co.kr/v1/js/";
     //     document.head.appendChild(jquery);
     //     document.head.appendChild(iamport);
+    //     document.head.appendChild(nicepay);
     //     return () => {
     //         document.head.removeChild(jquery);
     //         document.head.removeChild(iamport);
+    //         document.head.removeChild(nicepay);
     //     }
     // }, []);
 
@@ -215,7 +221,7 @@ function Order() {
                                 <hr/>
                                 <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
                                 <br/>
-                                {pay === "1" || pay === "3"
+                                {/* {pay === "1" || pay === "3"
                                 ?
                                 //카드 or 포인트로 결제시 버튼 클릭하면 DB에 바로 insert
                                 <button className="btn btn-dark" onClick={()=>{
@@ -266,7 +272,13 @@ function Order() {
                                     <Kakaopay>
                                         <button className="btn btn-dark">카카오페이 결제</button>
                                     </Kakaopay>
-                                }
+                                } */}
+                                <Kakaopay>
+                                        <button className="btn btn-dark">카카오페이 결제</button>
+                                    </Kakaopay>
+                                <Nicepay>
+                                    <button className="btn btn-dark">나이스페이 결제</button>
+                                </Nicepay>
                                 {/* onClick={onClickPayment} */}
                                 <br/>
                                 <br/>
