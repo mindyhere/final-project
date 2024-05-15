@@ -13,23 +13,24 @@ function TotalReputation({ list, avg, HoIdx }) {
   const keyword = useRef();
 
   function getList(url) {
-    const form = new FormData();
-    form.append("sort", sort.current.value);
-    form.append("keyword", keyword.current.value);
-    form.append("ho_idx", HoIdx);
-    console.log("==> form? " + JSON.stringify(form));
-    fetch(url, { method: "post", body: form })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("==> data? " + JSON.stringify(data));
-        setList(data.list);
-      });
+    // const form = new FormData();
+    // form.append("sort", sort.current.value);
+    // form.append("keyword", keyword.current.value);
+    // form.append("ho_idx", HoIdx);
+    // console.log("==> form? " + JSON.stringify(form));
+    // fetch(url, { method: "post", body: form })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("==> data? " + JSON.stringify(data));
+    //     setList(data.list);
+    //   });
   }
 
   useEffect(() => {
     getList("http://localhost/api/reputation/review/search");
+   // getList("http://localhost/api/reputation/review/search");
   }, [review]);
 
   return (
