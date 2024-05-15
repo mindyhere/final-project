@@ -266,7 +266,7 @@ function ManageOrders() {
                       )
                     ) : (
                       <tr className="align-middle">
-                        <td colSpan="7">
+                        <td colSpan="8">
                           <br />
                           <p>등록된 게시글이 없습니다.</p>
                         </td>
@@ -274,14 +274,14 @@ function ManageOrders() {
                     )}
                     {onDetail && (
                       <Modal
-                        style={{ zIndex: "10", position: "relative" }}
+                        style={{ zIndex: "100", position: "relative" }}
                         closeModal={() => {
                           setOnDetail(!onDetail);
                         }}
                       >
                         <OrderDetail
                           order_idx={selected}
-                          style={{ zIndex: "999" }}
+                          style={{ zIndex: "999", position: "relative" }}
                         />
                       </Modal>
                     )}

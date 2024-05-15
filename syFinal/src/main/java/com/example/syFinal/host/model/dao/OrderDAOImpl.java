@@ -95,16 +95,20 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public int guestLevelUp(Map<String, Object> param) {
+	public int guestLevelUpate(Map<String, Object> param) {
 		int result = 0;
+		String opt = (String) param.get("opt");
 		try {
-			sqlSession.selectOne("order.guestLevelUp", param);
+			if (opt.equals("1")) {
+				sqlSession.selectOne("order.levelUp", param);
+			} else {
+				sqlSession.selectOne("order.levelDown", param);
+			}
 			result = 1;
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.err.println("==> 에러? " + e);
 		}
-		System.err.println("==> 레벨업? " + result);
+		System.err.println("==> 레벨업데이트? " + opt + ", " + result);
 		return result;
 	}
 

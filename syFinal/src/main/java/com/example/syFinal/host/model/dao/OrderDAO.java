@@ -21,6 +21,6 @@ public interface OrderDAO {
 	GuestDTO getGuestInfo(int g_idx);
 
 	// 예약 확정 시 게스트 레벨 업데이트
-	int guestLevelUp(Map<String, Object> param);
+	int guestLevelUpate(Map<String, Object> param);
 
 }
