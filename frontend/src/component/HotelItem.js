@@ -78,8 +78,8 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
                             ₩68,717 /박
                             </Link>           
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
-                    top:'20px', left:'320px'}} onClick={() => {handleClick()}}>
-                    <img src={image} width='28px' height='35px' />
+                    top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                    <img src={image} width='70px' height='70px' />
                     </button>
                     <input type='hidden' id={checkId} value={check}></input>
                 <br />
