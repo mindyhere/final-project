@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.checkerframework.checker.units.qual.h;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
+
+import jakarta.servlet.ServletContext;
 
 @Repository
 public class HotelDAOImpl implements HotelDAO {
@@ -100,7 +103,12 @@ public class HotelDAOImpl implements HotelDAO {
 		return sqlSession.selectList("hotel.getDetailMyHotel", ho_idx);
 	}
 
-	
+	/* 호텔 대표 이미지 조회 */
+	@Override
+	public String getHotelImg(int ho_idx) {
+		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
+	}
+
 	/* 호텔 기본 정보 수정 */
 	@Override
 	public void editHotelDefaultInfo(Map<String, Object> map) {
