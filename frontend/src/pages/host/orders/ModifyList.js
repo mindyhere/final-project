@@ -59,9 +59,9 @@ function ModifyList() {
       <div>
         <h5 style={{padding:"1%", alignItems:"center"}}><Exclamation size={35}/>변경요청</h5>
         <Slider {...settings} ref={slick}>
-          {data.map((item, idx) => (
+          {data.map((item) => (
             <RequestItem
-              key={idx}
+              key={item.o_idx}
               o_idx={item.o_idx}
               g_idx={item.g_idx}
               ho_idx={item.ho_idx}

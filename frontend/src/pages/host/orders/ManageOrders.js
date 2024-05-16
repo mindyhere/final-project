@@ -168,7 +168,6 @@ function ManageOrders() {
                   style={{
                     width: "750px",
                     height: "300px",
-                    backgroundColor: "#f7effc",
                     padding: "1%",
                   }}
                 >

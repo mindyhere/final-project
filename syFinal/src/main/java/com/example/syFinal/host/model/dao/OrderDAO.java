@@ -27,6 +27,7 @@ public interface OrderDAO {
 	List<Map<String, Object>> requestList(int h_idx);
 
 	// 예약 변경사항 업데이트
-	void modify(int o_idx);
+	void modify(Map<String, Object> params);
+//	boolean modify(Map<String, Object> map);
 
 }
