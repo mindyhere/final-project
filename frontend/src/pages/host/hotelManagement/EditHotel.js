@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState} from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
-import HotelRoomsItem from "../../../component/HotelRoomsItem";
+import Swal from "sweetalert2";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -24,13 +24,24 @@ function EditHotel() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const userName = userInfo.h_name;
+    const navigate = useNavigate();
     const location = useLocation();
+    const [modal, setModal] = useState(false);
     const [hoIdx, setHoIdx] = useState(location.state?.hoIdx);
     const [hoName, setHoName] = useState(location.state?.hoName);
     const [data, loading] = useFetch('http://localhost/host/hotel/detailMyHotel?ho_idx=' + hoIdx);
     const ho_name = useRef();
     const ho_address = useRef();
-    const [modal, setModal] = useState(false);
+    const ho_level = useRef();
+    const ho_floor = useRef();
+    const ho_single = useRef();
+    const ho_double = useRef();
+    const ho_family = useRef();
+    const ho_suite = useRef();
+    const ho_check_in = useRef();
+    const ho_check_out = useRef();
+    const ho_img = useRef();
+    const ho_description = useRef();
 
     let [inputCount, setInputCount] = useState(0);
     const onInputHandler = (e) => {
@@ -69,51 +80,75 @@ function EditHotel() {
                             </tr>
                             <tr>
                                 <th>호텔 등급</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_level} /></td>
+                                <td><input style={{border:'none'}} ref={ho_level} defaultValue={data[0].ho_level} /></td>
                                 <th>호텔 층수</th>
                                 <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_floor}/></td>
                             </tr>
                             <tr>
                                 <th>싱글</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_single} /></td>
+                                <td><input style={{border:'none'}} ref={ho_single} defaultValue={data[0].ho_single} /></td>
                                 <th>더블</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_double} /></td>
+                                <td><input style={{border:'none'}} ref={ho_double} defaultValue={data[0].ho_double} /></td>
                             </tr>
                             <tr>
                                 <th>패밀리</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_family} /></td>
+                                <td><input style={{border:'none'}} ref={ho_family} defaultValue={data[0].ho_family} /></td>
                                 <th>스위트</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_suite} /></td>
+                                <td><input style={{border:'none'}} ref={ho_suite} defaultValue={data[0].ho_suite} /></td>
                             </tr>
                             <tr>
                                 <th>체크인</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_check_in} /></td>
+                                <td><input style={{border:'none'}} ref={ho_check_in} defaultValue={data[0].ho_check_in} /></td>
                                 <th>체크아웃</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_check_out} /></td>
+                                <td><input style={{border:'none'}} ref={ho_check_out} defaultValue={data[0].ho_check_out} /></td>
                             </tr>
                             <tr>
                                 <th>주소</th>
                                 <td colSpan={3}>
-                                    <input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_address} />
+                                    <input style={{border:'none'}} ref={ho_address} defaultValue={data[0].ho_address} />
                                 </td>
                             </tr>
                             <tr>
                                 <th colSpan={2}>호텔 대표 이미지</th>
                                 {/* <span dangerouslySetInnerHTML={{__html : image_url}}></span> */}
-                                <td colSpan={2}><input type="file" ref={ho_name} /></td>
+                                <td colSpan={2}><input type="file" ref={ho_img} /></td>
                             </tr>
                             <tr>
                                 <th colSpan={2}>호텔 소개</th>
                                 <td colSpan={2}>
-                                    <textarea rows="5" cols="30" maxLength="100" onChange={onInputHandler} ref={ho_name} defaultValue={data[0].ho_description} placeholder="숙소와 주변 지역에 대한 정보에서 시작해 게스트와 어떻게 소통하고 싶은지 등의 내용을 적어주세요"/>
+                                    <textarea rows="6" cols="40" maxLength="500" onChange={onInputHandler} ref={ho_description} defaultValue={data[0].ho_description} placeholder="숙소와 주변 지역에 대한 정보에서 시작해 게스트와 어떻게 소통하고 싶은지 등의 내용을 적어주세요"/>
                                     <p style={{textAlign:'right'}}>
                                         <span>{inputCount}</span>
-                                        <span> / 100 자</span>
+                                        <span> / 500 자</span>
                                     </p>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div style={{textAlign: 'right'}}>
+                        <button className="main-btn" onClick={() => {
+                            const form = new FormData();
+                            form.append('ho_name', ho_name.current.value);
+                            form.append('ho_level', ho_level.current.value);
+                            form.append('ho_floor', ho_floor.current.value);
+                            form.append('ho_single', ho_single.current.value);
+                            form.append('ho_double', ho_double.current.value);
+                            form.append('ho_family', ho_family.current.value);
+                            form.append('ho_suite', ho_suite.current.value);
+                            form.append('ho_check_in', ho_check_in.current.value);
+                            form.append('ho_check_out', ho_check_out.current.value);
+                            form.append('ho_description', ho_description.current.value);
+                            form.append('ho_img', ho_img.current.files[0]);
+                            form.append('ho_address', ho_address.current.value);
+                            fetch('http://localhost/host/hotel/editHotel/defaultInfo', {
+                                method: 'POST',
+                                encType : 'multipart/data-form',
+                                body : form
+                            })
+                            .then(response => response.json())
+                            }}
+                        >수정</button>
+                    </div>
                 </div>
                 <div className="card-style mb-30">
                     <h4>호텔 편의시설</h4>
@@ -146,6 +181,11 @@ function EditHotel() {
                             <input type="checkbox" defaultChecked={data[0].fire_extinguisher == 'Y' ? true : false} ></input>
                             <label>　소화기</label>
                         </div>
+                    </div>
+                    <div style={{textAlign:'right'}}>
+                        <button className="main-btn" onClick={() => {
+
+                        }}>수정</button>
                     </div>
                 </div>
                 <div className="card-style mb-30">
@@ -190,6 +230,30 @@ function EditHotel() {
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="mb-40" style={{textAlign:'center'}}>
+                    <button className="main-btn" onClick={() => {
+                        Swal.fire({
+                            text: '영업중지 신청을 하시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '확인',
+                            cancelButtonText: "취소"
+                        }).then((result) => {
+                            // 예약 보유 확인 절차 추가
+                            if (result.isConfirmed) {
+                                fetch(`http://localhost/host/hotel/closeHotel?ho_idx=`+ hoIdx)
+                                .then(() => {
+                                    // 변경절차 추가
+                                    alert("3으로 변경");
+                                });
+                            }
+                            });
+                        }}
+                    >영업 중지 신청</button>
+                    &nbsp;
+                    <button className="main-btn" onClick={() => {
+                        navigate('/host/hotel/MyhotelList')
+                    }}>뒤로 가기</button>
                 </div>
             </div>
         )
