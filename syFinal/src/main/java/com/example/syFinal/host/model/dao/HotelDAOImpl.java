@@ -117,4 +117,12 @@ public class HotelDAOImpl implements HotelDAO {
 	public void closeHotel(int ho_idx) {
 		sqlSession.update("hotel.closeHotel", ho_idx);
 	}
+	
+	@Override
+	public int room_count(int ho_idx, int d_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		return sqlSession.selectOne("hotel.roomCount", map);
+	}
 }
