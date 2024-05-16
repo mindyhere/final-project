@@ -47,7 +47,7 @@ public class HotelController {
 			}
 		}
 		List<String> dates = new ArrayList<String>();
-		Set<String> set = new HashSet<String>(imp_dates);        
+		Set<String> set = new HashSet<String>(imp_dates);
 		for (String str : set) {
 			if (Collections.frequency(imp_dates, str) > 1) {
 				dates.add(str);
@@ -161,13 +161,15 @@ public class HotelController {
 		return detailMyHotel;
 	}
 	
-	/* 호텔 정보 수정 */
+	/* 호텔 기본 정보 수정 */
 	@PostMapping("/host/hotel/editHotel/defaultInfo")
 	public void editHotel(@RequestParam Map<String, Object> map,
 			@RequestParam(name = "img", required = false) MultipartFile img) {
 		System.out.println(" 호텔 기본 정보 수정 - map : " + map);
 		System.out.println(" 호텔 기본 정보 수정 - img : " + img);
-		//hotelDao.
+		
+		Map<String, Object> info = new HashMap<>();
+		hotelDao.editHotelDefaultInfo(map);
 	}
 	
 	/* 호텔 영업 중지 신청 */

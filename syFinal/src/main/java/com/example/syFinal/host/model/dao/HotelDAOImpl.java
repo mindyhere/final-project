@@ -100,7 +100,17 @@ public class HotelDAOImpl implements HotelDAO {
 		return sqlSession.selectList("hotel.getDetailMyHotel", ho_idx);
 	}
 	
-	/* 호텔 정보 수정 */
+	/* 호텔 이미지 조회 */
+	@Override
+	public String getHotelImg(int ho_idx) {
+		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
+	}
+	
+	/* 호텔 기본 정보 수정 */
+	@Override
+	public void editHotelDefaultInfo(Map<String, Object> map) {
+		sqlSession.update("hotel.editHotelDefaultInfo", map);
+	}
 	
 	/* 호텔 영업 중지 신청 */
 	@Override
