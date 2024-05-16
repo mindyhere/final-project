@@ -8,6 +8,7 @@ import HotelNavItem from "./HotelNavItem";
 import OrderItem from "./OrderItem";
 import OrderDetail from "./OrderDetail_modal";
 import Scheduler from "./Scheduler";
+import ModifyList from "./ModifyList";
 
 import {
   ChevronDoubleLeft,
@@ -144,11 +145,45 @@ function ManageOrders() {
         <div className="container min-vh-100">
           <div className="card-style mb-30">
             <h3 className="text-bold">
+              <Calendar2Check size={35} />
+              &nbsp;예약현황
+            </h3>
+            <br />
+            <div
+              className="card-style mb-30"
+              style={{ zIndex: "0", position: "relative", padding: "0" }}
+            >
+              <div className="row mx-1">
+                <div className="col-4">
+                  <Scheduler
+                    tileContent={tileContent}
+                    style={{
+                      position: "relative",
+                    }}
+                  />
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div
+                  className="card-style col"
+                  style={{
+                    width: "750px",
+                    height: "300px",
+                    backgroundColor: "#f7effc",
+                    padding: "1%",
+                  }}
+                >
+                  <ModifyList />
+                </div>
+              </div>
+            </div>
+            <br />
+            <br />
+            <h3 className="text-bold">
               <Calendar2Week size={35} />
               &nbsp;예약목록
             </h3>
             <br />
-            <div className="card text-center">
+            <div className="card text-center mb-30">
               <div
                 className="card-header"
                 style={{ backgroundColor: "#F7EFFC" }}
@@ -354,28 +389,6 @@ function ManageOrders() {
                   </nav>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            className="card-style mb-30"
-            style={{ zIndex: "0", position: "relative" }}
-          >
-            <h3 className="text-bold">
-              <Calendar2Check size={35} />
-              &nbsp;스케쥴러
-            </h3>
-            <br />
-            <div className="row mx-1">
-              <div className="col-4">
-                <Scheduler
-                  tileContent={tileContent}
-                  style={{
-                    position: "relative",
-                  }}
-                />
-              </div>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <div className="card-style col">수정1</div>
             </div>
           </div>
         </div>

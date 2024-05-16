@@ -82,7 +82,7 @@
 <!-- 예약수정 요청 목록 -->
 <select id="modifyRequest" resultType="java.util.Map">
 	select distinct v.* 
-	from v_modify_request v, host
+	from v_modify_order v, host
 	where v.ho_idx 
 		IN (select ho_idx from host where h_idx=#{h_idx});
 </select>

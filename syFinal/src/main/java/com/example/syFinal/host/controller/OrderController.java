@@ -109,18 +109,11 @@ public class OrderController {
 		return data;
 	}
 
-	@GetMapping("mange/modify/list")
-	public Map<String, Object> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-		System.out.println("==> 목록 map? " + h_idx);
-		Map<String, Object> data = new HashMap<>();
-		List<Map<String, Object>> request = orderDao.requestList(h_idx);
-		if (request == null) {
-			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
-		} else {
-			data.put("request", request);
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		}
-		System.out.println("==> 결과 map? " + data);
+	@GetMapping("manage/modify/list")
+	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
+//		System.out.println("==> 목록 map? " + h_idx);
+		List<Map<String, Object>> data = orderDao.requestList(h_idx);
+//		System.out.println("==> 결과 data? " + data);
 		return data;
 	}
 
