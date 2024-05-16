@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.admin.model.dto.AGuestDTO;
 import com.example.syFinal.admin.model.dto.AHostDTO;
 
 @Repository
