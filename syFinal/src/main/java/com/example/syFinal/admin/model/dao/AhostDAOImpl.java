@@ -40,7 +40,8 @@ public class AhostDAOImpl implements AhostDAO {
 	@Override
 	public AHostDTO detail(int g_idx) {
 		AHostDTO dto = sqlSession.selectOne("admin.ah_detail", g_idx);
+		System.out.println("test");
 		return dto;
 	}
-		
+
 }

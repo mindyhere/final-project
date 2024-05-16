@@ -1,10 +1,8 @@
 package com.example.syFinal.admin.model.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.syFinal.admin.model.dto.ANoticeDTO;
-
 
 public interface ANoticeDAO {
 	List<ANoticeDTO> list(String searchkey, String search); //공지목록
