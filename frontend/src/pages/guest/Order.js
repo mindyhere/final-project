@@ -273,9 +273,9 @@ function Order() {
                                         <button className="btn btn-dark">카카오페이 결제</button>
                                     </Kakaopay>
                                 } */}
-                                <Kakaopay>
-                                        <button className="btn btn-dark">카카오페이 결제</button>
-                                    </Kakaopay>
+                                {/* <Kakaopay>
+                                    <button className="btn btn-dark">카카오페이 결제</button>
+                                </Kakaopay> */}
                                 <Nicepay>
                                     <button className="btn btn-dark">나이스페이 결제</button>
                                 </Nicepay>
