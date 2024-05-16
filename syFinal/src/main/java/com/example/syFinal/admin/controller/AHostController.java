@@ -48,9 +48,9 @@ public class AHostController {
 		return map;
 	}
 
-	@GetMapping("/admin/approve/{h_idx}")
+	@RequestMapping("/admin/approve/{h_idx}")
 	public String approveHost(@PathVariable(name = "h_idx") int h_idx) {
-		System.out.println("==> 컨트롤러" + h_idx);
+		//System.out.println("==> 컨트롤러" + h_idx + ",  " + h_status);
 		try {
 			dao.a_approve(h_idx);
 			return "Host registration approved successfully.";

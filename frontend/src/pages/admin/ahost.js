@@ -88,19 +88,20 @@ function Ahost() {
         //     });
 
         if (h_status === '승인대기') {
-            fetch(`http://localhost/admin/approve_host?h_idx=${h_idx}`)
+            fetch(`http://localhost/admin/approve_host/${h_idx}`)
                 .then(response => {
-                    if (response.ok) {
-                        const updatedAhitem = ahitem.map(item => {
-                            if (item.h_idx === h_idx) {
-                                return { ...item, h_status: '승인완료' };
-                            }
-                            return item;
-                        });
-                        setAhitem(updatedAhitem);
-                        return response.text();
-                    }
-                    throw new Error('Network response was not ok.');
+                    console.log("==> test? " + response.value);
+                    // if (response.ok) {
+                    //     const updatedAhitem = ahitem.map(item => {
+                    //         if (item.h_idx === h_idx) {
+                    //             return { ...item, h_status: '승인완료' };
+                    //         }
+                    //         return item;
+                    //     });
+                    //     setAhitem(updatedAhitem);
+                    //     return response.text();
+                    // }
+                    // throw new Error('Network response was not ok.');
                 })
                 .then(message => {
                     console.log(message);
