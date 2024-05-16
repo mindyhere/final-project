@@ -61,16 +61,18 @@ public class MainController {
 			startDate = sdf.parse(inputStartDate);
 			endDate = sdf.parse(inputEndDate);
 			currentDate	= startDate;
-			while (currentDate.compareTo(endDate) <= 0) {
+			while (currentDate.compareTo(endDate) < 0) {
 				dates.add(sdf.format(currentDate));
 				Calendar c = Calendar.getInstance();
 				c.setTime(currentDate);
 				c.add(Calendar.DATE, 1);
 				currentDate = c.getTime();
+				// dates.add(sdf.format(currentDate));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// System.out.println(dates);
 		return dates;
 	}
 }

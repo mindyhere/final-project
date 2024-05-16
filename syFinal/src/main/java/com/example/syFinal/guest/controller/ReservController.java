@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -161,6 +164,15 @@ public class ReservController {
 				imp_dates.add(bet_dates.get(j));
 			}
 		}
+		int roomCount = dao.room_count(o_idx);
+		List<String> dates = new ArrayList<String>();
+		Set<String> set = new HashSet<String>(imp_dates);        
+		for (String str : set) {
+			if (Collections.frequency(imp_dates, str) >= roomCount) {
+				dates.add(str);
+			}
+		}
+		
 		Date ref_date = new Date();
 		String alter = "";
 		String date2 = dto.getO_ckin(); // 날짜1
@@ -202,7 +214,7 @@ public class ReservController {
 		map.put("alter", alter);
 		map.put("ref_date", ref_date);
 		map.put("diffDays", diffDays);
-		map.put("imp_dates", imp_dates);
+		map.put("imp_dates", dates);
 		return map;
 	}
 
