@@ -21,7 +21,7 @@
 	<!-- 이미 예약된 날짜 정보 -->
 	<select id="imp_date" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
 		SELECT distinct(o_idx), o_ckin, o_ckout from orders, hotel, hotel_detail
-		where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{d_idx}
+		where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{d_idx} AND o_state IN (1, 3)
 	</select>
 
 	<!-- 호텔 객실 정보 -->

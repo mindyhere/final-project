@@ -1,9 +1,12 @@
 package com.example.syFinal.host.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.syFinal.MainController;
 import com.example.syFinal.host.model.dao.HotelDAO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
@@ -31,6 +35,25 @@ public class HotelController {
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hoteList(map);
+		
+		List<String> bet_dates = new ArrayList<String>();	
+		List<String> imp_dates = new ArrayList<String>();
+		MainController main = new MainController();
+		List<HotelDetailDTO> date = hotelDao.imp_date(ho_idx, d_idx);
+		for(int i=0; i < date.size(); i++) {
+			bet_dates = main.dateBetween(date.get(i).getO_ckin(), date.get(i).getO_ckout());
+			for(int j=0; j < bet_dates.size(); j++) {
+				imp_dates.add(bet_dates.get(j));
+			}
+		}
+		List<String> dates = new ArrayList<String>();
+		Set<String> set = new HashSet<String>(imp_dates);        
+		for (String str : set) {
+			if (Collections.frequency(imp_dates, str) > 1) {
+				dates.add(str);
+			}
+		}
+		hotelList.put("imp_dates", dates);
 		return hotelList;
 	}
 
