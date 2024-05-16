@@ -117,4 +117,9 @@ public class ReservDAOImpl implements ReservDAO {
 		map.put("o_idx", o_idx);
 		return sqlSession.selectList("reserv.imp_date", map);
 	}
+	
+	@Override
+	public int room_count(int o_idx) {
+		return sqlSession.selectOne("reserv.roomCount", o_idx);
+	}
 }

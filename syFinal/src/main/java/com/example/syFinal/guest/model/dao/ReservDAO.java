@@ -28,6 +28,8 @@ public interface ReservDAO {
 	ReservDTO confirm(int ru_idx);
 
 	List<ReservDTO> date(int o_idx, int ho_idx, int o_didx);
+
+	int room_count(int o_idx);
 	
 
 }
