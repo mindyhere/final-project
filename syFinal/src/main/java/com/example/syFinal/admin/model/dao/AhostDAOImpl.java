@@ -42,5 +42,11 @@ public class AhostDAOImpl implements AhostDAO {
 		AHostDTO dto = sqlSession.selectOne("admin.ah_detail", g_idx);
 		return dto;
 	}
-		
+
+	@Override // Host 승인신청(승인대기 > 승인완료로 업데이트)
+	public void a_approve(int h_idx) {
+		System.out.println("==>" + h_idx);
+		sqlSession.update("admin.ah_approve", h_idx);
+	}
+
 }

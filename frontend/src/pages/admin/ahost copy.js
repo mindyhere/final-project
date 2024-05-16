@@ -65,8 +65,31 @@ function Ahost() {
     };
 
     // 사업자 가입승인
-    const approveHost = (h_idx, h_status) => {
-        // fetch(`http://localhost/admin/approve/${h_idx}`)
+    const approveHost = (h_idx) => {
+
+        fetch(`http://localhost/admin/approve/${h_idx}`)
+            .then(response => {
+                if (response.ok) {
+                    const updatedAhitem = ahitem.map(item => {
+                        if (item.h_idx === h_idx) {
+                            return { ...item, h_status: '승인완료' };
+                        }
+                        return item;
+                    });
+                    setAhitem(updatedAhitem);
+                    return response.text();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(message => {
+                console.log(message);
+            })
+            .catch(error => {
+                console.error('Error', error);
+            });
+
+        // if (h_status === '승인대기') {
+        // fetch(`http://localhost/admin/approve_host?h_idx=${h_idx}`)
         //     .then(response => {
         //         if (response.ok) {
         //             const updatedAhitem = ahitem.map(item => {
@@ -86,51 +109,29 @@ function Ahost() {
         //     .catch(error => {
         //         console.error('Error', error);
         //     });
-
-        if (h_status === '승인대기') {
-            fetch(`http://localhost/admin/approve_host?h_idx=${h_idx}`)
-                .then(response => {
-                    if (response.ok) {
-                        const updatedAhitem = ahitem.map(item => {
-                            if (item.h_idx === h_idx) {
-                                return { ...item, h_status: '승인완료' };
-                            }
-                            return item;
-                        });
-                        setAhitem(updatedAhitem);
-                        return response.text();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
-                .then(message => {
-                    console.log(message);
-                })
-                .catch(error => {
-                    console.error('Error', error);
-                });
-        } else {
-            setMessage('이미 가입이 승인되었습니다.');
-        }
+        // } else {
+        //     setMessage('이미 가입이 승인되었습니다.');
+        // }
     };
 
-    // 페이지네이션 디자인
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = ahitem.slice(indexOfFirstItem, indexOfLastItem);
-    const paginationStyle = {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '20px',
-    };
+    // // 페이지네이션 디자인
+    // const indexOfLastItem = currentPage * itemsPerPage;
+    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // const currentItems = ahitem.slice(indexOfFirstItem, indexOfLastItem);
+    // const paginationStyle = {
+    //     display: 'flex',
+    //     justifyContent: 'center',
+    //     marginTop: '20px',
+    // };
 
-    const buttonStyle = {
-        margin: '0 5px',
-        padding: '5px 10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        backgroundColor: '#fff',
-        cursor: 'pointer',
-    };
+    // const buttonStyle = {
+    //     margin: '0 5px',
+    //     padding: '5px 10px',
+    //     borderRadius: '5px',
+    //     border: '1px solid #ccc',
+    //     backgroundColor: '#fff',
+    //     cursor: 'pointer',
+    // };
 
     return (
         <>
@@ -173,7 +174,7 @@ function Ahost() {
                                         <td>{list.h_phone}</td>
                                         <td>{list.h_regdate}</td>
                                         <td>{list.h_level}</td>
-                                        <td> <button type='button' onClick={() => approveHost(list.h_idx, list.h_status)}>가입승인</button></td>
+                                        <td> <button type='button' onClick={() => approveHost(list.h_idx)}>가입승인</button></td>
                                         <td>
                                             <button type="button" className="btn" onClick={() => openModal(list)}>
                                                 <PencilSquare width="25" height="25" />

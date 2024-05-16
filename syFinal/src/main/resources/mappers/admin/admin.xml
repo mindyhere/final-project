@@ -31,7 +31,7 @@
 		from
 		guest
 		where
-		${searchkey} like CONCAT('%',#{search},'%')
+		#{searchkey} like CONCAT('%',#{search},'%')
 	</select>
 
 	<!-- 회원 상세 -->
@@ -44,8 +44,8 @@
 		g_level,
 		g_point,g_photo,
 		g_card,g_profile,g_join_date ,g_date
-		from guest
-		, levle
+		from
+		guest,level
 		where
 		g_idx = #{g_idx} and
 		g_level = l_level
@@ -67,25 +67,25 @@
 		where g_idx = #{g_idx}
 	</delete>
 
- <!-- 회원 쿠폰 발급 -->
-<insert id="gcoupon">
-</insert>
+	<!-- 회원 쿠폰 발급 -->
+	<insert id="gcoupon">
+	</insert>
 
 	<!-- 사업자 목록 -->
 	<select id="ah_list"
 		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
-		select h_idx, h_email, h_name, h_phone, h_level, h_status,h_business,
+		select h_idx, h_email, h_name, h_phone, h_level,
+		h_status,h_business,
 		h_regdate, h_profile, h_description
 		from host
-		where ${searchkey} like
+		where
+		${searchkey} like
 		CONCAT('%',#{search},'%')
 	</select>
 
-	<!-- 사업자 삭제 -->
-	<delete id="ah_delete">
-		delete
-		from host
-		WHERE h_idx = #{h_idx}
-	</delete>
+	<!-- 사업자 가입승인-->
+	<update  id="ah_approve">
+		update host set h_status="승인완료" where h_idx=#{h_idx}
+	</update>
 
 </mapper>

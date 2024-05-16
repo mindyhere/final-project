@@ -1,11 +1,7 @@
-import {useNavigate,useParams} from 'react-router-dom';
-import Swal from "sweetalert2";
-import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 
 function EditModal({ list, onClose }) {
     const [formData, setFormData] = useState(list);
-  
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,7 +16,7 @@ function EditModal({ list, onClose }) {
                 <div className="modal-content" style={{ borderRadius: '20px', background: '#fff', padding: '20px', width: '100%', height: '300%' }}>
                     <div className="modal-header">
                         <h5 className="modal-title">{formData.g_name}님의 가입정보</h5>
-                        <button type="button" className="close" onClick={onClose}>
+                        &nbsp;<button type="button" className="close" onClick={onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -47,7 +43,7 @@ function EditModal({ list, onClose }) {
                                     name="g_phone" value={formData.g_phone} onChange={handleChange} readOnly />
                             </div>
                             <div className="form-group">
-                                <label>가입일</label>
+                                <label>가입날짜</label>
                                 <input type="text" className="form-control"
                                     name="g_join_date" value={formData.g_join_date} onChange={handleChange} readOnly />
                             </div>
@@ -68,7 +64,7 @@ function EditModal({ list, onClose }) {
                             <div className="form-group">
                                 <label>등급</label>
                                 <input type="text" className="form-control"
-                                    name="g_level" value={formData.g_level}   onChange={handleChange} />
+                                    name="g_level" value={formData.g_level} onChange={handleChange} />
                             </div>
                             <div className="form-group">
                                 <label>포인트</label>

@@ -1,16 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PersonWorkspace,PencilSquare } from "react-bootstrap-icons";
+import { PencilSquare } from "react-bootstrap-icons";
 import EditModal from "./EditModal"; 
-import { useNavigate } from 'react-router';
 
 function AGuest() {
-    const navigate = useNavigate();
     const searchkey = useRef();
     const search = useRef();
     const [agItem, setAgitem] = useState("");
     const [selectedlist, setSelectedlist] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5); 
 
+//회원등급
     const getLevel = (g_Level) => {
         if (g_Level <= 5) {
             return 'REGULAR';
@@ -21,17 +22,19 @@ function AGuest() {
         }
     };
 
+    //리스트 고정 
     useEffect(() => {
         fetchguest();
-      }, [])
+      },  [currentPage]); 
 
     const fetchguest = () => {
         const form = new FormData();
         form.append('searchkey', searchkey.current.value);
         form.append('search', search.current.value);
+        form.append('currentPage', currentPage);
+        form.append('itemsPerPage', itemsPerPage);
         fetch('http://localhost/admin/ag_list', {
-            method: 'post',
-            body: form,
+            method: 'get'
         })
         .then(response => response.json())
         .then(list => {
@@ -39,10 +42,51 @@ function AGuest() {
             setAgitem(list);
         })
         .catch(error => {
-            console.error('Error fetching user list:', error);
+            console.error('Error:', error);
         });
     };
 
+ //페이지네이션 기능
+    const totalPages = Math.ceil(agItem.length / itemsPerPage); 
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const renderPagination = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+        return (
+            <ul className="pagination">
+                {pageNumbers.map(number => (
+                    <li key={number} className="page-item">
+                        <button onClick={() => paginate(number)} className="page-link">
+                            {number}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        );
+    };
+
+    // 페이지네이션 디자인
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = agItem.slice(indexOfFirstItem, indexOfLastItem);
+        const paginationStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '20px',
+    };
+
+    const buttonStyle = {
+        margin: '0 5px',
+        padding: '5px 10px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
+        backgroundColor: '#fff',
+        cursor: 'pointer',
+    };
+
+//상세 모달창
     const handleEditClick = (list) => {
         setSelectedlist(list);
         setIsEditModalOpen(true);
@@ -50,13 +94,10 @@ function AGuest() {
 
     return (
         <>
-            <nav className="navbar bg-body-tertiary fixed-top">
-                <a className="navbar-brand" href='./amain'>
-                    <PersonWorkspace width="50" height="50" />&nbsp; 관리자 페이지
-                </a>
-            </nav>
-            <div>
-                <h2>회원관리</h2><br />
+             <div className="container">
+             <h2>회원관리</h2><br />
+                <div className="row">
+                <div className="col-md-15">
                 <select ref={searchkey} defaultValue='g_name'>
                     <option value="g_name">회원명</option>
                     <option value="g_email">회원ID</option>
@@ -68,7 +109,7 @@ function AGuest() {
                 <button type='button' className="btn btn-outline-success" 
                 onClick={fetchguest}>조회</button>
                 <br /><br />
-                <table className="table table-hover">
+               <table className="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -82,10 +123,11 @@ function AGuest() {
                         </tr>
                     </thead>
                     <tbody>
-                        {agItem && agItem.map((list,index) =>
+                    {currentItems && currentItems.map((list,index) =>
+                        // {agItem && agItem.map((list,index) =>
                             <tr key={index}>
                                 <td>{list.g_idx}</td>
-                                <td><img src={list.g_photo} style={{ width: '50px', height: '50px' }}/></td>
+                                <td>{list.g_photo}</td>
                                 <td>{list.g_name}</td>
                                 <td>{list.g_email}</td>
                                 <td>{list.g_phone}</td>
@@ -95,6 +137,7 @@ function AGuest() {
                                 <PencilSquare width="25" height="25" /></button>
                                 </td>
                             </tr>
+                        
                         )}
                     </tbody>
                 </table>
@@ -104,9 +147,18 @@ function AGuest() {
                     list={selectedlist}
                     onClose={() => setIsEditModalOpen(false)}
                 />
-            )}
+            )} </div>   </div> 
+
+            <div style={paginationStyle}>
+                            <button style={buttonStyle} disabled={currentPage === 1} onClick={() => paginate(currentPage - 1)}>Previous</button>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button key={index} style={buttonStyle} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>{index + 1}</button>
+                            ))}
+                            <button style={buttonStyle} disabled={currentPage === totalPages} onClick={() => paginate(currentPage + 1)}>Next</button>
+                      
+                        </div>   
         </>
     );
-};
+}
 
 export default AGuest;

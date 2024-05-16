@@ -57,7 +57,8 @@ function Header() {
   const locationNow = useLocation(); // 팝업창에서 헤더제거
   if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
   if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/admin/*" || locationNow.pathname === "/admin/alogin") return null; 
+  if (locationNow.pathname === "/admin/amain" || locationNow.pathname === "/admin/alogin"|| locationNow.pathname === "/admin/aguest" || locationNow.pathname === "/admin/ahost" 
+  || locationNow.pathname === "/admin/notice/alist" || locationNow.pathname === "/admin/notice/awrite"  || locationNow.pathname === "/admin/notice/adetail" ) return null; 
 
   if (userInfo == null && g_email == null) {
     console.log("로그인X cookie==> " + userInfo);

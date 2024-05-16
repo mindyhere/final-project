@@ -52,9 +52,10 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 	}
 
 	@Override
-	public String insert(ANoticeDTO dto) {
-		return sqlSession.selectOne("notice.insert", dto);
-
+	public void insert(Map<String, Object> map) {
+		sqlSession.insert("notice.insert", map);
+		
 	}
+
 
 }

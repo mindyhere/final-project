@@ -6,9 +6,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,79 +28,42 @@ public class ANoticeController {
 	SqlSession sqlSession;
 
 	@PostMapping("notice/list")
-	public List<ANoticeDTO> list(@RequestParam(name = "searchkey") String searchkey,
-			@RequestParam(name = "search") String search) {
+	public List<ANoticeDTO> list(@RequestParam(name = "searchkey",defaultValue="") String searchkey,
+			@RequestParam(name = "search",defaultValue="") String search) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchkey", searchkey);
 		map.put("search", search);
-
 		List<ANoticeDTO> list = dao.list(searchkey, search);
-		System.out.println("list 결과값~:" + list);
+		System.out.println("list 결과값~!!!!:" + list);
 		return list;
 
 	}
-
-	   @PostMapping("/notice/insert")
-    public Map<String, Object> insert(@RequestBody Map<String, String> requestData) {
-        String n_writer = requestData.get("n_writer");
-        String n_title = requestData.get("n_title");
-        String n_content = requestData.get("n_content");
-        String n_date = requestData.get("n_date");
-
-        ANoticeDTO dto = new ANoticeDTO();
-        dto.setN_writer(n_writer);
-        dto.setN_title(n_title);
-        dto.setN_content(n_content);
-        dto.setN_date(n_date);
-
-        String result = dao.insert(dto);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("n_writer", n_writer);
-        map.put("n_title", n_title);
-        map.put("n_content", n_content);
-        map.put("n_date", n_date);
-        map.put("result", result);
-
-        return map;
-    }
-
-
-	@PostMapping("/notice/update")
-	public Map<String, Object> update(@RequestParam(name = "n_idx") int n_idx,
-			@RequestParam(name = "n_writer", defaultValue = "") String n_writer,
-			@RequestParam(name = "n_title", defaultValue = "") String n_title,
-			@RequestParam(name = "n_content", defaultValue = "") String n_content,
-			@RequestParam(name = "n_content", defaultValue = "") String n_date) {
-		ANoticeDTO dto = dao.detail(n_idx);
-		dto.setN_idx(n_idx);
-		dto.setN_writer(n_writer);
-		dto.setN_title(n_title);
-		dto.setN_content(n_content);
-		dto.setN_date(n_date);
-		String result = dao.update(dto);
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("n_idx", n_idx);
-		map.put("n_writer", n_writer);
-		map.put("n_title", n_title);
-		map.put("n_content", n_content);
-		map.put("n_date", n_date);
-		map.put("result", result);
-		return map;
+	
+	@Transactional
+	@PostMapping("notice/insert")
+	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
+		System.out.println("map " + map);
+		try {
+			dao.insert(map);
+			return new ResponseEntity<>("true", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
+		}
 	}
 
-	public String update(@RequestBody ANoticeDTO map) {
-		return dao.update(map);
-	}
-
-	@GetMapping("/notice/detail")
-	public Map<String, Object> detail(@RequestParam(name = "n_idx") int n_idx) {
-		ANoticeDTO dto = dao.detail(n_idx);
-		Map<String, Object> map = new HashMap<>();
-		map.put("dto", dto);
-		System.out.println(map);
-		return map;
+	@GetMapping("/notice/detail/{n_idx}")
+	public ResponseEntity<?> detail(@PathVariable("n_idx") int n_idx) {
+	    try {
+	        ANoticeDTO dto = dao.detail(n_idx);
+	        if (dto != null) {
+	            return ResponseEntity.ok().body(dto);
+	        } else {
+	            return ResponseEntity.notFound().build();
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+	    }
 	}
 
 	@PostMapping("/notice/delete")

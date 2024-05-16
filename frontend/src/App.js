@@ -9,6 +9,8 @@ import "./asset/css/main.css";
 import Main from "./Main";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
+import AHeader from "./component/AHeader";
+import AFooter from "./component/AFooter";
 import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
@@ -44,6 +46,7 @@ import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
+import Adetail from "./pages/admin/notice/adetail";
 
 // host 계정
 import HostLogin from "./pages/host/login/Login";
@@ -103,14 +106,6 @@ function App() {
           <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv />} />
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
 
-          {/* admin 계정 */}
-          <Route path="/admin/alogin" element={<Alogin />} />
-          <Route path="/admin/amain" element={<Amain />} />
-          <Route path="/admin/ahost" element={<Ahost />} />
-          <Route path="/admin/aguest" element={<AGuest />} />
-          <Route path="/admin/notice/alist" element={<NoticeList />} />
-          <Route path="/admin/notice/awrite" element={<Awrite />} />
-
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />
           <Route path="/host/searchEmail" element={<SearchHostEmail />} />
@@ -130,10 +125,29 @@ function App() {
           <Route path="/guest/write" element={<WriteReview />} />
 
         </Routes>
-        <Footer />
+        <Footer />      
       </BrowserRouter>
-    </>
+
+ 
+      <BrowserRouter>
+        <AHeader />
+        <Routes>    
+         {/* admin 계정 */}
+         <Route path="/admin/alogin" element={<Alogin />} />
+          <Route path="/admin/amain" element={<Amain />} />
+          <Route path="/admin/ahost" element={<Ahost />} />
+          <Route path="/admin/aguest" element={<AGuest />} />
+          <Route path="/admin/notice/alist" element={<NoticeList />} />
+          <Route path="/admin/notice/awrite" element={<Awrite />} />
+          <Route path="/admin/notice/adetail/:n_idx" element={<Adetail/>} /> 
+        </Routes>
+        <AFooter />
+        
+      </BrowserRouter>
+
+  </>
   );
+
 }
 
 export default App;
