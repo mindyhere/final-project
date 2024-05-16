@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import moment, { Moment } from "moment";
 import { Calendar2Week } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 
@@ -6,12 +7,14 @@ import Cookies from "universal-cookie";
 import HotelNavItem from "./HotelNavItem";
 import OrderItem from "./OrderItem";
 import OrderDetail from "./OrderDetail_modal";
+import Scheduler from "./Scheduler";
 
 import {
   ChevronDoubleLeft,
   ChevronLeft,
   ChevronRight,
   ChevronDoubleRight,
+  Calendar2Check,
 } from "react-bootstrap-icons";
 
 function ManageOrders() {
@@ -138,7 +141,7 @@ function ManageOrders() {
           <div className="card-style mb-30">
             <h3 className="text-bold">
               <Calendar2Week size={35} />
-              &nbsp;예약 목록
+              &nbsp;예약목록
             </h3>
             <br />
             <div className="card text-center">
@@ -353,7 +356,22 @@ function ManageOrders() {
             className="card-style mb-30"
             style={{ zIndex: "0", position: "relative" }}
           >
-            이용통계
+            <h3 className="text-bold">
+              <Calendar2Check size={35} />
+              &nbsp;스케쥴러
+            </h3>
+            <br />
+            <div className="row mx-1">
+              <div className="col-4">
+                <Scheduler
+                  style={{
+                    position: "relative",
+                  }}
+                />
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div className="card-style col">수정1</div>
+            </div>
           </div>
         </div>
       </>
