@@ -68,13 +68,13 @@ var set = {
         return (
             <>
 
-                 <div className="container min-vh-100" >
+                 <div className="container min-vh-100" style={{}}>
                  <h3 className="text-bold"> <img src="/img/info.png" width="35px" height="35px"/>
                 &nbsp; 여행</h3>
                 <br/>
                 <br/>
-                <div>
-                <div style={{zIndex: 0, marginBottom:'50px',width: "650px" ,  height: '300px',marginRight: '40px', float: 'left'}}>
+                <div style={{width: '1000px'}}>
+                <div style={{zIndex: 0, marginBottom:'50px',width: "600px" ,height: '300px',marginRight: '70px', float: 'left'}}>
                 <h4>예정된 예약</h4>
                 <Slider {...settings}>
                     {reservList.map(
@@ -92,7 +92,7 @@ var set = {
                 )} 
                 </Slider>
                 </div> 
-                    <div style={{zIndex: 0, height: '400px', width:'600px', float: 'left'}}>
+                    <div style={{zIndex: 0, height: '400px', width:'1100px'}}>
                     <h4>&nbsp;&nbsp;리뷰를 작성해 주세요</h4>
                     <br/>
                     <Sld {...set}>
@@ -113,7 +113,7 @@ var set = {
                     </div>
                     </div>
                
-                <div style={{ zIndex: 0, paddingBottom: '100px'}}>
+                <div style={{ zIndex: 0, paddingBottom: '100px', position:'relative'}}>
                     <br/>
                     <br/>
                     <h4>이전 예약</h4>
