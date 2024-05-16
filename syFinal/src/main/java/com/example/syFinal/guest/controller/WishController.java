@@ -102,11 +102,11 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishDelete(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		System.out.println(h_idx);
+		// System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishDelete(g_idx, h_idx);
 		map.put("result", result);
-		map.put("check", 0);
+		//map.put("check", 0);
 		return map;
 	}
 	
@@ -114,11 +114,11 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishUpdate(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		System.out.println(h_idx);
+		// System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishUpdate(g_idx, h_idx);
 		map.put("result", result);
-		map.put("check", 1);
+		//map.put("check", 1);
 		return map;
 	}
 }
