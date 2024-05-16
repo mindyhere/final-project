@@ -23,4 +23,10 @@ public interface OrderDAO {
 	// 예약 확정 시 게스트 레벨 업데이트
 	int guestLevelUpate(Map<String, Object> param);
 
+	// 게스트가 예약 변경 요청한 목록 가져오기
+	List<Map<String, Object>> requestList(int h_idx);
+
+	// 예약 변경사항 업데이트
+	void modify(int o_idx);
+
 }

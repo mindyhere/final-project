@@ -30,7 +30,15 @@ abbr[title] {
     text-decoration: none;
 }
 
-.react-calendar__month-view__days__day--weekend {
+.react-calendar__month-view__days__day {
+    color: black;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
+    color: red;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="토요일"] {
     color: #6f48eb;
 }
 

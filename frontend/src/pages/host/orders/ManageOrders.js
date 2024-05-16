@@ -132,6 +132,10 @@ function ManageOrders() {
     );
   }
 
+  const tileContent = ({ date }) => {
+    return <p>.</p>;
+  };
+
   if (loading) {
     return <div>loading...</div>;
   } else {
@@ -364,6 +368,7 @@ function ManageOrders() {
             <div className="row mx-1">
               <div className="col-4">
                 <Scheduler
+                  tileContent={tileContent}
                   style={{
                     position: "relative",
                   }}
