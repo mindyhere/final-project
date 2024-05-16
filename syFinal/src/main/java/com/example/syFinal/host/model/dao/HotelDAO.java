@@ -45,6 +45,8 @@ public interface HotelDAO {
 	/* 호텔 상세 정보 조회 */
 	List<Map<String, Object>> detailMyHotel(int ho_idx);
 	
+	/* 호텔 대표 이미지 조회 */
+	String getHotelImg(int ho_idx);
 	
 	/* 호텔 기본 정보 수정 */
 	void editHotelDefaultInfo(Map<String, Object> map);

@@ -82,7 +82,7 @@ function EditHotel() {
                                 <th>호텔 등급</th>
                                 <td><input style={{border:'none'}} ref={ho_level} defaultValue={data[0].ho_level} /></td>
                                 <th>호텔 층수</th>
-                                <td><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_floor}/></td>
+                                <td><input style={{border:'none'}} ref={ho_floor} defaultValue={data[0].ho_floor}/></td>
                             </tr>
                             <tr>
                                 <th>싱글</th>
@@ -110,7 +110,7 @@ function EditHotel() {
                             </tr>
                             <tr>
                                 <th colSpan={2}>호텔 대표 이미지</th>
-                                {/* <span dangerouslySetInnerHTML={{__html : image_url}}></span> */}
+                                <span dangerouslySetInnerHTML={{__html : image_url}}></span>
                                 <td colSpan={2}><input type="file" ref={ho_img} /></td>
                             </tr>
                             <tr>
@@ -127,25 +127,38 @@ function EditHotel() {
                     </table>
                     <div style={{textAlign: 'right'}}>
                         <button className="main-btn" onClick={() => {
-                            const form = new FormData();
-                            form.append('ho_name', ho_name.current.value);
-                            form.append('ho_level', ho_level.current.value);
-                            form.append('ho_floor', ho_floor.current.value);
-                            form.append('ho_single', ho_single.current.value);
-                            form.append('ho_double', ho_double.current.value);
-                            form.append('ho_family', ho_family.current.value);
-                            form.append('ho_suite', ho_suite.current.value);
-                            form.append('ho_check_in', ho_check_in.current.value);
-                            form.append('ho_check_out', ho_check_out.current.value);
-                            form.append('ho_description', ho_description.current.value);
-                            form.append('ho_img', ho_img.current.files[0]);
-                            form.append('ho_address', ho_address.current.value);
-                            fetch('http://localhost/host/hotel/editHotel/defaultInfo', {
-                                method: 'POST',
-                                encType : 'multipart/data-form',
-                                body : form
-                            })
-                            .then(response => response.json())
+                            Swal.fire({
+                                text: '호텔 기본정보를 수정하시겠습니까?',
+                                showCancelButton: true,
+                                confirmButtonText: '확인',
+                                cancelButtonText: "취소"
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    const form = new FormData();
+                                    form.append('ho_idx', hoIdx);
+                                    form.append('ho_name', ho_name.current.value);
+                                    form.append('ho_level', ho_level.current.value);
+                                    form.append('ho_floor', ho_floor.current.value);
+                                    form.append('ho_single', ho_single.current.value);
+                                    form.append('ho_double', ho_double.current.value);
+                                    form.append('ho_family', ho_family.current.value);
+                                    form.append('ho_suite', ho_suite.current.value);
+                                    form.append('ho_check_in', ho_check_in.current.value);
+                                    form.append('ho_check_out', ho_check_out.current.value);
+                                    form.append('ho_address', ho_address.current.value);
+                                    form.append('ho_description', ho_description.current.value);
+                                    if(ho_img.current.files.length > 0){
+                                        form.append('img', ho_img.current.files[0]);
+                                    }
+                                    fetch('http://localhost/host/hotel/editHotel/defaultInfo', {
+                                        method: 'POST',
+                                        encType : 'multipart/form-data',
+                                        body : form
+                                    }).then(() => {
+                                        window.location.replace("/host/hotel/editHotel");
+                                    });
+                                }
+                            });
                             }}
                         >수정</button>
                     </div>

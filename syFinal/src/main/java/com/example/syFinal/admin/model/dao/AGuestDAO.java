@@ -5,8 +5,11 @@ import java.util.List;
 import com.example.syFinal.admin.model.dto.AGuestDTO;
 
 public interface AGuestDAO {
-	List<AGuestDTO>  list(String searchkey, String search);
+	List<AGuestDTO> list(String searchkey, String search);
+
 	String delete(int g_idx);
+
 	AGuestDTO detail(int g_idx);
+
 	String update(AGuestDTO dto);
 }

@@ -1,0 +1,83 @@
+.react-calendar {
+    width: 400px;
+    max-width: 100%;
+    background-color: #fff;
+    color: #222;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+}
+
+.react-calendar__navigation button {
+    color: #6f48eb;
+    border-radius: 6px;
+    min-width: 44px;
+    background: none;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #f8f8fa;
+}
+
+.react-calendar__navigation button[disabled] {
+    background-color: #f7effc;
+}
+
+abbr[title] {
+    text-decoration: none;
+}
+
+.react-calendar__month-view__days__day {
+    color: black;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
+    color: red;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="토요일"] {
+    color: #6f48eb;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background: #f8f8fa;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.react-calendar__tile--now {
+    background: #f7effc;
+    border-radius: 6px;
+    font-weight: bold;
+    color: black;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    background: #f7effc;
+    border-radius: 6px;
+    font-weight: bold;
+    color: black;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+    background: #f8f8fa;
+}
+
+.react-calendar__tile--active {
+    background: #f7effc;
+    border-radius: 6px;
+    font-weight: bold;
+    color: black;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    background: #f7effc;
+    color: black;
+}
