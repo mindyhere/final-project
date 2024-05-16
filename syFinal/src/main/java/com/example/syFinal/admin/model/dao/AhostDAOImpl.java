@@ -7,8 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.example.syFinal.admin.model.dto.AGuestDTO;
 import com.example.syFinal.admin.model.dto.AHostDTO;
 
 @Repository
@@ -42,6 +40,13 @@ public class AhostDAOImpl implements AhostDAO {
 		AHostDTO dto = sqlSession.selectOne("admin.ah_detail", g_idx);
 		System.out.println("test");
 		return dto;
+	}
+	
+
+	@Override // Host 승인신청(승인대기 > 승인완료로 업데이트)
+	public void a_approve(int h_idx) {
+		System.out.println("==>" + h_idx);
+		sqlSession.update("admin.ah_approve", h_idx);
 	}
 
 }
