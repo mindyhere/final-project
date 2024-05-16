@@ -5,11 +5,15 @@ import java.util.Map;
 
 import com.example.syFinal.admin.model.dto.ANoticeDTO;
 
-
 public interface ANoticeDAO {
-	List<ANoticeDTO> list(String searchkey, String search); //공지목록
-	String insert(ANoticeDTO dto); //공지 등록
-	String delete(int n_idx); // 공지삭제
+	List<ANoticeDTO> list(String searchkey, String search);
+
+	String delete(int n_idx);
+
 	ANoticeDTO detail(int n_idx);
+
 	String update(ANoticeDTO dto);
+
+	void insert(Map<String, Object> map);
+
 }

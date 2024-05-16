@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AdminDAOImpl implements AdminDAO {
 
-		@Autowired
-		SqlSession sqlSession;
+	@Autowired
+	SqlSession sqlSession;
 
-		@Override
-		public String alogin(Map<String, Object> map) {
-			return sqlSession.selectOne("admin.a_login", map);
-		}
+	@Override
+	public String alogin(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.a_login", map);
+	}
 }
