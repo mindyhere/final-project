@@ -133,14 +133,23 @@ public class HotelController {
 	/* 호텔 상세 정보 조회 */
 	@GetMapping("/host/hotel/detailMyHotel")
 	public List<Map<String, Object>> detailMyHotel(@RequestParam(name="ho_idx") int ho_idx){
-		System.out.println("~~~~~~ ho_idx : " + ho_idx);
-		
 		List<Map<String, Object>> detailMyHotel = new ArrayList<>();
 		detailMyHotel = hotelDao.detailMyHotel(ho_idx);
 		return detailMyHotel;
 	}
+	
 	/* 호텔 정보 수정 */
+	@PostMapping("/host/hotel/editHotel/defaultInfo")
+	public void editHotel(@RequestParam Map<String, Object> map,
+			@RequestParam(name = "img", required = false) MultipartFile img) {
+		System.out.println(" 호텔 기본 정보 수정 - map : " + map);
+		System.out.println(" 호텔 기본 정보 수정 - img : " + img);
+		//hotelDao.
+	}
 	
-	/* 호텔 삭제 */
-	
+	/* 호텔 영업 중지 신청 */
+	@GetMapping("/host/hotel/closeHotel")
+	public void closeHotel(@RequestParam(name="ho_idx") int ho_idx) {
+		hotelDao.closeHotel(ho_idx);
+	}
 }
