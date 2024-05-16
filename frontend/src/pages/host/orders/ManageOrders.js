@@ -210,7 +210,7 @@ function ManageOrders() {
                   </thead>
                   <tbody
                     className="table-group-divider"
-                    style={{ borderColor: "#DBC4F0" }}
+                    style={{ borderColor: "#F7EFFC" }}
                   >
                     {count > 0 ? (
                       list.map(
