@@ -142,4 +142,9 @@
 		AND ho_idx = d_ho_idx
 		AND d_ho_idx = ha_ho_idx
 	</update>
+	
+	<!-- 호텔 이미지 조회 -->
+	<select id="getHotelImg" resultType="String">
+		SELECT ho_img FROM hotel WHERE ho_img = #{ho_img}
+	</select>
 </mapper>
