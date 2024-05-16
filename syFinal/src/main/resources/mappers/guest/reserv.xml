@@ -76,4 +76,30 @@ SELECT distinct(o_idx), o_ckin, o_ckout from orders, hotel, hotel_detail
 where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{o_didx}
 and o_idx <![CDATA[<>]]> #{o_idx}
 </select>
+
+<select id="roomCount" resultType="Int">
+	SELECT 
+	case
+	when ((SELECT d_room_type FROM hotel_detail, orders
+	WHERE o_idx = #{o_idx} and o_didx = d_idx) = '더블룸' )
+	then (SELECT ho_double FROM hotel_detail, orders, hotel
+	WHERE o_idx = #{o_idx} and o_didx = d_idx AND d_ho_idx = ho_idx)
+	
+	when ((SELECT d_room_type FROM hotel_detail, orders
+	WHERE o_idx = #{o_idx} and o_didx = d_idx) = '싱글룸' )
+	then (SELECT ho_double FROM hotel_detail, orders, hotel
+	WHERE o_idx = #{o_idx} and o_didx = d_idx AND d_ho_idx = ho_idx)
+	
+	when ((SELECT d_room_type FROM hotel_detail, orders
+	WHERE o_idx = #{o_idx} and o_didx = d_idx) = '패밀리룸' )
+	then (SELECT ho_double FROM hotel_detail, orders, hotel
+	WHERE o_idx = #{o_idx} and o_didx = d_idx AND d_ho_idx = ho_idx)
+	
+	when ((SELECT d_room_type FROM hotel_detail, orders
+	WHERE o_idx = #{o_idx} and o_didx = d_idx) = '스위트룸' )
+	then (SELECT ho_double FROM hotel_detail, orders, hotel
+	WHERE o_idx = #{o_idx} and o_didx = d_idx AND d_ho_idx = ho_idx)
+	END AS count
+</select>
+
 </mapper>

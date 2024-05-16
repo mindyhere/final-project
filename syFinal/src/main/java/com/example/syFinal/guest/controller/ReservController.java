@@ -164,10 +164,11 @@ public class ReservController {
 				imp_dates.add(bet_dates.get(j));
 			}
 		}
+		int roomCount = dao.room_count(o_idx);
 		List<String> dates = new ArrayList<String>();
 		Set<String> set = new HashSet<String>(imp_dates);        
 		for (String str : set) {
-			if (Collections.frequency(imp_dates, str) > 1) {
+			if (Collections.frequency(imp_dates, str) >= roomCount) {
 				dates.add(str);
 			}
 		}
