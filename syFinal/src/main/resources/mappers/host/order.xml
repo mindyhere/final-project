@@ -91,8 +91,8 @@
 <select id="modify" statementType="CALLABLE">
 {	call p_order_modify(
 		#{oidx, mode=IN, jdbcType=INTEGER}, 
-		#{ckin, mode=IN, jdbcType=DATE}, 
-		#{ckout, mode=IN, jdbcType=DATE}, 
+		#{ckin, mode=IN, jdbcType=VARCHAR}, 
+		#{ckout, mode=IN, jdbcType=VARCHAR}, 
 		#{adult, mode=IN, jdbcType=INTEGER}, 
 		#{child, mode=IN, jdbcType=INTEGER}, 
 		#{baby, mode=IN, jdbcType=INTEGER}, 
@@ -102,15 +102,4 @@
 	)
 }
 </select>
-<!-- <update id="modify">
-	update orders
-<trim prefix="SET" suffixOverrides=",">
-	<if test="ru_startDate !='' or ru_startDate !=null" >o_ckin = #{ru_startDate},</if>
-	<if test="ru_endDate !='' or ru_endDate !=null" >o_ckout = #{ru_endDate},</if>
-	<if test="ru_adult !='' or ru_adult !=null" >o_adult = #{ru_adult},</if>
-	<if test="ru_child !='' or ru_child !=null" >o_child = #{ru_child},</if>
-	<if test="ru_baby !='' or ru_baby !=null" >o_baby = #{ru_baby}</if>
-</trim>
-	where o_idx=#{o_idx}
-</update> -->
 </mapper>

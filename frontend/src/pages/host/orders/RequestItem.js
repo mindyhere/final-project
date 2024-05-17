@@ -145,7 +145,7 @@ function RequestItem({
                               .catch((error) => {
                                 console.log(error);
                                 Swal.showValidationMessage(
-                                  `처리 중 문제가 발생했습니다. 비밀번호 또는 예약대기 목록을 우선 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
+                                  `문제가 발생했습니다. 비밀번호 또는 예약대기 목록을 우선 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
                               });
                           },
@@ -158,7 +158,7 @@ function RequestItem({
                               title: "Success",
                               html: "정상처리 되었습니다.",
                               showConfirmButton: false,
-                              // timer: 2000,
+                              timer: 2000,
                             }).then(() => {
                               window.location.reload();
                             });

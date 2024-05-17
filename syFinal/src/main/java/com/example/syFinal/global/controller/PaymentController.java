@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.guest.model.dao.GuestDAO;
-import com.siot.IamportRestClient.IamportClient;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 public class PaymentController {
-	private IamportClient iamportClient;
+//	private IamportClient iamportClient;
 
 	// application.properties key입력하기
 //	@Value("${imp.api.key}")

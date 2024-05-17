@@ -28,6 +28,5 @@ public interface OrderDAO {
 
 	// 예약 변경사항 업데이트
 	void modify(Map<String, Object> params);
-//	boolean modify(Map<String, Object> map);
 
 }
