@@ -102,4 +102,32 @@
 	)
 }
 </select>
+
+<!-- 기존 예약 수 확인 -->
+<select id="countOrders" resultType="int">
+select count(*)
+from (
+	select o_idx, o_didx, d_room_type
+	from orders, hotel_detail
+	where 
+		((o_ckin <![CDATA[<]]> #{ckin} and o_ckout <![CDATA[>]]> #{ckin}) 
+		or (o_ckin <![CDATA[>=]]> #{ckin} and o_ckin <![CDATA[<]]> #{ckout}))
+		and d_room_type = #{d_room_type}
+		and o_didx = #{d_idx}
+		and o_state != '2'
+) tmp
+</select>
+
+<select id="roomCount" resultType="int">
+select
+<choose>
+	<when test="d_room_type == '싱글룸' ">ho_single</when>
+	<when test="d_room_type == '더블룸' ">ho_double</when>
+	<when test="d_room_type == '패밀리룸' ">ho_family</when>
+	<otherwise>ho_suite</otherwise>
+</choose>
+	from hotel
+	where ho_idx = #{ho_idx}
+</select>
+
 </mapper>
