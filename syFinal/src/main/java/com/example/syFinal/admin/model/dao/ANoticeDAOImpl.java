@@ -27,7 +27,7 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 	public ANoticeDTO detail(int n_idx) {
 		return sqlSession.selectOne("notice.detail", n_idx);
 	}
-
+	
 	public String delete(int n_idx) {
 		String result = "";
 		try {
@@ -39,22 +39,10 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 		return result;
 	}
 
-	@Override
-	public String update(ANoticeDTO dto) {
-		String result = "";
-		try {
-			sqlSession.update("admin.ag_update", dto);
-			result = "success";
-		} catch (Exception e) {
-			result = "fail";
-		}
-		return result;
-	}
-
+	
 	@Override
 	public void insert(Map<String, Object> map) {
 		sqlSession.insert("notice.insert", map);
-
+		
 	}
-
 }
