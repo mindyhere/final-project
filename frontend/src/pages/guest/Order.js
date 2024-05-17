@@ -62,7 +62,7 @@ function Order() {
             document.head.removeChild(iamport);
         }
     }, []);
-    
+
     //포트원 연동 나이스페이 결제
     async function serverAuth() {
         const { PortOne } = window;
@@ -101,34 +101,104 @@ function Order() {
             });
         } else {
             alert("결제성공");
-            const form = new FormData();
-            form.append('idx',idx.key);
-            form.append('dIdx',dIdx);
-            form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-            form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-            form.append('adult',adult);
-            form.append('child',child);
-            form.append('baby',baby);
-            form.append('pay',pay);
-            form.append('dprice',dprice);
-            form.append('fprice',fprice);
-            form.append('paymentId', response.paymentId);
-            
-            fetch('http://localhost/guest/order',{
-                method:'post',
-                body:form
-            }).then(()=>{
-                //예약완료시 모달로 확인 후 예약내역페이지로 이동
-                Swal.fire({
-                    icon : 'success',
-                    text : '예약요청이 완료되었습니다.',
-                    confirmButtonText: '확인'
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        window.location.href='/guest/reservation';
-                    }
-                });
-            });
+                        const form = new FormData();
+                        form.append('idx',idx.key);
+                        form.append('dIdx',dIdx);
+                        form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+                        form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+                        form.append('adult',adult);
+                        form.append('child',child);
+                        form.append('baby',baby);
+                        form.append('pay',pay);
+                        form.append('dprice',dprice);
+                        form.append('fprice',fprice);
+                        form.append('paymentId', response.paymentId);
+                        
+                        fetch('http://localhost/guest/order',{
+                            method:'post',
+                            body:form
+                        }).then(()=>{
+                            //예약완료시 모달로 확인 후 예약내역페이지로 이동
+                            Swal.fire({
+                                icon : 'success',
+                                text : '예약요청이 완료되었습니다.',
+                                confirmButtonText: '확인'
+                            }).then((result) => {
+                                if(result.isConfirmed) {
+                                    window.location.href='/guest/reservation';
+                                }
+                            });
+                        });
+
+            // app.use(bodyParser.json());
+
+            // // POST 요청을 받는 /payments/complete
+            // app.post("/payment/complete", async (req, res) => {
+            // try {
+            //     // 요청의 body로 paymentId가 전달되기를 기대합니다.
+            //     const { paymentId, orderId } = req.body;
+
+            //     // 1. 포트원 결제내역 단건조회 API 호출
+            //     const paymentResponse = await fetch(
+            //     `https://api.portone.io/payments/${paymentId}`,
+            //     { headers: { Authorization: `PortOne 8I6gk3CbU6dmSKZ5WDQDclFzYOMq8gnBJbtCRkEm7uloX27PRxKGjqnSYSaKzWJefLssINqMzO7OO35o` } },
+            //     );
+            //     if (!paymentResponse.ok)
+            //     throw new Error(`paymentResponse: ${paymentResponse.statusText}`);
+            //     const payment = await paymentResponse.json();
+
+            //     // 2. 고객사 내부 주문 데이터의 가격과 실제 지불된 금액을 비교합니다.
+            //     const order = await OrderService.findById(orderId);
+            //     if (order.amount === payment.amount.total) {
+            //     switch (payment.status) {
+            //         case "VIRTUAL_ACCOUNT_ISSUED": {
+            //         // 가상 계좌가 발급된 상태입니다.
+            //         // 계좌 정보를 이용해 원하는 로직을 구성하세요.
+            //         break;
+            //         }
+            //         case "PAID": {
+            //             // 모든 금액을 지불했습니다! 완료 시 원하는 로직을 구성하세요.
+            //             alert("결제성공");
+            //             const form = new FormData();
+            //             form.append('idx',idx.key);
+            //             form.append('dIdx',dIdx);
+            //             form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            //             form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            //             form.append('adult',adult);
+            //             form.append('child',child);
+            //             form.append('baby',baby);
+            //             form.append('pay',pay);
+            //             form.append('dprice',dprice);
+            //             form.append('fprice',fprice);
+            //             form.append('paymentId', response.paymentId);
+                        
+            //             fetch('http://localhost/guest/order',{
+            //                 method:'post',
+            //                 body:form
+            //             }).then(()=>{
+            //                 //예약완료시 모달로 확인 후 예약내역페이지로 이동
+            //                 Swal.fire({
+            //                     icon : 'success',
+            //                     text : '예약요청이 완료되었습니다.',
+            //                     confirmButtonText: '확인'
+            //                 }).then((result) => {
+            //                     if(result.isConfirmed) {
+            //                         window.location.href='/guest/reservation';
+            //                     }
+            //                 });
+            //             });
+            //             break;
+            //         }
+            //     }
+            //     } else {
+            //     // 결제 금액이 불일치하여 위/변조 시도가 의심됩니다.
+            //         alert("결제금액 불일치");
+            //     }
+            // } catch (e) {
+            //     // 결제 검증에 실패했습니다.
+            //     res.status(400).send(e);
+            // }
+            // });
         }
     }
     
