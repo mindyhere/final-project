@@ -126,19 +126,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void modify(Map<String, Object> params) {
 		sqlSession.selectOne("order.modify", params);
-		System.err.println("==> modify? " + params + params.get("level") + ", " + params.get("result"));
+		System.out.println("==> modify? " + params);
 	}
-//	public boolean modify(Map<String, Object> map) {
-//		try {
-//			sqlSession.update("order.modify", map);
-//			System.out.println("==> 정상처리완료");
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println("==> 에러");
-//			return false;
-//		}
-//		sqlSession.update("order.modify", o_idx);
-//	}
 
 }
