@@ -51,10 +51,9 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
         return (
             <div>
                 <div onClick={() => setModal(true)}>
-                    <div style={{textAlign:'center'}}>
+                    <div className='mb-20' style={{textAlign:'center'}}>
                         <div className = "mb-10" dangerouslySetInnerHTML={{__html: img1_url}}></div> 
                         <h5><div>{dRoomType}</div></h5>
-                        
                     </div>
                 </div>
                 { modal &&
