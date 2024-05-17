@@ -1,11 +1,16 @@
 package com.example.syFinal.host.controller;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.syFinal.MainController;
 import com.example.syFinal.host.model.dao.HotelDAO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class HotelController {
@@ -31,6 +40,27 @@ public class HotelController {
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hoteList(map);
+
+		List<String> bet_dates = new ArrayList<String>();
+		List<String> imp_dates = new ArrayList<String>();
+		MainController main = new MainController();
+		List<HotelDetailDTO> date = hotelDao.imp_date(ho_idx, d_idx);
+		for (int i = 0; i < date.size(); i++) {
+			bet_dates = main.dateBetween(date.get(i).getO_ckin(), date.get(i).getO_ckout());
+			for (int j = 0; j < bet_dates.size(); j++) {
+				imp_dates.add(bet_dates.get(j));
+			}
+		}
+		int roomCount = hotelDao.room_count(ho_idx, d_idx);
+		System.out.println(roomCount);
+		List<String> dates = new ArrayList<String>();
+		Set<String> set = new HashSet<String>(imp_dates);
+		for (String str : set) {
+			if (Collections.frequency(imp_dates, str) >= roomCount) {
+				dates.add(str);
+			}
+		}
+		hotelList.put("imp_dates", dates);
 		return hotelList;
 	}
 
@@ -121,26 +151,54 @@ public class HotelController {
 		hotelManagement.put("list", hotelList);
 		return hotelManagement;
 	}
-	
+
 	/* 신규 호텔 등록 */
 	@PostMapping("/host/hotel/registHotel")
-	public void registHotel (@RequestParam Map<String, Object> map,
+	public void registHotel(@RequestParam Map<String, Object> map,
 			@RequestParam(name = "img", required = false) MultipartFile img) {
 		System.out.println("map : " + map);
 		System.out.println("img" + img);
 	}
-	
+
 	/* 호텔 상세 정보 조회 */
 	@GetMapping("/host/hotel/detailMyHotel")
-	public List<Map<String, Object>> detailMyHotel(@RequestParam(name="ho_idx") int ho_idx){
-		System.out.println("~~~~~~ ho_idx : " + ho_idx);
-		
+	public List<Map<String, Object>> detailMyHotel(@RequestParam(name = "ho_idx") int ho_idx) {
 		List<Map<String, Object>> detailMyHotel = new ArrayList<>();
 		detailMyHotel = hotelDao.detailMyHotel(ho_idx);
 		return detailMyHotel;
 	}
-	/* 호텔 정보 수정 */
-	
-	/* 호텔 삭제 */
-	
+
+	/* 호텔 기본 정보 수정 */
+	@Transactional
+	@PostMapping("/host/hotel/editHotel/defaultInfo")
+	public void editHotel(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx,
+			@RequestParam(name = "img", required = false) MultipartFile img, HttpServletRequest request) {
+		ServletContext application = request.getSession().getServletContext();
+		String path = application.getRealPath("static/images/host/hotel/");
+		String hotelImg = hotelDao.getHotelImg(ho_idx);
+		if (img != null && !img.isEmpty()) {
+			try {
+				if (hotelImg != null && !hotelImg.equals("-")) {
+					File file1 = new File(path + hotelImg);
+					if (file1.exists()) {
+						file1.delete();
+					}
+				}
+				hotelImg = img.getOriginalFilename();
+				img.transferTo(new File(path + hotelImg));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			hotelImg = hotelDao.getHotelImg(ho_idx);
+		}
+		map.put("img", hotelImg);
+		hotelDao.editHotelDefaultInfo(map);
+	}
+
+	/* 호텔 영업 중지 신청 */
+	@GetMapping("/host/hotel/closeHotel")
+	public void closeHotel(@RequestParam(name = "ho_idx") int ho_idx) {
+		hotelDao.closeHotel(ho_idx);
+	}
 }

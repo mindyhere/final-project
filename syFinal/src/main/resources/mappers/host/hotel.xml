@@ -11,17 +11,32 @@
 				AND h.ho_business = host.h_business
 				AND d_idx = #{d_idx}
 	</select>
-	
-	<select id="getHotelImg" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
-		SELECT d_img1, d_img2, d_img3
-		FROM hotel, hotel_detail
-		WHERE ho_idx = #{ho_idx}
-	</select>
 		
 	<!-- 이미 예약된 날짜 정보 -->
 	<select id="imp_date" resultType="com.example.syFinal.host.model.dto.HotelDetailDTO">
 		SELECT distinct(o_idx), o_ckin, o_ckout from orders, hotel, hotel_detail
-		where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{d_idx}
+		where ho_idx = #{ho_idx} and d_ho_idx = ho_idx and o_didx = #{d_idx} AND o_state IN (1, 3)
+	</select>
+	
+	<select id="roomCount" resultType="Int">
+		SELECT 
+		case
+		when ((SELECT d_room_type FROM hotel_detail
+		WHERE d_idx = #{d_idx} and d_ho_idx = #{ho_idx}) = '더블룸' )
+		then (SELECT ho_double FROM hotel WHERE ho_idx = #{ho_idx})
+		
+		when ((SELECT d_room_type FROM hotel_detail
+		WHERE d_idx = #{d_idx} and d_ho_idx = #{ho_idx}) = '싱글룸' )
+		then (SELECT ho_single FROM hotel WHERE ho_idx = #{ho_idx})
+		
+		when ((SELECT d_room_type FROM hotel_detail
+		WHERE d_idx = #{d_idx} and d_ho_idx = #{ho_idx}) = '패밀리룸' )
+		then (SELECT ho_family FROM hotel WHERE ho_idx = #{ho_idx})
+		
+		when ((SELECT d_room_type FROM hotel_detail
+		WHERE d_idx = #{d_idx} and d_ho_idx = #{ho_idx}) = '스위트룸' )
+		then (SELECT ho_suite FROM hotel WHERE ho_idx = #{ho_idx})
+		END AS count
 	</select>
 
 	<!-- 호텔 객실 정보 -->
@@ -125,4 +140,27 @@
 		AND ho_idx = d_ho_idx
 		AND d_ho_idx = ha_ho_idx
 	</select>
+
+	<!-- 호텔 대표 이미지 조회 -->
+	<select id="getHotelImg" resultType="String">
+		SELECT ho_img FROM hotel WHERE ho_idx = #{ho_idx}
+	</select>
+
+	<!-- 호텔 정보 수정 -->
+	<update id="editHotelDefaultInfo">
+		UPDATE hotel 
+		SET ho_name = #{ho_name}, ho_address = #{ho_address}, ho_level = #{ho_level}, ho_floor = #{ho_floor}, ho_single = #{ho_single}, ho_double = #{ho_double},
+		ho_family = #{ho_family}, ho_suite = #{ho_suite}, ho_img = #{img}, ho_description = #{ho_description}, ho_check_in = #{ho_check_in}, ho_check_out = #{ho_check_out}
+		WHERE ho_idx = #{ho_idx}
+	</update>
+	
+	<!-- 호텔 영업 중지 신청 -->
+	<update id="closeHotel">
+		UPDATE hotel h, hotel_detail d, hotel_amenity a
+		SET h.ho_status = 3, d.d_status = 3, a.ha_status = 3
+		WHERE ho_idx = #{ho_idx}
+		AND ho_idx = d_ho_idx
+		AND d_ho_idx = ha_ho_idx
+	</update>
+	
 </mapper>

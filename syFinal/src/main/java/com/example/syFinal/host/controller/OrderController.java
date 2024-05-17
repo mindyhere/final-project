@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,6 +106,37 @@ public class OrderController {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
 		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
+		return data;
+	}
+
+	@GetMapping("mange/modify/list")
+	public Map<String, Object> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
+		System.out.println("==> 목록 map? " + h_idx);
+		Map<String, Object> data = new HashMap<>();
+		List<Map<String, Object>> request = orderDao.requestList(h_idx);
+		if (request == null) {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			data.put("request", request);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> 결과 map? " + data);
+		return data;
+	}
+
+	@Transactional
+	@GetMapping("mange/modify/{o_idx}")
+	public Map<String, Object> modify(@PathVariable(name = "o_idx") int o_idx, @RequestParam Map<String, Object> map) {
+		System.out.println("==> 업데이트 map? " + map);
+		Map<String, Object> data = new HashMap<>();
+		try {
+			orderDao.modify(o_idx);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		} catch (Exception e) {
+			e.printStackTrace();
+			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+		}
+		System.out.println("==> 결과 map? " + data);
 		return data;
 	}
 

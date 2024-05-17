@@ -6,10 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,7 +68,7 @@ public class AGuestController {
 		map.put("result", result);
 		return map;
 	}
-	
+
 //	@PostMapping("/admin/ag_coupon")
 //	  public String gCoupon(int g_level) {
 //	        String coupon = "";

@@ -112,4 +112,20 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
+	@Override
+	public List<Map<String, Object>> requestList(int h_idx) {
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("order.modifyRequest", h_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void modify(int o_idx) {
+		sqlSession.update("order.modify", o_idx);
+	}
+
 }

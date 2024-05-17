@@ -11,7 +11,7 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
     //const url = `../img/${HoImg}`;
     const navigate = useNavigate();
     const [image, setImage] = useState(""); 
-    
+    const [checkId, setCheckId] = useState(0);
 
     const handleClick = () => {
         const form = new FormData();
@@ -24,10 +24,9 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
             }).then((response) => response.json())
             .then(data => {
                 if(data.result === 'success') {
-                    window.location.href='/';
+                   setCheckId(0);
                 }
             })
-            setImage("/img/heart.png");
         } else {
             fetch('http://localhost/guest/wish/wishUpdate', {
                 method: 'post',
@@ -35,22 +34,30 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
             }).then((response) => response.json())
             .then(data => {
                 if(data.result == 'success') {
-                    window.location.href='/';
+                    setCheckId(1);
                 }
             })
-            setImage("/img/black_heart.png");
         }
     }
     
     useEffect(() => {
         if (check === 1) {
-            setImage("/img/black_heart.png");
+            setCheckId(1);
         } else if (check === 0) {
+            setCheckId(0);
+        } else {
+        }
+    }, [])
+
+    useEffect(() => {
+        if (checkId === 1) {
+            setImage("/img/black_heart.png");
+        } else if (checkId === 0) {
             setImage("/img/heart.png");
         } else {
             setImage('');
-        }
-    })
+        }   
+    }, [checkId])
 
     if (loading) {
         return (
@@ -63,21 +70,21 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
         }
 
         return (
-            <div style={{ margin: '5px',paddingLeft: '100px'}}>
-                    <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}> 
+            <div style={{ margin: '5px',paddingLeft: '100px'}}> 
                 <div id="Img" style={{position: 'relative'}}>
+                <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                         <div style={{fontSize:"23px"}}>{HoName}</div>
                             ₩68,717 /박
-                    {check === null ? '' :
+                            </Link>           
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
-                    top:'20px', left:'320px'}} onClick={() => {handleClick()}}>
-                    <img src={image} width='28px' height='35px' />
+                    top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                    <img src={image} width='70px' height='70px' />
                     </button>
-                    }
+                    <input type='hidden' id={checkId} value={check}></input>
                 <br />
                 </div>
-                    </Link>
+                    
             </div>
         )
     }
