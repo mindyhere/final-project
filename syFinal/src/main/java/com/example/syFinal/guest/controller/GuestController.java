@@ -105,6 +105,7 @@ public class GuestController {
 			map.put("H_idx", dto1.get(i).getH_idx());
 			map.put("D_idx", dto1.get(i).getD_idx());
 			map.put("Ho_idx", dto1.get(i).getHo_idx());
+			map.put("Rv_idx", dto1.get(i).getRv_idx());
 			map.put("H_profile", dto1.get(i).getH_profile());
 			map.put("H_name", dto1.get(i).getH_name());
 			map.put("Ho_name", dto1.get(i).getHo_name());
