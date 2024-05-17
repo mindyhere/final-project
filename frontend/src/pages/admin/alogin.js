@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import '../admin/css/astyles.css';
 
-
 function Alogin() { 
     const [params, setParams]=useSearchParams();  
     const msg = params.get('msg');
@@ -28,9 +27,7 @@ function Alogin() {
             <input className='input' type="password" name="a_passwd" id="a_passwd" placeholder="password" ref={a_passwd}  />
             </div>    
             <br/>     
-            <div class="form-check form-switch">
-            <label><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"/>자동로그인
-            </label></div>
+          
             <div colSpan='2'align='center'>         
                     <button type="submit" onClick={() => {          
                         if(a_id.current.value=='') {
@@ -53,20 +50,19 @@ function Alogin() {
                             body:form
                         })
                         .then(response=>response.json())
-                        .then(data=>{
-                            setMessage(data);
-                            if(data.message=='success'){
-                                const cookies = new Cookies();                               
-                                cookies.set('a_id',{key:data.a_id},
-                                {path:'/',expires:new Date(Date.now()+2592000)});//30일                          
-                                cookies.set('a_passwd',{key:data.a_passwd},
-                                {path:'/',expires: new Date(Date.now()+2592000)}); 
-                               window.alert('관리자님 환영합니다 :)');      
-                               window.location.href='/admin/amain';                                                                                    
-                            }else{
+                        .then(data => {
+                            if (data.success) { // 로그인 성공
+                                const cookies = new Cookies();
+                                cookies.set('a_id', { key: data.a_id }, { path: '/', expires: new Date(Date.now() + 2592000) }); // 30일
+                                cookies.set('a_passwd', { key: data.a_passwd }, { path: '/', expires: new Date(Date.now() + 2592000) });
+                                window.alert('관리자님 환영합니다 :)');
+                                // navigate('/admin/amain');
+                                window.location.href='/admin/amain';   
+                            } else { // 로그인 실패
                                 navigate('/admin/alogin?msg=error');  
-                        }                    
-                        });        
+                                // setErrorMessage('로그인 정보가 일치하지 않습니다.');
+                            }
+                        });     
                     }} className="btn-sign1">Sign In</button>            
                     {msg === 'error' ? <p style={{color: 'red'}}>로그인 정보가 일치하지 않습니다.</p> : null}      
 

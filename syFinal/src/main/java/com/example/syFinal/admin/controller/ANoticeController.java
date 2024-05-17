@@ -28,8 +28,8 @@ public class ANoticeController {
 	SqlSession sqlSession;
 
 	@PostMapping("notice/list")
-	public List<ANoticeDTO> list(@RequestParam(name = "searchkey", defaultValue = "") String searchkey,
-			@RequestParam(name = "search", defaultValue = "") String search) {
+	public List<ANoticeDTO> list(@RequestParam(name = "searchkey",defaultValue="") String searchkey,
+			@RequestParam(name = "search",defaultValue="") String search) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchkey", searchkey);
 		map.put("search", search);
@@ -38,7 +38,7 @@ public class ANoticeController {
 		return list;
 
 	}
-
+	
 	@Transactional
 	@PostMapping("notice/insert")
 	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
@@ -51,19 +51,19 @@ public class ANoticeController {
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
 	@GetMapping("/notice/detail/{n_idx}")
 	public ResponseEntity<?> detail(@PathVariable("n_idx") int n_idx) {
-		try {
-			ANoticeDTO dto = dao.detail(n_idx);
-			if (dto != null) {
-				return ResponseEntity.ok().body(dto);
-			} else {
-				return ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-		}
+	    try {
+	        ANoticeDTO dto = dao.detail(n_idx);
+	        if (dto != null) {
+	            return ResponseEntity.ok().body(dto);
+	        } else {
+	            return ResponseEntity.notFound().build();
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+	    }
 	}
 
 	@PostMapping("/notice/delete")

@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.admin.model.dao.AhostDAO;
@@ -37,7 +37,6 @@ public class AHostController {
 		return list;
 	}
 
-	@ResponseBody
 	@PostMapping("/admin/ah_detail")
 	public Map<String, Object> detail(@RequestParam(name = "h_idx", defaultValue = "") int h_idx) {
 		AHostDTO dto = dao.detail(h_idx);
@@ -47,11 +46,12 @@ public class AHostController {
 		return map;
 	}
 
+	@Transactional
 	@GetMapping("/admin/approve/{h_idx}")
 	public String approveHost(@PathVariable(name = "h_idx") int h_idx) {
 		System.out.println("==> 컨트롤러" + h_idx);
 		try {
-			// dao.a_approve(h_idx);
+			 dao.a_approve(h_idx);
 			return "Host registration approved successfully.";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,18 +60,4 @@ public class AHostController {
 		}
 
 	}
-//	@GetMapping("admin/approve_host")
-//	public String approveHost(@RequestParam(name = "h_idx", defaultValue = "") int h_idx) {
-//		System.out.println("==> 컨트롤러" + h_idx);
-//		try {
-//			dao.a_approve(h_idx);
-//			return "Host registration approved successfully.";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println("list 결과값dfdfdf:" +h_idx );
-//			return "Error occurred while approving host registration.";
-//		}
-//		
-//	}
-
 }

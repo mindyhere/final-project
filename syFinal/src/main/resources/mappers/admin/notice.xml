@@ -22,11 +22,12 @@
 		where n_idx = #{n_idx}
 	</update>
 
-	<select id="detail">
+<select id="detail" resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
 		select
-		n_idx,n_writer,n_title,n_content,n_date
-		from notice 
-		where	n_idx=#{n_idx}
+		n_writer,n_title,n_content,n_date,n_file
+		from
+		notice
+		where n_idx=#{n_idx}
 	</select>
 
 	<delete id="delete">
