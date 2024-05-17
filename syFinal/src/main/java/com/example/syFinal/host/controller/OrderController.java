@@ -111,7 +111,7 @@ public class OrderController {
 
 	@GetMapping("manage/modify/list")
 	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-//		System.out.println("==> 목록 map? " + h_idx);
+		System.out.println("==> 목록 map? " + h_idx);
 		List<Map<String, Object>> data = orderDao.requestList(h_idx);
 //		System.out.println("==> 결과 data? " + data);
 		return data;
