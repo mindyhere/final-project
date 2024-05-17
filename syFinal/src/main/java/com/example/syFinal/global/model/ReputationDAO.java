@@ -3,11 +3,9 @@ package com.example.syFinal.global.model;
 import java.util.List;
 import java.util.Map;
 
-import com.example.syFinal.guest.model.dto.ReviewDTO;
-
 public interface ReputationDAO {
-	// 리뷰글 상세 가져오기(리뷰글 + 답글)
-	ReviewDTO reviewDetail(int rv_idx);
+	// 게스트 리뷰수정 → 세부 데이터 가져오기(리뷰글)
+	Map<String, Object> reviewDetail(int rv_idx);
 
 	// hotel 별 리뷰글 목록
 	List<Map<String, Object>> getHotelReviews(int ho_idx);

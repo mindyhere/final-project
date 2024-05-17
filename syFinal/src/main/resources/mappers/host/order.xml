@@ -102,4 +102,18 @@
 	)
 }
 </select>
+
+<!-- 기존 예약 수 확인 -->
+<select id="countOrders" resultType="int">
+SELECT COUNT(*)
+FROM (
+	SELECT o_idx, o_didx, d_room_type
+	FROM orders, hotel_detail
+	WHERE 
+		((o_ckin <![CDATA[<]]> '2024-04-02' and o_ckout <![CDATA[>]]> '2024-04-02') 
+		OR (o_ckin <![CDATA[>=]]> '2024-04-02' and o_ckin <![CDATA[<]]> '2024-04-05'))
+		AND d_room_type = #{d_room_type}
+		AND o_didx = #{d_idx}
+) temp
+</select>
 </mapper>

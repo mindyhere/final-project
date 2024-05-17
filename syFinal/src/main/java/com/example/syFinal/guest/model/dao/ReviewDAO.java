@@ -3,8 +3,6 @@ package com.example.syFinal.guest.model.dao;
 import java.util.Map;
 
 public interface ReviewDAO {
-	// guest 회원 1명 당 작성한 리뷰글 목록
-//	List<ReviewDTO> myReviewList(int g_idx);
 
 	// 리뷰 작성
 	void insertReview(Map<String, Object> map);
