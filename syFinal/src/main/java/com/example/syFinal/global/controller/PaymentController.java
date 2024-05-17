@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 public class PaymentController {
-	private IamportClient iamportClient;
+	//private IamportClient iamportClient;
 
 	
 	@Autowired
@@ -45,11 +45,11 @@ public class PaymentController {
 	
 	JSONObject body = new JSONObject();
 	//생성자를 통해 REST API 와 REST API secret 입력
-	@PostConstruct
-    public void init() {
-        this.iamportClient = new IamportClient(imp_key,imp_secret);
-
-    }
+//	@PostConstruct
+//    public void init() {
+//        this.iamportClient = new IamportClient(imp_key,imp_secret);
+//
+//    }
 	
 	//토큰받아오기
 	@RequestMapping("/confirmpay/{imp_uid}")
@@ -85,7 +85,8 @@ public class PaymentController {
 	//지불한 금액과 취소하려는 금액 체크
 	
 	//예약요청
-	@PostMapping("/pay/order")
+	@PostMapping
+	//("/pay/order")
 	public void order(@RequestParam(name = "idx") int idx, @RequestParam(name = "dIdx") int didx,
 			@RequestParam(name = "ckin") String ckin, @RequestParam(name = "ckout") String ckout,
 			@RequestParam(name = "adult") int adult, @RequestParam(name = "pay") String pay,

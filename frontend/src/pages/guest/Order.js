@@ -3,8 +3,6 @@ import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 import Swal from "sweetalert2";
-import Kakaopay from "../guest/kakaopay";
-import Nicepay from "../guest/Nicepay";
 
 
 function useFetch(url) {
@@ -27,7 +25,6 @@ function useFetch(url) {
 function Order() {
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
-    //const {HoIdx} = useParams();
     const location = useLocation();
     const HoIdx = location.state.HoIdx;
     const dIdx = location.state.dIdx;
@@ -42,33 +39,99 @@ function Order() {
     const fprice = location.state.fprice;
     const dateChar = location.state.dateChar;
     const vat = location.state.vat;
-    console.log("디아이디엑스"+dIdx);
    
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
     const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx+'/'+dIdx);
-    
     const [pay, setPay] = useState("1");
     const onSelect = (event) => {
         setPay(event.target.value);
     };
 
-    //포트원 연동 카카오페이 결제
-    // useEffect(() => {
-    //     const jquery = document.createElement("script");
-    //     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
-    //     const iamport = document.createElement("script");
-    //     iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
-    //     const nicepay = document.createElement("script");
-    //     nicepay.src="https://pay.nicepay.co.kr/v1/js/";
-    //     document.head.appendChild(jquery);
-    //     document.head.appendChild(iamport);
-    //     document.head.appendChild(nicepay);
-    //     return () => {
-    //         document.head.removeChild(jquery);
-    //         document.head.removeChild(iamport);
-    //         document.head.removeChild(nicepay);
-    //     }
-    // }, []);
+  
+    useEffect(() => {
+        const jquery = document.createElement("script");
+        jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+        const iamport = document.createElement("script");
+        //iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+        //iamport.src="https://cdn.iamport.kr/v1/iamport.js"
+        iamport.src="https://cdn.portone.io/v2/browser-sdk.js"
+        document.head.appendChild(jquery);
+        document.head.appendChild(iamport);
+        return () => {
+            document.head.removeChild(jquery);
+            document.head.removeChild(iamport);
+        }
+    }, []);
+    
+    //포트원 연동 나이스페이 결제
+    async function serverAuth() {
+        const { PortOne } = window;
+
+        const response = await PortOne.requestPayment({
+            storeId: 'store-af69f2fa-5d38-4271-b9ad-44d9dc389ecd',
+            paymentId: `payment-${crypto.randomUUID()}`,
+            payMethod: 'CARD',
+            channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
+            currency: 'KRW',
+            totalAmount: 100,
+            orderName: hotel.ho_name,
+            pg: 'nice_v2', //pg사
+            customer: {
+                email: data.dto.g_email,
+                firstName: data.dto.g_name.substring(1,3),
+                lastName: data.dto.g_name.substring(0,1),
+                phoneNumber: data.dto.g_phone,
+            },
+        });
+
+        console.log("결제 건 ID"+response.paymentId);
+        if (response.code != null) {
+            //오류발생
+            alert('결제실패'+response.message);
+            //결제실패시 홈화면으로 화면전환
+            Swal.fire({
+                icon : 'warning',
+                title: '결제실패',
+                text : '다시 시도해주세요.',
+                confirmButtonText: '확인'
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    window.location.href='/';
+                }
+            });
+        } else {
+            alert("결제성공");
+            const form = new FormData();
+            form.append('idx',idx.key);
+            form.append('dIdx',dIdx);
+            form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('adult',adult);
+            form.append('child',child);
+            form.append('baby',baby);
+            form.append('pay',pay);
+            form.append('dprice',dprice);
+            form.append('fprice',fprice);
+            form.append('paymentId', response.paymentId);
+            
+            fetch('http://localhost/guest/order',{
+                method:'post',
+                body:form
+            }).then(()=>{
+                //예약완료시 모달로 확인 후 예약내역페이지로 이동
+                Swal.fire({
+                    icon : 'success',
+                    text : '예약요청이 완료되었습니다.',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.href='/guest/reservation';
+                    }
+                });
+            });
+        }
+    }
+    
 
     // const onClickPayment = () => {
     //     const { IMP } = window; // IMP 객체 가져오기
@@ -276,9 +339,7 @@ function Order() {
                                 {/* <Kakaopay>
                                     <button className="btn btn-dark">카카오페이 결제</button>
                                 </Kakaopay> */}
-                                <Nicepay>
-                                    <button className="btn btn-dark">나이스페이 결제</button>
-                                </Nicepay>
+                                <button onClick={()=>serverAuth()}>nicepay 결제하기</button>
                                 {/* onClick={onClickPayment} */}
                                 <br/>
                                 <br/>
