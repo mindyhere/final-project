@@ -70,6 +70,7 @@
 		h_idx,
 		d_idx,
 		ho_idx,
+		rv_idx,
 		ho_name,
 		d_img1,
 		h_profile, 
