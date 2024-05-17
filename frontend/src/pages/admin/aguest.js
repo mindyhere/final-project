@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PersonWorkspace,PencilSquare } from "react-bootstrap-icons";
+import { PencilSquare } from "react-bootstrap-icons";
 import EditModal from "./EditModal"; 
 import { useNavigate } from 'react-router';
 
@@ -50,11 +50,6 @@ function AGuest() {
 
     return (
         <>
-            <nav className="navbar bg-body-tertiary fixed-top">
-                <a className="navbar-brand" href='./amain'>
-                    <PersonWorkspace width="50" height="50" />&nbsp; 관리자 페이지
-                </a>
-            </nav>
             <div>
                 <h2>회원관리</h2><br />
                 <select ref={searchkey} defaultValue='g_name'>

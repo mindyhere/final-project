@@ -124,8 +124,9 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public void modify(int o_idx) {
-		sqlSession.update("order.modify", o_idx);
+	public void modify(Map<String, Object> params) {
+		sqlSession.selectOne("order.modify", params);
+		System.out.println("==> modify? " + params);
 	}
 
 }

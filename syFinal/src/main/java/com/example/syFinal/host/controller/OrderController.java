@@ -109,34 +109,29 @@ public class OrderController {
 		return data;
 	}
 
-	@GetMapping("mange/modify/list")
-	public Map<String, Object> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-		System.out.println("==> 목록 map? " + h_idx);
-		Map<String, Object> data = new HashMap<>();
-		List<Map<String, Object>> request = orderDao.requestList(h_idx);
-		if (request == null) {
-			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
-		} else {
-			data.put("request", request);
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		}
-		System.out.println("==> 결과 map? " + data);
+	@GetMapping("manage/modify/list")
+	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
+//		System.out.println("==> 목록 map? " + h_idx);
+		List<Map<String, Object>> data = orderDao.requestList(h_idx);
+//		System.out.println("==> 결과 data? " + data);
 		return data;
 	}
 
 	@Transactional
-	@GetMapping("mange/modify/{o_idx}")
-	public Map<String, Object> modify(@PathVariable(name = "o_idx") int o_idx, @RequestParam Map<String, Object> map) {
-		System.out.println("==> 업데이트 map? " + map);
+	@PostMapping("manage/modify/{o_idx}")
+	public Map<String, Object> modify(@PathVariable(name = "o_idx") int o_idx,
+			@RequestParam Map<String, Object> params) {
+//		System.out.println("==> 업데이트 params? " + params);
+
 		Map<String, Object> data = new HashMap<>();
-		try {
-			orderDao.modify(o_idx);
+		orderDao.modify(params);
+		if ((int) params.get("result") == 1) {
+			data.put("level", params.get("level"));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> 결과 map? " + data);
+
 		return data;
 	}
 

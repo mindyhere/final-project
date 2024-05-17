@@ -82,21 +82,24 @@
 <!-- 예약수정 요청 목록 -->
 <select id="modifyRequest" resultType="java.util.Map">
 	select distinct v.* 
-	from v_modify_request v, host
+	from v_modify_order v, host
 	where v.ho_idx 
 		IN (select ho_idx from host where h_idx=#{h_idx});
 </select>
 
 <!-- 게스트의 예약변경 요청사항을 orders 테이블에 반영 -->
-<update id="modify">
-	update orders
-<trim prefix="SET" suffixOverrides=",">
-	<if test="ru_startDate !='' or ru_startDate !=null" >ru_startDate = #{ru_startDate},</if>
-	<if test="ru_endDate !='' or ru_endDate !=null" >ru_endDate = #{ru_endDate},</if>
-	<if test="ru_adult !='' or ru_adult !=null" >ru_adult = #{ru_adult},</if>
-	<if test="ru_child !='' or ru_child !=null" >ru_child = #{ru_child},</if>
-	<if test="ru_baby !='' or ru_baby !=null" >ru_baby = #{ru_baby}</if>
-</trim>
-	where o_idx=#{o_idx}
-</update>
+<select id="modify" statementType="CALLABLE">
+{	call p_order_modify(
+		#{oidx, mode=IN, jdbcType=INTEGER}, 
+		#{ckin, mode=IN, jdbcType=VARCHAR}, 
+		#{ckout, mode=IN, jdbcType=VARCHAR}, 
+		#{adult, mode=IN, jdbcType=INTEGER}, 
+		#{child, mode=IN, jdbcType=INTEGER}, 
+		#{baby, mode=IN, jdbcType=INTEGER}, 
+		#{hidx, mode=IN, jdbcType=INTEGER}, 
+		#{level, mode=OUT, jdbcType=INTEGER}, 
+		#{result, mode=OUT, jdbcType=INTEGER}
+	)
+}
+</select>
 </mapper>
