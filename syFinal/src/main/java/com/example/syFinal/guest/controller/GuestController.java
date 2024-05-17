@@ -78,7 +78,8 @@ public class GuestController {
 			@RequestParam(name="ckin") String ckin, @RequestParam(name="ckout") String ckout,
 			@RequestParam(name="adult") int adult, @RequestParam(name="pay") String pay,
 			@RequestParam(name="child") int child, @RequestParam(name="baby") String baby,
-			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice) {
+			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice,
+			@RequestParam(name="paymentId") String paymentId) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);
@@ -90,6 +91,7 @@ public class GuestController {
 		map1.put("pay", pay);
 		map1.put("dprice", dprice);
 		map1.put("fprice", fprice);
+		map1.put("paymentId", paymentId);
 		//System.out.println("예약요청"+map1);
 		dao.order(map1);
 	}
