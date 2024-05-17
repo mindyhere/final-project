@@ -8,7 +8,8 @@ const Nicepay = () => {
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
         const iamport = document.createElement("script");
-        iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+        //iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+        iamport.src="https://cdn.iamport.kr/v1/iamport.js"
         document.head.appendChild(jquery);
         document.head.appendChild(iamport);
         return () => {
@@ -27,7 +28,7 @@ const Nicepay = () => {
             merchant_uid: 'merchant_' + new Date().getTime(), // 주문 고유 번호
             pay_method: 'card',
             name: 'hotelA',
-            amount: 1000,
+            amount: 100,
             buyer_name: '예약자',
             buyer_email: '예약자이메일',
             buyer_tel: '예약자전화번호',
@@ -38,35 +39,93 @@ const Nicepay = () => {
                 console.log(rsp);
 
                 if(rsp.success) {
+                    console.log(rsp.imp_uid);
                     //결제검증후 DB업데이트
                     alert("결제성공");
-                    // const verifyANdSavePayInfo = (imp_uid) => {
-                    //     const params ={
-                    //         //서버에 보낼 데이터들
-                    //     }
-                    //     fetch('http://localhost/pay/'+imp_uid,
-                    //     {
-                    //         method:'post',
-                    //         data: params,
-                    //         // body:JSON.stringify({
-                    //         //     'imp_uid': imp_uid,
-                    //         //     'merchant_uid': merchant_uid
-                    //         // })
-                    //     }).then(()=>{
-                    //         //금액비교
-                    //         if (paid_amount === data.response.amount) {
-                    //             alert('결제 및 결제검증완료');
-                    //         } else {
-                    //             alert('결제실패');
-                    //         }
-                    //     });
-                    // }
+                    fetch('http://localhost/confirmpay',
+                        {
+                            method:'post',
+                            data: rsp.imp_uid,
+                        }).then(() => {
+                            window.location.href='/guest/reservation'; 
+                        })
                 } else {
-                    alert('결제실패');
+                    alert(rsp.error_msg);
                 }
             }
         )
+        // .done(function(data) {
+        //     console.log(data);
+
+        //     if(rsp.paid_amount === data.response.amount){
+        //         alert("결제 및 결제검증완료");
+        //     } else {
+        //         alert("결제 실패");
+        //     }
+        // })
     }
+
+
+    // const serverAuth = () => {
+    //     const { IMP } = window;
+    //     IMP.init('imp40362238');
+
+    //     IMP.request_pay(
+    //         {
+    //         pg: 'nice', //pg사
+    //         merchant_uid: 'merchant_' + new Date().getTime(), // 주문 고유 번호
+    //         pay_method: 'card',
+    //         name: 'hotelA',
+    //         amount: 100,
+    //         buyer_name: '예약자',
+    //         buyer_email: '예약자이메일',
+    //         buyer_tel: '예약자전화번호',
+    //         buyer_postcode: '123-456',
+    //         //returnUrl: 'http://localhost:3000/', //리턴될 URL
+    //         },
+    //         function (rsp) {
+    //             console.log(rsp);
+
+    //             if(rsp.success) {
+    //                 console.log(rsp.imp_uid);
+    //                 //결제검증후 DB업데이트
+    //                 alert("결제성공");
+    //                 fetch('http://localhost/confirmpay',
+    //                     {
+    //                         method:'post',
+    //                         data: rsp.imp_uid,
+    //                 //         // body:JSON.stringify({
+    //                 //         //     'imp_uid': imp_uid,
+    //                 //         //     'merchant_uid': merchant_uid
+    //                 //         // })
+    //                     }).then(() => {
+    //                         //window.location.href='/guest/reservation'; 
+    //                         //금액비교
+    //                         //if (paid_amount === data.response.amount) {
+    //                             //             alert('결제 및 결제검증완료');
+    //                             //         } else {
+    //                             //             alert('결제실패');
+    //                             //         }
+    //                        // }
+    //                     })
+    //                     // .catch(error => {
+    //                     //     alert("주문정보 저장을 실패 했습니다.");
+    //                     // })
+    //             } else {
+    //                 alert(rsp.error_msg);
+    //             }
+    //         }
+    //     ).done(function(data) {
+    //         console.log(data);
+
+    //         if(rsp.paid_amount == data.response.amount){
+    //             alert("결제 및 결제검증완료");
+    //         } else {
+    //             alert("결제 실패");
+    //         }
+    //     })
+    // }
+
 
     // const callbacks = (response) => {
     //     const {data, success,error_msg, imp_uid, merchant_uid,paid_amount} = response.json();
