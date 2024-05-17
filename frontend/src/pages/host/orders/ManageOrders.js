@@ -150,7 +150,7 @@ function ManageOrders() {
             </h3>
             <br />
             <div
-              className="card-style mb-30"
+              className="container mt-0 mb-30"
               style={{ zIndex: "0", position: "relative", padding: "0" }}
             >
               <div className="row mx-1">
