@@ -60,18 +60,4 @@ public class AHostController {
 		}
 
 	}
-//	@GetMapping("admin/approve_host")
-//	public String approveHost(@RequestParam(name = "h_idx", defaultValue = "") int h_idx) {
-//		System.out.println("==> 컨트롤러" + h_idx);
-//		try {
-//			dao.a_approve(h_idx);
-//			return "Host registration approved successfully.";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println("list 결과값dfdfdf:" +h_idx );
-//			return "Error occurred while approving host registration.";
-//		}
-//		
-//	}
-
 }

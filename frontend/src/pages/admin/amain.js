@@ -19,7 +19,7 @@ function Amain() {
             setIsLoggedIn(true);
             
         }
-    }, []);
+    }, []); 
 
     const handleLogout = () => {
         if (window.confirm('로그아웃하시겠습니까?')) {

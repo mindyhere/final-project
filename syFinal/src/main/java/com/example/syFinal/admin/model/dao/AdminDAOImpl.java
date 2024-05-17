@@ -25,4 +25,4 @@ public class AdminDAOImpl implements AdminDAO {
 	    
 	    return sqlSession.selectOne("admin.a_login", map);
 	}
-}
+} 

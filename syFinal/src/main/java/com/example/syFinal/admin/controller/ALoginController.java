@@ -22,22 +22,18 @@ public class ALoginController {
 	@PostMapping("admin/adlogin")
 	public Map<String, Object> adlogin(@RequestParam(name = "a_id") String a_id,
 			@RequestParam(name = "a_passwd") String a_passwd, HttpSession session) {
-		Map<String, Object> response = new HashMap<>();
-		
-		   AdminDTO admin = adminDao.alogin(a_id, a_passwd); // AdminDTO 객체 반환
+		Map<String, Object> response = new HashMap<>();	
+		   AdminDTO admin = adminDao.alogin(a_id, a_passwd); 
 		    System.out.println("a_id:" + a_id);
 		    System.out.println("a_passwd" + a_passwd);
-
-		    if (admin != null) { // AdminDTO 객체가 null이 아니라면 로그인 성공
+		    if (admin != null) {  
 		        response.put("success", true);
 		        response.put("message", "로그인 성공");
-		    } else { // AdminDTO 객체가 null이라면 로그인 실패
+		    } else { 
 		        response.put("success", false);
 		        response.put("message", "로그인 실패");
 		    }
-
 		    return response;
-		}
-	  
-	   
+		}	   
 }
+ 

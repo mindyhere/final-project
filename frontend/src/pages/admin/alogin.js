@@ -62,22 +62,7 @@ function Alogin() {
                                 navigate('/admin/alogin?msg=error');  
                                 // setErrorMessage('로그인 정보가 일치하지 않습니다.');
                             }
-                        })
-                        // .then(data=>{
-                        //         setMessage(data);
-                        //         if(data.message=='success'){
-                        //             const cookies = new Cookies();                               
-                        //             cookies.set('a_id',{key:data.a_id},
-                        //             {path:'/',expires:new Date(Date.now()+2592000)});//30일                          
-                        //             cookies.set('a_passwd',{key:data.a_passwd},
-                        //             {path:'/',expires: new Date(data.now()+2592000)}); 
-                        //            window.alert('관리자님 환영합니다 :)');      
-                        //            window.location.href='/admin/amain';                                                                                    
-                        //         }else{
-                        //             navigate('/admin/alogin?msg=error');  
-                        //         }
-
-                        //});        
+                        });     
                     }} className="btn-sign1">Sign In</button>            
                     {msg === 'error' ? <p style={{color: 'red'}}>로그인 정보가 일치하지 않습니다.</p> : null}      
 

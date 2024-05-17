@@ -11,7 +11,7 @@
 		a_id = #{a_id} and
 		a_passwd = #{a_passwd}
 	</select>
-
+ 
 	<!-- 회원 목록 -->
 	<select id="ag_list"
 		resultType="com.example.syFinal.admin.model.dto.AGuestDTO">

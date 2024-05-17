@@ -54,33 +54,6 @@ function Ahost() {
         }
     };
 
-    // const approveHost = (h_idx, h_status) => {
-    //     if (h_status === '승인대기') {
-    //         fetch(`http://localhost/admin/approve/${h_idx}/${h_status}`)
-    //             .then(response => {
-    //                 if (response.ok) {
-    //                     const updatedAhitem = ahitem.map(item => {
-    //                         if (item.h_idx === h_idx) {
-    //                             return { ...item, h_status: '승인완료' };
-    //                         }
-    //                         return item;
-    //                     });
-    //                     setAhitem(updatedAhitem);
-    //                     return response.text();
-    //                 }
-    //                 throw new Error('Error.');
-    //             })
-    //             .then(message => {
-    //                 setMessage(message);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error', error);
-    //             });
-    //     } else {
-    //         setMessage('이미 가입이 승인되었습니다.');
-    //     }
-    // };
-
     return (
         <>
             <div className="container">
