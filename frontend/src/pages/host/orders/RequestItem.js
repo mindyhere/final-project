@@ -217,19 +217,16 @@ function RequestItem({
                               `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
                             )
                               .then((response) => {
-                                if (!response.ok) {
-                                  throw new Error("false: " + response.status);
+                                if (!response) {
+                                  throw new Error("false: " + response.value);
                                 }
 
                                 return fetch(
-                                  `http://localhost/api/order/manage/modify/reject/${o_idx}`
+                                  `http://localhost/api/order/manage/reject/${o_idx}`
                                 ).then((response) => {
                                   if (!response.ok) {
                                     throw new Error(response.status);
                                   }
-                                  console.log(
-                                    "==> response? " + JSON.stringify(response)
-                                  );
                                   return response.text();
                                 });
                               })
@@ -248,9 +245,9 @@ function RequestItem({
                             Swal.fire({
                               icon: "success",
                               title: "Complete",
-                              html: "게스트의 변경요청을 거절했습니다.",
+                              html: "게스트의 요청이 거부되었습니다.",
                               showConfirmButton: false,
-                              timer: 2000,
+                              // timer: 2000,
                             }).then(() => {
                               window.location.reload();
                             });

@@ -155,7 +155,7 @@ function ManageOrders() {
             >
               <div className="row mx-1">
                 <div className="col-4">
-                  <br/>
+                  <br />
                   <Scheduler
                     tileContent={tileContent}
                     style={{
@@ -170,7 +170,6 @@ function ManageOrders() {
                     width: "750px",
                     height: "340px",
                     padding: "1%",
-                    backgroundColor:"green"
                   }}
                 >
                   <ModifyList />
