@@ -27,7 +27,7 @@ const Nicepay = () => {
             merchant_uid: 'merchant_' + new Date().getTime(), // 주문 고유 번호
             pay_method: 'card',
             name: 'hotelA',
-            amount: 1000,
+            amount: 100,
             buyer_name: '예약자',
             buyer_email: '예약자이메일',
             buyer_tel: '예약자전화번호',
@@ -38,31 +38,31 @@ const Nicepay = () => {
                 console.log(rsp);
 
                 if(rsp.success) {
+                    console.log(rsp.imp_uid);
                     //결제검증후 DB업데이트
                     alert("결제성공");
-                    // const verifyANdSavePayInfo = (imp_uid) => {
-                    //     const params ={
-                    //         //서버에 보낼 데이터들
-                    //     }
-                    //     fetch('http://localhost/pay/'+imp_uid,
-                    //     {
-                    //         method:'post',
-                    //         data: params,
+                    fetch('http://localhost/confirmpay/',
+                        {
+                            method:'post',
+                            data: rsp.imp_uid,
                     //         // body:JSON.stringify({
                     //         //     'imp_uid': imp_uid,
                     //         //     'merchant_uid': merchant_uid
                     //         // })
-                    //     }).then(()=>{
-                    //         //금액비교
-                    //         if (paid_amount === data.response.amount) {
-                    //             alert('결제 및 결제검증완료');
-                    //         } else {
-                    //             alert('결제실패');
-                    //         }
-                    //     });
-                    // }
+                        }).then(() => {
+                            //window.location.href='/guest/reservation'; 
+                            //금액비교
+                            //if (paid_amount === data.response.amount) {
+                                //             alert('결제 및 결제검증완료');
+                                //         } else {
+                                //             alert('결제실패');
+                                //         }
+                           // }
+                        }).catch(error => {
+                            alert("주문정보 저장을 실패 했습니다.");
+                        })
                 } else {
-                    alert('결제실패');
+                    alert(rsp.error_msg);
                 }
             }
         )
