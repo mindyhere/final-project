@@ -91,8 +91,8 @@
 <select id="modify" statementType="CALLABLE">
 {	call p_order_modify(
 		#{oidx, mode=IN, jdbcType=INTEGER}, 
-		#{ckin, mode=IN, jdbcType=DATE}, 
-		#{ckout, mode=IN, jdbcType=DATE}, 
+		#{ckin, mode=IN, jdbcType=VARCHAR}, 
+		#{ckout, mode=IN, jdbcType=VARCHAR}, 
 		#{adult, mode=IN, jdbcType=INTEGER}, 
 		#{child, mode=IN, jdbcType=INTEGER}, 
 		#{baby, mode=IN, jdbcType=INTEGER}, 
@@ -102,15 +102,32 @@
 	)
 }
 </select>
-<!-- <update id="modify">
-	update orders
-<trim prefix="SET" suffixOverrides=",">
-	<if test="ru_startDate !='' or ru_startDate !=null" >o_ckin = #{ru_startDate},</if>
-	<if test="ru_endDate !='' or ru_endDate !=null" >o_ckout = #{ru_endDate},</if>
-	<if test="ru_adult !='' or ru_adult !=null" >o_adult = #{ru_adult},</if>
-	<if test="ru_child !='' or ru_child !=null" >o_child = #{ru_child},</if>
-	<if test="ru_baby !='' or ru_baby !=null" >o_baby = #{ru_baby}</if>
-</trim>
-	where o_idx=#{o_idx}
-</update> -->
+
+<!-- 기존 예약 수 확인 -->
+<select id="countOrders" resultType="int">
+select count(*)
+from (
+	select o_idx, o_didx, d_room_type
+	from orders, hotel_detail
+	where 
+		((o_ckin <![CDATA[<]]> #{ckin} and o_ckout <![CDATA[>]]> #{ckin}) 
+		or (o_ckin <![CDATA[>=]]> #{ckin} and o_ckin <![CDATA[<]]> #{ckout}))
+		and d_room_type = #{d_room_type}
+		and o_didx = #{d_idx}
+		and o_state != '2'
+) tmp
+</select>
+
+<select id="roomCount" resultType="int">
+select
+<choose>
+	<when test="d_room_type == '싱글룸' ">ho_single</when>
+	<when test="d_room_type == '더블룸' ">ho_double</when>
+	<when test="d_room_type == '패밀리룸' ">ho_family</when>
+	<otherwise>ho_suite</otherwise>
+</choose>
+	from hotel
+	where ho_idx = #{ho_idx}
+</select>
+
 </mapper>

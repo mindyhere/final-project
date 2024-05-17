@@ -28,6 +28,8 @@ public interface OrderDAO {
 
 	// 예약 변경사항 업데이트
 	void modify(Map<String, Object> params);
-//	boolean modify(Map<String, Object> map);
+
+	// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
+	boolean countOrders(Map<String, Object> params);
 
 }

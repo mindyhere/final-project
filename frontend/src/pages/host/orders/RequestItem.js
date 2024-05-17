@@ -96,11 +96,12 @@ function RequestItem({
                       className="btnCheck active"
                       onClick={() => {
                         Swal.fire({
-                          icon: "question",
+                          icon: "info",
                           title: "Check",
                           input: "password",
-                          inputLabel: "변경된 예약내용을 확정할까요?",
-                          inputPlaceholder: "비밀번호를 입력해주세요",
+                          inputLabel:
+                            "변경된 내용으로 확정하시려면 비밀번호를 입력해주세요.",
+                          inputPlaceholder: "비밀번호를 입력해주세요.",
                           inputAttributes: {
                             autocapitalize: "off",
                             autocorrect: "off",
@@ -119,13 +120,15 @@ function RequestItem({
                                 }
                                 const form = new FormData();
                                 form.append("oidx", o_idx);
+                                form.append("ho_idx", ho_idx);
+                                form.append("d_idx", d_idx);
+                                form.append("d_room_type", d_room_type);
                                 form.append("ckin", ru_startDate);
                                 form.append("ckout", ru_endDate);
                                 form.append("adult", ru_adult);
                                 form.append("child", ru_child);
                                 form.append("baby", ru_baby);
                                 form.append("hidx", userIdx);
-                                console.log("==> form?" + JSON.stringify(form));
 
                                 return fetch(
                                   `http://localhost/api/order/manage/modify/${o_idx}`,
@@ -135,30 +138,39 @@ function RequestItem({
                                   }
                                 ).then((response) => {
                                   if (!response.ok) {
-                                    throw new Error(
-                                      "false: " + response.status
-                                    );
+                                    throw new Error(response.status);
                                   }
-                                  return response.text();
+                                  console.log("==> response? " + JSON.stringify(response));
+                                  return response.status;
                                 });
                               })
                               .catch((error) => {
-                                console.log(error);
+                                console.log("==> error? " + error);
                                 Swal.showValidationMessage(
-                                  `처리 중 문제가 발생했습니다. 비밀번호 또는 예약대기 목록을 우선 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
+                                  `error : 비밀번호 또는 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
                               });
                           },
-                          allowOutsideClick: () => !Swal.isLoading(),
+                          allowOutsideClick: false,
+                          // allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          if (result.isConfirmed) {
-                            console.log(result.value);
+                          console.log("=> result " + JSON.stringify(result));
+                          if (result.value === 200) {
                             Swal.fire({
                               icon: "success",
                               title: "Success",
                               html: "정상처리 되었습니다.",
                               showConfirmButton: false,
-                              // timer: 2000,
+                              timer: 2000,
+                            }).then(() => {
+                              window.location.reload();
+                            });
+                          } else {
+                            Swal.fire({
+                              icon: "error",
+                              title: "Not possible",
+                              html: `예약을 변경할 수 없습니다.<br/>${ho_name} 의 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`,
+                              showConfirmButton: true,
                             }).then(() => {
                               window.location.reload();
                             });

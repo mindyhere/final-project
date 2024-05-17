@@ -126,19 +126,19 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void modify(Map<String, Object> params) {
 		sqlSession.selectOne("order.modify", params);
-		System.err.println("==> modify? " + params + params.get("level") + ", " + params.get("result"));
+		System.out.println("==> modify? " + params);
 	}
-//	public boolean modify(Map<String, Object> map) {
-//		try {
-//			sqlSession.update("order.modify", map);
-//			System.out.println("==> 정상처리완료");
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println("==> 에러");
-//			return false;
-//		}
-//		sqlSession.update("order.modify", o_idx);
-//	}
+
+	@Override
+	public boolean countOrders(Map<String, Object> params) {
+		// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
+		int cnt = sqlSession.selectOne("order.countOrders", params);
+		int room = sqlSession.selectOne("order.roomCount", params);
+		System.out.println("==> 예약수?" + cnt + ", " + room);
+		if (cnt < room) {
+			return true;
+		}
+		return false;
+	}
 
 }
