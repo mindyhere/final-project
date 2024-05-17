@@ -143,4 +143,10 @@ public class OrderController {
 		return data;
 	}
 
+	@Transactional
+	@GetMapping("manage/reject/{o_idx}")
+	public void requestReject(@PathVariable(name = "o_idx") int o_idx) {
+		orderDao.requestReject(o_idx);
+	}
+
 }

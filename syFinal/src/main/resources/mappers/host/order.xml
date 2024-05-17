@@ -130,4 +130,9 @@ select
 	where ho_idx = #{ho_idx}
 </select>
 
+<update id="requestReject">
+update reserv_update
+set ru_state=0 
+where ru_idx=#{o_idx}
+</update>
 </mapper>

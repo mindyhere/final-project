@@ -141,4 +141,9 @@ public class OrderDAOImpl implements OrderDAO {
 		return false;
 	}
 
+	@Override
+	public void requestReject(int o_idx) {
+		sqlSession.selectOne("order.requestReject", o_idx);
+	}
+
 }

@@ -57,7 +57,7 @@ function ModifyList() {
   } else {
     return (
       <div>
-        <h5 style={{padding:"1%", alignItems:"center"}}><Exclamation size={35}/>변경요청</h5>
+        <h5 style={{alignItems:"center"}}><Exclamation size={35}/>변경요청</h5>
         <Slider {...settings} ref={slick}>
           {data.map((item) => (
             <RequestItem

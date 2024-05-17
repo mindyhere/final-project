@@ -32,4 +32,7 @@ public interface OrderDAO {
 	// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
 	boolean countOrders(Map<String, Object> params);
 
+	// 예약 변경요청 거부 처리
+	void requestReject(int o_idx);
+
 }
