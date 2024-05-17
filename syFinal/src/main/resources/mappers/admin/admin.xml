@@ -3,13 +3,15 @@
 <mapper namespace="admin">
 
 	<!-- 관리자 로그인 -->
-	<select id="a_login" resultType="String">
-		select a_name
+	<select id="a_login"
+		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
+		select a_id, a_passwd
 		from admin
 		where
-		a_id = #{a_id} and a_passwd = #{a_passwd}
+		a_id = #{a_id} and
+		a_passwd = #{a_passwd}
 	</select>
-
+ 
 	<!-- 회원 목록 -->
 	<select id="ag_list"
 		resultType="com.example.syFinal.admin.model.dto.AGuestDTO">
@@ -60,32 +62,24 @@
 		where g_idx = #{g_idx}
 	</update>
 
-	<!-- 회원 삭제 -->
-	<delete id="ag_delete">
-		delete
-		from guest
-		where g_idx = #{g_idx}
-	</delete>
-
- <!-- 회원 쿠폰 발급 -->
-<insert id="gcoupon">
-</insert>
-
 	<!-- 사업자 목록 -->
 	<select id="ah_list"
 		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
-		select h_idx, h_email, h_name, h_phone, h_level, h_status,h_business,
+		select h_idx, h_email, h_name, h_phone, h_level,
+		h_status,h_business,
 		h_regdate, h_profile, h_description
 		from host
-		where ${searchkey} like
+		where
+		${searchkey} like
 		CONCAT('%',#{search},'%')
 	</select>
 
-	<!-- 사업자 삭제 -->
-	<delete id="ah_delete">
-		delete
-		from host
-		WHERE h_idx = #{h_idx}
-	</delete>
+	<!-- 사업자 가입승인 -->
+	<update id="ah_approve" parameterType="int">
+		update host
+		set h_status="승인완료"
+		where h_idx=#{h_idx}
+	</update>
+
 
 </mapper>
