@@ -28,6 +28,10 @@ function Header() {
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
 
+ // 관리자 쿠키
+  const a_id = cookies.get("a_id");
+  const a_passwd = cookies.get("a_passwd");
+
   //쿠키삭제
   const removeCookies = (type) => {
     switch (type) {
@@ -43,6 +47,10 @@ function Header() {
       case "host":
         cookies.remove("userInfo", { path: "/" }, new Date(Date.now()));
         break;
+      case "admin":
+        cookies.remove("a_id", { path: "/" }, new Date(Date.now()));
+        cookies.remove("a_passwd", { path: "/" }, new Date(Date.now()));
+        break;
     }
   };
 
@@ -52,15 +60,13 @@ function Header() {
   if (
     locationNow.pathname === "/host/account/manage/review" ||
     locationNow.pathname === "/host/account/manage/reply"
-  )
-    return null; // 팝업창에서 헤더 제거
-  if (
-    locationNow.pathname === "/admin/*" ||
-    locationNow.pathname === "/admin/alogin"
-  )
-    return null;
+  ) return null; 
+  if ( 
+    locationNow.pathname === "/admin/alogin" )return null;
 
-  if (userInfo == null && g_email == null) {
+  if (userInfo == null && g_email == null && a_id == null) {
+    console.log("a_id 로그인X cookie==> " + a_id);
+    console.log("g_email 로그인X cookie==> " + g_email);
     console.log("로그인X cookie==> " + userInfo);
     return (
       <nav className="navbar navbar-expand-lg">
@@ -273,7 +279,7 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userInfo == null && g_email != null) {
+  } else if (userInfo == null && g_email != null && a_id == null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
 
@@ -378,7 +384,7 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userInfo != null && g_email == null) {
+  } else if (userInfo != null && g_email == null && a_id == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
     // console.log("host userInfo ==> " + JSON.stringify(userInfo));
@@ -456,6 +462,79 @@ function Header() {
           </div>
         </div>
       </nav>
+    );
+  } else if(a_id != null && userInfo == null && g_email == null){
+    console.log("a_id cookie==> " + a_id);
+    console.log("a_passwd cookie==> " + a_passwd);
+    console.log("userInfo cookie==> " + userInfo);
+    console.log("g_email cookie==> " + g_email);
+    return(
+      <nav className="navbar navbar-expand-lg">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">
+          <img
+            src="/img/sybnb.png"
+            href="/"
+            width="170px"
+            height="65px"
+            style={{ padding: "0.5rem" }}
+          ></img>
+        </a>
+
+        {/* 호스트로그인 후 상단 */}
+        <div align="right">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item rounded">
+            <a className="nav-link active"
+              onClick={() => navigate(`/host/hotel/MyhotelList`)}
+              >
+                회원관리
+              </a>
+            </li>
+            <li className="nav-item rounded">
+              <a className="nav-link active"
+              onClick={() => navigate(`/host/hotel/MyhotelList`)}
+              >
+                숙소관리
+              </a>
+            </li>
+            <li className="nav-item">
+              
+            </li>
+            <li
+              className="nav-item rounded"
+              style={{ display: "inline-block" }}
+            >
+              <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+            </li>
+            <li className="nav-item rounded">
+              <a
+                className="nav-link active"
+                onClick={() => {
+                  Swal.fire({
+                    icon: "question",
+                    title: "잠깐!",
+                    html: "로그아웃 하시겠습니까?",
+                    showCancelButton: true,
+                    confirmButtonText: "YES",
+                    cancelButtonText: "NO",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      localStorage.clear();
+                      sessionStorage.clear();
+                      removeCookies("admin");
+                      navigate("/");
+                    }
+                  });
+                }}
+              >
+                로그아웃
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     );
   }
 

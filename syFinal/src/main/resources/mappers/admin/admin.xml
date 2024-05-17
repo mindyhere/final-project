@@ -3,9 +3,8 @@
 <mapper namespace="admin">
 
 	<!-- 관리자 로그인 -->
-	<select id="a_login"
-		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
-		select a_id, a_passwd
+	<select id="a_login" resultType="java.util.Map">
+		select a_id, a_passwd, a_name
 		from admin
 		where
 		a_id = #{a_id} and
