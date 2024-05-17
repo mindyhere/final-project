@@ -4,7 +4,8 @@ import {useLocation } from "react-router-dom";
 function Footer() {
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
-    if (locationNow.pathname === "/guest/write") return null; 
+    if (locationNow.pathname === "/guest/write" ||
+    locationNow.pathname === "/guest/edit") return null; 
     if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
     if (locationNow.pathname === "/admin/amain" || locationNow.pathname === "/admin/alogin") return null;
 
