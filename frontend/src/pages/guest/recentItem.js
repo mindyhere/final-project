@@ -74,8 +74,9 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
                     <div style={{fontSize:"20px", color: 'black'}}>{HoName}</div>
                     
                     </Link>
-                    <button type='button' className="wish-button" onClick={() => handleClick()}>
-                    <img src = {image}  width='28px' height='35px'/>
+                    <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
+                    top:'8px', left:'250px'}} onClick={() => handleClick()}>
+                    <img src = {image}   width='65px' height='65px'/>
                 </button>
                 <br />
                 &nbsp;

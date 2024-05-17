@@ -35,7 +35,7 @@ function Main() {
    
   }
 
-  useEffect(() => {getMain('http://localhost/guest/main');},[]);
+  useEffect(() => {getMain('http://localhost/guest/main');});
 
   return (
       <>
