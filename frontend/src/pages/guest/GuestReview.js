@@ -2,7 +2,7 @@ import React from 'react';
 //import moment from 'moment';
 import { useNavigate } from "react-router";
 
-function GuestReview({G_idx,H_idx,D_idx,Ho_idx,H_profile,H_name,Ho_name,D_img1,Rv_date,Rv_content}) {
+function GuestReview({G_idx,H_idx,D_idx,Ho_idx,Rv_idx,H_profile,H_name,Ho_name,D_img1,Rv_date,Rv_content}) {
     let loading = false;
     const navigate = useNavigate();
     //const url = `http://localhost/static/images/host/profile/${H_profile}`;
