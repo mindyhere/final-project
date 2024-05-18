@@ -146,12 +146,23 @@
 		SELECT ho_img FROM hotel WHERE ho_idx = #{ho_idx}
 	</select>
 
-	<!-- 호텔 정보 수정 -->
+	<!-- 호텔 기본 정보 수정 -->
 	<update id="editHotelDefaultInfo">
 		UPDATE hotel 
 		SET ho_name = #{ho_name}, ho_address = #{ho_address}, ho_level = #{ho_level}, ho_floor = #{ho_floor}, ho_single = #{ho_single}, ho_double = #{ho_double},
-		ho_family = #{ho_family}, ho_suite = #{ho_suite}, ho_img = #{img}, ho_description = #{ho_description}, ho_check_in = #{ho_check_in}, ho_check_out = #{ho_check_out}
+		ho_family = #{ho_family}, ho_suite = #{ho_suite}, ho_img = #{img}, ho_description = #{ho_description}, 
+		ho_check_in = #{ho_check_in}, ho_check_out = #{ho_check_out}, ho_x = #{ho_x}, ho_y = #{ho_y}
 		WHERE ho_idx = #{ho_idx}
+	</update>
+	
+	<!-- 호텔 편의시설 수정 -->
+	<update id="editHotelAmenity">
+	
+	</update>
+	
+	<!-- 호텔 객실 정보 수정 -->
+	<update id="editHotelRoomInfo">
+	
 	</update>
 	
 	<!-- 호텔 영업 중지 신청 -->
@@ -162,5 +173,4 @@
 		AND ho_idx = d_ho_idx
 		AND d_ho_idx = ha_ho_idx
 	</update>
-	
 </mapper>
