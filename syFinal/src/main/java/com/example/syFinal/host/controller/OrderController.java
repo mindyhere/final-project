@@ -44,7 +44,7 @@ public class OrderController {
 
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
-		int start = page.getPageBegin();
+		int start = page.getPageBegin() - 1;
 		int end = page.getPageEnd();
 		data.put("count", cnt);
 		data.put("page", page);
@@ -111,7 +111,7 @@ public class OrderController {
 
 	@GetMapping("manage/modify/list")
 	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-//		System.out.println("==> 목록 map? " + h_idx);
+		System.out.println("==> 목록 map? " + h_idx);
 		List<Map<String, Object>> data = orderDao.requestList(h_idx);
 //		System.out.println("==> 결과 data? " + data);
 		return data;

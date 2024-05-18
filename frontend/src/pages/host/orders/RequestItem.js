@@ -272,7 +272,7 @@ function RequestItem({
             </tr>
             <tr>
               <th>기존 예약</th>
-              <th style={{ color: "#6f48eb" }}>변경 요청</th>
+              <th style={{ color: "#9f48eb" }}>변경 요청</th>
             </tr>
             <tr>
               <td>
