@@ -1,7 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import moment, { Moment } from "moment";
+import React, {  useEffect, useState } from "react";
 import { Calendar2Week } from "react-bootstrap-icons";
-import { useNavigate } from "react-router";
 
 import Cookies from "universal-cookie";
 import HotelNavItem from "./HotelNavItem";
@@ -32,6 +30,7 @@ function ManageOrders() {
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
   const [pageNum, setPageNum] = useState("1");
+  const [init, isInitialized] = useState(true);
 
   function getList(hoIdx, pageNum) {
     let url = "";
@@ -52,12 +51,7 @@ function ManageOrders() {
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        console.log(
-          "==> data: " +
-            JSON.stringify(data.list) +
-            " / " +
-            JSON.stringify(data.page)
-        );
+        // console.log("==> data: " +JSON.stringify(data.list));
       });
   }
 
@@ -65,12 +59,22 @@ function ManageOrders() {
     getList(hoIdx, pageNum);
   }, [hoIdx, pageNum]);
 
-  const handleClick = (e) => {
-    setHotelIdx(e);
-    console.log("==> 클릭? " + e);
-    getList(e, 0, 1);
-    // console.log("==> 호출? " +{ hoIdx });
+  const handleHotelChange = (idx) => {
+    console.log("==> 클릭? " + idx);
+    setHotelIdx(idx);
+    getList(idx, 0, 1);
+    hotels.map(({ ho_idx }) => {
+      console.log("==> 반복처리 :" + ho_idx);
+      if (ho_idx != idx) {
+        document.querySelector(".hotel" + ho_idx).classList.remove("active");
+      } else {
+        document.querySelector(".hotel" + ho_idx).classList.add("active");
+      }
+      let e = document.querySelector(".hotel" + ho_idx);
+      console.log("==> 결과" + e.className);
+    });
   };
+  
   const handleModal = (oder_idx) => {
     isSelected(oder_idx);
     setModal(!modal);
@@ -192,7 +196,11 @@ function ManageOrders() {
                           ho_idx={ho_idx}
                           ho_name={ho_name}
                           userIdx={userIdx}
-                          handleClick={handleClick}
+                          loading={loading}
+                          setLoading={setLoading}
+                          init={init}
+                          isInitialized={isInitialized}
+                          handleHotelChange={handleHotelChange}
                           key={ho_idx}
                         />
                       ))

@@ -25,7 +25,7 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        console.log("==> Fetch? " + JSON.stringify(data));
+        // console.log("==> Fetch? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
