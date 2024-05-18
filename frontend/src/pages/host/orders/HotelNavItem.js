@@ -6,14 +6,12 @@ function HotelNavItem({
   ho_name,
   loading,
   init,
-  isInitialized,
   handleHotelChange,
 }) {
   const hotel_idx = useRef();
-  // console.log("==> 최초? " + loading + ", rownum? " + rownum + ", " + init);
+  // console.log("==> 최초? " + loading + ", rownum? " + rownum);
   if (rownum == 1 && !loading) {
     console.log("==> 초기셋팅? " + init);
-    isInitialized(false);
     return (
       <li
         key={rownum}
@@ -29,12 +27,10 @@ function HotelNavItem({
       </li>
     );
   } else {
-    isInitialized(false);
     return (
       <li
         key={rownum}
         onClick={() => {
-          isInitialized(false);
           handleHotelChange(ho_idx);
         }}
       >

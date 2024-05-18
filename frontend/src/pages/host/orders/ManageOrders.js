@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar2Week } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
@@ -30,7 +30,6 @@ function ManageOrders() {
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
   const [pageNum, setPageNum] = useState("1");
-  const [init, isInitialized] = useState(true);
 
   function getList(hoIdx, pageNum) {
     let url = "";
@@ -60,21 +59,21 @@ function ManageOrders() {
   }, [hoIdx, pageNum]);
 
   const handleHotelChange = (idx) => {
-    console.log("==> 클릭? " + idx);
+    // console.log("==> 클릭? " + idx);
     setHotelIdx(idx);
     getList(idx, 0, 1);
     hotels.map(({ ho_idx }) => {
-      console.log("==> 반복처리 :" + ho_idx);
+      // console.log("==> 반복처리 :" + ho_idx);
       if (ho_idx != idx) {
         document.querySelector(".hotel" + ho_idx).classList.remove("active");
       } else {
         document.querySelector(".hotel" + ho_idx).classList.add("active");
       }
       let e = document.querySelector(".hotel" + ho_idx);
-      console.log("==> 결과" + e.className);
+      // console.log("==> 결과" + e.className);
     });
   };
-  
+
   const handleModal = (oder_idx) => {
     isSelected(oder_idx);
     setModal(!modal);
@@ -154,8 +153,7 @@ function ManageOrders() {
               style={{ zIndex: "0", position: "relative", padding: "0" }}
             >
               <div className="row mx-1">
-                <div className="col-4">
-                  <br />
+                <div className="col-4 mt-1">
                   <Scheduler
                     tileContent={tileContent}
                     style={{
@@ -198,8 +196,6 @@ function ManageOrders() {
                           userIdx={userIdx}
                           loading={loading}
                           setLoading={setLoading}
-                          init={init}
-                          isInitialized={isInitialized}
                           handleHotelChange={handleHotelChange}
                           key={ho_idx}
                         />
