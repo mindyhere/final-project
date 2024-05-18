@@ -22,24 +22,20 @@ function ManageOrders() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
   const level = userInfo.h_level;
   const [loading, setLoading] = useState("");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [modal, setModal] = useState(false);
-  const [onDetail, setOnDetail] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const navigate = useNavigate();
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
   const [pageNum, setPageNum] = useState("1");
 
   function getList(hoIdx, pageNum) {
     let url = "";
-    // console.log("==> page? " + pageNum + ", " + typeof pageNum);
+    console.log("==> page? " + pageNum + ", " + hoIdx);
     if (pageNum != "0") {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
@@ -56,12 +52,12 @@ function ManageOrders() {
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        // console.log(
-        //   "==> 데이터셋: " +
-        //     JSON.stringify(data.list) +
-        //     " / " +
-        //     JSON.stringify(data.page)
-        // );
+        console.log(
+          "==> data: " +
+            JSON.stringify(data.list) +
+            " / " +
+            JSON.stringify(data.page)
+        );
       });
   }
 
@@ -77,7 +73,7 @@ function ManageOrders() {
   };
   const handleModal = (oder_idx) => {
     isSelected(oder_idx);
-    setOnDetail(!onDetail);
+    setModal(!modal);
   };
 
   const setPagination = () => {
@@ -114,7 +110,7 @@ function ManageOrders() {
   function Modal(props) {
     function closeModal() {
       props.closeModal();
-      setModal(false);
+      setModal(!modal);
     }
 
     return (
@@ -314,11 +310,11 @@ function ManageOrders() {
                         </td>
                       </tr>
                     )}
-                    {onDetail && (
+                    {modal && (
                       <Modal
                         style={{ zIndex: "100", position: "relative" }}
                         closeModal={() => {
-                          setOnDetail(!onDetail);
+                          setModal(!modal);
                         }}
                       >
                         <OrderDetail

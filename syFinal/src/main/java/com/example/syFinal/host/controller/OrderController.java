@@ -44,7 +44,7 @@ public class OrderController {
 
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
-		int start = page.getPageBegin();
+		int start = page.getPageBegin() - 1;
 		int end = page.getPageEnd();
 		data.put("count", cnt);
 		data.put("page", page);
