@@ -57,4 +57,11 @@ where
 	</otherwise>
   </choose>
 </select>
+
+<select id="reviewDetail" resultType="java.util.Map">
+select v.*, o_ckin, o_ckout
+from v_hotel_review v, orders o
+where v.o_idx = o.o_idx
+	and rv_idx = #{rv_idx}
+</select>
 </mapper>

@@ -8,15 +8,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.guest.model.dto.ReviewDTO;
-
 @Repository
 public class ReputationDAOImpl implements ReputationDAO {
 	@Autowired
 	SqlSession sqlSession;
 
 	@Override
-	public ReviewDTO reviewDetail(int rv_idx) {
+	public Map<String, Object> reviewDetail(int rv_idx) {
 		// 리뷰글 상세 가져오기
 		return sqlSession.selectOne("reputation.reviewDetail", rv_idx);
 	}

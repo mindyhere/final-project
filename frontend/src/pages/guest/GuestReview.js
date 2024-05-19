@@ -12,27 +12,17 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,Rv_idx,H_profile,H_name,Ho_name,D
     //rv = moment(date).format('YYYY년 MMMM Do');
 
     // 리뷰수정 데이터 이동 test
-    const editData = {
+    const info = {
         // 전달할 데이터
-        // rv_idx: `${rv_idx}`,
-        h_idx: `${H_idx}`,
-        ho_idx: `${Ho_idx}`,
-        ho_name: `${Ho_name}`,
+        rv_idx: `${Rv_idx}`,
         g_idx: `${G_idx}`,
-        // g_url: `${g_url}`,
-        // g_email: `${g_email}`,
-        rv_date: `${Rv_date}`,
-        rv_content: `${Rv_content}`,
-        // rv_star: `${rv_star}`,
-        // o_idx: `${o_idx}`,
-        d_idx: `${D_idx}`,
     };
 
     const openPopup = () => {
         const popup = window.open(
             `./edit`,
             "name(Edit)",
-            "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+            "width=500,height=640,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
         );
         return popup;
     }; // ... test 여기까지
@@ -62,8 +52,9 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,Rv_idx,H_profile,H_name,Ho_name,D
                         {Rv_date}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <div className='btn btn-outline-dark' type='button' align='right' 
                             onClick={() => {
-                            localStorage.setItem("editData", JSON.stringify(editData));
-                            openPopup();
+                            localStorage.setItem("info", JSON.stringify(info));
+                            console.log("==> 확인?"+Rv_idx)
+                           openPopup();
                         }
                     }>수정하기</div>
                     </div>

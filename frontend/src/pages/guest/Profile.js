@@ -284,10 +284,11 @@ if(loading||loading1||loading2){
                                   &nbsp;
                                     <div className="card-style mb-30">
                                         <Slider {...settings} ref={slickRef2}>
-                                            {reviewlist.map(({G_idx,H_idx,D_img1,Ho_name,Rv_date,Rv_content}) => (
+                                            {reviewlist.map(({G_idx, Rv_idx, H_idx,D_img1,Ho_name,Rv_date,Rv_content}) => (
                                                 <GuestReview
                                                     key={idx}
                                                     G_idx={G_idx}
+                                                    Rv_idx={Rv_idx}
                                                     H_idx={H_idx}
                                                     D_img1={D_img1}
                                                     Ho_name={Ho_name}
