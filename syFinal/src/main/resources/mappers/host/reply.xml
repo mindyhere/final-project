@@ -15,4 +15,25 @@ where rp_idx=#{rp_idx}
 <delete id="delete">
 delete from reply where rp_idx=#{rp_idx}
 </delete>
+
+<select id="searchReviews" resultType="java.util.Map">
+select @rownum:=@rownum+1 as rownum, v.* 
+from v_hotel_review v, (select @rownum:=(#{start}-1)) tmp
+where 
+	h_idx=#{h_idx}
+	and rv_content like concat('%', #{keyword}, '%')
+  <choose>
+	<when test="sort == 'highest'">
+		order by rv_star desc, rv_idx desc
+	</when>
+	<when test="sort == 'lowest'">
+		order by rv_star, rv_idx desc
+	</when>
+	<otherwise>
+		order by rv_idx desc
+	</otherwise>
+  </choose>
+ORDER BY rv_idx desc
+limit #{start}, #{end};
+</select>
 </mapper>
