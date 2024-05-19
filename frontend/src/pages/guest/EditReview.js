@@ -4,9 +4,29 @@ import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("==> Fetch? " + JSON.stringify(data));
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+  return [data, loading];
+}
+
 const EditReview = () => {
-  let loading = false;
-  const data = JSON.parse(localStorage.getItem("editData"));
+  const info = JSON.parse(localStorage.getItem("info"));
+  const [data, loading] = useFetch(
+    `http://localhost/api/review/detail/${info.rv_idx}`
+  );
 
   const cookies = new Cookies();
   const g_name = cookies.get("g_name");
@@ -14,52 +34,53 @@ const EditReview = () => {
   const g_photo = cookies.get("g_photo");
   const rv_content = useRef();
   const rv_star = useRef();
-  const [review, setReview] = useState(null);
+  // const [review, setReview] = useState(null);
   const [content, setContent] = useState("");
   const [check, setCheck] = useState(false);
 
-  function getDetail(url) {
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setReview(data.review);
-        setContent(data.review.rv_content);
-      });
-  }
+  // function getDetail(url) {
+  //   fetch(url)
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setReview(data.review);
+  //       setContent(data.review.rv_content);
+  //     });
+  // }
 
-  useEffect(() => {
-    getDetail(`http://localhost/api/review/detail/${data.rv_idx}`);
-  }, []);
+  // useEffect(() => {
+  //   getDetail(`http://localhost/api/review/detail/${data.rv_idx}`);
+  // }, []);
 
-  function StarRate() {
-    const [star, setStar] = useState(review.rv_star);
-    return (
-      <span>
-        {[...Array(star)].map((a, i) => (
-          <StarFill
-            size={20}
-            color="#FCD53F"
-            style={{ margin: "0 1px 2% 0" }}
-            key={i}
-            onClick={() => setStar(i + 1)}
-          />
-        ))}
-        {[...Array(5 - star)].map((a, i) => (
-          <Star
-            size={20}
-            color="grey"
-            style={{ margin: "0 1px 2% 0" }}
-            key={i}
-            onClick={() => setStar(star + i + 1)}
-          />
-        ))}
-        <input type="hidden" value={star} ref={rv_star} />
-        <input type="hidden" value={star} ref={rv_star} />
-      </span>
-    );
-  }
+  // function StarRate() {
+  //   const [star, setStar] = useState(review.rv_star);
+  //   return (
+  //     <span>
+  //       {[...Array(star)].map((a, i) => (
+  //         <StarFill
+  //           size={20}
+  //           color="#FCD53F"
+  //           style={{ margin: "0 1px 2% 0" }}
+  //           key={i}
+  //           onClick={() => setStar(i + 1)}
+  //         />
+  //       ))}
+  //       {[...Array(5 - star)].map((a, i) => (
+  //         <Star
+  //           size={20}
+  //           color="grey"
+  //           style={{ margin: "0 1px 2% 0" }}
+  //           key={i}
+  //           onClick={() => setStar(star + i + 1)}
+  //         />
+  //       ))}
+  //       <input type="hidden" value={star} ref={rv_star} />
+  //       <input type="hidden" value={star} ref={rv_star} />
+  //     </span>
+  //   );
+  // }
+
   if (loading) {
     return <div>loading...</div>;
   } else {
@@ -113,7 +134,7 @@ const EditReview = () => {
                       수정을 원하시면 [수정하기]를 눌러주세요.
                       <input
                         type="hidden"
-                        defaultValue={review.rv_idx}
+                        defaultValue={info.rv_idx}
                         readOnly
                       />
                     </strong>
@@ -136,7 +157,7 @@ const EditReview = () => {
                   className="col-12 mb-3"
                   style={{ float: "left", display: "inline" }}
                 >
-                  <b>⭐평점 </b>: &nbsp;{StarRate()}
+                  <b>⭐평점 </b>: &nbsp;{/* {StarRate()} */}
                 </div>
 
                 <textarea
