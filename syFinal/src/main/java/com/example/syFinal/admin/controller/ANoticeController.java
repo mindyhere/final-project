@@ -28,17 +28,16 @@ public class ANoticeController {
 	SqlSession sqlSession;
 
 	@PostMapping("notice/list")
-	public List<ANoticeDTO> list(@RequestParam(name = "searchkey",defaultValue="") String searchkey,
-			@RequestParam(name = "search",defaultValue="") String search) {
+	public List<ANoticeDTO> list(@RequestParam(name = "searchkey", defaultValue = "") String searchkey,
+			@RequestParam(name = "search", defaultValue = "") String search) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchkey", searchkey);
 		map.put("search", search);
 		List<ANoticeDTO> list = dao.list(searchkey, search);
-		System.out.println("list 결과값~!!!!:" + list);
 		return list;
 
 	}
-	
+
 	@Transactional
 	@PostMapping("notice/insert")
 	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
@@ -51,19 +50,29 @@ public class ANoticeController {
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/notice/detail/{n_idx}")
 	public ResponseEntity<?> detail(@PathVariable("n_idx") int n_idx) {
-	    try {
-	        ANoticeDTO dto = dao.detail(n_idx);
-	        if (dto != null) {
-	            return ResponseEntity.ok().body(dto);
-	        } else {
-	            return ResponseEntity.notFound().build();
-	        }
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-	    }
+		try {
+			ANoticeDTO dto = dao.detail(n_idx);
+			if (dto != null) {
+				return ResponseEntity.ok().body(dto);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+		}
+	}
+
+	@PostMapping("/notice/update/{n_idx}")
+	public Map<String, Object> update(@PathVariable("n_idx") int n_idx, @RequestParam("n_writer") String n_writer,
+			@RequestParam("n_title") String n_title, @RequestParam("n_content") String n_content,
+			@RequestParam("n_date") String n_date) {
+		int result = dao.update(n_idx, n_writer, n_title, n_content, n_date);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
 	}
 
 	@PostMapping("/notice/delete")

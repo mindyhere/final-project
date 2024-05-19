@@ -47,6 +47,8 @@ import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
+import Adetail from "./pages/admin/notice/adetail";
+
 
 // host 계정
 import HostLogin from "./pages/host/login/Login";
@@ -107,6 +109,8 @@ function App() {
           <Route path="/admin/aguest" element={<AGuest />} />
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
+          <Route path="/admin/notice/adetail/:n_idx" element={<Adetail />} />
+
 
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />

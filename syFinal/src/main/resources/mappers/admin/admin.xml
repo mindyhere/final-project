@@ -10,7 +10,7 @@
 		a_id = #{a_id} and
 		a_passwd = #{a_passwd}
 	</select>
- 
+
 	<!-- 회원 목록 -->
 	<select id="ag_list"
 		resultType="com.example.syFinal.admin.model.dto.AGuestDTO">
@@ -76,9 +76,43 @@
 	<!-- 사업자 가입승인 -->
 	<update id="ah_approve" parameterType="int">
 		update host
-		set h_status="승인완료"
+		set
+		h_status="승인완료"
 		where h_idx=#{h_idx}
 	</update>
 
+	<!-- 호텔 목록 -->
 
+	<select id="list"
+		resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT
+		ho_idx, ho_name, ho_address, ho_level, ho_business, ho_status,
+		ho_description,h_business,h_name
+		FROM hotel, host
+		where
+		${searchkey} like
+		CONCAT('%',#{search},'%')
+		order by ho_idx desc
+
+	</select>
+
+
+	<select id="hotelCount" resultType="Int">
+		SELECT COUNT(*) FROM hotel
+	</select>
+
+	<!-- 호스트의 호텔 승인 -->
+	<select id="AHostelapprove" resultType="java.util.HashMap">
+		SELECT *
+		CASE
+		WHEN
+		ho_status= 1
+		THEN '승인 대기'
+		WHEN ho_status= 2 THEN '영업 중'
+		ELSE '영업 중지'
+		END
+		AS status
+		FROM hotel
+		WHERE ho_h_idx = #{h_idx}
+	</select>
 </mapper>
