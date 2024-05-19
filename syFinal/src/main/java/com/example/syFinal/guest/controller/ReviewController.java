@@ -1,6 +1,5 @@
 package com.example.syFinal.guest.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,22 +43,15 @@ public class ReviewController {
 	@GetMapping("detail/{idx}")
 	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
 		System.out.println("==> detail? " + rv_idx);
-		Map<String, Object> data = new HashMap<>();
-		try {
-			Map<String, Object> review = reputationDao.reviewDetail(rv_idx);
-			data.put("review", review);
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
-		}
-		System.out.println("===> detail결과: " + data);
-		return data;
+		Map<String, Object> review = reputationDao.reviewDetail(rv_idx);
+//		System.out.println("===> detail결과: " + review);
+		return review;
 	}
 
 	@Transactional
-	@PostMapping("edit")
-	public ResponseEntity<String> editReview(@RequestParam Map<String, Object> map) {
+	@PostMapping("edit/{idx}")
+	public ResponseEntity<String> editReview(@PathVariable(name = "idx") int rv_idx,
+			@RequestParam Map<String, Object> map) {
 		try {
 			reviewDao.editReview(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);

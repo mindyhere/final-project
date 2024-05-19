@@ -3,6 +3,7 @@ import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
+import { DropdownButton } from "react-bootstrap";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
@@ -22,6 +23,34 @@ function useFetch(url) {
   return [data, loading];
 }
 
+function StarRate(e) {
+  const [star, setStar] = useState(e);
+  const rv_star = useRef();
+  return (
+    <span>
+      {[...Array(star)].map((a, i) => (
+        <StarFill
+          size={20}
+          color="#FCD53F"
+          style={{ margin: "0 1px 2% 0" }}
+          key={i}
+          onClick={() => setStar(i + 1)}
+        />
+      ))}
+      {[...Array(5 - star)].map((a, i) => (
+        <Star
+          size={20}
+          color="grey"
+          style={{ margin: "0 1px 2% 0" }}
+          key={i}
+          onClick={() => setStar(star + i + 1)}
+        />
+      ))}
+      <input type="hidden" value={star} ref={rv_star} />
+    </span>
+  );
+}
+
 const EditReview = () => {
   const info = JSON.parse(localStorage.getItem("info"));
   const [data, loading] = useFetch(
@@ -34,57 +63,24 @@ const EditReview = () => {
   const g_photo = cookies.get("g_photo");
   const rv_content = useRef();
   const rv_star = useRef();
-  // const [review, setReview] = useState(null);
   const [content, setContent] = useState("");
   const [check, setCheck] = useState(false);
 
-  // function getDetail(url) {
-  //   fetch(url)
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       setReview(data.review);
-  //       setContent(data.review.rv_content);
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   getDetail(`http://localhost/api/review/detail/${data.rv_idx}`);
-  // }, []);
-
-  // function StarRate() {
-  //   const [star, setStar] = useState(review.rv_star);
-  //   return (
-  //     <span>
-  //       {[...Array(star)].map((a, i) => (
-  //         <StarFill
-  //           size={20}
-  //           color="#FCD53F"
-  //           style={{ margin: "0 1px 2% 0" }}
-  //           key={i}
-  //           onClick={() => setStar(i + 1)}
-  //         />
-  //       ))}
-  //       {[...Array(5 - star)].map((a, i) => (
-  //         <Star
-  //           size={20}
-  //           color="grey"
-  //           style={{ margin: "0 1px 2% 0" }}
-  //           key={i}
-  //           onClick={() => setStar(star + i + 1)}
-  //         />
-  //       ))}
-  //       <input type="hidden" value={star} ref={rv_star} />
-  //       <input type="hidden" value={star} ref={rv_star} />
-  //     </span>
-  //   );
-  // }
+  const rendering = (i) => {
+    const star = "⭐";
+    const result = [];
+    for (let j = 0; j < i; j++) {
+      result.push(<span key={j}>{star}</span>);
+    }
+    return result;
+  };
 
   if (loading) {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
+    let rate = data.rv_star;
+    console.log("==> rate?" + rate);
     if (g_photo.key != "-" || g_photo.key != null) {
       const img_url = `http://localhost/static/images/guest/profile/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
@@ -128,7 +124,7 @@ const EditReview = () => {
                   ></div>
                   <div className="col-10" width="100%">
                     <strong>
-                      {g_name.key} 님께서 {data.HoName} 에 대해 작성하신
+                      {g_name.key} 님께서 {data.ho_name} 에 대해 작성하신
                       리뷰입니다.
                       <br />
                       수정을 원하시면 [수정하기]를 눌러주세요.
@@ -146,9 +142,9 @@ const EditReview = () => {
                     textAlign: "left",
                   }}
                 >
-                  <b>예약번호</b> :&nbsp;&nbsp;{data.OIdx}
+                  <b>예약번호</b> :&nbsp;&nbsp;{data.o_idx}
                   <br />
-                  <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout}
+                  <b>이용기간</b> :&nbsp;&nbsp;{data.o_ckin} ~ {data.o_ckout}
                   <br />
                 </div>
               </div>
@@ -157,14 +153,14 @@ const EditReview = () => {
                   className="col-12 mb-3"
                   style={{ float: "left", display: "inline" }}
                 >
-                  <b>⭐평점 </b>: &nbsp;{/* {StarRate()} */}
+                  <b>⭐평점 </b>: &nbsp;{rate}&nbsp;&nbsp;{rendering(rate)}
                 </div>
 
                 <textarea
                   className="form-control mb-3"
                   rows={5}
                   cols={85}
-                  defaultValue={content}
+                  defaultValue={data.rv_content}
                   ref={rv_content}
                   placeholder="내용을 입력해주세요"
                   style={{
@@ -226,9 +222,11 @@ const EditReview = () => {
                           return fetch(
                             `http://localhost/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
                           )
+                            .then((response) => response.json())
                             .then((response) => {
-                              if (!response.ok) {
-                                throw new Error("false: " + response.status);
+                              console.log("=> ?" + response);
+                              if (response.result !== "success") {
+                                throw new Error("false: " + response.result);
                               }
 
                               const form = new FormData();
@@ -237,20 +235,16 @@ const EditReview = () => {
                                 "rv_content",
                                 rv_content.current.value
                               );
-                              form.append(
-                                "rv_star",
-                                data.rv_star.current.value
-                              );
-                              console.log("==> form?" + JSON.stringify(form));
+                              form.append("rv_star", data.rv_star);
 
-                              return fetch(`http://localhost/api/review/edit`, {
-                                method: "post",
-                                body: form,
-                              }).then((response) => {
-                                if (
-                                  !response.ok ||
-                                  response.result.value !== "success"
-                                ) {
+                              return fetch(
+                                `http://localhost/api/review/edit/${info.rv_idx}`,
+                                {
+                                  method: "post",
+                                  body: form,
+                                }
+                              ).then((response) => {
+                                if (!response.ok) {
                                   throw new Error("false: " + response.status);
                                 }
                                 return response.text();
@@ -274,7 +268,7 @@ const EditReview = () => {
                             showConfirmButton: false,
                             timer: 2000,
                           }).then(() => {
-                            localStorage.removeItem("editData");
+                            localStorage.removeItem("info");
                             window.opener.location.reload(); // 부모창
                             window.close(); // 창닫기
                           });
@@ -316,7 +310,7 @@ const EditReview = () => {
                               throw new Error("false: " + response.status);
                             }
                             return fetch(
-                              `http://localhost/api/review/delete/${data.rv_idx}`
+                              `http://localhost/api/review/delete/${info.rv_idx}`
                             ).then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);
@@ -340,11 +334,11 @@ const EditReview = () => {
                           title: "Success",
                           html: "정상처리 되었습니다.",
                           showConfirmButton: false,
-                          timer: 2000,
+                          //timer: 2000,
                         }).then(() => {
-                          localStorage.removeItem("editData");
+                          localStorage.removeItem("info");
                           window.opener.location.reload(); // 부모창
-                          window.close(); // 창닫기
+                          //window.close(); // 창닫기
                         });
                       }
                     });
