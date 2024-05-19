@@ -268,12 +268,6 @@ function Header() {
               >
                 <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
               </li>
-              <li
-                className="nav-item rounded"
-                style={{ display: "inline-block" }}
-              >
-                <a className="nav-link active">도움말센터</a>
-              </li>
             </ul>
           </div>
         </div>
@@ -354,9 +348,6 @@ function Header() {
                 style={{paddingTop: '10px'}}
               >
                 <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
-              </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
-                <a className="nav-link active">도움말센터</a>
               </li>
               <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a

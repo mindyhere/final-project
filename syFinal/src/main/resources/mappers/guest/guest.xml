@@ -64,6 +64,7 @@
 		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{dprice},#{fprice},now(),#{paymentId})
 	</insert>
 	
+	<!-- 게스트리뷰리스트 -->
 	<select id="reviewlist" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 		SELECT 
 		g_idx, 
@@ -83,6 +84,7 @@
 		AND rv_deleted=0
 	</select>
 	
+	<!-- 게스트답변리스트 -->
 	<select id="replylist" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 		SELECT 
 		g_idx, 
@@ -96,12 +98,14 @@
 		AND g_idx=#{gidx}
 	</select>
 	
+	<!-- 리뷰갯수 -->
 	<select id="reviewcount" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 		SELECT COUNT(*) as reviewcount
 		FROM review
 		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx})
 	</select>
 	
+	<!-- 가입기간 -->
 	<select id="joindate" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
 		SELECT (TO_DAYS(now()) - TO_DAYS(g_join_date)) AS joindate
 		FROM guest
