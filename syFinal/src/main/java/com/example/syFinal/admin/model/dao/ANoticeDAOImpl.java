@@ -20,14 +20,13 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchkey", searchkey);
 		map.put("search", search);
-		System.out.println("DATIMPL : " + searchkey);
 		return sqlSession.selectList("notice.list", map);
 	}
 
 	public ANoticeDTO detail(int n_idx) {
 		return sqlSession.selectOne("notice.detail", n_idx);
 	}
-	
+
 	public String delete(int n_idx) {
 		String result = "";
 		try {
@@ -39,10 +38,21 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 		return result;
 	}
 
-	
 	@Override
 	public void insert(Map<String, Object> map) {
 		sqlSession.insert("notice.insert", map);
-		
+
 	}
+
+	@Override
+	public int update(int n_idx, String n_writer, String n_title, String n_content, String n_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("n_idx", n_idx);
+		params.put("n_writer", n_writer);
+		params.put("n_title", n_title);
+		params.put("n_content", n_content);
+		params.put("n_date", n_date);
+		return sqlSession.update("notice.update", params);
+	}
+
 }
