@@ -12,26 +12,26 @@ function TotalReputation({ list, avg, HoIdx }) {
   const sort = useRef();
   const keyword = useRef();
 
-  function getList(url) {
-    // const form = new FormData();
-    // form.append("sort", sort.current.value);
-    // form.append("keyword", keyword.current.value);
-    // form.append("ho_idx", HoIdx);
-    // console.log("==> form? " + JSON.stringify(form));
-    // fetch(url, { method: "post", body: form })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("==> data? " + JSON.stringify(data));
-    //     setList(data.list);
-    //   });
+  function getList() {
+    const url = "http://localhost/api/reputation/review/search";
+    const form = new FormData();
+    form.append("sort", sort.current.value);
+    form.append("keyword", keyword.current.value);
+    form.append("ho_idx", HoIdx);
+    console.log("==> form? " + JSON.stringify(form));
+    fetch(url, { method: "post", body: form })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("==> data? " + JSON.stringify(data));
+        setList(data.list);
+      });
   }
 
   useEffect(() => {
-    getList("http://localhost/api/reputation/review/search");
-   // getList("http://localhost/api/reputation/review/search");
-  }, [review]);
+    getList();
+  }, []);
 
   return (
     <>
@@ -60,7 +60,7 @@ function TotalReputation({ list, avg, HoIdx }) {
               name="form1"
               method="post"
             >
-              <div className="col-2">
+              <div className="col-3">
                 <div className="input-group d-flex">
                   <select
                     className="form-select form-select opt"
@@ -72,10 +72,10 @@ function TotalReputation({ list, avg, HoIdx }) {
                     }}
                   >
                     <option defaultValue="latest" selected>
-                      최신순
+                    &nbsp;최신순
                     </option>
-                    <option value="highest">높은평점순&nbsp;&nbsp;</option>
-                    <option value="lowest">낮은평점순&nbsp;&nbsp;</option>
+                    <option value="highest">&nbsp;높은평점순&nbsp;</option>
+                    <option value="lowest">&nbsp;낮은평점순&nbsp;</option>
                   </select>
                 </div>
               </div>
@@ -90,7 +90,7 @@ function TotalReputation({ list, avg, HoIdx }) {
                 className="btn main-btn"
                 type="button"
                 id="btnSearch"
-                onClick="formCheck()"
+                onClick={() => getList()}
                 style={{ backgroundColor: "#FEC5BB !important" }}
               >
                 <Search size="16px" />
