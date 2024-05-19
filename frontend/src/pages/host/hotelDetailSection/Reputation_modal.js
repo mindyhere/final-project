@@ -72,7 +72,7 @@ function TotalReputation({ list, avg, HoIdx }) {
                     }}
                   >
                     <option defaultValue="latest" selected>
-                    &nbsp;최신순
+                      &nbsp;최신순
                     </option>
                     <option value="highest">&nbsp;높은평점순&nbsp;</option>
                     <option value="lowest">&nbsp;낮은평점순&nbsp;</option>

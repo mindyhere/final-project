@@ -78,16 +78,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 
 	@Override
 	public List<Map<String, Object>> reviewSearch(Map<String, Object> map) {
+		System.out.println("==> impl? " + map);
 		String keyword = (String) map.get("keyword");
 		List<Map<String, Object>> list = null;
 		try {
 			list = sqlSession.selectList("reputation.reviewSearch", map);
-//			for (Map<String, Object> m : list) {
-//				String rv_content = (String) m.get("rv_content");
-//				rv_content = rv_content.replace(keyword,
-//						"<span style={{bakgroundColor:'#F7EFFC'}}>" + keyword + "</span>");
-//				m.put("rv_content", rv_content);
-//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
