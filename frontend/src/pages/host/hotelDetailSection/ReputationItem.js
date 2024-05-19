@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 import { Send, SendFill } from "react-bootstrap-icons";
 
@@ -106,7 +105,13 @@ function ReputationItem({
             </div>
             <div className="row text-ellipsis" style={{ padding: "4%" }}>
               {rv_content}&nbsp;
-              {rv_content.length > 20 ? <Link to="#">더보기</Link> : <br />}
+              {/* {rv_content.length > 20 ? (
+                <sapn>
+                  <b>더보기</b>
+                </sapn>
+              ) : (
+                <br />
+              )} */}
             </div>
           </div>
           <br />

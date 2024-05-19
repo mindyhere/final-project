@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.admin.model.dto.ANoticeDTO;
 import com.example.syFinal.guest.model.dto.MainDTO;
 
 @Repository
@@ -31,5 +32,14 @@ public class MainDAOImpl implements MainDAO {
 		map.put("ho_idx", ho_idx);
 		map.put("g_idx", g_idx);
 		return sqlSession.selectOne("main.check", map);
+	}
+	
+	@Override
+	public List<ANoticeDTO> noticelist() {
+		return sqlSession.selectList("main.mainNotice");
+	}
+	@Override
+	public ANoticeDTO noticedetail(int n_idx) {
+		return sqlSession.selectOne("main.mainDetail",n_idx);
 	}
 }

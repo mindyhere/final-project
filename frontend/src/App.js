@@ -35,6 +35,7 @@ import PreReservDetail from "./pages/guest/preReservDetail";
 import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 import Notice from "./component/Notice";
+import NoticeDetail from "./component/NoticeDetail";
 
 import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
 import EditReview from "./pages/guest/EditReview"; // guest:review 수정
@@ -46,6 +47,8 @@ import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
+import Adetail from "./pages/admin/notice/adetail";
+
 
 // host 계정
 import HostLogin from "./pages/host/login/Login";
@@ -97,6 +100,7 @@ function App() {
           <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv />} />
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
           <Route path="/component/Notice" element={<Notice />} />
+          <Route path="/component/NoticeDetail" element={<NoticeDetail />} />
 
           {/* admin 계정 */}
           <Route path="/admin/alogin" element={<Alogin />} />
@@ -105,6 +109,8 @@ function App() {
           <Route path="/admin/aguest" element={<AGuest />} />
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
+          <Route path="/admin/notice/adetail/:n_idx" element={<Adetail />} />
+
 
           {/* host 계정 */}
           <Route path="/host/login" element={<HostLogin />} />

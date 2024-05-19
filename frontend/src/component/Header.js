@@ -268,12 +268,6 @@ function Header() {
               >
                 <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
               </li>
-              <li
-                className="nav-item rounded"
-                style={{ display: "inline-block" }}
-              >
-                <a className="nav-link active">도움말센터</a>
-              </li>
             </ul>
           </div>
         </div>
@@ -354,9 +348,6 @@ function Header() {
                 style={{paddingTop: '10px'}}
               >
                 <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
-              </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
-                <a className="nav-link active">도움말센터</a>
               </li>
               <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a
@@ -464,49 +455,57 @@ function Header() {
       </nav>
     );
   } else if(a_id != null && userInfo == null && g_email == null){
-    console.log("a_id cookie==> " + a_id);
-    console.log("a_passwd cookie==> " + a_passwd);
-    console.log("userInfo cookie==> " + userInfo);
-    console.log("g_email cookie==> " + g_email);
     return(
       <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          <img
+         <a className="navbar-brand" >        
+           <img
             src="/img/sybnb.png"
             href="/"
             width="170px"
             height="65px"
             style={{ padding: "0.5rem" }}
           ></img>
-        </a>
+        </a> 
 
-        {/* 호스트로그인 후 상단 */}
+        {/* 관리자 로그인 후 상단 */}
         <div align="right">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item rounded">
+          <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/host/hotel/MyhotelList`)}
+              onClick={() => navigate(`./admin/amain`)}
               >
-                회원관리
-              </a>
-            </li>
-            <li className="nav-item rounded">
-              <a className="nav-link active"
-              onClick={() => navigate(`/host/hotel/MyhotelList`)}
-              >
-                숙소관리
+                HOME
               </a>
             </li>
             <li className="nav-item">
-              
+            <a className="nav-link active"
+              onClick={() => navigate(`./admin/aguest`)}
+              >
+                회원정보관리
+              </a>
             </li>
+            <li className="nav-item ">
+              <a className="nav-link active"
+              onClick={() => navigate(`./admin/ahost`)}
+              >
+                사업자정보관리
+              </a>
+            </li>
+            {/* <li className="nav-item">
+              <a className="nav-link active"
+              onClick={() => navigate(`./admin/ahotel`)}
+              >
+                숙소영업관리
+              </a>
+            </li> */}
             <li
               className="nav-item rounded"
               style={{ display: "inline-block" }}
             >
-              <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+              <a className="nav-link active" onClick={() => navigate("./admin/notice/alist")}>공지사항</a>
             </li>
+            
             <li className="nav-item rounded">
               <a
                 className="nav-link active"
@@ -533,10 +532,12 @@ function Header() {
             </li>
           </ul>
         </div>
-      </div>
+      </div>  
     </nav>
+  
     );
   }
+
 
   function Modall(props) {
     function closeModal() {
