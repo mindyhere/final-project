@@ -1,5 +1,7 @@
 package com.example.syFinal.host.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +71,21 @@ public class ReplyController {
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PostMapping("search/reviews/{userIdx}")
+	public Map<String, Object> reviewSearch(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam Map<String, Object> map) {
+		System.out.println("==> reviewSearch? " + map);
+		List<Map<String, Object>> list = replyDao.searchReviews(map);
+		Map<String, Object> data = new HashMap<>();
+		if (list == null) {
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			data.put("list", list);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> data? " + data);
+		return data;
 	}
 }
