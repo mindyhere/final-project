@@ -35,6 +35,7 @@ import PreReservDetail from "./pages/guest/preReservDetail";
 import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 import Notice from "./component/Notice";
+import NoticeDetail from "./component/NoticeDetail";
 
 import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
 import EditReview from "./pages/guest/EditReview"; // guest:review 수정
@@ -97,6 +98,7 @@ function App() {
           <Route path="/guest/cancelReserv/:OIdx" element={<CancelReserv />} />
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
           <Route path="/component/Notice" element={<Notice />} />
+          <Route path="/component/NoticeDetail" element={<NoticeDetail />} />
 
           {/* admin 계정 */}
           <Route path="/admin/alogin" element={<Alogin />} />

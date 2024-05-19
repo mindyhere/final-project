@@ -16,15 +16,26 @@ function ListReviews() {
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [pageNum, setPageNum] = useState("1");
+  const [opt, setOption] = useState(0);
+  const sort = useRef();
+  const keyword = useRef();
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  function getList(pageNum) {
-    console.log("==> pageNum? " + pageNum);
-    fetch(
-      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
-    )
+  function getList(pageNum, opt) {
+    console.log("==> opt? " + opt);
+    let url = "";
+    const form = new FormData();
+    if (opt === 1) {
+      url = `http://localhost/api/reply/search/reviews/${userIdx}`;
+      form.append("sort", sort.current.value);
+      form.append("keyword", keyword.current.value);
+    } else {
+      url = `http://localhost/api/reputation/manage/list/${userIdx}`;
+      form.append("pageNum", pageNum);
+    }
+    fetch(url, { method: "post", body: form })
       .then((response) => {
         return response.json();
       })
@@ -40,7 +51,7 @@ function ListReviews() {
   }
 
   useEffect(() => {
-    getList(pageNum);
+    getList(pageNum, opt);
   }, [pageNum]);
 
   const setPagination = () => {
@@ -60,7 +71,11 @@ function ListReviews() {
       } else {
         result.push(
           <li key={"page-item" + i} className="page-item">
-            <a key={i} className="page-link" onClick={() => getList(`${i}`)}>
+            <a
+              key={i}
+              className="page-link"
+              onClick={() => getList(`${i}`, opt)}
+            >
               {i}
             </a>
           </li>
@@ -87,7 +102,7 @@ function ListReviews() {
               <div className="input-group d-flex">
                 <select
                   className="form-select form-select opt"
-                  id="opt"
+                  ref={sort}
                   style={{
                     size: "3",
                     borderRadius: "30px 0 0 30px",
@@ -96,14 +111,16 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={1}>&nbsp;구분</option>
-                  <option defaultValue={2}>&nbsp;최근업로드</option>
-                  <option defaultValue={3}>&nbsp;낮은평점순</option>
+                  <option defaultValue={1}>&nbsp;All</option>
+                  <option defaultValue={2}>&nbsp;구분</option>
+                  <option defaultValue={3}>&nbsp;예약번호</option>
+                  <option defaultValue={4}>&nbsp;상태</option>
                 </select>
               </div>
             </div>
             <input
               id="keyword"
+              ref={keyword}
               type="text"
               className="form-control search"
               placeholder="검색어를 입력하세요"
@@ -113,6 +130,7 @@ function ListReviews() {
               className="btn main-btn p-0"
               type="button"
               id="btnSearch"
+              onClick={() => getList(1, 1)}
               style={{
                 height: "35px",
                 backgroundColor: "#FEC5BB !important",
@@ -159,7 +177,7 @@ function ListReviews() {
               <strong>평점</strong>
             </th>
             <th scope="col">
-              <strong>답글</strong>
+              <strong>상태</strong>
             </th>
           </tr>
         </thead>
@@ -216,7 +234,7 @@ function ListReviews() {
             {page.curPage > 1 ? (
               <li className="page-item">
                 <a className="page-link">
-                  <span aria-hidden="true" onClick={() => getList("1")}>
+                  <span aria-hidden="true" onClick={() => getList("1", opt)}>
                     <ChevronDoubleLeft />
                   </span>
                 </a>
@@ -227,7 +245,7 @@ function ListReviews() {
                 <a className="page-link" aria-label="Previous">
                   <span
                     aria-hidden="true"
-                    onclick={() => getList(`${page.prevPage}`)}
+                    onclick={() => getList(`${page.prevPage}`, opt)}
                   >
                     <ChevronLeft />
                   </span>
@@ -242,7 +260,7 @@ function ListReviews() {
                 <a className="page-link" aria-label="Next">
                   <span
                     aria-hidden="true"
-                    onClick={() => getList(`${page.nextPage}`)}
+                    onClick={() => getList(`${page.nextPage}`, opt)}
                   >
                     <ChevronRight />
                   </span>
@@ -252,7 +270,7 @@ function ListReviews() {
             {page.curPage < page.totPage ? (
               <li className="page-item">
                 <a className="page-link" aria-label="End">
-                  <span onClick={() => getList(`${page.totPage}`)}>
+                  <span onClick={() => getList(`${page.totPage}`, opt)}>
                     <ChevronDoubleRight />
                   </span>
                 </a>

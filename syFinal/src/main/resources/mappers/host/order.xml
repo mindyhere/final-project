@@ -3,7 +3,7 @@
 <mapper namespace="order">
 <select id="getList" resultType="java.util.Map">
 	select @rownum:=@rownum+1 AS rownum, v.* 
-	from v_host_order v, (select @rownum:=(#{start}-1)) tmp
+	from v_host_order v, (select @rownum:=(#{start})) tmp
 <choose>
 	<when test="ho_idx == 0"> <!-- 최초접속 -->
 		where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
@@ -12,7 +12,8 @@
 		where ho_idx = #{ho_idx}
 	</otherwise>
 </choose>
-	limit #{start}, #{end};
+	order by @rownum desc
+	limit #{start}, #{end}
 </select>
 
 <select id="countRecord" resultType="int">
@@ -29,9 +30,10 @@
 
 <select id="totalOrders" resultType="java.util.Map">
 	select @rownum:=@rownum+1 AS rownum, v.* 
-	from v_host_order v, (select @rownum:=(#{start}-1)) tmp
+	from v_host_order v, (select @rownum:=(#{start})) tmp
 	where ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
-	limit #{start}, #{end};
+	order by @rownum desc
+	limit #{start}, #{end}
 </select>
 
 <select id="countAll" resultType="int">
@@ -82,9 +84,9 @@
 <!-- 예약수정 요청 목록 -->
 <select id="modifyRequest" resultType="java.util.Map">
 	select distinct v.* 
-	from v_modify_order v, host
+	from v_modify_order v
 	where v.ho_idx 
-		IN (select ho_idx from host where h_idx=#{h_idx});
+		IN (select ho_idx from hotel where ho_h_idx=#{h_idx});
 </select>
 
 <!-- 게스트의 예약변경 요청사항을 orders 테이블에 반영 -->
@@ -130,4 +132,9 @@ select
 	where ho_idx = #{ho_idx}
 </select>
 
+<update id="requestReject">
+update reserv_update
+set ru_state=0 
+where ru_idx=#{o_idx}
+</update>
 </mapper>
