@@ -45,8 +45,8 @@ function RequestItem({
     }
     return (
       <div
-        className="container m-0"
-        style={{ width: "770px", height: "205px" }}
+        className="container m-0 p-0"
+        style={{ width: "770px", height: "255px" }}
       >
         <table className="tbl" style={{ margin: "0" }}>
           <colgroup>
@@ -65,7 +65,7 @@ function RequestItem({
                   }}
                 >
                   <div
-                    className="col-2  my-auto"
+                    className="col-3  my-auto"
                     style={{
                       width: "80px",
                       display: "inline",
@@ -74,33 +74,41 @@ function RequestItem({
                     dangerouslySetInnerHTML={{ __html: profile_src }}
                   ></div>
                   <div
-                    className="col my-auto"
+                    className="col mx-auto"
                     style={{
                       height: "60px",
+                      padding: "1% 0 1% 0",
                       display: "inline",
                     }}
                   >
-                    이름:&nbsp;&nbsp;{g_name}
+                    이름&nbsp;:&nbsp;&nbsp;{g_name}
                     <br />
-                    이메일:&nbsp;&nbsp;{g_email}
+                    이메일&nbsp;:&nbsp;&nbsp;{g_email}
                   </div>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <div
-                    className="col-2 py-3"
+                    className="btn-group col-3 mx-auto"
+                    role="group"
                     style={{
+                      textAlign: "right",
                       height: "60px",
-                      display: "inline",
+                      padding: "2% 0 2% 0",
+                      display: "inline-block",
                     }}
                   >
                     <button
-                      className="btnCheck active"
+                      className="btn btnCheck active"
+                      style={{
+                        borderTopLeftRadius: "30px",
+                        borderBottomLeftRadius: "30px",
+                      }}
                       onClick={() => {
                         Swal.fire({
                           icon: "question",
                           title: "Check",
                           input: "password",
-                          inputLabel: "변경된 예약내용을 확정할까요?",
-                          inputPlaceholder: "비밀번호를 입력해주세요",
+                          inputLabel: "변경된 내용으로 예약을 확정할까요?",
+                          inputPlaceholder: "비밀번호를 입력해주세요.",
                           inputAttributes: {
                             autocapitalize: "off",
                             autocorrect: "off",
@@ -119,13 +127,15 @@ function RequestItem({
                                 }
                                 const form = new FormData();
                                 form.append("oidx", o_idx);
+                                form.append("ho_idx", ho_idx);
+                                form.append("d_idx", d_idx);
+                                form.append("d_room_type", d_room_type);
                                 form.append("ckin", ru_startDate);
                                 form.append("ckout", ru_endDate);
                                 form.append("adult", ru_adult);
                                 form.append("child", ru_child);
                                 form.append("baby", ru_baby);
                                 form.append("hidx", userIdx);
-                                console.log("==> form?" + JSON.stringify(form));
 
                                 return fetch(
                                   `http://localhost/api/order/manage/modify/${o_idx}`,
@@ -135,24 +145,26 @@ function RequestItem({
                                   }
                                 ).then((response) => {
                                   if (!response.ok) {
-                                    throw new Error(
-                                      "false: " + response.status
-                                    );
+                                    throw new Error(response.status);
                                   }
-                                  return response.text();
+                                  console.log(
+                                    "==> response? " + JSON.stringify(response)
+                                  );
+                                  return response.status;
                                 });
                               })
                               .catch((error) => {
-                                console.log(error);
+                                console.log("==> error? " + error);
                                 Swal.showValidationMessage(
-                                  `문제가 발생했습니다. 비밀번호 또는 예약대기 목록을 우선 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
+                                  `error : 비밀번호 또는 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
                               });
                           },
-                          allowOutsideClick: () => !Swal.isLoading(),
+                          allowOutsideClick: false,
+                          // allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          if (result.isConfirmed) {
-                            console.log(result.value);
+                          console.log("=> result " + JSON.stringify(result));
+                          if (result.value === 200) {
                             Swal.fire({
                               icon: "success",
                               title: "Success",
@@ -162,27 +174,107 @@ function RequestItem({
                             }).then(() => {
                               window.location.reload();
                             });
+                          } else {
+                            Swal.fire({
+                              icon: "error",
+                              title: "Not possible",
+                              html: `예약을 변경할 수 없습니다.<br/>${ho_name} 의 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`,
+                              showConfirmButton: true,
+                            }).then(() => {
+                              window.location.reload();
+                            });
                           }
                         });
                       }}
                     >
-                      CONFIRM
+                      승인
+                    </button>
+                    <button
+                      className="btn btnCheck active"
+                      style={{
+                        borderTopRightRadius: "30px",
+                        borderBottomRightRadius: "30px",
+                        backgroundColor: "#C6C7C8",
+                      }}
+                      onClick={() => {
+                        Swal.fire({
+                          icon: "question",
+                          title: "Check",
+                          input: "password",
+                          inputLabel:
+                            "게스트의 예약변경 요청을 거절하시겠습니까?",
+                          inputPlaceholder: "비밀번호를 입력해주세요.",
+                          inputAttributes: {
+                            autocapitalize: "off",
+                            autocorrect: "off",
+                          },
+                          showCancelButton: true,
+                          cancelButtonText: "CANCEL",
+                          confirmButtonText: "CONFIRM",
+                          showLoaderOnConfirm: true,
+                          preConfirm: (pwd) => {
+                            return fetch(
+                              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                            )
+                              .then((response) => {
+                                if (!response) {
+                                  throw new Error("false: " + response.value);
+                                }
+
+                                return fetch(
+                                  `http://localhost/api/order/manage/reject/${o_idx}`
+                                ).then((response) => {
+                                  if (!response.ok) {
+                                    throw new Error(response.status);
+                                  }
+                                  return response.text();
+                                });
+                              })
+                              .catch((error) => {
+                                console.log("==> error? " + error);
+                                Swal.showValidationMessage(
+                                  `error : 비밀번호를 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
+                                );
+                              });
+                          },
+                          allowOutsideClick: () => !Swal.isLoading(),
+                        }).then((result) => {
+                          console.log("=> result " + JSON.stringify(result));
+                          if (result.isConfirmed) {
+                            console.log(result.value);
+                            Swal.fire({
+                              icon: "success",
+                              title: "Complete",
+                              html: "게스트의 요청이 거부되었습니다.",
+                              showConfirmButton: false,
+                              // timer: 2000,
+                            }).then(() => {
+                              window.location.reload();
+                            });
+                          }
+                        });
+                      }}
+                    >
+                      거부
                     </button>
                   </div>
                 </div>
               </td>
             </tr>
             <tr>
-              <th>예약번호 : {o_idx}</th>
-              <th>기존 예약</th>
-              <th style={{ color: "#6f48eb" }}>변경 요청</th>
+              <th rowSpan={3}>
+                예약정보 <br />
+              </th>
+              <td>예약번호 :&nbsp;&nbsp;{o_idx}</td>
+              <td>
+                {ho_name}&nbsp;&nbsp;|&nbsp;&nbsp;{d_room_type}
+              </td>
             </tr>
             <tr>
-              <td style={{ textAlign: "center" }}>
-                {ho_name}
-                <br />
-                {d_room_type}
-              </td>
+              <th>기존 예약</th>
+              <th style={{ color: "#9f48eb" }}>변경 요청</th>
+            </tr>
+            <tr>
               <td>
                 {o_ckin} ~ {o_ckout}
                 <br />총 <b>{bfsum}</b>인 : 성인({o_adult}) , 어린이(

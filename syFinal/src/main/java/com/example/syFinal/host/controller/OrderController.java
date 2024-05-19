@@ -44,7 +44,7 @@ public class OrderController {
 
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
-		int start = page.getPageBegin();
+		int start = page.getPageBegin() - 1;
 		int end = page.getPageEnd();
 		data.put("count", cnt);
 		data.put("page", page);
@@ -111,7 +111,7 @@ public class OrderController {
 
 	@GetMapping("manage/modify/list")
 	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-//		System.out.println("==> 목록 map? " + h_idx);
+		System.out.println("==> 목록 map? " + h_idx);
 		List<Map<String, Object>> data = orderDao.requestList(h_idx);
 //		System.out.println("==> 결과 data? " + data);
 		return data;
@@ -121,18 +121,32 @@ public class OrderController {
 	@PostMapping("manage/modify/{o_idx}")
 	public Map<String, Object> modify(@PathVariable(name = "o_idx") int o_idx,
 			@RequestParam Map<String, Object> params) {
-//		System.out.println("==> 업데이트 params? " + params);
-
 		Map<String, Object> data = new HashMap<>();
-		orderDao.modify(params);
-		if ((int) params.get("result") == 1) {
-			data.put("level", params.get("level"));
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		if (orderDao.countOrders(params)) {
+			orderDao.modify(params);
+			Integer result = (Integer) params.get("result");
+			switch (result) {
+			case 1:
+				data.put("level", params.get("level"));
+				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+				break;
+			case 0:
+				System.out.println("==> 프로시저 에러");
+				data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+				break;
+			}
 		} else {
+			System.out.println("예약수 초과");
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-
+		System.out.println("==> modify리턴? " + data);
 		return data;
+	}
+
+	@Transactional
+	@GetMapping("manage/reject/{o_idx}")
+	public void requestReject(@PathVariable(name = "o_idx") int o_idx) {
+		orderDao.requestReject(o_idx);
 	}
 
 }

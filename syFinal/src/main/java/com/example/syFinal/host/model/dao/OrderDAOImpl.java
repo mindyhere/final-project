@@ -129,4 +129,21 @@ public class OrderDAOImpl implements OrderDAO {
 		System.out.println("==> modify? " + params);
 	}
 
+	@Override
+	public boolean countOrders(Map<String, Object> params) {
+		// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
+		int cnt = sqlSession.selectOne("order.countOrders", params);
+		int room = sqlSession.selectOne("order.roomCount", params);
+		System.out.println("==> 예약수?" + cnt + ", " + room);
+		if (cnt < room) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void requestReject(int o_idx) {
+		sqlSession.selectOne("order.requestReject", o_idx);
+	}
+
 }
