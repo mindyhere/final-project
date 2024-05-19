@@ -302,12 +302,11 @@ const EditReview = () => {
                         return fetch(
                           `http://localhost/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
                         )
+                          .then((response) => response.json())
                           .then((response) => {
-                            if (
-                              !response.ok ||
-                              response.result.value !== "success"
-                            ) {
-                              throw new Error("false: " + response.status);
+                            console.log("=> ?" + response);
+                            if (response.result !== "success") {
+                              throw new Error("false: " + response.result);
                             }
                             return fetch(
                               `http://localhost/api/review/delete/${info.rv_idx}`
@@ -334,11 +333,11 @@ const EditReview = () => {
                           title: "Success",
                           html: "정상처리 되었습니다.",
                           showConfirmButton: false,
-                          //timer: 2000,
+                          timer: 2000,
                         }).then(() => {
                           localStorage.removeItem("info");
                           window.opener.location.reload(); // 부모창
-                          //window.close(); // 창닫기
+                          window.close(); // 창닫기
                         });
                       }
                     });
