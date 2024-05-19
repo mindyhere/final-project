@@ -101,34 +101,35 @@ function Order() {
             });
         } else {
             alert("결제성공");
-                        const form = new FormData();
-                        form.append('idx',idx.key);
-                        form.append('dIdx',dIdx);
-                        form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-                        form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-                        form.append('adult',adult);
-                        form.append('child',child);
-                        form.append('baby',baby);
-                        form.append('pay',pay);
-                        form.append('dprice',dprice);
-                        form.append('fprice',fprice);
-                        form.append('paymentId', response.paymentId);
-                        
-                        fetch('http://localhost/guest/order',{
-                            method:'post',
-                            body:form
-                        }).then(()=>{
-                            //예약완료시 모달로 확인 후 예약내역페이지로 이동
-                            Swal.fire({
-                                icon : 'success',
-                                text : '예약요청이 완료되었습니다.',
-                                confirmButtonText: '확인'
-                            }).then((result) => {
-                                if(result.isConfirmed) {
-                                    window.location.href='/guest/reservation';
-                                }
-                            });
-                        });
+            const form = new FormData();
+            form.append('idx',idx.key);
+            form.append('dIdx',dIdx);
+            form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
+            form.append('adult',adult);
+            form.append('child',child);
+            form.append('baby',baby);
+            form.append('pay',pay);
+            form.append('dprice',dprice);
+            form.append('fprice',fprice);
+            form.append('paymentId', response.paymentId);
+            
+            fetch('http://localhost/guest/order',{
+                method:'post',
+                body:form
+            }).then(()=>{
+                //예약완료시 모달로 확인 후 예약내역페이지로 이동
+                Swal.fire({
+                    icon : 'success',
+                    text : '예약요청이 완료되었습니다.',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.href='/guest/reservation';
+                    }
+                });
+            });
+
 
             // app.use(bodyParser.json());
 

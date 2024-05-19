@@ -2,10 +2,19 @@
 
 package com.example.syFinal.global.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +31,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.syFinal.global.model.PortoneResponse;
 import com.example.syFinal.guest.model.dao.GuestDAO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.siot.IamportRestClient.IamportClient;
 
 import jakarta.annotation.PostConstruct;
@@ -37,34 +50,94 @@ public class PaymentController {
 	//private IamportClient iamportClient;
 
 	
-	@Autowired
-	GuestDAO dao;
 	
-	private static final String import_token_url = "https://api.iamport.kr/users/getToken";
+	//private static final String import_token_url = "https://api.iamport.kr/users/getToken";
 	//private final String imp_key="3700142288466350";
-	private final String imp_secret="0iQd24va2FuC19XXQVOYN24tiyt1Dh7rM21sVn1XT0Ih4ESW6ddawXG3bvB9vBER7JvRwFeWQS0vOpW1";
+	private String apiSecret="0iQd24va2FuC19XXQVOYN24tiyt1Dh7rM21sVn1XT0Ih4ESW6ddawXG3bvB9vBER7JvRwFeWQS0vOpW1";
+//	URL url = new URL("https://api.portone.io/payments/"+paymentId+"/cancel");
 	
-	// 아임포트 인증(토큰)을 받아주는 함수 
-    public String getImportToken() { 
-        String result = ""; 
-//        HttpClient client = HttpClientBuilder.create().build();
-//        HttpPost post = new HttpPost(import_token_url); 
-//        Map<String,String> m =new HashMap<String,String>(); 
-//        m.put("imp_key", imp_key); 
-//        m.put("imp_secret", imp_secret); 
-//        try { post.setEntity(new UrlEncodedFormEntity(convertParameter(m))); 
-//            HttpResponse res = client.execute(post); 
-//            ObjectMapper mapper = new ObjectMapper(); 
-//            String body = EntityUtils.toString(res.getEntity()); 
-//            JsonNode rootNode = mapper.readTree(body); 
-//            JsonNode resNode = rootNode.get("response"); 
-//            result = resNode.get("access_token").asText(); 
-//        } catch (Exception e) { 
-//            e.printStackTrace(); 
-//        } 
-//        
-//        log.info("#################################################### TOKEN :"+result);
-        return result;
+//	@Transactional
+//	@RequestMapping("/gettoken")
+//    public String getAccessToken () {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String requestUrl = "https://api.portone.io/login/api-secret";
+//
+//        Map<String, String> iamportKey = new HashMap();
+//        //iamportKey.put("imp_key", imp_key); //발급받은 REST API key 값을 넣어주세요
+//        iamportKey.put("apiSecret",apiSecret); //발급받은 REST API secret 값을 넣어주세요.
+//
+//        ResponseEntity<Object> responseData = restTemplate.postForEntity(requestUrl, iamportKey, Object.class);
+//        LinkedHashMap responseBody = (LinkedHashMap) responseData.getBody();
+//        LinkedHashMap responseBodyProps = (LinkedHashMap) responseBody.get("response");
+//        String accessToken = (String) responseBodyProps.get("access_token");
+//        System.out.println("전달받은 토큰값"+accessToken);
+//        return accessToken;
+//    }
+	
+	@Transactional
+	@RequestMapping("/gettoken")
+	private String getAccessToken() {
+        String url = "https://api.portone.io/login/api-secret";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        
+        headers.set("Content-Type", "application/json;charset=UTF-8");
+        headers.set("Accept", "application/json;charset=UTF-8");
+        //headers.set("Authorization", "PortOne "+apiSecret);
+		//headers.set("Authorization", "PortOne "+secretKey);
+        
+        JSONObject body = new JSONObject();
+        //Map<String, String> body = new HashMap<>();
+        body.put("Authorization", "PortOne "+apiSecret);
+
+        HttpEntity<JSONObject> entity = new HttpEntity<>(body,headers);
+        ResponseEntity<PortoneResponse> Response = restTemplate.postForEntity(url, entity,PortoneResponse.class);
+
+        Map<String, Object> responseBody = (Map<String, Object>) Response.getBody();
+        String accessToken = (String) responseBody.get("access_token");
+        System.out.println("전달받은 토큰값"+accessToken);
+        return accessToken;
+    
+    }
+	
+	
+	// 포트원 인증(토큰)을 받아주는 함수 
+    public String getToken(String secretKey) throws IOException { 
+    	URL url = new URL("https://api.portone.io/users/getToken");
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+ 
+        // 요청 방식을 POST로 설정
+        conn.setRequestMethod("POST");
+ 
+        // 요청의 Content-Type과 Accept 헤더 설정
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+ 
+        // 해당 연결을 출력 스트림(요청)으로 사용
+        conn.setDoOutput(true);
+ 
+        // JSON 객체에 해당 API가 필요로하는 데이터 추가.
+        JsonObject json = new JsonObject();
+        //json.addProperty("imp_key", apiKey);
+        json.addProperty("imp_secret", secretKey);
+ 
+        // 출력 스트림으로 해당 conn에 요청
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(json.toString()); // json 객체를 문자열 형태로 HTTP 요청 본문에 추가
+        bw.flush(); // BufferedWriter 비우기
+        bw.close(); // BufferedWriter 종료
+ 
+        // 입력 스트림으로 conn 요청에 대한 응답 반환
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        Gson gson = new Gson(); // 응답 데이터를 자바 객체로 변환
+        String response = gson.fromJson(br.readLine(), Map.class).get("response").toString();
+        String accessToken = gson.fromJson(response, Map.class).get("access_token").toString();
+        br.close(); // BufferedReader 종료
+ 
+        conn.disconnect(); // 연결 종료
+ 
+        log.info("Iamport 엑세스 토큰 발급 성공 : {}", accessToken);
+        return accessToken;
     } 
 
 	
@@ -81,18 +154,18 @@ public class PaymentController {
 //    }
 	
 	//토큰받아오기
-	@RequestMapping("/confirmpay")
-	public ResponseEntity<JSONObject> confirmpay(@RequestParam("paymentId") String paymentId) {
+	//@RequestMapping("/confirmpay")
+	public ResponseEntity<PortoneResponse> confirmpay(@RequestParam("paymentId") String paymentId) {
 		
 //		headers.set("Content-Type", "application/json;charset=UTF-8");
 //		body.put("imp_key", imp_key);
 //		body.put("imp_secret", imp_secret);
-		headers.set("Authorization", "PortOne "+imp_secret);
+//		headers.set("Authorization", "PortOne "+secretKey);
 		headers.set("Content-Type", "application/json;charset=UTF-8");
 		
 		try {
-			HttpEntity<JSONObject> entity = new HttpEntity<>(headers);
-			ResponseEntity<JSONObject> token = restTemplate.postForEntity("https://api.portone.io/v2/signin/api-key",entity,JSONObject.class);
+			HttpEntity<PortoneResponse> entity = new HttpEntity<>(headers);
+			ResponseEntity<PortoneResponse> token = restTemplate.postForEntity("https://api.portone.io/v2/signin/api-key",entity,PortoneResponse.class);
 			System.out.println(token + "FULLtoken");
 			return token;
 		} catch(Exception e) {
@@ -114,30 +187,5 @@ public class PaymentController {
 	//결제취소검증
 	//이미 결제취소 된 건인지
 	//지불한 금액과 취소하려는 금액 체크
-	
-	//예약요청
-	@PostMapping
-	//("/pay/order")
-	public void order(@RequestParam(name = "idx") int idx, @RequestParam(name = "dIdx") int didx,
-			@RequestParam(name = "ckin") String ckin, @RequestParam(name = "ckout") String ckout,
-			@RequestParam(name = "adult") int adult, @RequestParam(name = "pay") String pay,
-			@RequestParam(name = "child") int child, @RequestParam(name = "baby") String baby,
-			@RequestParam(name = "dprice") int dprice, @RequestParam(name = "fprice") int fprice,
-			@RequestParam(name="paymentId") String paymentId) {
-		Map<String, Object> map1 = new HashMap<>();
-		map1.put("idx", idx);
-		map1.put("didx", didx);
-		map1.put("ckin", ckin);
-		map1.put("ckout", ckout);
-		map1.put("adult", adult);
-		map1.put("child", child);
-		map1.put("baby", baby);
-		map1.put("pay", pay);
-		map1.put("dprice", dprice);
-		map1.put("fprice", fprice);
-		map1.put("paymentId", paymentId);
-		// System.out.println("예약요청"+map1);
-		dao.order(map1);
-	}
 
 }
