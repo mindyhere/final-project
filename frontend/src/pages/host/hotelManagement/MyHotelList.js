@@ -48,7 +48,7 @@ function MyHotelList() {
                     navigate('/host/hotel/registHotel')}>호텔 등록하기</button>
                 </div>
                 <div className="card-style mb-20">
-                    <table className="tbl">
+                    <table className="tbl table table-sm table-hover align-middle text-center">
                         <thead>
                              <tr>
                                 <th>번호</th>

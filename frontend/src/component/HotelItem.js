@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Cookies from "universal-cookie";
 
-function HotelItem({HoIdx,HoName, HoImg, check}) {
+function HotelItem({HoIdx,HoName, HoImg, check, Dprice}) {
     const dIdx = 1;
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
@@ -11,7 +11,7 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
     //const url = `../img/${HoImg}`;
     const navigate = useNavigate();
     const [image, setImage] = useState(""); 
-    const [checkId, setCheckId] = useState(0);
+    const [checkId, setCheckId] = useState(2);
 
     const handleClick = () => {
         const form = new FormData();
@@ -74,13 +74,18 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
                 <div id="Img" style={{position: 'relative'}}>
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                        <div style={{fontSize:"23px"}}>{HoName}</div>
-                            ₩68,717 /박
+                        <div style={{fontSize:"25px"}}>{HoName}</div>
+                            <div>₩{Dprice} /박</div>
                             </Link>           
+                    {checkId == 2 
+                    ? 
+                    '' 
+                    : 
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
                     top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
                     <img src={image} width='70px' height='70px' />
                     </button>
+                    }
                     <input type='hidden' id={checkId} value={check}></input>
                 <br />
                 </div>

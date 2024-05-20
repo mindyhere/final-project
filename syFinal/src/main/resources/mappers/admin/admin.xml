@@ -83,20 +83,30 @@
 
 	<!-- 호텔 목록 -->
 
-	<select id="list"
+
+<select id="list"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT
 		ho_idx, ho_name, ho_address, ho_level, ho_business, ho_status,
 		ho_description,h_business,h_name
-		FROM hotel, host
-		where
-		${searchkey} like
-		CONCAT('%',#{search},'%')
-		order by ho_idx desc
+		FROM hotel,host
+  WHERE
+            ${searchkey} LIKE CONCAT('%', #{search}, '%')
+            <if test="status != ''">
+                AND ho_status = #{status}
+            </if>
+        ORDER BY
+            ho_idx DESC
 
 	</select>
 
-
+	<!-- 호텔 등록 승인 -->
+    <update id="updateHotelStatus" parameterType="map">
+        UPDATE hotel
+        SET ho_status = #{ho_status}
+        WHERE ho_idx = #{ho_idx}
+    </update>
+    
 	<select id="hotelCount" resultType="Int">
 		SELECT COUNT(*) FROM hotel
 	</select>
@@ -105,14 +115,15 @@
 	<select id="AHostelapprove" resultType="java.util.HashMap">
 		SELECT *
 		CASE
-		WHEN
-		ho_status= 1
-		THEN '승인 대기'
-		WHEN ho_status= 2 THEN '영업 중'
-		ELSE '영업 중지'
-		END
-		AS status
-		FROM hotel
-		WHERE ho_h_idx = #{h_idx}
+		UPDATE hotel
+    SET ho_status =
+        CASE #{status}
+            WHEN '승인 대기' THEN 1
+            WHEN '영업 중' THEN 2
+            ELSE 3
+        END
+    WHERE ho_h_idx = #{h_idx}
 	</select>
+	
+	
 </mapper>

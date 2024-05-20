@@ -46,7 +46,7 @@ function RequestItem({
     return (
       <div
         className="container m-0 p-0"
-        style={{ width: "770px", height: "255px" }}
+        style={{ width: "800px", height: "255px" }}
       >
         <table className="tbl" style={{ margin: "0" }}>
           <colgroup>
@@ -247,7 +247,7 @@ function RequestItem({
                               title: "Complete",
                               html: "게스트의 요청이 거부되었습니다.",
                               showConfirmButton: false,
-                              // timer: 2000,
+                              timer: 2000,
                             }).then(() => {
                               window.location.reload();
                             });

@@ -13,4 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class PortoneResponse {
 	private String accessToken;
+	private String refreshToken;
+	private String type;
+	private String message;
 }
