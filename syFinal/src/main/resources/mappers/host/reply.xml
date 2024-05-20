@@ -18,22 +18,79 @@ delete from reply where rp_idx=#{rp_idx}
 
 <select id="searchReviews" resultType="java.util.Map">
 select @rownum:=@rownum+1 as rownum, v.* 
-from v_hotel_review v, (select @rownum:=(#{start}-1)) tmp
-where 
-	h_idx=#{h_idx}
-	and rv_content like concat('%', #{keyword}, '%')
+from v_hotel_review v, (select @rownum:=0) tmp
+where h_idx=#{h_idx} and
   <choose>
-	<when test="sort == 'highest'">
-		order by rv_star desc, rv_idx desc
+	<when test="sort == 'ho_name'">
+		ho_name like concat('%', #{keyword}, '%')	
 	</when>
-	<when test="sort == 'lowest'">
-		order by rv_star, rv_idx desc
-	</when>
+  	<when test="sort == 'o_idx'">
+		o_idx like concat('%', #{keyword}, '%')
+	</when>	
+	<when test="sort == 'reply'">
+  	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<otherwise>
+			rp_idx != 0
+		</otherwise>
+	  </choose>
+	</when>	
 	<otherwise>
-		order by rv_idx desc
+	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<when test="keyword == '등록완료'">
+			rp_idx != 0
+		</when>
+		<otherwise>
+			(ho_name like concat('%', #{keyword}, '%')
+			or o_idx like concat('%', #{keyword}, '%'))
+		</otherwise>
+	  </choose>
 	</otherwise>
   </choose>
-ORDER BY rv_idx desc
-limit #{start}, #{end};
+order by rv_idx desc, @rownum desc
+limit #{start}, 10
 </select>
+
+<select id="count" resultType="int">
+select count(*) from v_hotel_review 
+where h_idx=#{h_idx} and
+  <choose>
+	<when test="sort == 'ho_name'">
+		ho_name like concat('%', #{keyword}, '%')	
+	</when>
+  	<when test="sort == 'o_idx'">
+		o_idx like concat('%', #{keyword}, '%')
+	</when>	
+	<when test="sort == 'reply'">
+  	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<otherwise>
+			rp_idx != 0
+		</otherwise>
+	  </choose>
+	</when>	
+	<otherwise>
+	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<when test="keyword == '등록완료'">
+			rp_idx != 0
+		</when>
+		<otherwise>
+			(ho_name like concat('%', #{keyword}, '%')
+			or o_idx like concat('%', #{keyword}, '%'))
+		</otherwise>
+	  </choose>
+	</otherwise>
+  </choose>
+</select>
+
 </mapper>

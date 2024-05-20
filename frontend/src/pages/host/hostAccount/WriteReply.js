@@ -43,7 +43,6 @@ const WriteReply = () => {
           <div
             className="card-style"
             style={{
-              marginTop: "10px",
               borderStyle: "solid",
               borderColor: "#F7EFFC",
               backgroundColor: "#F7EFFC",
