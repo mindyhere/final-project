@@ -1,6 +1,5 @@
 package com.example.syFinal;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,13 +11,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.admin.model.dto.ANoticeDTO;
-import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.MainDAO;
 import com.example.syFinal.guest.model.dto.MainDTO;
 
