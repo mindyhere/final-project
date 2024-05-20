@@ -14,6 +14,7 @@ function useFetch(url) {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             setData(data);
             setLoading(false);
         })
@@ -86,7 +87,7 @@ function PreReservDetail() {
                 <div className="card-reservDetail">
                     <h4>예약 세부 정보</h4>
                     <hr/>
-                    <p style={{fontWeight: 'bold'}}> 상태: {state}</p>
+                    <p style={{fontWeight: 'bold'}}> 상태: {state} <span style={{fontWeight: 'bold', color: 'red'}}>{data.state_check}</span></p> 
                     
                     <p style={{fontWeight: 'bold'}}> 환불 정책</p>
                     <p>{data.ref_date} {data.dto.ho_check_in} 전에 취소하면 전체 환불을 받으실 수 있습니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</p>
