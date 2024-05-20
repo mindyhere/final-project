@@ -492,13 +492,13 @@ function Header() {
                 사업자정보관리
               </a>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <a className="nav-link active"
               onClick={() => navigate(`./admin/ahotel`)}
               >
                 숙소영업관리
               </a>
-            </li> */}
+            </li> 
             <li
               className="nav-item rounded"
               style={{ display: "inline-block" }}
