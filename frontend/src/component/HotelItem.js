@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Cookies from "universal-cookie";
 
-function HotelItem({HoIdx,HoName, HoImg, check}) {
+function HotelItem({HoIdx,HoName, HoImg, check, Dprice}) {
     const dIdx = 1;
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
@@ -74,8 +74,8 @@ function HotelItem({HoIdx,HoName, HoImg, check}) {
                 <div id="Img" style={{position: 'relative'}}>
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
-                        <div style={{fontSize:"23px"}}>{HoName}</div>
-                            ₩68,717 /박
+                        <div style={{fontSize:"25px"}}>{HoName}</div>
+                            <div>₩{Dprice} /박</div>
                             </Link>           
                     {checkId == 2 
                     ? 

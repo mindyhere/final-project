@@ -23,6 +23,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +55,7 @@ public class PaymentController {
 	
 	//private static final String import_token_url = "https://api.iamport.kr/users/getToken";
 	//private final String imp_key="3700142288466350";
-	private String apiSecret="0iQd24va2FuC19XXQVOYN24tiyt1Dh7rM21sVn1XT0Ih4ESW6ddawXG3bvB9vBER7JvRwFeWQS0vOpW1";
+	private String apiSecret="8I6gk3CbU6dmSKZ5WDQDclFzYOMq8gnBJbtCRkEm7uloX27PRxKGjqnSYSaKzWJefLssINqMzO7OO35o";
 //	URL url = new URL("https://api.portone.io/payments/"+paymentId+"/cancel");
 	
 //	@Transactional
@@ -81,11 +83,12 @@ public class PaymentController {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         
+        //headers.set("Authorization", "PortOne "+apiSecret);
         headers.set("Content-Type", "application/json;charset=UTF-8");
         headers.set("Accept", "application/json;charset=UTF-8");
-        //headers.set("Authorization", "PortOne "+apiSecret);
-		//headers.set("Authorization", "PortOne "+secretKey);
+		//headers.set("Authorization", "PortOne "+apiSecret);
         
+        //MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
         JSONObject body = new JSONObject();
         //Map<String, String> body = new HashMap<>();
         body.put("Authorization", "PortOne "+apiSecret);
@@ -94,7 +97,7 @@ public class PaymentController {
         ResponseEntity<PortoneResponse> Response = restTemplate.postForEntity(url, entity,PortoneResponse.class);
 
         Map<String, Object> responseBody = (Map<String, Object>) Response.getBody();
-        String accessToken = (String) responseBody.get("access_token");
+        String accessToken = (String) responseBody.get("accessToken");
         System.out.println("전달받은 토큰값"+accessToken);
         return accessToken;
     
@@ -141,39 +144,28 @@ public class PaymentController {
     } 
 
 	
-	RestTemplate restTemplate = new RestTemplate();
-	
-	HttpHeaders headers = new HttpHeaders();
-	
-	//JSONObject body = new JSONObject();
-	//생성자를 통해 REST API 와 REST API secret 입력
-//	@PostConstruct
-//    public void init() {
-//        this.iamportClient = new IamportClient(imp_key,imp_secret);
-//.,
-//    }
 	
 	//토큰받아오기
 	//@RequestMapping("/confirmpay")
-	public ResponseEntity<PortoneResponse> confirmpay(@RequestParam("paymentId") String paymentId) {
-		
-//		headers.set("Content-Type", "application/json;charset=UTF-8");
-//		body.put("imp_key", imp_key);
-//		body.put("imp_secret", imp_secret);
-//		headers.set("Authorization", "PortOne "+secretKey);
-		headers.set("Content-Type", "application/json;charset=UTF-8");
-		
-		try {
-			HttpEntity<PortoneResponse> entity = new HttpEntity<>(headers);
-			ResponseEntity<PortoneResponse> token = restTemplate.postForEntity("https://api.portone.io/v2/signin/api-key",entity,PortoneResponse.class);
-			System.out.println(token + "FULLtoken");
-			return token;
-		} catch(Exception e) {
-			e.printStackTrace();
-            System.out.println("gettoken에서 오류가 발생");
-		}
-		return null;
-	}
+//	public ResponseEntity<PortoneResponse> confirmpay(@RequestParam("paymentId") String paymentId) {
+//		
+////		headers.set("Content-Type", "application/json;charset=UTF-8");
+////		body.put("imp_key", imp_key);
+////		body.put("imp_secret", imp_secret);
+////		headers.set("Authorization", "PortOne "+secretKey);
+//		//headers.set("Content-Type", "application/json;charset=UTF-8");
+//		
+//		try {
+//			HttpEntity<PortoneResponse> entity = new HttpEntity<>(headers);
+//			ResponseEntity<PortoneResponse> token = restTemplate.postForEntity("https://api.portone.io/v2/signin/api-key",entity,PortoneResponse.class);
+//			System.out.println(token + "FULLtoken");
+//			return token;
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//            System.out.println("gettoken에서 오류가 발생");
+//		}
+//		return null;
+//	}
 	
 	//결제검증(결제 금액 비교)
 //	@ResponseBody

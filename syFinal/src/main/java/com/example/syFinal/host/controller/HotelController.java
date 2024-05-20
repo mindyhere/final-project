@@ -42,7 +42,7 @@ public class HotelController {
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hoteList(map);
-
+		System.out.println(hotelList);
 		List<String> bet_dates = new ArrayList<String>();
 		List<String> imp_dates = new ArrayList<String>();
 		MainController main = new MainController();
@@ -54,7 +54,6 @@ public class HotelController {
 			}
 		}
 		int roomCount = hotelDao.room_count(ho_idx, d_idx);
-		System.out.println(roomCount);
 		List<String> dates = new ArrayList<String>();
 		Set<String> set = new HashSet<String>(imp_dates);
 		for (String str : set) {
@@ -63,6 +62,7 @@ public class HotelController {
 			}
 		}
 		hotelList.put("imp_dates", dates);
+		System.out.println(hotelList);
 		return hotelList;
 	}
 
@@ -161,7 +161,7 @@ public class HotelController {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
 		String hotelImg = "";
-		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
+		System.out.println("@@@@@@  페이지 첫번째 등록 페이지이동 ");
 		if (img != null && !img.isEmpty()) {
 			try {
 				if (hotelImg != null && !hotelImg.equals("-")) {
@@ -227,7 +227,8 @@ public class HotelController {
 	@PostMapping("/host/hotel/editHotel/amenity")
 	public void editHotelAmenity(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx) {
 		System.out.println("호텔 편의시설 - map : " + map);	
-		System.out.println("호텔 편의시설 - map List : " + map.get("selectItems"));
+		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
+		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
 		System.out.println("호텔 편의시설 - ho_idx : " + ho_idx);
 	}
 	
