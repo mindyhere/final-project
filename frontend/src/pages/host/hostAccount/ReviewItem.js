@@ -62,14 +62,14 @@ function ReviewItem({
       popup = window.open(
         `../../../host/account/manage/review`,
         "name(Write)",
-        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+        "width=500,height=700,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     } else {
       console.log("==> opt?" + opt);
       popup = window.open(
         `../../../host/account/manage/reply`,
         "name(Edit)",
-        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+        "width=500,height=700,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     }
     return popup;
