@@ -195,7 +195,7 @@ function ListReviews() {
                 rv_idx,
                 ho_name,
                 g_name,
-                g_url,
+                g_photo,
                 g_email,
                 rv_date,
                 rv_content,
@@ -209,7 +209,7 @@ function ListReviews() {
                   rv_idx={rv_idx}
                   ho_name={ho_name}
                   g_name={g_name}
-                  g_url={g_url}
+                  g_photo={g_photo}
                   g_email={g_email}
                   rv_date={rv_date}
                   rv_content={rv_content}

@@ -4,6 +4,8 @@ import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 
+import StarRate from "../../component/StarRate";
+
 const WriteReview = () => {
   let loading = false;
   const data = JSON.parse(localStorage.getItem("reservData"));
@@ -14,42 +16,19 @@ const WriteReview = () => {
   const g_photo = cookies.get("g_photo");
   const rv_writer = useRef();
   const rv_content = useRef();
-  const rv_star = useRef();
+  const [star, setStar] = useState(null);
   const [check, setCheck] = useState(false);
 
-  function StarRate() {
-    const [star, setStar] = useState(0);
-    return (
-      <span>
-        {[...Array(star)].map((a, i) => (
-          <StarFill
-            size={20}
-            color="#FCD53F"
-            style={{ margin: "0 1px 2% 0" }}
-            key={i}
-            onClick={() => setStar(i + 1)}
-          />
-        ))}
-        {[...Array(5 - star)].map((a, i) => (
-          <Star
-            size={20}
-            color="grey"
-            style={{ margin: "0 1px 2% 0" }}
-            key={i}
-            onClick={() => setStar(star + i + 1)}
-          />
-        ))}
-        <input type="hidden" value={star} ref={rv_star} />
-      </span>
-    );
-  }
-  
+  const handleStarRating = (value) => {
+    setStar(value);
+  };
+
   if (loading) {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
     if (g_photo.key != "-" || g_photo.key != null) {
-      const img_url = `http://localhost/static/images/guest/profile/${g_photo.key}`;
+      const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
@@ -62,7 +41,7 @@ const WriteReview = () => {
           <div
             className="card-style"
             style={{
-              marginTop: "10px",
+              marginTop: "5px",
               borderStyle: "solid",
               borderColor: "#F7EFFC",
               backgroundColor: "#F7EFFC",
@@ -79,7 +58,6 @@ const WriteReview = () => {
                 className="card-style col-12 mb-3"
                 style={{
                   boxSizing: "border-box",
-                  marginTop: "12px",
                   textAlign: "left",
                   float: "left",
                 }}
@@ -120,7 +98,8 @@ const WriteReview = () => {
                   className="col-12 mb-3"
                   style={{ float: "left", display: "inline" }}
                 >
-                  <b>⭐평점 </b>: &nbsp;{StarRate()}
+                  <b>⭐평점 </b>: &nbsp;
+                  {<StarRate rate={0} handleStarRating={handleStarRating} />}
                 </div>
 
                 <textarea
@@ -169,12 +148,19 @@ const WriteReview = () => {
                         confirmButtonText: "OK",
                       });
                       return;
-                    } else {
+                    } else if( star == null){
+                      Swal.fire({
+                        icon: "warning",
+                        title: "잠깐!",
+                        html: "평점을 체크해주세요.",
+                        confirmButtonText: "OK",
+                      });
+                  }else {
                       const form = new FormData();
                       form.append("rv_writer", rv_writer.current.value);
                       form.append("rv_content", rv_content.current.value);
                       form.append("o_idx", data.OIdx);
-                      form.append("rv_star", rv_star.current.value);
+                      form.append("rv_star", star);
                       fetch("http://localhost/api/review/insert", {
                         method: "post",
                         body: form,
@@ -187,7 +173,7 @@ const WriteReview = () => {
                             icon: "success",
                             title: "Thank you!",
                             html: "정상 처리되었습니다.",
-                            confirmButtonText: "OK",
+                            timer: 2000,
                           }).then((result) => {
                             if (result.isConfirmed) {
                               localStorage.removeItem("reservData"); // localStorage 비우기
