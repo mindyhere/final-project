@@ -2,15 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main">
 	<select id="mainList" resultType="com.example.syFinal.guest.model.dto.MainDTO">
-		SELECT ho_idx, ho_name, ho_img
-		FROM hotel
+		SELECT ho_idx, ho_name, ho_img,d_price,d_img1,d_img2,d_img3
+		FROM hotel h, hotel_detail d
 		WHERE ho_name like CONCAT('%',#{search},'%')
+		and h.ho_idx = d.d_ho_idx AND d_room_type='싱글룸'
 		order BY ho_name
+		
 	</select>
 	
 	
-<select id="check" resultType="Int">
-	select IFNULL((select count(w_idx) from wish 
-	WHERE w_gidx =#{g_idx} and w_hoidx = #{ho_idx}), 0)
-</select>
+	<select id="check" resultType="Int">
+		select IFNULL((select count(w_idx) from wish 
+		WHERE w_gidx =#{g_idx} and w_hoidx = #{ho_idx}), 0)
+	</select>
+
+	<select id="mainNotice" resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
+		select * from notice
+	</select>
+	
+	<select id="mainDetail" resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
+		select * from notice 
+		where n_idx=#{nidx}
+	</select>
 </mapper>

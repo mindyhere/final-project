@@ -1,7 +1,12 @@
+/* global kakao */
 import React, { useEffect, useRef, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
+import DaumPostcode, { useDaumPostcodePopup } from "react-daum-postcode";
+import { BuildingFill, CardChecklist, CardList } from "react-bootstrap-icons";
+import RoomDetail from "../hotelManagement/RoomDetail";
+const {kakao} = window;
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -41,12 +46,148 @@ function EditHotel() {
     const ho_check_in = useRef();
     const ho_check_out = useRef();
     const ho_img = useRef();
+    const ho_x = useRef();
+    const ho_y = useRef();
     const ho_description = useRef();
 
     let [inputCount, setInputCount] = useState(0);
     const onInputHandler = (e) => {
         setInputCount(e.target.value.length);
     }
+
+    const urlHandle = (e) => {
+        window.open(`http://localhost/static/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500'); 
+    } 
+
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [address, setAddress] = useState("");
+    const [hoX, setHoX] = useState("");
+    const [hoY, setHoY] = useState("");
+
+    const clickButton  = () => {
+        setIsPopupOpen(current => !current);
+    }
+
+    const selectAddress = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = ''; 
+        let hoX = '';
+        let hoY = '';
+
+        if (data.addressType === 'R') {
+          if (data.bname !== '') {
+            extraAddress += data.bname;
+          }
+          if (data.buildingName !== '') {
+            extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+          }
+          fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(data.roadAddress, (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+            hoX = result[0].y;
+            hoY = result[0].x;
+            setHoX(hoX);
+            setHoY(hoY);
+            }   
+        });
+    }
+        setAddress(fullAddress);
+        alert(fullAddress);
+        setIsPopupOpen(false);
+    };
+
+    const postCodeStyle = {
+        display: "block",
+        position: "absolute",
+        top: "10%",
+        width: "450px",
+        height: "430px",
+        border: "1.2px solid #F7EFFC",
+      };
+
+    const themeObj = {
+        bgColor: "#DBC4F0", 			// 바탕 배경색
+        searchBgColor: "", 		// 검색창 배경색
+        contentBgColor: "", 		// 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+        pageBgColor: "", 		// 페이지 배경색
+        textColor: "", 			// 기본 글자색
+        queryTextColor: "", 		// 검색창 글자색
+        postcodeTextColor: "", 	// 우편번호 글자색
+        emphTextColor: "", 		// 강조 글자색
+        outlineColor: "#F7EFFC" 		// 테두리
+      };
+
+    const dataList = [
+        {id: 0, title: '산 전망', icon: '/img/mountain.png'},
+        {id: 1, title: '바다 전망', icon: '/img/ocean.png'},
+        {id: 2, title: '무선인터넷', icon: '/img/wifi.png'},
+        {id: 3, title: '주차장', icon: '/img/parking.png'},
+        {id: 4, title: '조식 제공', icon: '/img/breakfast.png'},
+        {id: 5, title: '화재경보기', icon: '/img/firealam.png'},
+        {id: 6, title: '소화기', icon: '/img/fireExt.png'}
+      ];
+
+    const [checkItems, setCheckItems] = useState([]);
+
+    const handleSingleCheck = (checked, id) => {
+        if (checked) {
+            console.log("체크박스 : " + checkItems);
+        setCheckItems(prev => [...prev, id]);
+        } else {
+        setCheckItems(checkItems.filter((el) => el !== id));
+        console.log("체크박스 해제: " + checkItems);
+        }
+    };
+
+    const handleAllCheck = (checked) => {
+        if(checked) {
+          const idArray = [];
+          dataList.forEach((el) => idArray.push(el.id));
+          setCheckItems(idArray);
+        }
+        else {
+          setCheckItems([]);
+        }
+    }
+
+    const [rooms, setRooms] = useState("");
+    function Modal(props) {
+        function closeModal() {
+          props.closeModal();
+          setModal(!modal);
+        }
+        return (
+          <div className="modal_h" onClick={closeModal}>
+            <div
+              className="modalBody_h"
+              style={{ width: "1000px", height: "700px", padding: "30px" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="btnClose" onClick={closeModal}>
+                X
+              </button>
+              <RoomDetail 
+                hoIdx={hoIdx}
+                dIdx={rooms.d_idx}
+                roomType={rooms.d_room_type}
+                capacity={rooms.d_capacity}
+                area={rooms.d_area}
+                beds={rooms.d_beds}
+                price={rooms.d_price}
+                smoking={rooms.d_non_smoking}
+                img1={rooms.d_img1}
+                img2={rooms.d_img2}
+                img3={rooms.d_img3}
+              />
+               {/*props.children*/}
+            </div>
+          </div>
+        );
+      }
+
 
     if(loading){
         return (
@@ -69,14 +210,14 @@ function EditHotel() {
                     </h2>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>기본 정보</h4>
+                    <h3><BuildingFill size={35} /> 기본 정보</h3>
                     <table className="tbl">
                         <thead>
                         </thead>
                         <tbody>
                             <tr>
                                 <th colSpan={2}>호텔명</th>
-                                <td colSpan={3}><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_name}/></td>
+                                <td colSpan={2}><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_name}/></td>
                             </tr>
                             <tr>
                                 <th>호텔 등급</th>
@@ -103,20 +244,45 @@ function EditHotel() {
                                 <td><input style={{border:'none'}} ref={ho_check_out} defaultValue={data[0].ho_check_out} /></td>
                             </tr>
                             <tr>
-                                <th>주소</th>
-                                <td colSpan={3}>
-                                    <input style={{border:'none'}} ref={ho_address} defaultValue={data[0].ho_address} />
+                                <th colSpan={2}>주소</th>
+                                <td colSpan={2}>
+                                    <input style={{border:'none'}} ref={ho_address} defaultValue={address != data[0].ho_address ? data[0].ho_address : address} onChange={(e) => {setAddress(e.target.value)}} />
+                                    <input type="hidden" style={{border:'none'}} ref={ho_x} value={hoX}  onChange={(e) => {setHoX(e.target.value)}} defaultValue={data[0].ho_x}/>
+                                    <input type="hidden" style={{border:'none'}} ref={ho_y} value={hoY}  onChange={(e) => {setHoY(e.target.value)}} defaultValue={data[0].ho_y}/>
+                                
+                                    <button className="main-btnn" onClick={clickButton}>주소 검색</button>
+                                    
+                                    { isPopupOpen &&
+                                        <div>
+                                            <div className='Modal' onClick={() => setIsPopupOpen(false)} style={{zIndex : 999}}>
+                                                <div className='modalBody' style={{height:'500px', width: '500px', padding: '20px'}} onClick={(e) => e.stopPropagation()}>
+                                                        <button id = 'modalCloseBtn' onClick={() => setIsPopupOpen(false)}>
+                                                        X
+                                                        </button>
+                                                        <DaumPostcode
+                                                            onComplete={selectAddress}
+                                                            autoClose={false}
+                                                            style={postCodeStyle}
+                                                            theme={themeObj}
+                                                        />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </td>
                             </tr>
                             <tr>
                                 <th colSpan={2}>호텔 대표 이미지</th>
-                                <span dangerouslySetInnerHTML={{__html : image_url}}></span>
-                                <td colSpan={2}><input type="file" ref={ho_img} /></td>
+                                <td colSpan={2}>
+                                    현재 이미지 : <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle}> {data[0].ho_img}</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="file" ref={ho_img} />
+                                </td>
                             </tr>
                             <tr>
                                 <th colSpan={2}>호텔 소개</th>
                                 <td colSpan={2}>
-                                    <textarea rows="6" cols="40" maxLength="500" onChange={onInputHandler} ref={ho_description} defaultValue={data[0].ho_description} placeholder="숙소와 주변 지역에 대한 정보에서 시작해 게스트와 어떻게 소통하고 싶은지 등의 내용을 적어주세요"/>
+                                    <textarea rows="6" cols="75" maxLength="500" style={{border:'none'}} onChange={onInputHandler} ref={ho_description} defaultValue={data[0].ho_description} placeholder="숙소와 주변 지역에 대한 정보에서 시작해 게스트와 어떻게 소통하고 싶은지 등의 내용을 적어주세요"/>
                                     <p style={{textAlign:'right'}}>
                                         <span>{inputCount}</span>
                                         <span> / 500 자</span>
@@ -126,7 +292,7 @@ function EditHotel() {
                         </tbody>
                     </table>
                     <div style={{textAlign: 'right'}}>
-                        <button className="main-btn" onClick={() => {
+                        <button className="main-btnn" onClick={() => {
                             Swal.fire({
                                 text: '호텔 기본정보를 수정하시겠습니까?',
                                 showCancelButton: true,
@@ -146,6 +312,8 @@ function EditHotel() {
                                     form.append('ho_check_in', ho_check_in.current.value);
                                     form.append('ho_check_out', ho_check_out.current.value);
                                     form.append('ho_address', ho_address.current.value);
+                                    form.append('ho_x', ho_x.current.value);
+                                    form.append('ho_y', ho_y.current.value);
                                     form.append('ho_description', ho_description.current.value);
                                     if(ho_img.current.files.length > 0){
                                         form.append('img', ho_img.current.files[0]);
@@ -164,46 +332,56 @@ function EditHotel() {
                     </div>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>호텔 편의시설</h4>
-                    <div className="checkbox-group mt-20" style={{fontSize: '18px'}}>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].mountain_view == 'Y' ? true : false} ></input>
-                            <label>　산 전망</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].ocean_view == 'Y' ? true : false} ></input>
-                            <label>　바다 전망</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].wifi == 'Y' ? true : false} ></input>
-                            <label>　무선 인터넷</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].parking_lot == 'Y' ? true : false} ></input>
-                            <label>　주차장</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].breakfast == 'Y' ? true : false} ></input>
-                            <label>　조식 제공</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].fire_alam == 'Y' ? true : false} ></input>
-                            <label>　화재경보기</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" defaultChecked={data[0].fire_extinguisher == 'Y' ? true : false} ></input>
-                            <label>　소화기</label>
-                        </div>
+                    <h3 className="mb-30"><CardChecklist size={35} /> 호텔 편의시설</h3>
+                    <div className="mb-10" style={{fontSize: '18px'}}>
+                        <input type='checkbox' name='select-all'
+                        onChange={(e) => handleAllCheck(e.target.checked)}
+                        checked={checkItems.length === dataList.length ? true : false} />
+                        &nbsp;
+                        <strong>전체 선택</strong>
+                    </div>
+                    <div className="checkbox-group" style={{fontSize: '18px'}}>
+                        {dataList?.map((item, index) => (
+                            <div key={index} className="mb-10">
+                                <div>
+                                    <input type='checkbox' name={`select-${item.id}`}
+                                    onChange={(e) => handleSingleCheck(e.target.checked, item.id)}
+                                    //defaultChecked={item.stats == "Y"}
+                                    checked={checkItems.includes(item.id) ? true : false} />
+                                    &nbsp;
+                                    <img src={item.icon} style={{ width: '30px', height: '30px' }} />
+                                    &nbsp;{item.title}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     <div style={{textAlign:'right'}}>
-                        <button className="main-btn" onClick={() => {
-
-                        }}>수정</button>
+                        <button className="main-btnn" onClick={() => {
+                            Swal.fire({
+                                text: '호텔 편의시설을 수정하시겠습니까?',
+                                showCancelButton: true,
+                                confirmButtonText: '확인',
+                                cancelButtonText: "취소"
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    const form = new FormData();
+                                    form.append('ho_idx', hoIdx);
+                                    form.append('checkItems', checkItems);
+                                    fetch('http://localhost/host/hotel/editHotel/amenity', {
+                                        method: 'POST',
+                                        body : form
+                                    }).then(() => {
+                                        window.location.replace("/host/hotel/editHotel");
+                                    });
+                                }
+                            });
+                        }}
+                        >수정</button>
                     </div>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>객실 정보</h4>
-                    <table className="tbl">
+                    <h3><CardList size={35} /> 객실 정보</h3>
+                    <table className="tbl table table-sm table-hover align-middle text-center">
                         <thead>
                              <tr>
                                 <th>번호</th>
@@ -213,39 +391,34 @@ function EditHotel() {
                                 <th>침대수</th>
                                 <th>가격</th>
                                 <th>금연실</th>
-                                <th>-</th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.map((item, idx) => (
-                                <tr style={{textAlign:'center'}}>
-                                    <td>{idx + 1}</td>
+                                <tr style={{textAlign:'center'}} onClick={() => {setModal(true);  setRooms(item);}}>
+                                <td>{idx + 1}</td>
                                     <td>{item.d_room_type}</td>
-                                    <td>{item.d_capacity}</td>
-                                    <td>{item.d_area}</td>
-                                    <td>{item.d_beds}</td>
-                                    <td>{item.d_price}</td>
+                                    <td>{item.d_capacity}명</td>
+                                    <td>{item.d_area}㎡</td>
+                                    <td>{item.d_beds}개</td>
+                                    <td>{item.d_price}원</td>
                                     <td>{item.d_non_smoking}</td>
-                                    <td><button className="main-btn" onClick={() => setModal(true)}>수정</button></td>
                                 </tr>
                             ))}
-                            { modal &&
-                                <div className='Modal' style={{zIndex : 999}}>
-                                    <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                        <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                            X
-                                        </button>
-                                        <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
-                                            {data.ho_description}
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                            
+                            {modal && (
+                                <Modal
+                                    style={{ zIndex: 999, position: "relative" }}
+                                    closeModal={() => {
+                                        setModal(!modal);
+                                      }}
+                                />
+                             )}
                         </tbody>
                     </table>
                 </div>
                 <div className="mb-40" style={{textAlign:'center'}}>
-                    <button className="main-btn" onClick={() => {
+                    <button className="main-btnn" onClick={() => {
                         Swal.fire({
                             text: '영업중지 신청을 하시겠습니까?',
                             showCancelButton: true,
@@ -264,7 +437,7 @@ function EditHotel() {
                         }}
                     >영업 중지 신청</button>
                     &nbsp;
-                    <button className="main-btn" onClick={() => {
+                    <button className="main-btnn" onClick={() => {
                         navigate('/host/hotel/MyhotelList')
                     }}>뒤로 가기</button>
                 </div>

@@ -11,10 +11,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.syFinal.admin.model.dto.ANoticeDTO;
+import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.MainDAO;
 import com.example.syFinal.guest.model.dto.MainDTO;
 
@@ -23,7 +27,6 @@ public class MainController {
 
 	@Autowired
 	MainDAO dao;
-	
 	
 	@RequestMapping("/guest/main")
 	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search,
@@ -36,6 +39,7 @@ public class MainController {
 			map.put("HoIdx", main.get(i).getHo_idx());
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
+			map.put("Dprice", main.get(i).getD_price());
 			map.put("search", search);
 			if (g_idx != 0) {
 				int check = dao.check(main.get(i).getHo_idx(), g_idx);
@@ -43,8 +47,27 @@ public class MainController {
 			}
 			list.add(map);
 		}
-		// System.out.println("메인리스트====" + list);
+		System.out.println("메인리스트====" + list);
 		return list;
+	}
+	//메인 공지사항
+	@GetMapping("main/notice")
+	public Map<String, Object> noticelist() {
+		List<ANoticeDTO> noticeList = dao.noticelist();
+		Map<String, Object> list = new HashMap<>();
+//		List<Map<String, Object>> list = new ArrayList<>();
+		System.out.println("공지사항==="+noticeList);
+		list.put("list", noticeList);
+		return list;
+	}
+	//메인 세부공지사항
+	@GetMapping("main/noticedetail/{nidx}")
+	public Map<String, Object> noticedetail(@PathVariable(name="nidx") int n_idx) {
+		ANoticeDTO noticedetail = dao.noticedetail(n_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", noticedetail);
+		System.out.println("공지사항디테일="+map);
+		return map;
 	}
 	
 	public List<String> dateBetween(String stDate, String etDate) {

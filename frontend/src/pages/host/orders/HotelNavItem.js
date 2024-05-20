@@ -1,37 +1,26 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import React, { useRef } from "react";
 
 function HotelNavItem({
   rownum,
   ho_idx,
   ho_name,
-  userIdx,
-  handleClick,
-  active,
+  loading,
+  init,
+  handleHotelChange,
 }) {
   const hotel_idx = useRef();
-  // const [active, isActive] = useState("");
-  // const handleChange = (val) => {
-  //   const el = document.getElementsByName("link" + rownum);
-  //   el.remove("active");
-  // };
-
-  // console.log(
-  //   "==> 확인 " + rownum + ", " + ho_name + "/" + active
-  // );
-
-  if (rownum == 1) {
+  // console.log("==> 최초? " + loading + ", rownum? " + rownum);
+  if (rownum == 1 && !loading) {
+    console.log("==> 초기셋팅? " + init);
     return (
       <li
-        key={ho_idx}
-        value={active}
-        name={"link" + rownum}
-        className={"nav-link" + " active"}
+        key={rownum}
+        className={"nav-item"}
         onClick={() => {
-          handleClick(ho_idx);
+          handleHotelChange(ho_idx);
         }}
       >
-        <a key={rownum} className="nav-link">
+        <a key={ho_idx} className={`nav-link active hotel${ho_idx}`}>
           {ho_name}
         </a>
         <input type="hidden" defaultValue={ho_idx} ref={hotel_idx} />
@@ -40,15 +29,12 @@ function HotelNavItem({
   } else {
     return (
       <li
-        key={ho_idx}
-        value={active}
-        name={"link" + rownum}
-        className={"nav-link"}
+        key={rownum}
         onClick={() => {
-          handleClick(ho_idx);
+          handleHotelChange(ho_idx);
         }}
       >
-        <a key={rownum} className="nav-link">
+        <a key={ho_idx} className={`nav-link hotel${ho_idx}`}>
           {ho_name}
         </a>
         <input type="hidden" defaultValue={ho_idx} ref={hotel_idx} />

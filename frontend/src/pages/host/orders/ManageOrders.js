@@ -1,7 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import moment, { Moment } from "moment";
+import React, { useEffect, useState } from "react";
 import { Calendar2Week } from "react-bootstrap-icons";
-import { useNavigate } from "react-router";
 
 import Cookies from "universal-cookie";
 import HotelNavItem from "./HotelNavItem";
@@ -22,24 +20,20 @@ function ManageOrders() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
   const level = userInfo.h_level;
   const [loading, setLoading] = useState("");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [modal, setModal] = useState(false);
-  const [onDetail, setOnDetail] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const navigate = useNavigate();
   const [hoIdx, setHotelIdx] = useState("");
   const [selected, isSelected] = useState("");
   const [pageNum, setPageNum] = useState("1");
 
   function getList(hoIdx, pageNum) {
     let url = "";
-    // console.log("==> page? " + pageNum + ", " + typeof pageNum);
+    console.log("==> page? " + pageNum + ", " + hoIdx);
     if (pageNum != "0") {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
@@ -56,12 +50,7 @@ function ManageOrders() {
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
-        // console.log(
-        //   "==> 데이터셋: " +
-        //     JSON.stringify(data.list) +
-        //     " / " +
-        //     JSON.stringify(data.page)
-        // );
+        // console.log("==> data: " +JSON.stringify(data.list));
       });
   }
 
@@ -69,15 +58,25 @@ function ManageOrders() {
     getList(hoIdx, pageNum);
   }, [hoIdx, pageNum]);
 
-  const handleClick = (e) => {
-    setHotelIdx(e);
-    console.log("==> 클릭? " + e);
-    getList(e, 0, 1);
-    // console.log("==> 호출? " +{ hoIdx });
+  const handleHotelChange = (idx) => {
+    // console.log("==> 클릭? " + idx);
+    setHotelIdx(idx);
+    getList(idx, 0, 1);
+    hotels.map(({ ho_idx }) => {
+      // console.log("==> 반복처리 :" + ho_idx);
+      if (ho_idx != idx) {
+        document.querySelector(".hotel" + ho_idx).classList.remove("active");
+      } else {
+        document.querySelector(".hotel" + ho_idx).classList.add("active");
+      }
+      let e = document.querySelector(".hotel" + ho_idx);
+      // console.log("==> 결과" + e.className);
+    });
   };
+
   const handleModal = (oder_idx) => {
     isSelected(oder_idx);
-    setOnDetail(!onDetail);
+    setModal(!modal);
   };
 
   const setPagination = () => {
@@ -114,7 +113,7 @@ function ManageOrders() {
   function Modal(props) {
     function closeModal() {
       props.closeModal();
-      setModal(false);
+      setModal(!modal);
     }
 
     return (
@@ -150,11 +149,10 @@ function ManageOrders() {
             </h3>
             <br />
             <div
-              className="container mt-0 mb-30"
+              className="row mt-0 mb-2"
               style={{ zIndex: "0", position: "relative", padding: "0" }}
             >
-              <div className="row mx-1">
-                <div className="col-4">
+                <div className="col-3 mt-2 p-0">
                   <Scheduler
                     tileContent={tileContent}
                     style={{
@@ -164,16 +162,14 @@ function ManageOrders() {
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <div
-                  className="card-style col"
+                  className="container col m-0 p-1"
                   style={{
-                    width: "750px",
-                    height: "300px",
-                    padding: "1%",
+                    width: "800px",
+                    height: "340px",
                   }}
                 >
                   <ModifyList />
                 </div>
-              </div>
             </div>
             <br />
             <br />
@@ -195,7 +191,9 @@ function ManageOrders() {
                           ho_idx={ho_idx}
                           ho_name={ho_name}
                           userIdx={userIdx}
-                          handleClick={handleClick}
+                          loading={loading}
+                          setLoading={setLoading}
+                          handleHotelChange={handleHotelChange}
                           key={ho_idx}
                         />
                       ))
@@ -313,11 +311,11 @@ function ManageOrders() {
                         </td>
                       </tr>
                     )}
-                    {onDetail && (
+                    {modal && (
                       <Modal
                         style={{ zIndex: "100", position: "relative" }}
                         closeModal={() => {
-                          setOnDetail(!onDetail);
+                          setModal(!modal);
                         }}
                       >
                         <OrderDetail

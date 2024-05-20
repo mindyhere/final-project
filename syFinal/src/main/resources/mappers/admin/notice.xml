@@ -5,24 +5,27 @@
 	<select id="list"
 		resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
 		select n_idx,n_writer,n_title,n_date,n_content,n_file
-		from	notice
-		where  ${searchkey} like CONCAT('%',#{search},'%')
+		from
+		notice
+		where ${searchkey} like CONCAT('%',#{search},'%')
 	</select>
 
 	<insert id="insert">
-	  insert into notice (n_writer, n_title, n_content, n_date, n_file)
-    values (#{n_writer}, #{n_title}, #{n_content}, #{n_date}, #{n_file})
+		insert into notice (n_writer, n_title, n_content, n_date, n_file)
+		values (#{n_writer}, #{n_title}, #{n_content}, #{n_date}, #{n_file})
 	</insert>
 
-	<update id="update">
+	<update id="update" parameterType="map">
 		update notice
-		set n_writer = #{n_writer}, n_title
+		set n_title
 		=#{n_title}, n_content=#{n_content},
-		n_date =#{n_date}
+		n_date =#{n_date},n_file
+		=#{n_file}
 		where n_idx = #{n_idx}
 	</update>
 
-<select id="detail" resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
+	<select id="detail"
+		resultType="com.example.syFinal.admin.model.dto.ANoticeDTO">
 		select
 		n_writer,n_title,n_content,n_date,n_file
 		from

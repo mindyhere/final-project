@@ -10,5 +10,5 @@ public interface ANoticeDAO {
 	String delete(int n_idx); 
 	ANoticeDTO detail(int n_idx);
 	void insert(Map<String, Object> map);
-
+	int update(int n_idx, String n_writer, String n_title, String n_content, String n_date);
 }

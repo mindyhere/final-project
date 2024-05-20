@@ -39,20 +39,19 @@ public class ReputationController {
 		return data;
 	}
 
-	@GetMapping("manage/list/{userIdx}")
+	@PostMapping("manage/list/{userIdx}")
 	public Map<String, Object> getAllReviews(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum) {
-		System.out.println("==> h_idx? " + h_idx + ", pageNum? " + pageNum);
 		int cnt = reputationDao.countRecord(h_idx);
 		Map<String, Object> data = new HashMap<>();
 		PageUtil page = new PageUtil(cnt, pageNum);
-		int start = page.getPageBegin();
-		int end = page.getPageEnd();
+		int start = page.getPageBegin() - 1;
+		System.out.println("==> pageNum? " + pageNum + ", " + start);
 		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-			System.out.println("==> start? " + start + ", end? " + end);
-			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start, end);
+			System.out.println("==> start? " + start);
+			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start);
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));

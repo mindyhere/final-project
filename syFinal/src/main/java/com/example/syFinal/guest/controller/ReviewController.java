@@ -22,9 +22,6 @@ public class ReviewController {
 	@Autowired
 	ReviewDAO reviewDao;
 
-//	@Autowired
-//	ReplyDAO replyDao;
-
 	@Autowired
 	ReputationDAO reputationDao;
 
@@ -43,29 +40,18 @@ public class ReviewController {
 		}
 	}
 
-//	@GetMapping("detail/{idx}")
-//	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
-//		Map<String, Object> data = new HashMap<>();
-//		try {
-//			ReviewDTO review = reputationDao.reviewDetail(rv_idx);
-//			data.put("review", review);
-//			Map<String, Object> map = new HashMap<>();
-//			ReplyDTO reply = reputationDao.replyDetail(map);
-//			if (reply != null) {
-//				data.put("reply", reply);
-//			}
-//			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
-//		}
-//		System.out.println("===> 결과: " + data);
-//		return data;
-//	}
+	@GetMapping("detail/{idx}")
+	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
+		System.out.println("==> detail? " + rv_idx);
+		Map<String, Object> review = reputationDao.reviewDetail(rv_idx);
+//		System.out.println("===> detail결과: " + review);
+		return review;
+	}
 
 	@Transactional
-	@PostMapping("edit")
-	public ResponseEntity<String> editReview(@RequestParam Map<String, Object> map) {
+	@PostMapping("edit/{idx}")
+	public ResponseEntity<String> editReview(@PathVariable(name = "idx") int rv_idx,
+			@RequestParam Map<String, Object> map) {
 		try {
 			reviewDao.editReview(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);

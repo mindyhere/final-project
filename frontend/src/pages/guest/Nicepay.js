@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 
 //아임포트 나이스페이연동
-const Nicepay = () => {
+function Nicepay() {
     console.clear();
 
     useEffect(() => {
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
         const iamport = document.createElement("script");
-        //iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
-        iamport.src="https://cdn.iamport.kr/v1/iamport.js"
+        //iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+        //iamport.src="https://cdn.iamport.kr/v1/iamport.js"
+        iamport.src="https://cdn.portone.io/v2/browser-sdk.js"
         document.head.appendChild(jquery);
         document.head.appendChild(iamport);
         return () => {
@@ -18,42 +19,94 @@ const Nicepay = () => {
         }
     }, []);
 
-    const serverAuth = () => {
-        const { IMP } = window;
-        IMP.init('imp40362238');
+    async function serverAuth() {
+        const { PortOne } = window;
 
-        IMP.request_pay(
-            {
-            pg: 'nice', //pg사
-            merchant_uid: 'merchant_' + new Date().getTime(), // 주문 고유 번호
-            pay_method: 'card',
-            name: 'hotelA',
-            amount: 100,
+        const response = await PortOne.requestPayment({
+            storeId: 'store-af69f2fa-5d38-4271-b9ad-44d9dc389ecd',
+            paymentId: `payment-${crypto.randomUUID()}`,
+            payMethod: 'CARD',
+            channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
+            currency: 'CURRENCY_KRW',
+            totalAmount: 100,
+            orderName: 'hotelA',
+            pg: 'nice_v2', //pg사
             buyer_name: '예약자',
-            buyer_email: '예약자이메일',
+            buyer_email: 'dusdn5774@naver.com',
             buyer_tel: '예약자전화번호',
             buyer_postcode: '123-456',
-            //returnUrl: 'http://localhost:3000/', //리턴될 URL
-            },
-            function (rsp) {
-                console.log(rsp);
+            buyer_addr: '서울특별시',
+        });
+        console.log("결제 건 ID"+response.paymentId);
+        if (response.code != null) {
+            //오류발생
+            return alert(response.message);
+        }
 
-                if(rsp.success) {
-                    console.log(rsp.imp_uid);
-                    //결제검증후 DB업데이트
-                    alert("결제성공");
-                    fetch('http://localhost/confirmpay',
-                        {
-                            method:'post',
-                            data: rsp.imp_uid,
-                        }).then(() => {
-                            window.location.href='/guest/reservation'; 
-                        })
-                } else {
-                    alert(rsp.error_msg);
-                }
-            }
-        )
+        // const notified = await fetch(`https://api.portone.io/payment/complete`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     // paymentId와 주문 정보를 서버에 전달합니다
+        //     body: JSON.stringify({
+        //       paymentId: response.paymentId,
+        //       // 주문 정보...
+        //     }),
+        //   });
+
+        // // JSON 요청을 처리하기 위해 body-parser 미들웨어 세팅
+        // app.use(bodyParser.json());
+
+        // // POST 요청을 받는 /payments/complete
+        // app.post("/payment/complete", async (req, res) => {
+        // try {
+        //     // 요청의 body로 paymentId가 전달되기를 기대합니다.
+        //     const { paymentId, orderId } = req.body;
+
+        //     // 1. 포트원 결제내역 단건조회 API 호출
+        //     const paymentResponse = await fetch(
+        //     `https://api.portone.io/payments/${paymentId}`,
+        //     { headers: { Authorization: `PortOne 8I6gk3CbU6dmSKZ5WDQDclFzYOMq8gnBJbtCRkEm7uloX27PRxKGjqnSYSaKzWJefLssINqMzO7OO35o` } },
+        //     );
+        //     if (!paymentResponse.ok)
+        //     throw new Error(`paymentResponse: ${paymentResponse.statusText}`);
+        //     const payment = await paymentResponse.json();
+
+        //     // 2. 고객사 내부 주문 데이터의 가격과 실제 지불된 금액을 비교
+        //     const order = await OrderService.findById(orderId);
+        //     if (order.amount === payment.amount.total) {
+        //     switch (payment.status) {
+        //         case "VIRTUAL_ACCOUNT_ISSUED": {
+        //         // 가상 계좌가 발급된 상태입니다.
+        //         // 계좌 정보를 이용해 원하는 로직을 구성하세요.
+        //         break;
+        //         }
+        //         case "PAID": {
+        //             alert("모든금액 지불!");
+        //         // 모든 금액을 지불했습니다! 완료 시 원하는 로직을 구성하세요.
+        //         break;
+        //         }
+        //     }
+        //     } else {
+        //     // 결제 금액이 불일치하여 위/변조 시도가 의심됩니다.
+        //     }
+        // } catch (e) {
+        //     // 결제 검증에 실패했습니다.
+        //     alert("결제검증 실패");
+        //     res.status(400).send(e);
+        // }
+        // });
+            // function(rsp){
+            //     if (rsp.success) {
+            //         console.log(rsp.imp_uid);
+            //         alert("결제성공");
+            //         window.location.href='/guest/reservation';
+            //     } else {
+            //         alert("결제실패==="+rsp.error_msg);
+            //     }
+            // }
+        
+        //PortOne.request_pay(params, callbacks);
+
         // .done(function(data) {
         //     console.log(data);
 
@@ -65,6 +118,84 @@ const Nicepay = () => {
         // })
     }
 
+    //v1 버전 IMP실행창
+    // const { IMP } = window;
+    //     IMP.init('imp40362238');
+
+    //     const today = new Date();   
+    //     const hours = today.getHours(); // 시
+    //     const minutes = today.getMinutes();  // 분
+    //     const seconds = today.getSeconds();  // 초
+    //     const milliseconds = today.getMilliseconds();
+    //     const makeMerchantUid = hours +  minutes + seconds + milliseconds;
+
+        
+    //         const params = {
+    //         pg: 'nice.iamport00m', //pg사
+    //         merchant_uid: 'merchant_' + makeMerchantUid,
+    //         //'merchant_' + new Date().getTime(), // 주문 고유 번호
+    //         pay_method: 'card',
+    //         name: 'hotelA',
+    //         amount: 100,
+    //         buyer_name: '예약자',
+    //         buyer_email: 'dusdn5774@naver.com',
+    //         buyer_tel: '예약자전화번호',
+    //         buyer_postcode: '123-456',
+    //         buyer_addr: '서울특별시',
+    //         language: 'ko',
+    //         m_redirect_url: 'localhost:3000/',
+    //         niceMobileV2: true,
+    //         }
+    //         // function(rsp) {
+    //         //     if (rsp.success) { //callback
+    //         //         console.log(rsp.imp_uid);
+    //         //         alert("결제성공");
+    //         //         window.location.href='/guest/reservation';
+    //         //     } else {
+    //         //         alert("결제실패==="+rsp.error_msg);
+    //         //     }
+    //         // }
+        
+    //     IMP.request_pay(params, callbacks);
+
+
+
+    // const callbacks = (rsp) => {
+    //     const {success, error_msg, imp_uid} = rsp;
+    //     if (success) {
+    //         console.log(imp_uid);
+    //         alert("결제성공");
+    //         window.location.href='/guest/reservation';
+    //     } else {
+    //         alert("결제실패==="+error_msg);
+    //         //결제실패시 예약요청페이지로 화면전환
+    //         //window.location.href='/guest/Pay'; 
+    //     }
+    // }
+
+    // function (rsp) {
+    //     console.log(rsp);
+
+    //     if(rsp.success) {
+    //         console.log(rsp.imp_uid);
+    //         //결제검증후 DB업데이트
+    //         alert("결제성공");
+    //         fetch('http://localhost/confirmpay',
+    //             {
+    //                 method:'post',
+    //                 data: rsp.imp_uid,
+    //             }).then((res) => {
+    //                 //window.location.href='/guest/reservation';
+    //                 if(rsp.paid_amount === res.response.amount) {
+    //                     alert("검증완료 결제성공");
+    //                 } else {
+    //                     alert("결제실패");
+    //                 }
+    //             })
+    //     } else {
+    //         alert(rsp.error_msg);
+    //     }
+    // }
 
     // const serverAuth = () => {
     //     const { IMP } = window;

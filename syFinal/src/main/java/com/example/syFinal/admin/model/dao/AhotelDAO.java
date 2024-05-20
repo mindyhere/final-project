@@ -1,12 +1,11 @@
 package com.example.syFinal.admin.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import com.example.syFinal.host.model.dto.HotelDTO;
+
 public interface AhotelDAO {
-
-	static Map<String, Object> ahotelLlist(Map<String, Object> map) {
-
-		return null;
-	}
-
+	List<HotelDTO> list(Map<String, Object> map);
+    void updateHotelStatus(int ho_idx, int ho_status);
 }
