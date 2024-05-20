@@ -9,7 +9,7 @@ function ReputationItem({
   rownum,
   rv_idx,
   g_name,
-  g_url,
+  g_photo,
   l_name,
   g_email,
   rv_content,
@@ -67,8 +67,8 @@ function ReputationItem({
     return <div>loading...</div>;
   } else {
     let profile_src = "";
-    if (g_url !== "-") {
-      const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
+    if (g_photo !== "-") {
+      const img_url = `http://localhost/static/images/guest/photo/${g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =

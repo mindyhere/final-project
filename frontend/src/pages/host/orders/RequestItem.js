@@ -24,7 +24,7 @@ function RequestItem({
   sum,
   g_email,
   g_name,
-  g_url,
+  g_photo,
 }) {
   let loading = false;
   const cookies = new Cookies();
@@ -36,8 +36,8 @@ function RequestItem({
     return <div>로딩 중...</div>;
   } else {
     let profile_src = "";
-    if (g_url !== "-") {
-      const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
+    if (g_photo !== "-") {
+      const img_url = `http://localhost/static/images/guest/photo/${g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{background-size:"contain" }} />`;
     } else {
       profile_src =

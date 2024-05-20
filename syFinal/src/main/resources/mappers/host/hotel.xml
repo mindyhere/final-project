@@ -101,7 +101,7 @@
 	
 	<!-- 호스트의 모든 호텔 리뷰 -->
 	<select id="getAllReviews" resultType="java.util.Map">
-		SELECT rv_idx, g_name, g_url, rv_content, rv_date, rv_star,
+		SELECT rv_idx, g_name, g_photo, rv_content, rv_date, rv_star,
 		(SELECT rv_idx FROM v_hotel_review where rv_idx &lt; r.rv_idx ORDER BY rv_idx  LIMIT 1) prev_idx,
 		(SELECT rv_idx FROM v_hotel_review where rv_idx  &gt; r.rv_idx ORDER BY rv_idx  LIMIT 1) next_idx
 		FROM v_hotel_review r

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reputation">
 <select id="getHotelReviews" resultType="java.util.Map">
-SELECT @rownum:=@rownum+1 AS rownum, rv_idx, g_name, g_url, l_name, g_email, rv_content, rv_date, rv_star, rp_idx
+SELECT @rownum:=@rownum+1 AS rownum, rv_idx, g_name, g_photo, l_name, g_email, rv_content, rv_date, rv_star, rp_idx
 from v_hotel_review, (SELECT @rownum:=0) tmp
 where ho_idx=#{ho_idx}
 order by rv_idx desc 
@@ -35,7 +35,7 @@ select count(*) from v_hotel_review where h_idx=#{h_idx}
 </select>
 
 <select id="reviewSearch" resultType="java.util.Map">
-select rv_idx, g_name, g_url, l_name, g_email, rv_content, rv_date, rv_star, rp_idx
+select rv_idx, g_name, g_photo, l_name, g_email, rv_content, rv_date, rv_star, rp_idx
 from v_hotel_review
 where 
 	ho_idx=#{ho_idx}

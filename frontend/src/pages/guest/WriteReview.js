@@ -49,7 +49,7 @@ const WriteReview = () => {
   } else {
     let profile_src = "";
     if (g_photo.key != "-" || g_photo.key != null) {
-      const img_url = `http://localhost/static/images/guest/profile/${g_photo.key}`;
+      const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
