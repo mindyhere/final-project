@@ -90,7 +90,7 @@ public class ReplyController {
 		int start = page.getPageBegin() - 1;
 		map.put("start", start);
 
-		System.out.println("==> 파라미터? " + map);
+//		System.out.println("==> 파라미터? " + map);
 		Map<String, Object> data = new HashMap<>();
 		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
@@ -101,8 +101,9 @@ public class ReplyController {
 		}
 		data.put("count", cnt);
 		data.put("page", page);
+		data.put("option", 1);
 
-		System.out.println("==> 검색결과? " + data);
+//		System.out.println("==> 검색결과? " + data);
 		return data;
 	}
 }

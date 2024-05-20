@@ -31,16 +31,14 @@ function ListReviews() {
       url = `http://localhost/api/reply/search/reviews/${userIdx}`;
       form.append("sort", sort.current.value);
       form.append("keyword", keyword.current.value);
-      form.append("pageNum", 1);
+      form.append("pageNum", pageNum);
     } else {
       url = `http://localhost/api/reputation/manage/list/${userIdx}`;
       form.append("pageNum", pageNum);
     }
     fetch(url, { method: "post", body: form })
       .then((response) => {
-        console.log(
-          "=> 검색?" + url + ", " + opt + ", " + pageNum+ ", "+sort.current.value+", "+keyword.current.value
-        );
+        // console.log("=> 검색?" + url + ", " + opt + ", " + pageNum+ ", "+sort.current.value+", "+keyword.current.value);
         return response.json();
       })
       .then((data) => {
@@ -51,6 +49,7 @@ function ListReviews() {
         }
         setPaging(data.page);
         setCount(data.count);
+        setOption(data.option);
       });
   }
 
@@ -115,10 +114,10 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={"All"}>&nbsp;All</option>
-                  <option defaultValue={"ho_name"}>&nbsp;구분</option>
-                  <option defaultValue={"o_idx"}>&nbsp;예약번호</option>
-                  <option defaultValue={"reply"}>&nbsp;상태</option>
+                  <option value={"All"}>&nbsp;All</option>
+                  <option value={"ho_name"}>&nbsp;구분</option>
+                  <option value={"o_idx"}>&nbsp;예약번호</option>
+                  <option value={"reply"}>&nbsp;상태</option>
                 </select>
               </div>
             </div>

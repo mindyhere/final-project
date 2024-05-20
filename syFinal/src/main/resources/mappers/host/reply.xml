@@ -19,62 +19,78 @@ delete from reply where rp_idx=#{rp_idx}
 <select id="searchReviews" resultType="java.util.Map">
 select @rownum:=@rownum+1 as rownum, v.* 
 from v_hotel_review v, (select @rownum:=0) tmp
-<trim prefix="where" prefixOverrides="AND | OR">
-	h_idx=#{h_idx}
+where h_idx=#{h_idx} and
   <choose>
 	<when test="sort == 'ho_name'">
-		and ho_name like concat('%', #{keyword}, '%')	
+		ho_name like concat('%', #{keyword}, '%')	
 	</when>
   	<when test="sort == 'o_idx'">
-		and o_idx like concat('%', #{keyword}, '%')
+		o_idx like concat('%', #{keyword}, '%')
 	</when>	
 	<when test="sort == 'reply'">
   	  <choose>
   	  	<when test="keyword == '미등록'">
-			and rp_idx = 0
+			rp_idx = 0
 		</when>
 		<otherwise>
-			and rp_idx != 0
+			rp_idx != 0
 		</otherwise>
 	  </choose>
 	</when>	
 	<otherwise>
-		and ho_name like concat('%', #{keyword}, '%')
-		or o_idx like concat('%', #{keyword}, '%')
+	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<when test="keyword == '등록완료'">
+			rp_idx != 0
+		</when>
+		<otherwise>
+			(ho_name like concat('%', #{keyword}, '%')
+			or o_idx like concat('%', #{keyword}, '%'))
+		</otherwise>
+	  </choose>
 	</otherwise>
   </choose>
-</trim>
 order by rv_idx desc, @rownum desc
 limit #{start}, 10
 </select>
 
 <select id="count" resultType="int">
 select count(*) from v_hotel_review 
-<trim prefix="where" prefixOverrides="AND | OR">
-	h_idx=#{h_idx}
+where h_idx=#{h_idx} and
   <choose>
 	<when test="sort == 'ho_name'">
-		and ho_name like concat('%', #{keyword}, '%')	
+		ho_name like concat('%', #{keyword}, '%')	
 	</when>
   	<when test="sort == 'o_idx'">
-		and o_idx like concat('%', #{keyword}, '%')
+		o_idx like concat('%', #{keyword}, '%')
 	</when>	
 	<when test="sort == 'reply'">
   	  <choose>
   	  	<when test="keyword == '미등록'">
-			and rp_idx = 0
+			rp_idx = 0
 		</when>
 		<otherwise>
-			and rp_idx != 0
+			rp_idx != 0
 		</otherwise>
 	  </choose>
 	</when>	
 	<otherwise>
-		and ho_name like concat('%', #{keyword}, '%')
-		or o_idx like concat('%', #{keyword}, '%')
+	  <choose>
+  	  	<when test="keyword == '미등록'">
+			rp_idx = 0
+		</when>
+		<when test="keyword == '등록완료'">
+			rp_idx != 0
+		</when>
+		<otherwise>
+			(ho_name like concat('%', #{keyword}, '%')
+			or o_idx like concat('%', #{keyword}, '%'))
+		</otherwise>
+	  </choose>
 	</otherwise>
   </choose>
-</trim>
 </select>
 
 </mapper>
