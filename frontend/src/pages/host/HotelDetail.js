@@ -1,4 +1,5 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect, useState, useCallback} from "react";
+import { useParams } from "react-router-dom";
 import KakaoMap from "../../component/KakaoMap";
 import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
@@ -8,11 +9,12 @@ import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
 import Reputation from "./hotelDetailSection/Reputation";
 
-import { AwardFill, StarFill} from "react-bootstrap-icons";
-import { useParams } from "react-router-dom";
+import { AwardFill, StarFill, ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import moment from "moment";
 import "moment/locale/ko";
-
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -41,8 +43,36 @@ function HotelDetail() {
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
-    var Arr = [];
 
+    const slickRef = useRef(null);
+    const previous = useCallback(() => slickRef.current.slickPrev(), []);
+    const next = useCallback(() => slickRef.current.slickNext(), []);
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1, 
+        arrows: false
+    };
+
+    const [imgList, setImgList] = useState([]);
+
+    function getData(url) {
+        const form = new FormData();
+        form.append('ho_idx', HoIdx);
+        fetch(url, { method: 'post', body: form })
+        .then(response => {
+          return response.json();
+         })
+        .then(data => {
+            setImgList(data.img);
+        })
+  }
+
+  useEffect(() => {getData('http://localhost/host/hotel/hotelImg');},[]);
+
+    var Arr = [];
     useEffect(() => {
         var myArr = localStorage.getItem('watched');
         if(myArr == null) {
@@ -119,8 +149,11 @@ function HotelDetail() {
                     <div className="col-9">
                         <h2>{data.ho_name}</h2>
                     </div>
-                    <div className="col-3">
-                    <img src="/img/share.png" width="20px" height="20px"/> <a href="" style={{color:'black'}}>공유하기</a>
+                    <div className="col-2">
+                        <div>
+                            <img src="/img/share.png" width="25px" height="25px"/>
+                            &nbsp;공유하기
+                        </div>
                     </div>
                 </div>
                 <br />
@@ -129,11 +162,50 @@ function HotelDetail() {
                         <div className="row">
                             <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
                             <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
-                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url3}}></div>
+                            <div className="col-3" style={{position:'relative'}}>
+                                <span dangerouslySetInnerHTML={{__html : hotel_url3}}></span>
+                                <button className="main-btn" style={{position:'absolute', top : '430px', left:'170px'}} 
+                                    onClick={() => setModal(true)}>사진 모두 보기
+                                </button>
+                                { modal &&
+                                    <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
+                                        <div className='modalBody' onClick={(e) => e.stopPropagation()}>
+                                            <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
+                                                X
+                                            </button>
+                                            <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
+                                            <div className="col-1" style={{alignContent:'center'}}>
+                            <div onClick={previous} style={{cursor:'pointer'}}>
+                                <ArrowLeftCircle size={35} color="#CD9EED" />
+                            </div>
                         </div>
-                        {/* <div style={{}}>
-                            <button className="main-btn" onClick={() => setModal(true)}>사진 모두 보기</button>
-                        </div> */}
+                        <div className="col-1" style={{alignContent:'center'}}> 
+                            <div onClick={next} style={{cursor:'pointer'}}>
+                                <ArrowRightCircle size={35} color="#CD9EED" />
+                            </div>
+                        </div>
+                                            <Slider {...settings} ref={slickRef}>
+                                            {/* {imgList.map(
+                                                ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
+                                                    <PreReservItem
+                                                    OIdx={OIdx}
+                                                    HoName={HoName}
+                                                    HoImg={HoImg}
+                                                    OCkin={OCkin}
+                                                    OCkout={OCkout}
+                                                    HName={HName}
+                                                    HoAddress={HoAddress}
+                                                    />
+                                                )
+                                            )}  */}
+                                            </Slider>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                      
                     </div>
                 </div>
                 <div className="row">
