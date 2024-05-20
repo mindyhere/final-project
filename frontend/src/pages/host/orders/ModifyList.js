@@ -66,7 +66,7 @@ function ModifyList() {
           </h5>
           <div
             className="container col m-0 p-5"
-            style={{ width: "770px", height: "255px", textAlign: "center" }}
+            style={{ width: "800px", height: "255px", textAlign: "center" }}
           >
             <BellSlash size={35} style={{ margin: "3%" }} />
             <br />
