@@ -247,7 +247,7 @@ function RequestItem({
                               title: "Complete",
                               html: "게스트의 요청이 거부되었습니다.",
                               showConfirmButton: false,
-                              // timer: 2000,
+                              timer: 2000,
                             }).then(() => {
                               window.location.reload();
                             });
