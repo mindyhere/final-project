@@ -45,7 +45,7 @@ import Alogin from "./pages/admin/alogin";
 import Amain from "./pages/admin/amain";
 import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
-import AHotel from "./pages//admin/ahotel
+import AHotel from "./pages/admin/ahotel";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
 import Adetail from "./pages/admin/notice/adetail";
