@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
+import { ChatLeftQuote } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
-import { DropdownButton } from "react-bootstrap";
+
+import StarRate from "../../component/StarRate";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
@@ -23,34 +24,6 @@ function useFetch(url) {
   return [data, loading];
 }
 
-function StarRate(e) {
-  const [star, setStar] = useState(e);
-  const rv_star = useRef();
-  return (
-    <span>
-      {[...Array(star)].map((a, i) => (
-        <StarFill
-          size={20}
-          color="#FCD53F"
-          style={{ margin: "0 1px 2% 0" }}
-          key={i}
-          onClick={() => setStar(i + 1)}
-        />
-      ))}
-      {[...Array(5 - star)].map((a, i) => (
-        <Star
-          size={20}
-          color="grey"
-          style={{ margin: "0 1px 2% 0" }}
-          key={i}
-          onClick={() => setStar(star + i + 1)}
-        />
-      ))}
-      <input type="hidden" value={star} ref={rv_star} />
-    </span>
-  );
-}
-
 const EditReview = () => {
   const info = JSON.parse(localStorage.getItem("info"));
   const [data, loading] = useFetch(
@@ -63,16 +36,11 @@ const EditReview = () => {
   const g_photo = cookies.get("g_photo");
   const rv_content = useRef();
   const rv_star = useRef();
-  const [content, setContent] = useState("");
+  const [star, setStar] = useState(null);
   const [check, setCheck] = useState(false);
 
-  const rendering = (i) => {
-    const star = "⭐";
-    const result = [];
-    for (let j = 0; j < i; j++) {
-      result.push(<span key={j}>{star}</span>);
-    }
-    return result;
+  const handleStarRating = (value) => {
+    setStar(value);
   };
 
   if (loading) {
@@ -80,7 +48,6 @@ const EditReview = () => {
   } else {
     let profile_src = "";
     let rate = data.rv_star;
-    console.log("==> rate?" + rate);
     if (g_photo.key != "-" || g_photo.key != null) {
       const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
@@ -112,7 +79,6 @@ const EditReview = () => {
                 className="card-style col-12 mb-3"
                 style={{
                   boxSizing: "border-box",
-                  marginTop: "12px",
                   textAlign: "left",
                   float: "left",
                 }}
@@ -153,7 +119,9 @@ const EditReview = () => {
                   className="col-12 mb-3"
                   style={{ float: "left", display: "inline" }}
                 >
-                  <b>⭐평점 </b>: &nbsp;{rate}&nbsp;&nbsp;{rendering(rate)}
+                  <b>⭐평점</b>&nbsp;:&nbsp;&nbsp;{rate}
+                  &nbsp;&nbsp;|&nbsp;&nbsp;<b>변경</b>&nbsp;:&nbsp;&nbsp;
+                  <StarRate rate={rate} handleStarRating={handleStarRating} />
                 </div>
 
                 <textarea
@@ -235,8 +203,12 @@ const EditReview = () => {
                                 "rv_content",
                                 rv_content.current.value
                               );
-                              form.append("rv_star", data.rv_star);
-
+                              star == null
+                                ? form.append("rv_star", rate)
+                                : form.append("rv_star", star);
+                              console.log(
+                                "=> 별점확인?" + JSON.stringify(form)
+                              );
                               return fetch(
                                 `http://localhost/api/review/edit/${info.rv_idx}`,
                                 {
