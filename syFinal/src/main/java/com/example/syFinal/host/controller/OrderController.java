@@ -45,7 +45,6 @@ public class OrderController {
 		int cnt = orderDao.countRecord(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
 		int start = page.getPageBegin() - 1;
-		int end = page.getPageEnd();
 		data.put("count", cnt);
 		data.put("page", page);
 		if (hotels == null) {
@@ -54,9 +53,8 @@ public class OrderController {
 			if (cnt == 0) {
 				data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 			} else {
-				System.out.println("==> start? " + start + ", end? " + end);
+				System.out.println("==> start? " + start);
 				map.put("start", start);
-				map.put("end", end);
 				List<Map<String, Object>> list = orderDao.getList(map);
 				data.put("list", list);
 				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));

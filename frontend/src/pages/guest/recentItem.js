@@ -12,46 +12,53 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
     const navigate = useNavigate(); 
     const [image, setImage] = useState(""); 
     // const [isClicked, setIsClicked] = useState(false);
-    let Image = '';
+    const [checkId, setCheckId] = useState(0);
     
     const handleClick = () => {
         const form = new FormData();
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
-        if (check == 1) {
+        if (check === 1) {
             fetch('http://localhost/guest/wish/wishDelete', {
                 method: 'post',
                 body: form,
             }).then((response) => response.json())
             .then(data => {
                 if(data.result == 'success') {
-                    window.location.href='/guest/recent';
+                    setCheckId(0);
                 }
             })
-            setImage("/img/heart.png");
-        } else {
+        } else  {
             fetch('http://localhost/guest/wish/wishUpdate', {
                 method: 'post',
                 body: form,
             }).then((response) => response.json())
             .then(data => {
                 if(data.result == 'success') {
-                    window.location.href='/guest/recent';
+                    setCheckId(1);
                 }
             })
-            setImage("/img/black_heart.png");
         }
     }
     
     useEffect(() => {
-        if (check == 1) {
-            setImage("/img/black_heart.png");
+        if (check === 1) {
+            setCheckId(1);
+        } else if (check === 0) {
+            setCheckId(0);
         } else {
-            setImage("/img/heart.png");
         }
-    })
+    }, [])
 
-
+    useEffect(() => {
+        if (checkId === 1) {
+            setImage("/img/black_heart.png");
+        } else if (checkId === 0) {
+            setImage("/img/heart.png");
+        } else {
+            setImage('');
+        }   
+    }, [checkId])
 
     if (loading) {
         return (
@@ -75,9 +82,10 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
                     
                     </Link>
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
-                    top:'8px', left:'250px'}} onClick={() => handleClick()}>
+                    top:'8px', left:'250px'}} onClick={() => {handleClick()}}>
                     <img src = {image}   width='65px' height='65px'/>
                 </button>
+                <input type='hidden' id={checkId} value={check}></input>
                 <br />
                 &nbsp;
                 </div>

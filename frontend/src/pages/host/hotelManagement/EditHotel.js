@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
-//import AddressPopup from "./AddressPopup";
 import DaumPostcode, { useDaumPostcodePopup } from "react-daum-postcode";
-import AddressPopup from "./AddressPopup";
+import { BuildingFill, CardChecklist, CardList } from "react-bootstrap-icons";
+import RoomDetail from "../hotelManagement/RoomDetail";
 const {kakao} = window;
 
 function useFetch(url) {
@@ -49,14 +49,11 @@ function EditHotel() {
     const ho_x = useRef();
     const ho_y = useRef();
     const ho_description = useRef();
-    const [items, setItems] = useState(['산 전망', '바다 전망', '무선인터넷', '주차장', '조식 제공', '화재경보기', '소화기']);
-    const [amenity, setAmenity] = useState(['mountain.png', 'ocean.png', 'wifi.png', 'parking.png', 'breakfast.png', 'firealam.png', 'fireExt.png']);
-    const d_room_type = useRef();
-    const d_capacity = useRef();
-    const d_non_smoking = useRef();
-    const d_area = useRef();
-    const d_beds = useRef();
-    const d_price = useRef();
+
+    let [inputCount, setInputCount] = useState(0);
+    const onInputHandler = (e) => {
+        setInputCount(e.target.value.length);
+    }
 
     const urlHandle = (e) => {
         window.open(`http://localhost/static/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500'); 
@@ -64,10 +61,9 @@ function EditHotel() {
 
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [extraAddress, setExtraAddress] = useState("");
-    const [address, setAddress] = useState(""); // 우편번호
-    const [hoX, setHoX] = useState(""); // 우편번호
-    const [hoY, setHoY] = useState(""); // 우편번호
+    const [address, setAddress] = useState("");
+    const [hoX, setHoX] = useState("");
+    const [hoY, setHoY] = useState("");
 
     const clickButton  = () => {
         setIsPopupOpen(current => !current);
@@ -88,32 +84,18 @@ function EditHotel() {
           }
           fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
 
-                  // 위도 및 경도 좌푯값 구하기
         const geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch(data.roadAddress, (result, status) => {
             if (status === kakao.maps.services.Status.OK) {
-            console.log('위도 : ' + result[0].x);
-            console.log('경도 : ' + result[0].y);
             hoX = result[0].y;
             hoY = result[0].x;
             setHoX(hoX);
             setHoY(hoY);
-        }
-        
-    });
-
-
-        }
-
-        
-        console.log("주소 data : " + JSON.stringify(data))
-        console.log("주소 fullAddress : " + fullAddress)
-        
-
-
-        setExtraAddress(data.extraAddress);
-        setAddress(data.address);
-
+            }   
+        });
+    }
+        setAddress(fullAddress);
+        alert(fullAddress);
         setIsPopupOpen(false);
     };
 
@@ -121,43 +103,90 @@ function EditHotel() {
         display: "block",
         position: "absolute",
         top: "10%",
-        width: "400px",
-        height: "400px",
-        padding: "1px",
-
-        // bgColor: "", 			// 바탕 배경색
-        // searchBgColor: "", 		// 검색창 배경색
-        // contentBgColor: "", 		// 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
-        // pageBgColor: "", 		// 페이지 배경색
-        // textColor: "", 			// 기본 글자색
-        // queryTextColor: "", 		// 검색창 글자색
-        // postcodeTextColor: "", 	// 우편번호 글자색
-        // emphTextColor: "", 		// 강조 글자색
-        // outlineColor: "" 		// 테두리
+        width: "450px",
+        height: "430px",
+        border: "1.2px solid #F7EFFC",
       };
 
-    let amenity_src = '';
-    let amenity_url = '';
+    const themeObj = {
+        bgColor: "#DBC4F0", 			// 바탕 배경색
+        searchBgColor: "", 		// 검색창 배경색
+        contentBgColor: "", 		// 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+        pageBgColor: "", 		// 페이지 배경색
+        textColor: "", 			// 기본 글자색
+        queryTextColor: "", 		// 검색창 글자색
+        postcodeTextColor: "", 	// 우편번호 글자색
+        emphTextColor: "", 		// 강조 글자색
+        outlineColor: "#F7EFFC" 		// 테두리
+      };
 
-    const [selectItems, setselectItems] = useState([]);
-    const handleCheckboxChange = (event) => {
-      const value = event.target.value;
-      if (selectItems.includes(value)) {
-        setselectItems(selectItems.filter(item => item !== value));
-        console.log("제거 : " + value);
-      } else {
-        console.log("추가 : " + value);
-        console.log("추가 목록 : " + selectItems);
-        
-        setselectItems([...selectItems, value]);
-      }
+    const dataList = [
+        {id: 0, title: '산 전망', icon: '/img/mountain.png'},
+        {id: 1, title: '바다 전망', icon: '/img/ocean.png'},
+        {id: 2, title: '무선인터넷', icon: '/img/wifi.png'},
+        {id: 3, title: '주차장', icon: '/img/parking.png'},
+        {id: 4, title: '조식 제공', icon: '/img/breakfast.png'},
+        {id: 5, title: '화재경보기', icon: '/img/firealam.png'},
+        {id: 6, title: '소화기', icon: '/img/fireExt.png'}
+      ];
+
+    const [checkItems, setCheckItems] = useState([]);
+
+    const handleSingleCheck = (checked, id) => {
+        if (checked) {
+            console.log("체크박스 : " + checkItems);
+        setCheckItems(prev => [...prev, id]);
+        } else {
+        setCheckItems(checkItems.filter((el) => el !== id));
+        console.log("체크박스 해제: " + checkItems);
+        }
     };
 
-    let [inputCount, setInputCount] = useState(0);
-    const onInputHandler = (e) => {
-        setInputCount(e.target.value.length);
+    const handleAllCheck = (checked) => {
+        if(checked) {
+          const idArray = [];
+          dataList.forEach((el) => idArray.push(el.id));
+          setCheckItems(idArray);
+        }
+        else {
+          setCheckItems([]);
+        }
     }
 
+    const [rooms, setRooms] = useState("");
+    function Modal(props) {
+        function closeModal() {
+          props.closeModal();
+          setModal(!modal);
+        }
+        return (
+          <div className="modal_h" onClick={closeModal}>
+            <div
+              className="modalBody_h"
+              style={{ width: "1000px", height: "700px", padding: "30px" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="btnClose" onClick={closeModal}>
+                X
+              </button>
+              <RoomDetail 
+                hoIdx={hoIdx}
+                dIdx={rooms.d_idx}
+                roomType={rooms.d_room_type}
+                capacity={rooms.d_capacity}
+                area={rooms.d_area}
+                beds={rooms.d_beds}
+                price={rooms.d_price}
+                smoking={rooms.d_non_smoking}
+                img1={rooms.d_img1}
+                img2={rooms.d_img2}
+                img3={rooms.d_img3}
+              />
+               {/*props.children*/}
+            </div>
+          </div>
+        );
+      }
 
 
     if(loading){
@@ -181,14 +210,14 @@ function EditHotel() {
                     </h2>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>기본 정보</h4>
+                    <h3><BuildingFill size={35} /> 기본 정보</h3>
                     <table className="tbl">
                         <thead>
                         </thead>
                         <tbody>
                             <tr>
                                 <th colSpan={2}>호텔명</th>
-                                <td colSpan={3}><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_name}/></td>
+                                <td colSpan={2}><input style={{border:'none'}} ref={ho_name} defaultValue={data[0].ho_name}/></td>
                             </tr>
                             <tr>
                                 <th>호텔 등급</th>
@@ -215,17 +244,14 @@ function EditHotel() {
                                 <td><input style={{border:'none'}} ref={ho_check_out} defaultValue={data[0].ho_check_out} /></td>
                             </tr>
                             <tr>
-                                <th colSpan={1}>주소</th>
+                                <th colSpan={2}>주소</th>
                                 <td colSpan={2}>
-                                    <input style={{border:'none'}} ref={ho_address} value={extraAddress} onChange={(e) => {setExtraAddress(e.target.value)}} defaultValue={data[0].ho_address}  />
-                                    <input style={{border:'none'}} ref={ho_address} value={address} onChange={(e) => {setAddress(e.target.value)}} defaultValue={data[0].ho_address}  />
+                                    <input style={{border:'none'}} ref={ho_address} defaultValue={address != data[0].ho_address ? data[0].ho_address : address} onChange={(e) => {setAddress(e.target.value)}} />
                                     <input type="hidden" style={{border:'none'}} ref={ho_x} value={hoX}  onChange={(e) => {setHoX(e.target.value)}} defaultValue={data[0].ho_x}/>
                                     <input type="hidden" style={{border:'none'}} ref={ho_y} value={hoY}  onChange={(e) => {setHoY(e.target.value)}} defaultValue={data[0].ho_y}/>
-                                </td>
-                                <td>
-                                    <div style={{textAlign : 'right'}}>
-                                    <button style={{alignSelf : 'right'}} className="main-btn" onClick={clickButton}>주소 검색</button>
-                                    </div>
+                                
+                                    <button className="main-btnn" onClick={clickButton}>주소 검색</button>
+                                    
                                     { isPopupOpen &&
                                         <div>
                                             <div className='Modal' onClick={() => setIsPopupOpen(false)} style={{zIndex : 999}}>
@@ -237,6 +263,7 @@ function EditHotel() {
                                                             onComplete={selectAddress}
                                                             autoClose={false}
                                                             style={postCodeStyle}
+                                                            theme={themeObj}
                                                         />
                                                 </div>
                                             </div>
@@ -265,7 +292,7 @@ function EditHotel() {
                         </tbody>
                     </table>
                     <div style={{textAlign: 'right'}}>
-                        <button className="main-btn" onClick={() => {
+                        <button className="main-btnn" onClick={() => {
                             Swal.fire({
                                 text: '호텔 기본정보를 수정하시겠습니까?',
                                 showCancelButton: true,
@@ -305,20 +332,31 @@ function EditHotel() {
                     </div>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>호텔 편의시설</h4>
-                    <div className="checkbox-group mt-20" style={{fontSize: '18px'}}>
-                            {items.map((item, index) => (
-                            <>
-                                <input type="checkbox" value={item} checked={item == 'Y' ? true : false} 
-                                onChange={handleCheckboxChange}/>
-                                <span dangerouslySetInnerHTML={{__html : amenity_src}}></span>
-                                <span>{item}</span>
-                                <br />
-                            </>
-                            ))}
+                    <h3 className="mb-30"><CardChecklist size={35} /> 호텔 편의시설</h3>
+                    <div className="mb-10" style={{fontSize: '18px'}}>
+                        <input type='checkbox' name='select-all'
+                        onChange={(e) => handleAllCheck(e.target.checked)}
+                        checked={checkItems.length === dataList.length ? true : false} />
+                        &nbsp;
+                        <strong>전체 선택</strong>
+                    </div>
+                    <div className="checkbox-group" style={{fontSize: '18px'}}>
+                        {dataList?.map((item, index) => (
+                            <div key={index} className="mb-10">
+                                <div>
+                                    <input type='checkbox' name={`select-${item.id}`}
+                                    onChange={(e) => handleSingleCheck(e.target.checked, item.id)}
+                                    //defaultChecked={item.stats == "Y"}
+                                    checked={checkItems.includes(item.id) ? true : false} />
+                                    &nbsp;
+                                    <img src={item.icon} style={{ width: '30px', height: '30px' }} />
+                                    &nbsp;{item.title}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     <div style={{textAlign:'right'}}>
-                        <button className="main-btn" onClick={() => {
+                        <button className="main-btnn" onClick={() => {
                             Swal.fire({
                                 text: '호텔 편의시설을 수정하시겠습니까?',
                                 showCancelButton: true,
@@ -328,8 +366,7 @@ function EditHotel() {
                                 if(result.isConfirmed){
                                     const form = new FormData();
                                     form.append('ho_idx', hoIdx);
-                                    form.append('selectItems', selectItems);
-                                    //form.append('value',);
+                                    form.append('checkItems', checkItems);
                                     fetch('http://localhost/host/hotel/editHotel/amenity', {
                                         method: 'POST',
                                         body : form
@@ -343,8 +380,8 @@ function EditHotel() {
                     </div>
                 </div>
                 <div className="card-style mb-30">
-                    <h4>객실 정보</h4>
-                    <table className="tbl">
+                    <h3><CardList size={35} /> 객실 정보</h3>
+                    <table className="tbl table table-sm table-hover align-middle text-center">
                         <thead>
                              <tr>
                                 <th>번호</th>
@@ -354,64 +391,34 @@ function EditHotel() {
                                 <th>침대수</th>
                                 <th>가격</th>
                                 <th>금연실</th>
-                                <th>-</th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.map((item, idx) => (
-                                <tr style={{textAlign:'center'}}>
-                                    <td>{idx + 1}</td>
+                                <tr style={{textAlign:'center'}} onClick={() => {setModal(true);  setRooms(item);}}>
+                                <td>{idx + 1}</td>
                                     <td>{item.d_room_type}</td>
-                                    <td>{item.d_capacity}</td>
-                                    <td>{item.d_area}</td>
-                                    <td>{item.d_beds}</td>
-                                    <td>{item.d_price}</td>
+                                    <td>{item.d_capacity}명</td>
+                                    <td>{item.d_area}㎡</td>
+                                    <td>{item.d_beds}개</td>
+                                    <td>{item.d_price}원</td>
                                     <td>{item.d_non_smoking}</td>
-                                    <td><button className="main-btn" onClick={() => {
-                                        setModal(true)    
-                                        }}
-                                        >수정</button>
-                                    </td>
                                 </tr>
                             ))}
-                            { modal &&
-                                <div className='Modal' style={{zIndex : 999}}>
-                                    <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                        <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                            X
-                                        </button>
-                                        <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
-                                                <div className="row">
-                                                    <div className="col-4">
-                                                        <div className="row">수용인원</div>
-                                                        <div className="row">면적</div>
-                                                        <div className="row">침대수</div>
-                                                        <div className="row">금연실 여부</div>
-                                                        <div className="row">가격</div>
-                                                        <div className="row">객실 이미지1</div>
-                                                        <div className="row">객실 이미지2</div>
-                                                        <div className="row">객실 이미지3</div>
-                                                    </div>
-                                                    <div className="col-8">
-                                                        <div>{data.d_room_type}</div>
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
-                                                    
-                                                    </div>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+                            
+                            {modal && (
+                                <Modal
+                                    style={{ zIndex: 999, position: "relative" }}
+                                    closeModal={() => {
+                                        setModal(!modal);
+                                      }}
+                                />
+                             )}
                         </tbody>
                     </table>
                 </div>
                 <div className="mb-40" style={{textAlign:'center'}}>
-                    <button className="main-btn" onClick={() => {
+                    <button className="main-btnn" onClick={() => {
                         Swal.fire({
                             text: '영업중지 신청을 하시겠습니까?',
                             showCancelButton: true,
@@ -430,7 +437,7 @@ function EditHotel() {
                         }}
                     >영업 중지 신청</button>
                     &nbsp;
-                    <button className="main-btn" onClick={() => {
+                    <button className="main-btnn" onClick={() => {
                         navigate('/host/hotel/MyhotelList')
                     }}>뒤로 가기</button>
                 </div>
