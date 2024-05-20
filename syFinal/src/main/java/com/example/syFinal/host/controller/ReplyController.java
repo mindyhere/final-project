@@ -84,22 +84,25 @@ public class ReplyController {
 		map.put("sort", sort);
 		map.put("keyword", keyword);
 		map.put("pageNum", pageNum);
-		System.out.println("==> 소트? " + map.get("sort"));
+//		System.out.println("==> 소트? " + map.get("sort"));
 		int cnt = replyDao.count(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
 		int start = page.getPageBegin() - 1;
 		map.put("start", start);
-		String reply = (String) map.get("reply");
+
 		System.out.println("==> 파라미터? " + map);
-		List<Map<String, Object>> list = replyDao.searchReviews(map);
 		Map<String, Object> data = new HashMap<>();
-		if (list == null) {
+		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
+			List<Map<String, Object>> list = replyDao.searchReviews(map);
 			data.put("list", list);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> data? " + data);
+		data.put("count", cnt);
+		data.put("page", page);
+
+		System.out.println("==> 검색결과? " + data);
 		return data;
 	}
 }

@@ -19,16 +19,18 @@ delete from reply where rp_idx=#{rp_idx}
 <select id="searchReviews" resultType="java.util.Map">
 select @rownum:=@rownum+1 as rownum, v.* 
 from v_hotel_review v, (select @rownum:=0) tmp
-where 
+<trim prefix="where" prefixOverrides="AND | OR">
 	h_idx=#{h_idx}
   <choose>
-  	<when test="sort == 'All' || sort ==''">
-		and ho_name like concat('%', #{keyword}, '%')
-		or o_idx like concat('%', #{keyword}, '%')
+	<when test="sort == 'ho_name'">
+		and ho_name like concat('%', #{keyword}, '%')	
+	</when>
+  	<when test="sort == 'o_idx'">
+		and o_idx like concat('%', #{keyword}, '%')
 	</when>	
-  	<when test="sort == 'reply'">
+	<when test="sort == 'reply'">
   	  <choose>
-  	  	<when test="state == '미등록'">
+  	  	<when test="keyword == '미등록'">
 			and rp_idx = 0
 		</when>
 		<otherwise>
@@ -37,9 +39,11 @@ where
 	  </choose>
 	</when>	
 	<otherwise>
-		and ${sort} like concat('%', #{keyword}, '%')
+		and ho_name like concat('%', #{keyword}, '%')
+		or o_idx like concat('%', #{keyword}, '%')
 	</otherwise>
   </choose>
+</trim>
 order by rv_idx desc, @rownum desc
 limit #{start}, 10
 </select>
@@ -57,7 +61,7 @@ select count(*) from v_hotel_review
 	</when>	
 	<when test="sort == 'reply'">
   	  <choose>
-  	  	<when test="state == '미등록'">
+  	  	<when test="keyword == '미등록'">
 			and rp_idx = 0
 		</when>
 		<otherwise>
