@@ -35,7 +35,6 @@ const EditReview = () => {
   const g_email = cookies.get("g_email");
   const g_photo = cookies.get("g_photo");
   const rv_content = useRef();
-  const rv_star = useRef();
   const [star, setStar] = useState(null);
   const [check, setCheck] = useState(false);
 
@@ -62,7 +61,7 @@ const EditReview = () => {
           <div
             className="card-style"
             style={{
-              marginTop: "10px",
+              marginTop: "5px",
               borderStyle: "solid",
               borderColor: "#F7EFFC",
               backgroundColor: "#F7EFFC",
@@ -206,9 +205,6 @@ const EditReview = () => {
                               star == null
                                 ? form.append("rv_star", rate)
                                 : form.append("rv_star", star);
-                              console.log(
-                                "=> 별점확인?" + JSON.stringify(form)
-                              );
                               return fetch(
                                 `http://localhost/api/review/edit/${info.rv_idx}`,
                                 {

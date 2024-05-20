@@ -1,19 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Star, StarFill } from "react-bootstrap-icons";
 
-const rendering = (i) => {
-  const star = "⭐";
-  const result = [];
-  for (let j = 0; j < i; j++) {
-    result.push(<span key={j}>{star}</span>);
-  }
-  return result;
-};
-
 function StarRate({ rate, handleStarRating }) {
-  // let value = Object.values(rate)[0];
   const [star, setStar] = useState(rate);
-  // console.log("=> StarRate? " + rate + ", " + JSON.stringify(star));
   return (
     <span>
       {[...Array(star)].map((a, i) => (
