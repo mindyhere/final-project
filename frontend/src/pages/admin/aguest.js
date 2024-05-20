@@ -111,7 +111,7 @@ function AGuest() {
                                         <th>가입날짜</th>
                                         <th>등급관리</th>
                                         <th>포인트</th>
-                                        <th>포인트적립</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,8 +124,7 @@ function AGuest() {
                                             <td>{list.g_join_date}</td>
                                             <td>{getLevel(list.g_level)}</td>
                                             <td>{list.g_point}</td>
-                                           <td><button type="button" className="btn btn-primary" 
-                                           onClick={() => handleUpdate(g_idx, g_level, g_point)}> Credit Points   </button></td>                                        </tr>
+                                        </tr>
                                     )}
                                 </tbody>
                             </table>

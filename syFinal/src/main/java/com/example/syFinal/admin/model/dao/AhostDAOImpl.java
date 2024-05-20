@@ -42,10 +42,13 @@ public class AhostDAOImpl implements AhostDAO {
 		return dto;
 	}
 	
+	@Override
+	public AHostDTO check_file(int h_idx) {
+		return sqlSession.selectOne("admin.a_fileCheck", h_idx);
+	}
 
-	@Override // Host 승인신청(승인대기 > 승인완료로 업데이트)
+	@Override 
 	public void a_approve(int h_idx) {
-		System.out.println("==>" + h_idx);
 		sqlSession.update("admin.ah_approve", h_idx);
 	}
 

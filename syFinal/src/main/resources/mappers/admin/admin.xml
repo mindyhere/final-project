@@ -73,57 +73,67 @@
 		CONCAT('%',#{search},'%')
 	</select>
 
+<select id="a_fileCheck" resultType="com.example.syFinal.admin.model.dto.AHostDTO">
+select h_file from host WHERE h_idx = #{h_idx}
+</select>
+
 	<!-- 사업자 가입승인 -->
 	<update id="ah_approve" parameterType="int">
 		update host
 		set
-		h_status="승인완료"
+		h_status="승인완료", h_level = 9
 		where h_idx=#{h_idx}
 	</update>
 
 	<!-- 호텔 목록 -->
-
-
-<select id="list"
+	<select id="list"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT
 		ho_idx, ho_name, ho_address, ho_level, ho_business, ho_status,
 		ho_description,h_business,h_name
 		FROM hotel,host
-  WHERE
-            ${searchkey} LIKE CONCAT('%', #{search}, '%')
-            <if test="status != ''">
-                AND ho_status = #{status}
-            </if>
-        ORDER BY
-            ho_idx DESC
-
+		WHERE
+		${searchkey} LIKE
+		CONCAT('%', #{search}, '%')
+		<if test="status != ''">
+			AND ho_status = #{status}
+		</if>
+		ORDER BY
+		ho_idx DESC
 	</select>
 
 	<!-- 호텔 등록 승인 -->
-    <update id="updateHotelStatus" parameterType="map">
-        UPDATE hotel
-        SET ho_status = #{ho_status}
-        WHERE ho_idx = #{ho_idx}
-    </update>
-    
+	<update id="updateHotelStatus" parameterType="map">
+		UPDATE hotel
+		SET ho_status = #{ho_status} and ha_status
+		WHERE ho_idx = #{ho_idx}
+	</update>
+	
+<!-- 등록된 호텔 수  -->
 	<select id="hotelCount" resultType="Int">
 		SELECT COUNT(*) FROM hotel
 	</select>
-
-	<!-- 호스트의 호텔 승인 -->
-	<select id="AHostelapprove" resultType="java.util.HashMap">
-		SELECT *
-		CASE
-		UPDATE hotel
-    SET ho_status =
-        CASE #{status}
-            WHEN '승인 대기' THEN 1
-            WHEN '영업 중' THEN 2
-            ELSE 3
-        END
-    WHERE ho_h_idx = #{h_idx}
-	</select>
 	
+<!-- 호텔상세  -->
+	<select id="ADetailHotel" resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT * 
+		FROM hotel, hotel_detail, hotel_amenity
+		WHERE ho_idx = #{ho_idx}
+		AND ho_idx = d_ho_idx
+		AND d_ho_idx = ha_ho_idx
+		And ho_status
+	</select>
+
+
+	<!-- 호텔 호스트 정보 -->
+	<select id="AHostInfo" resultType="java.util.HashMap">
+		SELECT h_idx, h_name, h_phone,
+		h_business, h_level, h_regdate, h_profile, h_description
+		FROM host h,
+		hotel ho
+		WHERE ho.ho_idx = #{ho_idx}
+		AND ho.ho_business = h.h_business
+	</select>
+
 	
 </mapper>
