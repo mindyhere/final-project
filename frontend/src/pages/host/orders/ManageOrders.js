@@ -149,11 +149,10 @@ function ManageOrders() {
             </h3>
             <br />
             <div
-              className="container mt-0 mb-30"
+              className="row mt-0 mb-2"
               style={{ zIndex: "0", position: "relative", padding: "0" }}
             >
-              <div className="row mx-1">
-                <div className="col-4 mt-1">
+                <div className="col-3 mt-2 p-0">
                   <Scheduler
                     tileContent={tileContent}
                     style={{
@@ -163,16 +162,14 @@ function ManageOrders() {
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <div
-                  className="card-style col"
+                  className="container col m-0 p-1"
                   style={{
-                    width: "750px",
+                    width: "800px",
                     height: "340px",
-                    padding: "1%",
                   }}
                 >
                   <ModifyList />
                 </div>
-              </div>
             </div>
             <br />
             <br />
