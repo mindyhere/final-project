@@ -58,19 +58,19 @@ function HotelDetail() {
 
     const [imgList, setImgList] = useState([]);
 
-    function getData(url) {
-        const form = new FormData();
-        form.append('ho_idx', HoIdx);
-        fetch(url, { method: 'post', body: form })
-        .then(response => {
-          return response.json();
-         })
-        .then(data => {
-            setImgList(data.img);
-        })
-  }
+//     function getData(url) {
+//         const form = new FormData();
+//         form.append('ho_idx', HoIdx);
+//         fetch(url, { method: 'post', body: form })
+//         .then(response => {
+//           return response.json();
+//          })
+//         .then(data => {
+//             setImgList(data.img);
+//         })
+//   }
 
-  useEffect(() => {getData('http://localhost/host/hotel/hotelImg');},[]);
+//   useEffect(() => {getData('http://localhost/host/hotel/hotelImg');},[]);
 
     var Arr = [];
     useEffect(() => {
@@ -167,42 +167,7 @@ function HotelDetail() {
                                 <button className="main-btn" style={{position:'absolute', top : '430px', left:'170px'}} 
                                     onClick={() => setModal(true)}>사진 모두 보기
                                 </button>
-                                { modal &&
-                                    <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}>
-                                        <div className='modalBody' onClick={(e) => e.stopPropagation()}>
-                                            <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
-                                                X
-                                            </button>
-                                            <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
-                                            <div className="col-1" style={{alignContent:'center'}}>
-                            <div onClick={previous} style={{cursor:'pointer'}}>
-                                <ArrowLeftCircle size={35} color="#CD9EED" />
-                            </div>
-                        </div>
-                        <div className="col-1" style={{alignContent:'center'}}> 
-                            <div onClick={next} style={{cursor:'pointer'}}>
-                                <ArrowRightCircle size={35} color="#CD9EED" />
-                            </div>
-                        </div>
-                                            <Slider {...settings} ref={slickRef}>
-                                            {/* {imgList.map(
-                                                ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
-                                                    <PreReservItem
-                                                    OIdx={OIdx}
-                                                    HoName={HoName}
-                                                    HoImg={HoImg}
-                                                    OCkin={OCkin}
-                                                    OCkout={OCkout}
-                                                    HName={HName}
-                                                    HoAddress={HoAddress}
-                                                    />
-                                                )
-                                            )}  */}
-                                            </Slider>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                             
                             </div>
                         </div>
                       
