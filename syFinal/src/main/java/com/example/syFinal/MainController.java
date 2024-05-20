@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.admin.model.dto.ANoticeDTO;
+import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.MainDAO;
 import com.example.syFinal.guest.model.dto.MainDTO;
 
@@ -38,6 +39,7 @@ public class MainController {
 			map.put("HoIdx", main.get(i).getHo_idx());
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
+			map.put("Dprice", main.get(i).getD_price());
 			map.put("search", search);
 			if (g_idx != 0) {
 				int check = dao.check(main.get(i).getHo_idx(), g_idx);
@@ -45,7 +47,7 @@ public class MainController {
 			}
 			list.add(map);
 		}
-		// System.out.println("메인리스트====" + list);
+		System.out.println("메인리스트====" + list);
 		return list;
 	}
 	//메인 공지사항

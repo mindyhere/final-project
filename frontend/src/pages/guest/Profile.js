@@ -182,8 +182,7 @@ if(loading||loading1||loading2){
                                                 }}
                                             >
                                                 <div className={"modal-content3"}>
-                                                    {/* <svg align='left' onClick={() => setModalOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg> */}
-                                                <h4>본인 인증이란?</h4>
+                                                <h4>본인 인증이란?(모달 이상함 수정예정)</h4>
                                                 <hr></hr>
                                                 <p>'본인 인증' 절차를 거쳤거나 본인 인증 배지를 가지고 있다는 것은 sybnb 본인 인증 절차를 완료하기 위해 정보를 제공했다는 사실만을 의미합니다. 이 절차는 안전 장치를 갖추고 있지만, 누군가의 신원을 보장하지는 않습니다. </p>
                                                 </div>
@@ -236,7 +235,7 @@ if(loading||loading1||loading2){
                                     </div>
 
                             
-                            <a className="nav-link active">호스트 후기 모두 표시하기
+                            {/* <a className="nav-link active">호스트 후기 모두 표시하기
                                 <div className={"btn-wrapper2"}>
                                     <a className={"modal-open-btn"}
                                     onClick={() => setModalOpen2(true)}>호스트 후기</a>
@@ -253,13 +252,12 @@ if(loading||loading1||loading2){
                                 }}
                             >
                                 <div className={"modal-content3"}>
-                                    {/* <svg align='left' onClick={() => setModalOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg> */}
                                 <h4>본22222</h4>
                                 <hr></hr>
                                 <p>'본인 인증'22222</p>
                                 </div>
                             </div>
-                            )}
+                            )} */}
 
 
 
@@ -299,7 +297,7 @@ if(loading||loading1||loading2){
                                         </Slider>
                                     </div>
 
-                            <a className="nav-link active">나의 후기 모두 표시하기
+                            {/* <a className="nav-link active">나의 후기 모두 표시하기
                                 <div className={"btn-wrapper2"}>
                                     <a className={"modal-open-btn"}
                                     onClick={() => setModalOpen3(true)}>나의 후기</a>
@@ -316,13 +314,12 @@ if(loading||loading1||loading2){
                                 }}
                             >
                                 <div className={"modal-content3"}>
-                                    {/* <svg align='left' onClick={() => setModalOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg> */}
                                 <h4>본3333</h4>
                                 <hr></hr>
                                 <p>모달33333</p>
                                 </div>
                             </div>
-                            )}
+                            )} */}
                             <br></br>
                         </div> 
                     </div>
