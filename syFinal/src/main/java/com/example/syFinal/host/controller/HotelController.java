@@ -161,7 +161,7 @@ public class HotelController {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
 		String hotelImg = "";
-		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
+		System.out.println("@@@@@@  페이지 첫번째 등록 페이지이동 ");
 		if (img != null && !img.isEmpty()) {
 			try {
 				if (hotelImg != null && !hotelImg.equals("-")) {
@@ -227,7 +227,8 @@ public class HotelController {
 	@PostMapping("/host/hotel/editHotel/amenity")
 	public void editHotelAmenity(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx) {
 		System.out.println("호텔 편의시설 - map : " + map);	
-		System.out.println("호텔 편의시설 - map List : " + map.get("selectItems"));
+		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
+		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
 		System.out.println("호텔 편의시설 - ho_idx : " + ho_idx);
 	}
 	
