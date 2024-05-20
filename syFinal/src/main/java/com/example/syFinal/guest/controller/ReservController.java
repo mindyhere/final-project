@@ -34,6 +34,7 @@ public class ReservController {
 	public Map<String, Object> list(@RequestParam(name = "g_idx") int g_idx) {
 		List<ReservDTO> dto = dao.list(g_idx);
 		// System.out.println(dto);
+		// System.out.println(dto);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		Date ck = new Date();
@@ -100,8 +101,15 @@ public class ReservController {
 		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
+		String state_check = "";
+		int check = dao.check(o_idx);
+		if (check == 0) {
+			state_check= "(변경 신청 거부)";
+			map.put("state_check", state_check);
+		}
 		LocalDate date = LocalDate.parse(dto.getO_ckin());
 		map.put("ref_date", date.minusDays(1));
+		// System.out.println(map);
 		return map;
 	}
 
@@ -156,6 +164,7 @@ public class ReservController {
 		List<String> imp_dates = new ArrayList<String>();
 		ReservDTO dto = dao.upDetail(o_idx);
 		int check = dao.check(o_idx);
+		String state = "";
 		MainController main = new MainController();
 		List<ReservDTO> date = dao.date(o_idx, dto.getHo_idx(), dto.getO_didx());
 		for(int i=0; i < date.size(); i++) {
@@ -187,7 +196,16 @@ public class ReservController {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		if (check == 0) {
+		
+		if (check == 1) {
+			ReservDTO dto2 = dao.confirm(o_idx);
+			dto.setO_ckin(dto2.getRu_startDate());
+			dto.setO_ckout(dto2.getRu_endDate());
+			dto.setO_baby(dto2.getRu_adult());
+			dto.setO_child(dto2.getRu_child());
+			dto.setO_adult(dto2.getRu_adult());
+			alter = "이미 아래와 같은 변경 신청 이력이 있습니다.";
+		} else {
 			dto.setO_reser(dto.getO_adult() + dto.getO_child());
 			String ck_time = dto.getO_ckin() + " " + dto.getHo_check_in();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -199,14 +217,6 @@ public class ReservController {
 			} catch (Exception e) {
 			}
 			ref_date = new Date(cal1.getTimeInMillis()); // 환불 가능 기한
-		} else if (check == 1) {
-			ReservDTO dto2 = dao.confirm(o_idx);
-			dto.setO_ckin(dto2.getRu_startDate());
-			dto.setO_ckout(dto2.getRu_endDate());
-			dto.setO_baby(dto2.getRu_adult());
-			dto.setO_child(dto2.getRu_child());
-			dto.setO_adult(dto2.getRu_adult());
-			alter = "이미 아래와 같은 변경 신청 이력이 있습니다.";
 		}
 
 		Map<String, Object> map = new HashMap<>();
