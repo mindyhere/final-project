@@ -36,6 +36,8 @@ public class WishController {
 			map.put("dIdx", main.get(i).getD_idx());
 			list.add(map);
 		}
+		
+		System.out.println(list);
 		return list;
 	}
 	
@@ -78,14 +80,15 @@ public class WishController {
 		MainDTO recent = new MainDTO();
 		// System.out.println(g_idx+""+ recentIdx);
 		if (recentIdx.size() > 0) {
-			for(int i=0; i<recentIdx.size(); i++) {
+			int size = recentIdx.size()-1;
+			for(int i=size; i >= 0; i--) {
 				Map<String, Object> map = new HashMap<>();
 				recent = dao.recentItem(recentIdx.get(i));
 				map.put("HoIdx", recent.getHo_idx());
 				map.put("HoName", recent.getHo_name());
 				map.put("HoImg", recent.getHo_img());
 				map.put("dIdx", recent.getD_idx());
-				System.out.println(recent.getHo_idx());
+				// System.out.println(recent.getHo_idx());
 				int check = dao.recentCheck(g_idx, recentIdx.get(i));
 				map.put("check", check);
 //				int didx = dao.sel_didx(recent.getHo_idx());
