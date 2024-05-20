@@ -50,7 +50,7 @@ public class ReputationController {
 		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-			System.out.println("==> start? " + start);
+//			System.out.println("==> start? " + start);
 			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start);
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
@@ -58,7 +58,8 @@ public class ReputationController {
 		}
 		data.put("count", cnt);
 		data.put("page", page);
-		System.out.println("==> list? " + data.get("list") + ", data? " + data);
+		data.put("option", 0);
+//		System.out.println("==> list? " + data.get("list") + ", data? " + data);
 		return data;
 	}
 

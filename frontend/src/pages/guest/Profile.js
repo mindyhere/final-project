@@ -25,6 +25,7 @@ function useFetch(url) {
 }
 
 function Profile() {
+
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
@@ -182,7 +183,7 @@ if(loading||loading1||loading2){
                                                 }}
                                             >
                                                 <div className={"modal-content3"}>
-                                                <h4>본인 인증이란?(모달 이상함 수정예정)</h4>
+                                                <h4>본인 인증이란?</h4>
                                                 <hr></hr>
                                                 <p>'본인 인증' 절차를 거쳤거나 본인 인증 배지를 가지고 있다는 것은 sybnb 본인 인증 절차를 완료하기 위해 정보를 제공했다는 사실만을 의미합니다. 이 절차는 안전 장치를 갖추고 있지만, 누군가의 신원을 보장하지는 않습니다. </p>
                                                 </div>

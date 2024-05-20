@@ -50,7 +50,7 @@ from
 </select>
 
 <select id="getGuestProfile" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
-	select g_name, g_email, g_phone, g_url 
+	select g_name, g_email, g_phone, g_photo 
 	from guest where g_idx=#{g_idx}
 </select>
 

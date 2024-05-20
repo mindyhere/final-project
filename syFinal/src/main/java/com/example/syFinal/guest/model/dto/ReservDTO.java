@@ -30,6 +30,7 @@ public class ReservDTO {
 	private int o_payment;
 	private int o_reser;
 	private int o_didx;
+	private String paymentId;
 	
 	private int o_adult;
 	private int o_child;

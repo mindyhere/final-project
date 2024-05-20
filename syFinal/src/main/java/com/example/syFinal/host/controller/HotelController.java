@@ -1,7 +1,5 @@
 package com.example.syFinal.host.controller;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,11 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.syFinal.MainController;
 import com.example.syFinal.host.model.dao.HotelDAO;
+import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 import jakarta.servlet.ServletContext;
@@ -42,7 +42,7 @@ public class HotelController {
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hoteList(map);
-		System.out.println(hotelList);
+
 		List<String> bet_dates = new ArrayList<String>();
 		List<String> imp_dates = new ArrayList<String>();
 		MainController main = new MainController();
@@ -54,6 +54,7 @@ public class HotelController {
 			}
 		}
 		int roomCount = hotelDao.room_count(ho_idx, d_idx);
+		System.out.println(roomCount);
 		List<String> dates = new ArrayList<String>();
 		Set<String> set = new HashSet<String>(imp_dates);
 		for (String str : set) {
@@ -62,7 +63,6 @@ public class HotelController {
 			}
 		}
 		hotelList.put("imp_dates", dates);
-		System.out.println(hotelList);
 		return hotelList;
 	}
 
@@ -199,8 +199,13 @@ public class HotelController {
 			@RequestParam(name = "img", required = false) MultipartFile img, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-		String hotelImg = hotelDao.getHotelImg(ho_idx);
+		Map<String, Object> imgList = hotelDao.getHotelImg(ho_idx);
+		String hotelImg = (String) imgList.get("ho_img");
 		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
+		System.out.println("@@@@@@ img" + img);
+		System.out.println("@@@@@@ hotelImgs : " + imgList);
+		System.out.println("@@@@@@ hotelImg : " + hotelImg);
+		System.out.println("@@@@@@ hotelImgs.values()" + imgList.get("ho_img"));
 		if (img != null && !img.isEmpty()) {
 			try {
 				if (hotelImg != null && !hotelImg.equals("-")) {
@@ -215,7 +220,7 @@ public class HotelController {
 				e.printStackTrace();
 			}
 		} else {
-			hotelImg = hotelDao.getHotelImg(ho_idx);
+			//hotelImg = hotelDao.getHotelImg(ho_idx);
 		}
 		map.put("img", hotelImg);
 		System.out.println("@@@@@@@@@@ map  : " + map);
@@ -226,10 +231,41 @@ public class HotelController {
 	@Transactional
 	@PostMapping("/host/hotel/editHotel/amenity")
 	public void editHotelAmenity(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx) {
-		System.out.println("호텔 편의시설 - map : " + map);	
-		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
-		System.out.println("호텔 편의시설 - map List : " + map.get("checkItems"));
-		System.out.println("호텔 편의시설 - ho_idx : " + ho_idx);
+		String[] items= map.get("checkItems").toString().split(",");
+		map.put("ho_idx", ho_idx);
+		
+		for(String item : items){
+			switch(item){
+			  case "0": 
+				  map.put("option", "mountain_view");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "1": 
+				  map.put("option", "ocean_view");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "2": 
+				  map.put("option", "wifi");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "3": 
+				  map.put("option", "parking_lot");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "4": 
+				  map.put("option", "breakfast");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "5": 
+				  map.put("option", "fire_alam");
+				  hotelDao.editAmenity(map);
+				break;
+			  case "6": 
+				  map.put("option", "fire_extinguisher");
+				  hotelDao.editAmenity(map);
+				break;
+			}
+		}
 	}
 	
 	/* 호텔 객실정보 수정 */
@@ -239,12 +275,43 @@ public class HotelController {
 			@RequestParam(name = "dimg1") MultipartFile dimg1, 
 			@RequestParam(name = "dimg2", required = false) MultipartFile dimg2,
 			@RequestParam(name = "dimg3", required = false) MultipartFile dimg3, HttpServletRequest request) {
-			
+		ServletContext application = request.getSession().getServletContext();
+		String path = application.getRealPath("static/images/host/hotel/");
+//		String roomImg1 = hotelDao.getHotelImg(ho_idx);
+//		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
+//		System.out.println("@@@@@@ img" + dimg1);
+//		if (dimg1 != null && !dimg1.isEmpty()) {
+//			try {
+//				if (roomImg1 != null && !roomImg1.equals("-")) {
+//					File file1 = new File(path + roomImg1);
+//					if (file1.exists()) {
+//						file1.delete();
+//					}
+//				}
+//				roomImg1 = dimg1.getOriginalFilename();
+//				dimg1.transferTo(new File(path + roomImg1));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			roomImg1 = hotelDao.getHotelImg(ho_idx);
+//		}
+//		map.put("dimg1", roomImg1);
+		System.out.println("@@@@@@@@@@ map  : " + map);
+		hotelDao.editHotelRoomInfo(map);
 	}
 	
 	/* 호텔 영업 중지 신청 */
 	@GetMapping("/host/hotel/closeHotel")
 	public void closeHotel(@RequestParam(name = "ho_idx") int ho_idx) {
 		hotelDao.closeHotel(ho_idx);
+	}
+	
+	@PostMapping("/host/hotel/hotelImg")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam(name = "ho_idx") int ho_idx) {
+		Map<String, Object> imgList = hotelDao.getHotelImg(ho_idx);
+		Map<String, Object> map = new HashMap<>();
+		return null;
 	}
 }

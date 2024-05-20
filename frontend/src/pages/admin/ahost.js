@@ -28,24 +28,32 @@ function Ahost() {
 
     const approveHost = (h_idx, h_status) => {
         if (h_status === '승인대기') {
+            const form = new FormData();
+            form.append('h_idx', h_idx);
             if (window.confirm('사업자 가입을 승인하시겠습니까?')) {
-                fetch(`http://localhost/admin/approve/${h_idx}`)
-                    .then(response => {
+                fetch(`http://localhost/admin/approve`, {
+                    method: 'post',
+                    body: form,
+                }).then(response => {
                         if (response.ok) {
                             return response.text();
                         }
                         throw new Error('Error.');
                     })
                     .then(message => {
-                        const updatedAhitem = ahitem.map(item => {
-                            if (item.h_idx === h_idx) {
-                                return { ...item, h_status: '승인완료' };
-                            }
-                            return item;
-                        });
-                        setAhitem(updatedAhitem);
-                        setMessage(message);
-                        window.alert('사업자 가입이 승인되었습니다.');
+                        if(message == 'success') {
+                            const updatedAhitem = ahitem.map(item => {
+                                if (item.h_idx === h_idx) {
+                                    return { ...item, h_status: '승인완료' };
+                                }
+                                return item;
+                            });
+                            setAhitem(updatedAhitem);
+                            setMessage(message);
+                            window.alert('사업자 가입이 승인되었습니다.');
+                        } else if(message=='fail') {
+                            window.alert('사업자 등록증이 없습니다.');
+                        }
                     })
                     .catch(error => {
                         console.error('Error', error);
