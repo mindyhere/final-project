@@ -46,12 +46,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllReviews(int h_idx, int start, int end) {
+	public List<Map<String, Object>> getAllReviews(int h_idx, int start) {
 		// host → 후기관리(호스트가 등록한 호텔의 전체 리뷰목록 가져오기)
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
 		map.put("start", start);
-		map.put("end", end);
 		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAllReviews", map);
 		return list;
 	}

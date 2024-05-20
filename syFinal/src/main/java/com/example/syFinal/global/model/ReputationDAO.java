@@ -20,7 +20,7 @@ public interface ReputationDAO {
 	List<Map<String, Object>> getAvgRate(int h_idx);
 
 	// host → 후기관리(호스트가 등록한 호텔의 전체 리뷰목록 가져오기)
-	List<Map<String, Object>> getAllReviews(int h_idx, int start, int end);
+	List<Map<String, Object>> getAllReviews(int h_idx, int start);
 
 	// 페이징 적용 : h_idx 기준 전체 review 개수
 	int countRecord(int h_idx);
