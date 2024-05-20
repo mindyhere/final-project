@@ -13,11 +13,17 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class PortoneResponse {
+public class PortoneCancel {
 	private String code;
-	private String accessToken;
-	private String refreshToken;
-	private String type;
 	private String message;
-	private JSONObject response = new JSONObject();
+	private String status;
+	private String id;
+	private String pgCancellationId;
+	private int totalAmount;
+	private int taxFreeAmount;
+	private int vatAmount;
+	private int easyPayDiscountAmount;
+	private String reason;
+	private String requestedAt;
+	private int returnPrice;
 }

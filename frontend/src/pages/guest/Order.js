@@ -129,77 +129,6 @@ function Order() {
                     }
                 });
             });
-
-
-            // app.use(bodyParser.json());
-
-            // // POST 요청을 받는 /payments/complete
-            // app.post("/payment/complete", async (req, res) => {
-            // try {
-            //     // 요청의 body로 paymentId가 전달되기를 기대합니다.
-            //     const { paymentId, orderId } = req.body;
-
-            //     // 1. 포트원 결제내역 단건조회 API 호출
-            //     const paymentResponse = await fetch(
-            //     `https://api.portone.io/payments/${paymentId}`,
-            //     { headers: { Authorization: `PortOne 8I6gk3CbU6dmSKZ5WDQDclFzYOMq8gnBJbtCRkEm7uloX27PRxKGjqnSYSaKzWJefLssINqMzO7OO35o` } },
-            //     );
-            //     if (!paymentResponse.ok)
-            //     throw new Error(`paymentResponse: ${paymentResponse.statusText}`);
-            //     const payment = await paymentResponse.json();
-
-            //     // 2. 고객사 내부 주문 데이터의 가격과 실제 지불된 금액을 비교합니다.
-            //     const order = await OrderService.findById(orderId);
-            //     if (order.amount === payment.amount.total) {
-            //     switch (payment.status) {
-            //         case "VIRTUAL_ACCOUNT_ISSUED": {
-            //         // 가상 계좌가 발급된 상태입니다.
-            //         // 계좌 정보를 이용해 원하는 로직을 구성하세요.
-            //         break;
-            //         }
-            //         case "PAID": {
-            //             // 모든 금액을 지불했습니다! 완료 시 원하는 로직을 구성하세요.
-            //             alert("결제성공");
-            //             const form = new FormData();
-            //             form.append('idx',idx.key);
-            //             form.append('dIdx',dIdx);
-            //             form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-            //             form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-            //             form.append('adult',adult);
-            //             form.append('child',child);
-            //             form.append('baby',baby);
-            //             form.append('pay',pay);
-            //             form.append('dprice',dprice);
-            //             form.append('fprice',fprice);
-            //             form.append('paymentId', response.paymentId);
-                        
-            //             fetch('http://localhost/guest/order',{
-            //                 method:'post',
-            //                 body:form
-            //             }).then(()=>{
-            //                 //예약완료시 모달로 확인 후 예약내역페이지로 이동
-            //                 Swal.fire({
-            //                     icon : 'success',
-            //                     text : '예약요청이 완료되었습니다.',
-            //                     confirmButtonText: '확인'
-            //                 }).then((result) => {
-            //                     if(result.isConfirmed) {
-            //                         window.location.href='/guest/reservation';
-            //                     }
-            //                 });
-            //             });
-            //             break;
-            //         }
-            //     }
-            //     } else {
-            //     // 결제 금액이 불일치하여 위/변조 시도가 의심됩니다.
-            //         alert("결제금액 불일치");
-            //     }
-            // } catch (e) {
-            //     // 결제 검증에 실패했습니다.
-            //     res.status(400).send(e);
-            // }
-            // });
         }
     }
     
@@ -317,7 +246,7 @@ function Order() {
                                 <div>게스트</div>
                                 <div>{reser}명 + 유아 {baby}명</div>
                                 <hr/>
-                                <h4>결제수단</h4>
+                                <h4>결제수단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style={{width: '30px', height:'30px'}} src='/img/nice.jpg'></img>&nbsp;<img style={{width: '60px', height:'30px'}} src='/img/kakaopay.png'></img></h4>
                                 <br/>
                                 <select value={pay} className="form-select" aria-label="Default select example" onChange={onSelect}>
                                     <option value="1">Card</option>
@@ -355,63 +284,14 @@ function Order() {
                                 <hr/>
                                 <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
                                 <br/>
-                                {/* {pay === "1" || pay === "3"
+                                {pay === "1" || pay === "3"
                                 ?
                                 //카드 or 포인트로 결제시 버튼 클릭하면 DB에 바로 insert
-                                <button className="btn btn-dark" onClick={()=>{
-                                    if(data.dto.g_card === null) {
-                                        Swal.fire({
-                                            title: "카드 미등록상태",
-                                            icon : 'warning',
-                                            text : '계정 > 결제 > 결제수단에서 카드를 등록해주세요.',
-                                        });
-                                    } else if(data.dto.g_profile === '미인증'){
-                                        Swal.fire({
-                                            title: "신분증 미등록상태",
-                                            icon : 'warning',
-                                            text : '계정 > 로그인 및 보안 > 인증에서 신분증을 등록해주세요.',
-                                        });
-                                    } else {
-                                        const form = new FormData();
-                                        form.append('idx',idx.key);
-                                        form.append('dIdx',dIdx);
-                                        form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-                                        form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-                                        form.append('adult',adult);
-                                        form.append('child',child);
-                                        form.append('baby',baby);
-                                        form.append('pay',pay);
-                                        form.append('dprice',dprice);
-                                        form.append('fprice',fprice);
-                                        
-                                        fetch('http://localhost/guest/order',{
-                                            method:'post',
-                                            body:form
-                                        }).then(()=>{
-                                            //예약완료시 모달로 확인 후 예약내역페이지로 이동
-                                            Swal.fire({
-                                                icon : 'success',
-                                                text : '예약요청이 완료되었습니다.',
-                                                confirmButtonText: '확인'
-                                            }).then((result) => {
-                                                if(result.isConfirmed) {
-                                                    window.location.href='/guest/reservation';
-                                                }
-                                            });
-                                        });
-                                    }
-                                }}>예약 요청</button>
+                                <button className='btn btn-outline-dark' onClick={()=>serverAuth()}>nicepay 결제하기</button>
                                 :
-                                //카페로 결제시 카페결제화면 거치고 성공하면 DB에 insert
-                                    <Kakaopay>
-                                        <button className="btn btn-dark">카카오페이 결제</button>
-                                    </Kakaopay>
-                                } */}
-                                {/* <Kakaopay>
-                                    <button className="btn btn-dark">카카오페이 결제</button>
-                                </Kakaopay> */}
-                                <button onClick={()=>serverAuth()}>nicepay 결제하기</button>
-                                {/* onClick={onClickPayment} */}
+                                //카페로 결제시 결제화면 거치고 성공하면 DB에 insert
+                                <img type='button' src='/img/kakaopay.png'></img>
+                                }
                                 <br/>
                                 <br/>
                             </div>

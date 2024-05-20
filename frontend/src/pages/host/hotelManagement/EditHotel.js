@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
-import DaumPostcode, { useDaumPostcodePopup } from "react-daum-postcode";
+import DaumPostcode from "react-daum-postcode";
 import { BuildingFill, CardChecklist, CardList } from "react-bootstrap-icons";
 import RoomDetail from "../hotelManagement/RoomDetail";
 const {kakao} = window;
@@ -23,7 +23,7 @@ function useFetch(url) {
         })
     }, []);
     return [data, loading];
-}
+    }
 
 function EditHotel() {
     const cookies = new Cookies();
@@ -49,7 +49,7 @@ function EditHotel() {
     const ho_x = useRef();
     const ho_y = useRef();
     const ho_description = useRef();
-
+    const [checkItems, setCheckItems] = useState([]);
     let [inputCount, setInputCount] = useState(0);
     const onInputHandler = (e) => {
         setInputCount(e.target.value.length);
@@ -120,38 +120,9 @@ function EditHotel() {
         outlineColor: "#F7EFFC" 		// 테두리
       };
 
-    const dataList = [
-        {id: 0, title: '산 전망', icon: '/img/mountain.png'},
-        {id: 1, title: '바다 전망', icon: '/img/ocean.png'},
-        {id: 2, title: '무선인터넷', icon: '/img/wifi.png'},
-        {id: 3, title: '주차장', icon: '/img/parking.png'},
-        {id: 4, title: '조식 제공', icon: '/img/breakfast.png'},
-        {id: 5, title: '화재경보기', icon: '/img/firealam.png'},
-        {id: 6, title: '소화기', icon: '/img/fireExt.png'}
-      ];
 
-    const [checkItems, setCheckItems] = useState([]);
 
-    const handleSingleCheck = (checked, id) => {
-        if (checked) {
-            console.log("체크박스 : " + checkItems);
-        setCheckItems(prev => [...prev, id]);
-        } else {
-        setCheckItems(checkItems.filter((el) => el !== id));
-        console.log("체크박스 해제: " + checkItems);
-        }
-    };
 
-    const handleAllCheck = (checked) => {
-        if(checked) {
-          const idArray = [];
-          dataList.forEach((el) => idArray.push(el.id));
-          setCheckItems(idArray);
-        }
-        else {
-          setCheckItems([]);
-        }
-    }
 
     const [rooms, setRooms] = useState("");
     function Modal(props) {
@@ -203,6 +174,37 @@ function EditHotel() {
             image_url = '';
         }
 
+        const dataList = [
+            {id: 0, title: '산 전망', icon: '/img/mountain.png', sts : data[0].mountain_view},
+            {id: 1, title: '바다 전망', icon: '/img/ocean.png', sts : data[0].ocean_view},
+            {id: 2, title: '무선인터넷', icon: '/img/wifi.png', sts : data[0].wifi},
+            {id: 3, title: '주차장', icon: '/img/parking.png', sts : data[0].parking_lot},
+            {id: 4, title: '조식 제공', icon: '/img/breakfast.png', sts : data[0].breakfast},
+            {id: 5, title: '화재경보기', icon: '/img/firealam.png', sts : data[0].fire_alam},
+            {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher}
+          ];
+
+    
+    
+          const handleSingleCheck = (checked, id) => {
+              if (checked) {
+                  setCheckItems(prev => [...prev, id]);        
+              } else {
+                  setCheckItems(checkItems.filter((el) => el !== id));
+              }
+          };
+      
+          const handleAllCheck = (checked) => {
+              if(checked) {
+                const idArray = [];
+                dataList.forEach((el) => idArray.push(el.id));
+                setCheckItems(idArray);
+              }
+              else {
+                setCheckItems([]);
+              }
+          }
+
         return (
             <div className="container">
                 <div className="mb-20">
@@ -212,6 +214,12 @@ function EditHotel() {
                 <div className="card-style mb-30">
                     <h3><BuildingFill size={35} /> 기본 정보</h3>
                     <table className="tbl">
+                        <colgroup>
+                    <col width={"20%"} />
+                    <col width={"30%"} />
+                    <col width={"20%"} />
+                    <col width={"30%"} />
+                    </colgroup>
                         <thead>
                         </thead>
                         <tbody>
@@ -246,11 +254,11 @@ function EditHotel() {
                             <tr>
                                 <th colSpan={2}>주소</th>
                                 <td colSpan={2}>
-                                    <input style={{border:'none'}} ref={ho_address} defaultValue={address != data[0].ho_address ? data[0].ho_address : address} onChange={(e) => {setAddress(e.target.value)}} />
-                                    <input type="hidden" style={{border:'none'}} ref={ho_x} value={hoX}  onChange={(e) => {setHoX(e.target.value)}} defaultValue={data[0].ho_x}/>
-                                    <input type="hidden" style={{border:'none'}} ref={ho_y} value={hoY}  onChange={(e) => {setHoY(e.target.value)}} defaultValue={data[0].ho_y}/>
+                                    <input style={{border:'none', width: '75%'}} ref={ho_address} value={address == '' ? data[0].ho_address : address} onChange={(e) => {setAddress(e.target.value)}} />
+                                    <input type="hidden" style={{border:'none'}} ref={ho_x} onChange={(e) => {setHoX(e.target.value)}} value={hoX == '' ? data[0].ho_x : hoX}/>
+                                    <input type="hidden" style={{border:'none'}} ref={ho_y} onChange={(e) => {setHoY(e.target.value)}} value={hoY == '' ? data[0].ho_y : hoY}/>
                                 
-                                    <button className="main-btnn" onClick={clickButton}>주소 검색</button>
+                                    <button className="main-btn" style={{zIndex: 0}} onClick={clickButton}>주소 검색</button>
                                     
                                     { isPopupOpen &&
                                         <div>
@@ -294,6 +302,7 @@ function EditHotel() {
                     <div style={{textAlign: 'right'}}>
                         <button className="main-btnn" onClick={() => {
                             Swal.fire({
+                                icon: "question",
                                 text: '호텔 기본정보를 수정하시겠습니까?',
                                 showCancelButton: true,
                                 confirmButtonText: '확인',
@@ -333,7 +342,7 @@ function EditHotel() {
                 </div>
                 <div className="card-style mb-30">
                     <h3 className="mb-30"><CardChecklist size={35} /> 호텔 편의시설</h3>
-                    <div className="mb-10" style={{fontSize: '18px'}}>
+                    <div className="mb-10" style={{fontSize: '20px'}}>
                         <input type='checkbox' name='select-all'
                         onChange={(e) => handleAllCheck(e.target.checked)}
                         checked={checkItems.length === dataList.length ? true : false} />
@@ -346,8 +355,12 @@ function EditHotel() {
                                 <div>
                                     <input type='checkbox' name={`select-${item.id}`}
                                     onChange={(e) => handleSingleCheck(e.target.checked, item.id)}
-                                    //defaultChecked={item.stats == "Y"}
-                                    checked={checkItems.includes(item.id) ? true : false} />
+                                    //onChange={(e) => handleSingleCheck(e)}
+                                    //defaultChecked={item.sts == "Y" ? true : false}
+                                    //checked={} />
+                                   // defaultChecked={item.sts == "Y"}
+                                    checked={item.sts == "Y" ? true : checkItems.includes(item.id) ? true : false} 
+                                    />
                                     &nbsp;
                                     <img src={item.icon} style={{ width: '30px', height: '30px' }} />
                                     &nbsp;{item.title}
@@ -358,6 +371,7 @@ function EditHotel() {
                     <div style={{textAlign:'right'}}>
                         <button className="main-btnn" onClick={() => {
                             Swal.fire({
+                                icon : 'question',
                                 text: '호텔 편의시설을 수정하시겠습니까?',
                                 showCancelButton: true,
                                 confirmButtonText: '확인',
@@ -420,6 +434,7 @@ function EditHotel() {
                 <div className="mb-40" style={{textAlign:'center'}}>
                     <button className="main-btnn" onClick={() => {
                         Swal.fire({
+                            icon : 'warning',
                             text: '영업중지 신청을 하시겠습니까?',
                             showCancelButton: true,
                             confirmButtonText: '확인',
