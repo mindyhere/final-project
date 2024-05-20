@@ -76,18 +76,21 @@ public class ReplyController {
 
 	@PostMapping("search/reviews/{userIdx}")
 	public Map<String, Object> reviewSearch(@PathVariable(name = "userIdx") int h_idx,
-			@RequestParam Map<String, Object> map) {
+			@RequestParam(name = "sort", defaultValue = "") String sort,
+			@RequestParam(name = "keyword", defaultValue = "") String keyword,
+			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("sort", sort);
+		map.put("keyword", keyword);
+		map.put("pageNum", pageNum);
+		System.out.println("==> 소트? " + map.get("sort"));
 		int cnt = replyDao.count(map);
-		PageUtil page = new PageUtil(cnt, 1);
+		PageUtil page = new PageUtil(cnt, pageNum);
 		int start = page.getPageBegin() - 1;
 		map.put("start", start);
 		String reply = (String) map.get("reply");
-		if (reply != null && reply.equals("미등록")) {
-			map.put("state", 0);
-		} else {
-			map.put("state", "");
-		}
-		System.out.println("==> reviewSearch? " + map);
+		System.out.println("==> 파라미터? " + map);
 		List<Map<String, Object>> list = replyDao.searchReviews(map);
 		Map<String, Object> data = new HashMap<>();
 		if (list == null) {

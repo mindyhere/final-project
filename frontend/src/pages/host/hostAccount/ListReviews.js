@@ -31,12 +31,16 @@ function ListReviews() {
       url = `http://localhost/api/reply/search/reviews/${userIdx}`;
       form.append("sort", sort.current.value);
       form.append("keyword", keyword.current.value);
+      form.append("pageNum", 1);
     } else {
       url = `http://localhost/api/reputation/manage/list/${userIdx}`;
       form.append("pageNum", pageNum);
     }
     fetch(url, { method: "post", body: form })
       .then((response) => {
+        console.log(
+          "=> 검색?" + url + ", " + opt + ", " + pageNum+ ", "+sort.current.value+", "+keyword.current.value
+        );
         return response.json();
       })
       .then((data) => {
@@ -111,7 +115,7 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={"all"}>&nbsp;All</option>
+                  <option defaultValue={"All"}>&nbsp;All</option>
                   <option defaultValue={"ho_idx"}>&nbsp;구분</option>
                   <option defaultValue={"o_idx"}>&nbsp;예약번호</option>
                   <option defaultValue={"reply"}>&nbsp;상태</option>

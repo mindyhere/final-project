@@ -22,11 +22,11 @@ from v_hotel_review v, (select @rownum:=0) tmp
 where 
 	h_idx=#{h_idx}
   <choose>
-  	<when test="sort == 'all' || sort ==''">
+  	<when test="sort == 'All' || sort ==''">
 		and ho_name like concat('%', #{keyword}, '%')
 		or o_idx like concat('%', #{keyword}, '%')
 	</when>	
-  	<when test="sort == 'rp_idx'">
+  	<when test="sort == 'reply'">
   	  <choose>
   	  	<when test="state == '미등록'">
 			and rp_idx = 0
@@ -46,14 +46,14 @@ limit #{start}, 10
 
 <select id="count" resultType="int">
 select count(*) from v_hotel_review 
-where 
+<trim prefix="where" prefixOverrides="AND | OR">
 	h_idx=#{h_idx}
   <choose>
-  	<when test="sort == 'all' || sort ==''">
+  	<when test="sort == 'All' || sort ==''">
 		and ho_name like concat('%', #{keyword}, '%')
 		or o_idx like concat('%', #{keyword}, '%')
 	</when>	
-	<when test="sort == 'rp_idx'">
+	<when test="sort == 'reply'">
   	  <choose>
   	  	<when test="state == '미등록'">
 			and rp_idx = 0
@@ -67,6 +67,7 @@ where
 		and ${sort} like concat('%', #{keyword}, '%')	
 	</otherwise>
   </choose>
+</trim>
 </select>
 
 </mapper>
