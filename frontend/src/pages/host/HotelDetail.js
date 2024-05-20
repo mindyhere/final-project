@@ -41,6 +41,7 @@ function HotelDetail() {
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
+    var Arr = [];
 
     useEffect(() => {
         var myArr = localStorage.getItem('watched');
@@ -49,8 +50,14 @@ function HotelDetail() {
         } else {
             myArr = JSON.parse(myArr);
         }
-        myArr.push(HoIdx);
-        myArr = new Set(myArr);
+        for (let i = 0; i<myArr.length; i++) {
+            if (myArr[i] == HoIdx) {
+            } else {
+                Arr.push(myArr[i]);
+            }
+        }
+        Arr.push(HoIdx);
+        myArr = new Set(Arr);
         myArr = [...myArr];
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
