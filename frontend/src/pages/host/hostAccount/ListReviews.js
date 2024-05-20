@@ -111,10 +111,10 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={1}>&nbsp;All</option>
-                  <option defaultValue={2}>&nbsp;구분</option>
-                  <option defaultValue={3}>&nbsp;예약번호</option>
-                  <option defaultValue={4}>&nbsp;상태</option>
+                  <option defaultValue={"all"}>&nbsp;All</option>
+                  <option defaultValue={"ho_idx"}>&nbsp;구분</option>
+                  <option defaultValue={"o_idx"}>&nbsp;예약번호</option>
+                  <option defaultValue={"reply"}>&nbsp;상태</option>
                 </select>
               </div>
             </div>

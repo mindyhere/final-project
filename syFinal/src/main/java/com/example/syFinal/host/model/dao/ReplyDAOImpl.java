@@ -38,4 +38,9 @@ public class ReplyDAOImpl implements ReplyDAO {
 		}
 		return list;
 	}
+
+	@Override
+	public int count(Map<String, Object> map) {
+		return sqlSession.selectOne("reply.count", map);
+	}
 }

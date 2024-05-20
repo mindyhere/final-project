@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.syFinal.global.PageUtil;
 import com.example.syFinal.global.model.ReputationDAO;
 import com.example.syFinal.guest.model.dao.ReviewDAO;
 import com.example.syFinal.host.model.dao.ReplyDAO;
@@ -76,6 +77,16 @@ public class ReplyController {
 	@PostMapping("search/reviews/{userIdx}")
 	public Map<String, Object> reviewSearch(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam Map<String, Object> map) {
+		int cnt = replyDao.count(map);
+		PageUtil page = new PageUtil(cnt, 1);
+		int start = page.getPageBegin() - 1;
+		map.put("start", start);
+		String reply = (String) map.get("reply");
+		if (reply != null && reply.equals("미등록")) {
+			map.put("state", 0);
+		} else {
+			map.put("state", "");
+		}
 		System.out.println("==> reviewSearch? " + map);
 		List<Map<String, Object>> list = replyDao.searchReviews(map);
 		Map<String, Object> data = new HashMap<>();

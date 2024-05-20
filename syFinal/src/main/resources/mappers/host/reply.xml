@@ -18,22 +18,55 @@ delete from reply where rp_idx=#{rp_idx}
 
 <select id="searchReviews" resultType="java.util.Map">
 select @rownum:=@rownum+1 as rownum, v.* 
-from v_hotel_review v, (select @rownum:=(#{start}-1)) tmp
+from v_hotel_review v, (select @rownum:=0) tmp
 where 
 	h_idx=#{h_idx}
-	and rv_content like concat('%', #{keyword}, '%')
   <choose>
-	<when test="sort == 'highest'">
-		order by rv_star desc, rv_idx desc
-	</when>
-	<when test="sort == 'lowest'">
-		order by rv_star, rv_idx desc
-	</when>
+  	<when test="sort == 'all' || sort ==''">
+		and ho_name like concat('%', #{keyword}, '%')
+		or o_idx like concat('%', #{keyword}, '%')
+	</when>	
+  	<when test="sort == 'rp_idx'">
+  	  <choose>
+  	  	<when test="state == '미등록'">
+			and rp_idx = 0
+		</when>
+		<otherwise>
+			and rp_idx != 0
+		</otherwise>
+	  </choose>
+	</when>	
 	<otherwise>
-		order by rv_idx desc
+		and ${sort} like concat('%', #{keyword}, '%')
 	</otherwise>
   </choose>
-ORDER BY rv_idx desc
-limit #{start}, #{end};
+order by rv_idx desc, @rownum desc
+limit #{start}, 10
 </select>
+
+<select id="count" resultType="int">
+select count(*) from v_hotel_review 
+where 
+	h_idx=#{h_idx}
+  <choose>
+  	<when test="sort == 'all' || sort ==''">
+		and ho_name like concat('%', #{keyword}, '%')
+		or o_idx like concat('%', #{keyword}, '%')
+	</when>	
+	<when test="sort == 'rp_idx'">
+  	  <choose>
+  	  	<when test="state == '미등록'">
+			and rp_idx = 0
+		</when>
+		<otherwise>
+			and rp_idx != 0
+		</otherwise>
+	  </choose>
+	</when>	
+	<otherwise>
+		and ${sort} like concat('%', #{keyword}, '%')	
+	</otherwise>
+  </choose>
+</select>
+
 </mapper>
