@@ -116,7 +116,7 @@ function ListReviews() {
                   }}
                 >
                   <option defaultValue={"All"}>&nbsp;All</option>
-                  <option defaultValue={"ho_idx"}>&nbsp;구분</option>
+                  <option defaultValue={"ho_name"}>&nbsp;구분</option>
                   <option defaultValue={"o_idx"}>&nbsp;예약번호</option>
                   <option defaultValue={"reply"}>&nbsp;상태</option>
                 </select>

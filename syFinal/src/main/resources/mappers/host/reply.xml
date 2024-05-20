@@ -49,9 +49,11 @@ select count(*) from v_hotel_review
 <trim prefix="where" prefixOverrides="AND | OR">
 	h_idx=#{h_idx}
   <choose>
-  	<when test="sort == 'All' || sort ==''">
-		and ho_name like concat('%', #{keyword}, '%')
-		or o_idx like concat('%', #{keyword}, '%')
+	<when test="sort == 'ho_name'">
+		and ho_name like concat('%', #{keyword}, '%')	
+	</when>
+  	<when test="sort == 'o_idx'">
+		and o_idx like concat('%', #{keyword}, '%')
 	</when>	
 	<when test="sort == 'reply'">
   	  <choose>
@@ -64,7 +66,8 @@ select count(*) from v_hotel_review
 	  </choose>
 	</when>	
 	<otherwise>
-		and ${sort} like concat('%', #{keyword}, '%')	
+		and ho_name like concat('%', #{keyword}, '%')
+		or o_idx like concat('%', #{keyword}, '%')
 	</otherwise>
   </choose>
 </trim>
