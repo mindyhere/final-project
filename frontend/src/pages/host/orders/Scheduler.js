@@ -18,22 +18,28 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        //console.log("==> Fetch? " +JSON.stringify(data)+"/ "+data.toString());
-        let result = data.toString();
-        
-        let arr=[]
-        for(let i=0; i<data.length; i++){
-          //console.log('result:'+JSON.stringify(data[i].o_ckout))
-          arr.push(JSON.stringify(data[i].o_ckout));
+        if (data.count != 0) {
+          // console.log("==> Fetch? " + JSON.stringify(data.list));
+
+          let arr = [];
+          // let column = data.column.toString();
+          // console.log('result '+column)
+          for (let i = 0; i < data.list.length; i++) {
+            if (data.column == "o_ckin") {
+              arr.push(JSON.stringify(data.list[i].o_ckin));
+            } else {
+              arr.push(JSON.stringify(data.list[i].o_ckout));
+            }
+            // console.log(column + "**반복 " + arr);
+            // arr.push(JSON.stringify(data.list[i].column));
+          }
+          // console.log("result " + data.column + " ? " + arr);
+          setData(arr);
+          setLoading(false);
         }
-        console.log(arr[0]);
-
-
-        // result=arr.filter(("o_ckin"))
-        setData(data);
-        setLoading(false);
       });
   }, []);
+  // console.log("***? " + data.toString());
   return [data, loading];
 }
 
@@ -42,8 +48,6 @@ function Scheduler() {
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
   const [value, onChange] = useState(new Date());
-  // let loading;
-  // const [data, loading] = useFetch( `http://localhost/api/order/manage/schedule/${userIdx}` );
   const [ckin, loading1] = useFetch(
     `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin`
   );
@@ -53,25 +57,6 @@ function Scheduler() {
 
   const [date, setDate] = useState(value);
   console.log("==> x? " + moment(value).format("YYYY-MM-DD"));
-
-  // function getSchedule(url) {
-  //   // let url = `http://localhost/api/order/manage/schedule/${userIdx}`;
-  //   fetch(url)
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.count != null) {
-  //         setCheckin(data.ckin);
-  //         setCheckout(data.ckout);
-  //       }
-  //       console.log("==> data: " + JSON.stringify(data));
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   getSchedule(`http://localhost/api/order/manage/schedule/${userIdx}`);
-  // });
 
   // const ckin = [
   //   "2024-05-01",
@@ -105,8 +90,8 @@ function Scheduler() {
   if (loading1 || loading2) {
     return <div className="text-center">로딩 중...</div>;
   } else {
-    // console.log("==> 111체크인? " + ckin);
-    // console.log("==> 222체크아웃? " + ckout);
+    console.log("=> 체크인날짜? " + ckin);
+    console.log("=> 체크아웃날짜? " + ckout);
     return (
       <div>
         <Calendar
@@ -121,44 +106,46 @@ function Scheduler() {
           navigationLabel={null}
           onChange={onChange}
           value={value}
-          // tileClassName={({ date, view }) => {
-          //   if (
-          //     // ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
-          //     // ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))
-          //   ) {
-          //     console.log("==> x? " + value);
-          //     return "highlight"; // 하이라이트 처리
-          //   }
-          // }}
-          // tileContent={({ date, view }) => {
-          //   let html = [];
-          // if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-          //   console.log("==> x? " + value);
-          //   html.push(
-          //     <CircleFill style={{ padding: 0, width: "7px", height: "7px" }} />
-          //   );
-          // }
-          // if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-          //   console.log("==> x? " + value);
-          //   html.push(
-          //     <TriangleFill
-          //       style={{
-          //         padding: 0,
-          //         width: "7px",
-          //         height: "7px",
-          //         marginLeft: "4px",
-          //       }}
-          //     />
-          //   );
-          // }
-          //   return (
-          //     <>
-          //       <div className="col-12 px-1 m-0" style={{ height: "16px" }}>
-          //         {html}
-          //       </div>
-          //     </>
-          //   );
-          // }}
+          tileClassName={({ date, view }) => {
+            if (
+              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
+              ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))
+            ) {
+              // console.log("==> x? " + value);
+              return "highlight"; // 하이라이트 처리
+            }
+          }}
+          tileContent={({ date, view }) => {
+            let html = [];
+            if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+              // console.log("==> x? " + value);
+              html.push(
+                <CircleFill
+                  style={{ padding: 0, width: "7px", height: "7px" }}
+                />
+              );
+            }
+            if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+              console.log("==> x? " + value);
+              html.push(
+                <TriangleFill
+                  style={{
+                    padding: 0,
+                    width: "7px",
+                    height: "7px",
+                    marginLeft: "4px",
+                  }}
+                />
+              );
+            }
+            return (
+              <>
+                <div className="col-12 px-1 m-0" style={{ height: "16px" }}>
+                  {html}
+                </div>
+              </>
+            );
+          }}
         />
       </div>
     );
