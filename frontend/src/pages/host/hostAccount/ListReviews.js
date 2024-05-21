@@ -31,12 +31,14 @@ function ListReviews() {
       url = `http://localhost/api/reply/search/reviews/${userIdx}`;
       form.append("sort", sort.current.value);
       form.append("keyword", keyword.current.value);
+      form.append("pageNum", pageNum);
     } else {
       url = `http://localhost/api/reputation/manage/list/${userIdx}`;
       form.append("pageNum", pageNum);
     }
     fetch(url, { method: "post", body: form })
       .then((response) => {
+        // console.log("=> 검색?" + url + ", " + opt + ", " + pageNum+ ", "+sort.current.value+", "+keyword.current.value);
         return response.json();
       })
       .then((data) => {
@@ -47,6 +49,7 @@ function ListReviews() {
         }
         setPaging(data.page);
         setCount(data.count);
+        setOption(data.option);
       });
   }
 
@@ -111,10 +114,10 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={1}>&nbsp;All</option>
-                  <option defaultValue={2}>&nbsp;구분</option>
-                  <option defaultValue={3}>&nbsp;예약번호</option>
-                  <option defaultValue={4}>&nbsp;상태</option>
+                  <option value={"All"}>&nbsp;All</option>
+                  <option value={"ho_name"}>&nbsp;구분</option>
+                  <option value={"o_idx"}>&nbsp;예약번호</option>
+                  <option value={"reply"}>&nbsp;상태</option>
                 </select>
               </div>
             </div>
@@ -192,7 +195,7 @@ function ListReviews() {
                 rv_idx,
                 ho_name,
                 g_name,
-                g_url,
+                g_photo,
                 g_email,
                 rv_date,
                 rv_content,
@@ -206,7 +209,7 @@ function ListReviews() {
                   rv_idx={rv_idx}
                   ho_name={ho_name}
                   g_name={g_name}
-                  g_url={g_url}
+                  g_photo={g_photo}
                   g_email={g_email}
                   rv_date={rv_date}
                   rv_content={rv_content}

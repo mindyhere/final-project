@@ -75,7 +75,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice}) {
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                         <div style={{fontSize:"25px"}}>{HoName}</div>
-                            <div>₩{Dprice} /박</div>
+                            <div>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}/박</div>
                             </Link>           
                     {checkId == 2 
                     ? 

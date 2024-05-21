@@ -105,7 +105,7 @@ function ModifyList() {
                 sum={item.sum}
                 g_email={item.g_email}
                 g_name={item.g_name}
-                g_url={item.g_url}
+                g_photo={item.g_photo}
               />
             ))}
           </Slider>

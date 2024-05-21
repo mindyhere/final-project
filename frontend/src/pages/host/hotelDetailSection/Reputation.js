@@ -84,7 +84,7 @@ function Reputation() {
                 rownum,
                 rv_idx,
                 g_name,
-                g_url,
+                g_photo,
                 l_name,
                 g_email,
                 rv_content,
@@ -97,7 +97,7 @@ function Reputation() {
                   rownum={rownum}
                   rv_idx={rv_idx}
                   g_name={g_name}
-                  g_url={g_url}
+                  g_photo={g_photo}
                   l_name={l_name}
                   g_email={g_email}
                   rv_content={rv_content}

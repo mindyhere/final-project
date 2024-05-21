@@ -68,7 +68,6 @@ public class OrderController {
 	public Map<String, Object> getGuestInfo(@PathVariable(name = "g_idx") int g_idx) {
 		Map<String, Object> data = new HashMap<>();
 		GuestDTO guest = orderDao.getGuestInfo(g_idx);
-//		System.out.println("==> g_url 확인? " + g_url);
 		data.put("guest", guest);
 		return data;
 	}
