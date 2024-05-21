@@ -36,7 +36,7 @@ import CancelReserv from "./pages/guest/cancelReserv";
 import UpdateReserv from "./pages/guest/updateReserv";
 import Notice from "./component/Notice";
 import NoticeDetail from "./component/NoticeDetail";
-
+import Message from "./component/Message";
 import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
 import EditReview from "./pages/guest/EditReview"; // guest:review 수정
 
@@ -62,6 +62,7 @@ import RegistHotel from "./pages/host/hotelManagement/RegistHotel";
 import RegistHotelDetail from "./pages/host/hotelManagement/RegistHotelDetail";
 import EditHotel from "./pages/host/hotelManagement/EditHotel";
 import ManageOrders from "./pages/host/orders/ManageOrders";
+
 
 import WriteReply from "./pages/host/hostAccount/WriteReply";
 import EditReply from "./pages/host/hostAccount/EditReply";
@@ -102,6 +103,7 @@ function App() {
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
           <Route path="/component/Notice" element={<Notice />} />
           <Route path="/component/NoticeDetail" element={<NoticeDetail />} />
+          <Route path="/component/Message" element={<Message />} />
 
           {/* admin 계정 */}
           <Route path="/admin/alogin" element={<Alogin />} />
