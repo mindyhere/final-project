@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar2Week } from "react-bootstrap-icons";
+import { Calendar2Week, Display } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import HotelNavItem from "./HotelNavItem";
@@ -150,26 +150,30 @@ function ManageOrders() {
             <br />
             <div
               className="row mt-0 mb-2"
-              style={{ zIndex: "0", position: "relative", padding: "0" }}
+              style={{
+                zIndex: "0",
+                position: "relative",
+                padding: "0 1% 0 1%",
+              }}
             >
-                <div className="col-3 mt-2 p-0">
-                  <Scheduler
-                    tileContent={tileContent}
-                    style={{
-                      position: "relative",
-                    }}
-                  />
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <div
-                  className="container col m-0 p-1"
+              <div className="col-3 m-0 p-0">
+                <Scheduler
+                  tileContent={tileContent}
                   style={{
-                    width: "800px",
-                    height: "340px",
+                    position: "relative",
                   }}
-                >
-                  <ModifyList />
-                </div>
+                />
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div
+                className="container col m-0 p-1"
+                style={{
+                  width: "800px",
+                  height: "340px",
+                }}
+              >
+                <ModifyList />
+              </div>
             </div>
             <br />
             <br />

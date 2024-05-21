@@ -46,7 +46,7 @@ function RequestItem({
     return (
       <div
         className="container m-0 p-0"
-        style={{ width: "800px", height: "255px" }}
+        style={{ width: "890px", height: "260px" }}
       >
         <table className="tbl" style={{ margin: "0" }}>
           <colgroup>
