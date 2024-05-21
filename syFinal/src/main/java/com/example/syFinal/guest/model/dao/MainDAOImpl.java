@@ -25,6 +25,11 @@ public class MainDAOImpl implements MainDAO {
 		return sqlSession.selectList("main.mainList",search);
 	}
 	
+	@Override
+	public int star(int ho_idx) {
+		return sqlSession.selectOne("main.star", ho_idx);
+	}
+	
 
 	@Override
 	public int check(int ho_idx, int g_idx) {
