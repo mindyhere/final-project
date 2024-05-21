@@ -2,8 +2,7 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Cookies from "universal-cookie";
 
-function HotelItem({HoIdx,HoName, HoImg, check, Dprice}) {
-    const dIdx = 1;
+function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx}) {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
@@ -72,7 +71,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice}) {
         return (
             <div style={{ margin: '5px',paddingLeft: '100px'}}> 
                 <div id="Img" style={{position: 'relative'}}>
-                <Link to={`/host/hotel/hotelDetail/${HoIdx}/${dIdx}`}>
+                <Link to={`/host/hotel/hotelDetail/${HoIdx}/${Didx}`}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
                         <div style={{fontSize:"25px"}}>{HoName}</div>
                             <div>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}/박</div>

@@ -246,7 +246,7 @@ function Order() {
                                 <div>게스트</div>
                                 <div>{reser}명 + 유아 {baby}명</div>
                                 <hr/>
-                                <h4>결제수단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style={{width: '30px', height:'30px'}} src='/img/nice.jpg'></img>&nbsp;<img style={{width: '60px', height:'30px'}} src='/img/kakaopay.png'></img></h4>
+                                <h4>결제수단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style={{width: '28px', height:'28px'}} src='/img/nice.jpg'></img>&nbsp;<img style={{width: '55px', height:'28px'}} src='/img/kakaopay.png'></img></h4>
                                 <br/>
                                 <select value={pay} className="form-select" aria-label="Default select example" onChange={onSelect}>
                                     <option value="1">Card</option>

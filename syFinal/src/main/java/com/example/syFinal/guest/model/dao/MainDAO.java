@@ -8,6 +8,7 @@ import com.example.syFinal.guest.model.dto.MainDTO;
 
 public interface MainDAO {
 	List<MainDTO> list(String search);
+	int star(int ho_idx);
 
 	int check(int ho_idx, int g_idx);
 	

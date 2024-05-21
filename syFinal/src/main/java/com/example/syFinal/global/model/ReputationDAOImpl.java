@@ -22,12 +22,7 @@ public class ReputationDAOImpl implements ReputationDAO {
 	@Override
 	public List<Map<String, Object>> getHotelReviews(int ho_idx) {
 		// hotel 별 리뷰글 목록
-		List<Map<String, Object>> list = null;
-		try {
-			list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Map<String, Object>> list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
 		return list;
 	}
 
@@ -42,6 +37,7 @@ public class ReputationDAOImpl implements ReputationDAO {
 		// 호텔별 평점계산
 		float result = sqlSession.selectOne("reputation.calcAvgRate", ho_idx);
 		String avg = String.format("%.2f", result);
+		System.out.println("==> avg평균? " + result + ", " + avg);
 		return avg;
 	}
 

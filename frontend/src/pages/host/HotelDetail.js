@@ -205,7 +205,7 @@ function HotelDetail() {
                                                     <h5>후기</h5>
                                                 </div>
                                                 <span>
-                                                    {review.list.length} 개
+                                                    {review.list!=null ? review.list.length : 0} 개
                                                 </span>
                                             </div>
                                         </div>

@@ -63,7 +63,7 @@ function OrderDetail(order_idx) {
             &nbsp;DETAIL
           </h3>
           <hr />
-          <div className="card-style" style={{ maxHeight: "300px" }}>
+          <div className="card-style mb-3" style={{ maxHeight: "300px" }}>
             <div className="row mb-20">
               <div className="col-3">
                 <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
@@ -79,7 +79,7 @@ function OrderDetail(order_idx) {
               </div>
             </div>
           </div>
-          <div className="card-style">
+          <div className="card-style mb-3">
             <div className="row" style={{ textAlign: "left" }}>
               <h4>Reservation Deatil</h4>
             </div>
