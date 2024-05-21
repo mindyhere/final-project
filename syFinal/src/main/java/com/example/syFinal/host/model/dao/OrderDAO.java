@@ -6,8 +6,11 @@ import java.util.Map;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 
 public interface OrderDAO {
-	// 예약 확정(예약 업데이트 및 호스트 레벨 체크 프로시저 호출)
-	void confirm(Map<String, Object> param);
+	// 체크인 완료(o_state 업데이트 및 호스트, 게스트 레벨 체크 프로시저 호출)
+	void confirm(Map<String, Object> params);
+
+	// 예약확정(o_state 업데이트)
+	void update(int o_idx);
 
 	// orders 목록 가져오기
 	List<Map<String, Object>> getList(Map<String, Object> map);
@@ -35,4 +38,6 @@ public interface OrderDAO {
 	// 예약 변경요청 거부 처리
 	void requestReject(int o_idx);
 
+	// 체크인, 체크아웃 스케쥴
+	List<Map<String, String>> schedule(int h_idx, String column);
 }

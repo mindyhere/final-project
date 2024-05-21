@@ -72,6 +72,7 @@ public class OrderController {
 		return data;
 	}
 
+	@Transactional
 	@PostMapping("manage/confirm/{o_idx}")
 	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx,
 			@RequestParam Map<String, Object> params) {
@@ -89,20 +90,18 @@ public class OrderController {
 		return data;
 	}
 
-	@PostMapping("manage/cancel/{o_idx}")
-	public Map<String, Object> cancel(@PathVariable(name = "o_idx") int o_idx,
-			@RequestParam Map<String, Object> params) {
+	@Transactional
+	@GetMapping("manage/update/{o_idx}")
+	public Map<String, Object> update(@PathVariable(name = "o_idx") int o_idx) {
 		Map<String, Object> data = new HashMap<>();
-		orderDao.confirm(params);
-		if ((int) params.get("result") == 1) {
-			int result = orderDao.guestLevelUpate(params);
-			params.replace("result", result);
-			data.put("level", params.get("level"));
+		try {
+			orderDao.update(o_idx);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} else {
+		} catch (Exception e) {
+			e.printStackTrace();
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
+		System.out.println("==> 업데이트결과 ?" + data);
 		return data;
 	}
 
@@ -144,6 +143,31 @@ public class OrderController {
 	@GetMapping("manage/reject/{o_idx}")
 	public void requestReject(@PathVariable(name = "o_idx") int o_idx) {
 		orderDao.requestReject(o_idx);
+	}
+
+	@GetMapping("manage/schedule/{userIdx}")
+	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("ho_idx", -1);
+		int cnt = orderDao.countRecord(map);
+
+		Map<String, Object> data = new HashMap<>();
+		if (cnt == 0) {
+			data.put("count", cnt);
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			List<Map<String, String>> list = orderDao.schedule(h_idx, column);
+			data.put("list", list);
+			data.put("count", cnt);
+			data.put("column", column);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
+		return data;
+
 	}
 
 }
