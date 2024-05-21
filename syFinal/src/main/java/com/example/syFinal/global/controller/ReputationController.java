@@ -25,17 +25,19 @@ public class ReputationController {
 
 	@GetMapping("list/{HoIdx}")
 	public Map<String, Object> getHotelReviews(@PathVariable(name = "HoIdx") int ho_idx) {
-//		System.out.println("==> ho_idx? " + ho_idx);
-		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
 		Map<String, Object> data = new HashMap<>();
-		if (list == null) {
+		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
+		if (list.isEmpty()) {
+			System.out.println("=> 널체크11 " + list.isEmpty());
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
 			data.put("list", list);
 			data.put("avg", reputationDao.calcAvgRate(ho_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+			System.out.println("=> 널체크22 " + list.isEmpty());
 		}
-//		System.out.println("==> data? " + data);
+		System.out.println("==> 호텔리뷰? " + list == null + ", HoIdx? " + ho_idx);
+		System.out.println("==> data? " + data);
 		return data;
 	}
 
