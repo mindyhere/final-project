@@ -11,7 +11,6 @@ function useFetch(url) {
             return response.json();
         })
         .then(data => {
-            console.log( " !!!!!!!" + JSON.stringify(data));
             setData(data);
             setLoading(false);
         })

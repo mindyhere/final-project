@@ -205,6 +205,7 @@ textarea::placeholder {
 .page-item li,
 a {
 	color: black !important;
+	text-Decoration: none;
 }
 
 /* 라디오버튼 */

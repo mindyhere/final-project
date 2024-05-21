@@ -20,7 +20,7 @@ public class MainDTO {
 	private String d_img2;
 	private String d_img3;
 	
-	private String rv_star;
+	private double star;
 	
 	private int w_idx; 
 	private int d_idx;

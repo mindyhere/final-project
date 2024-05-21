@@ -65,13 +65,14 @@ function Main() {
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
       {list.map(
-                ({HoName,HoImg,HoIdx,check,Dprice,Didx})=>(
+                ({HoName,HoImg,HoIdx,check,Dprice,Didx,Dimg1,Dimg2,Dimg3,Star})=>(
                     <HotelItem
+                      HoImg={HoImg}
                       HoIdx={HoIdx}
                       Didx={Didx}
                       HoName={HoName}
-                      HoImg={HoImg}
                       Dprice={Dprice}
+                      Star={Star}
                       key={HoIdx}
                       check={check}
                           //싱글가격

@@ -31,7 +31,7 @@ function Profile() {
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
     const [data1,loading1]=useFetch('http://localhost/guest/reviewcount?g_idx='+idx.key);
     const [data2,loading2]=useFetch('http://localhost/guest/joindate?g_idx='+idx.key);
-
+    
     const [reviewlist,setReviewList] = useState([]);
     const [replylist,setReplyList] = useState([]);
 
@@ -98,6 +98,15 @@ if(loading||loading1||loading2){
       image_url=`<img class='profile-img' src=${src} width='120px' height='120px' style={{backgroundSize:"contain";}}/>`; 
     }
 
+    console.log(data.dto.g_level);
+    let level = '';
+    if (data.dto.g_level === 1) {
+        level = 'regular';
+    } else if (data.dto.g_level === 2) {
+        level = 'super';
+    } else if (data.dto.g_level === 3) {
+        level = 'VIP';
+    }
  return (
     <>
         <div className="container" align='center' style={{position: 'static'}}>
@@ -113,7 +122,7 @@ if(loading||loading1||loading2){
                                             <div class="col" style={{ lineHeight: '2.1'}}>
                                             <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
                                             <h4>{data.dto.g_name}</h4>
-                                            <div>게스트</div>
+                                            <div>{level}게스트</div>
                                             </div>
                                             <div class="col">
                                             <h5>후기</h5>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.guest.model.dao.GuestDAO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
+import com.example.syFinal.guest.model.dto.CouponDTO;
 import com.example.syFinal.guest.model.dto.MainDTO;
 import com.example.syFinal.guest.model.dto.ReviewDTO;
 import com.example.syFinal.host.model.dao.HotelDAO;
@@ -70,6 +71,27 @@ public class GuestController {
 		//System.out.println("결제리스트====" + paylist);
 		
 		return paylist;
+	}
+	
+	@RequestMapping("/guest/coupon")
+	public List<Map<String, Object>> couponlist(@RequestParam(name="g_idx") int g_idx) {
+		List<CouponDTO> coupon = dao.couponlist(g_idx);
+		List<Map<String, Object>> couponlist = new ArrayList<>();
+		for(int i=0; i<coupon.size(); i++) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("Cnum", coupon.get(i).getC_num());
+			map.put("Cname", coupon.get(i).getC_name());
+			map.put("Cdiv", coupon.get(i).getC_div());
+			map.put("Cbenefit", coupon.get(i).getC_benefit());
+			map.put("Gcidx", coupon.get(i).getGc_idx());
+			map.put("Gcgidx", coupon.get(i).getGc_gidx());
+			map.put("Gccheck", coupon.get(i).getGc_check());
+			map.put("Gcissue", coupon.get(i).getGc_issue());
+			map.put("Gcdeadline", coupon.get(i).getGc_deadline());
+			map.put("c_count", coupon);
+			couponlist.add(map);
+		}
+		return couponlist;
 	}
 	
 	//예약요청

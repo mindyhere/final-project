@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="guest">
 	
+	<!-- 게스트정보 -->
 	<select id="myguest" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
 		select 
 		g_idx,
@@ -20,6 +21,7 @@
 		where g_idx=#{g_idx}
 	</select>
 	
+	<!-- 결제리스트 -->
 	<select id="paylist" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
 		SELECT 
 		g_idx,
@@ -34,6 +36,12 @@
 		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx 
 		and g_idx=#{g_idx}
 		order BY o_orderdate
+	</select>
+	
+	<select id="couponlist" resultType="com.example.syFinal.guest.model.dto.CouponDTO">
+		SELECT c_num,c_name,c_div,c_benefit,gc_idx,gc_gidx,gc_check,gc_issue,gc_deadline
+		FROM coupon c,g_coupon gc 
+		WHERE c.c_num=gc.gc_num AND gc_gidx=#{g_idx}
 	</select>
 	
 	<update id="cardupdate">

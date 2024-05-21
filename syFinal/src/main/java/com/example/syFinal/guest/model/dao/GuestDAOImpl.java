@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.guest.model.dto.CouponDTO;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.guest.model.dto.ReviewDTO;
 
@@ -24,6 +25,11 @@ public class GuestDAOImpl implements GuestDAO {
 	@Override
 	public List<GuestDTO> paylist(int g_idx) {
 		return sqlSession.selectList("guest.paylist", g_idx);
+	}
+	
+	@Override
+	public List<CouponDTO> couponlist(int g_idx) {
+		return sqlSession.selectList("guest.couponlist", g_idx);
 	}
 	
 	@Override
