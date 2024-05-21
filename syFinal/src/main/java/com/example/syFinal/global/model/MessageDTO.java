@@ -19,4 +19,7 @@ public class MessageDTO {
 	private int m_g_idx;
 	private String m_message;
 	private Set<WebSocketSession> sessions = new HashSet<>();
+	private String h_name;
+	private String h_profile;
+	private String m_send_date;
 }

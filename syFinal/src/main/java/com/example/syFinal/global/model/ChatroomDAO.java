@@ -12,5 +12,7 @@ public interface ChatroomDAO {
 	List<MessageDTO> g_list(int g_idx);
 
 	List<MessageDTO> h_list(int h_idx);
+
+	MessageDTO last_message(int g_idx, int m_h_idx);
 	
 }

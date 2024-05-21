@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react';
 import Cookies from "universal-cookie";
 import { useParams } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
+import '../pages/guest/aa.css'
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -14,7 +15,6 @@ function useFetch(url) {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             setData(data);
             setLoading(false);
         })
@@ -26,7 +26,6 @@ function Message() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gIdx = cookies.get("g_idx");
-    
 
     let u_rl = '';
     if (gIdx.key !== null) {
@@ -37,12 +36,21 @@ function Message() {
     }
 
     const [data, loading] = useFetch(u_rl);
+
     
     if(loading) {
         return (
             <div>loading</div>
         )
     } else {
+        let img = '';
+        const pro = data.dto.h_profile;
+        console.log(data.dto.h_profile);
+        const profile = `http://localhost/static/images/host/profile/${data.dto.h_profile}`;
+        if ( data.dto.h_profile != null) {
+            img = `<img src=${profile} width='30px' height='30px' /><br />`;
+        }
+
         return (
             <>
             <div className="container min-vh-100">
@@ -51,10 +59,13 @@ function Message() {
             <br/>
             <div className="card-stylee mb-30" style={{width: '300px'}}>
                 {data.dto.map((item) => (
-                    <div className='hover'>
-                    <p>{item.m_message}</p>
+                    <div className='mes'>
+                    <div style={{float: 'left', marginRight: '10px'}}><span dangerouslySetInnerHTML={{__html: `<img src=${item.h_profile} width='30px' height='30px' /><br />`}}></span></div>
+                    <p style={{fontSize: '20px'}}>{item.h_name}<span style={{float:'right', fontSize: '13px'}}>{item.m_send_date}</span></p> 
+                    <p style={{fontSize: '15px', color: 'grey'}}>{item.m_message}</p>
                     <hr/>
                    </div>
+                   
                 ))}
             </div>
             </div>
