@@ -23,6 +23,11 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
+	public void update(int o_idx) {
+		sqlSession.update("order.update", o_idx);
+	}
+
+	@Override
 	public List<Map<String, Object>> getList(Map<String, Object> map) {
 		List<Map<String, Object>> list = null;
 		try {
@@ -41,6 +46,9 @@ public class OrderDAOImpl implements OrderDAO {
 						break;
 					case "3":
 						m.put("status", "예약확정");
+						break;
+					case "4":
+						m.put("status", "체크인완료");
 						break;
 					}
 					// 금액 1000단위 포맷

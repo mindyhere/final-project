@@ -89,20 +89,18 @@ public class OrderController {
 		return data;
 	}
 
-	@PostMapping("manage/cancel/{o_idx}")
-	public Map<String, Object> cancel(@PathVariable(name = "o_idx") int o_idx,
-			@RequestParam Map<String, Object> params) {
+	@Transactional
+	@GetMapping("manage/update/{o_idx}")
+	public Map<String, Object> update(@PathVariable(name = "o_idx") int o_idx) {
 		Map<String, Object> data = new HashMap<>();
-		orderDao.confirm(params);
-		if ((int) params.get("result") == 1) {
-			int result = orderDao.guestLevelUpate(params);
-			params.replace("result", result);
-			data.put("level", params.get("level"));
+		try {
+			orderDao.update(o_idx);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} else {
+		} catch (Exception e) {
+			e.printStackTrace();
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
+		System.out.println("==> 업데이트결과 ?" + data);
 		return data;
 	}
 

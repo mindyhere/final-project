@@ -31,10 +31,6 @@ function OrderDetail(order_idx) {
   const userIdx = userInfo.h_idx;
   const userEmail = userInfo.h_email;
   const [rdo, setRadio] = useState(dataset.o_state);
-  const [disabled, isDisabled] = useState(false);
-  const [check, setCheck] = useState(false);
-  // console.log(JSON.stringify(dataset));
-  // console.log(order_idx);
   const moment = require("moment");
   const today = moment().format("YYYY-MM-DD");
 
@@ -398,19 +394,8 @@ function OrderDetail(order_idx) {
                             if (!response.ok) {
                               throw new Error("false: " + response.status);
                             }
-                            const form = new FormData();
-                            form.append("opt", 1);
-                            form.append("oidx", dataset.o_idx);
-                            form.append("hidx", userIdx);
-                            form.append("idx", dataset.g_idx);
-                            console.log("==> form?" + JSON.stringify(form));
-
                             return fetch(
-                              `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
-                              {
-                                method: "post",
-                                body: form,
-                              }
+                              `http://localhost/api/order/manage/update/${dataset.o_idx}`
                             ).then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);

@@ -78,6 +78,12 @@ from
 }
 </select>
 
+<update id="update">
+update orders
+set o_state='3' 
+where o_idx=#{o_idx}
+</update>
+
 <select id="levelUp" statementType="CALLABLE">
 {	call level_up(#{idx}) }
 </select>
