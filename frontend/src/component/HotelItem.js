@@ -16,7 +16,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx}) {
         const form = new FormData();
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
-        if (check === 1) {
+        if (checkId === 1) {
             fetch('http://localhost/guest/wish/wishDelete', {
                 method: 'post',
                 body: form,
