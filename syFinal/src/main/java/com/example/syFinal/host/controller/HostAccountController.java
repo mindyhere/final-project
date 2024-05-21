@@ -85,8 +85,8 @@ public class HostAccountController {
 		map.put("h_profile", h_profile);
 		if (file != null && !file.isEmpty()) {
 			try {
-				file.transferTo(new File(path + h_file));
 				h_file = file.getOriginalFilename();
+				file.transferTo(new File(path + h_file));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -94,8 +94,8 @@ public class HostAccountController {
 		map.put("h_file", h_file);
 		if (bankbook != null && !bankbook.isEmpty()) {
 			try {
-				bankbook.transferTo(new File(path + h_bankbook));
 				h_bankbook = bankbook.getOriginalFilename();
+				bankbook.transferTo(new File(path + h_bankbook));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -8,9 +8,9 @@ function HostJoin() {
   const pwd = useRef();
   const pwdChk = useRef();
   const h_name = useRef();
-  const [phoneNum, setPhoneNum] = useState("");
+  const [phone, setPhoneNum] = useState("");
   const h_phone = useRef();
-  const [businessNum, setBusinessNum] = useState("");
+  const [business, setBusinessNum] = useState("");
   const h_business = useRef();
   const h_accountnum = useRef();
   const profile = useRef();
@@ -161,10 +161,11 @@ function HostJoin() {
                   <input
                     className="form-control"
                     type="text"
+                    maxLength={13}
                     onChange={(e) => {
                       handleChange(e.target.value, "phone");
                     }}
-                    value={phoneNum}
+                    value={phone}
                     ref={h_phone}
                     placeholder="숫자만 입력하세요"
                   />
@@ -176,10 +177,11 @@ function HostJoin() {
                   <input
                     className="form-control"
                     type="text"
+                    maxLength={10}
                     onChange={(e) => {
                       handleChange(e.target.value, "business");
                     }}
-                    value={businessNum}
+                    value={business}
                     ref={h_business}
                     placeholder="숫자만 입력하세요"
                   />
@@ -283,29 +285,38 @@ function HostJoin() {
                   });
                   return;
                 }
-                if (h_phone.current.value == "") {
+                if (
+                  h_phone.current.value == "" ||
+                  h_phone.current.value.length < 13
+                ) {
                   Swal.fire({
                     icon: "warning",
                     title: "잠깐!",
-                    html: "전화번호를 입력하세요.",
+                    html: "전화번호를 확인해주세요.",
                     confirmButtonText: "OK",
                   });
                   return;
                 }
-                if (h_business.current.value == "") {
+                if (
+                  h_business.current.value == "" ||
+                  h_business.current.value.length < 10
+                ) {
                   Swal.fire({
                     icon: "warning",
                     title: "잠깐!",
-                    html: "사업자번호를 입력하세요.",
+                    html: "사업자번호를 확인해주세요.",
                     confirmButtonText: "OK",
                   });
                   return;
                 }
-                if (h_accountnum.current.value == "") {
+                if (
+                  h_accountnum.current.value == "" ||
+                  h_accountnum.current.value.length < 10
+                ) {
                   Swal.fire({
                     icon: "warning",
                     title: "잠깐!",
-                    html: "계좌번호를 입력하세요.",
+                    html: "계좌번호를 확인해주세요.",
                     confirmButtonText: "OK",
                   });
                   return;
