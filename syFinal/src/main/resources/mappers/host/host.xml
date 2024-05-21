@@ -3,8 +3,8 @@
 <mapper namespace="host">
 <!-- 회원가입 -->
 <insert id="insert">
-insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_profile, h_file, h_description) 
-values (#{userEmail}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, #{h_profile}, #{h_file}, #{h_description})
+insert into host (h_email, h_passwd, h_name, h_phone, h_business, h_profile, h_file, h_description, h_accountnum, h_bankbook) 
+values (#{userEmail}, #{pwd}, #{h_name}, #{h_phone}, #{h_business}, #{h_profile}, #{h_file}, #{h_description}, #{h_accountnum}, #{h_bankbook})
 </insert>
 
 <!-- 비밀번호 확인 -->
@@ -30,7 +30,7 @@ select
 	h_idx, h_email, h_name, h_phone, h_business, 
 	h_level,
 	l_name,
-	h_status, h_regdate, h_profile, h_file, h_description
+	h_status, h_regdate, h_profile, h_file, h_description, h_accountnum, h_bankbook
 from host h, level l
 where h_idx=#{h_idx} 
 	AND h.h_level=l.l_level;
@@ -63,7 +63,9 @@ update host
 	<if test="h_phone != '' or h_phone != null">h_phone = #{h_phone},</if>
 	<if test="h_profile != '' or h_profile != null">h_profile = #{h_profile},</if>
 	<if test="h_file != '' or h_file != null">h_file = #{h_file},</if>
-	<if test="h_description != '' or h_description != null">h_description = #{h_description}</if>
+	<if test="h_description != '' or h_description != null">h_description = #{h_description},</if>
+	<if test="h_accountnum != '' or h_accountnum != null">h_accountnum = #{h_accountnum},</if>
+	<if test="h_bankbook != '' or h_bankbook != null">h_bankbook = #{h_bankbook}</if>
 </trim>
 where h_idx=#{h_idx}
 </update>
