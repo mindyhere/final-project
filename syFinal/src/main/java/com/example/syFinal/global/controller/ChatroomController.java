@@ -26,7 +26,21 @@ public class ChatroomController {
 	@RequestMapping("g_list")
 	@ResponseBody
 	public Map<String, Object> g_list(@RequestParam(name = "g_idx") int g_idx) {
-		List<MessageDTO> dto = dao.g_list(g_idx);	
+		List<MessageDTO> dto = dao.g_list(g_idx);		
+		for (int i=0; i<dto.size(); i++) {
+			String pro = "http://localhost/static/images/host/profile/"+dto.get(i).getH_profile();
+			dto.get(i).setH_profile(pro);
+			MessageDTO date_msg = dao.last_message(g_idx, dto.get(i).getM_h_idx());
+			String msg = date_msg.getM_message();
+			if (msg.length() > 17) {
+				msg = msg.substring(0, 16)+"...";
+			}
+			dto.get(i).setM_message(msg);
+			String date = date_msg.getM_send_date();
+			date = date.substring(5);
+			date = date.replace('-', '.');
+			dto.get(i).setM_send_date(date);	
+		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
 		return map;

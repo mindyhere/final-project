@@ -23,7 +23,14 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 	public List<MessageDTO> h_list(int h_idx) {
 		return sqlSession.selectList("message.h_list", h_idx);
 	}
-
+	
+	@Override
+	public MessageDTO last_message(int g_idx, int m_h_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", m_h_idx);
+		map.put("g_idx", g_idx);
+		return sqlSession.selectOne("message.last_message", map);
+	}
 
 	@Override
 	public String create(String room, int g_idx, int h_idx, String message) {
