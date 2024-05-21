@@ -48,8 +48,8 @@ function OrderDetail(order_idx) {
   } else {
     let guest = data.guest;
     let profile_src = "";
-    if (guest.g_url !== "-") {
-      const img_url = `http://localhost/static/images/guest/profile/${guest.g_url}`;
+    if (guest.g_photo !== "-") {
+      const img_url = `http://localhost/static/images/guest/photo/${guest.g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =

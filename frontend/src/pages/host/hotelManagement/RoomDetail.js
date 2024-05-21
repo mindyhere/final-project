@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 function useFetch(url) {
   const [data, setData] = useState(null);
@@ -36,10 +37,10 @@ function RoomDetail(props) {
     let image1='';
     if (props.img1 == '-') {
       src1='/img/image_no.png';
-      image1=`<img src=${src1} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
+      image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src1=`http://localhost/static/images/host/hotel/${props.img1}`;
-      image1=`<img src=${src1} width='80px' height='80px' style={{backgroundSize:"contain";}}/>`;
+      image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
 
 
@@ -47,20 +48,20 @@ function RoomDetail(props) {
     let image2='';
     if (props.img2 == '-') {
       src2='/img/image_no.png';
-      image2=`<img src=${src2} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
+      image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src2=`http://localhost/static/images/host/hotel/${props.img2}`;
-      image2=`<img src=${src2} width='80px' height='80px' style={{backgroundSize:"contain";}}/>`;
+      image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
 
     let src3='';
     let image3='';
     if (props.img3 == '-') {
       src3='/img/image_no.png';
-      image3=`<img src=${src3} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
+      image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src3=`http://localhost/static/images/host/hotel/${props.img3}`;
-      image3=`<img src=${src3} width='80px' height='80px' style={{backgroundSize:"contain";}}/>`;
+      image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
     return (
       <>
@@ -88,7 +89,9 @@ function RoomDetail(props) {
                 <tbody>
                   <tr>
                     <th colSpan={1}>수용 인원</th>
-                    <td colSpan={1}>&nbsp;&nbsp;{props.capacity}명</td>
+                    <td colSpan={1}>
+                      <input style={{border:'none'}} defaultValue={props.capacity} />명
+                    </td>
                     <th colSpan={1} style={{ width: "25%" }}>
                       객실 면적
                     </th>
@@ -115,58 +118,16 @@ function RoomDetail(props) {
             </div>
           </div>
           <div className="mb-30" style={{ textAlign: "center" }}>
-            {/* {roomData.d_area == "2" ? null : (
               <button className="main-btn"
-               // disabled={rdo == "2" ? false : true}
-                // style={
-                //   rdo == "2"
-                //     ? { cursor: "pointer", backgroundColor: "#C6C7C8" }
-                //     : { cursor: "auto", backgroundColor: "#C6C7C8" }
-                // }
                 onClick={() => {
                   Swal.fire({
                     icon: "warning",
                     title: "잠깐!",
+                    text: '호텔 기본정보를 수정하시겠습니까?',
                     showCancelButton: true,
                     cancelButtonText: "CANCEL",
                     confirmButtonText: "CONFIRM",
                     showLoaderOnConfirm: true,
-                    preConfirm: (pwd) => {
-                      return fetch(
-                       // `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
-                      )
-                        .then((response) => {
-                          if (!response.ok) {
-                            throw new Error("false: " + response.status);
-                          }
-                          const form = new FormData();
-                          form.append("opt", 0);
-                          form.append("oidx", roomData.o_idx);
-                         // form.append("hidx", userIdx);
-                          form.append("idx", roomData.g_idx);
-                          console.log("==> form?" + JSON.stringify(form));
-
-                          return fetch(
-                            // `http://localhost/api/order/manage/cancel/${roomData.o_idx}`,
-                            {
-                              method: "post",
-                              body: form,
-                            }
-                          ).then((response) => {
-                            if (!response.ok) {
-                              throw new Error("false: " + response.status);
-                            }
-                            return response.text();
-                          });
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                          Swal.showValidationMessage(
-                            `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
-                          );
-                        });
-                    },
-                    allowOutsideClick: () => !Swal.isLoading(),
                   }).then((result) => {
                     if (result.isConfirmed) {
                       console.log(result.value);
@@ -186,7 +147,7 @@ function RoomDetail(props) {
               >
                 &nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;
               </button>
-            )} */}
+           
           </div>
         </div>
       </>

@@ -110,7 +110,7 @@ function TotalReputation({ list, avg, HoIdx }) {
             ({
               rv_idx,
               g_name,
-              g_url,
+              g_photo,
               l_name,
               g_email,
               rv_content,
@@ -122,7 +122,7 @@ function TotalReputation({ list, avg, HoIdx }) {
                 opt={2}
                 rv_idx={rv_idx}
                 g_name={g_name}
-                g_url={g_url}
+                g_photo={g_photo}
                 l_name={l_name}
                 g_email={g_email}
                 rv_content={rv_content}

@@ -5,7 +5,7 @@
 		SELECT ho_idx, ho_name, ho_img,d_price,d_img1,d_img2,d_img3
 		FROM hotel h, hotel_detail d
 		WHERE ho_name like CONCAT('%',#{search},'%')
-		and h.ho_idx = d.d_ho_idx AND d_room_type='싱글룸'
+		and h.ho_idx = d.d_ho_idx AND d.d_room_type='싱글룸'
 		order BY ho_name
 		
 	</select>

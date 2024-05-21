@@ -5,7 +5,7 @@ function ReviewItem({
   rv_idx,
   ho_name,
   g_name,
-  g_url,
+  g_photo,
   g_email,
   rv_date,
   rv_content,
@@ -32,7 +32,7 @@ function ReviewItem({
     rv_idx: `${rv_idx}`,
     ho_name: `${ho_name}`,
     g_name: `${g_name}`,
-    g_url: `${g_url}`,
+    g_photo: `${g_photo}`,
     g_email: `${g_email}`,
     rv_date: `${rv_date}`,
     rv_content: `${rv_content}`,
@@ -47,7 +47,7 @@ function ReviewItem({
     rv_idx: `${rv_idx}`,
     ho_name: `${ho_name}`,
     g_name: `${g_name}`,
-    g_url: `${g_url}`,
+    g_photo: `${g_photo}`,
     g_email: `${g_email}`,
     rv_date: `${rv_date}`,
     rv_content: `${rv_content}`,
@@ -62,14 +62,14 @@ function ReviewItem({
       popup = window.open(
         `../../../host/account/manage/review`,
         "name(Write)",
-        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+        "width=500,height=700,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     } else {
       console.log("==> opt?" + opt);
       popup = window.open(
         `../../../host/account/manage/reply`,
         "name(Edit)",
-        "width=500,height=800,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+        "width=500,height=700,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     }
     return popup;

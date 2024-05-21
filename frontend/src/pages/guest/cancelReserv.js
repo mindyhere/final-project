@@ -37,7 +37,7 @@ function CancelReserv() {
         const url = `http://localhost/static/images/host/hotel/${data.dto.ho_img}`;
         const image = data.dto.ho_img;
         let img = '';
-        if ( image != null) {
+        if ( image !== null) {
             img = `<img src=${url} width='50px' height='50px' /><br />`;
         }
         return (
@@ -71,12 +71,13 @@ function CancelReserv() {
                     const form = new FormData();
                     form.append('o_idx', OIdx);
                     form.append('g_idx', idx.key);
-                    fetch('http://localhost/guest/reserv/cancel', {
+                    form.append('paymentId',data.dto.paymentId);
+                    fetch('http://localhost/paycancel', {
                         method: 'post',
                         body: form,
                         }).then((response) => response.json())
                     .then(data => {
-                        if (data.result == 'success') {
+                        if (data.result === 'success') {
                             Swal.fire({
                                 title: '취소 완료',
                                 test: '예약 목록 화면으로 돌아갑니다',
