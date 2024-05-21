@@ -19,9 +19,9 @@ function Reputation() {
         return response.json();
       })
       .then((data) => {
-        // console.log("==> 리뷰 data? " + JSON.stringify(data));
-        setReviews(data.list);
-        setAvg(data.avg);
+        console.log("==> 리뷰 data? " + JSON.stringify(data));
+        if (data.list != null) setReviews(data.list);
+        if (data.avg != null) setAvg(data.avg);
       });
   }
 
