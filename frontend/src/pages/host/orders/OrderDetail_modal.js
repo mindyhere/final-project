@@ -474,14 +474,14 @@ function OrderDetail(order_idx) {
                               throw new Error("false: " + response.status);
                             }
                             const form = new FormData();
-                            form.append("opt", 0);
+                            form.append("opt", 1); // 예약확정 & 게스트레벨업
                             form.append("oidx", dataset.o_idx);
                             form.append("hidx", userIdx);
                             form.append("idx", dataset.g_idx);
                             console.log("==> form?" + JSON.stringify(form));
 
                             return fetch(
-                              `http://localhost/api/order/manage/cancel/${dataset.o_idx}`,
+                              `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
                               {
                                 method: "post",
                                 body: form,

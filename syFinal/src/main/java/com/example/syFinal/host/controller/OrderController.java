@@ -72,6 +72,7 @@ public class OrderController {
 		return data;
 	}
 
+	@Transactional
 	@PostMapping("manage/confirm/{o_idx}")
 	public Map<String, Object> confirm(@PathVariable(name = "o_idx") int o_idx,
 			@RequestParam Map<String, Object> params) {
