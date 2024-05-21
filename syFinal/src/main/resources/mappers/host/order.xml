@@ -24,13 +24,16 @@ from
 	<when test="ho_idx == 0"> <!-- 최초접속 -->
 		where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
 	</when>
+	<when test="ho_idx == -1"> <!-- 호스트 계정 당 전체 목록 -->
+		where ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+	</when>
 	<otherwise> <!-- 호텔 선택조회 -->
 		where ho_idx = #{ho_idx}
 	</otherwise>
 </choose>
 </select>
 
-<select id="ckinDates" resultType="java.util.Map">
+<!-- <select id="ckinDates" resultType="java.util.Map">
 	select distinct o_ckin
 	from v_host_order v
 	where 
@@ -46,7 +49,7 @@ from
 		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
 		and o_state='3'
 	order by o_ckout;
-</select>
+</select> -->
 
 <select id="countAll" resultType="int">
 	select count(*) from v_host_order
@@ -84,13 +87,13 @@ from
 </select>
 
 <!-- 체크인 날짜 배열 -->
-<select id="" resultType="java.util.Map">
-	select distinct o_idx, o_ckin
-	from orders, hotel, hotel_detail
-	where o_didx in 
-		(select d_idx from hotel_detail 
-			where d_ho_idx in (select ho_idx from hotel where ho_h_idx=6))
-	order byo_ckin;
+<select id="schedule" resultType="java.util.Map">
+select distinct ${column}
+	from v_host_order v
+	where 
+		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		and o_state='3'
+	order by ${column};
 </select>
 
 <!-- 예약수정 요청 목록 -->

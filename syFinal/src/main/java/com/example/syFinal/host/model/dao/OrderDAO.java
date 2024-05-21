@@ -35,4 +35,6 @@ public interface OrderDAO {
 	// 예약 변경요청 거부 처리
 	void requestReject(int o_idx);
 
+	// 체크인, 체크아웃 스케쥴
+	List<Map<String, Object>> schedule(int h_idx, String column);
 }

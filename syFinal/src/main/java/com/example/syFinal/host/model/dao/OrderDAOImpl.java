@@ -1,6 +1,7 @@
 package com.example.syFinal.host.model.dao;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -144,6 +145,15 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void requestReject(int o_idx) {
 		sqlSession.selectOne("order.requestReject", o_idx);
+	}
+
+	@Override
+	public List<Map<String, Object>> schedule(int h_idx, String column) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("column", column);
+		List<Map<String, Object>> list = sqlSession.selectList("order.schedule", map);
+		return list;
 	}
 
 }

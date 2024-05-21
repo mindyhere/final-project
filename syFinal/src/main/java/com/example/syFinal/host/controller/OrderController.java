@@ -146,4 +146,22 @@ public class OrderController {
 		orderDao.requestReject(o_idx);
 	}
 
+	@GetMapping("manage/schedule/{userIdx}")
+	public List<Map<String, Object>> getOrderList(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("ho_idx", -1);
+		int cnt = orderDao.countRecord(map);
+//		System.out.println("=> 개수? " + cnt);
+		if (cnt == 0) {
+			return null;
+		} else {
+			List<Map<String, Object>> list = orderDao.schedule(h_idx, column);
+			System.out.println("==> 리턴? 카운트= " + cnt + ", 목록=  " + list);
+			return list;
+		}
+	}
+
 }
