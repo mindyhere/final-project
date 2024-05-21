@@ -79,15 +79,23 @@ function CancelReserv() {
                     .then(data => {
                         if (data.result === 'success') {
                             Swal.fire({
-                                title: '취소 완료',
-                                test: '예약 목록 화면으로 돌아갑니다',
-                                showCancelButton: false,
+                                title: '예약을 취소하시겠습니까?',
+                                text: '예약 목록 화면으로 돌아갑니다',
                                 confirmButtonText: '확인',
-                            }).then((result) => {
+                                showCancelButton: true
+                              }).then((result)=>{
                                 if(result.isConfirmed) {
-                                    window.location.href='/guest/reservation';
+                                  Swal.fire({
+                                    icon : 'success',
+                                    text: '환불처리완료',
+                                    confirmButtonText: '확인'
+                                  }).then((result) => {
+                                    if(result.isConfirmed) {
+                                      window.location.href='/guest/reservation';
+                                    }
+                                  })
                                 }
-                            });
+                              });
                         } else {
                             Swal.fire({
                                 title: '에러 발생',
