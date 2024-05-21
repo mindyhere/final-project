@@ -30,12 +30,22 @@ from
 </choose>
 </select>
 
-<select id="totalOrders" resultType="java.util.Map">
-	select @rownum:=@rownum+1 AS rownum, v.* 
-	from v_host_order v, (select @rownum:=0) tmp
-	where ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
-	order by @rownum desc
-	limit #{start}, 10
+<select id="ckinDates" resultType="java.util.Map">
+	select distinct o_ckin
+	from v_host_order v
+	where 
+		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		and o_state='3'
+	order by o_ckin;
+</select>
+
+<select id="ckoutDates" resultType="java.util.Map">
+	select distinct o_ckout
+	from v_host_order v
+	where 
+		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		and o_state='3'
+	order by o_ckout;
 </select>
 
 <select id="countAll" resultType="int">
