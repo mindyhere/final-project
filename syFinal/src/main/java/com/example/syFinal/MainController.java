@@ -38,6 +38,10 @@ public class MainController {
 			map.put("HoImg", main.get(i).getHo_img());
 			map.put("Dprice", main.get(i).getD_price());
 			map.put("Didx", main.get(i).getD_idx());
+			map.put("Dimg1", main.get(i).getD_img1());
+			map.put("Dimg2", main.get(i).getD_img2());
+			map.put("Dimg3", main.get(i).getD_img3());
+			map.put("Star", main.get(i).getStar());
 			map.put("search", search);
 			if (g_idx != 0) {
 				int check = dao.check(main.get(i).getHo_idx(), g_idx);
