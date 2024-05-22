@@ -109,10 +109,88 @@ public class HotelDAOImpl implements HotelDAO {
 		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
 	}
 
+	/* 신규 호텔 등록(임시) */
+	@Override
+	public int registHotelTemp(Map<String, Object> map) {
+		sqlSession.insert("hotel.registHotelTemp", map);
+		int hoIdx = sqlSession.selectOne("hotel.findHtHidx", map.get("ht_h_idx"));
+		return hoIdx;
+	}
+	
+	/* 호텔 최종 등록 */
+	@Override
+	public void registNewHotel(Map<String, Object> map) {
+		System.out.println("@ dao - map : " + map);
+		int ht_idx = (int) map.get("ht_idx");
+		int ht_h_idx = (int) map.get("ht_h_idx");
+		// 편의시설 등록
+		Map<String, Object> newAmenity = new HashMap<>();
+		newAmenity.put("newAmenity", map.get("checkItems"));
+		String[] items= map.get("checkItems").toString().split(",");
+		System.out.println("@ newAmenity  " + newAmenity);
+		System.out.println("@ items :"  + items);
+		System.out.println("@ 호텔 번호 ht_idx :"  + ht_idx);
+		System.out.println("@ 회원번호 ht_h_idx :"  + ht_h_idx);
+		sqlSession.insert("hotel.insertNewAmenity", ht_idx);
+		for(String item : items){
+			switch(item){
+			  case "0": 
+				  newAmenity.put("option", "mountain_view");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "1": 
+				  newAmenity.put("option", "ocean_view");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "2": 
+				  newAmenity.put("option", "wifi");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "3": 
+				  newAmenity.put("option", "parking_lot");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "4": 
+				  newAmenity.put("option", "breakfast");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "5": 
+				  newAmenity.put("option", "fire_alam");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			  case "6": 
+				  newAmenity.put("option", "fire_extinguisher");
+				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+				break;
+			}
+		}
+		
+		// 객실정보 등록
+		Map<String, Object> newRoom = new HashMap<>();
+		
+		sqlSession.insert("hotel.insertNewRoom", newRoom);
+		
+		// 호텔 테이블 insert
+		sqlSession.insert("hotel.insertNewHotel", ht_idx);
+
+		// 임시테이블에서 상태변경
+		Map<String, Object> insertRow = new HashMap<>();
+		insertRow.put("ht_idx", ht_idx);
+		insertRow.put("ht_h_idx", ht_h_idx);
+		System.out.println("@ insertRow  " + insertRow);
+		sqlSession.update("hotel.updateTempHotel", insertRow);
+	}
+
 	/* 호텔 기본 정보 수정 */
 	@Override
 	public void editHotelDefaultInfo(Map<String, Object> map) {
 		sqlSession.update("hotel.editHotelDefaultInfo", map);
+	}
+	
+	/* 호텔 편의시설 초기화 */
+	@Override
+	public void initHotelAmenity(int ho_idx) {
+		sqlSession.update("hotel.initHotelAmenity", ho_idx);
 	}
 	
 	/* 호텔 편의시설 수정 */
