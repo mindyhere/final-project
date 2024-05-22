@@ -13,6 +13,7 @@ public interface EmailService {
 	String sendTemplateMail(Map<String, Object> map, EmailDTO dto);
 
 	EmailDTO prepareVoucher(String g_email, String ho_name, int o_idx);
-//	EmailDTO rejectionNotice(String email, Map<String, Object> map);
+
+	EmailDTO rejectionNotice(String g_email, String ho_name, int o_idx);
 
 }

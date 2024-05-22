@@ -421,8 +421,8 @@ function OrderDetail(order_idx) {
                         );
                         Swal.fire({
                           icon: "success",
-                          title: "Success",
-                          html: "정상처리 되었습니다.",
+                          title: "Confirm",
+                          html: "예약 바우처 발송이 완료되었습니다.",
                           showConfirmButton: false,
                           timer: 2000,
                         }).then(() => {

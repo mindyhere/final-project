@@ -245,7 +245,7 @@ function RequestItem({
                             Swal.fire({
                               icon: "success",
                               title: "Complete",
-                              html: "게스트의 요청이 거부되었습니다.",
+                              html: "변경요청을 거부하여 기존 예약으로 자동확정 되었습니다.<br/>(예약 바우처 발송완료)",
                               showConfirmButton: false,
                               timer: 2000,
                             }).then(() => {

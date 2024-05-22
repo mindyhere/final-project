@@ -36,7 +36,7 @@ public interface OrderDAO {
 	boolean countOrders(Map<String, Object> params);
 
 	// 예약 변경요청 거부 처리
-	void requestReject(int o_idx);
+	boolean requestReject(int o_idx);
 
 	// 체크인, 체크아웃 스케쥴
 	List<Map<String, String>> schedule(int h_idx, String column);

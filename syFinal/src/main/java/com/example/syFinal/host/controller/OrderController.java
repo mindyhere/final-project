@@ -113,7 +113,7 @@ public class OrderController {
 				data.put("response", new ResponseEntity<>(result, HttpStatus.BAD_REQUEST));
 			}
 		} else {
-			System.out.println("=> 예약확정 업데이트 에러");
+			System.out.println("=> o_state 업데이트 에러");
 			data.put("response", new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST));
 		}
 		System.out.println("==> 업데이트결과 ?" + data);
@@ -156,8 +156,27 @@ public class OrderController {
 
 	@Transactional
 	@GetMapping("manage/reject/{o_idx}")
-	public void requestReject(@PathVariable(name = "o_idx") int o_idx) {
-		orderDao.requestReject(o_idx);
+	public Map<String, Object> requestReject(@PathVariable(name = "o_idx") int o_idx) {
+		Map<String, Object> data = new HashMap<>();
+		if (orderDao.requestReject(o_idx)) {
+			Map<String, Object> item = orderDao.voucher(o_idx);
+			String g_email = (String) item.get("g_email");
+			String ho_name = (String) item.get("ho_name");
+			item.put("template", "voucher");
+			EmailDTO dto = emailService.rejectionNotice(g_email, ho_name, o_idx);
+			String result = emailService.sendTemplateMail(item, dto);
+			if (result.equals("success")) {
+				data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
+			} else {
+				System.out.println("=> 메일발송 에러");
+				data.put("response", new ResponseEntity<>(result, HttpStatus.BAD_REQUEST));
+			}
+		} else {
+			System.out.println("=> ru_state 업데이트 에러");
+			data.put("response", new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST));
+		}
+		System.out.println("==> 업데이트결과 ?" + data);
+		return data;
 	}
 
 	@GetMapping("manage/schedule/{userIdx}")
