@@ -82,12 +82,11 @@ function Scheduler() {
             if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <CircleFill
-                  className="checkpoint"
+                  color={"#9f48eb"}
                   style={{
                     margin: "0 1px",
                     width: "7px",
                     height: "7px",
-                    color: "#9f48eb",
                   }}
                 />
               );
@@ -95,12 +94,11 @@ function Scheduler() {
             if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <TriangleFill
-                className="checkpoint"
+                  color={"#9f48eb"}
                   style={{
                     margin: "0 1px",
                     width: "7px",
                     height: "7px",
-                    color: "#9f48eb",
                   }}
                 />
               );
