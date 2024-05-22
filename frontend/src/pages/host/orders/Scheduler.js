@@ -9,7 +9,7 @@ import { CircleFill, TriangleFill } from "react-bootstrap-icons";
 import Cookies from "universal-cookie";
 
 function useFetch(url) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,27 +19,19 @@ function useFetch(url) {
       })
       .then((data) => {
         if (data.count != 0) {
-          // console.log("==> Fetch? " + JSON.stringify(data.list));
-
           let arr = [];
-          // let column = data.column.toString();
-          // console.log('result '+column)
           for (let i = 0; i < data.list.length; i++) {
             if (data.column == "o_ckin") {
               arr.push(JSON.stringify(data.list[i].o_ckin));
             } else {
               arr.push(JSON.stringify(data.list[i].o_ckout));
             }
-            // console.log(column + "**반복 " + arr);
-            // arr.push(JSON.stringify(data.list[i].column));
           }
-          // console.log("result " + data.column + " ? " + arr);
           setData(arr);
           setLoading(false);
         }
       });
   }, []);
-  // console.log("***? " + data.toString());
   return [data, loading];
 }
 
@@ -58,40 +50,23 @@ function Scheduler() {
   const [date, setDate] = useState(value);
   console.log("==> x? " + moment(value).format("YYYY-MM-DD"));
 
-  // const ckin = [
-  //   "2024-05-01",
-  //   "2024-05-02",
-  //   "2024-05-08",
-  //   "2024-05-15",
-  //   "2024-05-24",
-  //   "2024-05-28",
-  //   "2024-06-01",
-  //   "2024-06-02",
-  //   "2024-06-18",
-  //   "2024-06-15",
-  //   "2024-06-24",
-  //   "2024-06-30",
-  // ]; // test
-  // const ckout = [
-  //   "2024-05-03",
-  //   "2024-05-05",
-  //   "2024-05-08",
-  //   "2024-05-15",
-  //   "2024-05-27",
-  //   "2024-05-29",
-  //   "2024-06-02",
-  //   "2024-06-09",
-  //   "2024-06-19",
-  //   "2024-06-15",
-  //   "2024-06-24",
-  //   "2024-06-30",
-  // ]; // test
+  console.log("=> test? " + ckin[1]);
+
+  const arrCkin = ckin.map(function (date) {
+    console.log(date);
+    return moment(date).format("YYYY-MM-DD");
+  });
+  const arrCkout = ckout.map(function (date) {
+    console.log(date);
+    return moment(date).format("YYYY-MM-DD");
+  });
+  // const ckout = [];
 
   if (loading1 || loading2) {
     return <div className="text-center">로딩 중...</div>;
   } else {
-    console.log("=> 체크인날짜? " + ckin);
-    console.log("=> 체크아웃날짜? " + ckout);
+    console.log("=> test? " + arrCkin);
+    // console.log("=> 체크아웃날짜? " + ckout);
     return (
       <div>
         <Calendar
@@ -108,8 +83,8 @@ function Scheduler() {
           value={value}
           tileClassName={({ date, view }) => {
             if (
-              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
-              ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              arrCkin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
+              arrCkout.find((x) => x === moment(date).format("YYYY-MM-DD"))
             ) {
               // console.log("==> x? " + value);
               return "highlight"; // 하이라이트 처리
@@ -117,7 +92,7 @@ function Scheduler() {
           }}
           tileContent={({ date, view }) => {
             let html = [];
-            if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+            if (arrCkin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               // console.log("==> x? " + value);
               html.push(
                 <CircleFill
@@ -125,15 +100,15 @@ function Scheduler() {
                 />
               );
             }
-            if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-              console.log("==> x? " + value);
+            if (arrCkout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+              // console.log("==> x? " + value);
               html.push(
                 <TriangleFill
                   style={{
                     padding: 0,
                     width: "7px",
                     height: "7px",
-                    marginLeft: "4px",
+                    // marginLeft: "4px",
                   }}
                 />
               );

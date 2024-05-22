@@ -11,7 +11,7 @@ function HotelNavItem({
   const hotel_idx = useRef();
   // console.log("==> 최초? " + loading + ", rownum? " + rownum);
   if (rownum == 1 && !loading) {
-    console.log("==> 초기셋팅? " + init);
+    // console.log("==> 초기셋팅? " + init);
     return (
       <li
         key={rownum}

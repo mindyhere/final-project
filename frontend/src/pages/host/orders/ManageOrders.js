@@ -33,7 +33,7 @@ function ManageOrders() {
 
   function getList(hoIdx, pageNum) {
     let url = "";
-    console.log("==> page? " + pageNum + ", " + hoIdx);
+    // console.log("==> page? " + pageNum + ", " + hoIdx);
     if (pageNum != "0") {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
