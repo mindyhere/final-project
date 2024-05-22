@@ -10,10 +10,10 @@ import com.example.syFinal.global.model.MessageDTO;
 @RestController
 public class WebSocketController {
 	@Autowired
-    private SimpMessagingTemplate template;
-	
+	private SimpMessagingTemplate template;
+
 	@MessageMapping(value = "/message")
-    public void message(MessageDTO message){
-        template.convertAndSend("/sub/chatroom/" + message.getM_roomId(), message);
-    }
+	public void message(MessageDTO message) {
+		template.convertAndSend("/sub/chatroom/" + message.getM_roomId(), message);
+	}
 }
