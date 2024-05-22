@@ -204,4 +204,29 @@ public class OrderController {
 
 	}
 
+	@GetMapping("manage/schedule/{userIdx}")
+	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("ho_idx", -1);
+		int cnt = orderDao.countRecord(map);
+
+		Map<String, Object> data = new HashMap<>();
+		if (cnt == 0) {
+			data.put("count", cnt);
+			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
+		} else {
+			List<Map<String, String>> list = orderDao.schedule(h_idx, column);
+			data.put("list", list);
+			data.put("count", cnt);
+			data.put("column", column);
+			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+		}
+		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
+		return data;
+
+	}
+
 }
