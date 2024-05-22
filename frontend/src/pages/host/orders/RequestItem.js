@@ -147,14 +147,14 @@ function RequestItem({
                                   if (!response.ok) {
                                     throw new Error(response.status);
                                   }
-                                  console.log(
-                                    "==> response? " + JSON.stringify(response)
-                                  );
+                                  // console.log(
+                                  //   "==> response? " + JSON.stringify(response)
+                                  // );
                                   return response.status;
                                 });
                               })
                               .catch((error) => {
-                                console.log("==> error? " + error);
+                                // console.log("==> error? " + error);
                                 Swal.showValidationMessage(
                                   `error : 비밀번호 또는 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
@@ -163,7 +163,7 @@ function RequestItem({
                           allowOutsideClick: false,
                           // allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          console.log("=> result " + JSON.stringify(result));
+                          // console.log("=> result " + JSON.stringify(result));
                           if (result.value === 200) {
                             Swal.fire({
                               icon: "success",
@@ -239,9 +239,9 @@ function RequestItem({
                           },
                           allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          console.log("=> result " + JSON.stringify(result));
+                          // console.log("=> result " + JSON.stringify(result));
                           if (result.isConfirmed) {
-                            console.log(result.value);
+                            // console.log(result.value);
                             Swal.fire({
                               icon: "success",
                               title: "Complete",
