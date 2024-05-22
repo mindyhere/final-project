@@ -27,9 +27,8 @@ function CancelReserv() {
     const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
-    
-
-    if(loading) {
+    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idx.key);
+    if(loading||loading1) {
         return (
             <div>loading</div>
         )
@@ -72,10 +71,15 @@ function CancelReserv() {
                     form.append('o_idx', OIdx);
                     form.append('g_idx', idx.key);
                     form.append('paymentId',data.dto.paymentId);
+                    if(data.dto.o_discount !== null || data.dto.o_discount !== 0) {
+                        form.append('pointPlus',(data.dto.o_discount + data1.dto.g_point));
+                    } else {
+                        form.append('pointPlus',data1.dto.g_point);
+                    }
                     fetch('http://localhost/paycancel', {
                         method: 'post',
                         body: form,
-                        }).then((response) => response.json())
+                    }).then((response) => response.json())
                     .then(data => {
                         if (data.result === 'success') {
                             Swal.fire({

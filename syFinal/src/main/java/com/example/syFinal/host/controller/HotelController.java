@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.syFinal.MainController;
 import com.example.syFinal.host.model.dao.HotelDAO;
-import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 import jakarta.servlet.ServletContext;
@@ -155,35 +156,43 @@ public class HotelController {
 	}
 
 	/* 신규 호텔 등록 */
+	@Transactional
 	@PostMapping("/host/hotel/registHotel")
-	public void registHotel(@RequestParam Map<String, Object> map,
-			@RequestParam(name = "img", required = false) MultipartFile img, HttpServletRequest request) {
+	public int registHotel(@RequestParam Map<String, Object> map, @RequestParam(name="ht_h_idx") int ht_h_idx,
+			@RequestParam(name = "ht_img") MultipartFile htImg, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-		String hotelImg = "";
-		System.out.println("@@@@@@  페이지 첫번째 등록 페이지이동 ");
-		if (img != null && !img.isEmpty()) {
+		String ht_img = "-";
+		if (htImg != null && !htImg.isEmpty()) {
 			try {
-				if (hotelImg != null && !hotelImg.equals("-")) {
-					File file1 = new File(path + hotelImg);
-					if (file1.exists()) {
-						file1.delete();
-					}
-				}
-				hotelImg = img.getOriginalFilename();
-				img.transferTo(new File(path + hotelImg));
+				ht_img = htImg.getOriginalFilename();
+				htImg.transferTo(new File(path + ht_img));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-			hotelImg = "-";
 		}
-		
-		
-		System.out.println("map : " + map);
-		System.out.println("img" + img);
+		map.put("ht_img", ht_img);
+		map.put("ht_h_idx", ht_h_idx);
+		int htIdx = hotelDao.registHotelTemp(map);
+		return htIdx;
 	}
 
+	@PostMapping("/host/hotel/registHotelDetail")
+	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name="ht_idx") int ht_idx, 
+		@RequestParam(name="ht_h_idx") int ht_h_idx, HttpServletRequest request) {
+		ServletContext application = request.getSession().getServletContext();
+		String path = application.getRealPath("static/images/host/hotel/");
+
+		System.out.println("All Data : " + map);
+		System.out.println("PK  : " + ht_idx);
+		System.out.println("Room Detail : " + map.get("list"));
+		// 이미지 처리
+		// 최종 호텔 등록
+		map.put("ht_idx", ht_idx);
+		map.put("ht_h_idx", ht_h_idx);
+		hotelDao.registNewHotel(map);
+	}
+	
 	/* 호텔 상세 정보 조회 */
 	@GetMapping("/host/hotel/detailMyHotel")
 	public List<Map<String, Object>> detailMyHotel(@RequestParam(name = "ho_idx") int ho_idx) {
@@ -200,30 +209,25 @@ public class HotelController {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
 		Map<String, Object> imgList = hotelDao.getHotelImg(ho_idx);
-		String hotelImg = (String) imgList.get("ho_img");
-		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
-		System.out.println("@@@@@@ img" + img);
-		System.out.println("@@@@@@ hotelImgs : " + imgList);
-		System.out.println("@@@@@@ hotelImg : " + hotelImg);
-		System.out.println("@@@@@@ hotelImgs.values()" + imgList.get("ho_img"));
+		String ho_img = "";
 		if (img != null && !img.isEmpty()) {
+			String defaultImg = imgList.get("ho_img").toString();
 			try {
-				if (hotelImg != null && !hotelImg.equals("-")) {
-					File file1 = new File(path + hotelImg);
+				if (defaultImg != null && !defaultImg.equals("-")) {
+					File file1 = new File(path + defaultImg);
 					if (file1.exists()) {
 						file1.delete();
 					}
 				}
-				hotelImg = img.getOriginalFilename();
-				img.transferTo(new File(path + hotelImg));
+				ho_img = img.getOriginalFilename();
+				img.transferTo(new File(path + ho_img));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			//hotelImg = hotelDao.getHotelImg(ho_idx);
+			ho_img = hotelDao.getHotelImg(ho_idx).toString();
 		}
-		map.put("img", hotelImg);
-		System.out.println("@@@@@@@@@@ map  : " + map);
+		map.put("img", ho_img);
 		hotelDao.editHotelDefaultInfo(map);
 	}
 	
@@ -233,7 +237,7 @@ public class HotelController {
 	public void editHotelAmenity(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx) {
 		String[] items= map.get("checkItems").toString().split(",");
 		map.put("ho_idx", ho_idx);
-		
+		hotelDao.initHotelAmenity(ho_idx);
 		for(String item : items){
 			switch(item){
 			  case "0": 
@@ -271,33 +275,72 @@ public class HotelController {
 	/* 호텔 객실정보 수정 */
 	@Transactional
 	@PostMapping("/host/hotel/editHotel/roomInfo")
-	public void editHotelRoomInfo(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx,
-			@RequestParam(name = "dimg1") MultipartFile dimg1, 
-			@RequestParam(name = "dimg2", required = false) MultipartFile dimg2,
-			@RequestParam(name = "dimg3", required = false) MultipartFile dimg3, HttpServletRequest request) {
+	public void editHotelRoomInfo(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx, 
+			@RequestParam(name = "dImg1", required = false) MultipartFile dImg1, 
+			@RequestParam(name = "dImg2", required = false) MultipartFile dImg2,
+			@RequestParam(name = "dImg3", required = false) MultipartFile dImg3, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-//		String roomImg1 = hotelDao.getHotelImg(ho_idx);
-//		System.out.println("@@@@@@ 기본 수정 페이지 이동 ");
-//		System.out.println("@@@@@@ img" + dimg1);
-//		if (dimg1 != null && !dimg1.isEmpty()) {
-//			try {
-//				if (roomImg1 != null && !roomImg1.equals("-")) {
-//					File file1 = new File(path + roomImg1);
-//					if (file1.exists()) {
-//						file1.delete();
-//					}
-//				}
-//				roomImg1 = dimg1.getOriginalFilename();
-//				dimg1.transferTo(new File(path + roomImg1));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		} else {
-//			roomImg1 = hotelDao.getHotelImg(ho_idx);
-//		}
-//		map.put("dimg1", roomImg1);
-		System.out.println("@@@@@@@@@@ map  : " + map);
+		Map<String, Object> imgList = hotelDao.getHotelImg(ho_idx);
+		String d_img1 =  "";
+		String d_img2 = "";
+		String d_img3 = "";
+		if (dImg1 != null && !dImg1.isEmpty()) {
+			String defaultImg = imgList.get("d_img1").toString();
+			try {
+				if (defaultImg != null && !defaultImg.equals("-")) {
+					File file1 = new File(path + defaultImg);
+					if (file1.exists()) {
+						file1.delete();
+					}
+				}
+				d_img1 = dImg1.getOriginalFilename();
+				dImg1.transferTo(new File(path + d_img1));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			d_img1 = imgList.get("d_img1").toString();
+		}
+		map.put("d_img1", d_img1);
+		
+		if (dImg2 != null && !dImg2.isEmpty()) {
+			String defaultImg = imgList.get("d_img2").toString();
+			try {
+				if (defaultImg != null && !defaultImg.equals("-")) {
+					File file1 = new File(path + defaultImg);
+					if (file1.exists()) {
+						file1.delete();
+					}
+				}
+				d_img2 = dImg2.getOriginalFilename();
+				dImg2.transferTo(new File(path + d_img2));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			d_img2 = imgList.get("d_img2").toString();
+		}
+		map.put("d_img2", d_img2);
+		
+		if (dImg3 != null && !dImg3.isEmpty()) {
+			String defaultImg = imgList.get("d_img3").toString();
+			try {
+				if (defaultImg != null && !defaultImg.equals("-")) {
+					File file1 = new File(path + defaultImg);
+					if (file1.exists()) {
+						file1.delete();
+					}
+				}
+				d_img3 = dImg3.getOriginalFilename();
+				dImg3.transferTo(new File(path + d_img3));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			d_img3 = imgList.get("d_img3").toString();
+		}
+		map.put("d_img3", d_img3);
 		hotelDao.editHotelRoomInfo(map);
 	}
 	

@@ -44,6 +44,10 @@
 		WHERE c.c_num=gc.gc_num AND gc_gidx=#{g_idx}
 	</select>
 	
+	<select id='c_count' resultType='int'>
+		SELECT COUNT(gc_idx) AS c_count FROM coupon c,g_coupon gc WHERE c.c_num=gc.gc_num AND gc_gidx=#{g_idx}
+	</select>
+	
 	<update id="cardupdate">
 		update guest 
 		set g_card = #{g_card}, g_date = #{g_date}, g_cvc=#{g_cvc}
@@ -67,10 +71,16 @@
 	<!-- 예약요청 -->
 	<insert id="order">
 		INSERT INTO orders 
-		(o_gidx,o_didx,o_ckin,o_ckout,o_adult,o_child,o_baby,o_payment,o_price,o_finalprice,o_orderdate,paymentId)
+		(o_gidx,o_didx,o_ckin,o_ckout,o_adult,o_child,o_baby,o_payment,o_discount,o_price,o_finalprice,o_orderdate,paymentId)
 		VALUES 
-		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{dprice},#{fprice},now(),#{paymentId})
+		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{usePoint},#{dprice},#{fprice},now(),#{paymentId})
 	</insert>
+	
+	<update id='pointupdate'>
+		update guest 
+		set g_point = #{rePoint}
+		where g_idx = #{idx}
+	</update>
 	
 	<!-- 게스트리뷰리스트 -->
 	<select id="reviewlist" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">

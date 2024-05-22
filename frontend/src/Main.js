@@ -37,6 +37,10 @@ function Main() {
 
   useEffect(() => {getMain('http://localhost/guest/main');}, []);
 
+  let aa='';
+  if(list === null) {
+    aa = "none";
+  }
   return (
       <>
         <div className='container-fluid' align="center">
@@ -75,12 +79,33 @@ function Main() {
                       Star={Star}
                       key={HoIdx}
                       check={check}
-                          //싱글가격
-                          //평점
                     />
                 )
             )}
       </div>
+      {list.map.size === 0
+      ?
+      <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <div>검색결과가 없습니다.</div>
+        <div>철자를 확인하거나 긴 문구는 띄어쓰기를 해보세요.</div>
+        <br></br>
+        <br></br>
+        <br></br><br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+      </div>
+      :''
+      }
       <br />
       <br />
       <br />

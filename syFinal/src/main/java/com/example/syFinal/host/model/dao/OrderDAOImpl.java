@@ -23,8 +23,14 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public void update(int o_idx) {
-		sqlSession.update("order.update", o_idx);
+	public boolean update(int o_idx) {
+		try {
+			sqlSession.update("order.update", o_idx);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -144,15 +150,21 @@ public class OrderDAOImpl implements OrderDAO {
 		int cnt = sqlSession.selectOne("order.countOrders", params);
 		int room = sqlSession.selectOne("order.roomCount", params);
 		System.out.println("==> 예약수?" + cnt + ", " + room);
-		if (cnt < room) {
+		if (cnt <= room) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void requestReject(int o_idx) {
-		sqlSession.selectOne("order.requestReject", o_idx);
+	public boolean requestReject(int o_idx) {
+		try {
+			sqlSession.update("order.requestReject", o_idx);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -162,6 +174,34 @@ public class OrderDAOImpl implements OrderDAO {
 		map.put("column", column);
 		List<Map<String, String>> list = sqlSession.selectList("order.schedule", map);
 		return list;
+	}
+
+	@Override
+	public Map<String, Object> voucher(int o_idx) {
+		Map<String, Object> item = sqlSession.selectOne("order.voucher", o_idx);
+		DecimalFormat df = new DecimalFormat("###,###");
+		// 금액 1000단위 포맷
+		String o_price = df.format(item.get("o_price"));
+		String o_discount = df.format(item.get("o_discount"));
+		String o_finalprice = df.format(item.get("o_finalprice"));
+		item.replace("o_price", o_price);
+		item.replace("o_discount", o_discount);
+		item.replace("o_finalprice", o_finalprice);
+
+		// 결제수단 코드 변환
+		String o_payment = (String) item.get("o_payment");
+		switch (o_payment) {
+		case "1":
+			item.replace("o_payment", "Card");
+			break;
+		case "2":
+			item.replace("o_payment", "KakaoPay");
+			break;
+		case "3":
+			item.replace("o_payment", "Point");
+			break;
+		}
+		return item;
 	}
 
 }

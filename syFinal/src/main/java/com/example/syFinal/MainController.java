@@ -47,9 +47,6 @@ public class MainController {
 				int check = dao.check(main.get(i).getHo_idx(), g_idx);
 				map.put("check", check);
 			}
-//			int star = dao.star(main.get(i).getHo_idx());
-//			System.out.println("star=="+star);
-//			map.put("Star", star);
 			list.add(map);
 		}
 		System.out.println("메인리스트====" + list);
@@ -60,8 +57,6 @@ public class MainController {
 	public Map<String, Object> noticelist() {
 		List<ANoticeDTO> noticeList = dao.noticelist();
 		Map<String, Object> list = new HashMap<>();
-//		List<Map<String, Object>> list = new ArrayList<>();
-		System.out.println("공지사항==="+noticeList);
 		list.put("list", noticeList);
 		return list;
 	}
@@ -71,7 +66,6 @@ public class MainController {
 		ANoticeDTO noticedetail = dao.noticedetail(n_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", noticedetail);
-		System.out.println("공지사항디테일="+map);
 		return map;
 	}
 	

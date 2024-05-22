@@ -18,10 +18,21 @@ function useFetch(url) {
   return [data, loading];
 }
 
-function RoomDetail(props) { 
-  const [data, loading] = useFetch(
-    `http://localhost/api/order/manage/detail/get/`
-  );
+function RoomDetail(props) {
+  const [data, loading] = useFetch('');
+  const [rdo, setRadio] = useState(props.smoking);
+  const d_capacity = useRef();
+  const d_area = useRef();
+  const d_beds = useRef();
+  const d_non_smoking = useRef();
+  const d_price = useRef();
+  const d_img1 = useRef();
+  const d_img2 = useRef();
+  const d_img3 = useRef();
+
+  function handleStatusChange(e) {
+    setRadio(e.target.value);
+  }
 
   if (loading) {
     return <div>loading...</div>;
@@ -90,28 +101,93 @@ function RoomDetail(props) {
                   <tr>
                     <th colSpan={1}>수용 인원</th>
                     <td colSpan={1}>
-                      <input style={{border:'none'}} defaultValue={props.capacity} />명
+                      <input type="number" min={0} style={{border:'none'}} ref={d_capacity} defaultValue={props.capacity} />
                     </td>
                     <th colSpan={1} style={{ width: "25%" }}>
                       객실 면적
                     </th>
-                    <td colSpan={1}>&nbsp;&nbsp;{props.area}㎡</td>
+                    <td colSpan={1}>
+                      <input type="number" min={0} style={{border:'none'}} ref={d_area} defaultValue={props.area} />
+                    </td>
                   </tr>
                   <tr>
                     <th colSpan={1}>침대 수</th>
-                    <td colSpan={1}>&nbsp;&nbsp;{props.beds}개</td>
+                    <td colSpan={1}>
+                      <input type="number" min={0} style={{border:'none'}} ref={d_beds} defaultValue={props.beds} />
+                    </td>
                     <th colSpan={1} style={{ width: "25%" }}>금연실 여부</th>
-                    <td colSpan={1}>&nbsp;&nbsp;{smoking}</td>
+                    <td colSpan={1}>
+                      <div>
+                      <input
+                          className="form-check-input"
+                          type="radio"
+                          //name="d_non_smoking"
+                          ref={d_non_smoking}
+                          value="Y"
+                          checked={rdo == "Y"}
+                          onChange={handleStatusChange}
+                          id="rdo1"
+                        />
+                        <label className="form-check-label" htmlFor="rdo1">
+                          Y
+                        </label>
+                        &nbsp;&nbsp;
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          ref={d_non_smoking}
+                          value="N"
+                          checked={rdo == "N"}
+                          onChange={handleStatusChange}
+                          id="rdo1"
+                        />
+                        <label className="form-check-label" htmlFor="rdo1">
+                          N
+                        </label>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <th colSpan={1}>가격</th>
                     <td colSpan={3}>
-                      &nbsp;&nbsp;{props.price}원
+                      <input type="number" min={0} style={{border:'none'}} ref={d_price} defaultValue={props.price} />
                     </td>
                   </tr>
                   <tr>
-                    <th colSpan={1}>객실 사진</th>
-                    <td colSpan={3}><input type="file" /></td>
+                    <th colSpan={1}>객실 사진_1</th>
+                    <td colSpan={3}>
+                      <input
+                        className="form-control"
+                        type="file"
+                        //multiple = "multiple"
+                        ref={d_img1}
+                        accept=".jpg,.jpeg,.png,"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={1}>객실 사진_2</th>
+                    <td colSpan={3}>
+                      <input
+                        className="form-control"
+                        type="file"
+                        //multiple = "multiple"
+                        ref={d_img2}
+                        accept=".jpg,.jpeg,.png,"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={1}>객실 사진_3</th>
+                    <td colSpan={3}>
+                      <input
+                        className="form-control"
+                        type="file"
+                        //multiple = "multiple"
+                        ref={d_img3}
+                        accept=".jpg,.jpeg,.png,"
+                      />
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -130,16 +206,29 @@ function RoomDetail(props) {
                     showLoaderOnConfirm: true,
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      console.log(result.value);
-                      Swal.fire({
-                        icon: "success",
-                        title: "Success",
-                        html: "정상처리 되었습니다.",
-                        showConfirmButton: false,
-                        timer: 2000,
+                      const form = new FormData();
+                      form.append('ho_idx', props.hoIdx);
+                      form.append('d_idx', props.dIdx);
+                      form.append('d_capacity', d_capacity.current.value);
+                      form.append('d_area', d_area.current.value);
+                      form.append('d_beds', d_beds.current.value);
+                      form.append('d_non_smoking', d_non_smoking.current.value);
+                      form.append('d_price', d_price.current.value);
+                      if(d_img1.current.files.length > 0){
+                        form.append('dImg1', d_img1.current.files[0]);
+                      }
+                      if(d_img2.current.files.length > 0){
+                        form.append('dImg2', d_img2.current.files[0]);
+                      }
+                      if(d_img3.current.files.length > 0){
+                        form.append('dImg3', d_img3.current.files[0]);
+                      }
+                      fetch('http://localhost/host/hotel/editHotel/roomInfo', {
+                          method: 'POST',
+                          body : form
                       }).then(() => {
-                        localStorage.removeItem("roomData");
-                        window.location.reload();
+                          alert("수정 완료");
+                          window.location.reload();
                       });
                     }
                   });

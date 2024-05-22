@@ -27,7 +27,7 @@ order by o_idx desc
 </select>
 
 <select id="delDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
-select h_name, ho_name, ho_img, ho_check_in, ho_check_out,
+select h_name, ho_name, ho_img, ho_check_in, ho_check_out,o_discount,
 o_ckin, o_ckout, o_adult, o_child, o_baby, o_finalprice, o_didx,paymentId
 from orders, host, hotel, hotel_detail
 where o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business = h_business
@@ -101,5 +101,11 @@ and o_idx <![CDATA[<>]]> #{o_idx}
 	WHERE o_idx = #{o_idx} and o_didx = d_idx AND d_ho_idx = ho_idx)
 	END AS count
 </select>
+
+<update id='gPoint'>
+	update guest 
+	set g_point = #{pointPlus}
+	where g_idx = #{g_idx}
+</update>
 
 </mapper>

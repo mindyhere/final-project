@@ -16,6 +16,8 @@ public interface ReservDAO {
 	ReservDTO delDetail(int o_idx);
 
 	String cancel(int o_idx, int g_idx);
+	
+	void gPoint(Map<String,Object> map);
 
 	ReservDTO upDetail(int o_idx);
 

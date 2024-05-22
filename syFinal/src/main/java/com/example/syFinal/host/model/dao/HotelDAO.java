@@ -48,9 +48,18 @@ public interface HotelDAO {
 	/* 호텔 대표 이미지 조회 */
 	Map<String, Object> getHotelImg(int ho_idx);
 	
+	/* 신규 호텔 등록(임시) */
+	int registHotelTemp(Map<String, Object> map);
+
+	/* 호텔 최종 등록 */
+	void registNewHotel(Map<String, Object> map);
+	
 	/* 호텔 기본 정보 수정 */
 	void editHotelDefaultInfo(Map<String, Object> map);
 	
+	/* 호텔 편의 시설 초기화 */
+	void initHotelAmenity(int ho_idx);
+
 	/* 호텔 편의 시설 수정 */
 	void editAmenity(Map<String, Object> map);
 
