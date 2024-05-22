@@ -60,13 +60,13 @@ function ModifyList() {
     if (data.length == 0) {
       return (
         <div>
-          <h5 style={{ alignItems: "center" }}>
+          <h5 style={{ alignItems: "center", marginBottom: "1%" }}>
             <Exclamation size={35} />
             예약 변경 요청
           </h5>
           <div
             className="container col m-0 p-5"
-            style={{ width: "800px", height: "255px", textAlign: "center" }}
+            style={{ width: "890px", height: "260px", textAlign: "center" }}
           >
             <BellSlash size={35} style={{ margin: "3%" }} />
             <br />
@@ -77,7 +77,7 @@ function ModifyList() {
     } else {
       return (
         <div>
-          <h5 style={{ alignItems: "center" }}>
+          <h5 style={{ alignItems: "center", marginBottom: "1%" }}>
             <Exclamation size={35} />
             예약 변경 요청
           </h5>
@@ -105,7 +105,7 @@ function ModifyList() {
                 sum={item.sum}
                 g_email={item.g_email}
                 g_name={item.g_name}
-                g_url={item.g_url}
+                g_photo={item.g_photo}
               />
             ))}
           </Slider>

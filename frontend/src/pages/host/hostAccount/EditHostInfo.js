@@ -20,24 +20,38 @@ function EditHostInfo() {
   const h_email = useRef();
   const h_name = useRef();
   const h_phone = useRef();
-  const [phone, setPhone] = useState(data.h_phone);
+  const [phone, setPhoneNum] = useState(data.h_phone);
+  const [business, setBusinessNum] = useState(data.h_business);
   const h_business = useRef();
+  const h_accountnum = useRef();
   const h_level = useRef();
   const h_status = useRef();
   const profile = useRef();
   const file = useRef();
+  const bankbook = useRef();
   const h_description = useRef();
   const h_regdate = useRef();
 
   const [check, setCheck] = useState(false);
 
-  const handleChange = (val) => {
+  const handleChange = (val, opt) => {
     const phoneRegEx = /^[0-9\b -]{0,13}$/;
-
-    if (phoneRegEx.test(val)) {
-      setPhone(
-        val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-      );
+    const businessRegEx = /^[0-9\b -]{0,12}$/;
+    switch (opt) {
+      case "phone":
+        if (phoneRegEx.test(val)) {
+          setPhoneNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+          );
+        }
+        break;
+      case "business":
+        if (businessRegEx.test(val)) {
+          setBusinessNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
+          );
+        }
+        break;
     }
   };
 
@@ -58,7 +72,6 @@ function EditHostInfo() {
       path: "/",
       expires: expiration,
     });
-    // console.log(cookies.get("userInfo"));
 
     setTimeout(() => {
       Swal.fire({
@@ -167,7 +180,7 @@ function EditHostInfo() {
                           ref={h_phone}
                           maxLength={13}
                           onChange={(e) => {
-                            handleChange(e.target.value);
+                            handleChange(e.target.value, "phone");
                           }}
                           placeholder="숫자만 입력해주세요"
                         />
@@ -176,13 +189,50 @@ function EditHostInfo() {
                     <tr>
                       <th>사업자번호</th>
                       <td colSpan={3}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          defaultValue={data.h_business}
-                          ref={h_business}
-                          readOnly
-                        />
+                        {data.h_status === "가입완료" ? (
+                          <input
+                            className="form-control"
+                            type="text"
+                            maxLength={10}
+                            onChange={(e) => {
+                              handleChange(e.target.value, "business");
+                            }}
+                            value={business}
+                            ref={h_business}
+                          />
+                        ) : (
+                          <input
+                            className="form-control"
+                            type="text"
+                            defaultValue={data.h_business}
+                            ref={h_business}
+                            readOnly
+                          />
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>계좌번호</th>
+                      <td colSpan={3}>
+                        {data.h_status === "가입완료" ? (
+                          <input
+                            className="form-control"
+                            type="text"
+                            ref={h_accountnum}
+                            minLength={10}
+                            maxLength={14}
+                            defaultValue={data.h_accountnum}
+                            placeholder="숫자만 입력하세요(10~14자리)"
+                          />
+                        ) : (
+                          <input
+                            className="form-control"
+                            type="text"
+                            defaultValue={data.h_accountnum}
+                            ref={h_accountnum}
+                            readOnly
+                          />
+                        )}
                       </td>
                     </tr>
                     <tr>
@@ -221,7 +271,7 @@ function EditHostInfo() {
                           rows={5}
                           cols={85}
                           defaultValue={
-                            data.h_description !== null
+                            data.h_description !== "undefined"
                               ? data.h_description
                               : ""
                           }
@@ -306,6 +356,64 @@ function EditHostInfo() {
                       </td>
                     </tr>
                     <tr>
+                      <th>통장사본</th>
+                      <td colSpan={3}>
+                        {data.h_status === "가입완료" ? (
+                          data.h_bankbook !== "-" ? (
+                            <>
+                              &nbsp;파일명 : [&nbsp;
+                              <a
+                                className="attach"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  window.open(
+                                    `http://localhost/static/images/host/profile/${data.h_bankbook}`
+                                  );
+                                }}
+                              >
+                                {data.h_bankbook}
+                              </a>
+                              &nbsp;]
+                              <input
+                                className="form-control"
+                                type="file"
+                                ref={bankbook}
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                title="확장자 : jpg, jpeg, png, pdf"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                className="form-control"
+                                type="file"
+                                ref={bankbook}
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                title="확장자 : jpg, jpeg, png, pdf"
+                              />
+                            </>
+                          )
+                        ) : (
+                          <>
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={data.h_bankbook}
+                              ref={bankbook}
+                              title="파일열기"
+                              readOnly
+                              onClick={() => {
+                                window.open(
+                                  `http://localhost/static/images/host/profile/${data.h_bankbook}`
+                                );
+                              }}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
                       <th>가입일</th>
                       <td colSpan={3}>
                         <input
@@ -369,12 +477,32 @@ function EditHostInfo() {
                         });
                         return;
                       }
+                      if (h_business.current.value == "") {
+                        Swal.fire({
+                          icon: "warning",
+                          title: "잠깐!",
+                          html: "사업자번호를 입력하세요.",
+                          confirmButtonText: "OK",
+                        });
+                        return;
+                      }
+                      if (h_accountnum.current.value == "") {
+                        Swal.fire({
+                          icon: "warning",
+                          title: "잠깐!",
+                          html: "계좌번호를 입력하세요.",
+                          confirmButtonText: "OK",
+                        });
+                        return;
+                      }
 
                       const form = new FormData();
                       form.append("h_idx", userIdx);
                       form.append("pwd", pwd.current.value);
                       form.append("h_name", h_name.current.value);
                       form.append("h_phone", h_phone.current.value);
+                      form.append("h_business", h_business.current.value);
+                      form.append("h_accountnum", h_accountnum.current.value);
                       form.append("h_description", h_description.current.value);
 
                       if (profile.current.files.length > 0) {
@@ -385,6 +513,12 @@ function EditHostInfo() {
                         file.current.files.length > 0
                       ) {
                         form.append("file", file.current.files[0]);
+                      }
+                      if (
+                        data.h_status === "가입완료" &&
+                        bankbook.current.files.length > 0
+                      ) {
+                        form.append("bankbook", bankbook.current.files[0]);
                       }
                       fetch(`http://localhost/api/host/update/${userIdx}`, {
                         method: "post",
@@ -408,9 +542,6 @@ function EditHostInfo() {
                                   h_name: h_name.current.value,
                                   h_level: h_level.current.value,
                                 });
-                                // console.log(
-                                //   "이동전? " + JSON.stringify(userInfo)
-                                // );
                                 navigate("/");
                               }
                             });

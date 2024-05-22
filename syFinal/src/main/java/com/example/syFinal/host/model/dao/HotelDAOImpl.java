@@ -105,7 +105,7 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호텔 대표 이미지 조회 */
 	@Override
-	public String getHotelImg(int ho_idx) {
+	public Map<String, Object> getHotelImg(int ho_idx) {
 		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
 	}
 
@@ -113,6 +113,18 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public void editHotelDefaultInfo(Map<String, Object> map) {
 		sqlSession.update("hotel.editHotelDefaultInfo", map);
+	}
+	
+	/* 호텔 편의시설 수정 */
+	@Override
+	public void editAmenity(Map<String, Object> map) {
+		sqlSession.update("hotel.editHotelAmenity", map);
+	}
+	
+	/* 호텔 객실 정보 수정 */
+	@Override
+	public void editHotelRoomInfo(Map<String, Object> map) {
+		sqlSession.update("hotel.editHotelRoomInfo", map);
 	}
 	
 	/* 호텔 영업 중지 신청 */

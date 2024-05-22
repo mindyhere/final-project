@@ -172,9 +172,7 @@ function Pay() {
                                             {
                                                 modalOpen &&
                                                 <div className={'modal-container'} ref={modalBackground} onClick={e => {
-                                                if (e.target === modalBackground.current) {
-                                                    setModalOpen(false);
-                                                }
+                                                
                                                 }}>
                                                 <div className={'modal-content2'}>
                                                     <h4>카드 상세정보 추가하기</h4>

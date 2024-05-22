@@ -101,7 +101,7 @@
 	
 	<!-- 호스트의 모든 호텔 리뷰 -->
 	<select id="getAllReviews" resultType="java.util.Map">
-		SELECT rv_idx, g_name, g_url, rv_content, rv_date, rv_star,
+		SELECT rv_idx, g_name, g_photo, rv_content, rv_date, rv_star,
 		(SELECT rv_idx FROM v_hotel_review where rv_idx &lt; r.rv_idx ORDER BY rv_idx  LIMIT 1) prev_idx,
 		(SELECT rv_idx FROM v_hotel_review where rv_idx  &gt; r.rv_idx ORDER BY rv_idx  LIMIT 1) next_idx
 		FROM v_hotel_review r
@@ -142,8 +142,11 @@
 	</select>
 
 	<!-- 호텔 대표 이미지 조회 -->
-	<select id="getHotelImg" resultType="String">
-		SELECT ho_img FROM hotel WHERE ho_idx = #{ho_idx}
+	<select id="getHotelImg" resultType="java.util.Map">
+		SELECT ho_img, d_img1, d_img2, d_img3
+		FROM hotel, hotel_detail
+		WHERE ho_idx = #{ho_idx}
+		GROUP BY ho_idx
 	</select>
 
 	<!-- 호텔 기본 정보 수정 -->
@@ -157,12 +160,17 @@
 	
 	<!-- 호텔 편의시설 수정 -->
 	<update id="editHotelAmenity">
-	
+		UPDATE hotel_amenity SET ${option} = "Y"
+		WHERE ha_ho_idx=#{ho_idx}
 	</update>
 	
 	<!-- 호텔 객실 정보 수정 -->
 	<update id="editHotelRoomInfo">
-	
+		UPDATE hotel_detail 
+		SET d_capacity = #{d_capacity}, d_area = #{d_area}, d_beds = #{d_beds}, 
+			  d_non_smoking = #{d_non_smoking}, d_price = #{d_price},
+			  d_img1 = #{d_img1}, d_img2 = #{d_img2}, d_img3 = #{d_img3}
+		WHERE d_idx = #{d_idx}
 	</update>
 	
 	<!-- 호텔 영업 중지 신청 -->

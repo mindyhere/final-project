@@ -25,12 +25,13 @@ function useFetch(url) {
 }
 
 function Profile() {
+
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
     const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
     const [data1,loading1]=useFetch('http://localhost/guest/reviewcount?g_idx='+idx.key);
     const [data2,loading2]=useFetch('http://localhost/guest/joindate?g_idx='+idx.key);
-
+    
     const [reviewlist,setReviewList] = useState([]);
     const [replylist,setReplyList] = useState([]);
 
@@ -97,6 +98,15 @@ if(loading||loading1||loading2){
       image_url=`<img class='profile-img' src=${src} width='120px' height='120px' style={{backgroundSize:"contain";}}/>`; 
     }
 
+    console.log(data.dto.g_level);
+    let level = '';
+    if (data.dto.g_level === 1) {
+        level = 'regular';
+    } else if (data.dto.g_level === 2) {
+        level = 'super';
+    } else if (data.dto.g_level === 3) {
+        level = 'VIP';
+    }
  return (
     <>
         <div className="container" align='center' style={{position: 'static'}}>
@@ -112,7 +122,7 @@ if(loading||loading1||loading2){
                                             <div class="col" style={{ lineHeight: '2.1'}}>
                                             <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
                                             <h4>{data.dto.g_name}</h4>
-                                            <div>게스트</div>
+                                            <div>{level}게스트</div>
                                             </div>
                                             <div class="col">
                                             <h5>후기</h5>
@@ -182,7 +192,7 @@ if(loading||loading1||loading2){
                                                 }}
                                             >
                                                 <div className={"modal-content3"}>
-                                                <h4>본인 인증이란?(모달 이상함 수정예정)</h4>
+                                                <h4>본인 인증이란?</h4>
                                                 <hr></hr>
                                                 <p>'본인 인증' 절차를 거쳤거나 본인 인증 배지를 가지고 있다는 것은 sybnb 본인 인증 절차를 완료하기 위해 정보를 제공했다는 사실만을 의미합니다. 이 절차는 안전 장치를 갖추고 있지만, 누군가의 신원을 보장하지는 않습니다. </p>
                                                 </div>

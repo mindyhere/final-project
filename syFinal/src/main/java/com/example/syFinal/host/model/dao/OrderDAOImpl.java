@@ -1,6 +1,7 @@
 package com.example.syFinal.host.model.dao;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,11 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
+	public void update(int o_idx) {
+		sqlSession.update("order.update", o_idx);
+	}
+
+	@Override
 	public List<Map<String, Object>> getList(Map<String, Object> map) {
 		List<Map<String, Object>> list = null;
 		try {
@@ -40,6 +46,9 @@ public class OrderDAOImpl implements OrderDAO {
 						break;
 					case "3":
 						m.put("status", "예약확정");
+						break;
+					case "4":
+						m.put("status", "체크인완료");
 						break;
 					}
 					// 금액 1000단위 포맷
@@ -144,6 +153,15 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void requestReject(int o_idx) {
 		sqlSession.selectOne("order.requestReject", o_idx);
+	}
+
+	@Override
+	public List<Map<String, String>> schedule(int h_idx, String column) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("column", column);
+		List<Map<String, String>> list = sqlSession.selectList("order.schedule", map);
+		return list;
 	}
 
 }

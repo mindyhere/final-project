@@ -23,7 +23,7 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        // console.log("===> data? " + JSON.stringify(data));
+        console.log("===> data? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -67,15 +67,16 @@ function HostAccount() {
           h_name: `${data.h_name}`,
           h_phone: `${data.h_phone}`,
           h_business: `${data.h_business}`,
+          h_accountnum: `${data.h_accountnum}`,
           h_level: `${data.h_level}`,
           l_name: `${data.l_name}`,
           h_status: `${data.h_status}`,
           h_regdate: `${data.h_regdate}`,
           h_profile: `${data.h_profile}`,
           h_file: `${data.h_file}`,
+          h_bankbook: `${data.h_bankbook}`,
           h_description: `${data.h_description}`,
         },
-        //replace: true, // 뒤로가기 시 root로 이동
       });
     };
 
@@ -163,7 +164,8 @@ function HostAccount() {
                                     onClick={() => {
                                       if (
                                         data.h_profile !== "-" &&
-                                        data.h_file !== "-"
+                                        data.h_file !== "-" &&
+                                        data.h_bankbook !== "-"
                                       ) {
                                         levelUp(userIdx, 1);
                                       } else {
@@ -250,7 +252,7 @@ function HostAccount() {
           <div className="container card-style">
             <h3 className="text-bold">
               <ClipboardData size={35} />
-              &nbsp;객실예약 현황
+              &nbsp;매출/예약 현황
             </h3>
             <br />
             <BriefReservation />
@@ -298,7 +300,7 @@ function levelUp(userIdx, opt) {
     Swal.fire({
       icon: "warning",
       title: "잠깐!",
-      html: "신청이 거부되었습니다.<br/>프로필/사업자등록증을 업로드해주세요.",
+      html: "신청이 거부되었습니다. 첨부파일을 업로드해주세요.<br/>(프로필, 사업자등록증, 통장사본)",
       confirmButtonText: "OK",
     });
   }
