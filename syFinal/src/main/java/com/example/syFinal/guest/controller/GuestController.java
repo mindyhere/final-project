@@ -68,7 +68,6 @@ public class GuestController {
 			map.put("O_finalprice", dto.get(i).getO_finalprice());
 			paylist.add(map);
 		}
-		//System.out.println("결제리스트====" + paylist);
 		
 		return paylist;
 	}
@@ -88,10 +87,17 @@ public class GuestController {
 			map.put("Gccheck", coupon.get(i).getGc_check());
 			map.put("Gcissue", coupon.get(i).getGc_issue());
 			map.put("Gcdeadline", coupon.get(i).getGc_deadline());
-			map.put("c_count", coupon);
 			couponlist.add(map);
 		}
 		return couponlist;
+	}
+	
+	@RequestMapping("/guest/c_count")
+	public Map<String, Object> c_coupon(@RequestParam(name="g_idx") int g_idx) {
+		int c_count = dao.c_count(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("c_count", c_count);
+		return map;
 	}
 	
 	//예약요청
@@ -101,7 +107,8 @@ public class GuestController {
 			@RequestParam(name="adult") int adult, @RequestParam(name="pay") String pay,
 			@RequestParam(name="child") int child, @RequestParam(name="baby") String baby,
 			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice,
-			@RequestParam(name="paymentId") String paymentId) {
+			@RequestParam(name="paymentId") String paymentId,@RequestParam(name="usePoint") int point,
+			@RequestParam(name="rePoint") int gpoint) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);
@@ -113,9 +120,13 @@ public class GuestController {
 		map1.put("pay", pay);
 		map1.put("dprice", dprice);
 		map1.put("fprice", fprice);
+		map1.put("usePoint", point);
 		map1.put("paymentId", paymentId);
-		//System.out.println("예약요청"+map1);
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("idx", idx);
+		map2.put("rePoint", gpoint);
 		dao.order(map1);
+		dao.pointupdate(map2);
 	}
 	//게스트 후기목록
 	@RequestMapping("/guest/review")
@@ -138,7 +149,6 @@ public class GuestController {
 			map.put("Rv_content", dto1.get(i).getRv_content());
 			reviewlist.add(map);
 		}
-		//System.out.println("리뷰리스트===="+reviewlist);
 		return reviewlist;
 	}
 	//게스트 후기의 호스트 답변목록
@@ -157,7 +167,6 @@ public class GuestController {
 			map.put("Rp_content", dto2.get(i).getRp_content());
 			replylist.add(map);
 		}
-		//System.out.println("답변리스트===="+replylist);
 		return replylist;
 	}
 	//후기갯수
