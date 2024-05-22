@@ -78,7 +78,7 @@ public class OrderController {
 			@RequestParam Map<String, Object> params) {
 		Map<String, Object> data = new HashMap<>();
 		orderDao.confirm(params);
-		if ((int) params.get("result") == 1) {
+		if ((int) params.get("result") == 1) { // 체크인 확정이 정상 처리되었을 때, 게스트 레벨 업데이트
 			int result = orderDao.guestLevelUpate(params);
 			params.replace("result", result);
 			data.put("level", params.get("level"));
