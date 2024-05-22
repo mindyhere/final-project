@@ -21,10 +21,13 @@ function useFetch(url) {
         if (data.count != 0) {
           let arr = [];
           for (let i = 0; i < data.list.length; i++) {
+            let value = "";
             if (data.column == "o_ckin") {
-              arr.push(JSON.stringify(data.list[i].o_ckin));
+              value = JSON.stringify(data.list[i].o_ckin);
+              arr.push(moment(value).format("YYYY-MM-DD"));
             } else {
-              arr.push(JSON.stringify(data.list[i].o_ckout));
+              value = JSON.stringify(data.list[i].o_ckout);
+              arr.push(moment(value).format("YYYY-MM-DD"));
             }
           }
           setData(arr);
@@ -48,25 +51,10 @@ function Scheduler() {
   );
 
   const [date, setDate] = useState(value);
-  console.log("==> x? " + moment(value).format("YYYY-MM-DD"));
-
-  console.log("=> test? " + ckin[1]);
-
-  const arrCkin = ckin.map(function (date) {
-    console.log(date);
-    return moment(date).format("YYYY-MM-DD");
-  });
-  const arrCkout = ckout.map(function (date) {
-    console.log(date);
-    return moment(date).format("YYYY-MM-DD");
-  });
-  // const ckout = [];
 
   if (loading1 || loading2) {
     return <div className="text-center">로딩 중...</div>;
   } else {
-    console.log("=> test? " + arrCkin);
-    // console.log("=> 체크아웃날짜? " + ckout);
     return (
       <div>
         <Calendar
@@ -83,32 +71,36 @@ function Scheduler() {
           value={value}
           tileClassName={({ date, view }) => {
             if (
-              arrCkin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
-              arrCkout.find((x) => x === moment(date).format("YYYY-MM-DD"))
+              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
+              ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))
             ) {
-              // console.log("==> x? " + value);
               return "highlight"; // 하이라이트 처리
             }
           }}
           tileContent={({ date, view }) => {
             let html = [];
-            if (arrCkin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-              // console.log("==> x? " + value);
+            if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <CircleFill
-                  style={{ padding: 0, width: "7px", height: "7px" }}
+                  className="checkpoint"
+                  style={{
+                    margin: "0 1px",
+                    width: "7px",
+                    height: "7px",
+                    color: "#9f48eb",
+                  }}
                 />
               );
             }
-            if (arrCkout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-              // console.log("==> x? " + value);
+            if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <TriangleFill
+                className="checkpoint"
                   style={{
-                    padding: 0,
+                    margin: "0 1px",
                     width: "7px",
                     height: "7px",
-                    // marginLeft: "4px",
+                    color: "#9f48eb",
                   }}
                 />
               );
