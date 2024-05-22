@@ -83,7 +83,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Dimg1,Dimg2,Dimg3,St
                             </div>
                         </div>
                     </div>
-                    <div style={{fontSize:"17px"}}>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}/박</div>
+                    <div style={{fontSize:"17px"}}>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}&nbsp;/박</div>
                 </Link>
                     {checkId == 2 
                     ? 
