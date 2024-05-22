@@ -144,7 +144,7 @@ public class OrderDAOImpl implements OrderDAO {
 		int cnt = sqlSession.selectOne("order.countOrders", params);
 		int room = sqlSession.selectOne("order.roomCount", params);
 		System.out.println("==> 예약수?" + cnt + ", " + room);
-		if (cnt < room) {
+		if (cnt <= room) {
 			return true;
 		}
 		return false;

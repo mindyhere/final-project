@@ -175,8 +175,9 @@ function ManageOrders() {
                 <ModifyList />
               </div>
             </div>
-            <br />
-            <br />
+          </div>
+          <br />
+          <div className="card-style mb-30">
             <h3 className="text-bold">
               <Calendar2Week size={35} />
               &nbsp;예약목록
