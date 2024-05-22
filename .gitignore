@@ -419,3 +419,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,eclipse,python,react,pycharm
+syFinal/.gradle/8.7/checksums/checksums.lock
+syFinal/.gradle/8.7/checksums/md5-checksums.bin
+syFinal/.gradle/8.7/checksums/sha1-checksums.bin
