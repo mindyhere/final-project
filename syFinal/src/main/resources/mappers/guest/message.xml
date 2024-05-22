@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="message">
-<select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
+<!-- <select id="list" resultType="com.example.syFinal.global.model.MessageDTO">
 	SELECT distinct(m_h_idx), h_name, h_profile, m_g_idx, m_roomId
 	FROM host, message
 	WHERE m_g_idx=#{g_idx} AND m_h_idx = h_idx
 	
+</select> -->
+
+<select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
+	SELECT distinct(m_receiver), h_name, h_profile, m_sender, m_roomId
+	FROM host, message
+	WHERE m_sender=#{sender} AND m_receiver = h_email
 </select>
 
+
 <select id="last_message" resultType="com.example.syFinal.global.model.MessageDTO">
-select m_message, m_send_date from message where m_g_idx=#{g_idx} AND m_h_idx = #{h_idx}
+select m_message, m_send_date from message where m_roomId = #{m_roomId}
 order by m_idx desc limit 1
 </select>
 
 <select id="h_list" resultType="com.example.syFinal.global.model.MessageDTO">
-	select * from message where m_h_idx = #{h_idx}
+	SELECT distinct(m_receiver), g_name, g_photo, m_sender, m_roomId
+	FROM guest, message
+	WHERE m_sender=#{sender} AND m_receiver = g_email
 </select>
 
 <insert id="create">
@@ -22,7 +31,28 @@ insert into message(m_roomId, m_h_idx, m_g_idx, m_message) values
 (#{room}, #{h_idx}, #{g_idx}, #{message})
 </insert>
 
+<!-- <select id="entrance" resultType="com.example.syFinal.global.model.MessageDTO">
+	select distinct(m_idx), m_roomId, m_h_idx, m_g_idx, m_message, h_name, h_profile, m_send_date, m_sender
+	from message, host
+	 where m_h_idx = #{h_idx} and m_g_idx = #{g_idx} AND m_h_idx = h_idx
+</select> -->
+
 <select id="entrance" resultType="com.example.syFinal.global.model.MessageDTO">
-	select * from message where m_h_idx = #{h_idx} and m_g_idx = #{g_idx}
+select distinct(m_idx), m_roomId, m_sender, m_receiver, m_message, m_send_date,
+g_name, g_photo, h_name, h_profile
+from message, guest, host
+where m_roomId=#{m_roomId} AND ((m_sender=g_email and m_receiver=h_email) OR (m_sender=h_email and m_receiver=g_email))
 </select>
+
+<select id="receive" resultType="String">
+select DISTINCT(m_receiver) from message 
+where m_sender = #{m_sender} and m_roomId = #{m_roomId}
+</select>
+
+<select id="insert">
+insert into message(m_roomId, m_sender, m_receiver, m_message)
+values (#{m_roomId}, #{m_sender}, #{m_receiver}, #{m_message})
+</select>
+
+
 </mapper>
