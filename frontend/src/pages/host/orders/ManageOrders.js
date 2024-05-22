@@ -33,7 +33,7 @@ function ManageOrders() {
 
   function getList(hoIdx, pageNum) {
     let url = "";
-    console.log("==> page? " + pageNum + ", " + hoIdx);
+    // console.log("==> page? " + pageNum + ", " + hoIdx);
     if (pageNum != "0") {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
     } else {
@@ -175,8 +175,9 @@ function ManageOrders() {
                 <ModifyList />
               </div>
             </div>
-            <br />
-            <br />
+          </div>
+          <br />
+          <div className="card-style mb-30">
             <h3 className="text-bold">
               <Calendar2Week size={35} />
               &nbsp;예약목록

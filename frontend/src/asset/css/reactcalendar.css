@@ -40,7 +40,7 @@ abbr[title] {
     padding: 1.5% 1% 1% 1%;
 }
 
-.react-calendar__tile react-calendar__year-view__months__month{
+.react-calendar__tile react-calendar__year-view__months__month {
     height: 50px;
 }
 
@@ -58,7 +58,7 @@ abbr[title] {
 
 .react-calendar__tile--now,
 .react-calendar__tile--now.react-calendar__tile--active {
-    background: #9f48eb;
+    background: #DBC4F0;
     border-radius: 8px;
     font-style: italic;
     font-weight: bold;
@@ -98,4 +98,8 @@ abbr[title] {
     background-color: #f7effc;
     border-radius: 8px;
     font-weight: bold;
+}
+
+.checkpoint:active {
+    color: white !important;
 }

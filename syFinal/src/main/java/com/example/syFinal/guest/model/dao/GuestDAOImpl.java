@@ -33,6 +33,11 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	
 	@Override
+	public int c_count(int g_idx) {
+		return sqlSession.selectOne("guest.c_count", g_idx);
+	}
+	
+	@Override
 	public void cardupdate(Map<String,Object> map){
 		sqlSession.update("guest.cardupdate", map);
 	}
@@ -45,6 +50,10 @@ public class GuestDAOImpl implements GuestDAO {
 	@Override
 	public void order(Map<String,Object> map){
 		sqlSession.insert("guest.order",map);
+	}
+	@Override
+	public void pointupdate(Map<String,Object> map){
+		sqlSession.insert("guest.pointupdate",map);
 	}
 	
 	@Override

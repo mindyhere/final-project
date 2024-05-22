@@ -11,6 +11,7 @@ import com.example.syFinal.global.model.MessageDTO;
 @RestController
 public class WebSocketController {
 	@Autowired
+
     private SimpMessagingTemplate template;
 	
 	@Autowired
@@ -26,4 +27,5 @@ public class WebSocketController {
 		
         template.convertAndSend("/sub/chatroom/" + message.getM_roomId(), message);
     }
+
 }
