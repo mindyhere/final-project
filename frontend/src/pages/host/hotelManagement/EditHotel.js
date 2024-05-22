@@ -59,7 +59,6 @@ function EditHotel() {
         window.open(`http://localhost/static/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500'); 
     } 
 
-
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [address, setAddress] = useState("");
     const [hoX, setHoX] = useState("");
@@ -120,10 +119,6 @@ function EditHotel() {
         outlineColor: "#F7EFFC" 		// 테두리
       };
 
-
-
-
-
     const [rooms, setRooms] = useState("");
     function Modal(props) {
         function closeModal() {
@@ -134,30 +129,30 @@ function EditHotel() {
           <div className="modal_h" onClick={closeModal}>
             <div
               className="modalBody_h"
-              style={{ width: "1000px", height: "700px", padding: "30px" }}
+              style={{ width: "1000px", height: "800px", padding: "30px" }}
               onClick={(e) => e.stopPropagation()}
             >
               <button className="btnClose" onClick={closeModal}>
                 X
               </button>
-              <RoomDetail 
-                hoIdx={hoIdx}
-                dIdx={rooms.d_idx}
-                roomType={rooms.d_room_type}
-                capacity={rooms.d_capacity}
-                area={rooms.d_area}
-                beds={rooms.d_beds}
-                price={rooms.d_price}
-                smoking={rooms.d_non_smoking}
-                img1={rooms.d_img1}
-                img2={rooms.d_img2}
-                img3={rooms.d_img3}
+                <RoomDetail 
+                    hoIdx={hoIdx}
+                    dIdx={rooms.d_idx}
+                    roomType={rooms.d_room_type}
+                    capacity={rooms.d_capacity}
+                    area={rooms.d_area}
+                    beds={rooms.d_beds}
+                    price={rooms.d_price}
+                    smoking={rooms.d_non_smoking}
+                    img1={rooms.d_img1}
+                    img2={rooms.d_img2}
+                    img3={rooms.d_img3}
               />
                {/*props.children*/}
             </div>
           </div>
         );
-      }
+    }
 
 
     if(loading){
@@ -174,26 +169,25 @@ function EditHotel() {
             image_url = '';
         }
 
-        const dataList = [
-            {id: 0, title: '산 전망', icon: '/img/mountain.png', sts : data[0].mountain_view},
-            {id: 1, title: '바다 전망', icon: '/img/ocean.png', sts : data[0].ocean_view},
-            {id: 2, title: '무선인터넷', icon: '/img/wifi.png', sts : data[0].wifi},
-            {id: 3, title: '주차장', icon: '/img/parking.png', sts : data[0].parking_lot},
-            {id: 4, title: '조식 제공', icon: '/img/breakfast.png', sts : data[0].breakfast},
-            {id: 5, title: '화재경보기', icon: '/img/firealam.png', sts : data[0].fire_alam},
-            {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher}
+        let dataList = [
+            {id: 0, title: '산 전망', icon: '/img/mountain.png', sts : data[0].mountain_view, sts2: true},
+            {id: 1, title: '바다 전망', icon: '/img/ocean.png', sts : data[0].ocean_view, sts2: true},
+
+            {id: 2, title: '무선인터넷', icon: '/img/wifi.png', sts : data[0].wifi, sts2: true},
+            {id: 3, title: '주차장', icon: '/img/parking.png', sts : data[0].parking_lot, sts2: true},
+            {id: 4, title: '조식 제공', icon: '/img/breakfast.png', sts : data[0].breakfast, sts2: true},
+            {id: 5, title: '화재경보기', icon: '/img/firealam.png', sts : data[0].fire_alam, sts2: true},
+            {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher, sts2:true}
           ];
 
-    
-    
-          const handleSingleCheck = (checked, id) => {
-              if (checked) {
-                  setCheckItems(prev => [...prev, id]);        
-              } else {
-                  setCheckItems(checkItems.filter((el) => el !== id));
-              }
+        const handleSingleCheck = (checked, id) => {
+            if (checked) {
+                setCheckItems(prev => [...prev, id]);        
+            } else {
+                setCheckItems(checkItems.filter((el) => el !== id));
+            }
           };
-      
+
           const handleAllCheck = (checked) => {
               if(checked) {
                 const idArray = [];
@@ -349,17 +343,17 @@ function EditHotel() {
                         &nbsp;
                         <strong>전체 선택</strong>
                     </div>
+                    
                     <div className="checkbox-group" style={{fontSize: '18px'}}>
                         {dataList?.map((item, index) => (
+                            
                             <div key={index} className="mb-10">
                                 <div>
-                                    <input type='checkbox' name={`select-${item.id}`}
-                                    onChange={(e) => handleSingleCheck(e.target.checked, item.id)}
-                                    //onChange={(e) => handleSingleCheck(e)}
-                                    //defaultChecked={item.sts == "Y" ? true : false}
-                                    //checked={} />
-                                   // defaultChecked={item.sts == "Y"}
-                                    checked={item.sts == "Y" ? true : checkItems.includes(item.id) ? true : false} 
+                                    <input 
+                                        type='checkbox'
+                                        name={`select-${item.id}`}
+                                        onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts)}
+                                        defaultChecked={item.sts=="Y" ? true : false}
                                     />
                                     &nbsp;
                                     <img src={item.icon} style={{ width: '30px', height: '30px' }} />
@@ -445,7 +439,7 @@ function EditHotel() {
                                 fetch(`http://localhost/host/hotel/closeHotel?ho_idx=`+ hoIdx)
                                 .then(() => {
                                     // 변경절차 추가
-                                    alert("3으로 변경");
+                                    alert("영업 중지 상태로 변경");
                                 });
                             }
                             });
