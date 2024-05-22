@@ -6,10 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div>
-		<img th:src="@{/sybnb.png}" height="25px" th:onclick="|location.href='@{http://localhost:3000}'|">
-		<h2 th:style="${'background-color: #f7effc'}">HOTEL VOUCHER</h2>
-	</div>
+	<h2 th:style="${'background-color: #f7effc'}">HOTEL VOUCHER</h2>
 	<span th:text="${message}"></span>
 	<br> Reservation No&nbsp;&nbsp;:&nbsp;&nbsp;
 	<b><span th:text="${o_idx}"></span></b>
