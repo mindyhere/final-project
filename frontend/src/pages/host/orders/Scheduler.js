@@ -38,7 +38,7 @@ function useFetch(url) {
   return [data, loading];
 }
 
-function Scheduler() {
+function Scheduler({ handleModal }) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
@@ -49,7 +49,6 @@ function Scheduler() {
   const [ckout, loading2] = useFetch(
     `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckout`
   );
-
   const [date, setDate] = useState(value);
 
   if (loading1 || loading2) {
@@ -68,6 +67,9 @@ function Scheduler() {
           maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
           navigationLabel={null}
           onChange={onChange}
+          onClickDay={(date, event) => {
+            handleModal(moment(date).format("YYYY. MM"), "detail");
+          }}
           value={value}
           tileClassName={({ date, view }) => {
             if (
@@ -82,11 +84,11 @@ function Scheduler() {
             if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <CircleFill
-                  color={"#9f48eb"}
+                  color={"#8c7e9e"}
                   style={{
                     margin: "0 1px",
-                    width: "7px",
-                    height: "7px",
+                    width: "8px",
+                    height: "8px",
                   }}
                 />
               );
@@ -94,11 +96,11 @@ function Scheduler() {
             if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
               html.push(
                 <TriangleFill
-                  color={"#9f48eb"}
+                  color={"#8c7e9e"}
                   style={{
                     margin: "0 1px",
-                    width: "7px",
-                    height: "7px",
+                    width: "8px",
+                    height: "8px",
                   }}
                 />
               );

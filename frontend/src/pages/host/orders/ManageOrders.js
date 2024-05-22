@@ -7,6 +7,7 @@ import OrderItem from "./OrderItem";
 import OrderDetail from "./OrderDetail_modal";
 import Scheduler from "./Scheduler";
 import ModifyList from "./ModifyList";
+import DetailSchedule from "./DetailSchdule_modal";
 
 import {
   ChevronDoubleLeft,
@@ -24,7 +25,8 @@ function ManageOrders() {
   const [loading, setLoading] = useState("");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
-  const [modal, setModal] = useState(false);
+  const [order, setOderItem] = useState(false);
+  const [detail, setDetailSchedule] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [hoIdx, setHotelIdx] = useState("");
@@ -74,9 +76,15 @@ function ManageOrders() {
     });
   };
 
-  const handleModal = (oder_idx) => {
-    isSelected(oder_idx);
-    setModal(!modal);
+  const handleModal = (value, event) => {
+    console.log("=> 핸들러?" + typeof value+", "+toString(value) + ", " + event);
+    if (event == "order") {
+      isSelected(value);
+      setOderItem(!order);
+    } else {
+      isSelected(value);
+      setDetailSchedule(!detail);
+    }
   };
 
   const setPagination = () => {
@@ -113,7 +121,6 @@ function ManageOrders() {
   function Modal(props) {
     function closeModal() {
       props.closeModal();
-      setModal(!modal);
     }
 
     return (
@@ -132,10 +139,6 @@ function ManageOrders() {
     );
   }
 
-  const tileContent = ({ date }) => {
-    return <p>.</p>;
-  };
-
   if (loading) {
     return <div>loading...</div>;
   } else {
@@ -151,18 +154,11 @@ function ManageOrders() {
             <div
               className="row mt-0 mb-2"
               style={{
-                zIndex: "0",
-                position: "relative",
                 padding: "0 1% 0 1%",
               }}
             >
               <div className="col-3 m-0 p-0">
-                <Scheduler
-                  tileContent={tileContent}
-                  style={{
-                    position: "relative",
-                  }}
-                />
+                <Scheduler handleModal={handleModal} style={{}} />
               </div>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <div
@@ -205,14 +201,10 @@ function ManageOrders() {
                     : null}
                 </ul>
               </div>
-              <div
-                className="card-body"
-                style={{ zIndex: "1", position: "relative" }}
-              >
+              <div className="card-body">
                 <table
                   id="review"
                   className="table table-sm table-hover align-middle text-center"
-                  style={{ zIndex: "3", position: "relative" }}
                 >
                   <colgroup>
                     <col width="5%" />
@@ -254,7 +246,9 @@ function ManageOrders() {
                   </thead>
                   <tbody
                     className="table-group-divider"
-                    style={{ borderColor: "#F7EFFC" }}
+                    style={{
+                      borderColor: "#F7EFFC",
+                    }}
                   >
                     {count > 0 ? (
                       list.map(
@@ -309,31 +303,24 @@ function ManageOrders() {
                         )
                       )
                     ) : (
-                      <tr className="align-middle">
+                      <tr
+                        className="align-middle"
+                        style={{
+                          borderColor: "#F7EFFC",
+                        }}
+                      >
                         <td colSpan="8">
                           <br />
                           <p>등록된 게시글이 없습니다.</p>
                         </td>
                       </tr>
                     )}
-                    {modal && (
-                      <Modal
-                        style={{ zIndex: "100", position: "relative" }}
-                        closeModal={() => {
-                          setModal(!modal);
-                        }}
-                      >
-                        <OrderDetail
-                          order_idx={selected}
-                          style={{ zIndex: "999", position: "relative" }}
-                        />
-                      </Modal>
-                    )}
                   </tbody>
                 </table>
+
                 <div
                   className="d-flex justify-content-center"
-                  style={{ zIndex: "2", position: "relative" }}
+                  style={{ position: "relative", zIndex: "0" }}
                 >
                   <nav className="page-navibar">
                     <ul className="pagination">
@@ -390,6 +377,33 @@ function ManageOrders() {
                     </ul>
                   </nav>
                 </div>
+                {detail && (
+                  <Modal
+                    style={{ position: "relative", zIndex: "99" }}
+                    closeModal={() => {
+                      setDetailSchedule(!detail);
+                    }}
+                  >
+                    <DetailSchedule
+                      date={selected}
+                      column={"o_ckin"}
+                      style={{ position: "relative", zIndex: "100" }}
+                    />
+                  </Modal>
+                )}
+                {order && (
+                  <Modal
+                    style={{ position: "relative", zIndex: "99" }}
+                    closeModal={() => {
+                      setOderItem(!order);
+                    }}
+                  >
+                    <OrderDetail
+                      order_idx={selected}
+                      style={{ position: "relative", zIndex: "100" }}
+                    />
+                  </Modal>
+                )}
               </div>
             </div>
           </div>

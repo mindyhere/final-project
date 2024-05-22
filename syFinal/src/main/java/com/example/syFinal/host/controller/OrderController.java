@@ -180,7 +180,7 @@ public class OrderController {
 	}
 
 	@GetMapping("manage/schedule/{userIdx}")
-	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
+	public Map<String, Object> reservationSchedule(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "column", defaultValue = "") String column) {
 
 		Map<String, Object> map = new HashMap<>();
@@ -199,8 +199,17 @@ public class OrderController {
 			data.put("column", column);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
 		return data;
-
 	}
+
+	@PostMapping("manage/schedule/detail/{userIdx}")
+	public List<Map<String, Object>> detailSchedule(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column,
+			@RequestParam(name = "date", defaultValue = "") String date) {
+		System.out.println("==> 스케쥴러?" + column + ", date=  " + date);
+		List<Map<String, Object>> list = orderDao.detailSchedule(h_idx, column, date);
+		System.out.println("==> 스케쥴조회 결과?" + list);
+		return list;
+	}
+
 }

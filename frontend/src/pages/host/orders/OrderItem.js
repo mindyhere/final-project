@@ -64,7 +64,7 @@ function OrderItem({
       className="align-middle"
       onClick={() => {
         localStorage.setItem("dataset", JSON.stringify(dataset));
-        handleModal(o_idx);
+        handleModal(o_idx, "order");
       }}
     >
       <th>{rownum}</th>
@@ -75,7 +75,7 @@ function OrderItem({
       <td>{o_finalprice}</td>
       <td>{o_orderdate}</td>
       {o_state == "1" ? (
-        <td style={{ color: "red" }}>{status}</td>
+        <td style={{ color: "crimson" }}>{status}</td>
       ) : (
         <td>
           <b>{status}</b>

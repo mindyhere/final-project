@@ -33,24 +33,6 @@ from
 </choose>
 </select>
 
-<!-- <select id="ckinDates" resultType="java.util.Map">
-	select distinct o_ckin
-	from v_host_order v
-	where 
-		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
-		and o_state='3'
-	order by o_ckin;
-</select>
-
-<select id="ckoutDates" resultType="java.util.Map">
-	select distinct o_ckout
-	from v_host_order v
-	where 
-		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
-		and o_state='3'
-	order by o_ckout;
-</select> -->
-
 <select id="countAll" resultType="int">
 	select count(*) from v_host_order
 	where ho_idx IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
@@ -99,7 +81,7 @@ select distinct ${column}
 	where 
 		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
 		and o_state='3'
-	order by ${column};
+	order by ${column}
 </select>
 
 <!-- 예약수정 요청 목록 -->
@@ -107,7 +89,7 @@ select distinct ${column}
 	select distinct v.* 
 	from v_modify_order v
 	where v.ho_idx 
-		IN (select ho_idx from hotel where ho_h_idx=#{h_idx});
+		IN (select ho_idx from hotel where ho_h_idx=#{h_idx})
 </select>
 
 <!-- 게스트의 예약변경 요청사항을 orders 테이블에 반영 -->
@@ -167,5 +149,15 @@ where
 	and g.g_idx=v.g_idx
 	and ho.ho_idx=v.ho_idx
 	and h.h_idx=ho.ho_h_idx
+</select>
+
+<select id="detailSchedule" resultType="java.util.Map">
+select v.*, g_email, g_name, g_phone
+from v_host_order v, guest g
+where 
+	v.ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+	and ${column}=#{date}
+	and v.g_idx=g.g_idx
+order by o_idx
 </select>
 </mapper>

@@ -204,4 +204,14 @@ public class OrderDAOImpl implements OrderDAO {
 		return item;
 	}
 
+	@Override
+	public List<Map<String, Object>> detailSchedule(int h_idx, String column, String date) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("column", column);
+		map.put("date", date);
+		List<Map<String, Object>> list = sqlSession.selectList("order.schedule", map);
+		return list;
+	}
+
 }

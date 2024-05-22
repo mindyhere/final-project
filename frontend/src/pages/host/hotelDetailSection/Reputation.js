@@ -9,7 +9,6 @@ import TotalReputation from "./Reputation_modal";
 function Reputation() {
   const { HoIdx } = useParams();
   const [list, setReviews] = useState([]);
-  const [modal, setModal] = useState(false);
   const [totReputation, setTotalReputation] = useState(false);
   const [avg, setAvg] = useState("");
 
@@ -28,7 +27,6 @@ function Reputation() {
   function Modal(props) {
     function closeModal() {
       props.closeModal();
-      setModal(false);
     }
 
     return (
