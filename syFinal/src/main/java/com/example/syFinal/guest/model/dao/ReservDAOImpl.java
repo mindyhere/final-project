@@ -53,6 +53,11 @@ public class ReservDAOImpl implements ReservDAO {
 	}
 	
 	@Override
+	public void gPoint(Map<String,Object> map) {
+		sqlSession.selectOne("reserv.gPoint", map);
+	}
+	
+	@Override
 	public ReservDTO upDetail(int o_idx) {
 		return sqlSession.selectOne("reserv.upDetail", o_idx);
 	}

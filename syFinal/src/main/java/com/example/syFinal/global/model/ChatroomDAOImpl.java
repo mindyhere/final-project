@@ -15,21 +15,35 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 	SqlSession sqlSession;
 	
 	@Override
-	public List<MessageDTO> g_list(int g_idx) {
-		return sqlSession.selectList("message.g_list", g_idx);
+	public List<MessageDTO> g_list(String sender) {
+		return sqlSession.selectList("message.g_list", sender);
+	}
+	
+	
+	@Override
+	public List<MessageDTO> h_list(String sender) {
+		return sqlSession.selectList("message.h_list", sender);
 	}
 	
 	@Override
-	public List<MessageDTO> h_list(int h_idx) {
-		return sqlSession.selectList("message.h_list", h_idx);
+	public MessageDTO last_message(String m_roomId) {
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("h_idx", m_h_idx);
+//		map.put("g_idx", g_idx);
+		return sqlSession.selectOne("message.last_message", m_roomId);
 	}
 	
 	@Override
-	public MessageDTO last_message(int g_idx, int m_h_idx) {
+	public void insert(MessageDTO message) {
+		sqlSession.insert("message.insert", message);
+	}
+	
+	@Override
+	public String receive(String m_sender, String m_roomId) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("h_idx", m_h_idx);
-		map.put("g_idx", g_idx);
-		return sqlSession.selectOne("message.last_message", map);
+		map.put("m_sender", m_sender);
+		map.put("m_roomId", m_roomId);
+		return sqlSession.selectOne("message.receive", map);
 	}
 
 	@Override
@@ -49,12 +63,19 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 		return result;
 	}
 
-	@Override
-	public List<MessageDTO> entrance(int g_idx, int h_idx) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("h_idx", h_idx);
-		map.put("g_idx", g_idx);
-		return sqlSession.selectList("message.entrance", map);
-	}
+//	@Override
+//	public List<MessageDTO> entrance(int g_idx, int h_idx) {
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("h_idx", h_idx);
+//		map.put("g_idx", g_idx);
+//		return sqlSession.selectList("message.entrance", map);
+//	}
 
+	@Override
+	public List<MessageDTO> entrance(String m_roomId) {
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("h_idx", h_idx);
+//		map.put("g_idx", g_idx);
+		return sqlSession.selectList("message.entrance", m_roomId);
+	}
 }
