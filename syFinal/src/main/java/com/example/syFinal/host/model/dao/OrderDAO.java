@@ -10,7 +10,7 @@ public interface OrderDAO {
 	void confirm(Map<String, Object> params);
 
 	// 예약확정(o_state 업데이트)
-	void update(int o_idx);
+	boolean update(int o_idx);
 
 	// orders 목록 가져오기
 	List<Map<String, Object>> getList(Map<String, Object> map);
@@ -40,4 +40,6 @@ public interface OrderDAO {
 
 	// 체크인, 체크아웃 스케쥴
 	List<Map<String, String>> schedule(int h_idx, String column);
+
+	Map<String, Object> voucher(int o_idx);
 }

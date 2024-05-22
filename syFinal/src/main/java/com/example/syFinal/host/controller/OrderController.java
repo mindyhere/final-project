@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.syFinal.global.PageUtil;
+import com.example.syFinal.global.model.EmailDTO;
+import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dto.GuestDTO;
 import com.example.syFinal.host.model.dao.HostDAO;
 import com.example.syFinal.host.model.dao.OrderDAO;
@@ -28,6 +30,9 @@ public class OrderController {
 
 	@Autowired
 	HostDAO hostDAO;
+
+	@Autowired
+	EmailService emailService;
 
 	@RequestMapping("manage/list/{userIdx}")
 	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
@@ -94,12 +99,22 @@ public class OrderController {
 	@GetMapping("manage/update/{o_idx}")
 	public Map<String, Object> update(@PathVariable(name = "o_idx") int o_idx) {
 		Map<String, Object> data = new HashMap<>();
-		try {
-			orderDao.update(o_idx);
-			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
+		if (orderDao.update(o_idx)) {
+			Map<String, Object> item = orderDao.voucher(o_idx);
+			String g_email = (String) item.get("g_email");
+			String ho_name = (String) item.get("ho_name");
+			item.put("template", "voucher");
+			EmailDTO dto = emailService.prepareVoucher(g_email, ho_name, o_idx);
+			String result = emailService.sendTemplateMail(item, dto);
+			if (result.equals("success")) {
+				data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
+			} else {
+				System.out.println("=> 메일발송 에러");
+				data.put("response", new ResponseEntity<>(result, HttpStatus.BAD_REQUEST));
+			}
+		} else {
+			System.out.println("=> 예약확정 업데이트 에러");
+			data.put("response", new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST));
 		}
 		System.out.println("==> 업데이트결과 ?" + data);
 		return data;

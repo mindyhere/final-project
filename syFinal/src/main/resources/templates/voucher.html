@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<img th:src="@{/sybnb.png}" height="25px" th:onclick="|location.href='@{http://localhost:3000}'|">
+		<h2 th:style="${'background-color: #f7effc'}">HOTEL VOUCHER</h2>
+	</div>
+	<span th:text="${message}"></span>
+	<br> Reservation No&nbsp;&nbsp;:&nbsp;&nbsp;
+	<b><span th:text="${o_idx}"></span></b>
+	<hr>
+	<h3>
+		<span th:text="${ho_name}"></span>
+	</h3>
+	<span th:text="${ho_address}"></span>&nbsp;&nbsp;|&nbsp;&nbsp;
+	<span th:text="${h_phone}"></span>
+	<hr>
+	<h3>Details</h3>
+	<b>투숙객정보</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${g_name}"></span>&nbsp;&nbsp; (총 인원 :
+	<span th:text="${sum}"></span> 명&nbsp;&nbsp;|&nbsp;&nbsp; 성인
+	<span th:text="${o_adult}"></span>, 어린이
+	<span th:text="${o_child}"></span>, 유아
+	<span th:text="${o_baby}"></span>)
+
+	<br>
+	<b>객실유형</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${d_room_type} "></span>
+	<br>
+	<b>체크인</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_ckin}"></span>
+	<br>
+	<b>체크아웃</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_ckout}"></span>
+	<br>
+	<hr>
+	<h3>Price Summary</h3>
+	<b>가격</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_price} "></span>&nbsp;원 (X 1박)
+	<br>
+	<b>할인금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_price} "></span>&nbsp;원
+	<br>
+	<b>최종결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_finalprice} "></span>&nbsp;원
+	<br>
+	<b>결제수단</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_payment} "></span>
+	<br>
+	<b>예약날짜</b>&nbsp;&nbsp;:&nbsp;&nbsp;
+	<span th:text="${o_orderdate} "></span>
+	<br>
+	<br> 본 예약은 체크인 1일전까지, 언제든지 취소/환불 가능합니다.
+	<br> 예약사항에 변동이 있을 경우, 웹페이지를 통해 변경접수 바랍니다.
+	<br> 감사합니다.
+	<br>
+</body>
+</html>

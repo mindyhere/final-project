@@ -1,8 +1,13 @@
 package com.example.syFinal.global.model;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -12,6 +17,9 @@ import jakarta.mail.internet.MimeMessage.RecipientType;
 public class EmailServiceImpl implements EmailService {
 	@Autowired
 	JavaMailSender mailSender;
+
+	@Autowired
+	SpringTemplateEngine templateEngine;
 
 	@Override
 	public String sendMail(EmailDTO dto) {
@@ -55,6 +63,48 @@ public class EmailServiceImpl implements EmailService {
 		emailPw.setSenderName("Notice");
 		emailPw.setSenderMail("notice@gmail.com");
 		return emailPw;
+	}
+
+	@Override
+	public String sendTemplateMail(Map<String, Object> map, EmailDTO dto) {
+		String result = "";
+		System.out.println("==> 메일발송? " + map);
+		try {
+			MimeMessage msg = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
+			helper.setSubject(dto.getSubject());
+			helper.setTo(dto.getReceiveMail());
+			helper.setFrom("notice@gmail.com", "Notice");
+			map.put("message", dto.getMessage());
+
+			// 템플릿에 전달할 데이터 설정
+			Context context = new Context();
+			map.forEach((key, value) -> {
+				context.setVariable(key, value);
+			});
+
+			// 메일 내용 설정:템플릿 프로세스
+			String html = templateEngine.process((String) map.get("template"), context);
+			helper.setText(html, true);
+			mailSender.send(msg);
+			result = "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "fail";
+		}
+		return result;
+	}
+
+	@Override
+	public EmailDTO prepareVoucher(String g_email, String ho_name, int o_idx) {
+		EmailDTO voucher = new EmailDTO();
+		voucher.setSubject("[" + ho_name + "] 예약확정 안내");
+		voucher.setMessage("안녕하세요. 고객님의 예약이 확정되었습니다. 바우처를 확인해주세요.");
+		voucher.setReceiveMail(g_email);
+		voucher.setSenderName("Notice");
+		voucher.setSenderMail("notice@gmail.com");
+		System.out.println("==> EmailDTO" + voucher);
+		return voucher;
 	}
 
 }
