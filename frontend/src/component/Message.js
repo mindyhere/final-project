@@ -68,11 +68,6 @@ function Message() {
             <div>loading</div>
         )
     } else {
-        let img = '';
-        const profile = `http://localhost/static/images/host/profile/${data.dto.h_profile}`;
-        if ( data.dto.h_profile != null) {
-            img = `<img src=${profile} width='30px' height='30px' /><br />`;
-        }
 
         return (
             <>
