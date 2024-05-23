@@ -32,8 +32,8 @@ function useFetch(url) {
             }
           }
           setData(arr);
-          setLoading(false);
         }
+        setLoading(false);
       });
   }, []);
   return [data, loading];
