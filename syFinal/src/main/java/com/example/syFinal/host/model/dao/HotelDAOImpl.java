@@ -124,17 +124,12 @@ public class HotelDAOImpl implements HotelDAO {
 	/* 호텔 최종 등록 */
 	@Override
 	public void registNewHotel(Map<String, Object> map) {
-		System.out.println("@ dao - map : " + map);
 		int ht_idx = (int) map.get("ht_idx");
 		int ht_h_idx = (int) map.get("ht_h_idx");
-		// 편의시설 등록
+
 		Map<String, Object> newAmenity = new HashMap<>();
 		newAmenity.put("newAmenity", map.get("checkItems"));
 		String[] items= map.get("checkItems").toString().split(",");
-		System.out.println("@ newAmenity  " + newAmenity);
-		System.out.println("@ items :"  + items);
-		System.out.println("@ 호텔 번호 ht_idx :"  + ht_idx);
-		System.out.println("@ 회원번호 ht_h_idx :"  + ht_h_idx);
 		sqlSession.insert("hotel.insertNewAmenity", ht_idx);
 		for(String item : items){
 			newAmenity.put("ho_idx", ht_idx);
@@ -230,8 +225,28 @@ public class HotelDAOImpl implements HotelDAO {
 	
 	/* 호텔 영업 중지 신청 */
 	@Override
-	public void closeHotel(int ho_idx) {
-		sqlSession.update("hotel.closeHotel", ho_idx);
+	public String updateHotelStatus(int ho_idx, String status) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		int reservCnt = sqlSession.selectOne("hotel.reservCnt", ho_idx);
+		String result = "";
+		switch(status){
+		  case "2": 
+			  if(reservCnt > 0) {
+				  result = "fail";
+			  } else {
+				  map.put("status", 3);
+				  sqlSession.update("hotel.updateHotelStatus", map);
+				  result = "success";
+			  }
+			break;
+		  case "3": 
+			  map.put("status", 1);
+			  sqlSession.update("hotel.updateHotelStatus", map);
+			 result = "success";
+			break;
+		} 
+		return result;
 	}
 	
 	@Override

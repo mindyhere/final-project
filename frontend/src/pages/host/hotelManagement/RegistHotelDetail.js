@@ -161,14 +161,7 @@ function RegistHotelDetail() {
                             <tbody>
                                 {lists.map((item) => (
                                     <tr style={{textAlign:'center'}} onClick={() => {setModal(true);}}>
-                                        <td>
-                                            {
-                                                item.roomType == '1' ? '싱글룸'
-                                                : item.roomType == '2' ? '더블룸'
-                                                : item.roomType == '3' ? '패밀리룸'
-                                                :'스위트룸'
-                                            }
-                                        </td>
+                                        <td>{item.roomType}</td>
                                         <td>{item.capacity}</td>
                                         <td>{item.area}</td>
                                         <td>{item.beds}</td>

@@ -256,12 +256,20 @@
 		WHERE d_idx = #{d_idx}
 	</update>
 	
-	<!-- 호텔 영업 중지 신청 -->
-	<update id="closeHotel">
+	<!-- 호텔 상태 변경 신청 -->
+	<update id="updateHotelStatus">
 		UPDATE hotel h, hotel_detail d, hotel_amenity a
-		SET h.ho_status = 3, d.d_status = 3, a.ha_status = 3
+		SET h.ho_status = #{status}, d.d_status = #{status}, a.ha_status = #{status}
 		WHERE ho_idx = #{ho_idx}
 		AND ho_idx = d_ho_idx
 		AND d_ho_idx = ha_ho_idx
 	</update>
+	
+	<!-- 호텔 예약 건수 확인 -->
+	<select id="reservCnt" resultType="int">
+		SELECT COUNT(*) FROM orders
+		WHERE o_didx IN (SELECT d_idx FROM hotel_detail
+		WHERE d_ho_idx = #{ho_idx})
+		AND o_state IN (1, 3)
+	</select>
 </mapper>
