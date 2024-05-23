@@ -38,6 +38,23 @@ function OrderItem({
   const userEmail = userInfo.h_email;
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
+  // const [more, setMoreInfo] = useState(null);
+  const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
+
+  const Collapsible = () => {
+    console.log("=> 클릭? "+o_idx)
+    if (!isCollapsed) {
+      return (
+        <>
+          <tr className="align-middle detail-row">
+            <td colSpan="8">tesdf<br/><br/><br/><br/><br/><br/><br/><br/><br/>gvsfdehbfszdgfvaekdkknsdklfnsdlnvsnslskvlsnvlsnvlksnvldnvlsknvdnvsklnvlsdknvlsknlst{o_finalprice}</td>
+          </tr>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
 
   const dataset = {
     // 전달할 데이터
@@ -63,6 +80,150 @@ function OrderItem({
     o_orderdate: `${o_orderdate}`,
   };
   // console.log("==> list? " + JSON.stringify(dataset));
+
+  function handleDateCheck(ckin) {
+    const today = moment().format("YYYY-MM-DD");
+    if (ckin <= today) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const handleChangeState = () => {
+    switch (o_state) {
+      case "1":
+        console.log("test1" + o_state + "/ " + o_idx);
+        Swal.fire({
+          icon: "question",
+          title: "Check",
+          input: "password",
+          inputLabel: "예약을 확정할까요?",
+          inputPlaceholder: "비밀번호를 입력해주세요",
+          inputAttributes: {
+            autocapitalize: "off",
+            autocorrect: "off",
+          },
+          showCancelButton: true,
+          cancelButtonText: "CANCEL",
+          confirmButtonText: "CONFIRM",
+          showLoaderOnConfirm: true,
+          preConfirm: (pwd) => {
+            return fetch(
+              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("false: " + response.status);
+                }
+                return fetch(
+                  `http://localhost/api/order/manage/update/${o_idx}`
+                ).then((response) => {
+                  if (!response.ok) {
+                    throw new Error("false: " + response.status);
+                  }
+                  return response.text();
+                });
+              })
+              .catch((error) => {
+                // console.log(error);
+                Swal.showValidationMessage(
+                  `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                );
+              });
+          },
+          allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log(result.value + Object.values(result));
+            Swal.fire({
+              icon: "success",
+              title: "Confirm",
+              html: "예약 바우처 발송이 완료되었습니다.",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(() => {
+              window.location.reload();
+            });
+          }
+        });
+        break;
+      case "3":
+        console.log("test3" + o_state + "/ " + o_idx);
+        if (handleDateCheck(o_ckin)) {
+          Swal.fire({
+            icon: "question",
+            title: "Check",
+            input: "password",
+            inputLabel: "투숙객 확인이 완료되었나요? 체크인완료로 설정합니다.",
+            inputPlaceholder: "비밀번호를 입력해주세요",
+            inputAttributes: {
+              autocapitalize: "off",
+              autocorrect: "off",
+            },
+            showCancelButton: true,
+            cancelButtonText: "CANCEL",
+            confirmButtonText: "CONFIRM",
+            showLoaderOnConfirm: true,
+            preConfirm: (pwd) => {
+              return fetch(
+                `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+              )
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error("false: " + response.status);
+                  }
+                  const form = new FormData();
+                  form.append("opt", 1); // 예약확정 & 게스트레벨업
+                  form.append("oidx", dataset.o_idx);
+                  form.append("hidx", userIdx);
+                  form.append("idx", dataset.g_idx);
+
+                  return fetch(
+                    `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
+                    {
+                      method: "post",
+                      body: form,
+                    }
+                  ).then((response) => {
+                    if (!response.ok) {
+                      throw new Error("false: " + response.status);
+                    }
+                    return response.text();
+                  });
+                })
+                .catch((error) => {
+                  // console.log(error);
+                  Swal.showValidationMessage(
+                    `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
+                  );
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // console.log(result.value);
+              Swal.fire({
+                icon: "success",
+                title: "Complete",
+                html: "정상처리 되었습니다.",
+                showConfirmButton: false,
+                timer: 2000,
+              }).then(() => {
+                localStorage.removeItem("dataset");
+                window.location.reload();
+              });
+            }
+          });
+        } else {
+          return null;
+        }
+        break;
+      default:
+        return null;
+    }
+  };
+
   if (event == "order") {
     return (
       <tr
@@ -82,9 +243,7 @@ function OrderItem({
         {o_state == "1" ? (
           <th style={{ color: "crimson" }}>{status}</th>
         ) : (
-          <th>
-            {status}
-          </th>
+          <th>{status}</th>
         )}
       </tr>
     );
@@ -93,24 +252,47 @@ function OrderItem({
     let ckout = moment(o_ckout).format("YY-MM-DD");
     let orderdate = moment(o_orderdate).format("YY-MM-DD");
     return (
-      <tr className="align-middle detail-row">
-        <td>{rownum}</td>
-        <td>{o_idx}</td>
-        <td>{ho_name}</td>
-        <td>{d_room_type}</td>
-        <td>
-          {ckin} / {ckout}
-        </td>
-        <td>{g_name}</td>
-        <td>{orderdate}</td>
-        {o_state == "1" ? (
-          <th id="status" style={{ color: "crimson" }}>
-            {status}
-          </th>
-        ) : (
-          <th style={{cursor:"pointer"}}>{status}</th>
-        )}
-      </tr>
+      <>
+        <tr className="align-middle detail-row">
+          <td>{rownum}</td>
+          <td
+            style={{ cursor: "pointer",backgroundColor:"#f7effc" }}
+            onClick={() => {
+              setCollapsed(!isCollapsed);
+            }}
+            title={isCollapsed ? "더보기" : null}
+          >
+            {o_idx}
+          </td>
+          <td>{ho_name}</td>
+          <td>{d_room_type}</td>
+          <td>
+            {ckin} / {ckout}
+          </td>
+          <td>{g_name}</td>
+          <td>{orderdate}</td>
+          {o_state == "1" ? (
+            <th
+              id="status"
+              style={{ color: "crimson", cursor: "pointer" }}
+              onClick={() => handleChangeState()}
+            >
+              {status}
+            </th>
+          ) : (
+            <th
+              style={{ cursor: "pointer" }}
+              onClick={() => handleChangeState()}
+            >
+              {status}
+            </th>
+          )}
+        </tr>
+        {!isCollapsed && <Collapsible />}
+        {/* <tr className="align-middle detail-row">
+          <td colSpan="8">test</td>
+        </tr> */}
+      </>
     );
   }
 }

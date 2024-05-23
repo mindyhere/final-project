@@ -104,7 +104,7 @@ function OrderDetail(order_idx) {
                   </colgroup>
                   <tbody>
                     <tr>
-                      <th colSpan={1}>예약번호</th>
+                      <th colSpan={1} style={{ cursor: "pointer",backgroundColor:"#f7effc" }}>예약번호</th>
                       <td colSpan={3}>&nbsp;&nbsp;{dataset.o_idx}</td>
                     </tr>
                     <tr>

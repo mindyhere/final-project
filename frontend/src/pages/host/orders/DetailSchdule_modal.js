@@ -73,30 +73,16 @@ function DetailSchedule({ date }) {
               </colgroup>
               <thead>
                 <tr className="align-middle">
-                  <th scope="col">
-                    <strong>no.</strong>
+                  <th scope="col">no.</th>
+                  <th scope="col" style={{ backgroundColor: "#f7effc" }}>
+                    예약번호
                   </th>
-                  <th scope="col">
-                    <strong>예약번호</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>구분</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>객실유형</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>체크인/체크아웃</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>투숙객</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>예약일</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>상태</strong>
-                  </th>
+                  <th scope="col">구분</th>
+                  <th scope="col">객실유형</th>
+                  <th scope="col">체크인/체크아웃</th>
+                  <th scope="col">투숙객</th>
+                  <th scope="col">예약일</th>
+                  <th scope="col">상태</th>
                 </tr>
               </thead>
               <tbody
@@ -106,58 +92,72 @@ function DetailSchedule({ date }) {
                   overflowY: "auto",
                 }}
               >
-                {ckinData.map(
-                  ({
-                    rownum,
-                    o_idx,
-                    g_idx,
-                    ho_idx,
-                    ho_name,
-                    d_idx,
-                    d_room_type,
-                    o_ckin,
-                    o_ckout,
-                    o_adult,
-                    o_child,
-                    o_baby,
-                    sum,
-                    o_state,
-                    status,
-                    o_payment,
-                    o_price,
-                    o_discount,
-                    o_finalprice,
-                    o_benefit,
-                    o_orderdate,
-                    g_name,
-                  }) => (
-                    <OrderItem
-                      event={"detail"}
-                      rownum={rownum}
-                      o_idx={o_idx}
-                      g_idx={g_idx}
-                      ho_idx={ho_idx}
-                      ho_name={ho_name}
-                      d_idx={d_idx}
-                      d_room_type={d_room_type}
-                      o_ckin={o_ckin}
-                      o_ckout={o_ckout}
-                      o_adult={o_adult}
-                      o_child={o_child}
-                      o_baby={o_baby}
-                      sum={sum}
-                      o_state={o_state}
-                      status={status}
-                      o_payment={o_payment}
-                      o_price={o_price}
-                      o_discount={o_discount}
-                      o_finalprice={o_finalprice}
-                      o_benefit={o_benefit}
-                      o_orderdate={o_orderdate}
-                      g_name={g_name}
-                      key={o_idx}
-                    />
+                {ckinData.length > 0 ? (
+                  ckinData.map(
+                    ({
+                      rownum,
+                      o_idx,
+                      g_idx,
+                      ho_idx,
+                      ho_name,
+                      d_idx,
+                      d_room_type,
+                      o_ckin,
+                      o_ckout,
+                      o_adult,
+                      o_child,
+                      o_baby,
+                      sum,
+                      o_state,
+                      status,
+                      o_payment,
+                      o_price,
+                      o_discount,
+                      o_finalprice,
+                      o_benefit,
+                      o_orderdate,
+                      g_name,
+                    }) => (
+                      <OrderItem
+                        event={"detail"}
+                        rownum={rownum}
+                        o_idx={o_idx}
+                        g_idx={g_idx}
+                        ho_idx={ho_idx}
+                        ho_name={ho_name}
+                        d_idx={d_idx}
+                        d_room_type={d_room_type}
+                        o_ckin={o_ckin}
+                        o_ckout={o_ckout}
+                        o_adult={o_adult}
+                        o_child={o_child}
+                        o_baby={o_baby}
+                        sum={sum}
+                        o_state={o_state}
+                        status={status}
+                        o_payment={o_payment}
+                        o_price={o_price}
+                        o_discount={o_discount}
+                        o_finalprice={o_finalprice}
+                        o_benefit={o_benefit}
+                        o_orderdate={o_orderdate}
+                        g_name={g_name}
+                        key={o_idx}
+                      />
+                    )
                   )
+                ) : (
+                  <tr
+                    className="align-middle  detail-row"
+                    style={{
+                      borderColor: "#F7EFFC",
+                    }}
+                  >
+                    <td colSpan="8">
+                      <br />
+                      <p>조회된 내역이 없습니다.</p>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -185,30 +185,16 @@ function DetailSchedule({ date }) {
               </colgroup>
               <thead>
                 <tr className="align-middle">
-                  <th scope="col">
-                    <strong>no.</strong>
+                  <th scope="col">no.</th>
+                  <th scope="col" style={{ backgroundColor: "#f7effc" }}>
+                    예약번호
                   </th>
-                  <th scope="col">
-                    <strong>예약번호</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>구분</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>객실유형</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>체크인/체크아웃</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>투숙객</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>예약일</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>상태</strong>
-                  </th>
+                  <th scope="col">구분</th>
+                  <th scope="col">객실유형</th>
+                  <th scope="col">체크인/체크아웃</th>
+                  <th scope="col">투숙객</th>
+                  <th scope="col">예약일</th>
+                  <th scope="col">상태</th>
                 </tr>
               </thead>
               <tbody
@@ -218,57 +204,71 @@ function DetailSchedule({ date }) {
                   overflowY: "auto",
                 }}
               >
-                {ckoutData.map(
-                  ({
-                    rownum,
-                    o_idx,
-                    g_idx,
-                    ho_idx,
-                    ho_name,
-                    d_idx,
-                    d_room_type,
-                    o_ckin,
-                    o_ckout,
-                    o_adult,
-                    o_child,
-                    o_baby,
-                    sum,
-                    o_state,
-                    status,
-                    o_payment,
-                    o_price,
-                    o_discount,
-                    o_finalprice,
-                    o_benefit,
-                    o_orderdate,
-                    g_name,
-                  }) => (
-                    <OrderItem
-                      rownum={rownum}
-                      o_idx={o_idx}
-                      g_idx={g_idx}
-                      ho_idx={ho_idx}
-                      ho_name={ho_name}
-                      d_idx={d_idx}
-                      d_room_type={d_room_type}
-                      o_ckin={o_ckin}
-                      o_ckout={o_ckout}
-                      o_adult={o_adult}
-                      o_child={o_child}
-                      o_baby={o_baby}
-                      sum={sum}
-                      o_state={o_state}
-                      status={status}
-                      o_payment={o_payment}
-                      o_price={o_price}
-                      o_discount={o_discount}
-                      o_finalprice={o_finalprice}
-                      o_benefit={o_benefit}
-                      o_orderdate={o_orderdate}
-                      g_name={g_name}
-                      key={o_idx}
-                    />
+                {ckoutData.length > 0 ? (
+                  ckoutData.map(
+                    ({
+                      rownum,
+                      o_idx,
+                      g_idx,
+                      ho_idx,
+                      ho_name,
+                      d_idx,
+                      d_room_type,
+                      o_ckin,
+                      o_ckout,
+                      o_adult,
+                      o_child,
+                      o_baby,
+                      sum,
+                      o_state,
+                      status,
+                      o_payment,
+                      o_price,
+                      o_discount,
+                      o_finalprice,
+                      o_benefit,
+                      o_orderdate,
+                      g_name,
+                    }) => (
+                      <OrderItem
+                        rownum={rownum}
+                        o_idx={o_idx}
+                        g_idx={g_idx}
+                        ho_idx={ho_idx}
+                        ho_name={ho_name}
+                        d_idx={d_idx}
+                        d_room_type={d_room_type}
+                        o_ckin={o_ckin}
+                        o_ckout={o_ckout}
+                        o_adult={o_adult}
+                        o_child={o_child}
+                        o_baby={o_baby}
+                        sum={sum}
+                        o_state={o_state}
+                        status={status}
+                        o_payment={o_payment}
+                        o_price={o_price}
+                        o_discount={o_discount}
+                        o_finalprice={o_finalprice}
+                        o_benefit={o_benefit}
+                        o_orderdate={o_orderdate}
+                        g_name={g_name}
+                        key={o_idx}
+                      />
+                    )
                   )
+                ) : (
+                  <tr
+                    className="align-middle  detail-row"
+                    style={{
+                      borderColor: "#F7EFFC",
+                    }}
+                  >
+                    <td colSpan="8">
+                      <br />
+                      <p>조회된 내역이 없습니다.</p>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
