@@ -93,7 +93,6 @@ function Chat(props) {
       const sendGuestMessage = () => {
         console.log(message)
         if (!message.trim()) {
-            
         } else {
             if (stompClient.current && message) {
                 const messageObj = {
