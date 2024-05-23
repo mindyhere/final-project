@@ -58,8 +58,10 @@ where m_roomId=#{m_roomId} AND ((m_sender=g_email and m_receiver=h_email) OR (m_
 
 
 <select id="receive" resultType="String">
-select DISTINCT(m_receiver) from message 
-where m_sender = #{m_sender} and m_roomId = #{m_roomId}
+select IFNULL((select DISTINCT(m_receiver) from message 
+WHERE m_sender = #{m_sender} and m_roomId = #{m_roomId}), 
+(select DISTINCT(m_sender) from message 
+WHERE m_receiver = #{m_sender} and m_roomId = #{m_roomId}));
 </select>
 
 <!-- 메시지 보냈을 때 -->
