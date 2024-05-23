@@ -71,7 +71,7 @@ function Chat(props) {
       };
 
       const connect = () => {
-        const socket = new WebSocket("ws://localhost/ws");
+        const socket = new WebSocket("ws://localhost:80/ws");
         stompClient.current = Stomp.over(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
