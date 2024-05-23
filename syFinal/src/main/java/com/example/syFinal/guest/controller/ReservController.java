@@ -59,6 +59,7 @@ public class ReservController {
 				map1.put("HoName", dto.get(i).getHo_name());
 				map1.put("OdIdx", dto.get(i).getO_didx());
 				before.add(map1);
+				System.out.println(before);
 			} else {
 				Map<String, Object> map2 = new HashMap<>();
 				// map2.put("HoIdx", dto.get(i).getD_ho_idx());
