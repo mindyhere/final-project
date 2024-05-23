@@ -68,7 +68,9 @@ function Scheduler({ handleModal }) {
           navigationLabel={null}
           onChange={onChange}
           onClickDay={(date, event) => {
-            handleModal(moment(date).format("YYYY. MM"), "detail");
+            let strDate = moment(date).format("YYYY-MM-DD");
+            // handleModal(moment(date).format("YYYY-MM-DD"), "detail");
+            handleModal(strDate, "detail");
           }}
           value={value}
           tileClassName={({ date, view }) => {

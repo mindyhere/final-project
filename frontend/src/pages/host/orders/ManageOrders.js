@@ -77,14 +77,9 @@ function ManageOrders() {
   };
 
   const handleModal = (value, event) => {
-    console.log("=> 핸들러?" + typeof value+", "+toString(value) + ", " + event);
-    if (event == "order") {
-      isSelected(value);
-      setOderItem(!order);
-    } else {
-      isSelected(value);
-      setDetailSchedule(!detail);
-    }
+    console.log("=> 핸들러?" + typeof value + ", " + value + ", " + event);
+    event == "order" ? setOderItem(!order) : setDetailSchedule(!detail);
+    isSelected(value);
   };
 
   const setPagination = () => {
@@ -311,7 +306,7 @@ function ManageOrders() {
                       >
                         <td colSpan="8">
                           <br />
-                          <p>등록된 게시글이 없습니다.</p>
+                          <p>조회된 내역이 없습니다.</p>
                         </td>
                       </tr>
                     )}
@@ -386,7 +381,7 @@ function ManageOrders() {
                   >
                     <DetailSchedule
                       date={selected}
-                      column={"o_ckin"}
+                      // column={"o_ckin"}
                       style={{ position: "relative", zIndex: "100" }}
                     />
                   </Modal>

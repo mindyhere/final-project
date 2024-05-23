@@ -74,13 +74,20 @@ where o_idx=#{o_idx}
 {	call level_down(#{idx}) }
 </select>
 
-<!-- 체크인 날짜 배열 -->
+<!-- 체크인, 체크아웃 날짜 배열(달력 마크) -->
 <select id="schedule" resultType="java.util.Map">
 select distinct ${column}
 	from v_host_order v
 	where 
 		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
-		and o_state='3'
+		<choose>
+		<when test="column == 'o_ckin'">
+		and o_state !='2'
+		</when>
+		<otherwise>
+		and o_state='4'
+		</otherwise>
+	</choose>
 	order by ${column}
 </select>
 
@@ -152,12 +159,24 @@ where
 </select>
 
 <select id="detailSchedule" resultType="java.util.Map">
-select v.*, g_email, g_name, g_phone
-from v_host_order v, guest g
-where 
-	v.ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
-	and ${column}=#{date}
-	and v.g_idx=g.g_idx
-order by o_idx
+select @rownum:=@rownum+1 AS rownum, A.*
+from
+	(select v.*, g_email, g_name, g_phone
+	from v_host_order v, guest g
+	where 
+		v.ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
+		and ${column}=#{date}
+		and v.g_idx=g.g_idx
+	<choose>
+		<when test="column == 'o_ckin'">
+		and o_state !='2'
+		order by o_state desc, o_idx	
+		</when>
+		<otherwise>
+		and o_state='4'
+		order by o_idx
+		</otherwise>
+	</choose>
+	) A, (select @rownum:=0) tmp
 </select>
 </mapper>

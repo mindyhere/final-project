@@ -210,7 +210,30 @@ public class OrderDAOImpl implements OrderDAO {
 		map.put("h_idx", h_idx);
 		map.put("column", column);
 		map.put("date", date);
-		List<Map<String, Object>> list = sqlSession.selectList("order.schedule", map);
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("order.detailSchedule", map);
+			// 금액 1000단위 포맷
+			if (list != null) {
+				for (Map<String, Object> item : list) {
+					// 예약상태 코드 변환
+					String o_state = (String) item.get("o_state");
+					switch (o_state) {
+					case "1":
+						item.put("status", "예약대기");
+						break;
+					case "3":
+						item.put("status", "예약확정");
+						break;
+					case "4":
+						item.put("status", "체크인완료");
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 
