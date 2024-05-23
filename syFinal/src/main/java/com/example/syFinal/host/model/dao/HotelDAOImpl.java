@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.checkerframework.checker.units.qual.h;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -166,37 +169,38 @@ public class HotelDAOImpl implements HotelDAO {
 				break;
 			}
 		}
-		System.out.println("편의시설 등록 완료");
-		System.out.println("==========================");
-		System.out.println("객실정보 등록 시작");
-		// 객실정보 등록
-		System.out.println("1.타입확인 :  " + map.get("list").getClass().getName());
-		System.out.println("1.타입확인 :  " + map.get("list").getClass());
-		
-//		List<Map<String, Object>> list = (List<Map<String, Object>>) map.get("list");
-//		for(int i = 0; i < list.size(); i ++) {
-//			Map<String, Object> newRoom = new HashMap<>();
-//			newRoom.put("roomType", list.get(i).get("roomType"));
-//			newRoom.put("capacity", list.get(i).get("capacity"));
-//			newRoom.put("area", list.get(i).get("area"));
-//			newRoom.put("beds", list.get(i).get("beds"));
-//			newRoom.put("smoking", list.get(i).get("smoking"));
-//			newRoom.put("price", list.get(i).get("price"));
-//			newRoom.put("dImg1", list.get(i).get("dImg1"));
-//			newRoom.put("dImg2", list.get(i).get("dImg2"));
-//			newRoom.put("dImg3", list.get(i).get("dImg3"));
-//			newRoom.put("ht_idx", ht_idx);
-//			sqlSession.insert("hotel.insertNewRoom", newRoom);
-//		}
 
-		// 호텔 테이블 insert
+		String test = map.get("list").toString();
+		JSONParser parser = new JSONParser();
+		test = test.replaceAll("'", "\\\"");
+		JSONArray jsonArray = null;
+		try {
+			jsonArray = (JSONArray) parser.parse(test);
+			
+			for(Object obj : jsonArray) {
+				JSONObject jsObject = (JSONObject) obj;
+				Map<String, Object> result = new HashMap<>();
+				result.put("ht_idx", ht_idx);
+				result.put("roomType", jsObject.get("roomType"));
+				result.put("capacity", jsObject.get("capacity"));
+				result.put("area", jsObject.get("area"));
+				result.put("beds", jsObject.get("beds"));
+				result.put("non_smoking", jsObject.get("non_smoking"));
+				result.put("price", jsObject.get("price"));
+				result.put("dImg1", jsObject.get("dImg1"));
+				result.put("dImg2", jsObject.get("dImg2"));
+				result.put("dImg3", jsObject.get("dImg3"));
+				sqlSession.insert("hotel.insertNewRoom", result);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		sqlSession.insert("hotel.insertNewHotel", ht_idx);
 
-		// 임시테이블에서 상태변경
 		Map<String, Object> insertRow = new HashMap<>();
 		insertRow.put("ht_idx", ht_idx);
 		insertRow.put("ht_h_idx", ht_h_idx);
-		System.out.println("@ insertRow  " + insertRow);
 		sqlSession.update("hotel.updateTempHotel", insertRow);
 	}
 
