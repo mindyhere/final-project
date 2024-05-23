@@ -25,6 +25,7 @@ function useFetch(url) {
             if (data.column == "o_ckin") {
               value = JSON.stringify(data.list[i].o_ckin);
               arr.push(moment(value).format("YYYY-MM-DD"));
+              // console.log("=> 달력? "+JSON.stringify(arr))
             } else {
               value = JSON.stringify(data.list[i].o_ckout);
               arr.push(moment(value).format("YYYY-MM-DD"));
@@ -38,7 +39,7 @@ function useFetch(url) {
   return [data, loading];
 }
 
-function Scheduler() {
+function Scheduler({ handleModal }) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
@@ -49,10 +50,12 @@ function Scheduler() {
   const [ckout, loading2] = useFetch(
     `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckout`
   );
-
+  const [pending, loading3] = useFetch(
+    `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin&pending=1`
+  );
   const [date, setDate] = useState(value);
 
-  if (loading1 || loading2) {
+  if (loading1 || loading2 || loading3) {
     return <div className="text-center">로딩 중...</div>;
   } else {
     return (
@@ -68,39 +71,47 @@ function Scheduler() {
           maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
           navigationLabel={null}
           onChange={onChange}
+          onClickDay={(date, event) => {
+            let strDate = moment(date).format("YYYY-MM-DD");
+            // handleModal(moment(date).format("YYYY-MM-DD"), "detail");
+            handleModal(strDate, "detail");
+          }}
           value={value}
           tileClassName={({ date, view }) => {
             if (
-              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
+              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) ||
               ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))
             ) {
-              return "highlight"; // 하이라이트 처리
+              return "highlight"; // 확정 or 완료 일정 하이라이트 처리
             }
           }}
           tileContent={({ date, view }) => {
             let html = [];
-            if (ckin.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+            if (
+              // 취소 제외, 체크인 일정 있을 경우 마크
+              ckin.find((x) => x === moment(date).format("YYYY-MM-DD")) ||
+              pending.find((x) => x === moment(date).format("YYYY-MM-DD"))
+            ) {
               html.push(
                 <CircleFill
-                  className="checkpoint"
+                  color={"#8c7e9e"}
                   style={{
                     margin: "0 1px",
-                    width: "7px",
-                    height: "7px",
-                    color: "#9f48eb",
+                    width: "8px",
+                    height: "8px",
                   }}
                 />
               );
             }
             if (ckout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+              // 확정 or 완료상태인 체크아웃 일정 있을 경우 마크
               html.push(
                 <TriangleFill
-                className="checkpoint"
+                  color={"#8c7e9e"}
                   style={{
                     margin: "0 1px",
-                    width: "7px",
-                    height: "7px",
-                    color: "#9f48eb",
+                    width: "8px",
+                    height: "8px",
                   }}
                 />
               );

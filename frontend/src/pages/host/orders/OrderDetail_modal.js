@@ -57,10 +57,10 @@ function OrderDetail(order_idx) {
 
     if (guest.g_photo !== "-") {
       const img_url = `http://localhost/static/images/guest/photo/${guest.g_photo}`;
-      profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
+      profile_src = `<img class='profile-img' src=${img_url} width='100px' height='100px' />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='80px' height='80px'/>";
     }
 
     if (dataset.o_state == "2") {
@@ -223,12 +223,12 @@ function OrderDetail(order_idx) {
             <hr />
             <div className="card-style mb-3" style={{ maxHeight: "300px" }}>
               <div className="row mb-20">
-                <div className="col-3">
+                <div className="col-3 py-auto">
                   <span
                     dangerouslySetInnerHTML={{ __html: profile_src }}
                   ></span>
                 </div>
-                <div className="col-9" style={{ paddingLeft: "5%" }}>
+                <div className="col-9">
                   <h4>Guest Information</h4>
                   <strong>이름 : {guest.g_name}</strong>
                   <br />
