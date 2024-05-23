@@ -12,10 +12,11 @@ import BasicScrollToBottom from "react-scroll-to-bottom";
 function Chat(props) {
     const [loading, setLoading] = useState(true);
     const [pro, setPro] = useState('');
-    
+    // const {hName} = useParams();
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gEmail = cookies.get("g_email");
+    const {Hname} = useParams();
 
     const roomId = props.roomId;
 
@@ -33,9 +34,9 @@ function Chat(props) {
         type = gEmail.key;
     } else if (userInfo != null) {
         const hEmail = userInfo.h_email;
-        type = hEmail.key;
+        type = hEmail;
     }
-
+    
     const fetchMessages = () => {
         axios
           .get('http://localhost/chatroom/entrance?roomId='+roomId)
@@ -50,6 +51,8 @@ function Chat(props) {
           .catch((error) => console.error("Failed to fetch chat messages.", error));
          
       };
+
+
 
     useEffect(() => {
         connect();
@@ -68,7 +71,7 @@ function Chat(props) {
       };
 
       const connect = () => {
-        const socket = new WebSocket("ws://localhost/ws");
+        const socket = new WebSocket("ws://localhost:80/ws");
         stompClient.current = Stomp.over(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
@@ -77,7 +80,6 @@ function Chat(props) {
             setMessages((messages) => [...messages, newMessage]);
           });
         });
-        console.log("방 번호", roomId);
       }; // 웹소켓 연결 설정
 
 
@@ -89,14 +91,18 @@ function Chat(props) {
 
 
       const sendGuestMessage = () => {
-        if (stompClient.current && message) {
-          const messageObj = {
-            m_roomId: roomId,
-            m_sender: type,
-            m_message: message,
-          };
-          stompClient.current.send(`/pub/message`, {}, JSON.stringify(messageObj));
-          setMessage(""); // 입력 필드 초기화
+        console.log(message)
+        if (!message.trim()) {
+        } else {
+            if (stompClient.current && message) {
+                const messageObj = {
+                  m_roomId: roomId,
+                  m_sender: type,
+                  m_message: message,
+                };
+                stompClient.current.send(`/pub/message`, {}, JSON.stringify(messageObj));
+                setMessage(""); // 입력 필드 초기화
+              }
         }
       };// 새 메시지를 보내는 함수
 
@@ -136,29 +142,30 @@ function Chat(props) {
                         </div>
                         <BasicScrollToBottom className="messages">
                         {messages && messages.map((item) => (
-                            item.m_sender == type ? 
-                            <div className='messageContainer justifyEnd'>
-                            <p className='sentText pr-10'>{}</p>
-                            <div className='messageBox backgroundPurple'>
+                        item.m_test == 0 ?
+                                item.m_sender == type ? 
+                                <div className='messageContainer justifyEnd'>
+                                <p className='sentText pr-10'>{}</p>
+                                <div className='messageBox backgroundPurple'>
+                                <p className='messageText colorDark'>{item.m_message}</p>
+                                </div>
+                            </div>
+                            :    
+                            <div className='messageContainer justifyStart'> 
+                            <img src={gEmail!=null? (messages[0].h_profile == 'http://localhost/static/images/host/profile/-'? '/img/no-image.png' : messages[0].h_profile) : (messages[0].g_photo == 'http://localhost/static/images/guest/photo/-'? '/img/no-image.png' : messages[0].g_photo)} width='30px' height='30px' style={{marginTop: '7px', marginRight: '5px', borderRadius: '15px'}}/>
+                            <div className='messageBox backgroundLight'>
                             <p className='messageText colorDark'>{item.m_message}</p>
                             </div>
-                        </div>
-                        :    
-                        <div className='messageContainer justifyStart'>
-                        
-                        <img src={gEmail!=null? messages[0].h_profile : messages[0].g_photo} width='30px' height='30px' style={{marginTop: '7px', marginRight: '5px', borderRadius: '15px'}}/>
-                        <div className='messageBox backgroundLight'>
-                        <p className='messageText colorDark'>{item.m_message}</p>
-                        </div>
-                        <p className='sentText pl-10 '>{}</p>
-                        </div> 
+                            <p className='sentText pl-10 '>{}</p>
+                            </div> 
+                        :
+                        ''
                         ))}
                         <div ref={messagesEndRef}></div>
                         </BasicScrollToBottom>
-                        <form className='form'>
+                        <form className='form' onSubmit={(e) => {e.preventDefault();  sendGuestMessage(e);}}>
                         <input className='input' type='text' value={message} onChange={({ target: { value } }) => setMessage(value)}></input>
-                        
-                        <div className='sendButton' onClick={e => sendGuestMessage(e)}></div>
+                        <button className='sendButton' onClick={e => sendGuestMessage(e)}><img src='/img/message.png' width='50px' height='30px' style={{paddingLeft: '6px'}}/></button>
                         </form>
                         </div>
                         </>

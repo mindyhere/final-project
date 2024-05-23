@@ -14,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class MessageDTO {
 	private int m_idx;
+	private int m_test;
 	private String m_roomId;
 	private String m_message;
 	private Set<WebSocketSession> sessions = new HashSet<>();

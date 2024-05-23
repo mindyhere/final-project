@@ -22,7 +22,7 @@ public class AhostDAOImpl implements AhostDAO {
 		map.put("searchkey", searchkey);
 		return sqlSession.selectList("admin.ah_list", map);
 	}
-
+ 
 	@Override
 	public String delete(int h_idx) {
 		String result = "";

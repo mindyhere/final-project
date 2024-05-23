@@ -103,7 +103,10 @@ function App() {
           <Route path="/guest/updateReserv/:OIdx" element={<UpdateReserv />} />
           <Route path="/component/Notice" element={<Notice />} />
           <Route path="/component/NoticeDetail" element={<NoticeDetail />} />
+          <Route path="/component/Message/:room/:Hname" element={<Message />} />
           <Route path="/component/Message" element={<Message />} />
+
+
 
           {/* admin 계정 */}
           <Route path="/admin/alogin" element={<Alogin />} />

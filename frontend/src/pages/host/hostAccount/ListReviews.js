@@ -225,7 +225,7 @@ function ListReviews() {
             <tr className="align-middle">
               <td colSpan="7">
                 <br />
-                <p>등록된 게시글이 없습니다.</p>
+                <p>아직 등록된 후기가 없습니다.</p>
               </td>
             </tr>
           )}
