@@ -50,40 +50,44 @@ function Order() {
     //쿠폰사용
     const [couponAmount,setCouponAmount] = useState(0);
     const [couponIdx, setCouponIdx] = useState("");
-    const [couponyn, setCouponyn] = useState("");
-  
-    // const onChangeCoupon = useCallback((event) => {
-    //     setCouponAmount(event.target.value);
-    //     }, []);
 
     //포인트사용
-    const [finalamount,setFinalamount] = useState("");
-    const [pointAmount,setPointAmount] = useState("");
+    const [finalamount,setFinalamount] = useState(fprice);
+    const [pointAmount,setPointAmount] = useState(0);
 
     const PointAmount = (e) => {
         setPointAmount(e.target.value);
     }
 
-    const Handlepoint = (e) => {
-        let fp=parseInt(fprice);
-        let pa=parseInt(pointAmount);
-        let pp ='';
-        if(pointAmount !== null) {
-            pp=fp-pa;
+    const handleCoupon = (e) => {
+        Handlepoint(e);
+        setModalOpen1(false);
+    };
 
+    const Handlepoint = (e) => {
+        let finalP=parseInt(fprice);
+        let pointP=parseInt(pointAmount);
+        let couponP =parseInt(couponAmount);
+        if(pointP !== 0 || couponP !== 0) {
+            finalP = finalP - (pointP + couponP);
         }
-        setFinalamount(pp); 
+        setFinalamount(finalP); 
     };
 
     const GetCoupon = (e) => {
-        setCouponAmount(e.target.value);
-
+        let str = e.target.value;
+        let Cidx ='';
+        let Camount ='0';
+        if (str !== 0) {
+            Cidx =str.substring(0, str.indexOf(','));
+            Camount =str.substring(str.lastIndexOf(',') + 1);
+        }
+        setCouponAmount(Camount);
+        setCouponIdx(Cidx);
+        console.log("쿠폰금액=="+Camount);
+        console.log("회원아이디"+Cidx);
     };
-        console.log("@@ 선택쿠폰idx=="+couponIdx);
-        console.log("선택쿠폰할인금액=="+couponAmount);
-        console.log("선택쿠폰사용여부=="+couponyn);
-
-
+    console.log("사용쿠폰idx==@@+=="+couponIdx);
     //결제수단 선택
     let method ='';
     let channel ='';
@@ -104,13 +108,6 @@ function Order() {
 
     //쿠폰모달
     const [modalOpen1, setModalOpen1] = useState(false);
-    const onCResult = useCallback((value) => {
-        setCouponAmount(value);
-        //MH test
-        setCouponIdx(value);
-        setModalOpen1(false);
-    },[]);
-
     const modalBackground = useRef();
     
     useEffect(() => {
@@ -183,6 +180,12 @@ function Order() {
             } else {
                 form.append('usePoint',0);
                 form.append('rePoint',data.dto.g_point);
+            }
+            if (couponAmount !== null || couponAmount === 0) {
+                form.append('useCoupon',0);
+            } else {
+                form.append('useCoupon',couponAmount);
+                form.append('gcidx',couponIdx);
             }
             form.append('paymentId', response.paymentId);
             fetch('http://localhost/guest/order',{
@@ -336,31 +339,25 @@ function Order() {
                             
                             <hr/>
                             <h4>요금세부정보</h4>
-                            {pointAmount === ""
-                            ?
-                            <div>
-                                <br></br>
-                                <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                                <br></br>
-                                <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                                <br></br>
-                                <hr/>
-                                <div style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                            </div>
-                            :
-                            <div>
-                                <br></br>
-                                <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                                <br></br>
-                                <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                                <br></br>
-                                <div>포인트사용 -{pointAmount}P</div>
-                                {/* onChange={(e) => handlepoint(e)} */}
-                                <hr/>
-                                <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                                {/* value={pointAmount} onChange={(e) => Handlepoint(e)} */}
-                            </div>
-                            }
+                                <div>
+                                    <br></br>
+                                    <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                    <br></br>
+                                    <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                    <br></br>
+                                    {pointAmount !== 0
+                                    ?
+                                    <div>포인트사용 -{pointAmount}P</div>
+                                    :''
+                                    }
+                                    {couponAmount !== 0
+                                    ?
+                                    <div>쿠폰사용금액 -{couponAmount}</div>
+                                    :''
+                                    }
+                                    <hr/>
+                                    <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                </div>
                         </div>
                     </div>
 
@@ -370,7 +367,6 @@ function Order() {
                             <br></br>
                             <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
                             <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount} disabled></input>
-                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponIdx} disabled></input>
                             <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
                             {modalOpen1 && (
                                     <div
@@ -404,16 +400,13 @@ function Order() {
                                                 <div style={{marginBottom: '5px',marginTop:'5px'}} className={"modal-scrollable"}>
                                                     <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'80px', padding:'9px'}}>
                                                         <div className="form-check">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={item.Gcidx||item.Gccheck||(dprice * (item.Cbenefit/100))} onClick={(e) => GetCoupon(e)}></input>
-                                                        <input id='gcidx' value={item.Gcidx} onChange={(e) => setCouponIdx(e.target.value)}/>
-                                                        <input id='gccheck' value={item.Gccheck} onChange={(e) => setCouponyn(e.target.value)}/>
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={[item.Gcidx,dprice * (item.Cbenefit/100)]} onClick={(e) => GetCoupon(e)}></input>
                                                             <label className="form-check-label" for="saleprice">
                                                                 <tr>
                                                                     <td style={{fontWeight:'bold'}}>{item.Cname}</td>
                                                                     <td>{item.Cbenefit}%</td>
                                                                     <td>&nbsp;{'('}{(dprice * (item.Cbenefit/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원{')'}</td>
                                                                     {/* onChange={(e) => setCouponIdx(e.target.value)}*/}
-                                                                    
                                                                 </tr>
                                                                 <tr>
                                                                     <td align='right' colSpan='2'>{item.Gcdeadline}까지 사용가능</td>
@@ -425,8 +418,7 @@ function Order() {
                                             ))}
                                             <br></br>
                                             <div align='center'>
-                                                <button className='btn btn-outline-dark' onClick={()=>setModalOpen1(false)
-                                                }>{couponAmount}원 적용하기</button>
+                                                <button className='btn btn-outline-dark' onClick={()=>handleCoupon()}>{couponAmount}원 적용하기</button>
                                             </div>
                                         </div>
                                     </div>
@@ -442,7 +434,7 @@ function Order() {
                                 </div>
                             </div>
                             <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
-                            <button className='btn btn-outline-dark' onClick={(e) => Handlepoint(e)}>포인트적용</button>
+                            <button className='btn btn-outline-dark' onClick={() => Handlepoint()}>포인트적용</button>
 
                         </div>
                     </div>

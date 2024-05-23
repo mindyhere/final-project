@@ -53,7 +53,12 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	@Override
 	public void pointupdate(Map<String,Object> map){
-		sqlSession.insert("guest.pointupdate",map);
+		sqlSession.update("guest.pointupdate",map);
+	}
+
+	@Override
+	public void couponupdate(int g_idx){
+		sqlSession.update("guest.couponupdate",g_idx);
 	}
 	
 	@Override
