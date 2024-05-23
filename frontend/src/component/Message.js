@@ -10,8 +10,8 @@ function Message() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gEmail = cookies.get("g_email");
-    const [open, setOpen] = useState('msg-disable');
-    const [roomId, setRoomId] = useState('');
+    const [open, setOpen] = useState('msg-able');
+    const [roomId, setRoomId] = useState([]);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comment, setComment] = useState('');
@@ -44,19 +44,22 @@ function Message() {
             .then(response => {
                 return response.json();
             })
-            .then(data => {
-                setData(data);
-                setLoading(false);
+            .then(data => {    
+                console.log(data.dto.length);
                 if (data.dto.length != 0) {
-
                     if (room != null && room != '') {
+                        console.log(room);
                         setRoomId(room);
                     } else {
+                        console.log(data.dto[0].m_roomId);
                         setRoomId(data.dto[0].m_roomId);
                     }
-                } else {
+                    setData(data);
                     setLoading(false);
-                    setComment('메시지가 없습니다')
+                } else if (data.dto.length == 0){
+                    setOpen('msg-disable');
+                    setLoading(false);
+                    setComment('메시지가 없습니다');
                 }
             })
     },[]);
@@ -66,11 +69,6 @@ function Message() {
             <div>loading</div>
         )
     } else {
-        let img = '';
-        const profile = `http://localhost/static/images/host/profile/${data.dto.h_profile}`;
-        if ( data.dto.h_profile != null) {
-            img = `<img src=${profile} width='30px' height='30px' /><br />`;
-        }
 
         return (
             <>
@@ -79,9 +77,8 @@ function Message() {
                 &nbsp; 메시지</h3>
                 <hr></hr>
             <br/>
-            
                 <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
-                    <p style={{fontWeight: 'bold'}}>{comment}</p>
+                    <p>{comment}</p>
                 {data.dto.map((item) => (
                     <div className='mes' onClick={() =>  { setRoomId(item.m_roomId);
                     // if(gIdx.key !== null) {
