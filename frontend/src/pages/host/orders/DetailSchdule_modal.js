@@ -80,7 +80,7 @@ function DetailSchedule({ date }) {
                   <th scope="col">구분</th>
                   <th scope="col">객실유형</th>
                   <th scope="col">체크인/체크아웃</th>
-                  <th scope="col">투숙객</th>
+                  <th scope="col">고객명</th>
                   <th scope="col">예약일</th>
                   <th scope="col">상태</th>
                 </tr>
@@ -98,9 +98,7 @@ function DetailSchedule({ date }) {
                       rownum,
                       o_idx,
                       g_idx,
-                      ho_idx,
                       ho_name,
-                      d_idx,
                       d_room_type,
                       o_ckin,
                       o_ckout,
@@ -114,18 +112,16 @@ function DetailSchedule({ date }) {
                       o_price,
                       o_discount,
                       o_finalprice,
-                      o_benefit,
                       o_orderdate,
                       g_name,
+                      g_phone,
                     }) => (
                       <OrderItem
                         event={"detail"}
                         rownum={rownum}
                         o_idx={o_idx}
                         g_idx={g_idx}
-                        ho_idx={ho_idx}
                         ho_name={ho_name}
-                        d_idx={d_idx}
                         d_room_type={d_room_type}
                         o_ckin={o_ckin}
                         o_ckout={o_ckout}
@@ -139,9 +135,9 @@ function DetailSchedule({ date }) {
                         o_price={o_price}
                         o_discount={o_discount}
                         o_finalprice={o_finalprice}
-                        o_benefit={o_benefit}
                         o_orderdate={o_orderdate}
                         g_name={g_name}
+                        g_phone={g_phone}
                         key={o_idx}
                       />
                     )
@@ -192,7 +188,7 @@ function DetailSchedule({ date }) {
                   <th scope="col">구분</th>
                   <th scope="col">객실유형</th>
                   <th scope="col">체크인/체크아웃</th>
-                  <th scope="col">투숙객</th>
+                  <th scope="col">고객명</th>
                   <th scope="col">예약일</th>
                   <th scope="col">상태</th>
                 </tr>
@@ -210,9 +206,7 @@ function DetailSchedule({ date }) {
                       rownum,
                       o_idx,
                       g_idx,
-                      ho_idx,
                       ho_name,
-                      d_idx,
                       d_room_type,
                       o_ckin,
                       o_ckout,
@@ -226,17 +220,16 @@ function DetailSchedule({ date }) {
                       o_price,
                       o_discount,
                       o_finalprice,
-                      o_benefit,
                       o_orderdate,
                       g_name,
+                      g_phone,
                     }) => (
                       <OrderItem
+                        event={"detail"}
                         rownum={rownum}
                         o_idx={o_idx}
                         g_idx={g_idx}
-                        ho_idx={ho_idx}
                         ho_name={ho_name}
-                        d_idx={d_idx}
                         d_room_type={d_room_type}
                         o_ckin={o_ckin}
                         o_ckout={o_ckout}
@@ -250,9 +243,9 @@ function DetailSchedule({ date }) {
                         o_price={o_price}
                         o_discount={o_discount}
                         o_finalprice={o_finalprice}
-                        o_benefit={o_benefit}
                         o_orderdate={o_orderdate}
                         g_name={g_name}
+                        g_phone={g_phone}
                         key={o_idx}
                       />
                     )

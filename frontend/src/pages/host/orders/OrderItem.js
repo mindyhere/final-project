@@ -29,7 +29,9 @@ function OrderItem({
   o_finalprice,
   o_benefit,
   o_orderdate,
+  g_email,
   g_name,
+  g_phone,
   handleModal,
 }) {
   const cookies = new Cookies();
@@ -42,12 +44,19 @@ function OrderItem({
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
 
   const Collapsible = () => {
-    console.log("=> 클릭? "+o_idx)
+    console.log("=> 클릭? " + o_idx);
     if (!isCollapsed) {
       return (
         <>
           <tr className="align-middle detail-row">
-            <td colSpan="8">tesdf<br/><br/><br/><br/><br/><br/><br/><br/><br/>gvsfdehbfszdgfvaekdkknsdklfnsdlnvsnslskvlsnvlsnvlksnvldnvlsknvdnvsklnvlsdknvlsknlst{o_finalprice}</td>
+            <td colSpan="4">
+              <b>연락처</b>&nbsp;&nbsp;:&nbsp;&nbsp;{g_phone}
+              &nbsp;&nbsp;|&nbsp;&nbsp;총 {sum}명
+            </td>
+            <td colSpan="4">
+              <b>결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;({o_price}\ x 1박) - (
+              {o_discount}\ 할인적용)&nbsp;&nbsp;=&nbsp;&nbsp;총 {o_finalprice}\
+            </td>
           </tr>
         </>
       );
@@ -175,12 +184,12 @@ function OrderItem({
                   }
                   const form = new FormData();
                   form.append("opt", 1); // 예약확정 & 게스트레벨업
-                  form.append("oidx", dataset.o_idx);
+                  form.append("oidx", o_idx);
                   form.append("hidx", userIdx);
-                  form.append("idx", dataset.g_idx);
+                  form.append("idx", g_idx);
 
                   return fetch(
-                    `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
+                    `http://localhost/api/order/manage/confirm/${o_idx}`,
                     {
                       method: "post",
                       body: form,
@@ -210,7 +219,6 @@ function OrderItem({
                 showConfirmButton: false,
                 timer: 2000,
               }).then(() => {
-                localStorage.removeItem("dataset");
                 window.location.reload();
               });
             }
@@ -256,7 +264,7 @@ function OrderItem({
         <tr className="align-middle detail-row">
           <td>{rownum}</td>
           <td
-            style={{ cursor: "pointer",backgroundColor:"#f7effc" }}
+            style={{ cursor: "pointer", backgroundColor: "#f7effc" }}
             onClick={() => {
               setCollapsed(!isCollapsed);
             }}
