@@ -19,7 +19,7 @@ public class WebSocketController {
 	
 	@MessageMapping(value = "/message")
     public void message(MessageDTO message){
-		// System.out.println("메세지"+message);
+		System.out.println("메세지"+message);
 		String receiver = dao.receive(message.getM_sender(), message.getM_roomId());
 		// System.out.println(receiver);
 		message.setM_receiver(receiver);

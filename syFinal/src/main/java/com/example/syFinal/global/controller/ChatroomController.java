@@ -60,10 +60,12 @@ public class ChatroomController {
 				dto.get(i).setH_profile(pro);
 				MessageDTO date_msg = dao.last_message(dto.get(i).getM_roomId());
 				String msg = date_msg.getM_message();
-				if (msg.length() > 17) {
-					msg = msg.substring(0, 16) + "...";
+				if (msg != null) {
+					if (msg.length() > 17) {
+						msg = msg.substring(0, 16) + "...";
+					}
+					dto.get(i).setM_message(msg);
 				}
-				dto.get(i).setM_message(msg);
 				String date = date_msg.getM_send_date();
 				date = date.substring(5);
 				date = date.replace('-', '.');
@@ -76,10 +78,12 @@ public class ChatroomController {
 				dto.get(i).setG_photo(pro);
 				MessageDTO date_msg = dao.last_message(dto.get(i).getM_roomId());
 				String msg = date_msg.getM_message();
-				if (msg.length() > 17) {
-					msg = msg.substring(0, 16) + "...";
+				if (msg != null) { 
+					if (msg.length() > 17) {
+						msg = msg.substring(0, 16) + "...";
+					}
+					dto.get(i).setM_message(msg);
 				}
-				dto.get(i).setM_message(msg);
 				String date = date_msg.getM_send_date();
 				date = date.substring(5);
 				date = date.replace('-', '.');
@@ -87,7 +91,7 @@ public class ChatroomController {
 			}
 		}
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(dto);
+		System.out.println(" ㄹ사투투ㅜ"+dto);
 		map.put("dto", dto);
 		return map;
 	}
