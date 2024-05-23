@@ -51,6 +51,7 @@ public class ChatroomController {
 	@ResponseBody
 	public Map<String, Object> list(@RequestParam(name = "sender") String sender,
 			@RequestParam(name = "type") String type) {
+		System.out.println(sender);
 		List<MessageDTO> dto = new ArrayList<>();
 		if (type.equals("guest")) {
 			dto = dao.g_list(sender);
@@ -69,7 +70,8 @@ public class ChatroomController {
 				dto.get(i).setM_send_date(date);
 			}
 		} else if (type.equals("host")) {
-			dto = dao.h_list(sender);for (int i = 0; i < dto.size(); i++) {
+			dto = dao.h_list(sender);
+			for (int i = 0; i < dto.size(); i++) {
 				String pro = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
 				dto.get(i).setG_photo(pro);
 				MessageDTO date_msg = dao.last_message(dto.get(i).getM_roomId());
@@ -89,23 +91,45 @@ public class ChatroomController {
 		map.put("dto", dto);
 		return map;
 	}
-
-	// 채팅방 생성
-	@PostMapping("create")
+	
+	@PostMapping("check")
 	@ResponseBody
-	public String create(@RequestParam(name = "h_idx") int h_idx, @RequestParam(name = "g_idx") int g_idx,
-			@RequestParam(name = "message") String message,
-			@RequestParam(name = "roomId", defaultValue = "") String roomId) {
-		UUID uuid = UUID.randomUUID();
-		String room = "";
-		if (roomId == "") {
-			room = uuid.toString();
+	public Map<String, Object> create(@RequestParam(name = "h_email") String h_email, @RequestParam(name = "g_email") String g_email) {
+		String room = dao.check(g_email, h_email);
+		String result = "";
+		if (room.equals("none")) {
+			UUID uuid = UUID.randomUUID();
+			String roomId = uuid.toString();
+			try {
+				dao.create(roomId, g_email, h_email);
+				result = roomId;
+			} catch (Exception e) {
+				result = "error";
+			}
 		} else {
-			room = roomId;
+			result = room;
 		}
-		String result = dao.create(room, g_idx, h_idx, message);
-		return result;
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
 	}
+
+	// 룸아이디 생성 (새 채팅방 개설)
+//	@PostMapping("create")
+//	@ResponseBody
+//	public String create(@RequestParam(name = "h_idx") int h_idx, @RequestParam(name = "g_idx") int g_idx,
+//			@RequestParam(name = "message") String message,
+//			@RequestParam(name = "roomId", defaultValue = "") String roomId) {
+//		UUID uuid = UUID.randomUUID();
+//		String room = "";
+//		if (roomId == "") {
+//			room = uuid.toString();
+//		} else {
+//			room = roomId;
+//		}
+//		String result = dao.create(room, g_idx, h_idx, message);
+//		return result;
+//	}
 
 //	// 게스트 입장 채팅 조회
 //	@RequestMapping("entrance")
@@ -141,10 +165,6 @@ public class ChatroomController {
 		System.out.println(roomId);
 		List<MessageDTO> dto = dao.entrance(roomId);
 		System.out.println(dto);
-		
-//		Map<String, Object> msg = new HashMap<>();
-//		List<String> message = new ArrayList<>();
-//		List<String> host_message = new ArrayList<>();
 		List<Map<String, Object>> list = new ArrayList<>();
 		for (int i = 0; i < dto.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
@@ -158,6 +178,7 @@ public class ChatroomController {
 			map.put("h_profile", profile);
 			String photo = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
 			map.put("g_photo", photo);
+			map.put("m_test", dto.get(i).getM_test());
 			list.add(map);
 		}
 		System.out.println(list);

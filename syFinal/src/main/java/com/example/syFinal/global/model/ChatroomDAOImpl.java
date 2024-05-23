@@ -45,22 +45,22 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 		map.put("m_roomId", m_roomId);
 		return sqlSession.selectOne("message.receive", map);
 	}
+	
+	@Override
+	public String check(String g_email, String h_email) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("g_email", g_email);
+		map.put("h_email", h_email);
+		return sqlSession.selectOne("message.check", map);
+	}
 
 	@Override
-	public String create(String room, int g_idx, int h_idx, String message) {
-		String result = "";
+	public void create(String room, String g_email, String h_email) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("h_idx", h_idx);
-		map.put("g_idx", g_idx);
+		map.put("g_email", g_email);
+		map.put("h_email", h_email);
 		map.put("room", room);
-		map.put("message", message);
-		try {
-			sqlSession.insert("message.create", map);
-			result = "success";
-		} catch (Exception e) {
-			result = "fail";
-		}
-		return result;
+		sqlSession.insert("message.create", map);
 	}
 
 //	@Override

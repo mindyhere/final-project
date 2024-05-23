@@ -323,6 +323,11 @@ function Header() {
                 </a>
               </li>
               <li className="nav-item rounded" style={{paddingTop: '10px'}}>
+                <a className="nav-link active" onClick={() => navigate("/component/message")}>
+                  메시지
+                </a>
+              </li>
+              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
                 <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
                   여행
                 </a>
@@ -402,6 +407,14 @@ function Header() {
                   onClick={() => navigate(`/api/host/account/${userIdx}`)}
                 >
                   계정
+                </a>
+              </li>
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/component/Message`)}
+                >
+                  메시지
                 </a>
               </li>
               <li className="nav-item rounded">
