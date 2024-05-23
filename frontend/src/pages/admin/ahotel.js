@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Check2Square, HouseCheck } from 'react-bootstrap-icons';
+import { Check2Square, HouseCheck, Square } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 import '../admin/css/astyles.css';
 
 function AHotel() {
@@ -12,11 +13,13 @@ function AHotel() {
     const getStatus = (ho_status) => {
         switch (ho_status) {
             case 1:
-                return '승인 대기';
+                return '승인 대기'; 
             case 2:
                 return '영업 중';
+            case 3:
+                return '영업 중지 신청';   
             default:
-                return '영업 중지';
+                return '영업 재개 신청';
         }
     };
 
@@ -46,39 +49,38 @@ function AHotel() {
             });
     };
 
-    const approveHotel = (ho_idx, newStatus) => {
-           let confirmMessage = '';
-        if (newStatus === 2) {
-            confirmMessage = '등록 하시겠습니까?';
-        } else if (newStatus === 3) {
-            confirmMessage = '영업 중지 시키겠습니까?';
-        } else if (newStatus === 1) {
-            confirmMessage = '승인 대기 상태로 변경 하시겠습니까?';
-        } else {
-            confirmMessage = '변경하시겠습니까?';
-        }
+    // const approveHotel = (ho_idx, newStatus) => {
+    //        let confirmMessage = '';
+    //     if (newStatus === 2) {
+    //         confirmMessage = '등록 하시겠습니까?';
+    //     } else if (newStatus === 3) {
+    //         confirmMessage = '영업 중지 시키겠습니까?';
+    //     } else if (newStatus === 1) {
+    //         confirmMessage = '승인 대기 상태로 변경 하시겠습니까?';
+    //     } else {
+    //         confirmMessage = '변경하시겠습니까?';
+    //     }
 
-        if (window.confirm(confirmMessage)) {
-            fetch(`http://localhost/admin/approveHotel?ho_idx=${ho_idx}&ho_status=${newStatus}`, {
-                method: 'POST',
-            })
-            .then(response => {
-                if (response.ok) {
-                    fetchahotel();
-                } else {
-                    console.error('Error status');
-                }
-            })
-            .catch(error => {
-                console.error('Error status:', error);
-            });
-        }
-    };
-
+    //     if (window.confirm(confirmMessage)) {
+    //         fetch(`http://localhost/admin/approveHotel?ho_idx=${ho_idx}&ho_status=${newStatus}`, {
+    //             method: 'POST',
+    //         })
+    //         .then(response => {
+    //             if (response.ok) {
+    //                 fetchahotel();
+    //             } else {
+    //                 console.error('Error status');
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error status:', error);
+    //         });
+    //     }
+    // };
     const handleStatusFilterChange = () => {
         setFilteredStatus(statusFilter.current.value);
     };
-
+    
     return (
         <>
             <hr />  
@@ -92,6 +94,12 @@ function AHotel() {
                                         <span data-feather="home" className="align-text-bottom"></span>
                                         <Check2Square width="50px" height="30px" /> 숙소운영관리
                                     </a>
+                                </li>
+                                <li className="nav-item">
+                                   <a className="nav-link active" aria-current="page" href="#">
+                                    <span data-feather="home" className="align-text-bottom"></span>
+                                      <Square width="50px" height="20px" /> 숙소상세관리
+                                 </a>
                                 </li>
                             </ul>
                         </div>
@@ -116,6 +124,7 @@ function AHotel() {
                                         <option value="1">승인 대기</option>
                                         <option value="2">영업 중</option>
                                         <option value="3">영업 중지</option>
+                                        <option value="4">영업 재개</option>
                                     </select>
                                 </div>
                                 <div className="col-md-2">
@@ -133,29 +142,17 @@ function AHotel() {
                                                 <th>등급</th>
                                                 <th>사업자 번호</th>
                                                 <th>영업상태</th>
-                                                <th>처리현황</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {list.map((hotel, index) => (
                                                 <tr key={index}>
                                                     <td>{hotel.ho_idx}</td>
-                                                    <td>{hotel.ho_name}</td>
+                                                    <td><Link to={`/admin/ahoteldetail/${hotel.ho_idx}`}>{hotel.ho_name}</Link></td>
                                                     <td>{hotel.ho_address}</td>
                                                     <td>{hotel.ho_level}</td>
                                                     <td>{hotel.h_business}</td>
-                                                    <td>{getStatus(hotel.ho_status)}</td>
-                                                    <td>
-                                                        {hotel.ho_status === 1 && (
-                                                            <button type="button" className="btn btn-primary" onClick={() => approveHotel(hotel.ho_idx, 2)}>승인</button>
-                                                        )}
-                                                        {hotel.ho_status === 2 && (
-                                                            <button type="button" className="btn btn-danger" onClick={() => approveHotel(hotel.ho_idx, 3)}>영업 중지</button>
-                                                        )}
-                                                        {hotel.ho_status === 3 && (
-                                                            <button type="button" className="btn btn-success" onClick={() => approveHotel(hotel.ho_idx, 2)}>영업 재개</button>
-                                                        )}
-                                                    </td>
+                                                    <td>{getStatus(hotel.ho_status)}</td>                                                  
                                                 </tr>
                                             ))}
                                         </tbody>
