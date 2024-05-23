@@ -161,27 +161,13 @@ function ListReviews() {
         </colgroup>
         <thead>
           <tr className="align-middle">
-            <th scope="col">
-              <strong>no.</strong>
-            </th>
-            <th scope="col">
-              <strong>예약번호</strong>
-            </th>
-            <th scope="col">
-              <strong>구분</strong>
-            </th>
-            <th scope="col">
-              <strong>작성자</strong>
-            </th>
-            <th scope="col">
-              <strong>작성일</strong>
-            </th>
-            <th scope="col">
-              <strong>평점</strong>
-            </th>
-            <th scope="col">
-              <strong>상태</strong>
-            </th>
+            <th scope="col">no.</th>
+            <th scope="col">예약번호</th>
+            <th scope="col">구분</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">평점</th>
+            <th scope="col">상태</th>
           </tr>
         </thead>
         <tbody

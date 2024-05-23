@@ -46,6 +46,7 @@ import Amain from "./pages/admin/amain";
 import AGuest from "./pages/admin/aguest";
 import Ahost from "./pages/admin/ahost";
 import AHotel from "./pages/admin/ahotel";
+import AHoteldetail from "./pages/admin/ahoteldetail";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
 import Adetail from "./pages/admin/notice/adetail";
@@ -114,6 +115,7 @@ function App() {
           <Route path="/admin/ahost" element={<Ahost />} />
           <Route path="/admin/aguest" element={<AGuest />} />
           <Route path="/admin/ahotel" element={< AHotel/>}/>
+          <Route path="/admin/ahoteldetail/:hoIdx" element = {<AHoteldetail />}/>
           <Route path="/admin/notice/alist" element={<NoticeList />} />
           <Route path="/admin/notice/awrite" element={<Awrite />} />
           <Route path="/admin/notice/adetail/:n_idx" element={<Adetail />} />
