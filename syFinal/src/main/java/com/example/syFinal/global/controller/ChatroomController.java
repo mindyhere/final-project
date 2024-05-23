@@ -1,5 +1,7 @@
 package com.example.syFinal.global.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +53,7 @@ public class ChatroomController {
 	@ResponseBody
 	public Map<String, Object> list(@RequestParam(name = "sender") String sender,
 			@RequestParam(name = "type") String type) {
-		System.out.println(sender);
+		// System.out.println(sender);
 		List<MessageDTO> dto = new ArrayList<>();
 		if (type.equals("guest")) {
 			dto = dao.g_list(sender);
@@ -90,8 +92,17 @@ public class ChatroomController {
 				dto.get(i).setM_send_date(date);
 			}
 		}
+		InetAddress local = null;
+		   try {
+		      local = InetAddress.getLocalHost();
+		   }
+		   catch ( UnknownHostException e ) {
+		      e.printStackTrace();
+		   }
+		  String ip = local.getHostAddress();
+		  System.out.println("아이피==="+ip);
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(" ㄹ사투투ㅜ"+dto);
+		map.put("ip", ip);
 		map.put("dto", dto);
 		return map;
 	}
@@ -166,9 +177,9 @@ public class ChatroomController {
 	@RequestMapping("entrance")
 	@ResponseBody
 	public List<Map<String, Object>> entrance(@RequestParam(name = "roomId") String roomId) {
-		System.out.println(roomId);
+		// System.out.println(roomId);
 		List<MessageDTO> dto = dao.entrance(roomId);
-		System.out.println(dto);
+		// System.out.println(dto);
 		List<Map<String, Object>> list = new ArrayList<>();
 		for (int i = 0; i < dto.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
@@ -185,7 +196,7 @@ public class ChatroomController {
 			map.put("m_test", dto.get(i).getM_test());
 			list.add(map);
 		}
-		System.out.println(list);
+		//System.out.println(list);
 		return list;
 	}
 
