@@ -45,6 +45,7 @@ function Message() {
                 return response.json();
             })
             .then(data => {    
+                console.log(data.dto.length);
                 if (data.dto.length != 0) {
                     if (room != null && room != '') {
                         console.log(room);
@@ -55,10 +56,10 @@ function Message() {
                     }
                     setData(data);
                     setLoading(false);
-                } else {
+                } else if (data.dto.length == 0){
                     setOpen('msg-disable');
                     setLoading(false);
-                    setComment('메시지가 없습니다')
+                    setComment('메시지가 없습니다');
                 }
             })
     },[]);
@@ -76,9 +77,8 @@ function Message() {
                 &nbsp; 메시지</h3>
                 <hr></hr>
             <br/>
-            
                 <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
-                    <p style={{fontWeight: 'bold'}}>{comment}</p>
+                    <p>{comment}</p>
                 {data.dto.map((item) => (
                     <div className='mes' onClick={() =>  { setRoomId(item.m_roomId);
                     // if(gIdx.key !== null) {
