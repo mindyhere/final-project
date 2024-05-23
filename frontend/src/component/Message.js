@@ -10,8 +10,8 @@ function Message() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gEmail = cookies.get("g_email");
-    const [open, setOpen] = useState('msg-disable');
-    const [roomId, setRoomId] = useState('');
+    const [open, setOpen] = useState('msg-able');
+    const [roomId, setRoomId] = useState([]);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comment, setComment] = useState('');
@@ -44,17 +44,19 @@ function Message() {
             .then(response => {
                 return response.json();
             })
-            .then(data => {
-                setData(data);
-                setLoading(false);
+            .then(data => {    
                 if (data.dto.length != 0) {
-
                     if (room != null && room != '') {
+                        console.log(room);
                         setRoomId(room);
                     } else {
+                        console.log(data.dto[0].m_roomId);
                         setRoomId(data.dto[0].m_roomId);
                     }
+                    setData(data);
+                    setLoading(false);
                 } else {
+                    setOpen('msg-disable');
                     setLoading(false);
                     setComment('메시지가 없습니다')
                 }
