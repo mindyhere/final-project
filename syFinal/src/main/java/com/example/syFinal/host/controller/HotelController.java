@@ -47,28 +47,26 @@ public class HotelController {
 		map.put("d_idx", d_idx);
 		Map<String, Object> hotelList = new HashMap<>();
 		hotelList = hotelDao.hotelList(map);
-
-
-//      List<String> bet_dates = new ArrayList<String>();
-//      List<String> imp_dates = new ArrayList<String>();
-//      MainController main = new MainController();
-//      List<HotelDetailDTO> date = hotelDao.imp_date(ho_idx, d_idx);
-//      for (int i = 0; i < date.size(); i++) {
-//         bet_dates = main.dateBetween(date.get(i).getO_ckin(), date.get(i).getO_ckout());
-//         for (int j = 0; j < bet_dates.size(); j++) {
-//            imp_dates.add(bet_dates.get(j));
-//         }
-//      }
-//      int roomCount = hotelDao.room_count(ho_idx, d_idx);
-//      System.out.println(roomCount);
-//      List<String> dates = new ArrayList<String>();
-//      Set<String> set = new HashSet<String>(imp_dates);
-//      for (String str : set) {
-//         if (Collections.frequency(imp_dates, str) >= roomCount) {
-//            dates.add(str);
-//         }
-//      }
-//      hotelList.put("imp_dates", dates);
+      List<String> bet_dates = new ArrayList<String>();
+      List<String> imp_dates = new ArrayList<String>();
+      MainController main = new MainController();
+      List<HotelDetailDTO> date = hotelDao.imp_date(ho_idx, d_idx);
+      for (int i = 0; i < date.size(); i++) {
+         bet_dates = main.dateBetween(date.get(i).getO_ckin(), date.get(i).getO_ckout());
+         for (int j = 0; j < bet_dates.size(); j++) {
+            imp_dates.add(bet_dates.get(j));
+         }
+      }
+      int roomCount = hotelDao.room_count(ho_idx, d_idx);
+      System.out.println(roomCount);
+      List<String> dates = new ArrayList<String>();
+      Set<String> set = new HashSet<String>(imp_dates);
+      for (String str : set) {
+         if (Collections.frequency(imp_dates, str) >= roomCount) {
+            dates.add(str);
+         }
+      }
+      hotelList.put("imp_dates", dates);
       return hotelList;
    }
 
