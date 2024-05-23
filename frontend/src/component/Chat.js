@@ -19,7 +19,8 @@ function Chat(props) {
     const {Hname} = useParams();
 
     const roomId = props.roomId;
-
+    const ip = props.ip;
+    console.log(ip);
     const [messages, setMessages] = useState(null); // 채팅 메시지 상태
     const [message, setMessage] = useState(''); // 메시지 입력 상태
     const stompClient = useRef(null); // STOMP 클라이언트를 위한 ref. 웹소켓 연결을 유지하기 위해 사용
@@ -73,7 +74,7 @@ function Chat(props) {
       };
 
       const connect = () => {
-        const socket = new WebSocket("ws://localhost/ws");
+        const socket = new WebSocket(`ws://${ip}/ws`);
         stompClient.current = Stomp.over(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
