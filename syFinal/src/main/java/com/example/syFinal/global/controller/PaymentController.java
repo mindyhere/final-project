@@ -74,9 +74,8 @@ public class PaymentController {
 	
 	//환불요청
 	@RequestMapping("/paycancel")
-	public Map<String, Object> cancelPay(@RequestParam(name="paymentId") String payId,@RequestParam(name = "o_idx") int o_idx,@RequestParam(name = "g_idx") int g_idx) {
-	//public void cancelPay(@RequestParam(name="paymentId") String payId,@RequestParam(name="returnPrice") int rePrice,@RequestParam(name="reason") String cancelreason) {
-		String result = dao.cancel(o_idx, g_idx);
+	public Map<String, Object> cancelPay(@RequestParam(name="paymentId") String payId,@RequestParam(name = "o_idx") int o_idx,@RequestParam(name = "g_idx") int gidx,@RequestParam(name = "pointPlus") int point) {
+		String result = dao.cancel(o_idx, gidx);
 		try {
 			PortoneResponse portoneresponse=getToken();
 			if(portoneresponse==null) {
@@ -106,6 +105,11 @@ public class PaymentController {
 			e.printStackTrace();
             throw new RuntimeException("환불에 실패 했습니다 다시시도 바랍니다");
 		}
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("g_idx", gidx);
+		map2.put("pointPlus", point);
+		dao.gPoint(map2);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		return map;
