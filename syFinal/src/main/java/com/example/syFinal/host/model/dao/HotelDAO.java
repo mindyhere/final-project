@@ -8,7 +8,7 @@ import com.example.syFinal.host.model.dto.HotelDetailDTO;
 public interface HotelDAO {
 
 	/* 호텔 상세 정보 */
-	Map<String, Object> hoteList(Map<String, Object> map);
+	Map<String, Object> hotelList(Map<String, Object> map);
 	
 	/* 호텔 객실 정보 */
 	List<HotelDetailDTO> hotelRooms(int ho_idx);
