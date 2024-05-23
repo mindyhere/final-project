@@ -91,7 +91,7 @@ public class ChatroomController {
 			}
 		}
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(dto);
+		System.out.println(" ㄹ사투투ㅜ"+dto);
 		map.put("dto", dto);
 		return map;
 	}
