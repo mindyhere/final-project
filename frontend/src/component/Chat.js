@@ -71,7 +71,7 @@ function Chat(props) {
       };
 
       const connect = () => {
-        const socket = new WebSocket("ws://localhost:80/ws");
+        const socket = new WebSocket("ws://localhost/ws");
         stompClient.current = Stomp.over(socket);
         console.log(socket);
         stompClient.current.connect({}, () => {
