@@ -67,7 +67,8 @@
 		select h_idx, h_email, h_name, h_phone, h_level,
 		h_status,h_business,h_file,
 		h_regdate, h_profile, h_description
-		from host
+		from
+		host
 		where
 		${searchkey} like
 		CONCAT('%',#{search},'%')
@@ -107,12 +108,26 @@
 
 	<!-- 호텔 등록 승인 -->
 	<update id="updateHotelStatus" parameterType="map">
-		UPDATE hotel , hotel_detail , hotel_amenity SET ho_status = #{ho_status}
-		, ha_status = #{ha_status}, d_status=#{d_status} WHERE ho_idx =
-		#{ho_idx}
-		AND ho_idx = d_ho_idx AND d_ho_idx = ha_ho_idx
+		UPDATE hotel,
+		hotel_detail , hotel_amenity
+		SET ho_status = 2, d_status = 2,
+		ha_status=2
+		WHERE ho_idx =#{ho_idx}
+		AND d_ho_idx = d_ho_idx
+		AND ha_ho_idx
+		=ha_ho_idx
 	</update>
 
+	<!-- 호텔 영업 정지 승인 -->
+	<update id="updateHotelClose" parameterType="map">
+		UPDATE hotel,
+		hotel_detail , hotel_amenity
+		SET ho_status = 3, d_status = 3,
+		ha_status=3
+		WHERE ho_idx =#{ho_idx}
+		AND d_ho_idx = d_ho_idx
+		AND ha_ho_idx =ha_ho_idx
+	</update>
 
 	<!-- 등록된 호텔 수 -->
 	<select id="hotelCount" resultType="Int">

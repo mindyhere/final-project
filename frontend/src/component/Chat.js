@@ -73,6 +73,7 @@ function Chat(props) {
       const connect = () => {
         const socket = new WebSocket("ws://localhost:80/ws");
         stompClient.current = Stomp.over(socket);
+        console.log(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
             console.log('구독 중', message);

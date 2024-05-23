@@ -214,9 +214,29 @@ public class OrderDAOImpl implements OrderDAO {
 		List<Map<String, Object>> list = null;
 		try {
 			list = sqlSession.selectList("order.detailSchedule", map);
-			// 금액 1000단위 포맷
 			if (list != null) {
+				DecimalFormat df = new DecimalFormat("###,###");
 				for (Map<String, Object> item : list) {
+					// 금액 1000단위 포맷
+					String o_price = df.format(item.get("o_price"));
+					String o_discount = df.format(item.get("o_discount"));
+					String o_finalprice = df.format(item.get("o_finalprice"));
+					item.replace("o_price", o_price);
+					item.replace("o_discount", o_discount);
+					item.replace("o_finalprice", o_finalprice);
+					// 결제수단 코드 변환
+					String o_payment = (String) item.get("o_payment");
+					switch (o_payment) {
+					case "1":
+						item.replace("o_payment", "Card");
+						break;
+					case "2":
+						item.replace("o_payment", "KakaoPay");
+						break;
+					case "3":
+						item.replace("o_payment", "Point");
+						break;
+					}
 					// 예약상태 코드 변환
 					String o_state = (String) item.get("o_state");
 					switch (o_state) {
