@@ -65,7 +65,7 @@
 	<select id="ah_list"
 		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
 		select h_idx, h_email, h_name, h_phone, h_level,
-		h_status,h_business,
+		h_status,h_business,h_file,
 		h_regdate, h_profile, h_description
 		from host
 		where
@@ -73,9 +73,11 @@
 		CONCAT('%',#{search},'%')
 	</select>
 
-<select id="a_fileCheck" resultType="com.example.syFinal.admin.model.dto.AHostDTO">
-select h_file from host WHERE h_idx = #{h_idx}
-</select>
+	<!-- 사업자 등록증 확인 -->
+	<select id="a_fileCheck"
+		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
+		select h_file from host WHERE h_idx = #{h_idx}
+	</select>
 
 	<!-- 사업자 가입승인 -->
 	<update id="ah_approve" parameterType="int">
@@ -84,6 +86,7 @@ select h_file from host WHERE h_idx = #{h_idx}
 		h_status="승인완료", h_level = 9
 		where h_idx=#{h_idx}
 	</update>
+
 
 	<!-- 호텔 목록 -->
 	<select id="list"
@@ -104,24 +107,27 @@ select h_file from host WHERE h_idx = #{h_idx}
 
 	<!-- 호텔 등록 승인 -->
 	<update id="updateHotelStatus" parameterType="map">
-		UPDATE hotel
-		SET ho_status = #{ho_status} and ha_status
-		WHERE ho_idx = #{ho_idx}
+		UPDATE hotel , hotel_detail , hotel_amenity SET ho_status = #{ho_status}
+		, ha_status = #{ha_status}, d_status=#{d_status} WHERE ho_idx =
+		#{ho_idx}
+		AND ho_idx = d_ho_idx AND d_ho_idx = ha_ho_idx
 	</update>
-	
-<!-- 등록된 호텔 수  -->
+
+
+	<!-- 등록된 호텔 수 -->
 	<select id="hotelCount" resultType="Int">
 		SELECT COUNT(*) FROM hotel
 	</select>
-	
-<!-- 호텔상세  -->
-	<select id="ADetailHotel" resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT * 
+
+	<!-- 호텔상세 -->
+	<select id="ADetailHotel"
+		resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT *
 		FROM hotel, hotel_detail, hotel_amenity
-		WHERE ho_idx = #{ho_idx}
+		WHERE ho_idx
+		= #{ho_idx}
 		AND ho_idx = d_ho_idx
 		AND d_ho_idx = ha_ho_idx
-		And ho_status
 	</select>
 
 
@@ -135,5 +141,5 @@ select h_file from host WHERE h_idx = #{h_idx}
 		AND ho.ho_business = h.h_business
 	</select>
 
-	
+
 </mapper>

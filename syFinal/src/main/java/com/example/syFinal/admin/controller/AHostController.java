@@ -30,23 +30,21 @@ public class AHostController {
 		map.put("searchkey", searchkey);
 		map.put("search", search);
 		List<AHostDTO> list = dao.list(searchkey, search);
-		System.out.println("ah_list 결과값!!!:" + list);
 		return list;
-	}
+	} 
 
 	@PostMapping("/admin/ah_detail")
 	public Map<String, Object> detail(@RequestParam(name = "h_idx", defaultValue = "") int h_idx) {
 		AHostDTO dto = dao.detail(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		System.out.println(map);
 		return map;
-	}
+	} 
 
 	@RequestMapping("/admin/approve")
 	public String approveHost(@RequestParam(name = "h_idx") int h_idx) {
 		AHostDTO dto = dao.check_file(h_idx);
-		String message = "";
+		String message = ""; 
 		if(dto.getH_file().length() != 1) {
 			dao.a_approve(h_idx);
 			message = "success";
