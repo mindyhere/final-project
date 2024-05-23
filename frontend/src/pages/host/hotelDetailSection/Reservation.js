@@ -160,22 +160,32 @@ function Reservation() {
                                             인원 선택
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu className="col-12">
-                                            
-                                            <Dropdown.Item className="col-6">성인</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={adultMinusBtn}> - </button>
-                                                {adult}
-                                                <button style={{marginLeft: '10px'}} onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
-
-                                            <Dropdown.Item>어린이</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={teenagerMinusBtn}> - </button>
-                                                {teenager}
-                                                <button style={{marginLeft: '10px'}} onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
-                                            
-                                            <Dropdown.Item>유아</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={childMinusBtn}> - </button>
-                                                {child}
-                                                <button style={{marginLeft: '10px'}} onClick={childPlusBtn} disabled={child >= 5 ? true : false}> + </button>
-                                           
+                                            <div className="row row-cols-2">
+                                                <div className="col-6">
+                                                    <Dropdown.Item>성인</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6 mb-10">
+                                                    <button className="circle-btn" onClick={adultMinusBtn}> - </button>
+                                                        {adult}
+                                                    <button className="circle-btn" onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                </div>
+                                                <div className="col-6 mb-10">
+                                                    <Dropdown.Item>어린이</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6">
+                                                    <button className="circle-btn" onClick={teenagerMinusBtn}> - </button>
+                                                        {teenager}
+                                                    <button className="circle-btn" onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                </div>
+                                                <div className="col-6">
+                                                    <Dropdown.Item>유아</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6">
+                                                    <button className="circle-btn" onClick={childMinusBtn}> - </button>
+                                                        {child}
+                                                    <button className="circle-btn" onClick={childPlusBtn} disabled={child >= 5 ? true : false}> + </button>
+                                                </div>
+                                            </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     {
