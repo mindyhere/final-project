@@ -271,6 +271,7 @@ function ManageOrders() {
                           o_orderdate,
                         }) => (
                           <OrderItem
+                            event={"order"}
                             rownum={rownum}
                             o_idx={o_idx}
                             g_idx={g_idx}

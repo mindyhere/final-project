@@ -76,18 +76,18 @@ where o_idx=#{o_idx}
 
 <!-- 체크인, 체크아웃 날짜 배열(달력 마크) -->
 <select id="schedule" resultType="java.util.Map">
-select distinct ${column}
+select distinct ${column}, o_state
 	from v_host_order v
 	where 
 		ho_idx in (select ho_idx from hotel where ho_h_idx=#{h_idx})
 		<choose>
-		<when test="column == 'o_ckin'">
-		and o_state !='2'
-		</when>
-		<otherwise>
-		and o_state='4'
-		</otherwise>
-	</choose>
+		  <when test="pending == 1">
+			and o_state = '1'
+		  </when>
+		  <otherwise>
+			and (o_state ='3' or o_state = '4')
+		  </otherwise>	
+		</choose>
 	order by ${column}
 </select>
 
@@ -173,7 +173,7 @@ from
 		order by o_state desc, o_idx	
 		</when>
 		<otherwise>
-		and o_state='4'
+		and (o_state='3' or o_state='4')
 		order by o_idx
 		</otherwise>
 	</choose>

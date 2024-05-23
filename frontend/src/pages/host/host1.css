@@ -205,3 +205,10 @@ a {
 	background: #DBC4F0;
 	border-color: #DBC4F0;
 }
+
+/* OrderItem, table style */
+.detail-row,
+.detail-row>th,
+.detail-row>td {
+	cursor: default
+}

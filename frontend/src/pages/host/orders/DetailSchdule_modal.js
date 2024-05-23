@@ -19,7 +19,7 @@ function useFetch(url) {
       })
       .then((data) => {
         if (data != null) {
-          console.log("===> data? " + JSON.stringify(data));
+          // console.log("===> data? " + JSON.stringify(data));
           setData(data);
         }
         setLoading(false);
@@ -51,7 +51,7 @@ function DetailSchedule({ date }) {
           </h3>
           <hr />
           <div
-            className="card-style mb-3"
+            className="card-style mb-4"
             style={{ height: "340px", maxHeight: "340px" }}
           >
             <div className="row mb-3" style={{ textAlign: "left" }}>
@@ -64,12 +64,12 @@ function DetailSchedule({ date }) {
               <colgroup>
                 <col width="5%" />
                 <col width="10%" />
-                <col width="10%" />
-                <col width="15%" />
-                <col width="15%" />
                 <col width="15%" />
                 <col width="10%" />
-                <col width="20%" />
+                <col width="25%" />
+                <col width="10%" />
+                <col width="15%" />
+                <col width="10%" />
               </colgroup>
               <thead>
                 <tr className="align-middle">
@@ -80,16 +80,16 @@ function DetailSchedule({ date }) {
                     <strong>예약번호</strong>
                   </th>
                   <th scope="col">
+                    <strong>구분</strong>
+                  </th>
+                  <th scope="col">
                     <strong>객실유형</strong>
                   </th>
                   <th scope="col">
-                    <strong>체크인</strong>
+                    <strong>체크인/체크아웃</strong>
                   </th>
                   <th scope="col">
-                    <strong>체크아웃</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>결제</strong>
+                    <strong>투숙객</strong>
                   </th>
                   <th scope="col">
                     <strong>예약일</strong>
@@ -103,6 +103,7 @@ function DetailSchedule({ date }) {
                 className="table-group-divider"
                 style={{
                   borderColor: "#F7EFFC",
+                  overflowY: "auto",
                 }}
               >
                 {ckinData.map(
@@ -128,8 +129,10 @@ function DetailSchedule({ date }) {
                     o_finalprice,
                     o_benefit,
                     o_orderdate,
+                    g_name,
                   }) => (
                     <OrderItem
+                      event={"detail"}
                       rownum={rownum}
                       o_idx={o_idx}
                       g_idx={g_idx}
@@ -151,6 +154,7 @@ function DetailSchedule({ date }) {
                       o_finalprice={o_finalprice}
                       o_benefit={o_benefit}
                       o_orderdate={o_orderdate}
+                      g_name={g_name}
                       key={o_idx}
                     />
                   )
@@ -172,12 +176,12 @@ function DetailSchedule({ date }) {
               <colgroup>
                 <col width="5%" />
                 <col width="10%" />
-                <col width="10%" />
-                <col width="15%" />
-                <col width="15%" />
                 <col width="15%" />
                 <col width="10%" />
-                <col width="20%" />
+                <col width="25%" />
+                <col width="10%" />
+                <col width="15%" />
+                <col width="10%" />
               </colgroup>
               <thead>
                 <tr className="align-middle">
@@ -188,16 +192,16 @@ function DetailSchedule({ date }) {
                     <strong>예약번호</strong>
                   </th>
                   <th scope="col">
+                    <strong>구분</strong>
+                  </th>
+                  <th scope="col">
                     <strong>객실유형</strong>
                   </th>
                   <th scope="col">
-                    <strong>체크인</strong>
+                    <strong>체크인/체크아웃</strong>
                   </th>
                   <th scope="col">
-                    <strong>체크아웃</strong>
-                  </th>
-                  <th scope="col">
-                    <strong>결제</strong>
+                    <strong>투숙객</strong>
                   </th>
                   <th scope="col">
                     <strong>예약일</strong>
@@ -211,6 +215,7 @@ function DetailSchedule({ date }) {
                 className="table-group-divider"
                 style={{
                   borderColor: "#F7EFFC",
+                  overflowY: "auto",
                 }}
               >
                 {ckoutData.map(
@@ -236,6 +241,7 @@ function DetailSchedule({ date }) {
                     o_finalprice,
                     o_benefit,
                     o_orderdate,
+                    g_name,
                   }) => (
                     <OrderItem
                       rownum={rownum}
@@ -259,6 +265,7 @@ function DetailSchedule({ date }) {
                       o_finalprice={o_finalprice}
                       o_benefit={o_benefit}
                       o_orderdate={o_orderdate}
+                      g_name={g_name}
                       key={o_idx}
                     />
                   )

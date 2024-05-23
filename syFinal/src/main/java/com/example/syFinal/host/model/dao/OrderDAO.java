@@ -39,7 +39,7 @@ public interface OrderDAO {
 	boolean requestReject(int o_idx);
 
 	// 체크인, 체크아웃 스케쥴
-	List<Map<String, String>> schedule(int h_idx, String column);
+	List<Map<String, String>> schedule(int h_idx, String column, int pending);
 
 	// 바우처 발송 내용
 	Map<String, Object> voucher(int o_idx);

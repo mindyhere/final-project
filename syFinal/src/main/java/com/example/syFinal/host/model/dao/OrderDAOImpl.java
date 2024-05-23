@@ -168,10 +168,11 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Map<String, String>> schedule(int h_idx, String column) {
+	public List<Map<String, String>> schedule(int h_idx, String column, int pending) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
 		map.put("column", column);
+		map.put("pending", pending);
 		List<Map<String, String>> list = sqlSession.selectList("order.schedule", map);
 		return list;
 	}
