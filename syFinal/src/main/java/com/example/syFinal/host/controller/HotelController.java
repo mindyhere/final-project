@@ -38,16 +38,16 @@ public class HotelController {
    @Autowired
    HotelDAO hotelDao;
 
-   /* 호텔 상세 정보 */
-   @GetMapping("/host/hotel/hotelDetail/{hoIdx}/{dIdx}")
-   public Map<String, Object> hotelList(@PathVariable(name = "hoIdx") int ho_idx,
-         @PathVariable(name = "dIdx") int d_idx) {
-      Map<String, Object> map = new HashMap<>();
-      map.put("ho_idx", ho_idx);
-      map.put("d_idx", d_idx);
-      Map<String, Object> hotelList = new HashMap<>();
-      
-      hotelList = hotelDao.hotelList(map);
+	/* 호텔 상세 정보 */
+	@GetMapping("/host/hotel/hotelDetail/{hoIdx}/{dIdx}")
+	public Map<String, Object> hotelList(@PathVariable(name = "hoIdx") int ho_idx,
+			@PathVariable(name = "dIdx") int d_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		Map<String, Object> hotelList = new HashMap<>();
+		hotelList = hotelDao.hotelList(map);
+
 
 //      List<String> bet_dates = new ArrayList<String>();
 //      List<String> imp_dates = new ArrayList<String>();
@@ -182,18 +182,19 @@ public class HotelController {
       return htIdx;
    }
 
-   @PostMapping("/host/hotel/registHotelDetail")
-   public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name="ht_idx") int ht_idx, 
-      @RequestParam(name="ht_h_idx") int ht_h_idx, HttpServletRequest request) throws ParseException {
-      ServletContext application = request.getSession().getServletContext();
-      String path = application.getRealPath("static/images/host/hotel/");      
-      
-      // 이미지 처리
-      // 최종 호텔 등록
-      map.put("ht_idx", ht_idx);
-      map.put("ht_h_idx", ht_h_idx);
-      hotelDao.registNewHotel(map);
-   }
+	@PostMapping("/host/hotel/registHotelDetail")
+	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name="ht_idx") int ht_idx, 
+		@RequestParam(name="ht_h_idx") int ht_h_idx, HttpServletRequest request) throws ParseException {
+		ServletContext application = request.getSession().getServletContext();
+		String path = application.getRealPath("static/images/host/hotel/");		
+		
+		// 이미지 처리
+		// 최종 호텔 등록
+		map.put("ht_idx", ht_idx);
+		map.put("ht_h_idx", ht_h_idx);
+		hotelDao.registNewHotel(map);
+	}
+
 
    /* 호텔 상세 정보 조회 */
    @GetMapping("/host/hotel/detailMyHotel")

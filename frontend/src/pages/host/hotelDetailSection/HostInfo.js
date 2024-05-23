@@ -71,7 +71,7 @@ function HostInfo() {
                                     </div>
                                     <div className="col-6">
                                         <div className="text-xs">후기</div>
-                                        {review.list.length}개
+                                        {review.list!=null ? review.list.length : 0}개
                                         <br />
                                         <hr />
                                         <div className="text-xs">평점</div>
