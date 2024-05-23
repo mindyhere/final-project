@@ -11,8 +11,8 @@
 <select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
 	SELECT m_receiver, h_name, h_profile, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM host, message
-	WHERE (m_sender=#{sender} AND m_receiver = g_email) 
-	OR (m_sender=g_email AND m_receiver = #{sender}) AND m_test=0
+	WHERE (m_sender=#{sender} AND m_receiver = h_email) 
+	OR (m_sender=h_email AND m_receiver = #{sender}) AND m_test=0
 	GROUP BY m_receiver
 	ORDER BY idx desc
 </select>
