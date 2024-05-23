@@ -1,4 +1,4 @@
-import React, {useEffect,useState,useRef} from 'react';
+import React, {useEffect,useState,useRef,useCallback} from 'react';
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
@@ -44,21 +44,75 @@ function Order() {
     const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx+'/'+dIdx);
     const [review, loading3] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
     const [coupon,loading4]=useFetch('http://localhost/guest/coupon?g_idx='+idx.key);
+    const [count,loading5]=useFetch('http://localhost/guest/c_count?g_idx='+idx.key);
     const [pay, setPay] = useState("1");
+
+    const [couponAmount,setCouponAmount] = useState(0);
+    const onChangeCoupon = useCallback((event) => {
+        setCouponAmount(event.target.value);
+        }, []);
+    
+    const [finalamount,setFinalamount] = useState("");
+    const [pointAmount,setPointAmount] = useState("");
+
+    const PointAmount = (e) => {
+        setPointAmount(e.target.value);
+    }
+
+    const Handlepoint = (e) => {
+        console.log("----------"); 
+        let fp=parseInt(fprice);
+        let pa=parseInt(pointAmount);
+        let pp ='';
+        if(pointAmount !== null) {
+            pp=fp-pa;
+
+        }
+        setFinalamount(pp); 
+        console.log("사용포인트=="+pointAmount);
+    };
+
+    const onChangePoint = useCallback((event) => {
+        setPointAmount(event.target.value);
+        }, []);
+
+
+    //결제수단 선택
+    let method ='';
+    let channel ='';
+    let pgs='';
+    if(pay ==="1") { //나이스페이
+        method = 'CARD';
+        channel ='channel-key-79aea003-5c79-4b37-a303-c271c68f7456';
+        pgs = 'nice_v2';
+    } else if (pay ==="2") { //카카오페이
+        method = 'EASY_PAY';
+        channel ='channel-key-ac36bf36-f116-42b5-90cf-0d78e5edda2f';
+        pgs = 'kakaopay';
+    }
+
     const onSelect = (event) => {
         setPay(event.target.value);
     };
 
     const [modalOpen1, setModalOpen1] = useState(false);
+    const onCResult = useCallback((value) => {
+        setCouponAmount(value);
+        setModalOpen1(false);
+    },[]);
+
     const [modalOpen2, setModalOpen2] = useState(false);
+    const onPResult = useCallback((value) => {
+        setPointAmount(value);
+        setModalOpen2(false);
+    },[]);
+
     const modalBackground = useRef();
     
     useEffect(() => {
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
         const iamport = document.createElement("script");
-        //iamport.src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
-        //iamport.src="https://cdn.iamport.kr/v1/iamport.js"
         iamport.src="https://cdn.portone.io/v2/browser-sdk.js"
         document.head.appendChild(jquery);
         document.head.appendChild(iamport);
@@ -67,20 +121,24 @@ function Order() {
             document.head.removeChild(iamport);
         }
     }, []);
-
+    
     //포트원 연동 나이스페이 결제
     async function serverAuth() {
         const { PortOne } = window;
-
         const response = await PortOne.requestPayment({
             storeId: 'store-af69f2fa-5d38-4271-b9ad-44d9dc389ecd',
             paymentId: `payment-${crypto.randomUUID()}`,
-            payMethod: 'CARD',
-            channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
+            payMethod: method,
+            //payMethod: 'EASY_PAY',
+            //channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
+            //channelKey: 'channel-key-ac36bf36-f116-42b5-90cf-0d78e5edda2f',
+            channelKey : channel,
             currency: 'KRW',
             totalAmount: 100,
             orderName: hotel.ho_name,
-            pg: 'nice_v2', //pg사
+            //pg: 'nice_v2', //pg사
+            //pg: 'kakaopay',
+            pg: pgs,
             customer: {
                 email: data.dto.g_email,
                 firstName: data.dto.g_name.substring(1,3),
@@ -88,8 +146,6 @@ function Order() {
                 phoneNumber: data.dto.g_phone,
             },
         });
-
-        console.log("결제 건 ID"+response.paymentId);
         if (response.code != null) {
             //오류발생
             alert('결제실패'+response.message);
@@ -117,8 +173,14 @@ function Order() {
             form.append('pay',pay);
             form.append('dprice',dprice);
             form.append('fprice',fprice);
+            if (pointAmount !== null || pointAmount === 0) {
+                form.append('usePoint',pointAmount);
+                form.append('rePoint',(data.dto.g_point - pointAmount));
+            } else {
+                form.append('usePoint',0);
+                form.append('rePoint',data.dto.g_point);
+            }
             form.append('paymentId', response.paymentId);
-            
             fetch('http://localhost/guest/order',{
                 method:'post',
                 body:form
@@ -136,81 +198,8 @@ function Order() {
             });
         }
     }
-    
 
-    // const onClickPayment = () => {
-    //     const { IMP } = window; // IMP 객체 가져오기
-    //     IMP.init('imp40362238');
-    //     const data1 = {
-    //         pg: 'kakaopay',
-    //         pay_method: 'card',
-    //         merchant_uid: 'merchant_' + new Date().getTime(),
-    //         name: hotel.ho_name,
-    //         amount: fprice,
-    //         buyer_name: data.dto.g_name,
-    //         buyer_tel: data.dto.g_tel,
-    //         buyer_postcode: '123-456',
-    //     };
-    //     IMP.request_pay(data1, callbacks);
-    // }
-
-    // const callbacks = (response) => {
-    //     const {success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status} = response;
-    //     if (success) {
-    //         const form = new FormData();
-    //         form.append('idx',idx.key);
-    //         form.append('dIdx',dIdx);
-    //         form.append('ckin',ckin.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-    //         form.append('ckout',ckout.replace(/년/gi,"").replace(/월/gi,"").replace(/일/gi,"").replace(/\s/g,""));
-    //         form.append('adult',adult);
-    //         form.append('child',child);
-    //         form.append('baby',baby);
-    //         form.append('pay',pay);
-    //         form.append('dprice',dprice);
-    //         form.append('fprice',fprice);
-            
-    //         fetch('http://localhost/guest/order',{
-    //             method:'post',
-    //             body:form
-    //         }).then(()=>{
-    //             //예약완료시 모달로 확인 후 예약내역페이지로 이동
-    //             Swal.fire({
-    //                 icon : 'success',
-    //                 text : '예약요청이 완료되었습니다.',
-    //                 confirmButtonText: '확인'
-    //             }).then((result) => {
-    //                 if(result.isConfirmed) {
-    //                     window.location.href='/guest/reservation';
-    //                 }
-    //             });
-    //         });
-    //     } else {
-    //         // alert('결제실패');
-    //         // return;
-    //         //결제실패시 예약요청페이지로 화면전환
-    //         //window.location.href='/guest/reservation'; 
-    //         Swal.fire({
-    //             icon : 'warning',
-    //             title: '결제실패',
-    //             text : '다시 시도해주세요.',
-    //             confirmButtonText: '확인'
-    //         }).then((result) => {
-    //             if(result.isConfirmed) {
-    //                 return;
-    //                 //window.location.href='/';
-    //             }
-    //         });
-    //     }
-    //     //버튼 클릭 시 handleClick 함수 실행
-    //     document.getElementById('check_module').addEventListener('click', onClickPayment);
-
-    //     // 컴포넌트 언마운트 시 이벤트 리스너 제거
-    //     return () => {
-    //         document.getElementById('check_module').removeEventListener('click', onClickPayment);
-    //     };
-    // }
-
-    if(loading || loading2 || loading3 || loading4){
+    if(loading || loading2 || loading3 || loading4 ||loading5){
         return(
             <div>loading</div>
         )
@@ -222,7 +211,17 @@ function Order() {
         
         let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
         let image_url=`<img src=${src} width='100px' height='100px'/>`;
-
+        if(pointAmount > data.dto.g_point) {
+            Swal.fire({
+                icon : 'warning',
+                text : '사용가능금액을 초과하였습니다.',
+                confirmButtonText: '확인'
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        }
     return (
         <>
         <div className="container" align='center' style={{position: 'static'}}>
@@ -305,7 +304,7 @@ function Order() {
                                 <button className='btn btn-outline-dark' onClick={()=>serverAuth()}>nicepay 결제하기</button>
                                 :
                                 //카카오페이로 결제시
-                                <img type='button' src='/img/kakaopay.png'></img>
+                                <img type='button' src='/img/kakaopay.png' onClick={()=>serverAuth()}></img>
                                 }
                                 <br/>
                                 <br/>
@@ -333,13 +332,31 @@ function Order() {
                             
                             <hr/>
                             <h4>요금세부정보</h4>
-                            <br></br>
-                            <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                            <br></br>
-                            <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
-                            <br></br>
-                            <hr/>
-                            <div style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                            {pointAmount === ""
+                            ?
+                            <div>
+                                <br></br>
+                                <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                <br></br>
+                                <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                <br></br>
+                                <hr/>
+                                <div style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{fprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                            </div>
+                            :
+                            <div>
+                                <br></br>
+                                <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                <br></br>
+                                <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                <br></br>
+                                <div>포인트사용 -{pointAmount}P</div>
+                                {/* onChange={(e) => handlepoint(e)} */}
+                                <hr/>
+                                <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                {/* value={pointAmount} onChange={(e) => Handlepoint(e)} */}
+                            </div>
+                            }
                         </div>
                     </div>
 
@@ -347,58 +364,99 @@ function Order() {
                         <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'400px', padding:'25px'}}>
                             <h4>할인적용</h4>
                             <br></br>
-                            <h5>쿠폰</h5>
+                            <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
+                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount} value={couponAmount} onChange={onChangeCoupon} disabled></input>
                             <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
                             {modalOpen1 && (
-                                            <div
-                                                className={"modal-container4"}
-                                                ref={modalBackground}
-                                            >
-                                                <div className={"modal-content4"}>
+                                    <div
+                                        className={"modal-container4"}
+                                        ref={modalBackground}
+                                    >
+                                        <div className={"modal-content4"}>
+                                            <div class="row">
+                                                <div class="col">
                                                     <h4>쿠폰 조회</h4>
-                                                    <hr></hr>
-                                                    <div style={{marginBottom: '5px',marginTop:'5px'}}>
-                                                            <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'50px', padding:'5px'}}>
-                                                                <div>적용안함</div>
-                                                            </div>
-                                                    </div>
-                                                    <div>~~무슨쿠폰</div>
-                                                    
-                                                    {coupon.map((item) => (
-                                                        <div style={{marginBottom: '5px',marginTop:'5px'}}>
-                                                            <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'80px', padding:'5px'}}>
-                                                                <tr>
-                                                                    <td>{item.Cname}</td>
-                                                                    <td>{item.Cbenefit}%</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>{item.Gcdeadline}까지 사용가능</td>
-                                                                </tr>
-                                                            </div>
+                                                </div>
+                                                <div class="col" align='right' >
+                                                    <svg onClick={() => setModalOpen1(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'inline', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg>
+                                                </div>
+                                            </div>
+                                            
+                                            <hr></hr>
+                                            
+                                            <div style={{marginBottom: '5px',marginTop:'5px'}}>
+                                                    <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'50px', padding:'9px'}}>
+                                                        <div className="form-check">
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onResult={onCResult} value='0'></input>
+                                                                <label className="form-check-label" for="flexRadioDefault1">
+                                                                    <div>적용안함</div>
+                                                                </label>
                                                         </div>
-                                                    ))}
-                                                    <button className='btn btn-outline-dark'>쿠폰 적용하기</button>
-                                                    <button className='btn btn-outline-dark' onClick={() => setModalOpen1(false)}>닫기</button>
-                                                </div>
+                                                    </div>
                                             </div>
-                                            )}
+                                            <div>보유쿠폰 {count.c_count}장</div>
+                                            {coupon.map((item) => (
+                                                <div style={{marginBottom: '5px',marginTop:'5px'}}>
+                                                    <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'80px', padding:'9px'}}>
+                                                        <div className="form-check">
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onResult={onCResult}></input>
+                                                        <label className="form-check-label" for="flexRadioDefault2">
+                                                            <tr>
+                                                                <td style={{fontWeight:'bold'}}>{item.Cname}</td>
+                                                                <td>{item.Cbenefit}%</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align='right' colSpan='2'>{item.Gcdeadline}까지 사용가능</td>
+                                                            </tr>
+                                                        </label>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <br></br>
+                                            <div align='center'>
+                                                <button className='btn btn-outline-dark'>쿠폰 적용</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    )}
                             <hr></hr>
-                            <h5>포인트</h5>
-                            <button className='btn btn-outline-dark' onClick={() => setModalOpen2(true)}>포인트조회</button>
+                            
+                            <div className="row">
+                                <div className="col">
+                                    <h5 style={{marginBottom: '16px'}}>포인트</h5>
+                                </div>
+                                <div className="col" align='right' >
+                                <div>사용가능 Point : {data.dto.g_point}</div>
+                                {/* <input type='text' readonly onChange={(e) => data.dto.g_point-PointAmount(e)}></input> */}
+                                </div>
+                            </div>
+                            <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
+                            <button className='btn btn-outline-dark' onClick={(e) => Handlepoint(e)}>포인트적용</button>
+                            {/* onChange={(e) => PointAmount(e)} */}
+                            
+                            {/* <button className='btn btn-outline-dark' onClick={() => setModalOpen2(true)}>포인트조회</button>
                             {modalOpen2 && (
-                                            <div
-                                                className={"modal-container4"}
-                                                ref={modalBackground}
-                                            >
-                                                <div className={"modal-content4"}>
+                                    <div
+                                        className={"modal-container4"}
+                                        ref={modalBackground}
+                                    >
+                                        <div className={"modal-content4"}>
+                                            <div class="row">
+                                                <div class="col">
                                                     <h4>포인트 조회</h4>
-                                                    <hr></hr>
-                                                   <div>{data.dto.g_point}</div>
-                                                    <button className='btn btn-outline-dark'>포인트 적용하기</button>
-                                                    <button className='btn btn-outline-dark' onClick={() => setModalOpen2(false)}>닫기</button>
+                                                </div>
+                                                <div class="col" align='right' >
+                                                    <svg onClick={() => setModalOpen2(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'inline', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '3', overflow: 'visible'}}><path d="m6 6 20 20M26 6 6 26"></path></svg>
                                                 </div>
                                             </div>
-                                            )}
+                                            <hr></hr>
+                                            <div>{data.dto.g_point}</div>
+                                            <button className='btn btn-outline-dark'>포인트 적용</button>
+                                        </div>
+                                    </div>
+                                    )} */}
                         </div>
                     </div>
                 </div>

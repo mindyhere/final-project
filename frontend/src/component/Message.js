@@ -3,14 +3,41 @@ import Cookies from "universal-cookie";
 import { useParams } from "react-router-dom";
 import { Stomp } from "@stomp/stompjs";
 import '../pages/guest/aa.css'
+import Chat from './Chat';
 
-function useFetch(url) {
+
+function Message() {
+    const cookies = new Cookies();
+    const userInfo = cookies.get("userInfo");
+    const gEmail = cookies.get("g_email");
+    const [open, setOpen] = useState('msg-disable');
+    const [roomId, setRoomId] = useState([]);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-  
+     
+ 
+    
+    let sender = '';
+    let type = '';
+    if (gEmail != null && gEmail != '') {
+        sender = gEmail.key;
+        type = 'guest';
+    } else if (userInfo != null && userInfo != '') {
+        const hEmail = userInfo.h_email;
+        sender = hEmail;
+        type = 'host';
+    }
+
+   
 
     useEffect(() => {
-        fetch(url)
+        const form = new FormData();
+        form.append('sender', sender);
+        form.append('type', type);
+        fetch('http://localhost/chatroom/list', {
+            method: 'post',
+            body: form,
+        })
         .then(response => {
             return response.json();
         })
@@ -19,24 +46,6 @@ function useFetch(url) {
             setLoading(false);
         })
     }, []);
-    return [data, loading];
-}
-
-function Message() {
-    const cookies = new Cookies();
-    const userInfo = cookies.get("userInfo");
-    const gIdx = cookies.get("g_idx");
-
-    let u_rl = '';
-    if (gIdx.key !== null) {
-        u_rl = 'http://localhost/chatroom/g_list?g_idx=' + gIdx.key;
-    } else if (userInfo !== null) {
-        const hIdx = userInfo.h_idx;
-        u_rl = 'http://localhost/chatroom/h_list?h_idx=' + hIdx.key;
-    }
-
-    const [data, loading] = useFetch(u_rl);
-
     
     if(loading) {
         return (
@@ -44,8 +53,6 @@ function Message() {
         )
     } else {
         let img = '';
-        const pro = data.dto.h_profile;
-        console.log(data.dto.h_profile);
         const profile = `http://localhost/static/images/host/profile/${data.dto.h_profile}`;
         if ( data.dto.h_profile != null) {
             img = `<img src=${profile} width='30px' height='30px' /><br />`;
@@ -53,25 +60,38 @@ function Message() {
 
         return (
             <>
-            <div className="container min-vh-100">
+            <div style={{marginLeft: '300px', paddingTop: '50px',height: '720px'}}>
             <h3 className="text-bold"> <img src="/img/reservDetail.png" width="35px" height="35px"/>
                 &nbsp; 메시지</h3>
+                <hr></hr>
             <br/>
-            <div className="card-stylee mb-30" style={{width: '300px'}}>
+            <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
                 {data.dto.map((item) => (
-                    <div className='mes'>
-                    <div style={{float: 'left', marginRight: '10px'}}><span dangerouslySetInnerHTML={{__html: `<img src=${item.h_profile} width='30px' height='30px' /><br />`}}></span></div>
-                    <p style={{fontSize: '20px'}}>{item.h_name}<span style={{float:'right', fontSize: '13px'}}>{item.m_send_date}</span></p> 
+                    <div className='mes' onClick={() =>  {setOpen('msg-able'); setRoomId(item.m_roomId);
+                    // if(gIdx.key !== null) {
+                    //     setsss('http://localhost/chatroom/g_entrance?g_idx=' + gIdx.key + '&idx=' + item.m_h_idx);
+                    // } else if(userInfo !== null) {
+                    //     const hIdx = userInfo.h_idx;
+                    //     setsss('http://localhost/chatroom/h_entrance?h_idx=' + hIdx.key+ '&idx=' + item.m_g_idx);
+                    // }   
+                    }}>
+                    <div style={{float: 'left', marginRight: '10px'}}><img src={gEmail==null ? item.g_photo : item.h_profile } width='30px' height='30px' /></div>
+                    <p style={{fontSize: '20px'}}>{gEmail==null ? item.g_name : item.h_name}<span style={{float:'right', fontSize: '13px'}}>{item.m_send_date}</span></p> 
                     <p style={{fontSize: '15px', color: 'grey'}}>{item.m_message}</p>
                     <hr/>
-                   </div>
-                   
+                    </div>
                 ))}
+            </div>
+            <div className={open} style={{width: '500px', height: '500px'}}>
+                <Chat roomId= {roomId}></Chat>
             </div>
             </div>
             </>
         )
     }
 }
+
+
+
 
 export default Message;

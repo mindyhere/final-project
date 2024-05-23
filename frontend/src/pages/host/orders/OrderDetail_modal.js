@@ -404,7 +404,7 @@ function OrderDetail(order_idx) {
                             });
                           })
                           .catch((error) => {
-                            console.log(error);
+                            // console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -413,16 +413,16 @@ function OrderDetail(order_idx) {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        console.log(
-                          "=> 결과? " +
-                            result.value +
-                            "/ " +
-                            Object.values(result)
-                        );
+                        // console.log(
+                        //   "=> 결과? " +
+                        //     result.value +
+                        //     "/ " +
+                        //     Object.values(result)
+                        // );
                         Swal.fire({
                           icon: "success",
-                          title: "Success",
-                          html: "정상처리 되었습니다.",
+                          title: "Confirm",
+                          html: "예약 바우처 발송이 완료되었습니다.",
                           showConfirmButton: false,
                           timer: 2000,
                         }).then(() => {
@@ -478,7 +478,6 @@ function OrderDetail(order_idx) {
                             form.append("oidx", dataset.o_idx);
                             form.append("hidx", userIdx);
                             form.append("idx", dataset.g_idx);
-                            console.log("==> form?" + JSON.stringify(form));
 
                             return fetch(
                               `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
@@ -494,7 +493,7 @@ function OrderDetail(order_idx) {
                             });
                           })
                           .catch((error) => {
-                            console.log(error);
+                            // console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -503,7 +502,7 @@ function OrderDetail(order_idx) {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        console.log(result.value);
+                        // console.log(result.value);
                         Swal.fire({
                           icon: "success",
                           title: "Complete",

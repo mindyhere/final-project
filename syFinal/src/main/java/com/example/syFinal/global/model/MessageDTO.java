@@ -15,11 +15,13 @@ import lombok.ToString;
 public class MessageDTO {
 	private int m_idx;
 	private String m_roomId;
-	private int m_h_idx;
-	private int m_g_idx;
 	private String m_message;
 	private Set<WebSocketSession> sessions = new HashSet<>();
 	private String h_name;
 	private String h_profile;
+	private String g_name;
+	private String g_photo;
 	private String m_send_date;
+	private String m_sender;
+	private String m_receiver;
 }

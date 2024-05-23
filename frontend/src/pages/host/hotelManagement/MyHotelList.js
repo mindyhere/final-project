@@ -71,7 +71,12 @@ function MyHotelList() {
                                     <td>{idx + 1}</td>
                                     <td>{item.ho_name}</td>
                                     <td>{item.ho_address}</td>
-                                    <td>{item.status}</td>
+                                    {item.status == "영업 중" 
+                                        ? (<td style={{ color: "blue"}}>{item.status}</td>) 
+                                        : item.status == "영업 중지" 
+                                        ? (<td style={{ color: "red"}}>{item.status}</td>)
+                                        : (<td>{item.status}</td>)
+                                    }
                                 </tr>
                             ))}
                         </tbody>
