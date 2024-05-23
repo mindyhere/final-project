@@ -127,7 +127,7 @@ function ManageOrders() {
       <div className="modal_h" onClick={closeModal}>
         <div
           className="modalBody_h"
-          style={{ width: "1000px", padding: "40px" }}
+          style={{ width: "1100px", padding: "40px" }}
           onClick={(e) => e.stopPropagation()}
         >
           <button className="btnClose" onClick={closeModal}>
