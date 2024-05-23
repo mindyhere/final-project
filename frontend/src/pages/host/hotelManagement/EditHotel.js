@@ -425,31 +425,100 @@ function EditHotel() {
                         </tbody>
                     </table>
                 </div>
+                {data[0].ho_status == 2
+                ? 
+                    <div className="mb-40" style={{textAlign:'center'}}>
+                        <button className="main-btnn" onClick={() => {
+                            Swal.fire({
+                                icon : 'question',
+                                text: '영업 중지 신청을 하시겠습니까?',
+                                showCancelButton: true,
+                                confirmButtonText: '확인',
+                                cancelButtonText: "취소"
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    const form = new FormData();
+                                    form.append("ho_idx", data[0].ho_idx);
+                                    form.append("status", data[0].ho_status);
+                                    fetch('http://localhost/host/hotel/updateHotelStatus', {
+                                        method : 'POST',
+                                        body : form
+                                    }).then((response) => response.json())
+                                    .then(data => {alert(data.result);
+                                        if(data.result === 'success') {
+                                            Swal.fire({
+                                                icon : 'success',
+                                                title : '신청 완료',
+                                                text: '선택하신 호텔이 영업 중지 상태로 변경되었습니다.',
+                                                confirmButtonText: '확인'
+                                            }).then((result) => {
+                                                if(result.isConfirmed){
+                                                    window.location.reload();
+                                                }
+                                            })
+                                        } else if(data.result === 'fail'){
+                                            Swal.fire({
+                                                icon : 'warning',
+                                                title : '신청 불가',
+                                                text: '현재 진행 중인 예약이 있습니다.',
+                                                confirmButtonText: '확인'
+                                            });
+                                        }
+                                    })
+                            }})
+                        }}>영업 중지 신청</button>
+                        &nbsp;
+                        <button className="main-btnn" onClick={() => {
+                            navigate('/host/hotel/MyhotelList')
+                        }}>뒤로 가기</button>
+                    </div>
+                : data[0].ho_status == 3
+                ?
                 <div className="mb-40" style={{textAlign:'center'}}>
                     <button className="main-btnn" onClick={() => {
                         Swal.fire({
-                            icon : 'warning',
-                            text: '영업중지 신청을 하시겠습니까?',
+                            icon : 'question',
+                            text: '영업 재개 신청을 하시겠습니까?',
                             showCancelButton: true,
                             confirmButtonText: '확인',
                             cancelButtonText: "취소"
                         }).then((result) => {
-                            // 예약 보유 확인 절차 추가
-                            if (result.isConfirmed) {
-                                fetch(`http://localhost/host/hotel/closeHotel?ho_idx=`+ hoIdx)
-                                .then(() => {
-                                    // 변경절차 추가
-                                    alert("영업 중지 상태로 변경");
-                                });
-                            }
-                            });
-                        }}
-                    >영업 중지 신청</button>
+                            if(result.isConfirmed){
+                                const form = new FormData();
+                                form.append("ho_idx", data[0].ho_idx);
+                                form.append("status", data[0].ho_status);
+                                fetch('http://localhost/host/hotel/updateHotelStatus', {
+                                    method : 'POST',
+                                    body : form
+                                }).then((response) => response.json())
+                                .then(data => {alert(data.result);
+                                    if(data.result === 'success') {
+                                        Swal.fire({
+                                            icon : 'success',
+                                            title : '신청 완료',
+                                            text: '관리자의 승인을 기다려주세요.',
+                                            confirmButtonText: '확인'
+                                        }).then((result) => {
+                                            if(result.isConfirmed){
+                                                window.location.reload();
+                                            }
+                                        })
+                                    }
+                                })
+                        }})
+                    }}>영업 재개 신청</button>
                     &nbsp;
                     <button className="main-btnn" onClick={() => {
                         navigate('/host/hotel/MyhotelList')
                     }}>뒤로 가기</button>
                 </div>
+                :
+                <div className="mb-40" style={{textAlign:'center'}}>
+                    <button className="main-btnn" onClick={() => {
+                        navigate('/host/hotel/MyhotelList')
+                    }}>뒤로 가기</button>
+                </div>
+                }
             </div>
         )
     }
