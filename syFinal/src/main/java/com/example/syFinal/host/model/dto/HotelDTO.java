@@ -40,7 +40,7 @@ public class HotelDTO {
 	private String d_img2;
 	private String d_img3;
 	
-	
+	private String h_email;
 	private String h_name;
 	private String h_phone;
 	private String h_business;
