@@ -4,9 +4,6 @@ import java.util.List;
 
 public interface ChatroomDAO {
 
-
-	String create(String room, int g_idx, int h_idx, String message);
-
 	// List<MessageDTO> entrance(int g_idx, int h_idx);
 	
 	List<MessageDTO> entrance(String m_roomId);
@@ -20,6 +17,10 @@ public interface ChatroomDAO {
 	void insert(MessageDTO message);
 
 	String receive(String m_sender, String m_roomId);
+
+	String check(String g_email, String h_email);
+
+	void create(String room, String g_email, String h_email);
 
 	// List<MessageDTO> list(String sender);
 	

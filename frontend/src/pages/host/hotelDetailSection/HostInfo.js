@@ -36,7 +36,6 @@ function HostInfo() {
             <div className="text-center">로딩 중...</div>
         )
     } else {
-        const hIdx = data.h_idx;
         let regdate = moment(data.h_regdate).fromNow();
         let level = '';
         let answer = '';
@@ -119,7 +118,7 @@ function HostInfo() {
                                     })
                                     .then(dat => {
                                         const roomId = dat.result;
-                                        navigate(`/component/message/${roomId}/${data.h_idx}`)
+                                        navigate(`/component/message/${roomId}/${data.h_name}`)
                                     })
                                 }  
                             }}

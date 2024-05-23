@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
@@ -31,18 +31,7 @@ function RegistHotelDetail() {
     const userIdx = userInfo.h_idx;
     const userName = userInfo.h_name;
     const [modal, setModal] = useState(false);
-    //const [data, loading] = useFetch('http://localhost/host/hotel/detailMyHotel?ho_idx=' + HoIdx);
-    //const data = JSON.parse(localStorage.getItem("defaultInfo"));
     const [checkItems, setCheckItems] = useState([]);
-    const d_room_type = useRef();
-    const d_capacity = useRef();
-    const d_area = useRef();
-    const d_non_smoking = useRef();
-    const d_beds = useRef();
-    const d_price = useRef();
-    const d_img1 = useRef();
-    const d_img2 = useRef();
-    const d_img3 = useRef();
 
     const [lists, setList] = useState([]);
 
@@ -103,7 +92,7 @@ function RegistHotelDetail() {
             setCheckItems([]);
         }
     };
-    //alert(htIdx);
+
     return (
         <div className="container">
             <div className="mb-20">
@@ -201,26 +190,6 @@ function RegistHotelDetail() {
                         form.append('ht_h_idx', userIdx);
                         form.append('checkItems', checkItems);
                         form.append('list', JSON.stringify(lists));
-                        // form.append('ho_name', data.ho_name);
-                        // form.append('ho_level', data.ho_level);
-                        // form.append('ho_floor', data.ho_floor);
-                        // form.append('ho_single', data.ho_single);
-                        // form.append('ho_double', data.ho_double);
-                        // form.append('ho_family', data.ho_family);
-                        // form.append('ho_suite', data.ho_suite);
-                        // form.append('ho_check_in', data.ho_check_in);
-                        // form.append('ho_check_out', data.ho_check_out);
-                        // form.append('ho_address', data.ho_address);
-                        // form.append('ho_x', data.ho_x);
-                        // form.append('ho_y', data.ho_y);
-                        // form.append('ho_img', data.ho_img);
-
-                        // form.append('d_room_type', d_room_type.current.value);
-                        // form.append('d_capacity', d_capacity.current.value);
-                        // form.append('d_area', d_area.current.value);
-                        // form.append('d_beds', d_beds.current.value);
-                        // form.append('d_non_smoking', d_non_smoking.current.value);
-                        // form.append('d_price', d_price.current.value);
                         // if(d_img1.current.files.length > 0){
                         //     form.append('d_img1', d_img1.current.files[0]);
                         // }

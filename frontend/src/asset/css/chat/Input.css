@@ -21,11 +21,11 @@ input:focus, textarea:focus, select:focus{
   text-transform: uppercase;
   text-decoration: none;
   background: #ceb8f0;
-  padding: 20px;
+  
   border-radius: 10px;
   display: inline-block;
   border: none;
-  width: 20%;
-  height: 90%;
+  width: 130px;
+  height: 54px;
   margin-top: 14px;
 }

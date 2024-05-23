@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,6 +134,7 @@ public class HotelDAOImpl implements HotelDAO {
 		System.out.println("@ 회원번호 ht_h_idx :"  + ht_h_idx);
 		sqlSession.insert("hotel.insertNewAmenity", ht_idx);
 		for(String item : items){
+			newAmenity.put("ho_idx", ht_idx);
 			switch(item){
 			  case "0": 
 				  newAmenity.put("option", "mountain_view");
@@ -164,12 +166,29 @@ public class HotelDAOImpl implements HotelDAO {
 				break;
 			}
 		}
-		
+		System.out.println("편의시설 등록 완료");
+		System.out.println("==========================");
+		System.out.println("객실정보 등록 시작");
 		// 객실정보 등록
-		Map<String, Object> newRoom = new HashMap<>();
+		System.out.println("1.타입확인 :  " + map.get("list").getClass().getName());
+		System.out.println("1.타입확인 :  " + map.get("list").getClass());
 		
-		sqlSession.insert("hotel.insertNewRoom", newRoom);
-		
+//		List<Map<String, Object>> list = (List<Map<String, Object>>) map.get("list");
+//		for(int i = 0; i < list.size(); i ++) {
+//			Map<String, Object> newRoom = new HashMap<>();
+//			newRoom.put("roomType", list.get(i).get("roomType"));
+//			newRoom.put("capacity", list.get(i).get("capacity"));
+//			newRoom.put("area", list.get(i).get("area"));
+//			newRoom.put("beds", list.get(i).get("beds"));
+//			newRoom.put("smoking", list.get(i).get("smoking"));
+//			newRoom.put("price", list.get(i).get("price"));
+//			newRoom.put("dImg1", list.get(i).get("dImg1"));
+//			newRoom.put("dImg2", list.get(i).get("dImg2"));
+//			newRoom.put("dImg3", list.get(i).get("dImg3"));
+//			newRoom.put("ht_idx", ht_idx);
+//			sqlSession.insert("hotel.insertNewRoom", newRoom);
+//		}
+
 		// 호텔 테이블 insert
 		sqlSession.insert("hotel.insertNewHotel", ht_idx);
 
