@@ -1,11 +1,15 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.checkerframework.checker.units.qual.h;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -133,6 +137,7 @@ public class HotelDAOImpl implements HotelDAO {
 		System.out.println("@ 회원번호 ht_h_idx :"  + ht_h_idx);
 		sqlSession.insert("hotel.insertNewAmenity", ht_idx);
 		for(String item : items){
+			newAmenity.put("ho_idx", ht_idx);
 			switch(item){
 			  case "0": 
 				  newAmenity.put("option", "mountain_view");
@@ -164,20 +169,38 @@ public class HotelDAOImpl implements HotelDAO {
 				break;
 			}
 		}
-		
-		// 객실정보 등록
-		Map<String, Object> newRoom = new HashMap<>();
-		
-		sqlSession.insert("hotel.insertNewRoom", newRoom);
-		
-		// 호텔 테이블 insert
+
+		String test = map.get("list").toString();
+		JSONParser parser = new JSONParser();
+		test = test.replaceAll("'", "\\\"");
+		JSONArray jsonArray = null;
+		try {
+			jsonArray = (JSONArray) parser.parse(test);
+			
+			for(Object obj : jsonArray) {
+				JSONObject jsObject = (JSONObject) obj;
+				Map<String, Object> result = new HashMap<>();
+				result.put("ht_idx", ht_idx);
+				result.put("roomType", jsObject.get("roomType"));
+				result.put("capacity", jsObject.get("capacity"));
+				result.put("area", jsObject.get("area"));
+				result.put("beds", jsObject.get("beds"));
+				result.put("non_smoking", jsObject.get("non_smoking"));
+				result.put("price", jsObject.get("price"));
+				result.put("dImg1", jsObject.get("dImg1"));
+				result.put("dImg2", jsObject.get("dImg2"));
+				result.put("dImg3", jsObject.get("dImg3"));
+				sqlSession.insert("hotel.insertNewRoom", result);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		sqlSession.insert("hotel.insertNewHotel", ht_idx);
 
-		// 임시테이블에서 상태변경
 		Map<String, Object> insertRow = new HashMap<>();
 		insertRow.put("ht_idx", ht_idx);
 		insertRow.put("ht_h_idx", ht_h_idx);
-		System.out.println("@ insertRow  " + insertRow);
 		sqlSession.update("hotel.updateTempHotel", insertRow);
 	}
 

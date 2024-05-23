@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import moment from "moment";
 import "moment/locale/ko";
+import Cookies from "universal-cookie";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -23,6 +24,9 @@ function useFetch(url) {
 }
 
 function HostInfo() {
+    const cookies = new Cookies();
+    const gEmail = cookies.get("g_email");
+
     const navigate = useNavigate();
     const {HoIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
@@ -95,11 +99,28 @@ function HostInfo() {
                                 1시간 이내에 응답
                             </div>
                             <button type="button" onClick={() => {
-                                Swal.fire({
-                                    title: '나중에 URL 연결',
-                                    showCancelButton: false,
-                                    confirmButtonText: '확인',
-                                });
+                                if (gEmail == null && gEmail == '') {
+                                    Swal.fire({
+                                        text: '게스트로 로그인 해 주세요',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                    });
+                                } else {
+                                    const form = new FormData();
+                                    form.append('h_email', data.h_email);
+                                    form.append('g_email', gEmail.key);
+                                    fetch('http://localhost/chatroom/check', {
+                                        method: 'post',
+                                        body: form,
+                                    })
+                                    .then(response => {
+                                        return response.json();
+                                    })
+                                    .then(dat => {
+                                        const roomId = dat.result;
+                                        navigate(`/component/message/${roomId}/${data.h_name}`)
+                                    })
+                                }  
                             }}
                             className="btn btn-dark">호스트에게 메시지 보내기</button>
                             <hr />

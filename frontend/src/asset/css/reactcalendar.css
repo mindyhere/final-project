@@ -15,7 +15,8 @@
 }
 
 .react-calendar__navigation button {
-    color: #9f48eb;
+    color: #8c7e9e;
+    font-weight: bold;
     border-radius: 8px;
     min-width: 44px;
     background: none;

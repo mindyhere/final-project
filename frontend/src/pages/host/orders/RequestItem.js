@@ -194,7 +194,8 @@ function RequestItem({
                       style={{
                         borderTopRightRadius: "30px",
                         borderBottomRightRadius: "30px",
-                        backgroundColor: "#C6C7C8",
+                        backgroundColor: "#8c7e9e",
+                        color:"#ffffff"
                       }}
                       onClick={() => {
                         Swal.fire({
@@ -272,7 +273,7 @@ function RequestItem({
             </tr>
             <tr>
               <th>기존 예약</th>
-              <th style={{ color: "#9f48eb" }}>변경 요청</th>
+              <th style={{ color: "crimson" }}>변경 요청</th>
             </tr>
             <tr>
               <td>

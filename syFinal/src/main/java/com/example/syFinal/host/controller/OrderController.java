@@ -180,8 +180,9 @@ public class OrderController {
 	}
 
 	@GetMapping("manage/schedule/{userIdx}")
-	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
-			@RequestParam(name = "column", defaultValue = "") String column) {
+	public Map<String, Object> reservationSchedule(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column,
+			@RequestParam(name = "pending", defaultValue = "0") int pending) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
@@ -189,18 +190,26 @@ public class OrderController {
 		int cnt = orderDao.countRecord(map);
 
 		Map<String, Object> data = new HashMap<>();
-		if (cnt == 0) {
+		if (cnt == 0) { // 호스트 계정 → 예약내역이 있는 지 확인
 			data.put("count", cnt);
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-			List<Map<String, String>> list = orderDao.schedule(h_idx, column);
+			List<Map<String, String>> list = orderDao.schedule(h_idx, column, pending);
 			data.put("list", list);
 			data.put("count", cnt);
 			data.put("column", column);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
 		return data;
-
 	}
+
+	@GetMapping("manage/schedule/detail/{userIdx}")
+	public List<Map<String, Object>> detailSchedule(@PathVariable(name = "userIdx") int h_idx,
+			@RequestParam(name = "column", defaultValue = "") String column,
+			@RequestParam(name = "date", defaultValue = "") String date) {
+		List<Map<String, Object>> list = orderDao.detailSchedule(h_idx, column, date);
+		System.out.println("==> 스케쥴조회 결과?" + list);
+		return list;
+	}
+
 }

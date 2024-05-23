@@ -9,9 +9,11 @@
 </select> -->
 
 <select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
-	SELECT distinct(m_receiver), h_name, h_profile, m_sender, m_roomId
+	SELECT m_receiver, h_name, h_profile, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM host, message
-	WHERE m_sender=#{sender} AND m_receiver = h_email
+	WHERE m_sender=#{sender} AND m_receiver = h_email AND m_test=0
+	GROUP BY m_receiver
+	ORDER BY idx desc
 </select>
 
 
@@ -21,14 +23,23 @@ order by m_idx desc limit 1
 </select>
 
 <select id="h_list" resultType="com.example.syFinal.global.model.MessageDTO">
-	SELECT distinct(m_receiver), g_name, g_photo, m_sender, m_roomId
+	SELECT m_receiver, g_name, g_photo, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM guest, message
-	WHERE m_sender=#{sender} AND m_receiver = g_email
+	WHERE (m_sender=#{sender} AND m_receiver = g_email) 
+	OR (m_sender=g_email AND m_receiver = #{sender}) AND m_test=0
+	GROUP BY m_receiver
+	ORDER BY idx desc
+
+</select>
+
+<select id="check" resultType="String">
+select IFNULL((select distinct(m_roomId) from message
+WHERE (m_sender=#{g_email} AND m_receiver=#{h_email}) OR (m_sender=#{h_email} AND m_receiver=#{g_email})), 'none')
 </select>
 
 <insert id="create">
-insert into message(m_roomId, m_h_idx, m_g_idx, m_message) values
-(#{room}, #{h_idx}, #{g_idx}, #{message})
+insert into message(m_roomId, m_sender, m_receiver, m_test) values
+(#{room}, #{g_email}, #{h_email}, 1)
 </insert>
 
 <!-- <select id="entrance" resultType="com.example.syFinal.global.model.MessageDTO">
@@ -39,16 +50,21 @@ insert into message(m_roomId, m_h_idx, m_g_idx, m_message) values
 
 <select id="entrance" resultType="com.example.syFinal.global.model.MessageDTO">
 select distinct(m_idx), m_roomId, m_sender, m_receiver, m_message, m_send_date,
-g_name, g_photo, h_name, h_profile
+g_name, g_photo, h_name, h_profile, m_test
 from message, guest, host
 where m_roomId=#{m_roomId} AND ((m_sender=g_email and m_receiver=h_email) OR (m_sender=h_email and m_receiver=g_email))
+
 </select>
+
 
 <select id="receive" resultType="String">
-select DISTINCT(m_receiver) from message 
-where m_sender = #{m_sender} and m_roomId = #{m_roomId}
+select IFNULL((select DISTINCT(m_receiver) from message 
+WHERE m_sender = #{m_sender} and m_roomId = #{m_roomId}), 
+(select DISTINCT(m_sender) from message 
+WHERE m_receiver = #{m_sender} and m_roomId = #{m_roomId}));
 </select>
 
+<!-- 메시지 보냈을 때 -->
 <select id="insert">
 insert into message(m_roomId, m_sender, m_receiver, m_message)
 values (#{m_roomId}, #{m_sender}, #{m_receiver}, #{m_message})
