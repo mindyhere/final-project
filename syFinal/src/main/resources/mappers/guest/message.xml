@@ -28,7 +28,7 @@ order by m_idx desc limit 1
 	FROM guest, message
 	WHERE 
 	m_sender=g_email AND m_receiver = #{sender} AND m_test=0
-	GROUP BY m_receiver
+	GROUP BY g_name
 	ORDER BY idx desc
 
 </select>
