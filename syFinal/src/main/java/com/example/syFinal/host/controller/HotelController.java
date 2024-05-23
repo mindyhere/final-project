@@ -9,17 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.syFinal.MainController;
 import com.example.syFinal.host.model.dao.HotelDAO;
@@ -179,20 +183,17 @@ public class HotelController {
 
 	@PostMapping("/host/hotel/registHotelDetail")
 	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name="ht_idx") int ht_idx, 
-		@RequestParam(name="ht_h_idx") int ht_h_idx, HttpServletRequest request) {
+		@RequestParam(name="ht_h_idx") int ht_h_idx, HttpServletRequest request) throws ParseException {
 		ServletContext application = request.getSession().getServletContext();
-		String path = application.getRealPath("static/images/host/hotel/");
-
-		System.out.println("All Data : " + map);
-		System.out.println("PK  : " + ht_idx);
-		System.out.println("Room Detail : " + map.get("list"));
+		String path = application.getRealPath("static/images/host/hotel/");		
+		
 		// 이미지 처리
-		// 최종 호텔 등록
+		
 		map.put("ht_idx", ht_idx);
 		map.put("ht_h_idx", ht_h_idx);
 		hotelDao.registNewHotel(map);
 	}
-	
+
 	/* 호텔 상세 정보 조회 */
 	@GetMapping("/host/hotel/detailMyHotel")
 	public List<Map<String, Object>> detailMyHotel(@RequestParam(name = "ho_idx") int ho_idx) {

@@ -34,7 +34,7 @@ function Chat(props) {
         type = gEmail.key;
     } else if (userInfo != null) {
         const hEmail = userInfo.h_email;
-        type = hEmail.key;
+        type = hEmail;
     }
     
     const fetchMessages = () => {
@@ -91,8 +91,8 @@ function Chat(props) {
 
 
       const sendGuestMessage = () => {
-        console.log(!message.trim())
-        if (!message.trim()) { 
+        console.log(message)
+        if (!message.trim()) {
         } else {
             if (stompClient.current && message) {
                 const messageObj = {
