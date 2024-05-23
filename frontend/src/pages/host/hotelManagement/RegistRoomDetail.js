@@ -26,7 +26,6 @@ function RegistRoomDetail(props) {
   }
 
   const [state, setState] = useState({
-    //no : 1,
     roomType : "",
     capacity : "",
     area : "",
@@ -112,10 +111,11 @@ function RegistRoomDetail(props) {
                           value={props.roomType}
                           onChange={handleChangeState}
                         >
-                          <option value={1}>싱글룸</option>
-                          <option value={2}>더블룸</option>
-                          <option value={3}>패밀리룸</option>
-                          <option value={4}>스위트룸</option>
+                          <option value="" selected disabled hidden>선택해주세요</option>
+                          <option value={'싱글룸'}>싱글룸</option>
+                          <option value={'더블룸'}>더블룸</option>
+                          <option value={'패밀리룸'}>패밀리룸</option>
+                          <option value={'스위트룸'}>스위트룸</option>
                         </select>
                     </td>
                     <th colSpan={1}>수용 인원</th>
