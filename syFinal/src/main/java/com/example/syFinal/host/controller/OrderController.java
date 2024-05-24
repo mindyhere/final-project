@@ -19,7 +19,6 @@ import com.example.syFinal.global.PageUtil;
 import com.example.syFinal.global.model.EmailDTO;
 import com.example.syFinal.global.model.EmailService;
 import com.example.syFinal.guest.model.dto.GuestDTO;
-import com.example.syFinal.host.model.dao.HostDAO;
 import com.example.syFinal.host.model.dao.OrderDAO;
 
 @RestController
@@ -27,9 +26,6 @@ import com.example.syFinal.host.model.dao.OrderDAO;
 public class OrderController {
 	@Autowired
 	OrderDAO orderDao;
-
-	@Autowired
-	HostDAO hostDAO;
 
 	@Autowired
 	EmailService emailService;

@@ -258,4 +258,15 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 
+	@Override
+	public List<Map<String, Object>> salesData(int h_idx) {
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("order.salesData", h_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

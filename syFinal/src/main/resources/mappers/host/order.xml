@@ -180,12 +180,7 @@ from
 	) A, (select @rownum:=0) tmp
 </select>
 
-<select id="sales" resultType="java.util.Map">
-SELECT DATE_FORMAT(o_ckin, '%Y-%m') AS month, SUM(ifnull(o_finalprice*0.8,0)) sales, ho_name
-FROM v_host_order 
-WHERE 
-	ho_idx IN (SELECT ho_idx FROM hotel WHERE ho_h_idx=#{h_idx})
-	and o_state='4'
-GROUP BY month
+<select id="salesData" resultType="java.util.Map">
+select month, sales, ho_name from v_sales where h_idx = #{h_idx}
 </select>
 </mapper>
