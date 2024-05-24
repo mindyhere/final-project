@@ -181,6 +181,11 @@ from
 </select>
 
 <select id="salesData" resultType="java.util.Map">
-select month, sales, ho_name from v_sales where h_idx = #{h_idx}
+select month, sales, ho_name from v_sales
+where
+ 	h_idx = #{h_idx}
+	and (
+		month between date_format(now()-interval 1 month, '%Y-%m') and date_format(now(), '%Y-%m')
+		or month='-')
 </select>
 </mapper>

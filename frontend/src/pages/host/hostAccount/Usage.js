@@ -16,16 +16,18 @@ function useFetch(url, e) {
         return response.json();
       })
       .then((data) => {
-        console.log("=> 라벨? " + JSON.stringify(data) + ", " + data.length);
+        // console.log("=> 라벨? " + JSON.stringify(data) + ", " + data.length);
+        let arr = [];
         if (e == "labels" && data != null) {
-          let arr = [];
           for (let i = 0; i < data.length; i++) {
-            arr.push((Object.values(data[i]))[1]);
+            arr.push(Object.values(data[i])[1]);
           }
-          setData(arr);
+        } else if (e == "sales" && data != null) {
+          for (let i = 0; i < data.length; i++) {
+            console.log(Object.values(data[i])[2]);
+          }
         }
-        // data != null ? setData(data) : setData([]);
-        // setData(arr);
+        setData(arr);
         setLoading(false);
       });
   }, []);
@@ -41,27 +43,30 @@ function Usage() {
     `http://localhost/api/chart/labels/${userIdx}`,
     "labels"
   );
-  const [data, loading2] = useFetch(
-    `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin`,
-    "data"
+  const [sales, loading2] = useFetch(
+    `http://localhost/api/chart/sales/${userIdx}`,
+    "sales"
   );
 
-  // function count() {
-  // }
+  const dataset = (sales) => {
+    let arr = [];
+    for (let i = 0; i < sales.length; i++) {
+      let hotel = sales[i][1];
+      console.log("==>? " + hotel);
+    }
+  };
 
-  // useEffect(()=>{("");}, []);
   if (loading1 || loading2) {
     return <div className="text-center">로딩 중...</div>;
   } else {
-    console.log(labels)
+    // dataset()
+    console.log("!!!" + sales.length);
     return (
       <>
         <div className="row mt-0 mb-2" style={{ backgroundColor: "peachpuff" }}>
           <div className="col-9">
             <div style={{ width: 900, height: 400 }}>
-              <SalesChart 
-              labels={labels}
-              />
+              <SalesChart labels={labels} sales={sales} />
             </div>
           </div>
           <div className="col-3">요약</div>

@@ -19,32 +19,6 @@ ChartJS.register(
   Legend
 );
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "호텔1",
-      data: [100, 200, 300, 400, 500], //y축
-      backgroundColor: "rgba(255, 99, 132, 0.5)", //마우스 호버시 나타나는 분류네모 표시 bg
-    },
-    {
-      label: "호텔2",
-      data: [20, 30, 40, 50, 60], //y축
-      backgroundColor: "rgba(255, 99, 132, 0.5)", //마우스 호버시 나타나는 분류네모 표시 bg
-    },
-    {
-      label: "hotel3",
-      data: [20, 30, 40, 50, 60], //y축
-      backgroundColor: "rgba(255, 99, 132, 0.5)", //마우스 호버시 나타나는 분류네모 표시 bg
-    },
-    {
-      label: "hotel3",
-      data: [20, 200, 40, 500, 450], //y축
-      backgroundColor: "rgba(255, 99, 132, 0.5)", //마우스 호버시 나타나는 분류네모 표시 bg
-    },
-  ],
-};
-
 export const options = {
   responsive: true, // canvas 반응형 여부
   maxBarThickness: 15, // bar :막대의 최대 굵기
@@ -159,8 +133,28 @@ export const options = {
   },
 };
 
-function SalesChart(labels, data) {
-  console.log("labels? "+labels+", data?"+data)
+function SalesChart(labels, sales) {
+  // console.log(", sales?" + sales);
+  const dataset = (sales) => {
+    let arr = [];
+    for (let i = 0; i < sales.length; i++) {
+      let hotel = sales[i][1];
+      // console.log("==>? " + hotel);
+    }
+  };
+
+  const data = {
+    labels: "test",
+    datasets: [
+      { dataset },
+      {
+        label: "hotel3",
+        data: [20, 200, 40, 500, 450], //y축
+        backgroundColor: "rgba(255, 99, 132, 0.5)", //마우스 호버시 나타나는 분류네모 표시 bg
+      },
+    ],
+  };
+
 
   return <Bar options={options} data={data} height={400} />;
 }
