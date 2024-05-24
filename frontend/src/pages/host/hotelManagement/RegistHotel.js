@@ -99,15 +99,15 @@ function RegistHotel() {
       };
 
     const themeObj = {
-        bgColor: "#DBC4F0", 			// 바탕 배경색
-        searchBgColor: "", 		// 검색창 배경색
-        contentBgColor: "", 		// 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
-        pageBgColor: "", 		// 페이지 배경색
-        textColor: "", 			// 기본 글자색
-        queryTextColor: "", 		// 검색창 글자색
-        postcodeTextColor: "", 	// 우편번호 글자색
-        emphTextColor: "", 		// 강조 글자색
-        outlineColor: "#F7EFFC" 		// 테두리
+        bgColor: "#DBC4F0",          // 바탕 배경색
+        searchBgColor: "",       // 검색창 배경색
+        contentBgColor: "",       // 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+        pageBgColor: "",       // 페이지 배경색
+        textColor: "",          // 기본 글자색
+        queryTextColor: "",       // 검색창 글자색
+        postcodeTextColor: "",    // 우편번호 글자색
+        emphTextColor: "",       // 강조 글자색
+        outlineColor: "#F7EFFC"       // 테두리
       };
 
     if(loading){
@@ -206,15 +206,25 @@ function RegistHotel() {
                             </p>
                         <div style={{textAlign:'right'}}>
                             <button className="main-btn" onClick={() => {
-                                Swal.fire({
-                                    icon : 'warning',
-                                    title : '잠깐!',
-                                    text: '빈 값이 있는지 확인해주세요',
+                                 Swal.fire({
+                                    icon : 'question',
+                                    text: '다음 단계로 넘어갈까요?',
                                     showCancelButton: true,
                                     confirmButtonText: '확인',
                                     cancelButtonText: "취소"
                                 }).then((result) => {
                                 if (result.isConfirmed) {
+                                    if(ht_name.current.value == '' || ht_level.current.value == '' || ht_floor.current.value == '' || 
+                                        ht_single.current.value == '' || ht_double.current.value == '' || ht_family.current.value == '' || ht_suite.current.value == '' || 
+                                        ht_check_in.current.value == '' || ht_check_out.current.value == '' || ht_address.current.value == '' || ht_description.current.value == ''
+                                        || ht_img.current.value == ''){
+                                        Swal.fire({
+                                            icon : 'warning',
+                                            title : '잠깐!',
+                                            text: '입력되지 않은 항목이 있습니다.',
+                                            confirmButtonText: '확인'
+                                        })
+                                    } else {
                                     const form = new FormData();
                                     form.append('ht_h_idx', userIdx);
                                     form.append('ht_name', ht_name.current.value);
@@ -247,6 +257,7 @@ function RegistHotel() {
                                             }
                                         });
                                     });
+                                }
                             }});
                         }}>다음 <ArrowRight /></button>
                         </div>
@@ -256,5 +267,5 @@ function RegistHotel() {
         )
     }
 };
-
+ 
 export default RegistHotel;
