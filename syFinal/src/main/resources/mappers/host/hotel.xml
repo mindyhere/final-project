@@ -173,7 +173,7 @@
 							)
 					VALUES 
 						(
-							(SELECT MAX(ho_idx) FROM hotel), 
+							(SELECT MAX(ho_idx)+1 FROM hotel), 
 							#{ht_name}, 
 							#{ht_address},
 							#{ht_level}, 
@@ -195,12 +195,12 @@
 
 	<!-- 임시 테이블에 등록한 호텔 번호 전달 -->
 	<select id="findHtHidx" resultType="int">
-		SELECT ht_idx FROM hotel_temp WHERE ht_h_idx = #{ht_h_idx}
+		SELECT ht_idx FROM hotel_temp WHERE ht_h_idx = #{ht_h_idx} AND ht_status != 2
 	</select>
 
 	<!-- 신규 호텔 편의 시설 등록 -->
 	<insert id="insertNewAmenity">
-		INSERT INTO hotel_amenity(ha_ho_idx) VALUES (#{ht_idx});
+		INSERT INTO hotel_amenity(ha_ho_idx) VALUES (#{ht_idx})
 	</insert>
 
 	<!-- 신규 호텔 객실 등록 -->
