@@ -59,6 +59,7 @@ public class ReservController {
 				map1.put("HoName", dto.get(i).getHo_name());
 				map1.put("OdIdx", dto.get(i).getO_didx());
 				before.add(map1);
+				System.out.println("비포"+before);
 			} else {
 				Map<String, Object> map2 = new HashMap<>();
 				// map2.put("HoIdx", dto.get(i).getD_ho_idx());
@@ -71,6 +72,7 @@ public class ReservController {
 				map2.put("HoName", dto.get(i).getHo_name());
 				map2.put("OdIdx", dto.get(i).getO_didx());
 				after.add(map2);
+				System.out.println("애프터" + after);
 			}
 		}
 		List<ReservDTO> dto3 = dao.reservReview(g_idx);
@@ -85,6 +87,7 @@ public class ReservController {
 			map3.put("HoName", dto3.get(i).getHo_name());
 			map3.put("OdIdx", dto.get(i).getO_didx());
 			review.add(map3);
+
 		}
 		map.put("review", review);
 		map.put("before", before);

@@ -9,17 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +53,6 @@ public class HotelController {
          }
       }
       int roomCount = hotelDao.room_count(ho_idx, d_idx);
-      System.out.println(roomCount);
       List<String> dates = new ArrayList<String>();
       Set<String> set = new HashSet<String>(imp_dates);
       for (String str : set) {
@@ -192,7 +186,6 @@ public class HotelController {
 		map.put("ht_h_idx", ht_h_idx);
 		hotelDao.registNewHotel(map);
 	}
-
 
    /* 호텔 상세 정보 조회 */
    @GetMapping("/host/hotel/detailMyHotel")
@@ -344,13 +337,17 @@ public class HotelController {
       map.put("d_img3", d_img3);
       hotelDao.editHotelRoomInfo(map);
    }
-   
+
    /* 호텔 영업 중지 신청 */
-   @GetMapping("/host/hotel/closeHotel")
-   public void closeHotel(@RequestParam(name = "ho_idx") int ho_idx) {
-      hotelDao.closeHotel(ho_idx);
+   @PostMapping("/host/hotel/updateHotelStatus")
+   public Map<String, Object> updateHotelStatus(@RequestParam(name = "ho_idx") int ho_idx,
+		   @RequestParam(name="status") String status) {
+	  Map<String, Object> map = new HashMap<>();
+	  String result =  hotelDao.updateHotelStatus(ho_idx, status);
+	  map.put("result", result);
+      return map;
    }
-   
+
    @PostMapping("/host/hotel/hotelImg")
    @ResponseBody
    public Map<String, Object> list(@RequestParam(name = "ho_idx") int ho_idx) {

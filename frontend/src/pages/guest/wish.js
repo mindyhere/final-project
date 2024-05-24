@@ -61,7 +61,7 @@ function Wish() {
                 <hr/>
                 <br/>
                 <div style={{float: 'left'}}>
-                <Link to={'/guest/wishList'} style={{textDecorationLine: 'none'}}>
+                <Link to={data.firstWish == "no-image.png" ? '/guest/wish' :'/guest/wishList'} style={{textDecorationLine: 'none'}}>
                     <span dangerouslySetInnerHTML={{__html: wishImage}}></span>
                     <div style={{fontSize:"20px", color: 'black'}}>좋아요 누른 항목</div>
                 </Link>
@@ -69,13 +69,15 @@ function Wish() {
                 &nbsp;
                 </div>
                 <div className="wish-blank"></div>
+                
                 <div>
-                <Link to={'/guest/recent'} style={{textDecorationLine: 'none'}}>
+                <Link to={data.firstRecent == "no-image.png"?  '/guest/wish' : '/guest/recent'} style={{textDecorationLine: 'none'}}>
                 <span dangerouslySetInnerHTML={{__html: recentImage}}></span>
                     <div style={{fontSize:"20px", color: 'black'}}>최근 본 숙소</div>
                     </Link>
                 <br />
                 &nbsp;
+            
                 </div>
                 </div>
             </>

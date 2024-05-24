@@ -51,11 +51,8 @@ function Alogin() {
                         .then(response=>
                             response.json())
                         .then(data => {
-                            console.log("로그인 DATA " + JSON.stringify(data));
-                            console.log("로그인 성공 " + data.success);
                             if (data.success) { // 로그인 성공
                                 const cookies = new Cookies();
-                                alert(data.a_id);
                                 cookies.set('a_id', { key: data.a_id }, { path: '/', expires: new Date(Date.now() + 2592000) }); // 30일
                                 cookies.set('a_passwd', { key: data.a_passwd }, { path: '/', expires: new Date(Date.now() + 2592000) });
                                 window.alert('관리자님 환영합니다 :)');                            

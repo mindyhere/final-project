@@ -11,8 +11,9 @@
 <select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
 	SELECT m_receiver, h_name, h_profile, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM host, message
-	WHERE m_sender=#{sender} AND m_receiver = h_email AND m_test=0
-	GROUP BY m_receiver
+	WHERE (m_sender=#{sender} AND m_receiver = h_email) 
+	OR (m_sender=h_email AND m_receiver = #{sender}) AND m_test=0
+	GROUP BY h_name
 	ORDER BY idx desc
 </select>
 
@@ -25,9 +26,9 @@ order by m_idx desc limit 1
 <select id="h_list" resultType="com.example.syFinal.global.model.MessageDTO">
 	SELECT m_receiver, g_name, g_photo, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM guest, message
-	WHERE (m_sender=#{sender} AND m_receiver = g_email) 
-	OR (m_sender=g_email AND m_receiver = #{sender}) AND m_test=0
-	GROUP BY m_receiver
+	WHERE 
+	m_sender=g_email AND m_receiver = #{sender} AND m_test=0
+	GROUP BY g_name
 	ORDER BY idx desc
 
 </select>

@@ -30,7 +30,6 @@ function Message() {
         sender = hEmail;
         type = 'host';
     }
-
     
 
     useEffect(() => {
@@ -45,7 +44,8 @@ function Message() {
                 return response.json();
             })
             .then(data => {    
-                console.log(data.dto.length);
+                setData(data);
+                setLoading(false);
                 if (data.dto.length != 0) {
                     if (room != null && room != '') {
                         console.log(room);
@@ -96,7 +96,7 @@ function Message() {
                 ))}
             </div>
             <div className={open} style={{width: '500px', height: '500px'}}>
-                <Chat roomId= {roomId}></Chat>
+                <Chat roomId= {roomId} ip={data.ip}></Chat>
             </div>
             </div>
             </>

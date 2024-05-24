@@ -71,15 +71,21 @@
 	<!-- 예약요청 -->
 	<insert id="order">
 		INSERT INTO orders 
-		(o_gidx,o_didx,o_ckin,o_ckout,o_adult,o_child,o_baby,o_payment,o_discount,o_price,o_finalprice,o_orderdate,paymentId)
+		(o_gidx,o_didx,o_ckin,o_ckout,o_adult,o_child,o_baby,o_payment,o_discount,o_price,o_finalprice,o_benefit,o_orderdate,paymentId)
 		VALUES 
-		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{usePoint},#{dprice},#{fprice},now(),#{paymentId})
+		(#{idx},#{didx},#{ckin},#{ckout},#{adult},#{child},#{baby},#{pay},#{usePoint},#{dprice},#{fprice},#{useCoupon},now(),#{paymentId})
 	</insert>
-	
+	<!-- 주문시 게스트남은포인트 수정 -->
 	<update id='pointupdate'>
-		update guest 
+		update guest
 		set g_point = #{rePoint}
 		where g_idx = #{idx}
+	</update>
+	<!-- 주문시 게스트쿠폰테이블 수정 -->
+	<update id='couponupdate'>
+		update g_coupon
+		set gc_check = 1
+		where gc_idx = #{gcidx}
 	</update>
 	
 	<!-- 게스트리뷰리스트 -->
