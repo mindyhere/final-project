@@ -47,6 +47,6 @@ public interface OrderDAO {
 	// 달력 클릭 시, 체크인/체크아웃 별 상세 스케쥴목록 보기
 	List<Map<String, Object>> detailSchedule(int h_idx, String column, String date);
 
-	List<Map<String, Object>> salesData(int h_idx);
+	// JSONObject salesData(int h_idx);
 
 }

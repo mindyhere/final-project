@@ -249,7 +249,7 @@ function HostAccount() {
               </form>
             </div>
           </div>
-          <div className="container card-style" style={{backgroundColor:"lightgreen"}}>
+          <div className="container card-style">
             <h3 className="text-bold">
               <ClipboardData size={35} />
               &nbsp;서비스 이용 현황
