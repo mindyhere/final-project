@@ -258,32 +258,4 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 
-//	@Override
-//	public JSONObject salesData(int h_idx) {
-//		List<Map<String, Object>> list = null;
-//		JSONObject obj = new JSONObject();
-//		try {
-//			list = sqlSession.selectList("order.salesData", h_idx);
-//			if (list != null && list.size() > 0) {
-//
-//				for (Map<String, Object> m : list) {
-//					String month = (String) m.get("month");
-//					JSONArray arr = null;
-//					if (month.length() > 1) {
-//						String str = month.substring(6) + "월";
-////					System.out.println(str);
-//						m.replace("month", str);
-//					}
-//					obj.put("label", m.get("month"));
-//					arr.add((String) m.get("sales"));
-//					obj.put("data", arr);
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println("=> json? " + obj);
-//		return obj;
-//	}
-
 }

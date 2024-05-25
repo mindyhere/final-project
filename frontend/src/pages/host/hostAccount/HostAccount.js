@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import ListReviews from "./ListReviews";
-import Usage from "./Usage";
+import SalesChart from "./SalesChart";
 
 import {
   ClipboardData,
@@ -255,7 +255,7 @@ function HostAccount() {
               &nbsp;서비스 이용 현황
             </h3>
             <br />
-            <Usage />
+            <SalesChart />
           </div>
           <div className="container card-style mb-50">
             <h3 className="text-bold">
