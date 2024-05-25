@@ -59,4 +59,11 @@ from v_hotel_review v, orders o
 where v.o_idx = o.o_idx
 	and rv_idx = #{rv_idx}
 </select>
+
+<select id="avgStarList" resultType="java.util.Map">
+select ho.ho_name, ifnull(round(v.avg,2), '-') avg, ho.ho_idx
+from v_rate v right join hotel ho
+on v.ho_idx = ho.ho_idx
+where ho_h_idx = #{h_idx}
+</select>
 </mapper>

@@ -259,22 +259,8 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> salesData(int h_idx) {
-		List<Map<String, Object>> list = null;
-		try {
-			list = sqlSession.selectList("order.salesData", h_idx);
-			for (Map<String, Object> m : list) {
-				String month = (String) m.get("month");
-				if (month.length() > 1) {
-					String str = month.substring(6) + "월";
-//					System.out.println(str);
-					m.replace("month", str);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+	public int countPendings(int h_idx) {
+		return sqlSession.selectOne("order.cntPendings", h_idx);
 	}
 
 }
