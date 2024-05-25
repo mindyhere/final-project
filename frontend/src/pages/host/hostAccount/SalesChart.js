@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import React, { useState, useEffect } from "react";
 
-import moment from "moment";
+import Summary from "./Summary";
+
 import Cookies from "universal-cookie";
 import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -23,6 +23,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  scales,
   ChartDataLabels
 );
 
@@ -95,8 +96,7 @@ function useFetch(url, e) {
           setData(arr);
         } else if (e == "sales" && data != null) {
           setData(data);
-          // setData(JSON.stringify(data.lastMonth));
-          console.log("=> 데이터? " + JSON.stringify(data.lastMonth));
+          // console.log("=> 데이터? " + JSON.stringify(data.lastMonth));
         }
         setLoading(false);
       });
@@ -121,12 +121,9 @@ function SalesChart() {
   if (loading1 || loading2) {
     return <div className="text-center">로딩 중...</div>;
   } else {
+    //차트 데이터 셋팅
     const lastSales = Object.values(sales.lastMonth);
-    console.log("지난달? " + lastSales);
-    // const thisMonth = JSON.stringify(sales[1].data);
-    // const lastSales = [0, 0.48, 0, 0, 0, 0, 0];
     const thisSales = Object.values(sales.thisMonth);
-    console.log("지난달? " + thisSales);
     const chartData = {
       labels: labels,
       datasets: [
@@ -142,6 +139,7 @@ function SalesChart() {
         },
       ],
     };
+
     return (
       <>
         <div className="row mt-0 mb-2">
@@ -155,9 +153,10 @@ function SalesChart() {
               />
             </div>
           </div>
-          <div className="col-3">요약</div>
+          <div className="col-3">
+            <Summary />
+          </div>
         </div>
-        <div className="card-style mb-30">테스트</div>
       </>
     );
   }

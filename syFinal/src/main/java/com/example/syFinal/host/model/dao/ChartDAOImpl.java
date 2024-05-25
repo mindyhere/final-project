@@ -20,7 +20,6 @@ public class ChartDAOImpl implements ChartDAO {
 			List<Map<String, Object>> list = sqlSession.selectList("sales.lastMonth", h_idx);
 			if (list != null && list.size() > 0) {
 				for (Map<String, Object> map : list) {
-					System.out.println(map.get("sales"));
 					result.add(map.get("sales"));
 				}
 			}
@@ -37,7 +36,6 @@ public class ChartDAOImpl implements ChartDAO {
 			List<Map<String, Object>> list = sqlSession.selectList("sales.thisMonth", h_idx);
 			if (list != null && list.size() > 0) {
 				for (Map<String, Object> map : list) {
-					System.out.println(map.get("sales"));
 					result.add(map.get("sales"));
 				}
 			}

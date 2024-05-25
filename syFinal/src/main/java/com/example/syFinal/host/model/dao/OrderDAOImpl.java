@@ -258,4 +258,9 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 
+	@Override
+	public int countPendings(int h_idx) {
+		return sqlSession.selectOne("order.cntPendings", h_idx);
+	}
+
 }

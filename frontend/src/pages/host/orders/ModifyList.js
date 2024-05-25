@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 
-import Slider from "react-slick";
 import Cookies from "universal-cookie";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

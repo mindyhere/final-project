@@ -179,4 +179,11 @@ from
 	</choose>
 	) A, (select @rownum:=0) tmp
 </select>
+
+<select id="cntPendings" resultType="int">
+select count(*)
+from v_host_order
+where o_state='1'
+	  and ho_idx in (select ho_idx from hotel where ho_h_idx = #{h_idx})
+</select>
 </mapper>
