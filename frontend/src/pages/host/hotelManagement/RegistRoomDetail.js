@@ -207,7 +207,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="dImg1"
+                        name="d_img1"
                         value={props.dImg1}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
@@ -220,7 +220,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="dImg2"
+                        name="d_img2"
                         value={props.dImg2}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
@@ -233,7 +233,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="dImg3"
+                        name="d_img3"
                         value={props.dImg3}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
