@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { useNavigate } from "react-router";
-import { Building, BuildingAdd, BuildingCheck, BuildingDash, Hearts } from "react-bootstrap-icons";
-import { useParams } from "react-router";
+import { BuildingAdd, BuildingCheck, BuildingDash, Hearts } from "react-bootstrap-icons";
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -38,8 +38,73 @@ function MyHotelList() {
             <div className="container">
                 <h2 className="mb-30"><Hearts color="#DBC4F0" size={40}/> {userName}님의 호텔 현황입니다.<br /></h2>
                 <div style={{textAlign:'right'}}>
-                    <button className="main-btn mb-20" onClick={() => 
-                    navigate('/host/hotel/registHotel')}>호텔 신규 등록</button>
+                    <button className="main-btn mb-20" onClick={() => {                       
+                        const form = new FormData();
+                        form.append("userIdx", userIdx);
+                        fetch(`http://localhost/host/hotel/beforeRegistCheck`, {
+                            method: "POST",
+                            body: form,
+                        }).then((response) => response.json()
+                        ).then((data) => {
+                            if (data.check === "success") {
+                                navigate('/host/hotel/registHotel', {
+                                    state : {
+                                        data : null
+                                    }
+                                });
+                            } else if(data.check === "fail") {
+                                Swal.fire({
+                                icon: "warning",
+                                title: "잠깐!",
+                                html: "작성 중인 내용이 있습니다. 이어서 작성할까요?",
+                                confirmButtonText: "네",
+                                showCancelButton: true,
+                                cancelButtonText : "아니오"
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    //데이터 불러와서 넘기기
+                                    const form = new FormData();
+                                    form.append("userIdx", userIdx);
+                                    fetch(`http://localhost/host/hotel/selectTempHotel`, {
+                                        method: "POST",
+                                        body: form,
+                                    }).then((response) => response.json())
+                                    .then(data => {
+                                        navigate('/host/hotel/registHotel', {
+                                            state : {
+                                                temp : JSON.stringify(data.temp),
+                                                temp_name : JSON.stringify(data.temp.ht_name),
+                                                temp_level : JSON.stringify(data.temp.ht_level),
+                                                temp_floor : JSON.stringify(data.temp.ht_floor),
+                                                temp_single : JSON.stringify(data.temp.ht_single),
+                                                temp_double : JSON.stringify(data.temp.ht_double),
+                                                temp_family : JSON.stringify(data.temp.ht_family),
+                                                temp_suite : JSON.stringify(data.temp.ht_suite),
+                                                temp_checkIn : JSON.stringify(data.temp.ht_check_in),
+                                                temp_checkOut : JSON.stringify(data.temp.ht_check_out),
+                                                temp_address : JSON.stringify(data.temp.ht_address),
+                                                temp_img : JSON.stringify(data.temp.ht_img),
+                                                temp_description : JSON.stringify(data.temp.ht_description)
+                                            }
+                                        });
+                                    })
+                                } else {
+                                    const form = new FormData();
+                                    form.append("userIdx", userIdx);
+                                    fetch(`http://localhost/host/hotel/deleteTempHotel`, {
+                                        method: "POST",
+                                        body: form,
+                                    }).then(() => {
+                                        navigate('/host/hotel/registHotel', {
+                                            state : {
+                                                data : null
+                                            }
+                                        });
+                                    })
+                                }
+                            })}
+                        });
+                    }}>호텔 신규 등록</button>
                 </div>
                 <div className="card-style mb-20">
                     <div className="mb-20"><BuildingAdd size={30} /> 승인 대기 {data.status.wait}개</div>

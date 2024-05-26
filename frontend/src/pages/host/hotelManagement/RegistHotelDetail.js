@@ -1,26 +1,9 @@
-import React, { useEffect, useState} from "react";
+import React, { useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import RegistRoomDetail from "./RegistRoomDetail";
-
-function useFetch(url) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetch(url)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            setData(data);
-            setLoading(false);
-        })
-    }, []);
-    return [data, loading];
-}
 
 function RegistHotelDetail() {
     const navigate = useNavigate();
@@ -41,6 +24,10 @@ function RegistHotelDetail() {
         list.push(item);
         setList(old => [...old, ...list]);
         setModal(false);
+    }
+
+    const deleteData = (item) => {
+        setList(lists.filter((el) => el !== item));
     }
 
     function Modal(props) {
@@ -148,6 +135,7 @@ function RegistHotelDetail() {
                             <th>객실 이미지</th>
                             <th>객실 이미지2</th>
                             <th>객실 이미지3</th>
+                            <th>-</th>
                         </tr>
                     </thead>
                     { lists.length == 0
@@ -160,7 +148,7 @@ function RegistHotelDetail() {
                         :
                             <tbody>
                                 {lists.map((item) => (
-                                    <tr style={{textAlign:'center'}} onClick={() => {setModal(true);}}>
+                                    <tr style={{textAlign:'center'}}>
                                         <td>{item.roomType}</td>
                                         <td>{item.capacity}</td>
                                         <td>{item.area}</td>
@@ -170,6 +158,7 @@ function RegistHotelDetail() {
                                         <td>{item.dImg1}</td>
                                         <td>{item.dImg2}</td>
                                         <td>{item.dImg3}</td>
+                                        <td><button className="main-btn" onClick={(e) => deleteData(item)}>삭제</button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -197,12 +186,32 @@ function RegistHotelDetail() {
                             encType : 'multipart/form-data',
                             body : form
                         }).then(() => {
-                            navigate('/');
-                        });
+                            Swal.fire({
+                                icon: "success",
+                                title: '등록 완료',
+                                text: '호텔 등록이 완료되었습니다. 관리자 승인을 기다려주세요.',
+                                confirmButtonText: '확인'
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    navigate('/host/hotel/MyhotelList');
+                                }
+                            });
+                        })
                     }}>등록 신청하기</button>
                     &nbsp;
                     <button className="main-btn z-0" style={{zIndex: 0}}  onClick={() => {
-                        navigate('/host/hotel/registHotel');
+                        Swal.fire({
+                            icon: "warning",
+                            title: '잠깐!',
+                            text: '입력하신 내용이 사라집니다. 뒤로 가시겠습니까?',
+                            showCancelButton: true,
+                            confirmButtonText: '확인',
+                            cancelButtonText: "취소"
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                navigate('/host/hotel/registHotel');
+                            }
+                        })
                     }}>뒤로 가기</button>
                 </div>
             </div>
