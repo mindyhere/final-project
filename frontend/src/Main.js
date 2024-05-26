@@ -83,7 +83,7 @@ function Main() {
                 )
             )}
       </div>
-      {list.map.size === 0
+      {list.length === 0
       ?
       <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>
         <br></br>

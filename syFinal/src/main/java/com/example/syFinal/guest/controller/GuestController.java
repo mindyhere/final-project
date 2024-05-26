@@ -108,7 +108,8 @@ public class GuestController {
 			@RequestParam(name="child") int child, @RequestParam(name="baby") String baby,
 			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice,
 			@RequestParam(name="paymentId") String paymentId,@RequestParam(name="usePoint") int point,
-			@RequestParam(name="rePoint") int gpoint) {
+			@RequestParam(name="rePoint") int gpoint,@RequestParam(name="useCoupon") int coupon,
+			@RequestParam(name="gcidx") int gc_idx) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);
@@ -121,12 +122,16 @@ public class GuestController {
 		map1.put("dprice", dprice);
 		map1.put("fprice", fprice);
 		map1.put("usePoint", point);
+		map1.put("useCoupon", coupon);
 		map1.put("paymentId", paymentId);
 		Map<String, Object> map2 = new HashMap<>();
 		map2.put("idx", idx);
 		map2.put("rePoint", gpoint);
 		dao.order(map1);
 		dao.pointupdate(map2);
+		if(coupon != 0) {
+			dao.couponupdate(gc_idx);
+		}
 	}
 	//게스트 후기목록
 	@RequestMapping("/guest/review")

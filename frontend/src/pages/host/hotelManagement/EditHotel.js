@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import DaumPostcode from "react-daum-postcode";
 import { BuildingFill, CardChecklist, CardList } from "react-bootstrap-icons";
 import RoomDetail from "../hotelManagement/RoomDetail";
+import { tr } from "date-fns/locale";
 const {kakao} = window;
 
 function useFetch(url) {
@@ -353,7 +354,8 @@ function EditHotel() {
                                         type='checkbox'
                                         name={`select-${item.id}`}
                                         onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts)}
-                                        defaultChecked={item.sts=="Y" ? true : false}
+                                        checked={checkItems.includes(item.id) ? true : false}
+                                        //defaultChecked={item.sts=="Y" ? true : false}
                                     />
                                     &nbsp;
                                     <img src={item.icon} style={{ width: '30px', height: '30px' }} />
@@ -372,15 +374,39 @@ function EditHotel() {
                                 cancelButtonText: "취소"
                             }).then((result) => {
                                 if(result.isConfirmed){
-                                    const form = new FormData();
-                                    form.append('ho_idx', hoIdx);
-                                    form.append('checkItems', checkItems);
-                                    fetch('http://localhost/host/hotel/editHotel/amenity', {
-                                        method: 'POST',
-                                        body : form
-                                    }).then(() => {
-                                        window.location.replace("/host/hotel/editHotel");
-                                    });
+                                    if(checkItems.length == 0){
+                                        Swal.fire({
+                                            icon : 'warning',
+                                            text: '선택하신 내용이 없습니다. 이대로 수정할까요?',
+                                            showCancelButton : true,
+                                            confirmButtonText: '확인',
+                                            cancelButtonText : '취소'
+                                        }).then((result) => {
+                                            if(result.isConfirmed){
+                                                const form = new FormData();
+                                                form.append('ho_idx', hoIdx);
+                                                form.append('checkItems', checkItems);
+                                                fetch('http://localhost/host/hotel/editHotel/amenity', {
+                                                    method: 'POST',
+                                                    body : form
+                                                }).then(() => {
+                                                    window.location.reload();
+                                                });
+                                            }
+                                        })
+                                    } else {
+                                        const form = new FormData();
+                                        form.append('ho_idx', hoIdx);
+                                        form.append('checkItems', checkItems);
+                                        fetch('http://localhost/host/hotel/editHotel/amenity', {
+                                            method: 'POST',
+                                            body : form
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    }
+                                        
+                                    
                                 }
                             });
                         }}

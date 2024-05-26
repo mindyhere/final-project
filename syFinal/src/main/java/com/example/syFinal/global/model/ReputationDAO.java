@@ -29,7 +29,8 @@ public interface ReputationDAO {
 
 	// 후기 검색
 	List<Map<String, Object>> reviewSearch(Map<String, Object> map);
-//
-//	List<Map<String, Object>> searchAll(String keyword);
+
+	// 호텔 별점 리스트
+	List<Map<String, Object>> avgStarList(int h_idx);
 
 }

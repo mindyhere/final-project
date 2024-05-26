@@ -96,7 +96,7 @@ function Message() {
                 ))}
             </div>
             <div className={open} style={{width: '500px', height: '500px'}}>
-                <Chat roomId= {roomId}></Chat>
+                <Chat roomId= {roomId} ip={data.ip}></Chat>
             </div>
             </div>
             </>

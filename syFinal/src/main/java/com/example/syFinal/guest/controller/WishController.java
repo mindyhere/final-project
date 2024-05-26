@@ -59,6 +59,7 @@ public class WishController {
 			List<MainDTO> dto = dao.firstWish(g_idx);
 			map.put("firstWish", dto.get(0).getHo_img());
 		}
+		System.out.println(map);
 		return map;
 	}
 	

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import ListReviews from "./ListReviews";
-import BriefReservation from "./BriefReservation";
+import SalesChart from "./SalesChart";
 
 import {
   ClipboardData,
@@ -252,10 +252,10 @@ function HostAccount() {
           <div className="container card-style">
             <h3 className="text-bold">
               <ClipboardData size={35} />
-              &nbsp;매출/예약 현황
+              &nbsp;서비스 이용 현황
             </h3>
             <br />
-            <BriefReservation />
+            <SalesChart />
           </div>
           <div className="container card-style mb-50">
             <h3 className="text-bold">

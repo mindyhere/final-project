@@ -13,7 +13,7 @@
 	FROM host, message
 	WHERE (m_sender=#{sender} AND m_receiver = h_email) 
 	OR (m_sender=h_email AND m_receiver = #{sender}) AND m_test=0
-	GROUP BY m_receiver
+	GROUP BY h_name
 	ORDER BY idx desc
 </select>
 
