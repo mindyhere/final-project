@@ -57,8 +57,8 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 
 	@Override
-	public void couponupdate(int g_idx){
-		sqlSession.update("guest.couponupdate",g_idx);
+	public void couponupdate(Map<String,Object> map){
+		sqlSession.update("guest.couponupdate",map);
 	}
 	
 	@Override
