@@ -13,19 +13,20 @@ function AHotel() {
     const getStatus = (ho_status) => {
         switch (ho_status) {
             case 1:
-                return '승인 대기'; 
+                return (<td style={{ color: "green"}}>승인 대기</td>);
             case 2:
-                return '영업 중';
+                return (<td style={{ color: "blue"}}>영업 중</td>);
             case 3:
-                return '영업 중지 신청';   
+                return (<td style={{ color: "red"}}>영업 중지 신청 </td>);   
             default:
-                return '영업 재개 신청';
+                return (<td style={{ color: "yellow"}}>영업 재개 신청</td>);
         }
     };
 
     useEffect(() => {
         fetchahotel();
     }, [filteredStatus]);
+
 
     const fetchahotel = () => {
         const params = new URLSearchParams();
@@ -48,35 +49,6 @@ function AHotel() {
                 console.error('Error fetching hotel list:', error);
             });
     };
-
-    // const approveHotel = (ho_idx, newStatus) => {
-    //        let confirmMessage = '';
-    //     if (newStatus === 2) {
-    //         confirmMessage = '등록 하시겠습니까?';
-    //     } else if (newStatus === 3) {
-    //         confirmMessage = '영업 중지 시키겠습니까?';
-    //     } else if (newStatus === 1) {
-    //         confirmMessage = '승인 대기 상태로 변경 하시겠습니까?';
-    //     } else {
-    //         confirmMessage = '변경하시겠습니까?';
-    //     }
-
-    //     if (window.confirm(confirmMessage)) {
-    //         fetch(`http://localhost/admin/approveHotel?ho_idx=${ho_idx}&ho_status=${newStatus}`, {
-    //             method: 'POST',
-    //         })
-    //         .then(response => {
-    //             if (response.ok) {
-    //                 fetchahotel();
-    //             } else {
-    //                 console.error('Error status');
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error status:', error);
-    //         });
-    //     }
-    // };
     const handleStatusFilterChange = () => {
         setFilteredStatus(statusFilter.current.value);
     };
@@ -140,7 +112,7 @@ function AHotel() {
                                                 <th>숙소명</th>
                                                 <th>지역명</th>
                                                 <th>등급</th>
-                                                <th>사업자 번호</th>
+                                                <th>호스트</th>
                                                 <th>영업상태</th>
                                             </tr>
                                         </thead>
@@ -151,7 +123,8 @@ function AHotel() {
                                                     <td><Link to={`/admin/ahoteldetail/${hotel.ho_idx}`}>{hotel.ho_name}</Link></td>
                                                     <td>{hotel.ho_address}</td>
                                                     <td>{hotel.ho_level}</td>
-                                                    <td>{hotel.h_business}</td>
+                                                    <td>{hotel.h_name}</td>
+                                                    {/* <td>{hotel.h_business}</td> */}
                                                     <td>{getStatus(hotel.ho_status)}</td>                                                  
                                                 </tr>
                                             ))}
