@@ -30,14 +30,8 @@ public class GuestController {
 	@RequestMapping("/guest/my")
 	public Map<String, Object> my(@RequestParam(name="g_idx") int g_idx) {
 		GuestDTO mypage = dao.my(g_idx);
-		//Map<String, Object> mypage = dao.my(g_idx);
-		//Map<String,Object> map = new HashMap<>();
-		//GuestDTO dto = new GuestDTO();
 		Map<String, Object> map = new HashMap<>();
-		//map.put("myphoto", mypage.getG_photo());
 		map.put("dto", mypage);
-		//System.out.println(map);
-		//System.out.println("마이페이지=="+map);
 		return map;
 	}
 	//카드정보등록
@@ -71,7 +65,7 @@ public class GuestController {
 		
 		return paylist;
 	}
-	
+	//게스트 보유쿠폰리스트
 	@RequestMapping("/guest/coupon")
 	public List<Map<String, Object>> couponlist(@RequestParam(name="g_idx") int g_idx) {
 		List<CouponDTO> coupon = dao.couponlist(g_idx);
@@ -91,7 +85,7 @@ public class GuestController {
 		}
 		return couponlist;
 	}
-	
+	//게스트 쿠폰보유갯수
 	@RequestMapping("/guest/c_count")
 	public Map<String, Object> c_coupon(@RequestParam(name="g_idx") int g_idx) {
 		int c_count = dao.c_count(g_idx);
@@ -129,7 +123,7 @@ public class GuestController {
 		map2.put("rePoint", gpoint);
 		dao.order(map1);
 		dao.pointupdate(map2);
-		if(coupon != 0) {
+		if(coupon != 0) { //쿠폰사용시 상태변경
 			int gcIdx = Integer.valueOf(gc_idx);
 			Map<String, Object> map3 = new HashMap<>();
 			map3.put("gcidx", gcIdx);

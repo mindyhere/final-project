@@ -37,7 +37,7 @@ function Notice() {
                             <table className="tbl">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>no.</th>
                                         <th>제목</th>
                                         <th>작성자</th>
                                         <th>날짜</th>
@@ -46,7 +46,7 @@ function Notice() {
                                 <tbody>
                                     {data.list.map((item) => (
                                         <tr style={{textAlign:'center'}}>
-                                            <td type='hidden'>{item.n_idx}</td>
+                                            <td>{item.rownum}</td>
                                             <td onClick={() =>{
                                                 navigate('/component/NoticeDetail', {
                                                     state: {
