@@ -130,15 +130,10 @@ function Order() {
             storeId: 'store-af69f2fa-5d38-4271-b9ad-44d9dc389ecd',
             paymentId: `payment-${crypto.randomUUID()}`,
             payMethod: method,
-            //payMethod: 'EASY_PAY',
-            //channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
-            //channelKey: 'channel-key-ac36bf36-f116-42b5-90cf-0d78e5edda2f',
             channelKey : channel,
             currency: 'KRW',
             totalAmount: 100,
             orderName: hotel.ho_name,
-            //pg: 'nice_v2', //pg사
-            //pg: 'kakaopay',
             pg: pgs,
             customer: {
                 email: data.dto.g_email,
@@ -162,7 +157,6 @@ function Order() {
                 }
             });
         } else {
-            alert("결제성공");
             const form = new FormData();
             form.append('idx',idx.key);
             form.append('dIdx',dIdx);
@@ -424,8 +418,8 @@ function Order() {
                                         </div>
                                     </div>
                                     )}
-                            <hr></hr>
-                            
+                                    <br></br>
+                                    <br></br>
                             <div className="row">
                                 <div className="col">
                                     <h5 style={{marginBottom: '16px'}}>포인트</h5>

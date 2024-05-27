@@ -256,7 +256,7 @@ function Pay() {
                                 </>
                                 :
                                 <>
-                                    <div class="card-stylee mb-30" >
+                                    <div className="card-stylee mb-30" >
                                     <h5>등록된 카드정보</h5>
                                     <tr>
                                         <td>카드번호</td>

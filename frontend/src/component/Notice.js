@@ -47,7 +47,7 @@ function Notice() {
                                     {data.list.map((item) => (
                                         <tr style={{textAlign:'center'}}>
                                             <td>{item.rownum}</td>
-                                            <td onClick={() =>{
+                                            <td style={{cursor: 'pointer'}} onClick={() =>{
                                                 navigate('/component/NoticeDetail', {
                                                     state: {
                                                         nidx: item.n_idx
