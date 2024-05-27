@@ -201,12 +201,12 @@ public class HotelController {
 
 	/* 호텔 신규 등록 - 상세 */
 	@PostMapping("/host/hotel/registHotelDetail")
-	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name = "ht_idx") int ht_idx,
-			@RequestParam(name = "ht_h_idx") int ht_h_idx, @RequestParam(name = "dImg1") MultipartFile dImg1,
-			@RequestParam(name = "dImg2", required = false) MultipartFile dImg2, @RequestParam(name = "dImg3", required = false) MultipartFile dImg3, HttpServletRequest request) throws ParseException {
+	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name = "ht_idx") int ht_idx, @RequestParam(name = "ht_h_idx") int ht_h_idx,
+			@RequestParam(name = "dImg1") MultipartFile dImg1, @RequestParam(name = "dImg2", required = false) MultipartFile dImg2, 
+			@RequestParam(name = "dImg3", required = false) MultipartFile dImg3,  HttpServletRequest request) throws ParseException {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-
+		System.out.println("넘어오는 list 데이터 확인 : " + map);
 		String d_img1 = "-";
 		if (dImg1 != null && !dImg1.isEmpty()) {
 			try {
@@ -242,7 +242,7 @@ public class HotelController {
 		
 		map.put("ht_idx", ht_idx);
 		map.put("ht_h_idx", ht_h_idx);
-		hotelDao.registNewHotel(map);
+		//hotelDao.registNewHotel(map);
 	}
 
 	/* 호텔 상세 정보 조회 */
@@ -407,40 +407,10 @@ public class HotelController {
 		return map;
 	}
 
+	/* 호텔 이미지 모두 보기 */
 	@GetMapping("/host/hotel/viewHotelImg/{hoIdx}")
 	public List<HotelDTO> viewHotelImg(@PathVariable(name = "hoIdx") int ho_idx) {
-		//Map<String, Object> hotelImg = hotelDao.viewHotelImg(ho_idx);
 		List<HotelDTO> hotelImg = hotelDao.viewHotelImg(ho_idx);
-		System.out.println("이미지 ho_idx" + ho_idx);
-		System.out.println("이미지 hotelImg" + hotelImg);
-		/*String dImg1 = hotelImg.get("dImg1").toString();
-		String dImg2 = hotelImg.get("dImg2").toString();
-		String dImg3 = hotelImg.get("dImg3").toString();
-
-		String[] d_img1_list = dImg1.split(",");
-		Map<String, Object> d_img1 = new HashMap<>();
-		for (int i = 0; i < d_img1_list.length; i++) {
-			d_img1.put("d_img1_" + i, d_img1_list[i]);
-		}
-
-		String[] d_img2_list = dImg2.split(",");
-		Map<String, Object> d_img2 = new HashMap<>();
-		for (int i = 0; i < d_img2_list.length; i++) {
-			d_img2.put("d_img2_" + i, d_img2_list[i]);
-		}
-
-		String[] d_img3_list = dImg3.split(",");
-		Map<String, Object> d_img3 = new HashMap<>();
-		for (int i = 0; i < d_img3_list.length; i++) {
-			d_img3.put("d_img3_" + i, d_img3_list[i]);
-		}
-
-		Map<String, Object> viewHotelImg = new HashMap<>();
-		viewHotelImg.put("ho_img", hotelImg.get("ho_img"));
-		viewHotelImg.put("d_img1", d_img1);
-		viewHotelImg.put("d_img2", d_img2);
-		viewHotelImg.put("d_img3", d_img3);
-		System.out.println("viewHotelImg" + viewHotelImg);*/
 		return hotelImg;
 	}
 }

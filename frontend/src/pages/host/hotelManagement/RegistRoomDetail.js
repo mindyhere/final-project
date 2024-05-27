@@ -45,54 +45,16 @@ function RegistRoomDetail(props) {
   };
 
   const insertData = () => {
-    console.log(state);
     props.insertData(state); 
-
   }
-    // let src1='';
-    // let image1='';
-    // if (img1 == 'undefined') {
-    //   src1='/img/image_no.png';
-    //   image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // } else {
-    //   src1=`http://localhost/static/images/host/hotel/`;
-    //   image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // }
 
-
-    // let src2='';
-    // let image2='';
-    // if (img2 == '-') {
-    //   src2='/img/image_no.png';
-    //   image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // } else {
-    //   src2=`http://localhost/static/images/host/hotel/`;
-    //   image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // }
-
-    // let src3='';
-    // let image3='';
-    // if (img3 == '-') {
-    //   src3='/img/image_no.png';
-    //   image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // } else {
-    //   src3=`http://localhost/static/images/host/hotel/`;
-    //   image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
-    // }
     return (
       <>
-        <div className="modal_container" style={{ paddingTop: "15px" }}>
+        <div className="modal_container" style={{ paddingTop: "30px" }}>
           <h3 className="text-bold mb-30">
             &nbsp;객실유형
           </h3>
           <hr />
-          <div className="card-style mb-20">
-            <div className="row mb-20">
-              {/* <div className="col" dangerouslySetInnerHTML={{ __html: image1 }}></div>
-              <div className="col"  dangerouslySetInnerHTML={{ __html: image2 }}></div>
-              <div className="col"  dangerouslySetInnerHTML={{ __html: image3 }}></div> */}
-            </div>
-          </div>
           <div className="card-style mb-30">
             <div style={{ textAlign: "left" }}>
               <table className="tbl">
@@ -165,8 +127,6 @@ function RegistRoomDetail(props) {
                           type="radio"
                           name="non_smoking"
                           value="Y"
-                          //checked={rdo == "Y"}
-                          //onChange={handleRdoChange}
                           onChange={handleChangeState}
                           id="rdo1"
                         />
@@ -179,8 +139,6 @@ function RegistRoomDetail(props) {
                           type="radio"
                           name="non_smoking"
                           value="N"
-                          //checked={rdo == "N"}
-                          //onChange={handleRdoChange}
                           onChange={handleChangeState}
                           id="rdo1"
                         />
@@ -207,7 +165,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="d_img1"
+                        name="dImg1"
                         value={props.dImg1}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
@@ -220,7 +178,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="d_img2"
+                        name="dImg2"
                         value={props.dImg2}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
@@ -233,7 +191,7 @@ function RegistRoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        name="d_img3"
+                        name="dImg3"
                         value={props.dImg3}
                         onChange={handleChangeState}
                         accept=".jpg,.jpeg,.png,"
