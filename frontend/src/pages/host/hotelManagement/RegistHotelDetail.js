@@ -21,8 +21,20 @@ function RegistHotelDetail() {
     let list=[];
 
     const onSetData = (item) => {
+        for (let i=0; i<lists.length; i++){
+            if(lists[i].roomType == item.roomType){
+                Swal.fire({
+                    icon: "warning",
+                    title: '잠깐!',
+                    text: '이미 등록된 객실 유형입니다.',
+                    confirmButtonText: '확인'
+                });
+                return;
+            }
+        }
         list.push(item);
         setList(old => [...old, ...list]);
+
         setModal(false);
     }
 
@@ -167,14 +179,26 @@ function RegistHotelDetail() {
 
                 <div className="mt-50" style={{textAlign : 'center'}}>
                     <button className="main-btn z-0" style={{zIndex: 0}}  onClick={() => {
+                        // 체크리스트 확인
+                        // if(checkItems.length == 0){
+                        //     Swal.fire({
+                        //         icon : 'warning',
+                        //         text: '선택하신 내용이 없습니다. 이대로 등록할까요?',
+                        //         showCancelButton : true,
+                        //         confirmButtonText: '확인',
+                        //         cancelButtonText : '취소'
+                        //     }).
+                        // 싱글룸 필수
                         const form = new FormData();
                         form.append('ht_idx', htIdx);
                         form.append('ht_h_idx', userIdx);
                         form.append('checkItems', checkItems);
                         form.append('list', JSON.stringify(lists));
-                        // if(d_img1.current.files.length > 0){
-                        //     form.append('d_img1', d_img1.current.files[0]);
-                        // }
+
+
+                        //if(JSON.stringify(lists.dImg1).files.length > 0){
+                           // form.append('dImg1', JSON.stringify(lists.dImg1).files[0]);
+                        //}
                         // if(d_img2.current.files.length > 0){
                         //     form.append('d_img2', d_img2.current.files[0]);
                         // }
