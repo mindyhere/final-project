@@ -9,36 +9,36 @@ import "./asset/css/main.css";
 import Main from "./Main";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-import GuestLogin from "./pages/guest/login";
-import SearchEmail from "./pages/guest/searchEmail";
-import SearchPw from "./pages/guest/searchPw";
+import GuestLogin from "./pages/guest/member/login";
+import SearchEmail from "./pages/guest/member/searchEmail";
+import SearchPw from "./pages/guest/member/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 import HotelImage from "./pages/host/hotelDetailSection/HotelImage"
 import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Profile from "./pages/guest/Profile";
 import Pay from "./pages/guest/Pay";
-import GuestInfo from "./pages/guest/GuestInfo";
+import GuestInfo from "./pages/guest/member/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
-import WishItem from "./pages/guest/wishItem";
-import WishList from "./pages/guest/wishList";
-import Wish from "./pages/guest/wish";
-import Recent from "./pages/guest/recent";
-import RecentItem from "./pages/guest/recentItem";
-import Reservation from "./pages/guest/reservation";
+import WishItem from "./pages/guest/wish/wishItem";
+import WishList from "./pages/guest/wish/wishList";
+import Wish from "./pages/guest/wish/wish";
+import Recent from "./pages/guest/wish/recent";
+import RecentItem from "./pages/guest/wish/recentItem";
+import Reservation from "./pages/guest/travel/reservation";
 import Order from "./pages/guest/Order";
 import Coupon from "./pages/guest/coupon";
-import LastReservItem from "./pages/guest/lastReservItem";
-import PreReservItem from "./pages/guest/preReservItem";
-import LastReservDetail from "./pages/guest/lastReservDetail";
-import ReservRevItem from "./pages/guest/reservRevItem";
-import PreReservDetail from "./pages/guest/preReservDetail";
-import CancelReserv from "./pages/guest/cancelReserv";
-import UpdateReserv from "./pages/guest/updateReserv";
+import LastReservItem from "./pages/guest/travel/lastReservItem";
+import PreReservItem from "./pages/guest/travel/preReservItem";
+import LastReservDetail from "./pages/guest/travel/lastReservDetail";
+import ReservRevItem from "./pages/guest/travel/reservRevItem";
+import PreReservDetail from "./pages/guest/travel/preReservDetail";
+import CancelReserv from "./pages/guest/travel/cancelReserv";
+import UpdateReserv from "./pages/guest/travel/updateReserv";
 import Notice from "./component/Notice";
 import NoticeDetail from "./component/NoticeDetail";
 import Message from "./component/Message";
-import WriteReview from "./pages/guest/WriteReview"; // guest:review 등록
+import WriteReview from "./pages/guest/travel/WriteReview"; // guest:review 등록
 import EditReview from "./pages/guest/EditReview"; // guest:review 수정
 
 // admin 계정

@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
-import '../../asset/css/user.css'
+import '../../../asset/css/user.css'
 import Swal from "sweetalert2";
 
 
