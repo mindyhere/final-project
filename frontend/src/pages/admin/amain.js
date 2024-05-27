@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import HotelChart from './chart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Dropdown, ListGroup } from "react-bootstrap";
@@ -7,15 +6,6 @@ import { CardList, House, HouseCheckFill, ListCheck, Person } from 'react-bootst
 
 function Amain() {
   const navigate = useNavigate();
-
-  // 관리자 프로필 정보
-  const adminProfile = {
-    name: '관리자',
-    email: 'admin@gmail.com',
-    tel: '010-1234-5678',
-    role: '사이트 관리자',
-    image: './img/sybnb.png',
-  };
 
   return (
     <div className="container-fluid">
