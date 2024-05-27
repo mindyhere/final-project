@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../admin/css/astyles.css';
-import { Check2Square, PersonVcard } from 'react-bootstrap-icons';
+import { CardList, House, HouseCheckFill, Person, PersonVcard } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 function Ahost() {
+    const navigate = useNavigate();
     const searchkey = useRef();
     const search = useRef();
     const [ahitem, setAhitem] = useState([]);
@@ -27,11 +30,23 @@ function Ahost() {
             });
     };
 
-    const approveHost = (h_idx, h_status, h_file) => {
+
+    const getlevel = (h_level) => {
+        if (h_level == 8) {
+            return '호스트';
+        } else if (h_level == 9) {
+            return '슈퍼호스트';
+        }
+    };
+
+
+    const approveHost = (h_idx, h_status, h_file, h_business) => {
         if (h_status === '승인대기') {
             const form = new FormData();
             form.append('h_file', h_file);
             form.append('h_idx', h_idx);
+            // form.append('h_business', h_business);
+
 
             Swal.fire({
                 title: '가입 승인',
@@ -53,10 +68,10 @@ function Ahost() {
                         });
                         return;
                     }
-                    
+
                     Swal.fire({
-                        title: '사업자 등록증 확인',
-                        text: '',
+                        title: `사업자 등록증 확인`,
+                        text: `등록번호: ${h_business}`,
                         imageUrl: `http://localhost/static/images/host/profile/${h_file}`,
                         imageWidth: 400,
                         imageHeight: 400,
@@ -112,6 +127,9 @@ function Ahost() {
                     });
                 }
             });
+
+
+
         } else if (h_status === '가입완료') {
             Swal.fire({
                 title: '승인 요청 없음',
@@ -154,17 +172,54 @@ function Ahost() {
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3 sidebar-sticky">
                             <ul className="nav flex-column">
+
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">
-                                        <span className="align-text-bottom"></span>
-                                        <Check2Square width="50px" height="30px" /> 사업자정보관리
+                                    <a className="nav-link active"
+                                        onClick={() => navigate(`/admin/amain`)}
+                                    >
+                                        &nbsp; <House width={'20%'} height={'20%'} /> HOME
                                     </a>
                                 </li>
+
+                                <Dropdown>
+                                    <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                                        <Person width={'20%'} height={'20%'} /> 회원관리
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="col-12">
+                                        <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>
+                                        <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                <Dropdown>
+                                    <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                                        <CardList width={'20%'} height={'20%'} /> 공지사항
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="col-12">
+                                        <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/alist`)}>공지리스트</Dropdown.Item>
+                                        <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                <Dropdown>
+                                    <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                                        <HouseCheckFill width={'20%'} height={'20%'} /> 숙소관리
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="col-12">
+                                        <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </ul>
                         </div>
                     </nav>
+
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="container11 mt-5">
+                            <nav>
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item"><a href="#">회원관리</a></li>
+                                    <li className="breadcrumb-item active" aria-current="page">사업자정보관리</li>
+                                </ol>
+                            </nav>
+                            <br />
                             <h2 className="header"><PersonVcard width="50px" height="40px" /> 사업자 가입승인</h2>
                             <hr />
                             <div className="row justify-content-center">
@@ -207,15 +262,15 @@ function Ahost() {
                                                 <td>{list.h_business}</td>
                                                 <td>{list.h_phone}</td>
                                                 <td>{list.h_regdate}</td>
-                                                <td>{list.h_level}</td>
+                                                <td>{getlevel(list.h_level)}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, '', 'width=500,height=500')}>
+                                                    <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, 'width=500,height=500')}>
                                                         {list.h_file}
                                                     </button>
                                                 </td>
                                                 <td>{list.h_status}</td>
                                                 <td>
-                                                    <button type="button" className={getButtonClass(list.h_status)} onClick={() => approveHost(list.h_idx, list.h_status, list.h_file)} disabled={list.h_status === '승인완료'}>
+                                                    <button type="button" className={getButtonClass(list.h_status)} onClick={() => approveHost(list.h_idx, list.h_status, list.h_file, list.h_business)} disabled={list.h_status === '승인완료'}>
                                                         {getButtonLabel(list.h_status)}
                                                     </button>
                                                 </td>

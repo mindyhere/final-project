@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Check2Square, HouseCheck, Square } from 'react-bootstrap-icons';
+import { HouseCheck, CardList, House, HouseCheckFill,  Person} from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import '../admin/css/astyles.css';
+import { useNavigate } from "react-router-dom";
+import { Dropdown} from "react-bootstrap";
 
 function AHotel() {
+    const navigate = useNavigate();
     const searchkey = useRef();
     const search = useRef();
     const statusFilter = useRef();
@@ -13,13 +16,13 @@ function AHotel() {
     const getStatus = (ho_status) => {
         switch (ho_status) {
             case 1:
-                return (<td style={{ color: "green"}}>승인 대기</td>);
+                return (<span style={{ color: "green", alignSelf:"center"}}>승인 대기</span>);
             case 2:
-                return (<td style={{ color: "blue"}}>영업 중</td>);
+                return (<span style={{ color: "blue", alignSelf:"center"}}>영업 중</span>);
             case 3:
-                return (<td style={{ color: "red"}}>영업 중지 신청 </td>);   
+                return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 신청 </span>);   
             default:
-                return (<td style={{ color: "yellow"}}>영업 재개 신청</td>);
+                return (<span style={{ color: "yellow", alignSelf:"center"}}>영업 재개 신청</span>);
         }
     };
 
@@ -58,27 +61,61 @@ function AHotel() {
             <hr />  
             <div className="container-fluid">
                 <div className="row">
-                    <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">
-                                        <span data-feather="home" className="align-text-bottom"></span>
-                                        <Check2Square width="50px" height="30px" /> 숙소운영관리
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                   <a className="nav-link active" aria-current="page" href="#">
-                                    <span data-feather="home" className="align-text-bottom"></span>
-                                      <Square width="50px" height="20px" /> 숙소상세관리
-                                 </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>                 
-                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <div className="container11 mt-5">
-                            <h2 className="header"><HouseCheck width="50px" height="40px"/> 숙소 등록승인</h2><hr/>
+                            <ul className="nav flex-column">                               
+
+              <li className="nav-item">
+            <a className="nav-link active"
+              onClick={() => navigate(`/admin/amain`)}
+              >
+                &nbsp; <House width={'20%'} height={'20%'}/> HOME
+              </a>
+            </li>
+            
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <Person width={'20%'} height={'20%'}/> 회원관리
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">                                             
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>   
+                </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <CardList width={'20%'} height={'20%'}/> 공지사항
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">          
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지리스트</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>                                          
+                </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <HouseCheckFill width={'20%'} height={'20%'}/> 숙소관리
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">                                             
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
+                </Dropdown.Menu>
+            </Dropdown>   
+           </ul>
+           </div>
+           </nav>
+
+
+
+                  <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div className="container11 mt-5" >
+                        <nav>
+                        <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><a href="../ahotel">Hotel</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">숙소운영관리</li>
+                        </ol>
+                        </nav>
+                        <br/>
+
+                            <h2 className="header"><HouseCheck width="50px" height="40px"/> 숙소등록승인</h2><hr/>
                             <div className="row mb-3">
                                 <div className="col-md-4">
                                     <select ref={searchkey} defaultValue='ho_name' className="form-select">
@@ -105,7 +142,7 @@ function AHotel() {
                             </div>
                             <div className="table-responsive">
                                 {list.length > 0 ? (
-                                    <table className="table table-hover table-bordered custom-table1">
+                                    <table className="table table-hover align-middle table-bordered custom-table1" >
                                         <thead className="table-light">
                                             <tr>
                                                 <th>#</th>
@@ -125,7 +162,7 @@ function AHotel() {
                                                     <td>{hotel.ho_level}</td>
                                                     <td>{hotel.h_name}</td>
                                                     {/* <td>{hotel.h_business}</td> */}
-                                                    <td>{getStatus(hotel.ho_status)}</td>                                                  
+                                                    <td style={{textAlign:"center"}}>{getStatus(hotel.ho_status)}</td>                                                  
                                                 </tr>
                                             ))}
                                         </tbody>

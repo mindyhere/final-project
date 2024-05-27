@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PersonCircle, Check2Square } from 'react-bootstrap-icons';
+import { PersonCircle, CardList, House, HouseCheckFill, ListCheck, Person  } from 'react-bootstrap-icons';
+import { Dropdown} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function AGuest() {
+    const navigate = useNavigate();
     const g_idx = useRef();
     const g_level = useRef();
     const g_point = useRef();
@@ -72,18 +75,54 @@ function AGuest() {
                 <div className="row">
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">
-                                        <span data-feather="home" className="align-text-bottom"></span>
-                                        <Check2Square width="50px" height="30px" /> 회원정보관리
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                            <ul className="nav flex-column">                               
+
+              <li className="nav-item">
+            <a className="nav-link active"
+              onClick={() => navigate(`/admin/amain`)}
+              >
+                &nbsp; <House width={'20%'} height={'20%'}/> HOME
+              </a>
+            </li>
+            
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <Person width={'20%'} height={'20%'}/> 회원관리
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">                                             
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>   
+                </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <CardList width={'20%'} height={'20%'}/> 공지사항
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">          
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지리스트</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>                                          
+                </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <HouseCheckFill width={'20%'} height={'20%'}/> 숙소관리
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">                                             
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
+                </Dropdown.Menu>
+            </Dropdown>   
+           </ul>
+           </div>
+           </nav>
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="container11 mt-5">
+                        <nav>
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a href="#">회원관리</a></li>
+                            <li className="breadcrumb-item active" aria-current="page"> 회원정보관리</li>
+                        </ol>
+                        </nav>
+                        <br/>
                             <h2 className="header"><PersonCircle width="50px" height="40px" /> 회원리스트</h2>
                             <hr />
                             <div className="row mb-3">
