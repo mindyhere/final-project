@@ -54,7 +54,7 @@ function Order() {
     //포인트사용
     const [finalamount,setFinalamount] = useState(fprice);
     const [pointAmount,setPointAmount] = useState(0);
-
+    console.log("최종금액==="+finalamount);
     const PointAmount = (e) => {
         setPointAmount(e.target.value);
     }
@@ -173,7 +173,7 @@ function Order() {
             form.append('baby',baby);
             form.append('pay',pay);
             form.append('dprice',dprice);
-            form.append('fprice',fprice);
+            form.append('fprice',finalamount);
             if (pointAmount !== null || pointAmount === 0) {
                 form.append('usePoint',pointAmount);
                 form.append('rePoint',(data.dto.g_point - pointAmount));
