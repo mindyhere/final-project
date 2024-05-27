@@ -135,7 +135,17 @@ public class OrderController {
 			switch (result) {
 			case 1:
 				data.put("level", params.get("level"));
-				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+
+				Map<String, Object> item = orderDao.voucher(o_idx);
+				String g_email = (String) item.get("g_email");
+				String ho_name = (String) item.get("ho_name");
+				item.put("template", "voucher");
+				EmailDTO dto = emailService.prepareVoucher(g_email, ho_name, o_idx);
+				String sendEmail = emailService.sendTemplateMail(item, dto);
+				if (sendEmail.equals("success")) {
+					data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
+				}
+
 				break;
 			case 0:
 				System.out.println("==> 프로시저 에러");
