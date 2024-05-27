@@ -255,9 +255,8 @@ function ManageOrders() {
                           status,
                           o_payment,
                           o_price,
-                          o_discount,
+                          discount,
                           o_finalprice,
-                          o_benefit,
                           o_orderdate,
                         }) => (
                           <OrderItem
@@ -279,9 +278,8 @@ function ManageOrders() {
                             status={status}
                             o_payment={o_payment}
                             o_price={o_price}
-                            o_discount={o_discount}
+                            discount={discount}
                             o_finalprice={o_finalprice}
-                            o_benefit={o_benefit}
                             o_orderdate={o_orderdate}
                             handleModal={handleModal}
                             key={o_idx}

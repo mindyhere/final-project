@@ -58,7 +58,7 @@ h3 {
 		<tr>
 			<td>
 				<h3>Price Summary</h3>
-				<b>가격</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_price} "></span>&nbsp;원 (X 1박) <br> <b>할인금액</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_discount} +${o_benefit}"></span>&nbsp;원 <br> <b>최종결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_finalprice} "></span>&nbsp;원 <br> <b>결제수단</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_payment} "></span> <br> <b>예약날짜</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_orderdate} "></span>
+				<b>가격</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_price} "></span>&nbsp;원 (X 1박, 수수료별도) <br> <b>할인금액</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${discount}"></span>&nbsp;원 <br> <b>최종결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_finalprice} "></span>&nbsp;원 <br> <b>결제수단</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_payment} "></span> <br> <b>예약날짜</b>&nbsp;&nbsp;:&nbsp;&nbsp; <span th:text="${o_orderdate} "></span>
 			</td>
 		</tr>
 	</table>

@@ -38,6 +38,7 @@ function DetailSchedule({ date }) {
   const [ckoutData, loading2] = useFetch(
     `http://localhost/api/order/manage/schedule/detail/${userIdx}?column=o_ckout&date=${date}`
   );
+  const [index, setIndex] = useState("");
 
   if (loading1 || loading2) {
     return <div>loading...</div>;
@@ -110,8 +111,7 @@ function DetailSchedule({ date }) {
                       status,
                       o_payment,
                       o_price,
-                      o_discount,
-                      o_benefit,
+                      discount,
                       o_finalprice,
                       o_orderdate,
                       g_name,
@@ -134,12 +134,13 @@ function DetailSchedule({ date }) {
                         status={status}
                         o_payment={o_payment}
                         o_price={o_price}
-                        o_discount={o_discount}
-                        o_benefit={o_benefit}
+                        discount={discount}
                         o_finalprice={o_finalprice}
                         o_orderdate={o_orderdate}
                         g_name={g_name}
                         g_phone={g_phone}
+                        index={index}
+                        setIndex={setIndex}
                         key={o_idx}
                       />
                     )
@@ -220,7 +221,7 @@ function DetailSchedule({ date }) {
                       status,
                       o_payment,
                       o_price,
-                      o_discount,
+                      discount,
                       o_finalprice,
                       o_orderdate,
                       g_name,
@@ -243,11 +244,13 @@ function DetailSchedule({ date }) {
                         status={status}
                         o_payment={o_payment}
                         o_price={o_price}
-                        o_discount={o_discount}
+                        discount={discount}
                         o_finalprice={o_finalprice}
                         o_orderdate={o_orderdate}
                         g_name={g_name}
                         g_phone={g_phone}
+                        index={index}
+                        setIndex={setIndex}
                         key={o_idx}
                       />
                     )
