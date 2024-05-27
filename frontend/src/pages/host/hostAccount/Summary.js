@@ -9,13 +9,17 @@ import { StarFill } from "react-bootstrap-icons";
 
 function StarItem({ ho_name, avg }) {
   return (
-    <div className="row" style={{ float: "left" }}>
-      <h3>
-        {ho_name}&nbsp;|&nbsp;
-        <StarFill color="#FCD53F" style={{ margin: "0 1px 2% 0" }} />
-        &nbsp;
-        {avg}
-      </h3>
+    <div>
+      <span>
+        <h4 style={{ textAlign: "left" }}>{ho_name}</h4>
+      </span>
+      <span>
+        <h3 style={{ textAlign: "right" }}>
+          <StarFill color="#FCD53F" style={{ margin: "0 1px 2% 0" }} />
+          &nbsp;
+          {avg}
+        </h3>
+      </span>
     </div>
   );
 }
@@ -59,27 +63,39 @@ function Summary() {
   const slick = useRef(null);
   return (
     <>
-      <div className="card-style mb-30">
+      <div
+        id="StarSlider"
+        className="card-style mb-3"
+        style={{ height: "120px" }}
+      >
         <Slider {...settings} ref={slick}>
           {stars.map((item, ho_idx) => (
             <StarItem key={ho_idx} ho_name={item.ho_name} avg={item.avg} />
           ))}
         </Slider>
       </div>
-      <div className="card-style mb-30">
-        <div className="row" style={{ float: "left" }}>
-          <h3>
-            예약대기&nbsp;|&nbsp; 총 &nbsp;
+      <div className="card-style mb-3" style={{ height: "120px" }}>
+        <span>
+          <h4 style={{ textAlign: "left", marginBottom: "6%" }}>예약대기</h4>
+        </span>
+        <span>
+          <h3 style={{ textAlign: "right" }}>
+            총 &nbsp;
             {pendings}건
           </h3>
-        </div>
+        </span>
       </div>
-      <div className="card-style mb-30">
-        <div className="row" style={{ float: "left" }}>
-          <h3>
-            답글 미등록 {noReply}건<br /> /&nbsp;전체 리뷰 {totReviews} 건
+      <div className="card-style" style={{ height: "120px" }}>
+        <span>
+          <h4 style={{ textAlign: "left", marginBottom: "6%" }}>
+          전체 리뷰 {totReviews} 건
+          </h4>
+        </span>
+        <span>
+          <h3 style={{ textAlign: "right" }}>
+            &nbsp;답글 미등록 {noReply}건
           </h3>
-        </div>
+        </span>
       </div>
     </>
   );
