@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import './aa.css'
+import '../aa.css'
 import Cookies from "universal-cookie";
 
 
