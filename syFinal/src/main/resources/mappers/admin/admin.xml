@@ -106,7 +106,7 @@
 		ho_idx DESC
 	</select>
 
-	<!-- 호텔 등록 승인 -->
+	<!-- 호텔 등록/영업재개 승인 -->
 	<update id="updateHotelStatus" parameterType="map">
 		UPDATE hotel,
 		hotel_detail , hotel_amenity
@@ -135,26 +135,13 @@
 	</select>
 
 	<!-- 호텔상세 -->
-	<select id="ADetailHotel"
-		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT *
-		FROM hotel, hotel_detail, hotel_amenity
-		WHERE ho_idx
-		= #{ho_idx}
-		AND ho_idx = d_ho_idx
-		AND d_ho_idx = ha_ho_idx
-	</select>
-
-
-	<!-- 호텔 호스트 정보 -->
-	<select id="AHostInfo" resultType="java.util.HashMap">
-		SELECT h_idx, h_name, h_phone,
-		h_business, h_level, h_regdate, h_profile, h_description
-		FROM host h,
-		hotel ho
-		WHERE ho.ho_idx = #{ho_idx}
-		AND ho.ho_business = h.h_business
-	</select>
-
+	<select id="ADetailHotel" 	resultType="com.example.syFinal.host.model.dto.HotelDTO">
+    SELECT *
+    FROM hotel h
+    Join host s on  h.ho_idx = s.h_idx
+    JOIN hotel_detail hd ON h.ho_idx = hd.d_ho_idx
+    JOIN hotel_amenity ha ON h.ho_idx = ha.ha_ho_idx
+    WHERE h.ho_idx = #{ho_idx}
+</select>
 
 </mapper>

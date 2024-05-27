@@ -2,6 +2,7 @@ import React from "react";
 import {useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 function Footer() {
     const cookies = new Cookies();
@@ -13,15 +14,38 @@ function Footer() {
     if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
     if (locationNow.pathname === "/admin/amain" || locationNow.pathname === "/admin/alogin") return null;
 
-      // 관리자 쿠키
       const a_id = cookies.get("a_id");
+      const userInfo = cookies.get("userInfo");
+      const g_email = cookies.get("g_email");
       const btnAdmin = () => {
-          if (a_id != null) {
-              navigate(`/admin/amain`)
-          } else {
-              navigate(`/admin/alogin`)
-          }
-      }
+        if (a_id != null) {
+            navigate(`/admin/amain`);
+        } else if (userInfo != null) {
+            Swal.fire({
+                title: '잠깐!',
+                text: '로그인하려면 로그아웃 후 다시 시도하세요.',
+                icon: 'warning',
+                cancelButtonText: '확인'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate(`/`);
+                }
+            });
+        } else if (g_email != null) {
+            Swal.fire({
+                title: '잠깐!',
+                text: '로그인하려면 로그아웃 후 다시 시도하세요.',
+                icon: 'warning',
+                cancelButtonText: '확인'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate(`/`);
+            }
+        });
+     } else {
+          navigate(`/admin/alogin`);
+        }
+        };
     
     return (
         <div className="Footer">
@@ -33,7 +57,7 @@ function Footer() {
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>사이트맵</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>한국의 변경된 환불 정책</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>회사 세부정보</a>&nbsp;·&nbsp;
-                <a onClick={btnAdmin} style={{ textDecoration: "none", color: "#262626" }}>관리시스템</a>
+                <a onClick={btnAdmin} style={{ textDecoration: "none", color: "#262626", cursor: "pointer" }}>관리시스템</a>
                 </div>
            
             <div align="center" style={{fontSize: "10px",color: "grey"}}>
