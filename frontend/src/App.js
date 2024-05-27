@@ -18,6 +18,7 @@ import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Profile from "./pages/guest/Profile";
 import Pay from "./pages/guest/Pay";
+import PayReceipt from "./pages/guest/PayReceipt";
 import GuestInfo from "./pages/guest/member/GuestInfo";
 import PayItem from "./pages/guest/PayItem";
 import WishItem from "./pages/guest/wish/wishItem";
@@ -89,6 +90,7 @@ function App() {
           <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />} />
           <Route path="/guest/GuestInfo" element={<GuestInfo />} />
           <Route path="/guest/PayItem" element={<PayItem />} />
+          <Route path="/guest/PayReceipt" element={<PayReceipt />} />
           <Route path="/guest/wishItem" element={<WishItem />} />
           <Route path="/guest/wishList" element={<WishList />} />
           <Route path="/guest/wish" element={<Wish />} />
