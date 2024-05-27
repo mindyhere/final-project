@@ -111,6 +111,7 @@ function DetailSchedule({ date }) {
                       o_payment,
                       o_price,
                       o_discount,
+                      o_benefit,
                       o_finalprice,
                       o_orderdate,
                       g_name,
@@ -134,6 +135,7 @@ function DetailSchedule({ date }) {
                         o_payment={o_payment}
                         o_price={o_price}
                         o_discount={o_discount}
+                        o_benefit={o_benefit}
                         o_finalprice={o_finalprice}
                         o_orderdate={o_orderdate}
                         g_name={g_name}

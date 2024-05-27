@@ -29,17 +29,20 @@ function ManageOrders() {
   const [detail, setDetailSchedule] = useState(false);
   const [list, setOrders] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const [hoIdx, setHotelIdx] = useState("");
+  const [hoIdx, setHotelIdx] = useState(0);
   const [selected, isSelected] = useState("");
-  const [pageNum, setPageNum] = useState("1");
+  const [pageNum, setPageNum] = useState(1);
+  const [sort, setSort] = useState(0);
 
-  function getList(hoIdx, pageNum) {
+  function getList(hoIdx, pageNum, sort) {
     let url = "";
-    // console.log("==> page? " + pageNum + ", " + hoIdx);
+    console.log(
+      "==> page? " + pageNum + ", sort? " + sort + ", hoIdx? " + hoIdx
+    );
     if (pageNum != "0") {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}`;
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}&sort=${sort}`;
     } else {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1`;
+      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1&sort=0`;
     }
     // console.log("==> 리스트: " + hoIdx + ", page " + pageNum + "/ url? " + url);
     fetch(url)
@@ -52,18 +55,19 @@ function ManageOrders() {
         setPaging(data.page);
         setOrders(data.list);
         setHotels(data.hotels);
+        setSort(data.sort);
         // console.log("==> data: " +JSON.stringify(data.list));
       });
   }
 
   useEffect(() => {
-    getList(hoIdx, pageNum);
+    getList(hoIdx, pageNum, sort);
   }, [hoIdx, pageNum]);
 
   const handleHotelChange = (idx) => {
     // console.log("==> 클릭? " + idx);
     setHotelIdx(idx);
-    getList(idx, 0, 1);
+    getList(idx, 1, 0);
     hotels.map(({ ho_idx }) => {
       // console.log("==> 반복처리 :" + ho_idx);
       if (ho_idx != idx) {
@@ -102,7 +106,7 @@ function ManageOrders() {
             <a
               key={i}
               className="page-link"
-              onClick={() => getList(hoIdx, `${i}`)}
+              onClick={() => getList(hoIdx, `${i}`, sort)}
             >
               {i}
             </a>
@@ -220,7 +224,14 @@ function ManageOrders() {
                       <th scope="col">체크아웃</th>
                       <th scope="col">결제</th>
                       <th scope="col">예약일</th>
-                      <th scope="col">상태</th>
+                      <th
+                        scope="col"
+                        onClick={() => {
+                          getList(hoIdx, `${pageNum}`, 1);
+                        }}
+                      >
+                        상태
+                      </th>
                     </tr>
                   </thead>
                   <tbody
@@ -309,7 +320,7 @@ function ManageOrders() {
                           <a className="page-link">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(hoIdx, "1")}
+                              onClick={() => getList(hoIdx, "1", sort)}
                             >
                               <ChevronDoubleLeft />
                             </span>
@@ -321,7 +332,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Previous">
                             <span
                               aria-hidden="true"
-                              onclick={() => getList(hoIdx, `${page.prevPage}`)}
+                              onclick={() =>
+                                getList(hoIdx, `${page.prevPage}`, sort)
+                              }
                             >
                               <ChevronLeft />
                             </span>
@@ -336,7 +349,9 @@ function ManageOrders() {
                           <a className="page-link" aria-label="Next">
                             <span
                               aria-hidden="true"
-                              onClick={() => getList(hoIdx, `${page.nextPage}`)}
+                              onClick={() =>
+                                getList(hoIdx, `${page.nextPage}`, sort)
+                              }
                             >
                               <ChevronRight />
                             </span>
@@ -347,7 +362,9 @@ function ManageOrders() {
                         <li className="page-item">
                           <a className="page-link" aria-label="End">
                             <span
-                              onClick={() => getList(hoIdx, `${page.totPage}`)}
+                              onClick={() =>
+                                getList(hoIdx, `${page.totPage}`, sort)
+                              }
                             >
                               <ChevronDoubleRight />
                             </span>

@@ -46,6 +46,8 @@ function OrderItem({
   const Collapsible = () => {
     console.log("=> 클릭? " + o_idx);
     if (!isCollapsed) {
+      let discount = parseInt(o_discount) + parseInt(o_benefit);
+      //let formatted = discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       return (
         <>
           <tr className="align-middle detail-row">
@@ -55,7 +57,7 @@ function OrderItem({
             </td>
             <td colSpan="4">
               <b>결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;({o_price}\ x 1박) - (
-              {o_discount}\ 할인적용)&nbsp;&nbsp;=&nbsp;&nbsp;총 {o_finalprice}\
+              {discount}\ 할인적용)&nbsp;&nbsp;=&nbsp;&nbsp;총 {o_finalprice}\
             </td>
           </tr>
         </>
