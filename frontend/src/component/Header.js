@@ -471,7 +471,7 @@ function Header() {
     return(
       <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-         <a className="navbar-brand" >        
+      <a className="navbar-brand" href="/">
            <img
             src="/img/sybnb.png"
             href="/"
@@ -486,39 +486,9 @@ function Header() {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`./admin/amain`)}
-              >
-                HOME
-              </a>
-            </li>
-            <li className="nav-item">
-            <a className="nav-link active"
-              onClick={() => navigate(`./admin/aguest`)}
-              >
-                회원정보관리
-              </a>
-            </li>
-            <li className="nav-item ">
-              <a className="nav-link active"
-              onClick={() => navigate(`./admin/ahost`)}
-              >
-                사업자정보관리
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link active"
-              onClick={() => navigate(`./admin/ahotel`)}
-              >
-                숙소영업관리
-              </a>
-            </li> 
-            <li
-              className="nav-item rounded"
-              style={{ display: "inline-block" }}
-            >
-              <a className="nav-link active" onClick={() => navigate("./admin/notice/alist")}>공지사항</a>
-            </li>
-            
+            >*관리자님 로그인 중* 
+            </a>
+          </li>            
             <li className="nav-item rounded">
               <a
                 className="nav-link active"
@@ -530,6 +500,8 @@ function Header() {
                     showCancelButton: true,
                     confirmButtonText: "YES",
                     cancelButtonText: "NO",
+                    confirmButtonColor: '#41774d86',
+                    cancelButtonColor: '#838383d2'
                   }).then((result) => {
                     if (result.isConfirmed) {
                       localStorage.clear();
@@ -546,8 +518,7 @@ function Header() {
           </ul>
         </div>
       </div>  
-    </nav>
-  
+    </nav>  
     );
   }
 
