@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import '../../../asset/css/user.css';
-import '../aa.css';
+import '../aa.css'
 
 function Join() {
     const g_email = useRef();

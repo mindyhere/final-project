@@ -15,7 +15,7 @@ function Message() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comment, setComment] = useState('');
-     
+    const [ip, setIp] = useState('');
     const {room} = useParams();
     const {hName} = useParams();
 
@@ -80,7 +80,7 @@ function Message() {
                 <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
                     <p>{comment}</p>
                 {data.dto.map((item) => (
-                    <div className='mes' onClick={() =>  { setRoomId(item.m_roomId);
+                    <div className='mes' onClick={() =>  { setRoomId(item.m_roomId); setIp(item.h_ip);
                     // if(gIdx.key !== null) {
                     //     setsss('http://localhost/chatroom/g_entrance?g_idx=' + gIdx.key + '&idx=' + item.m_h_idx);
                     // } else if(userInfo !== null) {
@@ -96,7 +96,7 @@ function Message() {
                 ))}
             </div>
             <div className={open} style={{width: '500px', height: '500px'}}>
-                <Chat roomId= {roomId} ip={data.ip}></Chat>
+                <Chat roomId= {roomId} ip={ip}></Chat>
             </div>
             </div>
             </>

@@ -9,7 +9,7 @@
 </select> -->
 
 <select id="g_list" resultType="com.example.syFinal.global.model.MessageDTO">
-	SELECT m_receiver, h_name, h_profile, m_sender, m_roomId, MAX(m_idx) idx 
+	SELECT m_receiver, h_name, h_profile, h_ip, m_sender, m_roomId, MAX(m_idx) idx 
 	FROM host, message
 	WHERE (m_sender=#{sender} AND m_receiver = h_email) 
 	OR (m_sender=h_email AND m_receiver = #{sender}) AND m_test=0
@@ -51,7 +51,7 @@ insert into message(m_roomId, m_sender, m_receiver, m_test) values
 
 <select id="entrance" resultType="com.example.syFinal.global.model.MessageDTO">
 select distinct(m_idx), m_roomId, m_sender, m_receiver, m_message, m_send_date,
-g_name, g_photo, h_name, h_profile, m_test
+g_name, g_photo, h_name, h_profile, m_test, h_ip
 from message, guest, host
 where m_roomId=#{m_roomId} AND ((m_sender=g_email and m_receiver=h_email) OR (m_sender=h_email and m_receiver=g_email))
 

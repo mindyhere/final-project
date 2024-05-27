@@ -5,7 +5,7 @@
 	select DISTINCT(o_idx), ho_name, d_ho_idx, ho_address, ho_img, o_ckin, o_ckout, h_name, h_idx, o_didx 
 	from hotel, hotel_detail, orders, host
 	where o_gidx=#{g_idx} and d_ho_idx = ho_idx and h_business = ho_business and o_state != 2 AND d_idx = o_didx
-	order by o_idx desc
+	order by o_ckin asc
 </select>
 
 <select id="lastDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
@@ -22,10 +22,10 @@ SELECT o_idx, ho_img, o_ckin, o_ckout, ho_name, h_name, o_didx
 FROM orders, hotel, host, hotel_detail WHERE
 o_idx NOT IN (SELECT o_idx FROM orders, review where o_idx = rv_re_idx AND rv_writer = (SELECT g_email FROM guest WHERE g_idx = #{g_idx}))
 AND o_gidx =#{g_idx} AND ho_business = h_business
-AND o_ckout <![CDATA[<]]> CURDATE() AND o_state = 3
+AND o_ckout <![CDATA[<]]> CURDATE() AND o_state = 4
 AND o_didx = d_idx
 AND ho_idx = d_ho_idx
-order by o_idx desc
+order by o_ckin desc
 </select>
 
 <select id="delDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">

@@ -144,7 +144,7 @@ function SalesChart() {
       <>
         <div className="row mt-0 mb-2">
           <div className="col-9">
-            <div style={{ width: 900, height: 400, padding: "1%" }}>
+            <div style={{ width: 900, height: 400}}>
               <Bar
                 options={options}
                 data={chartData}

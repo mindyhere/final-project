@@ -22,7 +22,7 @@ function GuestReview({G_idx,H_idx,D_idx,Ho_idx,Rv_idx,H_profile,H_name,Ho_name,D
         const popup = window.open(
             `./edit`,
             "name(Edit)",
-            "width=500,height=640,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
+            "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
         );
         return popup;
     }; // ... test 여기까지

@@ -33,13 +33,15 @@ public class OrderController {
 	@RequestMapping("manage/list/{userIdx}")
 	public Map<String, Object> getOrderList(@PathVariable(name = "userIdx") int h_idx,
 			@RequestParam(name = "hoIdx", defaultValue = "0") int ho_idx,
-			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum) {
-		System.out.println("==> ho_idx? " + ho_idx + ", pageNum? " + pageNum);
+			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+			@RequestParam(name = "sort", defaultValue = "0") int sort) {
+//		System.out.println("==> sort? " + sort + ", pageNum? " + pageNum + ", ho_idx? " + ho_idx);
 		Map<String, Object> data = new HashMap<>();
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
 		map.put("ho_idx", ho_idx);
+		map.put("sort", sort);
 		List<Map<String, Object>> hotels = orderDao.getHotelList(h_idx);
 		data.put("hotels", hotels);
 
@@ -48,6 +50,7 @@ public class OrderController {
 		int start = page.getPageBegin() - 1;
 		data.put("count", cnt);
 		data.put("page", page);
+		data.put("sort", sort);
 		if (hotels == null) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
@@ -61,7 +64,6 @@ public class OrderController {
 				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 			}
 		}
-		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
 		return data;
 	}
 
@@ -135,7 +137,17 @@ public class OrderController {
 			switch (result) {
 			case 1:
 				data.put("level", params.get("level"));
-				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
+
+				Map<String, Object> item = orderDao.voucher(o_idx);
+				String g_email = (String) item.get("g_email");
+				String ho_name = (String) item.get("ho_name");
+				item.put("template", "voucher");
+				EmailDTO dto = emailService.prepareVoucher(g_email, ho_name, o_idx);
+				String sendEmail = emailService.sendTemplateMail(item, dto);
+				if (sendEmail.equals("success")) {
+					data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
+				}
+
 				break;
 			case 0:
 				System.out.println("==> 프로시저 에러");

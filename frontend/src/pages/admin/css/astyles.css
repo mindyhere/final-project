@@ -132,7 +132,7 @@
 
 .btn-outline-success1 {
   color:#448854c4;
-  border-color:  #448854c4
+  border-color:  #41774dc4
 }
 
 .btn-outline-success1:hover {
@@ -162,13 +162,13 @@
 
 .btn-success.custom-button1 {
   color: #fff;
-  background-color: #448854c4;
-  border-color: #448854c4;
+  background-color: #44885441;
+  border-color: #44885441;
   border-radius: 10px;
 }
 
 .btn-warning.custom-button1 {
-  color: #212529a7;
+  color: #5a885a50;
   background-color: #f5c22988;
   border-color:  #ffc1075c;
   border-radius: 10px;
@@ -187,3 +187,36 @@
   border-color: #6c757d;
   border-radius: 10px;
 }  
+
+
+.profile-card1 {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.profile-img1 {
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  margin-right: 20px;
+}
+
+.tbl1 {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tbl1 th, .tbl1 td {
+  padding: 10px;
+  border-bottom: 1px solid #65886d2d;
+}
+
+.tbl1 th {
+  background-color: #65886d2d;
+  text-align: left;
+}
