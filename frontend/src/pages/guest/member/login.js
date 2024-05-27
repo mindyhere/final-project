@@ -3,11 +3,11 @@ import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Join from "./join";
-import '../../asset/css/user.css'
-import './modall.css'
-import './aa.css'
+import '../../../asset/css/user.css';
+import '../modall.css'
+import '../aa.css'
 import {useNavigate} from "react-router-dom";
-import HostJoin from "../host/login/Join_modal";
+import HostJoin from "../../host/login/Join_modal";
 
 
 function GuestLogin() {
