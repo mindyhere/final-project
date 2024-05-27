@@ -160,10 +160,10 @@ function HotelDetail() {
         return (
             <div className="container">
                 <div className="row justify-content-between">
-                    <div className="col-9">
+                    <div className="col-10">
                         <h2>{data.ho_name}</h2>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2" style={{textAlign:'right', cursor: 'pointer'}}>
                         <div onClick={() => {
                             shareKakao()
                         }}>

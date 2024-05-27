@@ -25,4 +25,5 @@ public class MessageDTO {
 	private String m_send_date;
 	private String m_sender;
 	private String m_receiver;
+	private String h_ip;
 }

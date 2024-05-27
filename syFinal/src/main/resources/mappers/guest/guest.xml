@@ -45,7 +45,7 @@
 	</select>
 	
 	<select id='c_count' resultType='int'>
-		SELECT COUNT(gc_idx) AS c_count FROM coupon c,g_coupon gc WHERE c.c_num=gc.gc_num AND gc_gidx=#{g_idx}
+		SELECT COUNT(gc_idx) AS c_count FROM coupon c,g_coupon gc WHERE c.c_num=gc.gc_num and gc_check=0 AND gc_gidx=#{g_idx}
 	</select>
 	
 	<update id="cardupdate">

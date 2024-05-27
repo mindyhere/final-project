@@ -49,7 +49,6 @@ public class MainController {
 			}
 			list.add(map);
 		}
-		System.out.println("메인리스트====" + list);
 		return list;
 	}
 	//메인 공지사항
@@ -89,12 +88,10 @@ public class MainController {
 				c.setTime(currentDate);
 				c.add(Calendar.DATE, 1);
 				currentDate = c.getTime();
-				// dates.add(sdf.format(currentDate));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// System.out.println(dates);
 		return dates;
 	}
 }

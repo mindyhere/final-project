@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import Join from "../pages/guest/join";
+import Join from "../pages/guest/member/join";
 import HostJoin from "../pages/host/login/Join_modal";
 
 import "../pages/guest/modall.css";
