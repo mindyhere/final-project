@@ -367,7 +367,7 @@ function Order() {
                             <h4>할인적용</h4>
                             <br></br>
                             <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
-                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount} disabled></input>
+                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} disabled></input>
                             <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
                             {modalOpen1 && (
                                     <div
@@ -401,12 +401,12 @@ function Order() {
                                                 <div style={{marginBottom: '5px',marginTop:'5px'}} className={"modal-scrollable"}>
                                                     <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'80px', padding:'9px'}}>
                                                         <div className="form-check">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={[item.Gcidx,dprice * (item.Cbenefit/100)]} onClick={(e) => GetCoupon(e)}></input>
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={[item.Gcidx,Math.trunc(dprice * (item.Cbenefit/100))]} onClick={(e) => GetCoupon(e)}></input>
                                                             <label className="form-check-label" for="saleprice">
                                                                 <tr>
                                                                     <td style={{fontWeight:'bold'}}>{item.Cname}</td>
                                                                     <td>{item.Cbenefit}%</td>
-                                                                    <td>&nbsp;{'('}{(dprice * (item.Cbenefit/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원{')'}</td>
+                                                                    <td>&nbsp;{'('}{Math.trunc(dprice * (item.Cbenefit/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원{')'}</td>
                                                                     {/* onChange={(e) => setCouponIdx(e.target.value)}*/}
                                                                 </tr>
                                                                 <tr>
@@ -419,7 +419,7 @@ function Order() {
                                             ))}
                                             <br></br>
                                             <div align='center'>
-                                                <button className='btn btn-outline-dark' onClick={()=>handleCoupon()}>{couponAmount}원 적용하기</button>
+                                                <button className='btn btn-outline-dark' onClick={()=>handleCoupon()}>{couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 적용하기</button>
                                             </div>
                                         </div>
                                     </div>

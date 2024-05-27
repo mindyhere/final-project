@@ -68,7 +68,7 @@ function Coupon() {
                                                         <tr style={{textAlign:'center'}}>
                                                             <td>{item.Cname}</td>
                                                             <td>{item.Cdiv}</td>
-                                                            <td>{item.Cbenefit}</td>
+                                                            <td>{item.Cbenefit}%</td>
                                                             <td>{item.Gcissue} ~ {item.Gcdeadline}</td>
                                                         </tr>
                                                     ))}
