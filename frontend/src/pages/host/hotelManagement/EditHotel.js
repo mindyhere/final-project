@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import DaumPostcode from "react-daum-postcode";
 import { BuildingFill, CardChecklist, CardList } from "react-bootstrap-icons";
 import RoomDetail from "../hotelManagement/RoomDetail";
-import { tr } from "date-fns/locale";
 const {kakao} = window;
 
 function useFetch(url) {
@@ -181,8 +180,10 @@ function EditHotel() {
             {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher, sts2:true}
           ];
 
-        const handleSingleCheck = (checked, id) => {
-            if (checked) {
+        const handleSingleCheck = (id, defaultChecked) => {
+            console.log("checked : " + defaultChecked);
+            console.log("checked_id : " + id);
+            if (defaultChecked) {
                 setCheckItems(prev => [...prev, id]);        
             } else {
                 setCheckItems(checkItems.filter((el) => el !== id));
@@ -203,7 +204,7 @@ function EditHotel() {
         return (
             <div className="container">
                 <div className="mb-20">
-                    <h2>{userName}님의 {hoName}입니다.<br />
+                    <h2>{userName}님의 {data[0].ho_name}입니다.<br />
                     </h2>
                 </div>
                 <div className="card-style mb-30">
@@ -304,6 +305,16 @@ function EditHotel() {
                                 cancelButtonText: "취소"
                             }).then((result) => {
                                 if(result.isConfirmed){
+                                    if(ho_name.current.value == '' || ho_level.current.value == '' || ho_floor.current.value == '' || 
+                                    ho_single.current.value == '' || ho_double.current.value == '' || ho_family.current.value == '' || ho_suite.current.value == '' || 
+                                    ho_check_in.current.value == '' || ho_check_out.current.value == '' || ho_address.current.value == '' || ho_description.current.value == ''){
+                                    Swal.fire({
+                                        icon : 'warning',
+                                        title : '잠깐!',
+                                        text: '입력되지 않은 항목이 있습니다.',
+                                        confirmButtonText: '확인'
+                                    })
+                                } else {
                                     const form = new FormData();
                                     form.append('ho_idx', hoIdx);
                                     form.append('ho_name', ho_name.current.value);
@@ -327,9 +338,16 @@ function EditHotel() {
                                         encType : 'multipart/form-data',
                                         body : form
                                     }).then(() => {
-                                        window.location.replace("/host/hotel/editHotel");
+                                        Swal.fire({
+                                            icon : 'success',
+                                            title : '수정 완료',
+                                            text: '호텔 정보가 수정되었습니다.',
+                                            confirmButtonText: '확인'
+                                        });
+                                        window.location.reload();
                                     });
                                 }
+                            }
                             });
                             }}
                         >수정</button>
@@ -347,15 +365,17 @@ function EditHotel() {
                     
                     <div className="checkbox-group" style={{fontSize: '18px'}}>
                         {dataList?.map((item, index) => (
-                            
                             <div key={index} className="mb-10">
                                 <div>
                                     <input 
                                         type='checkbox'
                                         name={`select-${item.id}`}
-                                        onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts)}
-                                        checked={checkItems.includes(item.id) ? true : false}
-                                        //defaultChecked={item.sts=="Y" ? true : false}
+                                        //onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts)}
+                                        //onClick={(e) => handleSingleCheck(e.target.checked, item.id)}
+                                        onClick={(e) => handleSingleCheck(item.id, 'Y')}
+                                        //checked={checkItems.includes(item.id)}
+                                        //checked={checkItems.includes(item.id) ? true : false}
+                                        defaultChecked={item.sts === 'Y'}
                                     />
                                     &nbsp;
                                     <img src={item.icon} style={{ width: '30px', height: '30px' }} />
@@ -390,6 +410,11 @@ function EditHotel() {
                                                     method: 'POST',
                                                     body : form
                                                 }).then(() => {
+                                                    Swal.fire({
+                                                        icon : 'success',
+                                                        text: '편의시설이 수정되었습니다.',
+                                                        confirmButtonText: '확인'
+                                                    });
                                                     window.location.reload();
                                                 });
                                             }
@@ -402,6 +427,11 @@ function EditHotel() {
                                             method: 'POST',
                                             body : form
                                         }).then(() => {
+                                            Swal.fire({
+                                                icon : 'success',
+                                                text: '편의시설이 수정되었습니다.',
+                                                confirmButtonText: '확인'
+                                            });
                                             window.location.reload();
                                         });
                                     }
@@ -430,7 +460,7 @@ function EditHotel() {
                         <tbody>
                             {data.map((item, idx) => (
                                 <tr style={{textAlign:'center'}} onClick={() => {setModal(true);  setRooms(item);}}>
-                                <td>{idx + 1}</td>
+                                    <td key="idx">{idx + 1}</td>
                                     <td>{item.d_room_type}</td>
                                     <td>{item.d_capacity}명</td>
                                     <td>{item.d_area}㎡</td>
@@ -439,7 +469,6 @@ function EditHotel() {
                                     <td>{item.d_non_smoking}</td>
                                 </tr>
                             ))}
-                            
                             {modal && (
                                 <Modal
                                     style={{ zIndex: 999, position: "relative" }}
@@ -470,7 +499,7 @@ function EditHotel() {
                                         method : 'POST',
                                         body : form
                                     }).then((response) => response.json())
-                                    .then(data => {alert(data.result);
+                                    .then(data => {
                                         if(data.result === 'success') {
                                             Swal.fire({
                                                 icon : 'success',

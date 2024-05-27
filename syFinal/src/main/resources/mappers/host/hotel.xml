@@ -48,6 +48,22 @@
 		WHERE d_ho_idx= #{ho_idx}
 	</select>
 
+	<!--호텔 사진 모두 보기 -->
+	<select id="viewHotelImg" resultType="java.util.HashMap">
+		<!--SELECT
+			ho_img, 
+			GROUP_CONCAT(d_img1 SEPARATOR ',') AS dImg1,
+			GROUP_CONCAT(d_img2 SEPARATOR ',') AS dImg2,
+			GROUP_CONCAT(d_img3 SEPARATOR ',') AS dImg3
+		FROM hotel, hotel_detail
+		WHERE ho_idx = d_ho_idx
+		AND ho_idx = #{ho_idx} -->
+		SELECT d_room_type, ho_img, d_img1, d_img2, d_img3
+		FROM hotel, hotel_detail
+		WHERE ho_idx = d_ho_idx
+		AND ho_idx = #{ho_idx}
+	</select>
+	
 	<!-- 호텔 편의시설 -->
 	<select id="getHotelAmenity"
 		resultType="java.util.HashMap">
@@ -173,7 +189,7 @@
 							)
 					VALUES 
 						(
-							(SELECT MAX(ho_idx)+1 FROM hotel), 
+							(SELECT MAX(ho_idx) + 1 FROM hotel), 
 							#{ht_name}, 
 							#{ht_address},
 							#{ht_level}, 
@@ -193,10 +209,52 @@
 						)
 	</insert>
 
+	<!-- 신규 호텔 업데이트 -->
+	<update id="updateHotelTemp">
+		UPDATE hotel_temp 
+		SET ht_name = #{ht_name},
+			   ht_address = #{ht_address},
+			   ht_level = #{ht_level},
+			   ht_floor= #{ht_floor} ,
+			   ht_img = #{ht_img},
+			   ht_single = #{ht_single},
+			   ht_double = #{ht_double},
+			   ht_family = #{ht_family},
+			   ht_suite = #{ht_suite},
+			   ht_x = #{ht_x},
+			   ht_y = #{ht_y},
+			   ht_description = #{ht_description},
+			   ht_check_in = #{ht_check_in},
+			   ht_check_out = #{ht_check_out}
+		WHERE ht_h_idx = #{ht_h_idx}
+		AND ht_status = 1
+ 	</update>
+
 	<!-- 임시 테이블에 등록한 호텔 번호 전달 -->
 	<select id="findHtHidx" resultType="int">
 		SELECT ht_idx FROM hotel_temp WHERE ht_h_idx = #{ht_h_idx} AND ht_status != 2
 	</select>
+
+	<!-- 호텔 신규 등록 전 확인 -->
+	<select id="beforeRegistCheck" resultType="int">
+		SELECT COUNT(*) FROM hotel_temp 
+		WHERE ht_h_idx = #{userIdx} 
+		AND ht_status = 1
+	</select>
+	
+	<!-- 이어서 작성하기 -->
+	<select id="selectTempHotel" resultType="java.util.HashMap">
+		SELECT * FROM hotel_temp 
+		WHERE ht_h_idx = #{userIdx}
+		AND ht_status = 1
+	</select>
+	
+	<!-- 임시 데이터 삭제 -->
+	<delete id="deleteTempHotel">
+		DELETE FROM hotel_temp
+		WHERE ht_h_idx = #{userIdx}
+		AND ht_status = 1
+	</delete>
 
 	<!-- 신규 호텔 편의 시설 등록 -->
 	<insert id="insertNewAmenity">
@@ -207,7 +265,7 @@
 	<insert id="insertNewRoom">
 		INSERT INTO hotel_detail(d_ho_idx, d_room_type, d_capacity, d_area, d_beds, d_non_smoking, d_price, d_img1, d_img2, d_img3)
 		VALUES( #{ht_idx}, #{roomType}, #{capacity}, #{area}, #{beds}, #{non_smoking},
-		 #{price}, #{dImg1}, #{dImg2}, #{dImg3} )
+		 #{price}, #{d_img1}, #{d_img2}, #{d_img3} )
 	</insert>
 
 	<!-- 신규 호텔 최종 등록 -->

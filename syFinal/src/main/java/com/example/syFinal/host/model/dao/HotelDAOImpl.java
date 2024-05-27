@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 import jakarta.servlet.ServletContext;
@@ -113,10 +114,45 @@ public class HotelDAOImpl implements HotelDAO {
 		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
 	}
 
+	/* 호텔 이미지 모두 보기 */
+	@Override
+	public List<HotelDTO> viewHotelImg(int ho_idx) {
+		return sqlSession.selectList("hotel.viewHotelImg", ho_idx);
+	}
+	
+	/* 호텔 신규 등록 전 확인 */
+	@Override
+	public String beforeRegistCheck(int userIdx) {
+		int check = sqlSession.selectOne("hotel.beforeRegistCheck", userIdx);
+		String result = "";
+		if(check == 0) {
+			result = "success";
+		} else {
+			result = "fail";			
+		}
+		return result;
+	}
+
+	/* 이어서 작성하기 */
+	@Override
+	public Map<String, Object> selectTempHotel(int userIdx){
+		return sqlSession.selectOne("hotel.selectTempHotel", userIdx);
+	}
+
+	/* 임시 데이터 삭제 */
+	@Override
+	public void deleteTempHotel(int userIdx) {
+		sqlSession.delete("hotel.deleteTempHotel", userIdx);
+	}
+	
 	/* 신규 호텔 등록(임시) */
 	@Override
 	public int registHotelTemp(Map<String, Object> map) {
-		sqlSession.insert("hotel.registHotelTemp", map);
+		if(map.get("temp") == "undefined") {
+			sqlSession.insert("hotel.registHotelTemp", map);			
+		} else {
+			sqlSession.update("hotel.updateHotelTemp", map);
+		}
 		int hoIdx = sqlSession.selectOne("hotel.findHtHidx", map.get("ht_h_idx"));
 		return hoIdx;
 	}

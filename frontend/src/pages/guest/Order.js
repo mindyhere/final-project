@@ -181,10 +181,11 @@ function Order() {
                 form.append('usePoint',0);
                 form.append('rePoint',data.dto.g_point);
             }
-            if (couponAmount !== null || couponAmount === 0) {
+            if (couponAmount === null || couponAmount === 0) {
                 form.append('useCoupon',0);
             } else {
                 form.append('useCoupon',couponAmount);
+                console.log("쿠폰번호==="+couponIdx);
                 form.append('gcidx',couponIdx);
             }
             form.append('paymentId', response.paymentId);
@@ -322,7 +323,7 @@ function Order() {
                 
                 <div className="col-5">
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
-                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'400px', padding:'25px'}}>
+                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'430px', padding:'25px'}}>
                             <div>
                                 <div className="row">
                                     <div className="col-4">
@@ -331,7 +332,7 @@ function Order() {
                                     <div className="col-6" align='left'>
                                         <br></br>
                                     <div style={{fontSize:'24px'}}>{hotel.ho_name}</div>
-                                        <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" ariaHidden="true" role="presentation" focusable="false" style={{display: 'inline', height: '14px', width: '14px', fill: 'currentcolor'}}><path fillRule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>{review.avg} (후기: {review.list.length}개)</div>
+                                        <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" ariaHidden="true" role="presentation" focusable="false" style={{display: 'inline', height: '14px', width: '14px', fill: 'currentcolor'}}><path fillRule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>{review.avg} (후기: {review.list!=null ? review.list.length : 0}개)</div>
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +353,7 @@ function Order() {
                                     }
                                     {couponAmount !== 0
                                     ?
-                                    <div>쿠폰사용금액 -{couponAmount}</div>
+                                    <div>쿠폰사용금액 -{couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
                                     :''
                                     }
                                     <hr/>

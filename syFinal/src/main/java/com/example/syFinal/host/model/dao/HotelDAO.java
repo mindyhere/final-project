@@ -3,6 +3,7 @@ package com.example.syFinal.host.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
 
 public interface HotelDAO {
@@ -47,7 +48,19 @@ public interface HotelDAO {
 	
 	/* 호텔 대표 이미지 조회 */
 	Map<String, Object> getHotelImg(int ho_idx);
+
+	/* 호텔 이미지 모두 보기 */
+	List<HotelDTO> viewHotelImg(int ho_idx);
 	
+	/* 호텔 신규 등록 전 확인 */
+	String beforeRegistCheck(int userIdx);
+
+	/* 이어서 작성하기 */
+	Map<String, Object> selectTempHotel (int userIdx);
+
+	/* 임시 데이터 삭제 */
+	void deleteTempHotel(int userIdx);
+
 	/* 신규 호텔 등록(임시) */
 	int registHotelTemp(Map<String, Object> map);
 

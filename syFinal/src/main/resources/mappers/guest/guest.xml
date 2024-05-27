@@ -41,7 +41,7 @@
 	<select id="couponlist" resultType="com.example.syFinal.guest.model.dto.CouponDTO">
 		SELECT c_num,c_name,c_div,c_benefit,gc_idx,gc_gidx,gc_check,gc_issue,gc_deadline
 		FROM coupon c,g_coupon gc 
-		WHERE c.c_num=gc.gc_num AND gc_gidx=#{g_idx}
+		WHERE c.c_num=gc.gc_num and gc_check = 0 AND gc_gidx=#{g_idx}
 	</select>
 	
 	<select id='c_count' resultType='int'>

@@ -13,6 +13,7 @@ import GuestLogin from "./pages/guest/login";
 import SearchEmail from "./pages/guest/searchEmail";
 import SearchPw from "./pages/guest/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
+import HotelImage from "./pages/host/hotelDetailSection/HotelImage"
 import HostPage from "./pages/host/HostPage";
 import Account from "./pages/guest/Account";
 import Profile from "./pages/guest/Profile";
@@ -84,6 +85,7 @@ function App() {
           <Route path="/guest/Profile" element={<Profile />} />
           <Route path="/guest/Pay" element={<Pay />} />
           <Route path="/host/hotel/hotelDetail/:HoIdx/:dIdx" element={<HotelDetail />} />
+          <Route path="/host/hotel/HotelImage" element={<HotelImage />} />
           <Route path="/host/hotel/hostPage/:HIdx" element={<HostPage />} />
           <Route path="/guest/GuestInfo" element={<GuestInfo />} />
           <Route path="/guest/PayItem" element={<PayItem />} />

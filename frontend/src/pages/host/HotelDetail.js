@@ -1,5 +1,5 @@
-import React, {useRef, useEffect, useState, useCallback} from "react";
-import { useParams } from "react-router-dom";
+import React, {useRef, useEffect, useState} from "react";
+import { useParams, useNavigate} from "react-router-dom";
 import KakaoMap from "../../component/KakaoMap";
 import HotelDescription from "./hotelDetailSection/HotelDescription";
 import HotelRooms from "./hotelDetailSection/HotelRooms";
@@ -8,13 +8,11 @@ import HotelRule from "./hotelDetailSection/HotelRule";
 import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
 import Reputation from "./hotelDetailSection/Reputation";
-
-import { AwardFill, StarFill, ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { AwardFill, FileEarmarkImage, StarFill } from "react-bootstrap-icons";
 import moment from "moment";
 import "moment/locale/ko";
+const {Kakao} = window;
+
 function useFetch(url) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -22,7 +20,6 @@ function useFetch(url) {
     useEffect(() => {
         fetch(url)
         .then(response => {
-            console.log('response'+ response);
             return response.json();
         })
         .then(data => {
@@ -36,41 +33,13 @@ function useFetch(url) {
 function HotelDetail() {
     const {HoIdx} = useParams();
     let {dIdx} = useParams();
-    const [modal, setModal] = useState(false);
+    const navigate = useNavigate();
     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
     const element = useRef(null);
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
     }
-
-    const slickRef = useRef(null);
-    const previous = useCallback(() => slickRef.current.slickPrev(), []);
-    const next = useCallback(() => slickRef.current.slickNext(), []);
-    const settings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1, 
-        arrows: false
-    };
-
-    const [imgList, setImgList] = useState([]);
-
-//     function getData(url) {
-//         const form = new FormData();
-//         form.append('ho_idx', HoIdx);
-//         fetch(url, { method: 'post', body: form })
-//         .then(response => {
-//           return response.json();
-//          })
-//         .then(data => {
-//             setImgList(data.img);
-//         })
-//   }
-
-//   useEffect(() => {getData('http://localhost/host/hotel/hotelImg');},[]);
 
     var Arr = [];
     useEffect(() => {
@@ -90,6 +59,17 @@ function HotelDetail() {
         myArr = new Set(Arr);
         myArr = [...myArr];
         localStorage.setItem('watched', JSON.stringify(myArr));
+    }, []);
+
+    const realUrl = "http://localhost:3000";
+    const resultUrl = window.location.href;
+
+    useEffect(() => {
+        //초기화 전 clean up
+        Kakao.cleanup();
+        Kakao.init('3a200d4b8b334dd0270039e106f222e1');
+        // 잘 적용되면 true
+        console.log(Kakao.isInitialized());
     }, []);
 
     if(loading || loading2){
@@ -143,6 +123,40 @@ function HotelDetail() {
             profile_src = `http://localhost/static/images/no-image.png`;
             profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
+
+        const shareKakao = () => {
+            Kakao.Share.sendDefault({
+                objectType : 'commerce',
+                content : {
+                    title : 'sybnb - 호텔 예약 사이트',
+                    imageUrl : 'https://ifh.cc/g/dGvtZ8.png',
+                    link : {mobileWebUrl : realUrl}
+                },
+                commerce: {
+                    productName: data.ho_name,
+                    regularPrice: data.d_price
+                // discountRate: 10,
+                // discountPrice: 90000,
+                },
+                buttons: [
+                    {
+                    title: '호텔 보러 가기',
+                    link: {
+                        mobileWebUrl: 'http://localhost:3000/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx,
+                        webUrl: 'http://localhost:3000/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx,
+                    },
+                    },
+                    {
+                    title: '사이트 보러 가기',
+                    link: {
+                        mobileWebUrl: 'http://localhost:3000',
+                        webUrl: 'http://localhost:3000',
+                    },
+                    },
+                ],
+            })
+        }
+
         return (
             <div className="container">
                 <div className="row justify-content-between">
@@ -150,7 +164,9 @@ function HotelDetail() {
                         <h2>{data.ho_name}</h2>
                     </div>
                     <div className="col-2">
-                        <div>
+                        <div onClick={() => {
+                            shareKakao()
+                        }}>
                             <img src="/img/share.png" width="25px" height="25px"/>
                             &nbsp;공유하기
                         </div>
@@ -165,9 +181,13 @@ function HotelDetail() {
                             <div className="col-3" style={{position:'relative'}}>
                                 <span dangerouslySetInnerHTML={{__html : hotel_url3}}></span>
                                 <button className="main-btn" style={{position:'absolute', top : '430px', left:'170px'}} 
-                                    onClick={() => setModal(true)}>사진 모두 보기
+                                    onClick={() => navigate("/host/hotel/HotelImage", {
+                                        state : {
+                                            HoIdx : HoIdx,
+                                            dIdx : dIdx
+                                        }
+                                    })}> <FileEarmarkImage size={18} /> 사진 모두 보기
                                 </button>
-                             
                             </div>
                         </div>
                       
