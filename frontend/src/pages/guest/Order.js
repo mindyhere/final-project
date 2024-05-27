@@ -54,7 +54,7 @@ function Order() {
     //포인트사용
     const [finalamount,setFinalamount] = useState(fprice);
     const [pointAmount,setPointAmount] = useState(0);
-
+    console.log("최종금액==="+finalamount);
     const PointAmount = (e) => {
         setPointAmount(e.target.value);
     }
@@ -130,15 +130,10 @@ function Order() {
             storeId: 'store-af69f2fa-5d38-4271-b9ad-44d9dc389ecd',
             paymentId: `payment-${crypto.randomUUID()}`,
             payMethod: method,
-            //payMethod: 'EASY_PAY',
-            //channelKey: 'channel-key-79aea003-5c79-4b37-a303-c271c68f7456',
-            //channelKey: 'channel-key-ac36bf36-f116-42b5-90cf-0d78e5edda2f',
             channelKey : channel,
             currency: 'KRW',
             totalAmount: 100,
             orderName: hotel.ho_name,
-            //pg: 'nice_v2', //pg사
-            //pg: 'kakaopay',
             pg: pgs,
             customer: {
                 email: data.dto.g_email,
@@ -162,7 +157,6 @@ function Order() {
                 }
             });
         } else {
-            alert("결제성공");
             const form = new FormData();
             form.append('idx',idx.key);
             form.append('dIdx',dIdx);
@@ -173,7 +167,7 @@ function Order() {
             form.append('baby',baby);
             form.append('pay',pay);
             form.append('dprice',dprice);
-            form.append('fprice',fprice);
+            form.append('fprice',finalamount);
             if (pointAmount !== null || pointAmount === 0) {
                 form.append('usePoint',pointAmount);
                 form.append('rePoint',(data.dto.g_point - pointAmount));
@@ -367,7 +361,7 @@ function Order() {
                             <h4>할인적용</h4>
                             <br></br>
                             <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
-                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount} disabled></input>
+                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} disabled></input>
                             <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
                             {modalOpen1 && (
                                     <div
@@ -401,12 +395,12 @@ function Order() {
                                                 <div style={{marginBottom: '5px',marginTop:'5px'}} className={"modal-scrollable"}>
                                                     <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'80px', padding:'9px'}}>
                                                         <div className="form-check">
-                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={[item.Gcidx,dprice * (item.Cbenefit/100)]} onClick={(e) => GetCoupon(e)}></input>
+                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={[item.Gcidx,Math.trunc(dprice * (item.Cbenefit/100))]} onClick={(e) => GetCoupon(e)}></input>
                                                             <label className="form-check-label" for="saleprice">
                                                                 <tr>
                                                                     <td style={{fontWeight:'bold'}}>{item.Cname}</td>
                                                                     <td>{item.Cbenefit}%</td>
-                                                                    <td>&nbsp;{'('}{(dprice * (item.Cbenefit/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원{')'}</td>
+                                                                    <td>&nbsp;{'('}{Math.trunc(dprice * (item.Cbenefit/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원{')'}</td>
                                                                     {/* onChange={(e) => setCouponIdx(e.target.value)}*/}
                                                                 </tr>
                                                                 <tr>
@@ -419,13 +413,13 @@ function Order() {
                                             ))}
                                             <br></br>
                                             <div align='center'>
-                                                <button className='btn btn-outline-dark' onClick={()=>handleCoupon()}>{couponAmount}원 적용하기</button>
+                                                <button className='btn btn-outline-dark' onClick={()=>handleCoupon()}>{couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 적용하기</button>
                                             </div>
                                         </div>
                                     </div>
                                     )}
-                            <hr></hr>
-                            
+                                    <br></br>
+                                    <br></br>
                             <div className="row">
                                 <div className="col">
                                     <h5 style={{marginBottom: '16px'}}>포인트</h5>

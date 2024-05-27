@@ -57,6 +57,7 @@ public class ChatroomController {
 		List<MessageDTO> dto = new ArrayList<>();
 		if (type.equals("guest")) {
 			dto = dao.g_list(sender);
+			System.out.println(dto);
 			for (int i = 0; i < dto.size(); i++) {
 				String pro = "http://localhost/static/images/host/profile/" + dto.get(i).getH_profile();
 				dto.get(i).setH_profile(pro);
@@ -99,11 +100,9 @@ public class ChatroomController {
 		   catch ( UnknownHostException e ) {
 		      e.printStackTrace();
 		   }
-		  String ip = local.getHostAddress();
-		  System.out.println("아이피==="+ip);
 		Map<String, Object> map = new HashMap<>();
-		map.put("ip", ip);
 		map.put("dto", dto);
+		// System.out.println(dto);
 		return map;
 	}
 	

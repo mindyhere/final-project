@@ -40,6 +40,7 @@ public class ReservController {
 		Date ck = new Date();
 		List<Map<String, Object>> after = new ArrayList<>();
 		List<Map<String, Object>> before = new ArrayList<>();
+		List<Map<String, Object>> be = new ArrayList<>();
 		List<Map<String, Object>> review = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
 		for (int i = 0; i < dto.size(); i++) {
@@ -59,7 +60,7 @@ public class ReservController {
 				map1.put("HoName", dto.get(i).getHo_name());
 				map1.put("OdIdx", dto.get(i).getO_didx());
 				before.add(map1);
-				System.out.println("비포"+before);
+				//System.out.println("비포"+before);
 			} else {
 				Map<String, Object> map2 = new HashMap<>();
 				// map2.put("HoIdx", dto.get(i).getD_ho_idx());
@@ -72,7 +73,6 @@ public class ReservController {
 				map2.put("HoName", dto.get(i).getHo_name());
 				map2.put("OdIdx", dto.get(i).getO_didx());
 				after.add(map2);
-				System.out.println("애프터" + after);
 			}
 		}
 		List<ReservDTO> dto3 = dao.reservReview(g_idx);
@@ -89,8 +89,12 @@ public class ReservController {
 			review.add(map3);
 
 		}
+		for (int i = before.size()-1; i >= 0; i--) {
+			be.add(before.get(i));
+			// System.out.println(be);
+		}
 		map.put("review", review);
-		map.put("before", before);
+		map.put("before", be);
 		map.put("after", after);
 		// System.out.println(map);
 		return map;

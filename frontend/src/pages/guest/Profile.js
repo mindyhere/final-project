@@ -48,6 +48,7 @@ function Profile() {
     const previous2 = useCallback(() => slickRef2.current.slickPrev(), []);
     const next2 = useCallback(() => slickRef2.current.slickNext(), []);
 
+    const [sliderActive,setSliderActive] = useState(true);
     const settings = {
         dots: false,
         infinite: false,
@@ -177,8 +178,8 @@ if(loading||loading1||loading2){
                                          </div>
                                         <a className="nav-link active">
                                             <div className={"btn-wrapper2"}>
-                                                <a className={"modal-open-btn"}
-                                                onClick={() => setModalOpen1(true)}>본인 인증 절차 자세히 알아보기</a>
+                                                <a className={"modal-open-btn"} style={{textDecoration:'underline',cursor: 'pointer'}}
+                                                onClick={() => {setModalOpen1(true); setSliderActive(false);}}>본인 인증 절차 자세히 알아보기</a>
                                             </div>
                                             </a>
                                             {modalOpen1 && (
@@ -188,6 +189,7 @@ if(loading||loading1||loading2){
                                                 onClick={(e) => {
                                                 if (e.target === modalBackground.current) {
                                                     setModalOpen1(false);
+                                                    setSliderActive(true);
                                                 }
                                                 }}
                                             >
@@ -201,7 +203,15 @@ if(loading||loading1||loading2){
 
                                     </div>
                                 </div>
-                                <br></br><br></br><br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <br></br>
                             </div>
                     </div>
                     </div>
@@ -228,6 +238,7 @@ if(loading||loading1||loading2){
                                     </div>
                                   </div>
                                   &nbsp;
+                                  {sliderActive && (
                                     <div className="card-style mb-30">
                                         <Slider1 {...settings} ref={slickRef}>
                                             {replylist.map(({G_idx,H_idx,H_profile,H_name,Rp_date,Rp_content}) => (
@@ -243,6 +254,7 @@ if(loading||loading1||loading2){
                                             ))}
                                         </Slider1>
                                     </div>
+                                  )}
 
                             
                             {/* <a className="nav-link active">호스트 후기 모두 표시하기
@@ -290,6 +302,7 @@ if(loading||loading1||loading2){
                                     </div>
                                   </div>
                                   &nbsp;
+                                  {sliderActive && (
                                     <div className="card-style mb-30">
                                         <Slider {...settings} ref={slickRef2}>
                                             {reviewlist.map(({G_idx, Rv_idx, H_idx,D_img1,Ho_name,Rv_date,Rv_content}) => (
@@ -306,7 +319,7 @@ if(loading||loading1||loading2){
                                             ))}
                                         </Slider>
                                     </div>
-
+                                  )}
                             {/* <a className="nav-link active">나의 후기 모두 표시하기
                                 <div className={"btn-wrapper2"}>
                                     <a className={"modal-open-btn"}
@@ -330,6 +343,9 @@ if(loading||loading1||loading2){
                                 </div>
                             </div>
                             )} */}
+                            <br></br>
+                            <br></br>
+                            <br></br>
                             <br></br>
                         </div> 
                     </div>
