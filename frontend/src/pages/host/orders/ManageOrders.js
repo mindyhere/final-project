@@ -37,14 +37,13 @@ function ManageOrders() {
   function getList(hoIdx, pageNum, sort) {
     let url = "";
     console.log(
-      "==> page? " + pageNum + ", sort? " + sort + ", hoIdx? " + hoIdx
+      "=> page? " + pageNum + ", sort? " + sort + ", hoIdx? " + hoIdx
     );
     if (pageNum != "0") {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}&sort=${sort}`;
     } else {
       url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1&sort=0`;
     }
-    // console.log("==> 리스트: " + hoIdx + ", page " + pageNum + "/ url? " + url);
     fetch(url)
       .then((response) => {
         return response.json();
@@ -56,7 +55,6 @@ function ManageOrders() {
         setOrders(data.list);
         setHotels(data.hotels);
         setSort(data.sort);
-        // console.log("==> data: " +JSON.stringify(data.list));
       });
   }
 
@@ -65,23 +63,19 @@ function ManageOrders() {
   }, [hoIdx, pageNum]);
 
   const handleHotelChange = (idx) => {
-    // console.log("==> 클릭? " + idx);
     setHotelIdx(idx);
+    setSort(0);
     getList(idx, 1, 0);
     hotels.map(({ ho_idx }) => {
-      // console.log("==> 반복처리 :" + ho_idx);
       if (ho_idx != idx) {
         document.querySelector(".hotel" + ho_idx).classList.remove("active");
       } else {
         document.querySelector(".hotel" + ho_idx).classList.add("active");
       }
-      let e = document.querySelector(".hotel" + ho_idx);
-      // console.log("==> 결과" + e.className);
     });
   };
 
   const handleModal = (value, event) => {
-    console.log("=> 핸들러?" + typeof value + ", " + value + ", " + event);
     event == "order" ? setOderItem(!order) : setDetailSchedule(!detail);
     isSelected(value);
   };
@@ -226,6 +220,7 @@ function ManageOrders() {
                       <th scope="col">예약일</th>
                       <th
                         scope="col"
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
                           getList(hoIdx, `${pageNum}`, 1);
                         }}
@@ -383,7 +378,6 @@ function ManageOrders() {
                   >
                     <DetailSchedule
                       date={selected}
-                      // column={"o_ckin"}
                       style={{ position: "relative", zIndex: "100" }}
                     />
                   </Modal>

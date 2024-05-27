@@ -35,7 +35,7 @@ public class OrderController {
 			@RequestParam(name = "hoIdx", defaultValue = "0") int ho_idx,
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
 			@RequestParam(name = "sort", defaultValue = "0") int sort) {
-		System.out.println("==> sort? " + sort + ", pageNum? " + pageNum + ", ho_idx? " + ho_idx);
+//		System.out.println("==> sort? " + sort + ", pageNum? " + pageNum + ", ho_idx? " + ho_idx);
 		Map<String, Object> data = new HashMap<>();
 
 		Map<String, Object> map = new HashMap<>();
@@ -64,7 +64,6 @@ public class OrderController {
 				data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 			}
 		}
-		System.out.println("==> 리턴? 카운트= " + cnt + ", list=  " + data.get("list"));
 		return data;
 	}
 
