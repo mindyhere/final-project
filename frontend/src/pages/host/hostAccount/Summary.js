@@ -68,11 +68,24 @@ function Summary() {
         className="card-style mb-3"
         style={{ height: "120px" }}
       >
-        <Slider {...settings} ref={slick}>
-          {stars.map((item, ho_idx) => (
-            <StarItem key={ho_idx} ho_name={item.ho_name} avg={item.avg} />
-          ))}
-        </Slider>
+        {stars.length > 0 ? (
+          <Slider {...settings} ref={slick}>
+            {stars.map((item, ho_idx) => (
+              <StarItem key={ho_idx} ho_name={item.ho_name} avg={item.avg} />
+            ))}
+          </Slider>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <h4 style={{ textAlign: "left", marginBottom: "6%" }}>
+              조회된 내역이 없습니다
+            </h4>
+            <span>
+              <h3 style={{ textAlign: "right" }}>
+                <StarFill size={24} /> -
+              </h3>
+            </span>
+          </div>
+        )}
       </div>
       <div className="card-style mb-3" style={{ height: "120px" }}>
         <span>
@@ -88,13 +101,11 @@ function Summary() {
       <div className="card-style" style={{ height: "120px" }}>
         <span>
           <h4 style={{ textAlign: "left", marginBottom: "6%" }}>
-          전체 리뷰 {totReviews} 건
+            전체 리뷰 {totReviews} 건
           </h4>
         </span>
         <span>
-          <h3 style={{ textAlign: "right" }}>
-            &nbsp;답글 미등록 {noReply}건
-          </h3>
+          <h3 style={{ textAlign: "right" }}>&nbsp;답글 미등록 {noReply}건</h3>
         </span>
       </div>
     </>

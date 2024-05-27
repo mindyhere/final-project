@@ -8,7 +8,7 @@ import ko from "date-fns/locale/ko";
 import { format, subDays} from "date-fns";
 import { Dropdown } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../asset/css/datepicker.css";
+import "../../../asset/css/datepicker.css";
 import Cookies from "universal-cookie";
 
 function useFetch(url) {

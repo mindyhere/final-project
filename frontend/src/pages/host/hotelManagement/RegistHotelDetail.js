@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import RegistRoomDetail from "./RegistRoomDetail";
+import { tr } from "date-fns/locale";
 
 function RegistHotelDetail() {
     const navigate = useNavigate();
@@ -125,8 +126,9 @@ function RegistHotelDetail() {
                 </div>
                 <hr />
                 <h3><InfoCircle size={30} /> 호텔의 객실 정보를 알려주세요</h3>
-                <div style={{textAlign : 'right'}}>
-                    <button className="main-btn z-0" onClick={() => setModal(true)}>추가</button>
+                &nbsp;&nbsp;<span style={{color:'red', fontWeight : 'bold'}}>※ 싱글룸 등록 필수 </span>
+                <div style={{textAlign : 'right'}}>    
+                    <button className="main-btn z-0" style={{textAlign:'right'}} onClick={() => setModal(true)}>추가</button>
                 </div>
                 {modal && (
                     <Modal closeModal={() => {setModal(!modal);}}>
@@ -179,51 +181,77 @@ function RegistHotelDetail() {
 
                 <div className="mt-50" style={{textAlign : 'center'}}>
                     <button className="main-btn z-0" style={{zIndex: 0}}  onClick={() => {
-                        // 체크리스트 확인
-                        // if(checkItems.length == 0){
-                        //     Swal.fire({
-                        //         icon : 'warning',
-                        //         text: '선택하신 내용이 없습니다. 이대로 등록할까요?',
-                        //         showCancelButton : true,
-                        //         confirmButtonText: '확인',
-                        //         cancelButtonText : '취소'
-                        //     }).
-                        // 싱글룸 필수
-                        const form = new FormData();
-                        form.append('ht_idx', htIdx);
-                        form.append('ht_h_idx', userIdx);
-                        form.append('checkItems', checkItems);
-                        form.append('list', JSON.stringify(lists));
+                       let what = lists.some(el => {
+                            return el.roomType == '싱글룸';
+                        });
 
-
-                        //if(JSON.stringify(lists.dImg1).files.length > 0){
-                           // form.append('dImg1', JSON.stringify(lists.dImg1).files[0]);
-                        //}
-                        // if(d_img2.current.files.length > 0){
-                        //     form.append('d_img2', d_img2.current.files[0]);
-                        // }
-                        // if(d_img3.current.files.length > 0){
-                        //     form.append('d_img3', d_img3.current.files[0]);
-                        // }
-                        fetch('http://localhost/host/hotel/registHotelDetail', {
-                            method : 'POST',
-                            encType : 'multipart/form-data',
-                            body : form
-                        }).then(() => {
+                        if(checkItems.length == 0){
                             Swal.fire({
-                                icon: "success",
-                                title: '등록 완료',
-                                text: '호텔 등록이 완료되었습니다. 관리자 승인을 기다려주세요.',
+                                icon : 'warning',
+                                text: '선택한 편의시설이 없습니다. 이대로 등록할까요?',
+                                showCancelButton : true,
+                                confirmButtonText: '확인',
+                                cancelButtonText : '취소'
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    return;
+                                }
+                            })
+                        } else if(lists.length == 0){
+                            Swal.fire({
+                                icon : 'warning',
+                                text: '등록된 객실이 없습니다.',
                                 confirmButtonText: '확인'
                             }).then((result) => {
                                 if(result.isConfirmed){
-                                    navigate('/host/hotel/MyhotelList');
+                                    return;
                                 }
-                            });
-                        })
+                            })
+                        } else if(!what){
+                            Swal.fire({
+                                icon : 'warning',
+                                text: '객실 유형 중 싱글룸은 필수 입력값입니다.',
+                                confirmButtonText: '확인'
+                            }).then((result) => {
+                                if(result.isConfirmed){
+                                    return;
+                                }
+                            })
+                        } else {
+                            const form = new FormData();
+                            form.append('ht_idx', htIdx);
+                            form.append('ht_h_idx', userIdx);
+                            form.append('checkItems', checkItems);
+                            form.append('list', JSON.stringify(lists));
+                            //if(JSON.stringify(lists.dImg1).files.length > 0){
+                            // form.append('dImg1', JSON.stringify(lists.dImg1).files[0]);
+                            //}
+                            // if(d_img2.current.files.length > 0){
+                            //     form.append('d_img2', d_img2.current.files[0]);
+                            // }
+                            // if(d_img3.current.files.length > 0){
+                            //     form.append('d_img3', d_img3.current.files[0]);
+                            // }
+                            fetch('http://localhost/host/hotel/registHotelDetail', {
+                                method : 'POST',
+                                encType : 'multipart/form-data',
+                                body : form
+                            }).then(() => {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: '등록 완료',
+                                    text: '호텔 등록이 완료되었습니다. 관리자 승인을 기다려주세요.',
+                                    confirmButtonText: '확인'
+                                }).then((result) => {
+                                    if(result.isConfirmed){
+                                        navigate('/host/hotel/MyhotelList');
+                                    }
+                                });
+                            })
+                        }
                     }}>등록 신청하기</button>
                     &nbsp;
-                    <button className="main-btn z-0" style={{zIndex: 0}}  onClick={() => {
+                    {/* <button className="main-btn z-0" style={{zIndex: 0}}  onClick={() => {
                         Swal.fire({
                             icon: "warning",
                             title: '잠깐!',
@@ -236,7 +264,7 @@ function RegistHotelDetail() {
                                 navigate('/host/hotel/registHotel');
                             }
                         })
-                    }}>뒤로 가기</button>
+                    }}>뒤로 가기</button> */}
                 </div>
             </div>
         </div>

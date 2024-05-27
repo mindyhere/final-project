@@ -59,10 +59,8 @@ public class OrderDAOImpl implements OrderDAO {
 					}
 					// 금액 1000단위 포맷
 					String o_price = df.format(m.get("o_price"));
-					String o_discount = df.format(m.get("o_discount"));
 					String o_finalprice = df.format(m.get("o_finalprice"));
 					m.replace("o_price", o_price);
-					m.replace("o_discount", o_discount);
 					m.replace("o_finalprice", o_finalprice);
 
 					String o_payment = (String) m.get("o_payment");
@@ -83,7 +81,6 @@ public class OrderDAOImpl implements OrderDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.out.println("==> DAO리스트? " + list);
 		return list;
 	}
 
@@ -183,10 +180,10 @@ public class OrderDAOImpl implements OrderDAO {
 		DecimalFormat df = new DecimalFormat("###,###");
 		// 금액 1000단위 포맷
 		String o_price = df.format(item.get("o_price"));
-		String o_discount = df.format(item.get("o_discount"));
+		String discount = df.format(item.get("discount"));
 		String o_finalprice = df.format(item.get("o_finalprice"));
 		item.replace("o_price", o_price);
-		item.replace("o_discount", o_discount);
+		item.replace("discount", discount);
 		item.replace("o_finalprice", o_finalprice);
 
 		// 결제수단 코드 변환
@@ -219,10 +216,10 @@ public class OrderDAOImpl implements OrderDAO {
 				for (Map<String, Object> item : list) {
 					// 금액 1000단위 포맷
 					String o_price = df.format(item.get("o_price"));
-					String o_discount = df.format(item.get("o_discount"));
+					String discount = df.format(item.get("discount"));
 					String o_finalprice = df.format(item.get("o_finalprice"));
 					item.replace("o_price", o_price);
-					item.replace("o_discount", o_discount);
+					item.replace("discount", discount);
 					item.replace("o_finalprice", o_finalprice);
 					// 결제수단 코드 변환
 					String o_payment = (String) item.get("o_payment");

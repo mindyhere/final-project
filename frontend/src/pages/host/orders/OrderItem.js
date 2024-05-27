@@ -25,14 +25,15 @@ function OrderItem({
   status,
   o_payment,
   o_price,
-  o_discount,
+  discount,
   o_finalprice,
-  o_benefit,
   o_orderdate,
   g_email,
   g_name,
   g_phone,
   handleModal,
+  setIndex,
+  index,
 }) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
@@ -40,12 +41,10 @@ function OrderItem({
   const userEmail = userInfo.h_email;
   const userName = userInfo.h_name;
   const level = userInfo.h_level;
-  // const [more, setMoreInfo] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
 
-  const Collapsible = () => {
-    console.log("=> 클릭? " + o_idx);
-    if (!isCollapsed) {
+  const Collapsible = ({ idx }) => {
+    if (index === idx) {
       return (
         <>
           <tr className="align-middle detail-row">
@@ -54,8 +53,10 @@ function OrderItem({
               &nbsp;&nbsp;|&nbsp;&nbsp;총 {sum}명
             </td>
             <td colSpan="4">
-              <b>결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;({o_price}\ x 1박) - (
-              {o_discount}\ 할인적용)&nbsp;&nbsp;=&nbsp;&nbsp;총 {o_finalprice}\
+              <b>결제금액</b>&nbsp;&nbsp;:&nbsp;&nbsp;({o_price}\ x 1박,
+              수수료별도) - ({discount}\ 할인적용)&nbsp;&nbsp;
+              <br />
+              =&nbsp;&nbsp;총 {o_finalprice}\
             </td>
           </tr>
         </>
@@ -83,12 +84,10 @@ function OrderItem({
     status: `${status}`,
     o_payment: `${o_payment}`,
     o_price: `${o_price}`,
-    o_discount: `${o_discount}`,
+    discount: `${discount}`,
     o_finalprice: `${o_finalprice}`,
-    o_benefit: `${o_benefit}`,
     o_orderdate: `${o_orderdate}`,
   };
-  // console.log("==> list? " + JSON.stringify(dataset));
 
   function handleDateCheck(ckin) {
     const today = moment().format("YYYY-MM-DD");
@@ -102,7 +101,6 @@ function OrderItem({
   const handleChangeState = () => {
     switch (o_state) {
       case "1":
-        console.log("test1" + o_state + "/ " + o_idx);
         Swal.fire({
           icon: "question",
           title: "Check",
@@ -266,7 +264,8 @@ function OrderItem({
           <td
             style={{ cursor: "pointer", backgroundColor: "#f7effc" }}
             onClick={() => {
-              setCollapsed(!isCollapsed);
+              setIndex(o_idx);
+              isCollapsed ? setCollapsed(false) : setCollapsed(true);
             }}
             title={isCollapsed ? "더보기" : null}
           >
@@ -296,10 +295,7 @@ function OrderItem({
             </th>
           )}
         </tr>
-        {!isCollapsed && <Collapsible />}
-        {/* <tr className="align-middle detail-row">
-          <td colSpan="8">test</td>
-        </tr> */}
+        {isCollapsed == false && <Collapsible idx={o_idx} />}
       </>
     );
   }
