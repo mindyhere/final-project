@@ -7,14 +7,23 @@ from
 	(select @rownum:=@rownum+1 AS rownum, v.* 
 	from v_host_order v, (select @rownum:=0) tmp
 <choose>
-	<when test="ho_idx == 0"> <!-- 최초접속 -->
-		where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
-	</when>
-	<otherwise> <!-- 전체조회 -->
-		where ho_idx = #{ho_idx}
-	</otherwise>
-</choose>
-	order by @rownum desc) A
+  <when test="sort==0">
+	<choose>
+		<when test="ho_idx == 0"> <!-- 최초접속 -->
+			where ho_idx = (select ho_idx from hotel where ho_h_idx=#{h_idx} LIMIT 1)
+		</when>
+		<otherwise> <!-- 전체조회 -->
+			where ho_idx = #{ho_idx}
+		</otherwise>
+	</choose>
+		order by @rownum desc) A
+  </when>
+  <otherwise>
+  		where ho_idx = #{ho_idx}
+  		order by o_state desc, o_idx desc) A
+  	order by rownum desc	
+  </otherwise>		
+</choose>			
 	limit #{start}, 10
 </select>
 

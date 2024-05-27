@@ -89,10 +89,10 @@ function EditHostInfo() {
   let profile_src = "";
   if (data.h_profile !== "-" && data.h_profile !== "") {
     url = `http://localhost/static/images/host/profile/${data.h_profile}`;
-    profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
+    profile_src = `<img src=${url} width="250px" style={{backgroundSize:"contain";}} />`;
   } else {
     profile_src =
-      "<img src='http://localhost/static/images/no-image.png' width='30%'/>";
+      "<img src='http://localhost/static/images/no-image.png' width='230px'/>";
   }
 
   return (
@@ -103,10 +103,10 @@ function EditHostInfo() {
           &nbsp;회원정보수정
         </h3>
         <hr />
-        <div className="card-style mb-30">
+        <div className="card-style mb-5">
           <div className="row">
             <div
-              className="update-image col-4"
+              className="col-4"
               dangerouslySetInnerHTML={{ __html: profile_src }}
               style={{
                 display: "block",
