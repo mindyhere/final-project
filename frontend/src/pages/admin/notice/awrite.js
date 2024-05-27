@@ -31,6 +31,7 @@ function Awrite() {
         text: '모든 필드를 입력해주세요.',
         icon: 'error',
         confirmButtonText: '확인',
+        confirmButtonColor: '#41774d86',
       });
       return;
     }
@@ -42,35 +43,56 @@ function Awrite() {
     form.append('n_date', n_date.current.value);
     form.append('n_file', n_file.current.files[0]);
 
-    if (window.confirm('등록하시겠습니까?')) {
-      fetch(`http://localhost/notice/insert`, {
-        method: 'POST',
-        body: form,
-      })
-        .then((response) => {
-          if (response.ok) {
-            Swal.fire({
-              title: '등록 완료되었습니다',
-              text: '공지 목록 화면으로 이동합니다.',
-              icon: 'success',
-              confirmButtonText: '확인',
-            });
-            navigate('/admin/notice/alist');
-          } else {
+    Swal.fire({
+      title: '등록 확인',
+      text: '공지사항을 등록하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '등록',
+      cancelButtonText: '취소',
+      confirmButtonColor: '#41774d86',
+      cancelButtonColor: '#838383d2'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost/notice/insert`, {
+          method: 'POST',
+          body: form,
+        })
+          .then((response) => {
+            if (response.ok) {
+              Swal.fire({
+                title: '등록 완료',
+                text: '공지 목록 화면으로 이동합니다.',
+                icon: 'success',
+                confirmButtonText: '확인',
+                confirmButtonColor: '#41774d86',
+              }).then(() => {
+                navigate('/admin/notice/alist');
+              });
+            } else {
+              Swal.fire({
+                title: '에러 발생',
+                text: '처리 중 문제가 발생했습니다.',
+                icon: 'error',
+                confirmButtonText: '확인',
+                confirmButtonColor: '#41774d86',
+              });
+            }
+          })
+          .catch((error) => {
+            console.error('Error inserting notice:', error);
             Swal.fire({
               title: '에러 발생',
-              text: '처리 중 문제가 발생했습니다.',
+              text: '공지사항 등록 중 문제가 발생했습니다.',
               icon: 'error',
               confirmButtonText: '확인',
+              confirmButtonColor: '#41774d86',
             });
-          }
-        })
-        .catch((error) => {
-          console.error('Error inserting notice:', error);
-        });
-    }
+          });
+      }
+    });
   };
-
+  
   return (
     <>
       <hr/>

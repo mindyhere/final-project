@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../admin/css/astyles.css';
 import { Check2Square, PersonVcard } from 'react-bootstrap-icons';
+import Swal from 'sweetalert2';
 
 function Ahost() {
     const searchkey = useRef();
@@ -31,49 +32,96 @@ function Ahost() {
             const form = new FormData();
             form.append('h_file', h_file);
             form.append('h_idx', h_idx);
-            if (window.confirm('사업자 가입을 승인하시겠습니까?')) {
-                window.alert('사업자 등록증 확인하기');
-    
-                fetch(`http://localhost/admin/approve`, {
-                    method: 'post',
-                    body: form,
-                }).then(response => {
-                    if (response.ok) {
-                        if (h_file.length === 1) {
-                            window.alert('사업자 등록증이 없습니다.');
-                            return;
-                        }
-                        window.open(`http://localhost/static/images/host/profile/${h_file}`, 'width=500,height=500');
-                        return response.text();
-                    }
-                    throw new Error('Error.');
-                })
-                .then(message => {
-                    if (message === 'success') {
-                        const updatedAhitem = ahitem.map(item => {
-                            if (item.h_idx === h_idx) {
-                                return { ...item, h_status: '승인완료' };
-                            }
-                            return item;
+
+            Swal.fire({
+                title: '가입 승인',
+                text: '사업자 가입을 승인하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '승인',
+                cancelButtonText: '취소',
+                confirmButtonColor: '#41774d86',
+                cancelButtonColor: '#838383d2'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (h_file.length === 1) {
+                        Swal.fire({
+                            title: '사업자 등록증 확인 불가',
+                            text: '사업자 등록증이 없습니다.',
+                            icon: 'error',
+                            confirmButtonColor: '#41774d86'
                         });
-                        setAhitem(updatedAhitem);
-                        setMessage(message);
-                        window.alert('승인완료되었습니다.');
-                    } else if (message === 'fail') {
-                        window.alert('사업자 등록증이 없습니다.');
+                        return;
                     }
-                })
-                .catch(error => {
-                    console.error('Error', error);
-                    window.alert('사업자 가입 승인에 실패했습니다.');
-                });
-            }
+                    
+                    Swal.fire({
+                        title: '사업자 등록증 확인',
+                        text: '',
+                        imageUrl: `http://localhost/static/images/host/profile/${h_file}`,
+                        imageWidth: 400,
+                        imageHeight: 400,
+                        showCancelButton: true,
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소',
+                        confirmButtonColor: '#41774d86',
+                        cancelButtonColor: '#838383d2'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`http://localhost/admin/approve`, {
+                                method: 'post',
+                                body: form,
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.text();
+                                }
+                                throw new Error('Error.');
+                            }).then(message => {
+                                if (message === 'success') {
+                                    const updatedAhitem = ahitem.map(item => {
+                                        if (item.h_idx === h_idx) {
+                                            return { ...item, h_status: '승인완료' };
+                                        }
+                                        return item;
+                                    });
+                                    setAhitem(updatedAhitem);
+                                    setMessage(message);
+                                    Swal.fire({
+                                        title: '승인 완료',
+                                        text: '사업자 가입이 승인되었습니다.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#41774d86'
+                                    });
+                                } else if (message === 'fail') {
+                                    Swal.fire({
+                                        title: '등록증 없음',
+                                        text: '사업자 등록증이 없습니다.',
+                                        icon: 'error',
+                                        confirmButtonColor: '#41774d86'
+                                    });
+                                }
+                            }).catch(error => {
+                                console.error('Error', error);
+                                Swal.fire({
+                                    title: '에러 발생',
+                                    text: '사업자 가입 승인에 실패했습니다.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#41774d86'
+                                });
+                            });
+                        }
+                    });
+                }
+            });
         } else if (h_status === '가입완료') {
-            window.alert('승인 요청을 하지 않았습니다.');
+            Swal.fire({
+                title: '승인 요청 없음',
+                text: '승인 대기 상태가 아닙니다.',
+                icon: 'info',
+                confirmButtonColor: '#41774d86'
+            });
         }
     };
 
-    // 버튼 디자인
     const getButtonClass = (h_status) => {
         switch (h_status) {
             case '승인완료':
@@ -87,7 +135,6 @@ function Ahost() {
         }
     };
 
-    // 상태 값 변경
     const getButtonLabel = (h_status) => {
         switch (h_status) {
             case '승인완료':
@@ -162,7 +209,7 @@ function Ahost() {
                                                 <td>{list.h_regdate}</td>
                                                 <td>{list.h_level}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, 'width=500,height=500')}>
+                                                    <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, '', 'width=500,height=500')}>
                                                         {list.h_file}
                                                     </button>
                                                 </td>

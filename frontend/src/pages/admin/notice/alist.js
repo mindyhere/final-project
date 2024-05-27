@@ -40,35 +40,56 @@ function NoticeList() {
   };
 
   const handleDelete = (n_idx) => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      fetch(`http://localhost/notice/delete?n_idx=${n_idx}`, {
-        method: 'POST'
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.result === 'success') {
-            Swal.fire({
-              title: '삭제 완료',
-              showCancelButton: false,
-              confirmButtonText: '확인',
-            }).then(() => {
-              fetchNotices();
-            });
-          } else {
+    Swal.fire({
+      title: '삭제 확인',
+      text: '공지사항을 삭제하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#41774d86',
+      cancelButtonColor: '#838383d2',
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost/notice/delete?n_idx=${n_idx}`, {
+          method: 'POST'
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.result === 'success') {
+              Swal.fire({
+                title: '삭제 완료',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: '확인',
+                confirmButtonColor: '#41774d86'
+              }).then(() => {
+                fetchNotices();
+              });
+            } else {
+              Swal.fire({
+                title: '에러 발생',
+                text: '관리자에게 문의하세요',
+                showCancelButton: false,
+                confirmButtonText: '확인',
+                confirmButtonColor: '#41774d86'
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error deleting notice:', error);
             Swal.fire({
               title: '에러 발생',
-              text: '관리자에게 문의하세요',
+              text: '삭제 중 오류가 발생했습니다.',
+              icon: 'error',
               showCancelButton: false,
               confirmButtonText: '확인',
+              confirmButtonColor: '#41774d86'
             });
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting notice:', error);
-        });
-    }
+          });
+      }
+    });
   };
-
   return (
     <> 
     <hr/>
@@ -131,7 +152,7 @@ function NoticeList() {
                   <tr>
                     <th className='col-1 text-center'>#</th>
                     <th className='col-2 text-center'>제목</th>
-                    <th className='col text-center'>내용</th>
+                    <th className='col text-center'>내용</th>               
                     <th className='col-2 text-center'>작성자</th>
                     <th className='col-2 text-center'>작성일</th>
                     <th className='col-1 text-center'>수정</th>

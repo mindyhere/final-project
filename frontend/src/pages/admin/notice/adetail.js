@@ -14,6 +14,7 @@ function Adetail() {
     const n_title = useRef();
     const n_content = useRef();
     const n_date = useRef();
+    const n_file = useRef(); 
 
     useEffect(() => {
         fetch(`http://localhost/notice/detail/${n_idx}`)
@@ -34,6 +35,7 @@ function Adetail() {
             });
     }, [n_idx]);
 
+
     const btnadetail = (event) => {
         event.preventDefault();
 
@@ -47,42 +49,51 @@ function Adetail() {
             return;
         }
 
-        const formData = new URLSearchParams();
-        formData.append("n_writer", notice.n_writer);
-        formData.append("n_title", n_title.current.value);
-        formData.append("n_content", n_content.current.value);
-        formData.append("n_date", n_date.current.value);
+        Swal.fire({
+            title: '수정 확인',
+            text: '공지 내용을 수정하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '수정',
+            cancelButtonText: '취소',
+            confirmButtonColor: '#41774d86',
+            cancelButtonColor: '#838383d2'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const formData = new FormData();
+                formData.append("n_writer", notice.n_writer);
+                formData.append("n_title", n_title.current.value);
+                formData.append("n_content", n_content.current.value);
+                formData.append("n_date", n_date.current.value);
 
-        if (window.confirm('수정하시겠습니까?')) {
-            fetch(`http://localhost/notice/update/${n_idx}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString(),
-            })
-            .then((response) => {
-                if (response.ok) {
-                    Swal.fire({
-                        title: '수정 완료되었습니다',
-                        text: '공지 목록 화면으로 이동합니다.',
-                        icon: 'success',
-                        confirmButtonText: '확인',
-                    });
-                    navigate('/admin/notice/alist');
-                } else {
-                    Swal.fire({
-                        title: '에러 발생',
-                        text: '처리 중 문제가 발생했습니다.',
-                        icon: 'error',
-                        confirmButtonText: '확인',
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error('Error updating notice:', error);
-            });
-        }
+                fetch(`http://localhost/notice/update/${n_idx}`, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: '수정 완료',
+                            text: '공지가 성공적으로 수정되었습니다.',
+                            icon: 'success',
+                            confirmButtonColor: '#41774d86',
+                        }).then(() => {
+                            navigate('/admin/notice/alist');
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '에러 발생',
+                            text: '처리 중 문제가 발생했습니다.',
+                            icon: 'error',
+                            confirmButtonColor: '#41774d86',
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error updating notice:', error);
+                });
+            }
+        });
     };
 
     if (loading) {
@@ -143,6 +154,10 @@ function Adetail() {
                                             <tr>
                                                 <td className="col-form-label">작성일자</td>
                                                 <td><textarea className="form-control" id="n_date" rows="1" ref={n_date} defaultValue={notice?.n_date}></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="col-form-label">파일</td>
+                                                <td><textarea  className="form-control" id="n_file" rows="1" ref={n_file} defaultValue={notice?.n_file}></textarea></td>
                                             </tr>
                                             <tr>
                                                 <td className="col-form-label">내용</td>

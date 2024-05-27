@@ -1,25 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Swal from "sweetalert2";
 
-function useFetch(url) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-  return [data, loading];
-}
-
 function RoomDetail(props) {
-  const [data, loading] = useFetch('');
   const [rdo, setRadio] = useState(props.smoking);
   const d_capacity = useRef();
   const d_area = useRef();
@@ -34,9 +16,6 @@ function RoomDetail(props) {
     setRadio(e.target.value);
   }
 
-  if (loading) {
-    return <div>loading...</div>;
-  } else {
     let smoking = "";
     if (props.smoking == 'Y') {
       smoking = "금연실";
@@ -121,7 +100,7 @@ function RoomDetail(props) {
                       <input
                           className="form-check-input"
                           type="radio"
-                          //name="d_non_smoking"
+                          name="d_non_smoking"
                           ref={d_non_smoking}
                           value="Y"
                           checked={rdo == "Y"}
@@ -136,6 +115,7 @@ function RoomDetail(props) {
                           className="form-check-input"
                           type="radio"
                           ref={d_non_smoking}
+                          name="d_non_smoking"
                           value="N"
                           checked={rdo == "N"}
                           onChange={handleStatusChange}
@@ -159,7 +139,6 @@ function RoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        //multiple = "multiple"
                         ref={d_img1}
                         accept=".jpg,.jpeg,.png,"
                       />
@@ -171,7 +150,6 @@ function RoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        //multiple = "multiple"
                         ref={d_img2}
                         accept=".jpg,.jpeg,.png,"
                       />
@@ -199,20 +177,28 @@ function RoomDetail(props) {
                   Swal.fire({
                     icon: "warning",
                     title: "잠깐!",
-                    text: '호텔 기본정보를 수정하시겠습니까?',
+                    text: '호텔 객실정보를 수정하시겠습니까?',
                     showCancelButton: true,
-                    cancelButtonText: "CANCEL",
-                    confirmButtonText: "CONFIRM",
+                    cancelButtonText: "취소",
+                    confirmButtonText: "확인",
                     showLoaderOnConfirm: true,
                   }).then((result) => {
                     if (result.isConfirmed) {
+                      if(d_capacity.current.value == '' || d_area.current.value == '' || d_beds.current.value == '' || d_price.current.value == ''){
+                      Swal.fire({
+                          icon : 'warning',
+                          title : '잠깐!',
+                          text: '입력되지 않은 항목이 있습니다.',
+                          confirmButtonText: '확인'
+                      })
+                  } else {
                       const form = new FormData();
                       form.append('ho_idx', props.hoIdx);
                       form.append('d_idx', props.dIdx);
                       form.append('d_capacity', d_capacity.current.value);
                       form.append('d_area', d_area.current.value);
                       form.append('d_beds', d_beds.current.value);
-                      form.append('d_non_smoking', d_non_smoking.current.value);
+                      form.append('d_non_smoking', rdo);
                       form.append('d_price', d_price.current.value);
                       if(d_img1.current.files.length > 0){
                         form.append('dImg1', d_img1.current.files[0]);
@@ -227,11 +213,16 @@ function RoomDetail(props) {
                           method: 'POST',
                           body : form
                       }).then(() => {
-                          alert("수정 완료");
-                          window.location.reload();
+                        Swal.fire({
+                          icon: "success",
+                          title : '수정 완료',
+                          text: '객실정보가 수정되었습니다.',
+                          confirmButtonText: '확인'
+                        });
+                        window.location.reload();
                       });
-                    }
-                  });
+                  }}
+                });  
                 }}
               >
                 &nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;
@@ -241,6 +232,7 @@ function RoomDetail(props) {
         </div>
       </>
     );
-  }
-}
+
+};
+
 export default RoomDetail;
