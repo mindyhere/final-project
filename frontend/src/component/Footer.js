@@ -1,7 +1,11 @@
 import React from "react";
 import {useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 function Footer() {
+    const cookies = new Cookies();
+    const navigate = useNavigate();
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
     if (locationNow.pathname === "/guest/write" ||
@@ -9,6 +13,16 @@ function Footer() {
     if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
     if (locationNow.pathname === "/admin/amain" || locationNow.pathname === "/admin/alogin") return null;
 
+      // 관리자 쿠키
+      const a_id = cookies.get("a_id");
+      const btnAdmin = () => {
+          if (a_id != null) {
+              navigate(`/admin/amain`)
+          } else {
+              navigate(`/admin/alogin`)
+          }
+      }
+    
     return (
         <div className="Footer">
             <br/>
@@ -19,7 +33,7 @@ function Footer() {
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>사이트맵</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>한국의 변경된 환불 정책</a>&nbsp;·&nbsp;
                 <a href='#' style={{textDecoration: "none", color: "#262626"}}>회사 세부정보</a>&nbsp;·&nbsp;
-                <a href='/admin/alogin' style={{textDecoration: "none", color: "#262626"}}>관리시스템</a> 
+                <a onClick={btnAdmin} style={{ textDecoration: "none", color: "#262626" }}>관리시스템</a>
                 </div>
            
             <div align="center" style={{fontSize: "10px",color: "grey"}}>
