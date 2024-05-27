@@ -116,7 +116,7 @@
 /* 사업자 페이지 디자인 */
 .custom-select1, .custom-input1 {
   border-radius: 0;
-  border: 2px solid #ced4da;
+  border: 2px solid #6c967aaf;
   font-size: 1rem;
 }
 
@@ -131,17 +131,17 @@
 }
 
 .btn-outline-success1 {
-  color:#448854c4;
-  border-color:  #41774dc4
+  color:#3d745291;
+  border-color:  #3d745291
 }
 
 .btn-outline-success1:hover {
-  background-color:  #448854c4;
+  background-color:  #3d7452b0;
   border-radius: 10px;
 }
 
 .btn-outline-success1:hover {
-  background-color:  #448854e1;
+  background-color:  #3d7452b0;
   border-radius: 10px;
 }
 
@@ -152,18 +152,18 @@
 }
 
 .custom-table1 th {
-  background-color: #e9ecef;
+  background-color: #749c7d6c;
   font-weight: bold;
 }
 
 .custom-table1 td {
-  color: #495057;
+  color: #131614cc;
 }
 
 .btn-success.custom-button1 {
   color: #fff;
-  background-color: #44885441;
-  border-color: #44885441;
+  background-color: #3d745291;
+  border-color: #3d745291;
   border-radius: 10px;
 }
 
@@ -213,10 +213,10 @@
 
 .tbl1 th, .tbl1 td {
   padding: 10px;
-  border-bottom: 1px solid #65886d2d;
+  border-bottom: 1px solid #2f38312d;
 }
 
 .tbl1 th {
-  background-color: #65886d2d;
+  background-color: #2f38312d;
   text-align: left;
 }

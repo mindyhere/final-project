@@ -65,17 +65,17 @@ function AHotel() {
                         <div className="position-sticky pt-3 sidebar-sticky">
                             <ul className="nav flex-column">                               
 
-              <li className="nav-item">
+                            <li className="nav-item">
             <a className="nav-link active"
               onClick={() => navigate(`/admin/amain`)}
               >
-                &nbsp; <House width={'20%'} height={'20%'}/> HOME
+                &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
             </li>
             
             <Dropdown>
               <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'20%'} height={'20%'}/> 회원관리
+                <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
@@ -84,21 +84,22 @@ function AHotel() {
             </Dropdown>
             <Dropdown>
               <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'20%'} height={'20%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지리스트</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>                                          
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'20%'} height={'20%'}/> 숙소관리
+                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <CardList width={'15%'} height={'15%'}/> 공지사항
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">          
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>  
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                           
+                </Dropdown.Menu>
+            </Dropdown>
            </ul>
            </div>
            </nav>
@@ -109,8 +110,8 @@ function AHotel() {
                         <div className="container11 mt-5" >
                         <nav>
                         <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="../ahotel">Hotel</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">숙소운영관리</li>
+                        <li className="breadcrumb-item"><a href="../ahotel">숙소관리</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">숙소등록승인</li>
                         </ol>
                         </nav>
                         <br/>
@@ -175,6 +176,7 @@ function AHotel() {
                     </main>
                 </div>
             </div>
+         
         </>
     );
 }

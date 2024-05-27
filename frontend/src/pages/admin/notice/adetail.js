@@ -113,16 +113,17 @@ function Adetail() {
                 <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3 sidebar-sticky">
                             <ul className="nav flex-column">                               
-              <li className="nav-item">
+                            <li className="nav-item">
             <a className="nav-link active"
               onClick={() => navigate(`/admin/amain`)}
               >
-                &nbsp; <House width={'20%'} height={'20%'}/> HOME
+                &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
-            </li>           
+            </li>
+            
             <Dropdown>
               <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'20%'} height={'20%'}/> 회원관리
+                <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
@@ -131,21 +132,22 @@ function Adetail() {
             </Dropdown>
             <Dropdown>
               <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'20%'} height={'20%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지리스트</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>                                          
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'20%'} height={'20%'}/> 숙소관리
+                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
+            <Dropdown>
+              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
+                <CardList width={'15%'} height={'15%'}/> 공지사항
+                </Dropdown.Toggle>
+                  <Dropdown.Menu className="col-12">          
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>          
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                   
+                </Dropdown.Menu>
+            </Dropdown>
            </ul>
            </div>
            </nav>
@@ -200,6 +202,7 @@ function Adetail() {
                     </main>
                 </div>
             </div>
+          
         </>
     );
 }
