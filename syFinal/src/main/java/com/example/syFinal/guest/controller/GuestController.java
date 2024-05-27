@@ -123,7 +123,7 @@ public class GuestController {
 		map2.put("rePoint", gpoint);
 		dao.order(map1);
 		dao.pointupdate(map2);
-		if(coupon != 0) { //쿠폰사용시 상태변경
+		if(coupon != 0) { //쿠폰사용시 g_coupon DB 상태변경
 			int gcIdx = Integer.valueOf(gc_idx);
 			Map<String, Object> map3 = new HashMap<>();
 			map3.put("gcidx", gcIdx);
