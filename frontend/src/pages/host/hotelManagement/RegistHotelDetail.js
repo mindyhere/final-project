@@ -158,7 +158,7 @@ function RegistHotelDetail() {
                                         <td>{item.dImg1}</td>
                                         <td>{item.dImg2}</td>
                                         <td>{item.dImg3}</td>
-                                        <td><button className="main-btn" onClick={(e) => deleteData(item)}>삭제</button></td>
+                                        <td><button className="main-btn z-0" onClick={(e) => deleteData(item)}>삭제</button></td>
                                     </tr>
                                 ))}
                             </tbody>
