@@ -2,25 +2,10 @@ import Cookies from "universal-cookie";
 import React,{useRef,useEffect,useState} from 'react';
 import '../../../asset/css/user.css';
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
-function useFetch(url) {
-    const [data, setData] = useState(null);
-    const [loading,setLoading] = useState(true);
 
-
-    useEffect(() => {
-        fetch(url)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            setData(data);
-            setLoading(false);
-        })
-    }, []);
-    return [data, loading];
-}
 
 function GuestInfo() { 
     const cookies = new Cookies();
@@ -29,7 +14,25 @@ function GuestInfo() {
     const idx = cookies.get('g_idx');
     const phone = cookies.get('g_phone');
     const profile = cookies.get('g_profile');
-    const [data, loading] = useFetch('http://localhost/guest/info/detail?g_idx='+idx.key);
+    const navigate = useNavigate();
+
+    
+    if(email == null || email == '') {
+        Swal.fire({
+            text: "로그인 후 이용 가능합니다.",
+            showCancelButton: false,
+            showConfirmButton: false,
+            icon: "warning",
+            // confirmButtonText: '확인',
+        }).then(() => {
+            navigate("/"); 
+        });
+    } 
+
+
+    
+
+    
     const g_passwd = useRef();
     const checkPwd = useRef();
     const g_phone = useRef();
@@ -39,7 +42,33 @@ function GuestInfo() {
     const [alter, setAlter] = useState('dis');
     const img = useRef();
     const image = useRef();
+    const [gphoto, setGphoto] = useState('-');
+
+    function useFetch(url) {
     
+        const [data, setData] = useState(null);
+        const [loading,setLoading] = useState(true);
+    
+    
+        useEffect(() => {
+            fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setLoading(true);
+                if (data != null) {
+                    setLoading(false);
+                    setData(data);
+                    setGphoto(data.dto.g_photo);
+                }
+            })
+        }, []);
+        return [data, loading];
+    }
+
+    const [data, loading] = useFetch('http://localhost/guest/info/detail?g_idx='+idx.key);
+
     const handleSelect = (e) => {
         setSelected(e.target.value);    
     };
@@ -77,8 +106,7 @@ function GuestInfo() {
             <div>loading</div>
         )
     } else {
-        // const imgUrl = `http://localhost/static/images/guest/profile/${data.dto.g_url}`;
-        const imgUrl = `http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
+       
 
         return (
             <>
@@ -90,12 +118,12 @@ function GuestInfo() {
                     <form>
                         <div style={{float:"left"}}>
                         <label className="label-1">이메일</label><br/>
-                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={email.key} readOnly></input>
+                        <input type="text" style={{border: "0px", outline: "none"}} defaultValue={email != null? email.key : ''} readOnly></input>
                         </div>
                         <div className="blankk"></div>
                         <div>
                         <label className="label-1">프로필 사진</label><br/>
-                        { data.dto.g_photo !== '-' ? 
+                        { gphoto !== '-' ? 
                         <>
                         <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle} 
                         //onClick={() => {

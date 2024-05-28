@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
@@ -23,11 +23,26 @@ function useFetch(url) {
 
 
 function CancelReserv() {
-    const {OIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
-    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idx.key);
+    const idxKey = '';
+    const navigate = useNavigate();
+
+    if(idx == null) {
+        Swal.fire({
+            text: "로그인 후 이용 가능합니다.",
+            showCancelButton: false,
+            confirmButtonText: '확인',
+        }).then(() => {
+            navigate("/");
+        });
+    } else {
+        idxKey = idx.key;
+    }
+    const {OIdx} = useParams();
+    const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
+    
+    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idxKey);
     if(loading||loading1) {
         return (
             <div>loading</div>
