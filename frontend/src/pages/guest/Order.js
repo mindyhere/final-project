@@ -54,7 +54,6 @@ function Order() {
     //포인트사용
     const [finalamount,setFinalamount] = useState(fprice);
     const [pointAmount,setPointAmount] = useState(0);
-    console.log("최종금액==="+finalamount);
     const PointAmount = (e) => {
         setPointAmount(e.target.value);
     }
@@ -84,10 +83,7 @@ function Order() {
         }
         setCouponAmount(Camount);
         setCouponIdx(Cidx);
-        console.log("쿠폰금액=="+Camount);
-        console.log("회원아이디"+Cidx);
     };
-    console.log("사용쿠폰idx==@@+=="+couponIdx);
     //결제수단 선택
     let method ='';
     let channel ='';
@@ -179,7 +175,6 @@ function Order() {
                 form.append('useCoupon',0);
             } else {
                 form.append('useCoupon',couponAmount);
-                console.log("쿠폰번호==="+couponIdx);
                 form.append('gcidx',couponIdx);
             }
             form.append('paymentId', response.paymentId);

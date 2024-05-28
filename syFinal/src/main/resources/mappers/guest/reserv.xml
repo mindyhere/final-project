@@ -36,7 +36,7 @@ where o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business 
 </select>
 
 <update id="cancel">
-update orders set o_state = 2 where o_idx = #{o_idx}
+update orders set o_state = 2,o_refunddate = now() where o_idx = #{o_idx}
 </update>
 
 <select id="upDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">

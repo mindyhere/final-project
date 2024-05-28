@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +53,9 @@ public class GuestController {
 		List<Map<String, Object>> paylist = new ArrayList<>();
 		for(int i=0; i<dto.size(); i++) {
 			Map<String, Object> map = new HashMap<>();
+			map.put("O_idx", dto.get(i).getO_idx());
+			map.put("Ho_idx", dto.get(i).getHo_idx());
+			map.put("D_idx", dto.get(i).getD_idx());
 			map.put("G_idx", dto.get(i).getG_idx());
 			map.put("D_img1", dto.get(i).getD_img1());
 			map.put("O_state", dto.get(i).getO_state());
@@ -62,9 +66,23 @@ public class GuestController {
 			map.put("O_finalprice", dto.get(i).getO_finalprice());
 			paylist.add(map);
 		}
-		
 		return paylist;
 	}
+	
+	//영수증내역
+	@RequestMapping("/guest/receipt/{gidx}/{didx}/{hoidx}/{oidx}")
+	public Map<String, Object> receipt(@PathVariable(name="gidx") int g_idx,@PathVariable(name="didx") int d_idx,
+			@PathVariable(name="hoidx") int ho_idx,@PathVariable(name="oidx") int o_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("gidx", g_idx);
+		map.put("didx", d_idx);
+		map.put("hoidx", ho_idx);
+		map.put("oidx", o_idx);
+		Map<String, Object> map2 = new HashMap<>();
+		map2 = dao.receipt(map);
+		return map2;
+	}
+	
 	//게스트 보유쿠폰리스트
 	@RequestMapping("/guest/coupon")
 	public List<Map<String, Object>> couponlist(@RequestParam(name="g_idx") int g_idx) {
