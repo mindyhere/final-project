@@ -220,3 +220,51 @@
   background-color: #517c5a5b;
   text-align: left;
 }
+
+/* 메모 디자인 */
+.notepad-container {
+  align-items: center;
+  width: 300px;
+  height: 400px;
+  margin: 50px auto;
+  border: 1px solid #4e817269;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(33, 88, 58, 0.37);
+  font-family: Arial, sans-serif;
+  right: '0', 
+
+}
+
+.notepad-header {
+  background-color: #4e817269;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.notepad-title {
+  font-size: 20px;
+}
+
+.notepad-content {
+  padding: 20px;
+}
+
+.memo-table {
+  width: 100%;
+}
+
+.memo-header {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+.memo-cell {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.memo-cell:last-child {
+  border-bottom: none;
+}
