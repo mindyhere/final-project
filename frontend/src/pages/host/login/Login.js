@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import GuestJoin from "../../guest/member/join";
 import HostJoin from "./Join_modal";
 import "../host1.css";
+import { getDate } from "date-fns";
 
 function HostLogin() {
   const navigate = useNavigate();
@@ -16,25 +17,14 @@ function HostLogin() {
   const [modal, setModal] = useState(false);
 
   const handleCookie = (data) => {
-    const time = 3600; // 1hr
+    let expiration = new Date();
     const cookies = new Cookies();
-    const expiration = new Date(Date.now() + time * 1000);
+    expiration.setDate(expiration.getDate() + 1);
+    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
     });
-    // console.log(cookies.get("userInfo"))
-
-    setTimeout(() => {
-      Swal.fire({
-        icon: "info",
-        title: "Check",
-        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
-        timer: 2000,
-      }).then(() => {
-        navigate("/");
-      });
-    }, time * 1000);
   };
 
   return (

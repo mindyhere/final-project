@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/member/join";
@@ -9,7 +9,27 @@ import "../pages/host/host1.css";
 
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
-import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
+
+const timeoutAlert = (cookie) => {
+  console.log(cookie + "=>쿠키?" + cookie == null);
+  if (cookie == null) {
+    return null;
+  } else {
+    const expiration = new Date().getDate() + 1;
+    setTimeout(() => {
+      console.log("=> 타임아웃 " + expiration);
+      Swal.fire({
+        icon: "warning",
+        title: "Check",
+        html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        window.location.href = "/";
+      });
+    }, expiration);
+  }
+};
 
 function Header() {
   const navigate = useNavigate();
@@ -28,7 +48,7 @@ function Header() {
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
 
- // 관리자 쿠키
+  // 관리자 쿠키
   const a_id = cookies.get("a_id");
 
   //쿠키삭제
@@ -54,14 +74,17 @@ function Header() {
   };
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
-  if (locationNow.pathname === "/guest/write" ||
-  locationNow.pathname === "/guest/edit") return null; // 팝업창에서 헤더 제거
+  if (
+    locationNow.pathname === "/guest/write" ||
+    locationNow.pathname === "/guest/edit"
+  )
+    return null; // 팝업창에서 헤더 제거
   if (
     locationNow.pathname === "/host/account/manage/review" ||
     locationNow.pathname === "/host/account/manage/reply"
-  ) return null; 
-  if ( 
-    locationNow.pathname === `/admin/alogin/${a_id}` )return null;
+  )
+    return null;
+  if (locationNow.pathname === `/admin/alogin/${a_id}`) return null;
 
   if (userInfo == null && g_email == null && a_id == null) {
     console.log("a_id 로그인X cookie==> " + a_id);
@@ -183,7 +206,11 @@ function Header() {
                 </a>
               </li>
               {modal && (
-                <div className="Modal" style={{zIndex:999}} onClick={() => setModal(false)}>
+                <div
+                  className="Modal"
+                  style={{ zIndex: 999 }}
+                  onClick={() => setModal(false)}
+                >
                   <div
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
@@ -265,7 +292,12 @@ function Header() {
                 className="nav-item rounded"
                 style={{ display: "inline-block" }}
               >
-                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
               </li>
             </ul>
           </div>
@@ -275,7 +307,7 @@ function Header() {
   } else if (userInfo == null && g_email != null && a_id == null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
-
+    timeoutAlert(g_email);
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -285,14 +317,14 @@ function Header() {
       level = "VIP";
     }
 
-    let src='';
-    let image='';
-    if (g_photo.key == '-') {
-      src='/img/image_no.png';
-      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
+    let src = "";
+    let image = "";
+    if (g_photo.key == "-") {
+      src = "/img/image_no.png";
+      image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
-      image=`<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
+      src = `http://localhost/static/images/guest/photo/${g_photo.key}`;
+      image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
@@ -321,17 +353,23 @@ function Header() {
                   </div>
                 </a>
               </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
-                <a className="nav-link active" onClick={() => navigate("/component/message")}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/message")}
+                >
                   메시지
                 </a>
               </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
-                <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/guest/reservation")}
+                >
                   여행
                 </a>
               </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/wish")}
@@ -339,7 +377,7 @@ function Header() {
                   위시리스트
                 </a>
               </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/Account")}
@@ -347,13 +385,15 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li
-                className="nav-item rounded"
-                style={{paddingTop: '10px'}}
-              >
-                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
               </li>
-              <li className="nav-item rounded" style={{paddingTop: '10px'}}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() =>
@@ -382,7 +422,7 @@ function Header() {
   } else if (userInfo != null && g_email == null && a_id == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
-    // console.log("host userInfo ==> " + JSON.stringify(userInfo));
+    timeoutAlert(userInfo);
 
     return (
       <nav className="navbar navbar-expand-lg">
@@ -417,8 +457,9 @@ function Header() {
                 </a>
               </li>
               <li className="nav-item rounded">
-                <a className="nav-link active"
-                onClick={() => navigate(`/host/hotel/MyhotelList`)}
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/host/hotel/MyhotelList`)}
                 >
                   호텔
                 </a>
@@ -435,7 +476,12 @@ function Header() {
                 className="nav-item rounded"
                 style={{ display: "inline-block" }}
               >
-                <a className="nav-link active" onClick={() => navigate("/component/Notice")}>공지사항</a>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
               </li>
               <li className="nav-item rounded">
                 <a
@@ -466,66 +512,64 @@ function Header() {
         </div>
       </nav>
     );
-  } else if(a_id != null && userInfo == null && g_email == null){
-    return(
+  } else if (a_id != null && userInfo == null && g_email == null) {
+    timeoutAlert(a_id);
+    return (
       <nav className="navbar navbar-expand-lg">
-      <div className="container-fluid">
-      <a className="navbar-brand" href="/">
-           <img
-            src="/img/sybnb.png"
-            href="/"
-            width="170px"
-            height="65px"
-            style={{ padding: "0.5rem" }}
-          ></img>
-        </a> 
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">
+            <img
+              src="/img/sybnb.png"
+              href="/"
+              width="170px"
+              height="65px"
+              style={{ padding: "0.5rem" }}
+            ></img>
+          </a>
 
-        {/* 관리자 로그인 후 상단 */}
-        <div align="right">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-            <a className="nav-link active"
-            >*관리자님 로그인 중* 
-            </a>
-          </li>            
-            <li className="nav-item rounded">
-              <a
-                className="nav-link active"
-                onClick={() => {
-                  Swal.fire({
-                    icon: "question",
-                    title: "잠깐!",
-                    html: "로그아웃 하시겠습니까?",
-                    showCancelButton: true,
-                    confirmButtonText: "YES",
-                    cancelButtonText: "NO",
-                    confirmButtonColor: '#41774d86',
-                    cancelButtonColor: '#838383d2'
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      localStorage.clear();
-                      sessionStorage.clear();
-                      removeCookies("admin");
-                      Swal.fire({ 
-                        text: "관리자 계정에서 로그아웃되었습니다.",
-                        confirmButtonText: '확인',
-                        confirmButtonColor: '#41774d86',
-                      })
-                      navigate("/");
-                    }
-                  });
-                }}
-              >
-                로그아웃
-              </a>
-            </li>
-          </ul>
+          {/* 관리자 로그인 후 상단 */}
+          <div align="right">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active">*관리자님 로그인 중*</a>
+              </li>
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => {
+                    Swal.fire({
+                      icon: "question",
+                      title: "잠깐!",
+                      html: "로그아웃 하시겠습니까?",
+                      showCancelButton: true,
+                      confirmButtonText: "YES",
+                      cancelButtonText: "NO",
+                      confirmButtonColor: "#41774d86",
+                      cancelButtonColor: "#838383d2",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        removeCookies("admin");
+                        Swal.fire({
+                          text: "관리자 계정에서 로그아웃되었습니다.",
+                          confirmButtonText: "확인",
+                          confirmButtonColor: "#41774d86",
+                        });
+                        navigate("/");
+                      }
+                    });
+                  }}
+                >
+                  로그아웃
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>  
-    </nav>  
+      </nav>
     );
   }
-
 
   function Modall(props) {
     function closeModal() {

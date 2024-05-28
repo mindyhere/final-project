@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { json, useNavigate } from "react-router";
+import React, { useState } from "react";
+import { useParams } from "react-router";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
@@ -37,11 +37,22 @@ function OrderItem({
 }) {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
+  const { userIdx } = useParams();
   const userEmail = userInfo.h_email;
   const userName = userInfo.h_name;
-  const level = userInfo.h_level;
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
+
+  // 쿠키 정보 업데이트
+  const handleCookie = (data) => {
+    let expiration = new Date();
+    const cookies = new Cookies();
+    expiration.setDate(expiration.getDate() + 1);
+    console.log("!!! expiration? " + expiration);
+    cookies.set("userInfo", data, {
+      path: "/",
+      expires: expiration,
+    });
+  };
 
   const Collapsible = ({ idx }) => {
     if (index === idx) {
@@ -142,7 +153,6 @@ function OrderItem({
           allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log(result.value + Object.values(result));
             Swal.fire({
               icon: "success",
               title: "Confirm",
@@ -181,7 +191,7 @@ function OrderItem({
                     throw new Error("false: " + response.status);
                   }
                   const form = new FormData();
-                  form.append("opt", 1); // 예약확정 & 게스트레벨업
+                  form.append("opt", 1); // 체크인확정 & 게스트레벨업
                   form.append("oidx", o_idx);
                   form.append("hidx", userIdx);
                   form.append("idx", g_idx);
@@ -200,7 +210,6 @@ function OrderItem({
                   });
                 })
                 .catch((error) => {
-                  // console.log(error);
                   Swal.showValidationMessage(
                     `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                   );
@@ -209,7 +218,13 @@ function OrderItem({
             allowOutsideClick: () => !Swal.isLoading(),
           }).then((result) => {
             if (result.isConfirmed) {
-              // console.log(result.value);
+              handleCookie({
+                h_idx: userIdx,
+                h_email: userEmail,
+                h_name: userName,
+                h_level: parseInt(result.value[9]),
+              });
+              console.log(cookies.get("userInfo"));
               Swal.fire({
                 icon: "success",
                 title: "Complete",

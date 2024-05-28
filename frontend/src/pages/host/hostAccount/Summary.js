@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-
-import Cookies from "universal-cookie";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -25,9 +24,7 @@ function StarItem({ ho_name, avg }) {
 }
 
 function Summary() {
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
+  const { userIdx } = useParams();
   const [totReviews, setTotalCount] = useState("");
   const [noReply, setReplyCount] = useState("");
   const [stars, setAvgStars] = useState([]);

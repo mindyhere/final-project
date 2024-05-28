@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import ListReviews from "./ListReviews";
@@ -34,10 +34,7 @@ function useFetch(url) {
 function HostAccount() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
-  const level = userInfo.h_level;
+  const {userIdx} = useParams();
 
   const navigate = useNavigate();
   const [data, loading] = useFetch(
@@ -106,7 +103,7 @@ function HostAccount() {
                           boxSizing: "border-box",
                         }}
                       >
-                        {level === 9 ? (
+                        {data.level === 9 ? (
                           <div
                             className="col"
                             style={{
@@ -137,11 +134,11 @@ function HostAccount() {
                         ></div>
                       </td>
                       <th>이메일(ID)</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userEmail}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_email}</td>
                     </tr>
                     <tr>
                       <th>이름</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userName}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_name}</td>
                     </tr>
                     <tr>
                       <th>전화번호</th>
@@ -217,18 +214,16 @@ function HostAccount() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${data.h_email}`
                           )
                             .then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);
                               }
-                              // console.log("확인: " + response.status);
 
                               return response.json();
                             })
                             .catch((error) => {
-                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -278,7 +273,6 @@ function levelUp(userIdx, opt) {
   if (opt === 1) {
     fetch(`http://localhost/api/host/levelUp/${userIdx}`, { method: "get" })
       .then((response) => {
-        // console.log("response 확인: " + response.status);
         if (!response.ok) {
           throw new Error("false: " + response.status);
         }
