@@ -310,9 +310,12 @@ function Pay() {
                                     </svg>&nbsp;결제내역</h3>
                                             
                                             {paylist.map(
-                                                ({G_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
+                                                ({O_idx,G_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
                                                     <PayItem
+                                                    O_idx={O_idx}
                                                     G_idx={G_idx}
+                                                    Ho_idx={Ho_idx}
+                                                    D_idx={D_idx}
                                                     D_img1={D_img1}
                                                     O_state={O_state}
                                                     O_orderdate={O_orderdate}
@@ -321,8 +324,6 @@ function Pay() {
                                                     O_ckout={O_ckout}
                                                     O_finalprice={O_finalprice}
                                                     key={G_idx}
-                                                        //싱글가격
-                                                        //평점
                                                     />
                                                 )
                                             )}

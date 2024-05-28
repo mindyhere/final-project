@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import Cookies from 'universal-cookie';
+import { useNavigate, useLocation } from "react-router-dom";
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import moment from "moment";
+import "moment/locale/ko";
 
 //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
 //pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
@@ -19,168 +23,286 @@ const styles = StyleSheet.create({
       flexGrow: 1
     }
 });
+
+function useFetch(url) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            setData(data);
+            setLoading(false);
+        })
+    }, []);
+    return [data, loading];
+}
+
 function PayPDF() {
+    const navigate = useNavigate();
+    const cookies = new Cookies();
+    const idx=cookies.get('g_idx');
+    const location = useLocation();
+    const HoIdx = location.state.Hoidx;
+    const DIdx = location.state.Didx;
+    const OIdx = location.state.Oidx;
+
+    const [data, loading] = useFetch('http://localhost/guest/receipt/'+idx.key+'/'+DIdx+'/'+HoIdx+'/'+OIdx);
 
     const printDocument = () => {
         const input = document.getElementById('divToPrint');
         html2canvas(input).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF();
-            pdf.addImage(imgData, "JPEG", 0, 0);
+            const imgData = canvas.toDataURL("image/png",1.0);
+            const imgWidth = 210, padding = 20; // 이미지 가로 길이(mm) A4 기준
+            const pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            const heightLeft = imgHeight;
+
+            const position = 0;
+ 
+            const pdf = new jsPDF('p','mm');
+            pdf.addImage(imgData, "JPEG",position,padding, imgWidth, imgHeight);
             // pdf.output('dataurlnewwindow');
             pdf.save("pay.pdf");
         });
     };
 
+    if(loading){
+        return (
+            <div className="text-center">로딩 중...</div>
+        )
+    } else {
+        let start = moment(data.o_ckin);
+        let end = moment(data.o_ckout);
+        let bak =moment.duration(end.diff(start)).asDays();
+        let price = bak * data.o_price;
 
-    return (
-        <>
-        <div className="container" align='center' style={{position: 'static'}}>
-            <div className="row">
-                
-                <div className="col-5">
-                <div className="container-lg">
-                        <div style={{paddingLeft: '100px'}}>
-                            <div align='left'>
-                                <h2>영수증 상세내역</h2>
-                                <div style={{marginBottom: '30px',marginTop:'20px'}}>
-                                    <div style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '400px', height:'90px', padding:'20px'}}>
-                                        <div>
-                                            <div className="row">
-                                                <div className="col">
-                                                    <h6 style={{paddingBottom:'5px'}}>저렴한 요금&nbsp;</h6><div>얼른 예약하세요!</div>
+        let count = data.o_adult + data.o_child + data.o_baby;
+
+        let hotel = `http://localhost/static/images/host/hotel/`+data.ho_img;
+        let img =`<img src=${hotel} width='80px' height='80px' /><br />`;
+
+        let payment='';
+        if(data.o_payment === '1') {
+            payment = '나이스페이먼츠';
+        }else if (data.o_payment === '2') {
+            payment = '카카오페이';
+        }
+        return (
+            <>
+            <div className="container" align='center' style={{position: 'static'}}>
+                <div className="row">
+                    <div className="col-11">
+                        <div align='right'>
+                            <button className='btn btn-outline-dark' onClick={printDocument}>Print</button>
+                        </div>
+                    </div>
+                </div>
+                <div id='divToPrint'>
+                    <div className="row">
+                        <div className="col-1"></div>
+                        <div className="col-10" align='left'>
+                            <h2>영수증 상세내역</h2>
+                            <br></br>
+                            <div>영수증 ID : {data.paymentId} · {data.o_orderdate}</div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-1"></div>
+                        <div className="col-5">
+                        <div className="container-lg">
+                                <div>
+                                    <div align='left'>
+                                        <br></br>
+                                        <br></br>
+                                        <div style={{marginBottom: '30px'}}>
+                                            <div style={{border: '1px solid rgb(221, 221, 221)', width: '420px', height:'440px', padding:'20px'}}>
+                                                <div>
+                                                    <div className="row">
+                                                        <div className="col">
+                                                            <h4>{data.ho_name}에서 {bak}박</h4>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="col" align='right'>
-                                                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" ariaHidden="true" role="presentation" focusable="false" style={{display: 'block', height: '32px', width: '32px', fill: 'rgb(227, 28, 95)', stroke: 'currentcolor'}}><g stroke="none"><path d="M25.55 1a5 5 0 0 1 3.344 1.282l.192.182 17.207 17.208a3 3 0 0 1 .135 4.098l-.135.144-18.379 18.379a3.001 3.001 0 0 1-3.32.63l-6.42 3.81c-1.296.768-2.948.452-3.894-.736l-.115-.153-.118-.186L2.094 25.046a5 5 0 0 1-.53-3.7l3.435-14.01L5 6a5 5 0 0 1 4.783-4.995L10 1h15.55zM5 15.733l-1.494 6.09a3 3 0 0 0 .219 2.034l.1.186 11.93 20.574.07.112a1 1 0 0 0 1.328.283l5.797-3.441L6.464 25.086a5 5 0 0 1-1.457-3.272L5 21.55v-5.817zM25.55 3H10a3 3 0 0 0-2.995 2.824L7 6v15.55a3 3 0 0 0 .743 1.977l.136.144L25.086 40.88a1 1 0 0 0 1.32.083l.094-.083L44.88 22.5a1 1 0 0 0 .083-1.32l-.083-.094L27.67 3.879A3 3 0 0 0 25.55 3zM14 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path><path d="M25.556 5H10a1 1 0 0 0-.993.883L9 6v15.556a1 1 0 0 0 .206.608l.087.1 16.505 16.505 16.971-16.971L26.263 5.293a1 1 0 0 0-.575-.284L25.556 5z" fillOpacity=".2"></path></g></svg>
+                                                <hr></hr>
+                                                <div>
+                                                    <div className="row">
+                                                        <div className="col-8">
+                                                                <tr>{data.o_ckin} → {data.o_ckout}</tr>
+                                                                <tr>{data.d_room_type}</tr>
+                                                                <tr>침대 {data.d_beds}개</tr>
+                                                                <tr>{count}명</tr>
+                                                                <tr style={{color: 'gray'}}>호스트 : {data.h_name}</tr>
+                                                                <tr style={{cursor: 'pointer', textDecoration:'underline'}} onClick={() => {
+                                                                    navigate('/host/hotel/hotelDetail/'+HoIdx+'/'+DIdx);
+                                                                }}>숙소페이지로 이동</tr>
+                                                        </div>
+                                                        <div className="col-4" align='right'>
+                                                            <span dangerouslySetInnerHTML={{__html: img}}></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                                <div>
+                                                    <div className="row">
+                                                        <div className="col">
+                                                                <tr style={{color: 'gray'}}>게스트 : {data.g_name}</tr>
+                                                                <br></br>
+                                                                <h5>환불정책</h5>
+                                                                <br></br>
+                                                                <tr>체크인 전날까지는 무료 취소가 가능합니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</tr>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                    
-                                <h4>예약정보</h4>
-                                <br></br>
-                                <br></br>
-                                <div>날짜</div>
-                                <br></br>
-                                <div>게스트</div>
-                                <br></br>
-                                <hr/>
-                                <br></br>
-                                <h4>결제수단</h4>
-                                <br/>
-                                <hr/>
-                                <h4>호스트에게 메시지 보내기</h4>
-                                <br></br>
-                                <div>여행 목적, 동반 일행, 이 숙소를 선택한 이유 등을 알려주세요.</div>
-                                <div>호스트 정보</div>
-                                <hr/>
-                                <h4>환불 정책</h4>
-                                <br></br>
-                                <div>체크인 전날 12시까지 100% 가능 / 이후 불가능 </div>
-                                <hr/>
-                                <div><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" ariaHidden="true" role="presentation" focusable="false" style={{display: 'block', height: '32px', width: '32px', fill: 'rgb(227, 28, 95)', stroke: 'currentcolor'}}><g><g stroke="none"><path d="M43 8v21.295L32.295 40l-10.359.001A11.971 11.971 0 0 0 26 31c0-6.627-5.373-12-12-12a12.02 12.02 0 0 0-3.001.378L11 8h32z" fill-opacity=".2"></path><path d="M32 42v-8a5 5 0 0 1 4.783-4.995L37 29h8V6H34v2h-2V6H22v2h-2V6H9v14.5H7V6a2 2 0 0 1 1.85-1.995L9 4h11V2h2v2h10V2h2v2h11a2 2 0 0 1 1.995 1.85L47 6v24.953L33.953 44H15v-2h17zm12.123-11H37a3 3 0 0 0-2.995 2.824L34 34v7.122L44.123 31z"></path></g><g fill="none" stroke-width="2"><path d="M14 43c.328 0 .653-.013.974-.039C21.146 42.465 26 37.299 26 31c0-6.627-5.373-12-12-12A11.995 11.995 0 0 0 2 31c0 6.627 5.373 12 12 12z"></path><path d="M23 31h-9v-9"></path></g></g></svg></div>
-                                <div>호스트가 24시간 이내 예약 요청을 수락하기 전까지는 예약이 아직 확정된 것이 아닙니다.</div>
-                                <hr/>
-                                <div>아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙, 에어비앤비 재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된 총액이 결제되는 데 동의합니다.</div>
-                                <br/>
-                                <br/>
-                                <br/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div className="col-5">
-                    <div style={{marginBottom: '30px',marginTop:'55px'}}>
-                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'430px', padding:'25px'}}>
-                            <div>
-                                <div className="row">
-                                    <div className="col-4">
-                                    </div>
-                                    <div className="col-6" align='left'>
                                         <br></br>
-                                    <div style={{fontSize:'24px'}}>ll</div>
+                                        <h4>질문이 있으신가요?</h4>
+                                        <br></br>
+                                        <div>결제 및 환불과 관련한 자세한 사항은 결제 페이지나 관련 도움말에서 확인하실 수 있습니다.</div>
+                                        
                                     </div>
                                 </div>
                             </div>
-                            
-                            
-                            <hr/>
-                            <h4>요금세부정보</h4>
-                                <div>
-                                    <br></br>
-                                    <div style={{fontSize:'17px'}}>원가</div>
-                                    <br></br>
-                                    <div style={{fontSize:'17px'}}>서비스수수료</div>
-                                    <br></br>
-                                    
-                                    <hr/>
-                                    <div style={{fontSize:'18px'}}>총 합계(KRW)</div>
-                                </div>
                         </div>
-                    </div>
-
-                    <div style={{marginBottom: '30px',marginTop:'55px'}}>
-                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'400px', padding:'25px'}}>
-                            <h4>할인적용</h4>
-                            <br></br>
-                            <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
-                            <input style={{marginBottom: '16px'}} className="form-control" type="text" disabled></input>
-                            <button className='btn btn-outline-dark'>쿠폰조회</button>
-                            <div className="row">
-                                <div className="col">
-                                    <h5 style={{marginBottom: '16px'}}>포인트</h5>
-                                </div>
-                                <div className="col" align='right' >
-                                <div>사용가능 Point :</div>
+                        <div className="col-5">
+                            <div style={{marginBottom: '30px'}}>
+                            <br></br><br></br>
+                                <div align='left' style={{border: '1px solid rgb(221, 221, 221)', width: '420px', height:'360px', padding:'25px'}}>
+                                    <h4>요금 내역</h4>
+                                        <div>
+                                            <br></br>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div style={{fontSize:'17px'}}>₩{data.o_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {bak}박</div>
+                                                </div>
+                                                <div className="col" align='right'>
+                                                    <div>₩{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                </div>
+                                            </div>
+                                            <br></br>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div style={{fontSize:'17px'}}>서비스 수수료</div>
+                                                </div>
+                                                <div className="col" align='right'>
+                                                    <div>₩{(data.o_price * 0.2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                </div>
+                                            </div>
+                                            <br></br>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div style={{fontSize:'17px'}}>포인트 사용금액</div>
+                                                </div>
+                                                <div className="col" align='right'>
+                                                    <div>-{(data.o_discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}P</div>
+                                                </div>
+                                            </div>
+                                            <br></br>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div style={{fontSize:'17px'}}>쿠폰 사용금액</div>
+                                                </div>
+                                                <div className="col" align='right'>
+                                                    <div>-₩{(data.o_benefit).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                </div>
+                                            </div>
+                                            <br></br>
+                                            <hr/>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div style={{fontSize:'18px',fontWeight: 'bold'}}>총 합계(KRW)</div>
+                                                </div>
+                                                <div className="col" align='right' style={{fontWeight: 'bold'}}>
+                                                    <div>₩{data.o_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P'></input>
-                            <button className='btn btn-outline-dark'>포인트적용</button>
+
+                            <div style={{marginBottom: '30px',marginTop:'55px'}}>
+                                <div align='left' style={{border: '1px solid rgb(221, 221, 221)', width: '420px', height:'220px', padding:'25px'}}>
+                                    {data.o_refunddate === "0"
+                                    ?
+                                    <>
+                                        <h4>결제</h4>
+                                        <br></br>
+                                        <div className="row">
+                                            <div className="col-8">
+                                            <div>{payment}</div>
+                                            <div>{data.o_orderdate}</div>
+                                            </div>
+                                            <div className="col-4" align='right' >
+                                                <div>₩{data.o_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                            </div>
+                                        </div>
+                                        <hr></hr>
+                                        <div className="row">
+                                            <div className="col">
+                                                <div style={{fontWeight: 'bold'}}>결제금액 (KRW)</div>
+                                            </div>
+                                            <div className="col" align='right' >
+                                                <div style={{fontWeight: 'bold'}}>₩{data.o_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <h4>환불</h4>
+                                        <br></br>
+                                        <div className="row">
+                                            <div className="col-8">
+                                            <div>{payment}</div>
+                                            <div>{data.o_refundate}</div>
+                                            </div>
+                                            <div className="col-4" align='right' >
+                                                <div>-₩{data.o_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                            </div>
+                                        </div>
+                                        <hr></hr>
+                                        <div className="row">
+                                            <div className="col">
+                                                <div>환불금액 (KRW)</div>
+                                            </div>
+                                            <div className="col" align='right' >
+                                                <div>-₩{data.o_finalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                            </div>
+                                        </div>
+                                    </>
+                                    }
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
                         </div>
+                        <div className="col-1"></div>
                     </div>
+                    <div className="row" align='left'>
+                        <div className="col-1"></div>
+                            <div className="col-10">
+                                <hr></hr>
+                                <br></br>
+                                <div style={{color: 'gray', fontWeight: 'bold'}}>Sybnb Payments KR Ltd.</div>
+                                <div style={{color: 'gray'}}>Sybnb Payments는 호스트의 대금 수령 한정 대리인입니다. 따라서 Sybnb Payments를 통해 전액을 결제하면 호스트에 대한 지급 의무를 다하는 것입니다. 환불 요청은 (1)호스트의 환불 정책(숙소 페이지에서 확인 가능)또는 (2)재예약 및 환불 정책 약관에 따라 처리됩니다.</div>
+                                <br></br>
+                                <br></br>
+                                <hr></hr>
+                                <div align='right'>
+                                    <img src='/img/sybnb2.png' align='right' style={{width: '160px', height: '48px'}}></img>
+                                </div>
+                            </div>
+                    <div className="col-1"></div>
+                    </div>
+                        <br></br>
                 </div>
             </div>
-        </div>
-
-
-            <div className="mb5">
-            <button onClick={printDocument}>Print</button>
-            </div>
-            <div id='divToPrint' className="mt4">
-                <div>Note: Here the dimensions of div are same as A4</div>
-                <div>You Can add any component here</div>
-                {/* <PDFViewer>
-                    <Document>
-                        <Page style={styles.body}>
-                        <Text style={styles.header} fixed>
-                            영수증내역
-                        </Text>
-                        <Text style={styles.title}>영수증제목</Text>
-                        <Text style={styles.author}>2024.05.27</Text>
-                        <Text style={styles.subtitle}>
-                            AA호텔 1박 어른 1 어린이 2 
-                        </Text>
-                    </Page>
-                    </Document>
-                </PDFViewer> */}
-            </div>
-        </>
-    );
+            </>
+        );
+    }
 };
-
-    // const {toPDF, targetRef} = usePDF({filename: 'page.pdf'});
-    // return (
-    //     <>
-    //         <div>
-    //             <button onClick={() => toPDF()}>Download PDF</button>
-    //             <div ref={targetRef}>
-    //                 PDF로 생성할 컨텐츠
-    //             </div>
-    //             <Page pageNumber={1} />
-    //         </div>
-    //     </>
-    // )
-    //ReactPDF.render(<PayPDF />);
 export default PayPDF;
