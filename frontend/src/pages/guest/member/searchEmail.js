@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import '../aa.css'
 
 function SearchEmail() {
     const [params, setParams]=useSearchParams();
@@ -45,12 +46,20 @@ function SearchEmail() {
                     <div style={{textAlign: 'center'}}>
                         <button type="button" onClick={() => {
                             if(g_name.current.value == '') {
-                                window.alert('이름을 입력하세요.');
+                                Swal.fire({
+                                    text: '이름을 입력하세요.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                });
                                 g_name.current.focus();
                                 return;
                             }
                             if(g_phone.current.value == '') {
-                                window.alert('전화번호를 입력하세요.');
+                                Swal.fire({
+                                    text: '전화번호를 입력하세요.',
+                                    showCancelButton: false,
+                                    confirmButtonText: '확인',
+                                });
                                 g_phone.current.focus();
                                 return;
                             }
@@ -84,7 +93,7 @@ function SearchEmail() {
                                         });
                                     }
                                 });
-                        }} id="main-btn">아이디 찾기</button>
+                        }} id="main-btn" className="main-btnn">아이디 찾기</button>
                     </div>
                 </form>
             </div>
