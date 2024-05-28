@@ -13,5 +13,10 @@ public class AdminDTO {
 	private String a_passwd;
 	private String a_tel;
 	private String a_email;
-
+	
+	//매출차트 
+	private String month; 
+	private int sum; 
+	private String ho_name; 
+	private String ho_idx;
 }
