@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Check2Square, Square, BuildingFill, PersonVcard ,CardList, House, HouseCheckFill,  Person } from 'react-bootstrap-icons';
+import React, {useEffect, useState } from 'react';
+import { BuildingFill, PersonVcard ,CardList, House, HouseCheckFill,  Person } from 'react-bootstrap-icons';
 import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../admin/css/astyles.css'; // Import your custom styles
@@ -36,11 +36,6 @@ function AHoteldetail() {
     const cookies = new Cookies();
     const a_id = cookies.get("a_id");
     const { hoIdx } = useParams();
-    const element = useRef(null);
-    const onMoveBox = () => {
-        element.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-
     const [data, loading, fetchError] = useFetch(`http://localhost/admin/ahodetail?hoIdx=${hoIdx}`);
 
     if (loading) {
@@ -113,18 +108,15 @@ function AHoteldetail() {
                                     confirmButtonColor: '#41774d86',
                                 });
                             } else {
-                                throw new Error('Error approving hotel');
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire({
+                                Swal.fire({
                                 title: '에러 발생',
                                 text: '처리 중 문제가 발생했습니다.',
                                 icon: 'error',
                                 confirmButtonText: '확인',
                                 confirmButtonColor: '#41774d86',
                             });
-                        });
+                        }
+                      })
                 }
             });
         };
@@ -155,18 +147,15 @@ function AHoteldetail() {
                                     confirmButtonColor: '#41774d86',
                                 });
                             } else {
-                                throw new Error('Error approving hotel');
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire({
-                                title: '에러 발생',
-                                text: '처리 중 문제가 발생했습니다.',
-                                icon: 'error',
-                                confirmButtonText: '확인',
-                                confirmButtonColor: '#41774d86',
-                            });
-                        });
+                                Swal.fire({
+                                    title: '에러 발생',
+                                    text: '처리 중 문제가 발생했습니다.',
+                                    icon: 'error',
+                                    confirmButtonText: '확인',
+                                    confirmButtonColor: '#41774d86',
+                                  });
+                                }
+                              })
                 }
             });
         };
@@ -232,7 +221,7 @@ function AHoteldetail() {
 
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id}`)}
+              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -243,8 +232,8 @@ function AHoteldetail() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -252,7 +241,7 @@ function AHoteldetail() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -260,9 +249,8 @@ function AHoteldetail() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item> 
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                            
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                             
                 </Dropdown.Menu>
             </Dropdown>
            </ul>

@@ -13,7 +13,6 @@ function Adetail() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const n_writer = useRef();
     const n_title = useRef();
     const n_content = useRef();
     const n_date = useRef();
@@ -82,7 +81,7 @@ function Adetail() {
                             icon: 'success',
                             confirmButtonColor: '#41774d86',
                         }).then(() => {
-                            navigate('/admin/notice/alist');
+                            navigate(`/admin/notice/alist/${a_id.key}`);
                         });
                     } else {
                         Swal.fire({
@@ -118,7 +117,7 @@ function Adetail() {
                             <ul className="nav flex-column">                               
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id}`)}
+              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -129,8 +128,8 @@ function Adetail() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -138,7 +137,7 @@ function Adetail() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -146,9 +145,8 @@ function Adetail() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>          
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                   
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                             
                 </Dropdown.Menu>
             </Dropdown>
            </ul>
@@ -194,7 +192,7 @@ function Adetail() {
                                             <tr>
                                                 <td colSpan="2" className="text-center">
                                                     <button type="submit" className="btn btn-sign3">수정</button>
-                                                    <button type="button" onClick={() => navigate(`/admin/notice/alist/${a_id}`)} className="btn btn-sign3">목록</button>
+                                                    <button type="button" onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)} className="btn btn-sign3">목록</button>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef} from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
 import { useSearchParams,useParams } from "react-router-dom";
@@ -53,10 +53,8 @@ function Alogin() {
                             return;
                         }                             
                         const form = new FormData();
-                        form.append('a_id',a_id.current.value);
-                        console.log("a_id : " + a_id.current.value);
+                        form.append('a_id',a_id.current.value);                     
                         form.append('a_passwd',a_passwd.current.value);
-                        console.log("a_passwd : " + a_passwd.current.value);
                         fetch('http://localhost/admin/adlogin',{
                             method:'post',
                             body:form
@@ -64,7 +62,7 @@ function Alogin() {
                         .then(response=>
                             response.json())
                         .then(data => {
-                            if (data.success) { // 로그인 성공
+                            if (data.success) { 
                                 const cookies = new Cookies();
                                 cookies.set('a_id', { key: data.a_id }, { path: '/', expires: new Date(Date.now() + 2592000) }); // 30일
                                 cookies.set('a_passwd', { key: data.a_passwd }, { path: '/', expires: new Date(Date.now() + 2592000) });
@@ -75,10 +73,10 @@ function Alogin() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 }).then(() => {
-                                    window.location.href = `/admin/amain/${a_id}`;
+                                    window.location.href = `/admin/amain/${a_id.current.value}`;
                                 });
-                            } else { // 로그인 실패
-                                    navigate(`/admin/alogin/${aId}?msg=error`);   
+                            } else { 
+                                    navigate(`/admin/alogin/${a_id.key}?msg=error`);   
                             }
                         });  
                     }} className="btn-sign1">Sign In</button>            

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PersonCircle, CardList, House, HouseCheckFill, ListCheck, Person  } from 'react-bootstrap-icons';
+import { PersonCircle, CardList, House, HouseCheckFill, Person  } from 'react-bootstrap-icons';
 import { Dropdown} from "react-bootstrap";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
 
 function AGuest() {
@@ -11,7 +11,6 @@ function AGuest() {
     const searchkey = useRef(null);
     const search = useRef(null);
     const [agItem, setAgitem] = useState([]);
-    const [selectedlist, setSelectedlist] = useState(null);
 
     const getLevel = (g_Level) => {
         if (g_Level <= 5) {
@@ -46,27 +45,27 @@ function AGuest() {
             });
     };
     }
-    const handleUpdate = (g_idx, g_level, g_point) => {
-        const form = new FormData();
-        form.append('g_idx', g_idx.current.value);
-        form.append('g_level', g_level.current.value);
-        form.append('g_point', g_point.current.value);
-        fetch('http://localhost/admin/ag_update', {
-            method: 'post',
-            body: form,
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    fetchguest();
-                } else {
-                    console.error('Error updating user:', data.result);
-                }
-            })
-            .catch(error => {
-                console.error('Error updating user:', error);
-            });
-    };
+    // const handleUpdate = (g_idx, g_level, g_point) => {
+    //     const form = new FormData();
+    //     form.append('g_idx', g_idx.current.value);
+    //     form.append('g_level', g_level.current.value);
+    //     form.append('g_point', g_point.current.value);
+    //     fetch('http://localhost/admin/ag_update', {
+    //         method: 'post',
+    //         body: form,
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.result === 'success') {
+    //                 fetchguest();
+    //             } else {
+    //                 console.error('Error updating user:', data.result);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error updating user:', error);
+    //         });
+    // };
 
     return (
         <>
@@ -79,7 +78,7 @@ function AGuest() {
 
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id}`)}
+              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -90,8 +89,8 @@ function AGuest() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -99,7 +98,7 @@ function AGuest() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -107,9 +106,8 @@ function AGuest() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>  
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                           
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                           
                 </Dropdown.Menu>
             </Dropdown>
            </ul>
