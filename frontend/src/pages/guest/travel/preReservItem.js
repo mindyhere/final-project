@@ -5,6 +5,7 @@ import '../aa.css'
 
 function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
     let loading = false;
+    const navigate = useNavigate();
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
 
     if (loading) {
@@ -20,8 +21,8 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
 
         return (
             <Link to={`/guest/preReservDetail/${OIdx}`}>
-           <div className="card-reserv" style={{zIndex: 0}} >
-                        <div style={{float: "left", width: "300px"}}>
+           <div className="card-reserv" onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
+                        <div style={{float: "left", width: "300px"}} onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
                             <p style={{fontSize: "30px", color: 'black'}}>{HoName}</p>
                             <p style={{fontSize:"20px", color: 'black'}}>{OCkin}~{OCkout}</p>
                             <br/>
@@ -29,7 +30,7 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
                             <p style={{fontSize: "20px", color: 'black' }}>{HoAddress}</p>
                             <input type='hidden' value={OIdx}></input>
                         </div>    
-                        <div style={{float: "left", width: "300px"}}>
+                        <div style={{float: "left", width: "300px"}} onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
                             <span dangerouslySetInnerHTML={{__html: img}}></span>
                         </div>
 

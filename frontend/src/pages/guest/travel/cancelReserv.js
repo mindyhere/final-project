@@ -36,13 +36,11 @@ function CancelReserv() {
         }).then(() => {
             navigate("/");
         });
-    } else {
-        idxKey = idx.key;
-    }
+    } 
     const {OIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
     
-    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idxKey);
+    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idx.key);
     if(loading||loading1) {
         return (
             <div>loading</div>

@@ -27,6 +27,7 @@ public class ReservDTO {
 	private int o_price;
 	private int o_discount;
 	private int o_finalprice;
+	private int o_benefit;
 	private int o_payment;
 	private int o_reser;
 	private int o_didx;
