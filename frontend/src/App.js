@@ -114,14 +114,14 @@ function App() {
 
 
           {/* admin 계정 */}
-          <Route path="/admin/alogin" element={<Alogin />} />
-          <Route path="/admin/amain" element={<Amain />} />
-          <Route path="/admin/ahost" element={<Ahost />} />
-          <Route path="/admin/aguest" element={<AGuest />} />
-          <Route path="/admin/ahotel" element={< AHotel/>}/>
+          <Route path="/admin/alogin/:aId" element={<Alogin />} />
+          <Route path="/admin/amain/:aId" element={<Amain />} />
+          <Route path="/admin/ahost/:aId" element={<Ahost />} />
+          <Route path="/admin/aguest/:aId" element={<AGuest />} />
+          <Route path="/admin/ahotel/:aId" element={< AHotel/>}/>
           <Route path="/admin/ahoteldetail/:hoIdx" element = {<AHoteldetail />}/>
-          <Route path="/admin/notice/alist" element={<NoticeList />} />
-          <Route path="/admin/notice/awrite" element={<Awrite />} />
+          <Route path="/admin/notice/alist/:aId" element={<NoticeList />} />
+          <Route path="/admin/notice/awrite/:aId" element={<Awrite />} />
           <Route path="/admin/notice/adetail/:n_idx" element={<Adetail />} />
 
 

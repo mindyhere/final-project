@@ -7,19 +7,20 @@ import Swal from "sweetalert2";
 function Footer() {
     const cookies = new Cookies();
     const navigate = useNavigate();
+    const a_id = cookies.get("a_id");
+    const userInfo = cookies.get("userInfo");
+    const g_email = cookies.get("g_email");
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
     if (locationNow.pathname === "/guest/write" ||
     locationNow.pathname === "/guest/edit") return null; 
     if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
-    if (locationNow.pathname === "/admin/amain" || locationNow.pathname === "/admin/alogin") return null;
+    if (locationNow.pathname === `/admin/amain` || locationNow.pathname === `/admin/alogin/${a_id}`) return null;
 
-      const a_id = cookies.get("a_id");
-      const userInfo = cookies.get("userInfo");
-      const g_email = cookies.get("g_email");
+ 
       const btnAdmin = () => {
         if (a_id != null) {
-            navigate(`/admin/amain`);
+            navigate(`/admin/amain/${a_id}`);
         } else if (userInfo != null) {
             Swal.fire({
                 title: '잠깐!',
@@ -43,7 +44,7 @@ function Footer() {
             }
         });
      } else {
-          navigate(`/admin/alogin`);
+          navigate(`/admin/alogin/${a_id}`);
         }
         };
     

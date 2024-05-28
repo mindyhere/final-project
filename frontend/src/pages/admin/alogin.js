@@ -1,9 +1,10 @@
 import React, {useRef, useState} from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams,useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../admin/css/astyles.css';
+
 
 function Alogin() { 
     const [params, setParams]=useSearchParams();  
@@ -11,6 +12,7 @@ function Alogin() {
     const navigate = useNavigate();
     const a_id = useRef();
     const a_passwd = useRef();
+    const { aId } = useParams();
 
     return(
         <>
@@ -73,10 +75,10 @@ function Alogin() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 }).then(() => {
-                                    window.location.href = '/admin/amain';
+                                    window.location.href = `/admin/amain/${a_id}`;
                                 });
                             } else { // 로그인 실패
-                                    navigate('/admin/alogin?msg=error');   
+                                    navigate(`/admin/alogin/${aId}?msg=error`);   
                             }
                         });  
                     }} className="btn-sign1">Sign In</button>            

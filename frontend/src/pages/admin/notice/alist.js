@@ -12,6 +12,7 @@ function NoticeList() {
   const search = useRef();
   const [Anitem, setAnitem] = useState([]);
   const cookies = new Cookies();
+  const a_id = cookies.get("a_id");
 
   useEffect(() => {
     fetchNotices();
@@ -37,7 +38,7 @@ function NoticeList() {
   };
 
   const handleWriteNotice = () => {
-    navigate('/admin/notice/awrite');
+    navigate(`/admin/notice/awrite/${a_id}`);
   };
 
   const handleDelete = (n_idx) => {
@@ -103,7 +104,7 @@ function NoticeList() {
 
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain`)}
+              onClick={() => navigate(`/admin/amain/${a_id}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -114,8 +115,8 @@ function NoticeList() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -123,7 +124,7 @@ function NoticeList() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -131,8 +132,8 @@ function NoticeList() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>   
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>   
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                          
                 </Dropdown.Menu>
             </Dropdown>
@@ -178,11 +179,10 @@ function NoticeList() {
               <table className="table table-hover table-bordered custom-table1">
                 <thead className="table-light">
                   <tr>
-                    <th className='col-1 text-center'>#</th>
-                    <th className='col-2 text-center'>제목</th>
-                    <th className='col text-center'>내용</th>               
-                    <th className='col-2 text-center'>작성자</th>
-                    <th className='col-2 text-center'>작성일</th>
+                    <th className='col-1 text-center'>no.</th>
+                    <th className='col-2 text-center'>제목</th>            
+                    <th className='col-1 text-center'>작성자</th>
+                    <th className='col-1 text-center'>작성일</th>
                     <th className='col-1 text-center'>수정</th>
                     <th className='col-1 text-center'>삭제</th>
                   </tr>
@@ -192,7 +192,6 @@ function NoticeList() {
                     <tr key={index}>
                       <td className='text-center'>{list.n_idx}</td>
                       <td className='text-center'>{list.n_title}</td>
-                      <td>{list.n_content}</td>
                       <td className='text-center'>{list.n_writer}</td>
                       <td className='text-center'>{list.n_date}</td>
                       <td className='text-center'>
