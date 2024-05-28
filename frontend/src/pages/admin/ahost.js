@@ -3,14 +3,13 @@ import '../admin/css/astyles.css';
 import { CardList, House, HouseCheckFill, Person, PersonVcard } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 
 function Ahost() {
     const navigate = useNavigate();
     const cookies = new Cookies();
     const a_id = cookies.get("a_id");
-    const { aId } = useParams();
     const searchkey = useRef();
     const search = useRef();
     const [ahitem, setAhitem] = useState([]);
@@ -49,8 +48,6 @@ function Ahost() {
             const form = new FormData();
             form.append('h_file', h_file);
             form.append('h_idx', h_idx);
-            // form.append('h_business', h_business);
-
 
             Swal.fire({
                 title: '가입 승인',
@@ -179,7 +176,7 @@ function Ahost() {
 
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id}`)}
+              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -190,8 +187,8 @@ function Ahost() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -199,7 +196,7 @@ function Ahost() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/:aId`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -207,9 +204,8 @@ function Ahost() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                             
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                          
                 </Dropdown.Menu>
             </Dropdown>
                             </ul>
