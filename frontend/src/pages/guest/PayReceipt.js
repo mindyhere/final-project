@@ -163,7 +163,6 @@ function PayPDF() {
                                         <h4>질문이 있으신가요?</h4>
                                         <br></br>
                                         <div>결제 및 환불과 관련한 자세한 사항은 결제 페이지나 관련 도움말에서 확인하실 수 있습니다.</div>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -285,19 +284,25 @@ function PayPDF() {
                     <div className="row" align='left'>
                         <div className="col-1"></div>
                             <div className="col-10">
+                                <br></br>
                                 <hr></hr>
+                                <br></br>
                                 <br></br>
                                 <div style={{color: 'gray', fontWeight: 'bold'}}>Sybnb Payments KR Ltd.</div>
                                 <div style={{color: 'gray'}}>Sybnb Payments는 호스트의 대금 수령 한정 대리인입니다. 따라서 Sybnb Payments를 통해 전액을 결제하면 호스트에 대한 지급 의무를 다하는 것입니다. 환불 요청은 (1)호스트의 환불 정책(숙소 페이지에서 확인 가능)또는 (2)재예약 및 환불 정책 약관에 따라 처리됩니다.</div>
                                 <br></br>
                                 <br></br>
+                                <br></br>
                                 <hr></hr>
+                                <br></br>
                                 <div align='right'>
                                     <img src='/img/sybnb2.png' align='right' style={{width: '160px', height: '48px'}}></img>
                                 </div>
+                                <br></br>
                             </div>
-                    <div className="col-1"></div>
+                        <div className="col-1"></div>
                     </div>
+                        <br></br>
                         <br></br>
                 </div>
             </div>
