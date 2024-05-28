@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Dropdown, ListGroup } from "react-bootstrap";
 import { CardList, House, HouseCheckFill, ListCheck, Person } from 'react-bootstrap-icons';
-import Adminmemo from './memo';
+
 
 function Amain() {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ function Amain() {
 
 
           <div>
-            <Adminmemo />
+     
           </div>
 
         </main>
