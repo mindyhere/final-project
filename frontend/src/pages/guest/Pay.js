@@ -40,83 +40,6 @@ function Pay() {
     const g_cvc=useRef();
     const [num2, setNum2] = useState('');
 
-    //카드번호 입력함수
-    const handleCard = (e) => {
-        const value = g_card.current.value.replace(/\D+/g, "");
-        const numberLength1 = 16;
-    
-        let result = "";  
-    
-        for (let i = 0; i < value.length && i < numberLength1; i++) {
-          switch (i) {
-            case 4:
-              result += "-";
-              break;
-            case 8:
-              result += "-";
-              break;
-            case 12:
-                result += "-";
-                break;
-    
-            default:
-              break;
-          }
-    
-          result += value[i];
-        }
-    
-        g_card.current.value = result;
-    
-        setNum(e.target.value); 
-    };
-
-    //만료일 입력함수
-    const handleDate = (e) => {
-        const value1 = g_date.current.value.replace(/\D+/g, "");
-        const numberLength = 4;
-    
-        let result1 = "";  
-    
-        for (let i = 0; i < value1.length && i < numberLength; i++) {
-          switch (i) {
-            case 2:
-              result1 += "/";
-              break;
-    
-            default:
-              break;
-          }
-    
-          result1 += value1[i];
-        }
-    
-        g_date.current.value = result1;
-    
-        setNum1(e.target.value); 
-    };
-
-    //CVC 입력함수
-    const handleCVC = (e) => {
-        const value2 = g_cvc.current.value.replace(/\D+/g, "");
-        const numberLength = 3;
-    
-        let result2 = "";  
-    
-        for (let i = 0; i < value2.length && i < numberLength; i++) {
-          switch (i) {
-            default:
-              break;
-          }
-    
-          result2 += value2[i];
-        }
-    
-        g_cvc.current.value = result2;
-    
-        setNum2(e.target.value); 
-    };
-
     function getPay(url) {
         fetch(url)
         .then(response => {
@@ -127,7 +50,7 @@ function Pay() {
         });
     }
 
-    useEffect(() => {getPay('http://localhost/guest/pay?g_idx='+g_idx.key);},[]); //회원연결시 ?g_idx=1 삭제
+    useEffect(() => {getPay('http://localhost/guest/pay?g_idx='+g_idx.key);},[]);
 
 
     if(loading){
@@ -135,204 +58,72 @@ function Pay() {
             <div>loading</div>
         )
     } else {
-        let card='';
-        if(data.dto.g_card != null) {
-            card = '****-****-****-'+data.dto.g_card.substring(15,19);
-        }
         return (
             <>
             <div className="container" align='center' style={{position: 'static'}}>
                 <div className="row">
-                
-                <div className="col-5">
-                <div className="container-lg">
-                        <div style={{paddingLeft: '100px'}}>
-				            <div align='left'>
-                                <h3><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-credit-card" viewBox="0 0 16 16">
-                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                                </svg>&nbsp;결제수단</h3>
-                                <br/>
-                                {data.dto.g_date === null
-                                ?
-                                <>
-                                <div class="card-stylee mb-30" >
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카드를 등록해주세요.
-                                    <br/>
-                                    <br/>
-                                    <div>
-                                        <div className={'btn-wrapper'}>
-                                                <div className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
-                                                    <button className='btn btn-dark'>결제수단 등록</button>
-                                                </div>
-                                            </div>
-                                            {
-                                                modalOpen &&
-                                                <div className={'modal-container'} ref={modalBackground} onClick={e => {
-                                                
-                                                }}>
-                                                <div className={'modal-content2'}>
-                                                    <h4>카드 상세정보 추가하기</h4>
-                                                    <br />
-                                                    <div style={{padding:'3px'}}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
-                                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                                                        <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                                                        </svg>&nbsp;
-                                                            <input value={num} className='form-control' ref={g_card} placeholder="카드번호(16자리)" type='text' onChange={handleCard}/>
-                                                    </div>
-                                                    <div style={{padding:'3px'}}>
-                                                        
-                                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                                                        <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                                                        &nbsp;
-                                                                <input value={num1} className='form-control' ref={g_date} placeholder="만료일(MM/YY)" type='text' onChange={handleDate}></input>
-                                                    </div>
-                                                    <div style={{padding:'3px'}}>
-                                                        
-                                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                                                        <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                                                        &nbsp;
-                                                                <input value={num2} className='form-control' ref={g_cvc} placeholder="CVC" type='text' onChange={handleCVC}></input>
-                                                    </div>
-                                                    <ul className="navbar-nav" align='center'>
-                                                        <li style={{padding:'4px'}}>
-                                                        <button onClick={()=>{
-                                                            const form = new FormData();
-                                                            form.append('g_idx',g_idx.key);
-                                                            form.append('g_card',g_card.current.value);
-                                                            form.append('g_date',g_date.current.value);
-                                                            form.append('g_cvc',g_cvc.current.value);
-                                                            if(g_card.current.value.length !== 19){
-                                                                Swal.fire({
-                                                                    icon : 'warning',
-                                                                    text : '카드번호 16자리를 입력하세요',
-                                                                    confirmButtonText: '확인'
-                                                                });
-                                                                return;
-                                                            }
-                                                            if(g_date.current.value.length !== 5){
-                                                                Swal.fire({
-                                                                    icon : 'warning',
-                                                                    text : '만료일을 정확히 입력하세요.',
-                                                                    confirmButtonText: '확인'
-                                                                });
-                                                                return;
-                                                            }
-                                                            if(g_cvc.current.value.length !== 3){
-                                                                Swal.fire({
-                                                                    icon : 'warning',
-                                                                    text : 'CVC 3자리를 입력하세요.',
-                                                                    confirmButtonText: '확인'
-                                                                });
-                                                                return;
-                                                            }
-                                                            fetch('http://localhost/guest/cardupdate',{
-                                                                method:'post',
-                                                                body:form
-                                                            }).then(()=>{
-                                                                Swal.fire({
-                                                                    icon : 'success',
-                                                                    text : '카드등록이 완료되었습니다.',
-                                                                    confirmButtonText: '확인'
-                                                                }).then((result) => {
-                                                                    if(result.isConfirmed) {
-                                                                        window.location.href='/guest/Pay';
-                                                                    }
-                                                                });
-                                                            });
-                                                        }} className='btn btn-dark'>등록</button></li>
-                                                        <li style={{padding:'4px'}}>
-                                                        <button className='btn btn-outline-dark' onClick={() => setModalOpen(false)}>닫기</button></li>
-                                                    </ul>
-                                                </div>
-                                                </div>
-                                            }
-                                        </div>
-                                        </div>
-                                </>
-                                :
-                                <>
-                                    <div className="card-stylee mb-30" >
-                                    <h5>등록된 카드정보</h5>
-                                    <tr>
-                                        <td>카드번호</td>
-                                        <td><input className='form-control' defaultValue={card} readOnly/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>카드 유효기간</td>
-                                        <td><input className='form-control' defaultValue={data.dto.g_date} readOnly/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>cvc</td>
-                                        <td><input className='form-control' defaultValue={data.dto.g_cvc} readOnly/></td>
-                                    </tr>
-                                    <tr>
-                                        <button className='btn btn-outline-dark' onClick={()=>{
-                                            Swal.fire({
-                                                title: "",
-                                                html: `카드정보를 삭제하시겠습니까?`,
-                                                showCancelButton: true,
-                                                cancelButtonText: "cancel",
-                                                confirmButtonText: "OK",
-                                                preConfirm:()=>{
-                                                    const form = new FormData();
-                                                    form.append('g_idx',g_idx.key);
-                                                    fetch('http://localhost/guest/carddelete',{
-                                                        method:'post',
-                                                        encType:'multipart/form-data',
-                                                        body:form
-                                                    }).then(()=>{
-                                                        window.location.href='/guest/Pay';
-                                                    });
-                                                }
-                                            });
-
-                                        }}>삭제</button>
-                                    </tr>
-                                    </div>
-                                    
-                                
-                                </>
-                                }
-                                </div>
+                    <div className="col-1"></div>
+                    <div className="col-7" align='left'>
+                        <div style={{marginBottom: '30px',marginLeft: '50px'}}>
+                        <h2><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
+                        <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                        </svg>&nbsp;결제내역</h2>
+                        {paylist.length === 0
+                        ? 
+                        <div className='container'>
+                            <div className="col-7">
+                            <br></br><br></br><br></br>
+                                <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>결제내역이 없습니다.</div>
+                                <br></br><br></br><br></br>
+                            </div>
                         </div>
+                        :
+                        <>
+                            {paylist.map(
+                                ({O_idx,G_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
+                                    <PayItem
+                                    O_idx={O_idx}
+                                    G_idx={G_idx}
+                                    Ho_idx={Ho_idx}
+                                    D_idx={D_idx}
+                                    D_img1={D_img1}
+                                    O_state={O_state}
+                                    O_orderdate={O_orderdate}
+                                    O_payment={O_payment}
+                                    O_ckin={O_ckin}
+                                    O_ckout={O_ckout}
+                                    O_finalprice={O_finalprice}
+                                    key={G_idx}
+                                    />
+                                )
+                            )}
+                        </>
+                        }
+                                
+
+                        </div>
+                    </div> 
+                    <div className="col-4" align='left'>
+                        <br></br><br></br><br></br>
+                        <div className="card" style={{width: '23rem',height: '16rem', padding:'1rem'}}>
+                            <div className="card-body" align='left'>
+                            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{display: 'block', height: '48px', width: '48px', fill: 'rgb(227, 28, 95)', stroke: 'currentcolor'}}><g><g stroke="none"><path d="m41.999 10v24h-4.287l1.01-.6546823c.242375-.158375.3706719-.3933125.3998895-.6646172l.0064994-.1183828c.004513-1.4230639-2.4648559-3.6737529-5.4115565-1.9238459l-.1928324.1198459-5.278 3.2416823-2.2539866.0005578c.1712874-1.0118843-.1666572-1.9090959-.8837185-1.9909612l-.1084949-.0060789-19.0018-.0005177.001-22.003z" fill-opacity=".2"></path><path d="m44 6c1.0543618 0 1.9181651.81587779 1.9945143 1.85073766l.0054857.14926234v28c0 1.0543618-.8158778 1.9181651-1.8507377 1.9945143l-.1492623.0054857h-12.446l3.079-2h9.367v-28h-40v24.0033177c-.51283584 0-.93550716.3860402-.99327227.8833788l-.00672773.1166212-.00007248 4.729076c-.55177975-.3192182-.93689844-.8944853-.9928825-1.5633277l-.00704502-.169066v-28c0-1.0543618.81587779-1.91816512 1.85073766-1.99451426l.14926234-.00548574zm-20 9c3.8659932 0 7 3.1340068 7 7s-3.1340068 7-7 7-7-3.1340068-7-7 3.1340068-7 7-7zm0 2c-2.7614237 0-5 2.2385763-5 5s2.2385763 5 5 5 5-2.2385763 5-5-2.2385763-5-5-5zm-15-5c.55228475 0 1 .4477153 1 1s-.44771525 1-1 1-1-.4477153-1-1 .44771525-1 1-1z"></path></g><g fill="none" stroke-width="2"><path d="m24.9998 32.0035177c1.3716282 0 1.5099129 2.8120004-.3683588 4.2183752l8.8925588-5.4635752c3.031-1.968 5.609.35 5.6043889 1.804-.0013889.321-.1293889.602-.4063889.783l-17.2344901 11.1920163c-.947203.6151103-2.110299.8011277-3.2021.5121216l-14.54130246-3.8491683c-.43862489-.1161066-.74410744-.5129735-.74410744-.9667052v-7.2302644c0-.5522848.44771525-1 1-1z"></path><path d="m13.9998 37.0035177h8.051c1.2682235 0 2.2021119-.4127594 2.8457108-1.0010914"></path></g></g></svg>
+                                <div style={{paddingBottom:'10px'}}></div>
+                            <h5 style={{paddingBottom:'10px'}}>에어비앤비를 통해서만 결제하세요.</h5>
+                            <div>에어비앤비의 서비스 약관, 결제 서비스 약관, 환불 정책 및 기타 안전장치의 보호를 받으려면 항상 에어비앤비를 통해 결제와 커뮤니케이션을 진행하시기 바랍니다.</div>
+                            </div>
+                        </div>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                        <br></br><br></br><br></br>
+                    </div>
+
                     </div>
                 </div>
-
-                                <div className="col-7" align='left'>
-                                    <div style={{marginBottom: '30px',marginLeft: '50px'}}>
-                                    <h3><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
-                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
-                                    </svg>&nbsp;결제내역</h3>
-                                            
-                                            {paylist.map(
-                                                ({O_idx,G_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
-                                                    <PayItem
-                                                    O_idx={O_idx}
-                                                    G_idx={G_idx}
-                                                    Ho_idx={Ho_idx}
-                                                    D_idx={D_idx}
-                                                    D_img1={D_img1}
-                                                    O_state={O_state}
-                                                    O_orderdate={O_orderdate}
-                                                    O_payment={O_payment}
-                                                    O_ckin={O_ckin}
-                                                    O_ckout={O_ckout}
-                                                    O_finalprice={O_finalprice}
-                                                    key={G_idx}
-                                                    />
-                                                )
-                                            )}
-                                    </div>
-                                </div>
-                            
-                            
-                        </div>
-                    </div>
             </>
         )
     }
