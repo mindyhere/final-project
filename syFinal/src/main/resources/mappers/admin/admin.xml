@@ -126,7 +126,8 @@
 		ha_status=3
 		WHERE ho_idx =#{ho_idx}
 		AND d_ho_idx = d_ho_idx
-		AND ha_ho_idx =ha_ho_idx
+		AND ha_ho_idx
+		=ha_ho_idx
 	</update>
 
 	<!-- 등록된 호텔 수 -->
@@ -135,13 +136,22 @@
 	</select>
 
 	<!-- 호텔상세 -->
-	<select id="ADetailHotel" 	resultType="com.example.syFinal.host.model.dto.HotelDTO">
-    SELECT *
-    FROM hotel h
-    Join host s on  h.ho_idx = s.h_idx
-    JOIN hotel_detail hd ON h.ho_idx = hd.d_ho_idx
-    JOIN hotel_amenity ha ON h.ho_idx = ha.ha_ho_idx
-    WHERE h.ho_idx = #{ho_idx}
-</select>
+	<select id="ADetailHotel"
+		resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT *
+		FROM hotel h
+		Join host s on h.ho_idx = s.h_idx
+		JOIN hotel_detail hd ON h.ho_idx = hd.d_ho_idx
+		JOIN hotel_amenity ha ON h.ho_idx = ha.ha_ho_idx
+		WHERE h.ho_idx = #{ho_idx}
+	</select>
+
+	<!--차트 매출 -->
+	<select id="Achart"
+		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
+		select ho_idx, ho_name, sum, month
+		from v_sales
+		where month = #{strToday}
+	</select>
 
 </mapper>
