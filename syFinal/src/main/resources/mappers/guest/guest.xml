@@ -23,8 +23,11 @@
 	
 	<!-- 결제리스트 -->
 	<select id="paylist" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
-		SELECT 
+		SELECT
+		ho_idx,
+		d_idx,
 		g_idx,
+		o_idx,
 		d_img1, 
 		o_state, 
 		DATE_FORMAT(o_orderdate, '%Y년 %m월 %d일') as o_orderdate, 
@@ -32,8 +35,8 @@
 		DATE_FORMAT(o_ckin, '%Y/%m/%d') as o_ckin, 
 		DATE_FORMAT(o_ckout, '%Y/%m/%d') as o_ckout, 
 		o_finalprice
-		FROM hotel_detail d, orders o, guest g
-		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx 
+		FROM hotel_detail d, orders o, guest g, hotel h
+		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx AND d.d_ho_idx = h.ho_idx
 		and g_idx=#{g_idx}
 		order BY o_orderdate
 	</select>
@@ -136,5 +139,36 @@
 		SELECT (TO_DAYS(now()) - TO_DAYS(g_join_date)) AS joindate
 		FROM guest
 		WHERE g_idx=#{gidx}
+	</select>
+	
+	<!-- 영수증 상세내역 -->
+	<select id="receipt" resultType="java.util.HashMap">
+		SELECT 
+		ho_idx,
+		d_idx,
+		g_idx,
+		o_idx,
+		o_ckin,
+		o_ckout,
+		o_adult,
+		o_child,
+		o_baby,
+		o_price,
+		o_discount,
+		o_benefit,
+		o_finalprice,
+		o_payment,
+		o_orderdate,
+		ifnull(o_refunddate,0) as o_refunddate,
+		paymentId,
+		ho_name,
+		ho_img,
+		d_room_type,
+		d_beds,
+		h_name,
+		g_name
+		FROM hotel ho, hotel_detail d, host h, guest g, orders o
+		WHERE o.o_didx = d.d_idx AND o.o_gidx = g.g_idx AND d.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
+		AND g_idx = #{gidx} AND d_idx = #{didx} AND ho_idx=#{hoidx} AND o_idx=#{oidx}
 	</select>
 </mapper>

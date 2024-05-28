@@ -252,6 +252,17 @@ if(loading||loading1||loading2){
                                                     Rp_content={Rp_content}
                                                 />
                                             ))}
+                                            {replylist.length === 0
+                                            ?
+                                            <div className='container'>
+                                                <div>
+                                                <br></br><br></br><br></br>
+                                                    <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 답변이 없습니다.</div>
+                                                    <br></br><br></br><br></br>
+                                                </div>
+                                            </div>
+                                            :''
+                                            }
                                         </Slider1>
                                     </div>
                                   )}
@@ -317,6 +328,17 @@ if(loading||loading1||loading2){
                                                     Rv_content={Rv_content}
                                                 />
                                             ))}
+                                            {reviewlist.length === 0
+                                            ?
+                                            <div className='container'>
+                                                <div>
+                                                <br></br><br></br><br></br>
+                                                    <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 후기가 없습니다.</div>
+                                                    <br></br><br></br><br></br>
+                                                </div>
+                                            </div>
+                                            :''
+                                            }
                                         </Slider>
                                     </div>
                                   )}

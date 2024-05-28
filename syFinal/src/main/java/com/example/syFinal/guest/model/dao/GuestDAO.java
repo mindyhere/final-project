@@ -10,6 +10,7 @@ import com.example.syFinal.guest.model.dto.ReviewDTO;
 public interface GuestDAO {
 	GuestDTO my(int g_idx);
 	List<GuestDTO> paylist(int g_idx);
+	Map<String,Object> receipt(Map<String,Object> map);
 	List<CouponDTO> couponlist(int g_idx);
 	int c_count(int g_idx);
 	void cardupdate(Map<String,Object> map);
