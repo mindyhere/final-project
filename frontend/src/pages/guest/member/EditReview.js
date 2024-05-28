@@ -4,7 +4,7 @@ import { ChatLeftQuote } from "react-bootstrap-icons";
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
 
-import StarRate from "../../component/StarRate";
+import StarRate from "../../../component/StarRate";
 
 function useFetch(url) {
   const [data, setData] = useState(null);

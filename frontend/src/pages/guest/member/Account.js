@@ -39,6 +39,7 @@ function Account() {
                     <div className="container-lg">
                         <h2>계정</h2>
                     </div>
+                    <br></br>
                     <div>{data.dto.g_name}, {data.dto.g_email} · <a style={{fontWeight: 'bold'}} onClick={() => navigate('/guest/Profile')}>프로필로 이동</a></div>
                 
                 <br />
