@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import { CardList, House, HouseCheckFill, Person } from 'react-bootstrap-icons';
+import MemoList from './memolist';
 
 function Amain() {
   const navigate = useNavigate();
@@ -58,7 +59,18 @@ function Amain() {
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2"> 관리자 페이지</h1>
           </div>
+<div>
 
+<MemoList/>
+</div>
+<div>
+
+  
+</div>
+<div>
+
+  
+</div>
         </main>
       </div>
       </div>
