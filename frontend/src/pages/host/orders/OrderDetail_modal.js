@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
 import { Calendar2Week } from "react-bootstrap-icons";
-import moment from "moment";
 import "moment/locale/ko";
 
 function useFetch(url) {
@@ -17,7 +16,6 @@ function useFetch(url) {
       })
       .then((data) => {
         setData(data);
-        // console.log("===> data? " + JSON.stringify(data.guest));
         setLoading(false);
       });
   }, []);
@@ -30,6 +28,7 @@ function OrderDetail(order_idx) {
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
   const userEmail = userInfo.h_email;
+  const userName = userInfo.h_name;
   const [rdo, setRadio] = useState(dataset.o_state);
   const moment = require("moment");
   const today = moment().format("YYYY-MM-DD");
@@ -44,6 +43,17 @@ function OrderDetail(order_idx) {
       return false;
     }
   }
+
+  // 쿠키 정보 업데이트
+  const handleCookie = (data) => {
+    const time = 3600; // 1hr
+    const cookies = new Cookies();
+    const expiration = new Date(Date.now() + time * 1000);
+    cookies.set("userInfo", data, {
+      path: "/",
+      expires: expiration,
+    });
+  };
 
   const [data, loading] = useFetch(
     `http://localhost/api/order/manage/detail/get/${dataset.g_idx}`
@@ -104,7 +114,15 @@ function OrderDetail(order_idx) {
                   </colgroup>
                   <tbody>
                     <tr>
-                      <th colSpan={1} style={{ cursor: "pointer",backgroundColor:"#f7effc" }}>예약번호</th>
+                      <th
+                        colSpan={1}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#f7effc",
+                        }}
+                      >
+                        예약번호
+                      </th>
                       <td colSpan={3}>&nbsp;&nbsp;{dataset.o_idx}</td>
                     </tr>
                     <tr>
@@ -413,12 +431,6 @@ function OrderDetail(order_idx) {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        // console.log(
-                        //   "=> 결과? " +
-                        //     result.value +
-                        //     "/ " +
-                        //     Object.values(result)
-                        // );
                         Swal.fire({
                           icon: "success",
                           title: "Confirm",
@@ -474,7 +486,7 @@ function OrderDetail(order_idx) {
                               throw new Error("false: " + response.status);
                             }
                             const form = new FormData();
-                            form.append("opt", 1); // 예약확정 & 게스트레벨업
+                            form.append("opt", 1); 
                             form.append("oidx", dataset.o_idx);
                             form.append("hidx", userIdx);
                             form.append("idx", dataset.g_idx);
@@ -493,7 +505,6 @@ function OrderDetail(order_idx) {
                             });
                           })
                           .catch((error) => {
-                            // console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -502,7 +513,13 @@ function OrderDetail(order_idx) {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        // console.log(result.value);
+                        handleCookie({
+                          h_idx: userIdx,
+                          h_email: userEmail,
+                          h_name: userName,
+                          h_level: parseInt(result.value[9]),
+                        });
+                        console.log(cookies.get("userInfo"));
                         Swal.fire({
                           icon: "success",
                           title: "Complete",
