@@ -30,7 +30,6 @@ function Header() {
 
  // 관리자 쿠키
   const a_id = cookies.get("a_id");
-  const a_passwd = cookies.get("a_passwd");
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -507,6 +506,11 @@ function Header() {
                       localStorage.clear();
                       sessionStorage.clear();
                       removeCookies("admin");
+                      Swal.fire({ 
+                        text: "관리자 계정에서 로그아웃되었습니다.",
+                        confirmButtonText: '확인',
+                        confirmButtonColor: '#41774d86',
+                      })
                       navigate("/");
                     }
                   });
