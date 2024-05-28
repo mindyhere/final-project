@@ -45,9 +45,10 @@ function OrderDetail(order_idx) {
 
   // 쿠키 정보 업데이트
   const handleCookie = (data) => {
-    const time = 3600; // 1hr
+    let expiration=new Date();
     const cookies = new Cookies();
-    const expiration = new Date(Date.now() + time * 1000);
+    expiration.setDate(expiration.getDate()+1);
+    console.log("expiration? "+expiration)
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,

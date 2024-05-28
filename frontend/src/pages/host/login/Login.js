@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import GuestJoin from "../../guest/member/join";
 import HostJoin from "./Join_modal";
 import "../host1.css";
+import { getDate } from "date-fns";
 
 function HostLogin() {
   const navigate = useNavigate();
@@ -16,9 +17,10 @@ function HostLogin() {
   const [modal, setModal] = useState(false);
 
   const handleCookie = (data) => {
-    const time = 3600; // 1hr
+    let expiration=new Date();
     const cookies = new Cookies();
-    const expiration = new Date(Date.now() + time * 1000);
+    expiration.setDate(expiration.getDate()+1);
+    console.log("expiration? "+expiration)
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
