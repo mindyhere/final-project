@@ -44,10 +44,10 @@ function OrderItem({
 
   // 쿠키 정보 업데이트
   const handleCookie = (data) => {
-    let expiration=new Date();
+    let expiration = new Date();
     const cookies = new Cookies();
-    expiration.setDate(expiration.getDate()+1);
-    console.log("expiration? "+expiration)
+    expiration.setDate(expiration.getDate() + 1);
+    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
