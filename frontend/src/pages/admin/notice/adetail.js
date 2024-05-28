@@ -2,11 +2,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { PencilSquare,  CardList, House, HouseCheckFill,  Person  } from "react-bootstrap-icons";
 import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Cookies from "universal-cookie";
 import '../css/astyles.css';
 import { Dropdown} from "react-bootstrap";
 
 function Adetail() {
     const { n_idx } = useParams();
+    const cookies = new Cookies();
     const [notice, setNotice] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,6 +18,7 @@ function Adetail() {
     const n_content = useRef();
     const n_date = useRef();
     const n_file = useRef(); 
+    const a_id = cookies.get("a_id");
 
     useEffect(() => {
         fetch(`http://localhost/notice/detail/${n_idx}`)
@@ -115,7 +118,7 @@ function Adetail() {
                             <ul className="nav flex-column">                               
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain`)}
+              onClick={() => navigate(`/admin/amain/${a_id}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -126,8 +129,8 @@ function Adetail() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -135,7 +138,7 @@ function Adetail() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -143,8 +146,8 @@ function Adetail() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item>          
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>          
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                   
                 </Dropdown.Menu>
             </Dropdown>
@@ -191,7 +194,7 @@ function Adetail() {
                                             <tr>
                                                 <td colSpan="2" className="text-center">
                                                     <button type="submit" className="btn btn-sign3">수정</button>
-                                                    <button type="button" onClick={() => navigate('/admin/notice/alist')} className="btn btn-sign3">목록</button>
+                                                    <button type="button" onClick={() => navigate(`/admin/notice/alist/${a_id}`)} className="btn btn-sign3">목록</button>
                                                 </td>
                                             </tr>
                                         </tbody>

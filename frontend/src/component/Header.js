@@ -61,7 +61,7 @@ function Header() {
     locationNow.pathname === "/host/account/manage/reply"
   ) return null; 
   if ( 
-    locationNow.pathname === "/admin/alogin" )return null;
+    locationNow.pathname === `/admin/alogin/${a_id}` )return null;
 
   if (userInfo == null && g_email == null && a_id == null) {
     console.log("a_id 로그인X cookie==> " + a_id);

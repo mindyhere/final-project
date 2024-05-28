@@ -1,14 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Check2Square, Square, BuildingFill, PersonVcard ,CardList, House, HouseCheckFill,  Person } from 'react-bootstrap-icons';
 import { useParams } from "react-router-dom";
-import Cookies from "universal-cookie";
 import Swal from 'sweetalert2';
 import '../admin/css/astyles.css'; // Import your custom styles
 import moment from "moment";
 import "moment/locale/ko";
 import { useNavigate } from "react-router-dom";
 import { Dropdown} from "react-bootstrap";
-
+import Cookies from "universal-cookie";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -35,6 +34,7 @@ function useFetch(url) {
 function AHoteldetail() {
     const navigate = useNavigate();
     const cookies = new Cookies();
+    const a_id = cookies.get("a_id");
     const { hoIdx } = useParams();
     const element = useRef(null);
     const onMoveBox = () => {
@@ -232,7 +232,7 @@ function AHoteldetail() {
 
                             <li className="nav-item">
             <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain`)}
+              onClick={() => navigate(`/admin/amain/${a_id}`)}
               >
                 &nbsp; <House width={'15%'} height={'15%'}/> HOME
               </a>
@@ -243,8 +243,8 @@ function AHoteldetail() {
                 <Person width={'15%'} height={'15%'}/> 회원관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost`)}>사업자정보관리</Dropdown.Item>   
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>                      
+                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>   
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -252,7 +252,7 @@ function AHoteldetail() {
                 <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel`)}>숙소등록승인</Dropdown.Item>                                         
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>                                         
                 </Dropdown.Menu>
             </Dropdown>   
             <Dropdown>
@@ -260,8 +260,8 @@ function AHoteldetail() {
                 <CardList width={'15%'} height={'15%'}/> 공지사항
                 </Dropdown.Toggle>
                   <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite`)}>공지등록</Dropdown.Item> 
+                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>                                      
+                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item> 
                     <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/adetail/:n_idx`)}>공지수정</Dropdown.Item>                                            
                 </Dropdown.Menu>
             </Dropdown>
