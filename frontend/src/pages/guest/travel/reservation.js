@@ -74,7 +74,7 @@ var set = {
                 <br/>
                 <br/>
                 <div style={{width: '1000px'}}>
-                <div style={{zIndex: 0, marginBottom:'50px',width: "600px" ,height: '300px',marginRight: '70px', float: 'left'}}>
+                <div style={{marginBottom:'50px', width: "600px" ,height: '300px',marginRight: '70px', float: 'left'}}>
                 <h4>예정된 예약</h4>
                 <Slider {...settings}>
                     {reservList.map(
