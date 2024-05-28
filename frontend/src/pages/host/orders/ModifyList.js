@@ -1,17 +1,11 @@
-import React, { useRef, useCallback, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import Cookies from "universal-cookie";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import {
-  BellSlash,
-  Calendar2Week,
-  CaretLeft,
-  CaretRight,
-  Exclamation,
-} from "react-bootstrap-icons";
+import { BellSlash, Exclamation } from "react-bootstrap-icons";
 
 import RequestItem from "./RequestItem";
 
@@ -34,11 +28,7 @@ function useFetch(url) {
 }
 
 function ModifyList() {
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
+  const { userIdx } = useParams();
   const [data, loading] = useFetch(
     `http://localhost/api/order/manage/modify/list?userIdx=${userIdx}`
   );

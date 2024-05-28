@@ -23,18 +23,6 @@ function HostLogin() {
       path: "/",
       expires: expiration,
     });
-    // console.log(cookies.get("userInfo"))
-
-    setTimeout(() => {
-      Swal.fire({
-        icon: "info",
-        title: "Check",
-        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
-        timer: 2000,
-      }).then(() => {
-        navigate("/");
-      });
-    }, time * 1000);
   };
 
   return (

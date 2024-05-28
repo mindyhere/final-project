@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
@@ -24,11 +25,9 @@ function useFetch(url) {
 
 function OrderDetail(order_idx) {
   const dataset = JSON.parse(localStorage.getItem("dataset"));
+  const { userIdx } = useParams();
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
   const [rdo, setRadio] = useState(dataset.o_state);
   const moment = require("moment");
   const today = moment().format("YYYY-MM-DD");
@@ -406,7 +405,7 @@ function OrderDetail(order_idx) {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}`
                         )
                           .then((response) => {
                             if (!response.ok) {
@@ -479,14 +478,14 @@ function OrderDetail(order_idx) {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}`
                         )
                           .then((response) => {
                             if (!response.ok) {
                               throw new Error("false: " + response.status);
                             }
                             const form = new FormData();
-                            form.append("opt", 1); 
+                            form.append("opt", 1);
                             form.append("oidx", dataset.o_idx);
                             form.append("hidx", userIdx);
                             form.append("idx", dataset.g_idx);
@@ -515,8 +514,8 @@ function OrderDetail(order_idx) {
                       if (result.isConfirmed) {
                         handleCookie({
                           h_idx: userIdx,
-                          h_email: userEmail,
-                          h_name: userName,
+                          h_email: userInfo.h_email,
+                          h_name: userInfo.h_name,
                           h_level: parseInt(result.value[9]),
                         });
                         console.log(cookies.get("userInfo"));

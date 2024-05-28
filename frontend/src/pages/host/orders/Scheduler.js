@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import "../../../asset/css/reactcalendar.css";
 import { CircleFill, TriangleFill } from "react-bootstrap-icons";
-
-import Cookies from "universal-cookie";
 
 function useFetch(url) {
   const [data, setData] = useState([]);
@@ -40,9 +38,7 @@ function useFetch(url) {
 }
 
 function Scheduler({ handleModal }) {
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
+  const { userIdx } = useParams();
   const [value, onChange] = useState(new Date());
   const [ckin, loading1] = useFetch(
     `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin`

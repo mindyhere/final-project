@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import Swal from "sweetalert2";
-import Cookies from "universal-cookie";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { Calendar2Check } from "react-bootstrap-icons";
-import moment from "moment";
 import "moment/locale/ko";
 
 import OrderItem from "./OrderItem";
@@ -19,7 +17,6 @@ function useFetch(url) {
       })
       .then((data) => {
         if (data != null) {
-          // console.log("===> data? " + JSON.stringify(data));
           setData(data);
         }
         setLoading(false);
@@ -29,9 +26,7 @@ function useFetch(url) {
 }
 
 function DetailSchedule({ date }) {
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
+  const { userIdx } = useParams();
   const [ckinData, loading1] = useFetch(
     `http://localhost/api/order/manage/schedule/detail/${userIdx}?column=o_ckin&date=${date}`
   );

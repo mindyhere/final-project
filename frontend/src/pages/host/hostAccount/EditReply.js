@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
+import { ChatLeftQuote } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
