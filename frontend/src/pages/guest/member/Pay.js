@@ -2,7 +2,7 @@ import React, {useRef,useEffect,useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';
-import PayItem from "../../pages/guest/PayItem";
+import PayItem from "./PayItem";
 import Swal from "sweetalert2";
 
 

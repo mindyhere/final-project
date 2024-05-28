@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
 import Slider from "react-slick";
 import Slider1 from "react-slick";
-import GuestReview from "../guest/GuestReview";
-import HostReply from "../guest/HostReply";
+import GuestReview from "./GuestReview";
+import HostReply from "./HostReply";
 
 function useFetch(url) {
     const [data,setData] = useState(null);
@@ -266,34 +266,6 @@ if(loading||loading1||loading2){
                                         </Slider1>
                                     </div>
                                   )}
-
-                            
-                            {/* <a className="nav-link active">호스트 후기 모두 표시하기
-                                <div className={"btn-wrapper2"}>
-                                    <a className={"modal-open-btn"}
-                                    onClick={() => setModalOpen2(true)}>호스트 후기</a>
-                                </div>
-                            </a>
-                            {modalOpen2 && (
-                            <div
-                                className={"modal-container3"}
-                                ref={modalBackground}
-                                onClick={(e) => {
-                                if (e.target === modalBackground.current) {
-                                    setModalOpen2(false);
-                                }
-                                }}
-                            >
-                                <div className={"modal-content3"}>
-                                <h4>본22222</h4>
-                                <hr></hr>
-                                <p>'본인 인증'22222</p>
-                                </div>
-                            </div>
-                            )} */}
-
-
-
                             <hr></hr>
                             <h3>내가 작성한 후기</h3>
 
@@ -342,29 +314,6 @@ if(loading||loading1||loading2){
                                         </Slider>
                                     </div>
                                   )}
-                            {/* <a className="nav-link active">나의 후기 모두 표시하기
-                                <div className={"btn-wrapper2"}>
-                                    <a className={"modal-open-btn"}
-                                    onClick={() => setModalOpen3(true)}>나의 후기</a>
-                                </div>
-                            </a>
-                            {modalOpen3 && (
-                            <div
-                                className={"modal-container3"}
-                                ref={modalBackground}
-                                onClick={(e) => {
-                                if (e.target === modalBackground.current) {
-                                    setModalOpen3(false);
-                                }
-                                }}
-                            >
-                                <div className={"modal-content3"}>
-                                <h4>본3333</h4>
-                                <hr></hr>
-                                <p>모달33333</p>
-                                </div>
-                            </div>
-                            )} */}
                             <br></br>
                             <br></br>
                             <br></br>

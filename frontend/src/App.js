@@ -15,12 +15,12 @@ import SearchPw from "./pages/guest/member/searchPw";
 import HotelDetail from "./pages/host/HotelDetail";
 import HotelImage from "./pages/host/hotelDetailSection/HotelImage"
 import HostPage from "./pages/host/HostPage";
-import Account from "./pages/guest/Account";
-import Profile from "./pages/guest/Profile";
-import Pay from "./pages/guest/Pay";
-import PayReceipt from "./pages/guest/PayReceipt";
+import Account from "./pages/guest/member/Account";
+import Profile from "./pages/guest/member/Profile";
+import Pay from "./pages/guest/member/Pay";
+import PayReceipt from "./pages/guest/member/PayReceipt";
 import GuestInfo from "./pages/guest/member/GuestInfo";
-import PayItem from "./pages/guest/PayItem";
+import PayItem from "./pages/guest/member/PayItem";
 import WishItem from "./pages/guest/wish/wishItem";
 import WishList from "./pages/guest/wish/wishList";
 import Wish from "./pages/guest/wish/wish";
@@ -28,7 +28,7 @@ import Recent from "./pages/guest/wish/recent";
 import RecentItem from "./pages/guest/wish/recentItem";
 import Reservation from "./pages/guest/travel/reservation";
 import Order from "./pages/guest/Order";
-import Coupon from "./pages/guest/coupon";
+import Coupon from "./pages/guest/member/coupon";
 import LastReservItem from "./pages/guest/travel/lastReservItem";
 import PreReservItem from "./pages/guest/travel/preReservItem";
 import LastReservDetail from "./pages/guest/travel/lastReservDetail";
@@ -40,7 +40,7 @@ import Notice from "./component/Notice";
 import NoticeDetail from "./component/NoticeDetail";
 import Message from "./component/Message";
 import WriteReview from "./pages/guest/travel/WriteReview"; // guest:review 등록
-import EditReview from "./pages/guest/EditReview"; // guest:review 수정
+import EditReview from "./pages/guest/member/EditReview"; // guest:review 수정
 
 // admin 계정
 import Alogin from "./pages/admin/alogin";
@@ -78,7 +78,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main />} />
           <Route path="/guest/login" element={<GuestLogin />} />
           <Route path="/guest/searchEmail" element={<SearchEmail />} />
           <Route path="/guest/searchPw" element={<SearchPw />} />
@@ -143,7 +143,7 @@ function App() {
 
           {/* guest 리뷰 등록/수정 */}
           <Route path="/guest/write" element={<WriteReview />} />
-          <Route path="/guest/edit" element={<EditReview />} />
+          <Route path="/guest/member/edit" element={<EditReview />} />
         </Routes>
         <Footer />
       </BrowserRouter>
