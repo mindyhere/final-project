@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import Summary from "./Summary";
 
@@ -55,7 +56,7 @@ export const options = {
         weight: "bold",
       },
       anchor: "end",
-      formatter: function (value, context) {
+      formatter: function(value, context) {
         if (value == 0) return null;
       },
     },
@@ -105,9 +106,7 @@ function useFetch(url, e) {
 }
 
 function SalesChart() {
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
+  const { userIdx } = useParams();
   const today = new Date();
   const [labels, loading1] = useFetch(
     `http://localhost/api/chart/labels/${userIdx}`,
@@ -144,7 +143,7 @@ function SalesChart() {
       <>
         <div className="row mt-0 mb-2">
           <div className="col-9">
-            <div style={{ width: 900, height: 400}}>
+            <div style={{ width: 900, height: 400 }}>
               <Bar
                 options={options}
                 data={chartData}

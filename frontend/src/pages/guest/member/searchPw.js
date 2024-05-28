@@ -102,7 +102,7 @@ function SearchPw() {
                                         });
                                     }
                                 });
-                        }} id="main-btn">비밀번호 찾기</button>
+                        }} id="main-btn" className="main-btnn">비밀번호 찾기</button>
                     </div>
                 </form>
             </div>

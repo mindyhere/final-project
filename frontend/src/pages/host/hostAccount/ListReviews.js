@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import Cookies from "universal-cookie";
+import { useParams } from "react-router-dom";
 import {
   ChevronDoubleLeft,
   ChevronLeft,
@@ -11,6 +10,7 @@ import {
 import ReviewItem from "./ReviewItem";
 
 function ListReviews() {
+  const { userIdx } = useParams();
   const [list, setList] = useState([]);
   const [starList, setAvg] = useState([]);
   const [page, setPaging] = useState("");
@@ -20,9 +20,6 @@ function ListReviews() {
   const sort = useRef();
   const keyword = useRef();
 
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
   function getList(pageNum, opt) {
     console.log("==> opt? " + opt);
     let url = "";
@@ -38,11 +35,9 @@ function ListReviews() {
     }
     fetch(url, { method: "post", body: form })
       .then((response) => {
-        // console.log("=> 검색?" + url + ", " + opt + ", " + pageNum+ ", "+sort.current.value+", "+keyword.current.value);
         return response.json();
       })
       .then((data) => {
-        // console.log("==> 리뷰 data? " + JSON.stringify(data.page));
         if (data.list !== null) {
           setList(data.list);
           setAvg(data.avgList);
@@ -88,7 +83,6 @@ function ListReviews() {
     return result;
   };
 
-  // console.log("** => " + JSON.stringify(page));
   return (
     <>
       <div id="section1" className="input-group mb-3">

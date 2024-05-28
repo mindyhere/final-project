@@ -39,12 +39,20 @@ function GuestLogin() {
                     <br/>
                             <button type='button' onClick={() => {
                                 if(g_email.current.value == '') {
-                                    window.alert('이메일을 입력하세요.');
+                                    Swal.fire({
+                                        text: '이메일을 입력하세요.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                    });
                                     g_email.current.focus();
                                     return;
                                 }
                                 if(g_passwd.current.value == '') {
-                                    window.alert('비밀번호를 입력하세요.');
+                                    Swal.fire({
+                                        text: '비밀번호를 입력하세요.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                    });
                                     g_passwd.current.focus();
                                     return;
                                 }
@@ -60,14 +68,22 @@ function GuestLogin() {
                                     setMessage(data);
                                     if(data.message == 'success') {
                                         const cookies = new Cookies();
-                                        cookies.set('g_idx', {key: data.g_idx}, {path: '/', expires: new Date(Date.now()+5000000)}); 
-                                        cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+5000000)}); 
-                                        cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+5000000)});
-                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+5000000)});
-                                        cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+5000000)});
-                                        cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+5000000)});
-                                        cookies.set('g_photo', {key: data.g_photo}, {path: '/', expires: new Date(Date.now()+5000000)});
-                                        console.log(data.g_photo);
+                                        const today = new Date(); //추가
+                                        today.setDate(today.getDate()+1);
+                                        // cookies.set('g_idx', {key: data.g_idx}, {path: '/', expires: new Date(Date.now()+5000000)}); 
+                                        // cookies.set('g_email', {key: data.g_email}, {path: '/', expires: new Date(Date.now()+5000000)}); 
+                                        // cookies.set('g_name', {key: data.g_name}, {path: '/', expires: new Date(Date.now()+5000000)});
+                                        // cookies.set('g_level', {key: data.g_level}, {path: '/', expires: new Date(Date.now()+5000000)});
+                                        // cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+5000000)});
+                                        // cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+5000000)});
+                                        // cookies.set('g_photo', {key: data.g_photo}, {path: '/', expires: new Date(Date.now()+5000000)});
+                                        cookies.set('g_idx', {key: data.g_idx}, {path: '/', expires: today}); 
+                                        cookies.set('g_email', {key: data.g_email}, {path: '/',  expires: today}); 
+                                        cookies.set('g_name', {key: data.g_name}, {path: '/',  expires: today}); 
+                                        cookies.set('g_level', {key: data.g_level}, {path: '/', expires: today}); 
+                                        cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: today}); 
+                                        cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: today}); 
+                                        cookies.set('g_photo', {key: data.g_photo}, {path: '/', expires: today}); 
                                         window.location.href='/';
                                        
                                     } else if(data.message == 'no') {

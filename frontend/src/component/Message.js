@@ -1,76 +1,38 @@
 import React,{useEffect,useState} from 'react';
 import Cookies from "universal-cookie";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import '../pages/guest/aa.css'
 import Chat from './Chat';
 import Chatbot from './chatbot';
-import ChatBot from 'react-simple-chatbot';
-import { ThemeProvider } from 'styled-components';
-import styled from 'styled-components';
-import ChatbotModal from "react-modal"
+import Swal from "sweetalert2";
+
 
 
 function Message() {
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gEmail = cookies.get("g_email");
-    const [open, setOpen] = useState('msg-able');
-    const [openBot, setOpenBot] = useState('msg-disable');
     const [roomId, setRoomId] = useState([]);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [comment, setComment] = useState('');
     const [ip, setIp] = useState('');
     const {room} = useParams();
-    const {hName} = useParams();
     const [check, setCheck] = useState(1);
-    
-    const theme = {
-        background: '#f5f8fb',
-        fontFamily: 'Helvetica Neue',
-        headerBgColor: '#ceb8f0',
-        headerFontColor: '#fff',
-        headerFontSize: '15px',
-        botBubbleColor: '#ceb8f0',
-        botFontColor: '#000',
-        userBubbleColor: '#fff',
-        userFontColor: '#000',
-      };
+    const navigate = useNavigate();
 
-      const ChatBotContainer = styled.div`
-      background: ${({ theme }) => theme.background};
-      border-radius: 10px;
-      box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.15);
-      font-family: ${({ theme }) => theme.fontFamily};
-      overflow: hidden;
-      position: ${({ floating }) => (floating ? 'fixed' : 'relative')};
-      bottom: ${({ floating, floatingStyle }) =>
-        floating ? floatingStyle.bottom || '32px' : 'initial'};
-      top: ${({ floating, floatingStyle }) => (floating ? floatingStyle.top || 'initial' : 'initial')};
-      right: ${({ floating, floatingStyle }) => (floating ? floatingStyle.right || '32px' : 'initial')};
-      left: ${({ floating, floatingStyle }) =>
-        floating ? floatingStyle.left || 'initial' : 'initial'};
-      width: ${({ width }) => width};
-      height: ${({ height }) => height};
-      z-index: 999;
-      transform: ${({ opened }) => (opened ? 'scale(1)' : 'scale(0)')};
-      transform-origin: ${({ floatingStyle }) => floatingStyle.transformOrigin || 'bottom right'};
-      transition: transform 0.3s ease;
     
-      @media screen and (max-width: 568px) {
-        border-radius: ${({ floating }) => (floating ? '0' : '')};
-        bottom: 0 !important;
-        left: initial !important;
-        height: 100%;
-        right: 0 !important;
-        top: initial !important;
-        width: 100%;
-      }
-    `;
-    
-    ChatBotContainer.defaultProps = {
-      theme: theme
-    };
+    // if((gEmail == null || gEmail == '') && (userInfo == null || userInfo == '')) {
+    //     Swal.fire({
+    //         text: "로그인 후 이용 가능합니다.",
+    //         showCancelButton: false,
+    //         confirmButtonText: '확인',
+    //     }).then((result) => {
+    //         if(result.isConfirmed) {
+    //             navigate("/");
+    //         }
+    //     });
+    // }
     
     
     let sender = '';
@@ -101,18 +63,15 @@ function Message() {
                 setLoading(false);
                 if (data.dto.length != 0) {
                     if (room != null && room != '') {
-                        console.log(room);
                         setRoomId(room);
                     } else {
-                        console.log(data.dto[0].m_roomId);
                         setRoomId(data.dto[0].m_roomId);
                     }
                     setData(data);
                     setLoading(false);
                 } else if (data.dto.length == 0){
-                    setOpen('msg-disable');
                     setLoading(false);
-                    setComment('메시지가 없습니다');
+                    setCheck(0);
                 }
             })
     },[]);
@@ -122,7 +81,17 @@ function Message() {
             <div>loading</div>
         )
     } else {
-
+        if((gEmail == null || gEmail == '') && (userInfo == null || userInfo == '')) {
+            Swal.fire({
+                text: "로그인 후 이용 가능합니다.",
+                showCancelButton: false,
+                confirmButtonText: '확인',
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    navigate("/");
+                }
+            });
+        }
         return (
             <>
             <div style={{marginLeft: '300px', paddingTop: '50px',height: '720px'}}>

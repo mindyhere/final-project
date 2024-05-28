@@ -28,6 +28,11 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	
 	@Override
+	public Map<String,Object> receipt(Map<String,Object> map) {
+		return sqlSession.selectOne("guest.receipt", map);
+	}
+	
+	@Override
 	public List<CouponDTO> couponlist(int g_idx) {
 		return sqlSession.selectList("guest.couponlist", g_idx);
 	}

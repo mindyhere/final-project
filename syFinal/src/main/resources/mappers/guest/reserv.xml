@@ -9,7 +9,7 @@
 </select>
 
 <select id="lastDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">
-select o_ckin, o_ckout, o_orderdate, o_price, o_discount, o_finalprice, o_adult, o_child, o_baby, o_payment, o_state, o_didx,
+select o_ckin, o_ckout, o_orderdate, o_price, (o_benefit + o_discount) as o_discount, o_finalprice, o_adult, o_child, o_baby, o_payment, o_state, o_didx,
 h_name, h_phone, h_profile,
 ho_name, ho_address, ho_check_in, ho_check_out, ho_x, ho_y, 
 d_area, d_room_type, d_beds, d_non_smoking
@@ -36,7 +36,7 @@ where o_idx = #{o_idx} and o_didx = d_idx and d_ho_idx = ho_idx and ho_business 
 </select>
 
 <update id="cancel">
-update orders set o_state = 2 where o_idx = #{o_idx}
+update orders set o_state = 2,o_refunddate = now() where o_idx = #{o_idx}
 </update>
 
 <select id="upDetail" resultType="com.example.syFinal.guest.model.dto.ReservDTO">

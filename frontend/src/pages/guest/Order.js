@@ -54,7 +54,6 @@ function Order() {
     //포인트사용
     const [finalamount,setFinalamount] = useState(fprice);
     const [pointAmount,setPointAmount] = useState(0);
-    console.log("최종금액==="+finalamount);
     const PointAmount = (e) => {
         setPointAmount(e.target.value);
     }
@@ -84,10 +83,7 @@ function Order() {
         }
         setCouponAmount(Camount);
         setCouponIdx(Cidx);
-        console.log("쿠폰금액=="+Camount);
-        console.log("회원아이디"+Cidx);
     };
-    console.log("사용쿠폰idx==@@+=="+couponIdx);
     //결제수단 선택
     let method ='';
     let channel ='';
@@ -179,7 +175,6 @@ function Order() {
                 form.append('useCoupon',0);
             } else {
                 form.append('useCoupon',couponAmount);
-                console.log("쿠폰번호==="+couponIdx);
                 form.append('gcidx',couponIdx);
             }
             form.append('paymentId', response.paymentId);
@@ -228,7 +223,7 @@ function Order() {
         <>
         <div className="container" align='center' style={{position: 'static'}}>
             <div className="row">
-                
+                <div className="col-1"></div>
                 <div className="col-5">
                 <div className="container-lg">
                         <div style={{paddingLeft: '100px'}}>
@@ -267,28 +262,16 @@ function Order() {
                                     <option value="1">Card</option>
                                     <option value="2">KakaoPay</option>
                                 </select>
-                                        {pay === "1" &&data.dto.g_card === null
+                                        {pay === "1"
                                         ?
-                                        <div style={{fontSize: '10px'}}>* 카드로 결제시 
-                                        <svg viewBox="0 0 18 18" role="presentation" ariaHidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fillRule="evenodd"></path></svg>
-                                        결제
-                                        <svg viewBox="0 0 18 18" role="presentation" ariaHidden="true" focusable="false" style={{height: '10px', width: '10px', fill: 'rgb(118, 118, 118)'}}><path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z" fillRule="evenodd"></path></svg>
-                                        결제수단에서 카드를 등록해주세요.
-                                        </div>
+                                        <div style={{fontSize: '10px',paddingTop:'13px'}}>* 나이스페이먼츠로 결제</div>
                                         :
-                                        <div style={{fontSize: '10px', paddingTop:'5px'}}>
-                                            <tr>등록된 카드정보
-                                                <td>****-****-****-{card}</td>
-                                            </tr>
-                                            <div>* 카드로 결제시 등록된 카드에서 결제될 예정입니다.</div>
-                                        </div>
+                                        <div style={{fontSize: '10px', paddingTop:'13px'}}>* 카카오페이로 결제</div>
                                         }
                                         <br></br>
                                 <hr/>
-                                <h4>호스트에게 메시지 보내기</h4>
+                                <h4>호스트정보</h4>
                                 <br></br>
-                                <div>여행 목적, 동반 일행, 이 숙소를 선택한 이유 등을 알려주세요.</div>
-                                <div>호스트 정보</div>
                                 <div>host : {hotel.h_name}님</div>
                                 <hr/>
                                 <h4>환불 정책</h4>
@@ -434,6 +417,7 @@ function Order() {
                         </div>
                     </div>
                 </div>
+                <div className='col-1'></div>
             </div>
         </div>
 

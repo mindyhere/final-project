@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate,useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
@@ -13,8 +13,8 @@ function EditHostInfo() {
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
+  const {userIdx} = useParams();
+  const userEmail = data.h_email;
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");
   const h_email = useRef();
@@ -65,24 +65,14 @@ function EditHostInfo() {
 
   // 쿠키 정보 업데이트
   const handleCookie = (data) => {
-    const time = 3600; // 1hr
+    let expiration = new Date();
     const cookies = new Cookies();
-    const expiration = new Date(Date.now() + time * 1000);
+    expiration.setDate(expiration.getDate() + 1);
+    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
     });
-
-    setTimeout(() => {
-      Swal.fire({
-        icon: "info",
-        title: "Check",
-        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
-        timer: 2000,
-      }).then(() => {
-        navigate("/");
-      });
-    }, time * 1000);
   };
 
   let url = "";
@@ -527,7 +517,6 @@ function EditHostInfo() {
                       })
                         .then((response) => response.ok)
                         .then((data) => {
-                          // console.log("===> 결과?" + data);
                           if (data) {
                             Swal.fire({
                               icon: "success",
@@ -555,7 +544,6 @@ function EditHostInfo() {
                           }
                         })
                         .catch((error) => {
-                          // console.log("===> 결과?" + error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
@@ -594,10 +582,8 @@ function EditHostInfo() {
                           )
                             .then((response) => {
                               if (!response.ok) {
-                                // console.log("false: " + response.status);
                                 throw new Error("false: " + response.status);
                               }
-                              // console.log("확인: " + response.status);
 
                               return fetch(
                                 `http://localhost/api/host/delete/${userIdx}?userEmail=${userEmail}`
@@ -609,7 +595,6 @@ function EditHostInfo() {
                               });
                             })
                             .catch((error) => {
-                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -618,7 +603,6 @@ function EditHostInfo() {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Complete",

@@ -41,19 +41,19 @@ public class OrderDAOImpl implements OrderDAO {
 			if (list != null) {
 				DecimalFormat df = new DecimalFormat("###,###");
 				for (Map<String, Object> m : list) {
-					String o_state = (String) m.get("o_state");
+					int o_state = (int) m.get("o_state");
 					// 상태 처리
 					switch (o_state) {
-					case "1":
+					case 1:
 						m.put("status", "예약대기");
 						break;
-					case "2":
+					case 2:
 						m.put("status", "예약취소");
 						break;
-					case "3":
+					case 3:
 						m.put("status", "예약확정");
 						break;
-					case "4":
+					case 4:
 						m.put("status", "체크인완료");
 						break;
 					}

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
@@ -28,8 +28,8 @@ function RequestItem({
 }) {
   let loading = false;
   const cookies = new Cookies();
+  const { userIdx } = useParams();
   const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
   const userEmail = userInfo.h_email;
 
   if (loading) {
@@ -147,28 +147,22 @@ function RequestItem({
                                   if (!response.ok) {
                                     throw new Error(response.status);
                                   }
-                                  // console.log(
-                                  //   "==> response? " + JSON.stringify(response)
-                                  // );
                                   return response.status;
                                 });
                               })
                               .catch((error) => {
-                                // console.log("==> error? " + error);
                                 Swal.showValidationMessage(
                                   `error : 비밀번호 또는 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
                               });
                           },
                           allowOutsideClick: false,
-                          // allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          // console.log("=> result " + JSON.stringify(result));
                           if (result.value === 200) {
                             Swal.fire({
                               icon: "success",
-                              title: "Success",
-                              html: "정상처리 되었습니다.",
+                              title: "Confirm",
+                              html: "예약 바우처 발송이 완료되었습니다.",
                               showConfirmButton: false,
                               timer: 2000,
                             }).then(() => {
@@ -240,9 +234,7 @@ function RequestItem({
                           },
                           allowOutsideClick: () => !Swal.isLoading(),
                         }).then((result) => {
-                          // console.log("=> result " + JSON.stringify(result));
                           if (result.isConfirmed) {
-                            // console.log(result.value);
                             Swal.fire({
                               icon: "success",
                               title: "Complete",
