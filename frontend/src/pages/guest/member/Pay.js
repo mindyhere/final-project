@@ -1,44 +1,13 @@
-import React, {useRef,useEffect,useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, {useEffect,useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';
 import PayItem from "./PayItem";
-import Swal from "sweetalert2";
-
-
-function useFetch(url) {
-    const [data,setData] = useState(null);
-    const [loading,setLoading] = useState(true);
-
-    useEffect(()=>{
-        fetch(url)
-            .then(response=>{
-                return response.json();
-            })
-            .then(data=>{
-                setData(data);
-                setLoading(false);
-            })
-    }, []);
-    return [data,loading];
-}
 
 function Pay() {
     const cookies = new Cookies();
     const g_idx=cookies.get('g_idx');
-    const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const modalBackground = useRef();
     const [paylist,setPayList] = useState([]);
 
-
-    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+g_idx.key);
-    const g_card=useRef();
-    const [num, setNum] = useState('');
-    const g_date=useRef();
-    const [num1, setNum1] = useState('');
-    const g_cvc=useRef();
-    const [num2, setNum2] = useState('');
 
     function getPay(url) {
         fetch(url)
@@ -53,11 +22,6 @@ function Pay() {
     useEffect(() => {getPay('http://localhost/guest/pay?g_idx='+g_idx.key);},[]);
 
 
-    if(loading){
-        return(
-            <div>loading</div>
-        )
-    } else {
         return (
             <>
             <div className="container" align='center' style={{position: 'static'}}>
@@ -126,7 +90,5 @@ function Pay() {
                 </div>
             </>
         )
-    }
-
 }
 export default Pay;

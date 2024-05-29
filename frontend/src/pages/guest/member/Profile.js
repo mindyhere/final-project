@@ -220,7 +220,7 @@ if(loading||loading1||loading2){
                         <div align='left'>
                             <h2>{data.dto.g_name} 님 소개</h2>
                             <hr></hr>
-                            <h3>{data.dto.g_name} 님에 대한 호스트의 후기</h3>
+                            <h3>{data.dto.g_name} 님에 대한 호스트의 답변</h3>
 
                             <div align='right'>
                                     <div className="col-6">
