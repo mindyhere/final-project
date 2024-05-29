@@ -13,8 +13,6 @@ public interface GuestDAO {
 	Map<String,Object> receipt(Map<String,Object> map);
 	List<CouponDTO> couponlist(int g_idx);
 	int c_count(int g_idx);
-	void cardupdate(Map<String,Object> map);
-	void carddelete(Map<String,Object> map);
 	void order(Map<String,Object> map);
 	void pointupdate(Map<String,Object> map);
 	void couponupdate(Map<String,Object> map);

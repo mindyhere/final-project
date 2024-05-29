@@ -43,16 +43,6 @@ public class GuestDAOImpl implements GuestDAO {
 	}
 	
 	@Override
-	public void cardupdate(Map<String,Object> map){
-		sqlSession.update("guest.cardupdate", map);
-	}
-	
-	@Override
-	public void carddelete(Map<String,Object> map){
-		sqlSession.update("guest.carddelete", map);
-	}
-	
-	@Override
 	public void order(Map<String,Object> map){
 		sqlSession.insert("guest.order",map);
 	}
