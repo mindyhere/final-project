@@ -92,10 +92,10 @@
 	<select id="list"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT
-		ho_idx, ho_name, ho_address, ho_level, ho_business, ho_status,
+		distinct(ho_idx), ho_name, ho_address, ho_level, ho_business, ho_status,
 		ho_description,h_business,h_name
 		FROM hotel,host
-		WHERE
+		WHERE ho_business = h_business and
 		${searchkey} LIKE
 		CONCAT('%', #{search}, '%')
 		<if test="status != ''">
@@ -137,12 +137,18 @@
 	<!-- 호텔상세 -->
 	<select id="ADetailHotel"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-		SELECT *
+<!-- 		SELECT *
 		FROM hotel h
 		Join host s on h.ho_idx = s.h_idx
 		JOIN hotel_detail hd ON h.ho_idx = hd.d_ho_idx
 		JOIN hotel_amenity ha ON h.ho_idx = ha.ha_ho_idx
 		WHERE h.ho_idx = #{ho_idx}
+		 -->
+		select * from host, hotel, hotel_detail, hotel_amenity
+where ho_idx = #{ho_idx} and
+ho_business = h_business and
+ho_idx = d_ho_idx and
+ho_idx = ha_ho_idx
 	</select>
 
 	<!--차트 매출 -->

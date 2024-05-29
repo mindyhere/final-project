@@ -303,9 +303,9 @@ function AHoteldetail() {
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>객실정보</th>
                                                 <td>
-                                                    <table className="nested-tbl">
+                                                    <table className="nested-tbl" style={{display: 'inline'}}>
                                                         <tbody>
-                                                            <tr>
+                                                            {/* <tr>
                                                                 <td>싱글룸</td>                                                                                                                  
                                                                 <td>{data.dto[0].ho_single}개 / 가격: {data.dto[1].d_price}</td></tr>
                                                                 <tr> <td>더블룸</td>
@@ -314,8 +314,19 @@ function AHoteldetail() {
                                                                 <td>{data.dto[0].ho_family}개 / 가격: {data.dto[2].d_price}</td></tr>
                                                                 <tr><td>스위트룸</td>
                                                                 <td>{data.dto[0].ho_suite}개 / 가격: {data.dto[3].d_price}</td></tr>
-                                                          
-                                                            <tr>
+                                                          */}
+                                                          {data.dto.map((item) => (
+                                                            <tr><td style={{fontWeight: 'bold'}}>{item.d_room_type}</td>
+                                                            <td>{item.roomCount}개 가격: {item.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</td>
+                                                            <td>면적: {item.d_area}㎡</td>
+                                                            <td>수용인원: {item.d_capacity}명</td>
+                                                            <td>침대수: {item.d_beds}개</td>
+                                                            <td>금연실 여부: {item.d_non_smoking}</td>
+                                                            </tr>
+                                                          ))
+
+                                                          }
+                                                            {/* <tr> 
                                                                 <td>면적</td>
                                                                 <td>{data.dto[0].d_area}㎡</td></tr>
                                                                 <tr> <td>수용인원</td>
@@ -323,7 +334,7 @@ function AHoteldetail() {
                                                                 <tr> <td>침대수</td>
                                                                 <td>{data.dto[0].d_beds}개</td></tr>
                                                                 <tr>  <td>금연실 여부</td>
-                                                                <td>{data.dto[0].d_non_smoking}</td></tr>
+                                                                <td>{data.dto[0].d_non_smoking}</td></tr> */}
                                                         </tbody>
                                                     </table>
                                                 </td>
@@ -342,19 +353,20 @@ function AHoteldetail() {
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>편의시설</th>
-                                                <tr>            <td><img src='/img/mountain.png' width="35px" height="35px" /> 산전망</td>
-                                                                <td><img src='/img/ocean.png' width="35px" height="35px" /> 바다 전망</td>                                                              
-                                                                <td><img src='/img/wifi.png' width="35px" height="35px" /> 무선인터넷</td>                                                               
-                                                                <td><img src='/img/parking.png' width="35px" height="35px" /> 주차장</td>
-                                                                <td><img src='/img/breakfast.png' width="35px" height="35px" /> 조식제공</td>
-                                                                <td><img src='/img/firealam.png' width="35px" height="35px" /> 화재경보기</td>
-                                                                <td><img src='/img/fireExt.png' width="35px" height="35px" /> 소화기</td>                                                                
-                                                            </tr>
+                                                <tr>           
+                                                     {data.dto[0].mountain_view == 'Y'? <td><img src='/img/mountain.png' width="47.1px" height="47.1px" /> 산전망</td> : ''}
+                                                     {data.dto[0].ocean_view == 'Y'? <td><img src='/img/ocean.png' width="47.1px" height="47.1px" /> 바다 전망</td> : ''}
+                                                     {data.dto[0].wifi == 'Y'? <td><img src='/img/wifi.png' width="47.1px" height="47.1px" /> 무선인터넷</td> : ''}
+                                                     {data.dto[0].parking_lot == 'Y'? <td><img src='/img/parking.png' width="47.1px" height="47.1px" /> 주차장</td> : ''}
+                                                     {data.dto[0].breakfast == 'Y'? <td><img src='/img/breakfast.png' width="47.1px" height="47.1px" /> 조식제공</td> : ''}
+                                                     {data.dto[0].fire_alam == 'Y'? <td><img src='/img/firealam.png' width="47.1px" height="47.1px" /> 화재경보기</td> : ''}
+                                                     {data.dto[0].fire_extinguisher == 'Y'? <td><img src='/img/fireExt.png' width="47.1px" height="47.1px" /> 소화기</td>  : ''}                                                                              
+                                                </tr>
 
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>소개</th>
-                                                <td>{data.dto[0].ho_description}</td>
+                                                <td>{data.dto[0].ho_description == null? '없음' : data.dto[0].ho_description}</td>
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>영업상태</th>
