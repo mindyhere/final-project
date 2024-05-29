@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import Cookies from "universal-cookie";
 import { Calendar2Week } from "react-bootstrap-icons";
 
 import HotelNavItem from "./HotelNavItem";
@@ -18,7 +18,9 @@ import {
 } from "react-bootstrap-icons";
 
 function ManageOrders() {
-  const { userIdx } = useParams();
+  const cookies = new Cookies();
+  const userInfo = cookies.get("userInfo");
+  const userIdx = userInfo.h_idx;
   const [loading, setLoading] = useState("");
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
