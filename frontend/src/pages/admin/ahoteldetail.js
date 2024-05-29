@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react';
 import { BuildingFill, PersonVcard ,CardList, House, HouseCheckFill,  Person } from 'react-bootstrap-icons';
 import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
-import '../admin/css/astyles.css'; // Import your custom styles
+import '../admin/css/astyles.css'; 
 import moment from "moment";
 import "moment/locale/ko";
 import { useNavigate } from "react-router-dom";
@@ -38,20 +38,6 @@ function AHoteldetail() {
     const { hoIdx } = useParams();
     const [data, loading, fetchError] = useFetch(`http://localhost/admin/ahodetail?hoIdx=${hoIdx}`);
 
-    if (loading) {
-        return <div className="text-center">로딩 중...</div>;
-    } else {
-        let regdate = moment(data.dto[0].h_regdate).fromNow();
-        let level = data.dto[0].ho_level === 8 ? '호스트' : '슈퍼호스트';
-        let answer = data.dto[0].ho_level === 8 ? '80%' : '100%';
-        if (data.dto[0].ho_level == 8){
-            level = '호스트';
-            answer = '80%';
-        } else {
-            level = '슈퍼호스트';
-            answer = '100%';
-        }
-
         const getlevel = (h_level) => {
             if (h_level == 8) {
                 return '호스트';
@@ -59,7 +45,6 @@ function AHoteldetail() {
                 return '슈퍼호스트';
             } 
             };
-
 
         const getStatus = (ho_status) => {
             switch (ho_status) {
@@ -269,30 +254,30 @@ function AHoteldetail() {
                                         <table className="tbl1">
                                             <tbody>
                                                 <tr>
-                                                    <th>이름</th>
+                                                    <th colSpan={2}>이름</th>
                                                     <td>{data.dto[0].h_name}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>이메일</th>
+                                                    <th colSpan={2}>이메일</th>
                                                     <td>{data.dto[0].h_email}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>사업자 등록증/등록번호</th>
+                                                    <th colSpan={2}>사업자 등록증/등록번호</th>
                                                     <td><a onClick={url} style={{cursor: "pointer"}}> {data.dto[0].h_file} </a>
                                                     / {data.dto[0].h_business} </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>호스팅 경력</th>
-                                                    <td>{getlevel(data.dto[0].h_level)} /   {regdate}</td>
+                                                    <th colSpan={2}>호스트 등급</th>
+                                                    <td>{getlevel(data.dto[0].h_level)}</td>
                                                 
                                                 </tr>
                                                 <tr>
-                                                    <th>연락처</th>
+                                                    <th colSpan={2}>연락처</th>
                                                     <td>{data.dto[0].h_phone}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>등록일</th>
-                                                    <td>{moment(data.dto[0].h_regdate).format('YYYY-MM-DD')}</td>
+                                                    <th colSpan={2}>등록일</th>
+                                                    <td>{data.dto[0].h_regdate}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -307,35 +292,49 @@ function AHoteldetail() {
                                         <tbody>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>호텔 대표 이미지</th>
-                                                <td colSpan={2}>
+                                                <td>
                                                     [이미지] <a href="#" style={{ border: "0px", outline: "none"  }} onClick={urlHandle}> {data.dto[0].ho_img}</a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>호텔 등급</th>
-                                                <td colSpan={2}>{data.dto[0].ho_level}등급</td>
+                                                <td >{data.dto[0].ho_level}등급</td>
                                             </tr>
                                             <tr>
-                                                <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>객실유형</th>
+                                                <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>객실정보</th>
                                                 <td>
-                                                    <table className="nested-tbl">
+                                                    <table className="nested-tbl" style={{display: 'inline'}}>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>싱글룸</td>
-                                                                <td>{data.dto[0].ho_single}</td>
+                                                            {/* <tr>
+                                                                <td>싱글룸</td>                                                                                                                  
+                                                                <td>{data.dto[0].ho_single}개 / 가격: {data.dto[1].d_price}</td></tr>
+                                                                <tr> <td>더블룸</td>
+                                                                <td>{data.dto[0].ho_double}개 / 가격: {data.dto[0].d_price}</td></tr>    
+                                                                <tr><td>패밀리룸</td>
+                                                                <td>{data.dto[0].ho_family}개 / 가격: {data.dto[2].d_price}</td></tr>
+                                                                <tr><td>스위트룸</td>
+                                                                <td>{data.dto[0].ho_suite}개 / 가격: {data.dto[3].d_price}</td></tr>
+                                                          */}
+                                                          {data.dto.map((item) => (
+                                                            <tr><td style={{fontWeight: 'bold'}}>{item.d_room_type}</td>
+                                                            <td>{item.roomCount}개 가격: {item.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</td>
+                                                            <td>면적: {item.d_area}㎡</td>
+                                                            <td>수용인원: {item.d_capacity}명</td>
+                                                            <td>침대수: {item.d_beds}개</td>
+                                                            <td>금연실 여부: {item.d_non_smoking}</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>더블룸</td>
-                                                                <td>{data.dto[0].ho_double}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>패밀리룸</td>
-                                                                <td>{data.dto[0].ho_family}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>스위트룸</td>
-                                                                <td>{data.dto[0].ho_suite}</td>
-                                                            </tr>
+                                                          ))
+
+                                                          }
+                                                            {/* <tr> 
+                                                                <td>면적</td>
+                                                                <td>{data.dto[0].d_area}㎡</td></tr>
+                                                                <tr> <td>수용인원</td>
+                                                                <td>{data.dto[0].d_capacity}명</td></tr>   
+                                                                <tr> <td>침대수</td>
+                                                                <td>{data.dto[0].d_beds}개</td></tr>
+                                                                <tr>  <td>금연실 여부</td>
+                                                                <td>{data.dto[0].d_non_smoking}</td></tr> */}
                                                         </tbody>
                                                     </table>
                                                 </td>
@@ -354,11 +353,20 @@ function AHoteldetail() {
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>편의시설</th>
-                                                <td>{data.dto[0].mountain_view}</td>
+                                                <tr>           
+                                                     {data.dto[0].mountain_view == 'Y'? <td><img src='/img/mountain.png' width="47.1px" height="47.1px" /> 산전망</td> : ''}
+                                                     {data.dto[0].ocean_view == 'Y'? <td><img src='/img/ocean.png' width="47.1px" height="47.1px" /> 바다 전망</td> : ''}
+                                                     {data.dto[0].wifi == 'Y'? <td><img src='/img/wifi.png' width="47.1px" height="47.1px" /> 무선인터넷</td> : ''}
+                                                     {data.dto[0].parking_lot == 'Y'? <td><img src='/img/parking.png' width="47.1px" height="47.1px" /> 주차장</td> : ''}
+                                                     {data.dto[0].breakfast == 'Y'? <td><img src='/img/breakfast.png' width="47.1px" height="47.1px" /> 조식제공</td> : ''}
+                                                     {data.dto[0].fire_alam == 'Y'? <td><img src='/img/firealam.png' width="47.1px" height="47.1px" /> 화재경보기</td> : ''}
+                                                     {data.dto[0].fire_extinguisher == 'Y'? <td><img src='/img/fireExt.png' width="47.1px" height="47.1px" /> 소화기</td>  : ''}                                                                              
+                                                </tr>
+
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>소개</th>
-                                                <td>{data.dto[0].ho_description}</td>
+                                                <td>{data.dto[0].ho_description == null? '없음' : data.dto[0].ho_description}</td>
                                             </tr>
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>영업상태</th>
@@ -386,6 +394,6 @@ function AHoteldetail() {
             </>
         );
     }
-}
+
 
 export default AHoteldetail;

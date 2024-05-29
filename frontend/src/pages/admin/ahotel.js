@@ -45,11 +45,12 @@ function AHotel() {
         })
             .then(response => response.json())
             .then(data => {
-                data.sort((a, b) => a.ho_idx - b.ho_idx); // 리스트 정렬
-                const uniqueList = data.filter((hotel, index, self) => // 중복 호텔 제거
-                    index === self.findIndex(h => h.ho_idx === hotel.ho_idx)
-                );
-                setList(uniqueList);
+                console.log(data);
+                // data.sort((a, b) => a.ho_idx - b.ho_idx); // 리스트 정렬
+                // const uniqueList = data.filter((hotel, index, self) => // 중복 호텔 제거
+                //     index === self.findIndex(h => h.ho_idx === hotel.ho_idx)
+                // );
+                setList(data);
             })
             .catch(error => {
                 console.error('Error fetching hotel list:', error);
@@ -170,8 +171,7 @@ function AHotel() {
                                     <p className="no-data">No data</p>
                                 )}
                             </div>
-                        </div>
-                        <br/><br/>
+                        </div>                       
                     </main>
                 </div>
             </div>

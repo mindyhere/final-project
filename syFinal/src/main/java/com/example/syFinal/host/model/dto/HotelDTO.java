@@ -28,6 +28,10 @@ public class HotelDTO {
 	private String chk_in;
 	private String chk_out;
 	
+	private String ho_check_in;
+	private String ho_check_out;
+	private int roomCount;  
+	
 	private int d_idx;
 	private int d_status;
 	private String d_room_type;
@@ -49,5 +53,13 @@ public class HotelDTO {
 	private Date h_regdate;
 	private String h_profile;
 	private String h_file;
+	
+	private String mountain_view;
+	private String ocean_view;
+	private String wifi;
+	private String parking_lot;
+	private String breakfast;
+	private String fire_alam;
+	private String fire_extinguisher;
 
 }

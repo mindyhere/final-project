@@ -16,7 +16,7 @@ public class AdminDTO {
 	
 	//매출차트 
 	private String month; 
-	private int sum; 
+	private Double sum; 
 	private String ho_name; 
 	private String ho_idx;
 }

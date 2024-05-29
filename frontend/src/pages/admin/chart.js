@@ -1,9 +1,22 @@
-import React from "react";
-import useFetch from "./useFetch"; 
+import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 
 function HotelChart() {
-  const { data: chartData, loading } = useFetch('/admin/chart'); 
+  // const { data: chartData, loading } = useFetch('http://localhost/admin/chart'); 
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://localhost/admin/chart')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
 
   const options = {
     responsive: true,
@@ -14,21 +27,28 @@ function HotelChart() {
       title: {
         display: true,
         text: '호텔 월 매출',
+        color: "black",
       },
     },
+    ChartDataLabels: {
+      display: true,
+    },
+    
     scales: {
       x: {
         type: 'category',
         title: {
           display: true,
           text: '호텔',
+          color: "black",
         },
       },
       y: {
-        type: 'linear',
+        axis: "y",
         title: {
           display: true,
-          text: '매출액',
+          text: '매출액 (단위: 백만 원)',
+          color: "black",
         },
       },
     },
@@ -38,21 +58,20 @@ function HotelChart() {
     <div>
       <div className="graph-container">
         {loading && <p>Loading...</p>}
-        {chartData && (
           <Bar 
             data={{
-              labels: chartData.map(hotel => hotel.ho_name),
+              labels: data.labelList,
               datasets: [
                 {
                   label: '매출',
-                  data: chartData.map(hotel => hotel.sum),
+                  data: data.sumList,
                   backgroundColor: '#4e817269', 
+                  
                 },
               ],
             }} 
             options={options} 
           />
-        )}
       </div>
     </div>
   );

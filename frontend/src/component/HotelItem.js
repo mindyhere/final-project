@@ -63,7 +63,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
     } else {
         let img = '';
         if (HoImg !== null) {
-            img = `<img src=${url} width='380px' height='380px' /><br />`;
+            img = `<img src=${url} width='380px' height='380px' style="border-radius: 15px;" /><br />`;
         }
 
         return (
