@@ -4,7 +4,6 @@ import HotelItem from './component/HotelItem';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
-//import Button from "react-bootstrap/Button";
 
 function Main() {
   const [list,setMainList] = useState([]);
@@ -69,7 +68,7 @@ function Main() {
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
       {list.map(
-                ({HoName,HoImg,HoIdx,check,Dprice,Didx,Dimg1,Dimg2,Dimg3,Star})=>(
+                ({HoName,HoImg,HoIdx,check,Dprice,Didx,Star})=>(
                     <HotelItem
                       HoImg={HoImg}
                       HoIdx={HoIdx}

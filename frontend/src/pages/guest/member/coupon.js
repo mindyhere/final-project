@@ -1,8 +1,6 @@
 import React, {useEffect,useState} from 'react';
-//import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from 'universal-cookie';
-//import Swal from "sweetalert2";
 
 function useFetch(url) {
     const [data,setData] = useState(null);
