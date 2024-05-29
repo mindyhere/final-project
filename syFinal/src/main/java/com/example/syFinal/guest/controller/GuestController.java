@@ -121,7 +121,7 @@ public class GuestController {
 			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice,
 			@RequestParam(name="paymentId") String paymentId,@RequestParam(name="usePoint") int point,
 			@RequestParam(name="rePoint") int gpoint,@RequestParam(name="useCoupon") int coupon,
-			@RequestParam(name="gcidx") String gc_idx) {
+			@RequestParam(name="gcidx",defaultValue="") String gc_idx) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);
