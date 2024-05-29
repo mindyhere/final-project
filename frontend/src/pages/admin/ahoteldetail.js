@@ -278,7 +278,7 @@ function AHoteldetail() {
                                                 </tr>
                                                 <tr>
                                                     <th>사업자 등록증/등록번호</th>
-                                                    <td><a onClick={url}> {data.dto[0].h_file} </a>
+                                                    <td><a onClick={url} style={{cursor: "pointer"}}> {data.dto[0].h_file} </a>
                                                     / {data.dto[0].h_business} </td>
                                                 </tr>
                                                 <tr>
@@ -308,7 +308,7 @@ function AHoteldetail() {
                                             <tr>
                                                 <th colSpan={2} style={{ backgroundColor: '#65886d6e' }}>호텔 대표 이미지</th>
                                                 <td colSpan={2}>
-                                                    [이미지] <a href="#" style={{ border: "0px", outline: "none" }} onClick={urlHandle}> {data.dto[0].ho_img}</a>
+                                                    [이미지] <a href="#" style={{ border: "0px", outline: "none"  }} onClick={urlHandle}> {data.dto[0].ho_img}</a>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -379,6 +379,7 @@ function AHoteldetail() {
                                     </table>
                                 </div>
                             </div>
+                            <br/><br/>
                         </main>
                     </div>
                 </div>
