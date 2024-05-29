@@ -37,15 +37,56 @@ function RegistRoomDetail(props) {
     dImg3 : ""
 });
 
+
+  const imgRef1 = useRef();
+  const imgRef2 = useRef();
+  const imgRef3 = useRef();
+
+  const [file, setFile] = useState({
+    dImg1 : "",
+    dImg2 : "",
+    dImg3 : ""
+  });
+
   const handleChangeState = (e) => {
     setState({
       ...state,
       [e.target.name] : e.target.value,
     });
+
+    const reader = new FileReader();
+
+    const fileImg1 = imgRef1.current.files[0];
+    const fileImg2 = imgRef2.current.files[0];
+    const fileImg3 = imgRef3.current.files[0];
+
+    // if(imgRef1.current.files.length !== 0) {
+    //   form.append('img', img.current.files[0]);
+    // }
+
+    // for(let i = 0; i<imgRef1.current.files.length; i++){
+    //   reader.readAsDataURL(imgRef1.current.files[i]);
+    // }
+    if (fileImg1) {
+      reader.readAsDataURL(fileImg1);
+    }
+
+    // if (fileImg2) {
+    //   reader.readAsDataURL(fileImg2);
+    // }
+
+    // if (fileImg3) {
+    //   reader.readAsDataURL(fileImg3);
+    // }
+    reader.onloadend = () => {
+      setFile({
+        ...file,
+        [e.target.name] : reader.result});
+    };
   };
 
   const insertData = () => {
-    props.insertData(state); 
+    props.insertData(state, file); 
   }
 
     return (
@@ -163,6 +204,7 @@ function RegistRoomDetail(props) {
                     <th colSpan={1}>객실 사진_1</th>
                     <td colSpan={3}>
                       <input
+                        ref={imgRef1}
                         className="form-control"
                         type="file"
                         name="dImg1"
@@ -176,6 +218,7 @@ function RegistRoomDetail(props) {
                     <th colSpan={1}>객실 사진_2</th>
                     <td colSpan={3}>
                       <input
+                        ref={imgRef2}
                         className="form-control"
                         type="file"
                         name="dImg2"
@@ -189,6 +232,7 @@ function RegistRoomDetail(props) {
                     <th colSpan={1}>객실 사진_3</th>
                     <td colSpan={3}>
                       <input
+                        ref={imgRef3}
                         className="form-control"
                         type="file"
                         name="dImg3"

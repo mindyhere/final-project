@@ -271,7 +271,7 @@
 	<!-- 신규 호텔 최종 등록 -->
 	<insert id="insertNewHotel">
 		INSERT INTO hotel
-		SELECT * FROM hotel_temp WHERE ht_idx = #{ht_idx};
+		SELECT * FROM hotel_temp WHERE ht_idx = #{ht_idx}
 	</insert>
 
 	<!-- 임시 테이블 등록된 호텔 상태 변경 -->
