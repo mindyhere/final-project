@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import '../admin/css/astyles.css';
 import Swal from 'sweetalert2';
-import { PlusSquare,Trash } from 'react-bootstrap-icons';
+import { CircleFill, PlusSquare,Trash } from 'react-bootstrap-icons';
 import Cookies from "universal-cookie";
 
 Modal.setAppElement('#root');
@@ -136,7 +136,7 @@ function MemoList() {
     const customStyles = {
       content: {
         width: '600px',
-        height: '600px',
+        height: '500px',
         margin: 'auto',
         padding: '10px',
         backgroundColor: '#5a885a1a',
@@ -159,9 +159,9 @@ function MemoList() {
       <div className="notepad-content">
         <table>
           <tbody>
-            {Meitem.map((list, index) => (
-              <tr key={index}>
-                <td className="memo-cell">{list.me_idx}</td>
+            {Meitem.map((list ) => (
+              <tr key={list}>
+                <td className="memo-cell"><CircleFill width={'5px'} height={'5px'}/></td>
                 <td className="memo-cell">{list.me_content}</td>
                 <td className="memo-cell">
                   <button className="btn" onClick={() => btndelete(list.me_idx)}>
@@ -179,14 +179,14 @@ function MemoList() {
         contentLabel="Add Memo"
         style={customStyles}
       >
-        <div className="modal-content" >
+        <div className="modal-content" style={{width:"100%", height:"99%"}}>
           <div className="modal-header" >
             <h5>Memo</h5>
           </div>
-          <div className="modal-body"  width="50px" >
+          <div className="modal-body">
             <form>
               <label htmlFor="me_content" className="form-label"></label>
-              <textarea className="form-control" id="me_content" rows="15" ref={me_content} placeholder="메모를 작성하세요..."></textarea>
+              <textarea className="form-control" id="me_content" rows="12" ref={me_content} placeholder="메모를 작성하세요..."></textarea>
             </form>
             <div className="modal-footer">
             <button type="submit" className="btn" onClick={btnMemo}>추가</button>

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
@@ -64,10 +64,14 @@ function Amain() {
   <div className="col">
     <MemoList />
   </div>
-</div>
+</div> 
+    <br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/>
         </main>
       </div>
+     
     </div>
+    
   );
 }
 

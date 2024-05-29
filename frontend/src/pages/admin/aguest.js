@@ -45,28 +45,6 @@ function AGuest() {
             });
     };
     }
-    // const handleUpdate = (g_idx, g_level, g_point) => {
-    //     const form = new FormData();
-    //     form.append('g_idx', g_idx.current.value);
-    //     form.append('g_level', g_level.current.value);
-    //     form.append('g_point', g_point.current.value);
-    //     fetch('http://localhost/admin/ag_update', {
-    //         method: 'post',
-    //         body: form,
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.result === 'success') {
-    //                 fetchguest();
-    //             } else {
-    //                 console.error('Error updating user:', data.result);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error updating user:', error);
-    //         });
-    // };
-
     return (
         <>
             <hr />
@@ -167,6 +145,8 @@ function AGuest() {
                                 </tbody>
                             </table>
                         </div>
+                        <br/><br/><br/>
+                        <br/><br/>
                     </main>
                 </div>
             </div>

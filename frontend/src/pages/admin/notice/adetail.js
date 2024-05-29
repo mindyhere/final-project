@@ -81,7 +81,7 @@ function Adetail() {
                             icon: 'success',
                             confirmButtonColor: '#41774d86',
                         }).then(() => {
-                            navigate(`/admin/notice/alist/${a_id.key}`);
+                            navigate(`/admin/notice/alist/${a_id}`);
                         });
                     } else {
                         Swal.fire({
@@ -200,6 +200,8 @@ function Adetail() {
                                 </form>
                             </div>
                         </div>
+                        <br/><br/><br/>
+                        <br/><br/>
                     </main>
                 </div>
             </div>

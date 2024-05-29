@@ -171,6 +171,7 @@ function AHotel() {
                                 )}
                             </div>
                         </div>
+                        <br/><br/>
                     </main>
                 </div>
             </div>
