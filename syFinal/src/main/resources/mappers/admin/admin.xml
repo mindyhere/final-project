@@ -23,7 +23,6 @@
 		g_url,
 		g_profile,
 		g_level,
-		g_card,
 		g_join_date,
 		g_date,
 		g_cvc,
@@ -44,7 +43,7 @@
 		g_url,
 		g_level,
 		g_point,g_photo,
-		g_card,g_profile,g_join_date ,g_date
+		g_profile,g_join_date ,g_date
 		from guest
 		, levle
 		where

@@ -20,7 +20,7 @@ function Amain() {
           <div className="position-sticky pt-3 sidebar-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <a className="nav-link active" onClick={() => navigate(`/admin/amain/${a_id}`)}>
+                <a className="nav-link active" onClick={() => navigate(`/admin/amain/${a_id.key}`)}>
                   &nbsp; <House width={'15%'} height={'15%'} /> HOME
                 </a>
               </li>
@@ -29,8 +29,8 @@ function Amain() {
                   <Person width={'15%'} height={'15%'} /> 회원관리
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/aguest/${a_id}`)}>회원정보관리</Dropdown.Item>
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahost/${a_id}`)}>사업자정보관리</Dropdown.Item>
+                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>
+                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown>
@@ -38,7 +38,7 @@ function Amain() {
                   <HouseCheckFill width={'15%'} height={'15%'} /> 숙소관리
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahotel/${a_id}`)}>숙소등록승인</Dropdown.Item>
+                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown>
@@ -46,8 +46,8 @@ function Amain() {
                   <CardList width={'15%'} height={'15%'} /> 공지사항
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/alist/${a_id}`)}>공지목록</Dropdown.Item>
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/awrite/${a_id}`)}>공지등록</Dropdown.Item>
+                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>
+                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </ul>
