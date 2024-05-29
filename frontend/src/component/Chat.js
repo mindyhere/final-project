@@ -1,7 +1,7 @@
 import React,{useEffect,useState,useRef} from 'react';
 import Cookies from "universal-cookie";
 import { useParams } from "react-router-dom";
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { Stomp } from "@stomp/stompjs";
 import '../pages/guest/aa.css'
 import '../asset/css/chat/Input.css'
