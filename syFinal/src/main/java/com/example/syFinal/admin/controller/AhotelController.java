@@ -32,6 +32,7 @@ public class AhotelController {
 		map.put("search", search);
 		map.put("status", status);
 
+		// System.out.println(ahotelDao.list(map));
 		return ahotelDao.list(map);
 	}
 
@@ -59,9 +60,22 @@ public class AhotelController {
 
 	@RequestMapping("/admin/ahodetail")
 	public Map<String, Object> detail(@RequestParam(name = "hoIdx", defaultValue = "") int ho_idx) {
-		System.out.println(ho_idx);
+		// System.out.println(ho_idx);
 		List<HotelDTO> dto = ahotelDao.detail(ho_idx);
 		Map<String, Object> map = new HashMap<>();
+		System.out.println(dto.get(0).getD_room_type());
+		for (int i = 0; i<dto.size(); i++) {
+			if (dto.get(i).getD_room_type().equals( "싱글룸")) {
+				dto.get(i).setRoomCount(dto.get(i).getHo_single());
+			} else if (dto.get(i).getD_room_type().equals("더블룸")) {
+				dto.get(i).setRoomCount(dto.get(i).getHo_double());
+			} else if (dto.get(i).getD_room_type().equals("패밀리룸")) {
+				dto.get(i).setRoomCount(dto.get(i).getHo_family());
+			} else if (dto.get(i).getD_room_type().equals( "스위트룸")) {
+				dto.get(i).setRoomCount(dto.get(i).getHo_suite());
+			}
+			
+		}
 		System.out.println(dto);
 		map.put("dto", dto);
 		return map;
