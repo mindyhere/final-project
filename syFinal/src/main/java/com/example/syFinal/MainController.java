@@ -57,7 +57,6 @@ public class MainController {
 		List<ANoticeDTO> noticeList = dao.noticelist();
 		Map<String, Object> list = new HashMap<>();
 		list.put("list", noticeList);
-		System.out.println("공지사항리스트리스트=="+noticeList);
 		return list;
 	}
 	//메인 세부공지사항
