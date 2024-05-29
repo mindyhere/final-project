@@ -127,7 +127,7 @@ function PreReservDetail() {
                     <h4>결제 정보</h4>
                     <hr/>
                     <p style={{fontWeight: 'bold'}}>결제 세부 정보</p>
-                    <p>{data.dto.o_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
+                    <p>{(data.dto.o_price*1.2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p>
                     <hr/>
                     <div onClick={() => {setCheck(!check)}}><p><img src="/img/bbtnDetail.png" width="12px" height="12px" style={{marginRight: '2px', marginBottom: '2px'}}/>&nbsp;상세 내역</p></div>
                     <div className={check? 'abl' : 'dis'}>
