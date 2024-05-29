@@ -170,8 +170,7 @@ function AHotel() {
                                     <p className="no-data">No data</p>
                                 )}
                             </div>
-                        </div>
-                        <br/><br/>
+                        </div>                       
                     </main>
                 </div>
             </div>
