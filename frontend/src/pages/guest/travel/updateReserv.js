@@ -164,6 +164,7 @@ function UpdateReserv() {
             return response.json();
         })
         .then(data => {
+            console.log(data)
             setData(data);
             setLoading(false);
             setGuestCounter(data.dto.o_reser);
@@ -184,7 +185,7 @@ function UpdateReserv() {
             const start = moment(state.startDate);
             const end = moment(state.endDate);
             const dateChar  = moment.duration(end.diff(start)).asDays();
-            const guestCounter = adult + teenager + child
+            const guestCounter = adult + teenager;
     
             return (
                 <>
@@ -228,19 +229,19 @@ function UpdateReserv() {
                                             <Dropdown.Menu className="col-12">
                                                 
                                                 <Dropdown.Item className="col-6">성인</Dropdown.Item>
-                                                    <button style={{marginRight: '10px'}} onClick={adultMinusBtn}> - </button>
+                                                    <button className="circle-btn" onClick={adultMinusBtn}> - </button>
                                                     {adult}
-                                                    <button style={{marginLeft: '10px'}} onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                    <button className="circle-btn" onClick={adultPlusBtn} disabled={guestCounter >= data.dto.d_capacity ? true : false}> + </button>
     
                                                 <Dropdown.Item>어린이</Dropdown.Item>
-                                                    <button style={{marginRight: '10px'}} onClick={teenagerMinusBtn}> - </button>
+                                                    <button className="circle-btn" onClick={teenagerMinusBtn}> - </button>
                                                     {teenager}
-                                                    <button style={{marginLeft: '10px'}} onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                    <button className="circle-btn" onClick={teenagerPlusBtn} disabled={guestCounter >= data.dto.d_capacity ? true : false}> + </button>
                                                 
                                                 <Dropdown.Item>유아</Dropdown.Item>
-                                                    <button style={{marginRight: '10px'}} onClick={childMinusBtn}> - </button>
+                                                    <button className="circle-btn" onClick={childMinusBtn}> - </button>
                                                     {child}
-                                                    <button style={{marginLeft: '10px'}} onClick={childPlusBtn} disabled={child > 4}> + </button>
+                                                    <button className="circle-btn" onClick={childPlusBtn} disabled={child > 4}> + </button>
                                                
                                             </Dropdown.Menu>
                                         </Dropdown>
@@ -248,7 +249,7 @@ function UpdateReserv() {
                                             guestCounter > 0
                                             ?
                                             <div>
-                                            게스트 {guestCounter}명
+                                            게스트 {guestCounter+child}명
                                             </div>
                                             : data.dto.o_reser
                                         }
