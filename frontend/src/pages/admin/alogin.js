@@ -64,8 +64,9 @@ function Alogin() {
                         .then(data => {
                             if (data.success) { 
                                 const cookies = new Cookies();
-                                cookies.set('a_id', { key: data.a_id }, { path: '/', expires: new Date(Date.now() + 2592000) }); // 30일
-                                cookies.set('a_passwd', { key: data.a_passwd }, { path: '/', expires: new Date(Date.now() + 2592000) });
+                                const today=new Date();
+                                today.setDate(today.getDate()+1);
+                                cookies.set('a_id', { key: data.a_id }, { path: '/', expires: today }); 
                                 Swal.fire({
                                     title: '환영합니다!',
                                     text: '관리자님 환영합니다 :)',

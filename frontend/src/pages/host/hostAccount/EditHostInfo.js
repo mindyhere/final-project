@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useLocation, useNavigate,useParams } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ function EditHostInfo() {
 
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const {userIdx} = useParams();
+  const userIdx = userInfo.h_idx;
   const userEmail = data.h_email;
   const pwd = useRef();
   const [pwdChk, setPwdChk] = useState("");

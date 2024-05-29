@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import ListReviews from "./ListReviews";
@@ -14,9 +14,9 @@ import {
 import Swal from "sweetalert2";
 
 function useFetch(url) {
+  const cookies = new Cookies();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch(url)
       .then((response) => {
@@ -34,9 +34,9 @@ function useFetch(url) {
 function HostAccount() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
-  const {userIdx} = useParams();
-
+  const userIdx = userInfo.h_idx;
   const navigate = useNavigate();
+
   const [data, loading] = useFetch(
     `http://localhost/api/host/account/${userIdx}`
   );
@@ -279,7 +279,8 @@ function levelUp(userIdx, opt) {
         Swal.fire({
           icon: "success",
           title: "Check",
-          html: "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
+          html:
+            "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
           confirmButtonText: "OK",
         }).then((result) => {
           if (result.isConfirmed) {
@@ -294,7 +295,8 @@ function levelUp(userIdx, opt) {
     Swal.fire({
       icon: "warning",
       title: "잠깐!",
-      html: "신청이 거부되었습니다. 첨부파일을 업로드해주세요.<br/>(프로필, 사업자등록증, 통장사본)",
+      html:
+        "신청이 거부되었습니다. 첨부파일을 업로드해주세요.<br/>(프로필, 사업자등록증, 통장사본)",
       confirmButtonText: "OK",
     });
   }
