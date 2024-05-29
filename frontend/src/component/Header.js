@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import Join from "../pages/guest/member/join";
@@ -10,29 +10,6 @@ import "../pages/host/host1.css";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
-// const timeoutAlert = (cookie) => {
-//   console.log(cookie + "=>쿠키?" + cookie == null);
-//   if (cookie == null) {
-//     return null;
-//   } else {
-//     const date = new Date();
-//     // date.setDate(date+600)
-//      //date.setDate(date.getDate() + 1);
-//      console.log("=> 타임아웃호출 " + date);
-//     setTimeout(() => {
-//       Swal.fire({
-//         icon: "warning",
-//         title: "Check",
-//         html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
-//         showConfirmButton: false,
-//         //timer: 3000,
-//       }).then(() => {
-//         window.location.href = "/";
-//       });
-//     }, 180000);
-//   }
-// };
-
 function Header() {
   const navigate = useNavigate();
 
@@ -41,6 +18,26 @@ function Header() {
   const [join, setJoin] = useState(false);
   const [hostJoin, setHostJoin] = useState(false);
   const cookies = new Cookies();
+  const timerRef = useRef(null);
+
+  const timeoutAlert = (type) => {
+    timerRef.current = setTimeout(() => {
+      Swal.fire({
+        icon: "warning",
+        title: "Check",
+        html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        window.location.href = "/";
+      });
+      removeCookies(type);
+    }, 1000 * 60 * 60 * 24);
+  };
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   //게스트 쿠키
   const g_email = cookies.get("g_email"); //쿠키변수명
@@ -309,7 +306,7 @@ function Header() {
   } else if (userInfo == null && g_email != null && a_id == null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
-    // timeoutAlert(g_email);
+    timeoutAlert("guest");
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -424,7 +421,7 @@ function Header() {
   } else if (userInfo != null && g_email == null && a_id == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
-    // timeoutAlert(userInfo);
+    timeoutAlert("host");
 
     return (
       <nav className="navbar navbar-expand-lg">
@@ -466,7 +463,7 @@ function Header() {
                   호텔
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => navigate(`/api/order/manage/list/${userIdx}`)}
@@ -515,7 +512,7 @@ function Header() {
       </nav>
     );
   } else if (a_id != null && userInfo == null && g_email == null) {
-    // timeoutAlert(a_id);
+    timeoutAlert("admin");
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
