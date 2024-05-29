@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.checkerframework.checker.units.qual.h;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.syFinal.host.model.dto.HotelDTO;
 import com.example.syFinal.host.model.dto.HotelDetailDTO;
-
-import jakarta.servlet.ServletContext;
 
 @Repository
 public class HotelDAOImpl implements HotelDAO {
@@ -28,7 +25,7 @@ public class HotelDAOImpl implements HotelDAO {
 	public Map<String, Object> hotelList(Map<String, Object> map) {
 		return sqlSession.selectOne("hotel.getHotelList", map);
 	}
-	
+
 	/* 호텔 이미지 정보 */
 	public List<HotelDetailDTO> hotelImg(int ho_idx) {
 		return sqlSession.selectList("hotel.getHotelList", ho_idx);
@@ -54,7 +51,7 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호텔 이용규칙 */
 	@Override
-	public Map<String, Object> hotelRule(int ho_idx){
+	public Map<String, Object> hotelRule(int ho_idx) {
 		return sqlSession.selectOne("hotel.getHotelRule", ho_idx);
 	}
 
@@ -86,14 +83,14 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public Map<String, Object> hotelStatus(int h_idx) {
 		return sqlSession.selectOne("hotel.getHotelStatus", h_idx);
-	}	
-	
+	}
+
 	/* 호스트의 호텔 목록 */
 	@Override
 	public List<Map<String, Object>> hostAllHotel(int h_idx) {
 		return sqlSession.selectList("hotel.getHostAllHotel", h_idx);
-	}	
-	
+	}
+
 	@Override
 	public List<HotelDetailDTO> imp_date(int ho_idx, int d_idx) {
 		Map<String, Object> map = new HashMap<>();
@@ -101,7 +98,7 @@ public class HotelDAOImpl implements HotelDAO {
 		map.put("d_idx", d_idx);
 		return sqlSession.selectList("hotel.imp_date", map);
 	}
-	
+
 	/* 호텔 상세 정보 조회 */
 	@Override
 	public List<Map<String, Object>> detailMyHotel(int ho_idx) {
@@ -119,23 +116,23 @@ public class HotelDAOImpl implements HotelDAO {
 	public List<HotelDTO> viewHotelImg(int ho_idx) {
 		return sqlSession.selectList("hotel.viewHotelImg", ho_idx);
 	}
-	
+
 	/* 호텔 신규 등록 전 확인 */
 	@Override
 	public String beforeRegistCheck(int userIdx) {
 		int check = sqlSession.selectOne("hotel.beforeRegistCheck", userIdx);
 		String result = "";
-		if(check == 0) {
+		if (check == 0) {
 			result = "success";
 		} else {
-			result = "fail";			
+			result = "fail";
 		}
 		return result;
 	}
 
 	/* 이어서 작성하기 */
 	@Override
-	public Map<String, Object> selectTempHotel(int userIdx){
+	public Map<String, Object> selectTempHotel(int userIdx) {
 		return sqlSession.selectOne("hotel.selectTempHotel", userIdx);
 	}
 
@@ -144,59 +141,64 @@ public class HotelDAOImpl implements HotelDAO {
 	public void deleteTempHotel(int userIdx) {
 		sqlSession.delete("hotel.deleteTempHotel", userIdx);
 	}
-	
+
 	/* 신규 호텔 등록(임시) */
 	@Override
 	public int registHotelTemp(Map<String, Object> map) {
-		if(map.get("temp") == "undefined") {
-			sqlSession.insert("hotel.registHotelTemp", map);			
+		if (map.get("temp") == "undefined") {
+			sqlSession.insert("hotel.registHotelTemp", map);
 		} else {
 			sqlSession.update("hotel.updateHotelTemp", map);
 		}
 		int hoIdx = sqlSession.selectOne("hotel.findHtHidx", map.get("ht_h_idx"));
 		return hoIdx;
 	}
-	
-	/* 호텔 최종 등록 */
+
+	/* 호텔 최종 등록 상세 */
 	@Override
 	public void registNewHotel(Map<String, Object> map) {
 		int ht_idx = (int) map.get("ht_idx");
 		int ht_h_idx = (int) map.get("ht_h_idx");
-
+		String d_img1 = (String) map.get("d_img1");
+		String d_img2 = (String) map.get("d_img2");
+		String d_img3 = (String) map.get("d_img3");
+		System.out.println("1. d_img1 : " + d_img1);
+		System.out.println("1. d_img2 : " + d_img2);
+		System.out.println("1. d_img3 : " + d_img3);
 		Map<String, Object> newAmenity = new HashMap<>();
 		newAmenity.put("newAmenity", map.get("checkItems"));
-		String[] items= map.get("checkItems").toString().split(",");
+		String[] items = map.get("checkItems").toString().split(",");
 		sqlSession.insert("hotel.insertNewAmenity", ht_idx);
-		for(String item : items){
+		for (String item : items) {
 			newAmenity.put("ho_idx", ht_idx);
-			switch(item){
-			  case "0": 
-				  newAmenity.put("option", "mountain_view");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			switch (item) {
+			case "0":
+				newAmenity.put("option", "mountain_view");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "1": 
-				  newAmenity.put("option", "ocean_view");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "1":
+				newAmenity.put("option", "ocean_view");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "2": 
-				  newAmenity.put("option", "wifi");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "2":
+				newAmenity.put("option", "wifi");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "3": 
-				  newAmenity.put("option", "parking_lot");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "3":
+				newAmenity.put("option", "parking_lot");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "4": 
-				  newAmenity.put("option", "breakfast");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "4":
+				newAmenity.put("option", "breakfast");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "5": 
-				  newAmenity.put("option", "fire_alam");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "5":
+				newAmenity.put("option", "fire_alam");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
-			  case "6": 
-				  newAmenity.put("option", "fire_extinguisher");
-				  sqlSession.update("hotel.editHotelAmenity", newAmenity);
+			case "6":
+				newAmenity.put("option", "fire_extinguisher");
+				sqlSession.update("hotel.editHotelAmenity", newAmenity);
 				break;
 			}
 		}
@@ -207,8 +209,8 @@ public class HotelDAOImpl implements HotelDAO {
 		JSONArray jsonArray = null;
 		try {
 			jsonArray = (JSONArray) parser.parse(test);
-			
-			for(Object obj : jsonArray) {
+
+			for (Object obj : jsonArray) {
 				JSONObject jsObject = (JSONObject) obj;
 				Map<String, Object> result = new HashMap<>();
 				result.put("ht_idx", ht_idx);
@@ -218,17 +220,26 @@ public class HotelDAOImpl implements HotelDAO {
 				result.put("beds", jsObject.get("beds"));
 				result.put("non_smoking", jsObject.get("non_smoking"));
 				result.put("price", jsObject.get("price"));
-				result.put("dImg1", jsObject.get("dImg1"));
-				result.put("dImg2", jsObject.get("dImg2"));
-				result.put("dImg3", jsObject.get("dImg3"));
+				String d_img_name1 = jsObject.get("dImg1").toString().replaceAll("C:\\\\fakepath\\\\", "");
+				result.put("d_img1", d_img_name1);
+				String d_img_name2 = jsObject.get("dImg2").toString().replaceAll("C:\\\\fakepath\\\\", "");
+				result.put("d_img2", d_img_name2);
+				String d_img_name3 = jsObject.get("dImg3").toString().replaceAll("C:\\\\fakepath\\\\", "");
+				result.put("d_img3", d_img_name3);
+				System.out.println("DAO 반복문 d_img1 : " + d_img1);
+				System.out.println("DAO 반복문 d_img2 : " + d_img2);
+				System.out.println("DAO 반복문 d_img3 : " + d_img3);
 				sqlSession.insert("hotel.insertNewRoom", result);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	/* 호텔 신규 등록 최종 */
+	@Override
+	public void insertNewHotel(int ht_idx, int ht_h_idx) {
 		sqlSession.insert("hotel.insertNewHotel", ht_idx);
-
 		Map<String, Object> insertRow = new HashMap<>();
 		insertRow.put("ht_idx", ht_idx);
 		insertRow.put("ht_h_idx", ht_h_idx);
@@ -240,25 +251,25 @@ public class HotelDAOImpl implements HotelDAO {
 	public void editHotelDefaultInfo(Map<String, Object> map) {
 		sqlSession.update("hotel.editHotelDefaultInfo", map);
 	}
-	
+
 	/* 호텔 편의시설 초기화 */
 	@Override
 	public void initHotelAmenity(int ho_idx) {
 		sqlSession.update("hotel.initHotelAmenity", ho_idx);
 	}
-	
+
 	/* 호텔 편의시설 수정 */
 	@Override
 	public void editAmenity(Map<String, Object> map) {
 		sqlSession.update("hotel.editHotelAmenity", map);
 	}
-	
+
 	/* 호텔 객실 정보 수정 */
 	@Override
 	public void editHotelRoomInfo(Map<String, Object> map) {
 		sqlSession.update("hotel.editHotelRoomInfo", map);
 	}
-	
+
 	/* 호텔 영업 중지 신청 */
 	@Override
 	public String updateHotelStatus(int ho_idx, String status) {
@@ -266,25 +277,25 @@ public class HotelDAOImpl implements HotelDAO {
 		map.put("ho_idx", ho_idx);
 		int reservCnt = sqlSession.selectOne("hotel.reservCnt", ho_idx);
 		String result = "";
-		switch(status){
-		  case "2": 
-			  if(reservCnt > 0) {
-				  result = "fail";
-			  } else {
-				  map.put("status", 3);
-				  sqlSession.update("hotel.updateHotelStatus", map);
-				  result = "success";
-			  }
+		switch (status) {
+		case "2":
+			if (reservCnt > 0) {
+				result = "fail";
+			} else {
+				map.put("status", 3);
+				sqlSession.update("hotel.updateHotelStatus", map);
+				result = "success";
+			}
 			break;
-		  case "3": 
-			  map.put("status", 1);
-			  sqlSession.update("hotel.updateHotelStatus", map);
-			 result = "success";
+		case "3":
+			map.put("status", 1);
+			sqlSession.update("hotel.updateHotelStatus", map);
+			result = "success";
 			break;
-		} 
+		}
 		return result;
 	}
-	
+
 	@Override
 	public int room_count(int ho_idx, int d_idx) {
 		Map<String, Object> map = new HashMap<>();
