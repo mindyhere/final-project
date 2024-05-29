@@ -2,13 +2,11 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Cookies from "universal-cookie";
 
-function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Dimg1,Dimg2,Dimg3,Star}) {
+function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
-    //const url = `../img/${HoImg}`;
-    const navigate = useNavigate();
     const [image, setImage] = useState(""); 
     const [checkId, setCheckId] = useState(2);
 
