@@ -1,7 +1,10 @@
 package com.example.syFinal.host.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -155,28 +159,28 @@ public class HotelController {
 
 	/* 호텔 신규 등록 전 확인 */
 	@PostMapping("/host/hotel/beforeRegistCheck")
-	public Map<String, Object> check(@RequestParam(name="userIdx") int userIdx){
+	public Map<String, Object> check(@RequestParam(name = "userIdx") int userIdx) {
 		Map<String, Object> result = new HashMap<>();
 		String check = hotelDao.beforeRegistCheck(userIdx);
 		result.put("check", check);
 		return result;
 	}
-	
+
 	/* 이어서 작성하기 */
 	@PostMapping("/host/hotel/selectTempHotel")
-	public Map<String, Object> selectTempHotel(@RequestParam(name="userIdx") int userIdx){
+	public Map<String, Object> selectTempHotel(@RequestParam(name = "userIdx") int userIdx) {
 		Map<String, Object> tempData = new HashMap<>();
 		tempData.put("temp", hotelDao.selectTempHotel(userIdx));
 		return tempData;
 	}
-	
+
 	/* 임시 데이터 삭제 */
 	@Transactional
 	@PostMapping("/host/hotel/deleteTempHotel")
-	public void deleteTempHotel(@RequestParam(name="userIdx") int userIdx){
+	public void deleteTempHotel(@RequestParam(name = "userIdx") int userIdx) {
 		hotelDao.deleteTempHotel(userIdx);
 	}
-	
+
 	/* 신규 호텔 등록 */
 	@Transactional
 	@PostMapping("/host/hotel/registHotel")
@@ -199,50 +203,145 @@ public class HotelController {
 		return htIdx;
 	}
 
-	/* 호텔 신규 등록 - 상세 */
 	@PostMapping("/host/hotel/registHotelDetail")
-	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name = "ht_idx") int ht_idx, @RequestParam(name = "ht_h_idx") int ht_h_idx,
-			@RequestParam(name = "dImg1") MultipartFile dImg1, @RequestParam(name = "dImg2", required = false) MultipartFile dImg2, 
-			@RequestParam(name = "dImg3", required = false) MultipartFile dImg3,  HttpServletRequest request) throws ParseException {
+	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name = "ht_idx") int ht_idx,
+			@RequestParam(name = "ht_h_idx") int ht_h_idx, HttpServletRequest request) throws Exception {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-		System.out.println("넘어오는 list 데이터 확인 : " + map);
-		String d_img1 = "-";
-		if (dImg1 != null && !dImg1.isEmpty()) {
-			try {
-				d_img1 = dImg1.getOriginalFilename();
-				dImg1.transferTo(new File(path + d_img1));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		map.put("d_img1", d_img1);
-		
-		String d_img2 = "-";
-		if (dImg2 != null && !dImg2.isEmpty()) {
-			try {
-				d_img2 = dImg2.getOriginalFilename();
-				dImg2.transferTo(new File(path + d_img2));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		map.put("d_img2", d_img2);
-		
-		String d_img3 = "-";
-		if (dImg3 != null && !dImg3.isEmpty()) {
-			try {
-				d_img3 = dImg3.getOriginalFilename();
-				dImg3.transferTo(new File(path + d_img3));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		map.put("d_img3", d_img3);
-		
 		map.put("ht_idx", ht_idx);
 		map.put("ht_h_idx", ht_h_idx);
-		//hotelDao.registNewHotel(map);
+		System.out.println("map : " + map);
+
+		String list = map.get("list").toString();
+		System.out.println("list : " + list);
+		String d_img1 = map.get("dImg1").toString();
+		//String d_img2 = map.get("dImg2").toString();
+		//String d_img3 = map.get("dImg3").toString();
+
+		System.out.println("1. d_img1 =====> " + d_img1);
+//		System.out.println("1. d_img2 =====> " + d_img2);
+//		System.out.println("1. d_img3 =====> " + d_img3);
+		
+		
+		String[] base64Image_1 = d_img1.split(",");
+//		String[] base64Image_2 = d_img2.split(",");
+//		String[] base64Image_3 = d_img3.split(",");
+		
+		System.out.println("base64Image_1 " + base64Image_1);
+//		System.out.println("base64Image_2 " + base64Image_2);
+//		System.out.println("base64Image_3 " + base64Image_3);
+
+		JSONParser parser = new JSONParser();
+		d_img1 = d_img1.replaceAll("'", "\\\"");
+//		d_img2 = d_img3.replaceAll("'", "\\\"");
+//		d_img3 = d_img3.replaceAll("'", "\\\"");
+
+		System.out.println("2.   d_img1    ====> " + d_img1);
+//		System.out.println("2.   d_img2    ====> " + d_img2);
+//		System.out.println("2.   d_img3    ====> " + d_img3);
+		JSONArray jsonArray2 = null;
+		JSONArray jsonArray = null;
+		//JSONArray jsonArrayImg2 = null;
+		//JSONArray jsonArrayImg3 = null;
+		try {
+			jsonArray2 = (JSONArray) parser.parse(list);
+			jsonArray = (JSONArray) parser.parse(d_img1);
+//			jsonArray = (JSONArray) parser.parse(d_img2);
+//			jsonArray = (JSONArray) parser.parse(d_img3);
+			System.out.println("jsonArray2 ====> " + jsonArray2);
+
+			for (Object obj : jsonArray) {
+				JSONObject jsObject = (JSONObject) obj;
+				Map<String, Object> result = new HashMap<>();
+				result.put("dImg1", jsObject.get("dImg1"));
+//				result.put("dImg2", jsObject.get("dImg2"));
+//				result.put("dImg3", jsObject.get("dImg3"));
+				System.out.println("result dImg1 ==== > " + jsObject.get("dImg1"));
+//				System.out.println("result dImg2 ==== > " + jsObject.get("dImg2"));
+//				System.out.println("result dImg3 ==== > " + jsObject.get("dImg3"));
+				for (Object obj2 : jsonArray2) {
+					JSONObject jsObject2 = (JSONObject) obj2;
+					String d_img1_name = "-";
+					String d_img2_name = "-";
+					String d_img3_name = "-";
+					String a = result.get("dImg1").toString();
+					//String b = result.get("dImg2").toString();
+					//String c = result.get("dImg3").toString();
+
+					if (a.length() != 0) {
+						a = a.split(",")[1];
+					}
+
+//					if (b.length() != 0) {
+//						b = b.split(",")[1];
+//					}
+//
+//					if (c.length() != 0) {
+//						c = c.split(",")[1];
+//
+//					}
+
+					if (jsObject2.get("dImg1").toString() != null || jsObject2.get("dImg1").toString().length() > 0) {
+						d_img1_name = jsObject2.get("dImg1").toString().replaceAll("C:\\\\fakepath\\\\", "");
+					}
+
+					if (jsObject2.get("dImg2").toString() != null || jsObject2.get("dImg2").toString().length() > 0) {
+						d_img2_name = jsObject2.get("dImg2").toString().replaceAll("C:\\\\fakepath\\\\", "");
+					}
+					if (jsObject2.get("dImg3").toString() != null || jsObject2.get("dImg3").toString().length() > 0) {
+						d_img3_name = jsObject2.get("dImg3").toString().replaceAll("C:\\\\fakepath\\\\", "");
+					}
+
+					byte[] image1 = Base64.getDecoder().decode(a.trim());
+//					byte[] image2 = Base64.getDecoder().decode(b.trim());
+//					byte[] image3 = Base64.getDecoder().decode(c.trim());
+
+					if (d_img1_name.length() != 0) {
+						try {
+							FileOutputStream fos1 = new FileOutputStream(path + d_img1_name);
+							map.put("d_img1", d_img1_name);
+							fos1.write(image1);
+							fos1.close();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+//
+//					if (d_img2_name.length() != 0) {
+//						try {
+//							FileOutputStream fos2 = new FileOutputStream(path + d_img2_name);
+//							map.put("d_img2", d_img2_name);
+//							fos2.write(image2);
+//							fos2.close();
+//						} catch (FileNotFoundException e) {
+//							e.printStackTrace();
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					}
+//
+//					if (d_img3_name.length() != 0) {
+//						try {
+//							FileOutputStream fos3 = new FileOutputStream(path + d_img3_name);
+//							map.put("d_img3", d_img3_name);
+//							fos3.write(image3);
+//							fos3.close();
+//						} catch (FileNotFoundException e) {
+//							e.printStackTrace();
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					}
+				}
+				System.out.println("map ======> " + map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		hotelDao.registNewHotel(map);
+		hotelDao.insertNewHotel(ht_idx, ht_h_idx);
 	}
 
 	/* 호텔 상세 정보 조회 */

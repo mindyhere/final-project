@@ -64,8 +64,11 @@ public interface HotelDAO {
 	/* 신규 호텔 등록(임시) */
 	int registHotelTemp(Map<String, Object> map);
 
-	/* 호텔 최종 등록 */
+	/* 호텔 신규 등록 상세 */
 	void registNewHotel(Map<String, Object> map);
+
+	/* 호텔 신규 등록 최종  */
+	void insertNewHotel(int ht_idx, int ht_h_idx);
 	
 	/* 호텔 기본 정보 수정 */
 	void editHotelDefaultInfo(Map<String, Object> map);

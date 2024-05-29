@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import RegistRoomDetail from "./RegistRoomDetail";
-import { tr } from "date-fns/locale";
+//import base64 from "base-64";
 
 function RegistHotelDetail() {
     const navigate = useNavigate();
@@ -18,10 +18,11 @@ function RegistHotelDetail() {
     const [checkItems, setCheckItems] = useState([]);
 
     const [lists, setList] = useState([]);
-
+    const [fileLists, setFileLists] = useState([]);
     let list=[];
+    let fileList=[];
 
-    const onSetData = (item) => {
+    const onSetData = (item, file) => {
         for (let i=0; i<lists.length; i++){
             if(lists[i].roomType == item.roomType){
                 Swal.fire({
@@ -33,9 +34,13 @@ function RegistHotelDetail() {
                 return;
             }
         }
+        console.log(item);
+        console.log(file);
         list.push(item);
-        setList(old => [...old, ...list]);
+        fileList.push(file);
 
+        setList(old => [...old, ...list]);
+        setFileLists(old => [...old, ...fileList]);
         setModal(false);
     }
 
@@ -223,15 +228,9 @@ function RegistHotelDetail() {
                             form.append('ht_h_idx', userIdx);
                             form.append('checkItems', checkItems);
                             form.append('list', JSON.stringify(lists));
-                            //if(JSON.stringify(lists.dImg1).files.length > 0){
-                            // form.append('dImg1', JSON.stringify(lists.dImg1).files[0]);
-                            //}
-                            // if(d_img2.current.files.length > 0){
-                            //     form.append('d_img2', d_img2.current.files[0]);
-                            // }
-                            // if(d_img3.current.files.length > 0){
-                            //     form.append('d_img3', d_img3.current.files[0]);
-                            // }
+                            form.append('dImg1', JSON.stringify(fileLists));
+                           // form.append('dImg2', JSON.stringify(fileLists));
+                           // form.append('dImg3', JSON.stringify(fileLists));
                             fetch('http://localhost/host/hotel/registHotelDetail', {
                                 method : 'POST',
                                 encType : 'multipart/form-data',
