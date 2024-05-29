@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import RegistRoomDetail from "./RegistRoomDetail";
-import base64 from "base-64";
+//import base64 from "base-64";
 
 function RegistHotelDetail() {
     const navigate = useNavigate();

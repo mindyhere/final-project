@@ -34,6 +34,7 @@ function Reservation() {
     const cookies = new Cookies();
     const gidx = cookies.get("g_idx");
     const userInfo = cookies.get("userInfo");
+    const gprofile = cookies.get("g_profile");
     const {HoIdx} = useParams();
     const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
@@ -67,7 +68,7 @@ function Reservation() {
    }
 
    function adultMinusBtn(){
-    if(adult == 0){
+    if(adult === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -82,7 +83,7 @@ function Reservation() {
    }
 
    function teenagerMinusBtn(){
-    if(teenager == 0){
+    if(teenager === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -97,7 +98,7 @@ function Reservation() {
    }
 
    function childMinusBtn(){
-    if(child == 0){
+    if(child === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -201,17 +202,22 @@ function Reservation() {
                         
                     </table>
                     <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
-                        if(totalPrice == 0){
+                        if(totalPrice === 0){
                             Swal.fire({
                                 icon : 'warning',
                                 text : '숙박날짜를 선택해주세요.',
                             });
-                        } else if(userInfo != undefined || gidx == undefined) {
+                        } else if(userInfo !== undefined || gidx === undefined) {
                             Swal.fire({
                                 icon : 'warning',
                                 text : '게스트 로그인시 예약가능합니다.',
                             });
-                            return;
+                        } else if (gidx.key !== undefined && gprofile.key === '미인증') {
+                            Swal.fire({
+                                icon : 'warning',
+                                title : '신분증 미등록상태',
+                                text : '계정 > 로그인및보안 > 신분증등록',
+                            });
                         }
                         else {
                             navigate('/guest/Order', {

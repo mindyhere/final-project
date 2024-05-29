@@ -151,7 +151,9 @@
 		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
 		select ho_idx, ho_name, sum, month
 		from v_sales
-		where month = #{strToday}
+		where month = #{strToday} and SUM > 0
+		ORDER BY SUM desc
+		LIMIT 10
 	</select>
 
 </mapper>

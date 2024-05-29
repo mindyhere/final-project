@@ -35,16 +35,6 @@ public class GuestController {
 		map.put("dto", mypage);
 		return map;
 	}
-	//카드정보등록
-	@PostMapping("/guest/cardupdate")
-	public void cardupdate (@RequestParam Map<String, Object> map) {
-		dao.cardupdate(map);
-	}
-	//카드정보삭제
-	@PostMapping("/guest/carddelete")
-	public void carddelete (@RequestParam Map<String, Object> map) {
-		dao.carddelete(map);
-	}
 	
 	//게스트 결제리스트
 	@RequestMapping("/guest/pay")
@@ -121,7 +111,7 @@ public class GuestController {
 			@RequestParam(name="dprice") int dprice, @RequestParam(name="fprice") int fprice,
 			@RequestParam(name="paymentId") String paymentId,@RequestParam(name="usePoint") int point,
 			@RequestParam(name="rePoint") int gpoint,@RequestParam(name="useCoupon") int coupon,
-			@RequestParam(name="gcidx") String gc_idx) {
+			@RequestParam(name="gcidx",defaultValue="") String gc_idx) {
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("idx", idx);
 		map1.put("didx", didx);

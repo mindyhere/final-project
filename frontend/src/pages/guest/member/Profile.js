@@ -117,15 +117,15 @@ if(loading||loading1||loading2){
                     <div className="container-lg">
                             <div style={{paddingLeft: '100px'}}>
                                     <br/>
-                                <div class="card-stylee mb-50" >
-                                    <div class="container text-center">
-                                        <div class="row">
-                                            <div class="col" style={{ lineHeight: '2.1'}}>
+                                <div className="card-stylee mb-50" >
+                                    <div className="container text-center">
+                                        <div className="row">
+                                            <div className="col" style={{ lineHeight: '2.1'}}>
                                             <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
                                             <h4>{data.dto.g_name}</h4>
                                             <div>{level}게스트</div>
                                             </div>
-                                            <div class="col">
+                                            <div className="col">
                                             <h5>후기</h5>
                                             <div>{data1.dto.reviewcount}개</div>
                                             <hr></hr>
@@ -134,16 +134,6 @@ if(loading||loading1||loading2){
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* <div className="col-2">
-                                        <span dangerouslySetInnerHTML={{ __html: image_url}}></span>
-                                            <h5 align='left'>{data.dto.g_name} 게스트</h5>
-                                                <div align='left'></div>
-                                    </div>
-                                    <div className="col-3">
-                                        <hr></hr>
-                                    </div> */}
-                                    
                                 </div>
                                 {/* 인증정보구간 */}
                                 <div className="card" style={{width: '23rem',height: '16rem', padding:'1rem'}}>
@@ -220,7 +210,7 @@ if(loading||loading1||loading2){
                         <div align='left'>
                             <h2>{data.dto.g_name} 님 소개</h2>
                             <hr></hr>
-                            <h3>{data.dto.g_name} 님에 대한 호스트의 후기</h3>
+                            <h3>{data.dto.g_name} 님에 대한 호스트의 답변</h3>
 
                             <div align='right'>
                                     <div className="col-6">

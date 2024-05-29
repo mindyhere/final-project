@@ -99,7 +99,7 @@ function HostInfo() {
                                 1시간 이내에 응답
                             </div>
                             <button type="button" onClick={() => {
-                                if (gEmail == null && gEmail == '') {
+                                if (gEmail == null) {
                                     Swal.fire({
                                         text: '게스트로 로그인 해 주세요',
                                         showCancelButton: false,

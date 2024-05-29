@@ -13,9 +13,6 @@
 		g_url,
 		g_profile,
 		g_level,
-		g_card,
-		g_date,
-		g_cvc,
 		g_point
 		from guest
 		where g_idx=#{g_idx}
@@ -38,7 +35,7 @@
 		FROM hotel_detail d, orders o, guest g, hotel h
 		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx AND d.d_ho_idx = h.ho_idx
 		and g_idx=#{g_idx}
-		order BY o_orderdate
+		order BY o_orderdate desc
 	</select>
 	
 	<!-- 게스트 보유쿠폰리스트 -->
@@ -52,18 +49,6 @@
 	<select id='c_count' resultType='int'>
 		SELECT COUNT(gc_idx) AS c_count FROM coupon c,g_coupon gc WHERE c.c_num=gc.gc_num and gc_check=0 AND gc_gidx=#{g_idx}
 	</select>
-	
-	<update id="cardupdate">
-		update guest 
-		set g_card = #{g_card}, g_date = #{g_date}, g_cvc=#{g_cvc}
-		where g_idx = #{g_idx}
-	</update>
-	
-	<update id="carddelete">
-		update guest 
-		set g_card = null, g_date = null, g_cvc= null
-		where g_idx = #{g_idx}
-	</update>
 	
 	<!-- 예약시 호텔정보 -->
 	<select id="hotelinfo" resultType="com.example.syFinal.host.model.dto.HotelDTO">
