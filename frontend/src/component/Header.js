@@ -10,26 +10,28 @@ import "../pages/host/host1.css";
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
 
-const timeoutAlert = (cookie) => {
-  console.log(cookie + "=>쿠키?" + cookie == null);
-  if (cookie == null) {
-    return null;
-  } else {
-    const expiration = new Date().getDate() + 1;
-    setTimeout(() => {
-      console.log("=> 타임아웃 " + expiration);
-      Swal.fire({
-        icon: "warning",
-        title: "Check",
-        html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
-        showConfirmButton: false,
-        timer: 3000,
-      }).then(() => {
-        window.location.href = "/";
-      });
-    }, expiration);
-  }
-};
+// const timeoutAlert = (cookie) => {
+//   console.log(cookie + "=>쿠키?" + cookie == null);
+//   if (cookie == null) {
+//     return null;
+//   } else {
+//     const date = new Date();
+//     // date.setDate(date+600)
+//      //date.setDate(date.getDate() + 1);
+//      console.log("=> 타임아웃호출 " + date);
+//     setTimeout(() => {
+//       Swal.fire({
+//         icon: "warning",
+//         title: "Check",
+//         html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
+//         showConfirmButton: false,
+//         //timer: 3000,
+//       }).then(() => {
+//         window.location.href = "/";
+//       });
+//     }, 180000);
+//   }
+// };
 
 function Header() {
   const navigate = useNavigate();
@@ -307,7 +309,7 @@ function Header() {
   } else if (userInfo == null && g_email != null && a_id == null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
-    timeoutAlert(g_email);
+    // timeoutAlert(g_email);
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -422,7 +424,7 @@ function Header() {
   } else if (userInfo != null && g_email == null && a_id == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
-    timeoutAlert(userInfo);
+    // timeoutAlert(userInfo);
 
     return (
       <nav className="navbar navbar-expand-lg">
@@ -513,7 +515,7 @@ function Header() {
       </nav>
     );
   } else if (a_id != null && userInfo == null && g_email == null) {
-    timeoutAlert(a_id);
+    // timeoutAlert(a_id);
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">

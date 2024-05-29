@@ -17,13 +17,15 @@ function HostLogin() {
   const [modal, setModal] = useState(false);
 
   const handleCookie = (data) => {
-    let expiration = new Date();
+    let expires = new Date();
+    let login = new Date();
     const cookies = new Cookies();
-    expiration.setDate(expiration.getDate() + 1);
-    console.log("!!! expiration? " + expiration);
+    expires.setDate(expires.getDate() + 1);
+    // expires.setMinutes(expires.getMinutes() + 3);
+    console.log(login+"==> expiration? " + expires);
     cookies.set("userInfo", data, {
       path: "/",
-      expires: expiration,
+      expires: expires,
     });
   };
 
