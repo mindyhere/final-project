@@ -59,7 +59,7 @@ function Amain() {
           </div>
           <div className="row">
   <div className="col">
-  <HotelChart url="/admin/chart" />
+  <HotelChart  />
   </div>
   <div className="col">
     <MemoList />
