@@ -20,9 +20,10 @@ function HostLogin() {
     let expires = new Date();
     let login = new Date();
     const cookies = new Cookies();
-    expires.setDate(expires.getDate() + 1);
-    // expires.setMinutes(expires.getMinutes() + 3);
-    console.log(login+"==> expiration? " + expires);
+    //expires.setDate(expires.getDate() + 1);
+    expires.setMinutes(expires.getMinutes() + 3);
+    localStorage.setItem('expires', expires)
+    console.log(login+"==> expiration? " + localStorage.getItem(expires));
     cookies.set("userInfo", data, {
       path: "/",
       expires: expires,
