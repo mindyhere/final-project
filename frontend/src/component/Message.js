@@ -71,7 +71,12 @@ function Message() {
                     setLoading(false);
                 } else if (data.dto.length == 0){
                     setLoading(false);
-                    setCheck(0);
+                    if (gEmail != null) {
+                        setCheck(0);
+                    } else {
+                        setComment('메시지가 없습니다');
+                        setCheck(3);
+                    }         
                 }
             })
     },[]);
@@ -101,10 +106,14 @@ function Message() {
             <br/>
                 <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
                     <p>{comment}</p>
+                    { gEmail != null ? 
                     <div onClick={() => { setCheck(0)}}>
                     <div style={{float: 'left', marginRight: '10px'}}><img src='/img/chatbot.png' width='30px' height='30px' /></div>
                     <p style={{fontSize: '20px'}}>챗봇</p> 
                     </div>
+                    : 
+                    ''
+                    }
                     <hr></hr>
                 {data.dto.map((item) => (
                     <div className='mes' onClick={() =>  { setRoomId(item.m_roomId); setIp(item.h_ip); setCheck(1);
@@ -123,12 +132,16 @@ function Message() {
                 ))}
             </div>
             
-            {check == 1 ? 
-                <Chat roomId= {roomId} ip={ip}></Chat>
-            :      
-            <div style={{position:'absolute', left: '610px'}}>
+            {check != 1 ? 
+                check == 3? 
+                ''
+                :
+                <div style={{position:'absolute', left: '610px'}}>
                 <Chatbot></Chatbot>
                 </div>
+                
+            :      
+                <Chat roomId= {roomId} ip={ip}></Chat>
             }
             </div>
             
