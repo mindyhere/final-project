@@ -38,7 +38,7 @@
 		FROM hotel_detail d, orders o, guest g, hotel h
 		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx AND d.d_ho_idx = h.ho_idx
 		and g_idx=#{g_idx}
-		order BY o_orderdate
+		order BY o_orderdate desc
 	</select>
 	
 	<!-- 게스트 보유쿠폰리스트 -->
