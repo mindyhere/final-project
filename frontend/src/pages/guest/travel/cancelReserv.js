@@ -80,48 +80,48 @@ function CancelReserv() {
                     <h4>총 환불 금액<p style={{float:'right'}}>{data.refund_money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p></h4>
                 </div>
                 <button type='button' className="main-btn" onClick={() => {
-                    const form = new FormData();
-                    form.append('o_idx', OIdx);
-                    form.append('g_idx', idx.key);
-                    form.append('paymentId',data.dto.paymentId);
-                    if(data.dto.o_discount !== null || data.dto.o_discount !== 0) {
-                        form.append('pointPlus',(data.dto.o_discount + data1.dto.g_point));
-                    } else {
-                        form.append('pointPlus',data1.dto.g_point);
-                    }
-                    fetch('http://localhost/paycancel', {
-                        method: 'post',
-                        body: form,
-                    }).then((response) => response.json())
-                    .then(data => {
-                        if (data.result === 'success') {
-                            Swal.fire({
-                                title: '예약을 취소하시겠습니까?',
-                                text: '예약 목록 화면으로 돌아갑니다',
-                                confirmButtonText: '확인',
-                                showCancelButton: true
-                              }).then((result)=>{
-                                if(result.isConfirmed) {
-                                  Swal.fire({
-                                    icon : 'success',
-                                    text: '환불처리완료',
-                                    confirmButtonText: '확인'
-                                  }).then((result) => {
-                                    if(result.isConfirmed) {
-                                      window.location.href='/guest/reservation';
-                                    }
-                                  })
+                    Swal.fire({
+                        title: '예약을 취소하시겠습니까?',
+                        text: '예약 목록 화면으로 돌아갑니다',
+                        confirmButtonText: '확인',
+                        showCancelButton: true
+                      }).then((result)=>{
+                        if(result.isConfirmed) {
+                            const form = new FormData();
+                            form.append('o_idx', OIdx);
+                            form.append('g_idx', idx.key);
+                            form.append('paymentId',data.dto.paymentId);
+                            if(data.dto.o_discount !== null || data.dto.o_discount !== 0) {
+                                form.append('pointPlus',(data.dto.o_discount + data1.dto.g_point));
+                            } else {
+                                form.append('pointPlus',data1.dto.g_point);
+                            }
+                            fetch('http://localhost/paycancel', {
+                                method: 'post',
+                                body: form,
+                            }).then((response) => response.json())
+                            .then(data => {
+                                if (data.result === 'success') {
+                                    Swal.fire({
+                                      icon : 'success',
+                                      text: '환불처리완료',
+                                      confirmButtonText: '확인'
+                                    }).then((result) => {
+                                      if(result.isConfirmed) {
+                                        window.location.href='/guest/reservation';
+                                      }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: '에러 발생',
+                                        text: '관리자에게 문의하세요',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                    });
                                 }
-                              });
-                        } else {
-                            Swal.fire({
-                                title: '에러 발생',
-                                text: '관리자에게 문의하세요',
-                                showCancelButton: false,
-                                confirmButtonText: '확인',
-                            });
-                        }
-                    })
+                            })
+                          }
+                    });
                 }}>예약 취소</button>
                 </div>
 

@@ -76,19 +76,19 @@ public class PaymentController {
             RestTemplate restTemplate = new RestTemplate();
         	PortoneCancel cancel=restTemplate.postForObject("https://api.portone.io/payments/"+payId+"/cancel",entity,PortoneCancel.class);
             //System.out.println("취소취소====="+cancel);
+        	Map<String, Object> map2 = new HashMap<>();
+        	map2.put("g_idx", gidx);
+        	map2.put("pointPlus", point);
+        	dao.gPoint(map2);
+        	
+        	Map<String, Object> map = new HashMap<>();
+        	map.put("result", result);
+        	return map;
 			
 		} catch(Exception e) {
 			e.printStackTrace();
             throw new RuntimeException("환불에 실패 했습니다 다시시도 바랍니다");
 		}
-		Map<String, Object> map2 = new HashMap<>();
-		map2.put("g_idx", gidx);
-		map2.put("pointPlus", point);
-		dao.gPoint(map2);
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", result);
-		return map;
 	}
 
 	private PortoneResponse getAccessToken() {
