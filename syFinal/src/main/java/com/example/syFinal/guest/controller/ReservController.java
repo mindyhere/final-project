@@ -38,30 +38,22 @@ public class ReservController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		Date ck = new Date();
+		Date nowdate = new Date();
 		List<Map<String, Object>> after = new ArrayList<>();
 		List<Map<String, Object>> before = new ArrayList<>();
 		List<Map<String, Object>> be = new ArrayList<>();
 		List<Map<String, Object>> review = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
+		
 		for (int i = 0; i < dto.size(); i++) {
 			try {
 				ck = format.parse(dto.get(i).getO_ckin());
+				nowdate = format.parse(format.format(now));
+				System.out.println();
 			} catch (Exception e) {
 			}
 			// System.out.println(ck.before(now));
-			if (ck.before(now)) {
-				Map<String, Object> map1 = new HashMap<>();
-				map1.put("OIdx", dto.get(i).getO_idx());
-				map1.put("HoImg", dto.get(i).getHo_img());
-				map1.put("OCkin", dto.get(i).getO_ckin());
-				map1.put("OCkout", dto.get(i).getO_ckout());
-				map1.put("HName", dto.get(i).getH_name());
-				map1.put("HoAddress", dto.get(i).getHo_address());
-				map1.put("HoName", dto.get(i).getHo_name());
-				map1.put("OdIdx", dto.get(i).getO_didx());
-				before.add(map1);
-				//System.out.println("비포"+before);
-			} else {
+			if (ck.after(now) || ck.equals(nowdate)) {
 				Map<String, Object> map2 = new HashMap<>();
 				// map2.put("HoIdx", dto.get(i).getD_ho_idx());
 				map2.put("OIdx", dto.get(i).getO_idx());
@@ -73,6 +65,18 @@ public class ReservController {
 				map2.put("HoName", dto.get(i).getHo_name());
 				map2.put("OdIdx", dto.get(i).getO_didx());
 				after.add(map2);
+				//System.out.println("비포"+before);
+			} else {
+				Map<String, Object> map1 = new HashMap<>();
+				map1.put("OIdx", dto.get(i).getO_idx());
+				map1.put("HoImg", dto.get(i).getHo_img());
+				map1.put("OCkin", dto.get(i).getO_ckin());
+				map1.put("OCkout", dto.get(i).getO_ckout());
+				map1.put("HName", dto.get(i).getH_name());
+				map1.put("HoAddress", dto.get(i).getHo_address());
+				map1.put("HoName", dto.get(i).getHo_name());
+				map1.put("OdIdx", dto.get(i).getO_didx());
+				before.add(map1);
 			}
 		}
 		List<ReservDTO> dto3 = dao.reservReview(g_idx);
