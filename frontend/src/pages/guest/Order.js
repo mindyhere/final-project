@@ -133,25 +133,25 @@ function Order() {
             pg: pgs,
             customer: {
                 email: data.dto.g_email,
-                firstName: data.dto.g_name.substring(1,3),
-                lastName: data.dto.g_name.substring(0,1),
+                firstName: data.dto.g_name.substring(0,1),
+                lastName: data.dto.g_name.substring(1,6),
                 phoneNumber: data.dto.g_phone,
             },
         });
         if (response.code != null) {
-            //오류발생
-            alert('결제실패'+response.message);
             //결제실패시 홈화면으로 화면전환
             Swal.fire({
                 icon : 'warning',
                 title: '결제실패',
                 text : '다시 시도해주세요.',
                 confirmButtonText: '확인'
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    window.location.href='/';
-                }
             });
+            return;
+            // .then((result) => {
+            //     if(result.isConfirmed) {
+            //         window.location.href='/';
+            //     }
+            // });
         } else {
             const form = new FormData();
             form.append('idx',idx.key);
@@ -371,10 +371,10 @@ function Order() {
                                     }
                                     <hr/>
                                     <div className="row">
-                                        <div className="col-9">
+                                        <div className="col-8">
                                             <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;</div>
                                         </div>
-                                        <div className="col-3" align='right' style={{fontSize:'18px'}}>
+                                        <div className="col-4" align='right' style={{fontSize:'18px'}}>
                                             ₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         </div>
                                     </div>
