@@ -518,7 +518,7 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/sybnb.png"
+              src="/img/sybnb_admin.png"
               href="/"
               width="170px"
               height="65px"
