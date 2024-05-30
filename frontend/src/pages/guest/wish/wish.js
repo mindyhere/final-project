@@ -42,14 +42,14 @@ function Wish() {
         let wishImage = '';
         if (data.firstWish != null) {
             url = `http://localhost/static/images/host/hotel/${data.firstWish}`;
-            wishImage = `<img src=${url} width='330px' height='330px' className="wish" /><br />`;
+            wishImage = `<img src=${url} width='330px' height='330px' className="wish" style="border-radius: 15px;"/><br />`;
         }
 
         let src = '';
         let recentImage = '';
         if (data.firstRecent != null) {
             src = `http://localhost/static/images/host/hotel/${data.firstRecent}`;
-            recentImage = `<img src=${src} width='330px' height='330px' className="wish" /><br />`;
+            recentImage = `<img src=${src} width='330px' height='330px' className="wish" style="border-radius: 15px;"/><br />`;
         }
 
         return (

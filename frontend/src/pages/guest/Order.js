@@ -211,7 +211,7 @@ function Order() {
         if(pointAmount > data.dto.g_point) {
             Swal.fire({
                 icon : 'warning',
-                text : '사용가능금액을 초과하였습니다.',
+                text : '사용가능 포인트를 초과하였습니다.',
                 confirmButtonText: '확인'
             }).then((result) => {
                 if(result.isConfirmed) {
@@ -399,7 +399,7 @@ function Order() {
                                 </div>
                             </div>
 
-                            <div style={{color:'gray'}}>보유쿠폰 {count.c_count}장</div>
+                            <div style={{color:'gray'}}>&nbsp;보유쿠폰 {count.c_count}장</div>
 
                             {modalOpen1 && (
                                     <div
@@ -476,7 +476,7 @@ function Order() {
                                 </div>
                             </div>
 
-                            <div style={{color:'gray'}}>사용가능 Point : {data.dto.g_point}</div>
+                            <div style={{color:'gray'}}>&nbsp;잔여포인트 {data.dto.g_point}P</div>
 
                         </div>
                     </div>

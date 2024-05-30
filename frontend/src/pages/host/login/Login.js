@@ -32,13 +32,13 @@ function HostLogin() {
       <div className="container min-vh-100">
         <h3 className="text-bold">
           <img src="/img/login.png" width="35px" height="35px" />
-          &nbsp;로그인
+          &nbsp;호스트 로그인
         </h3>
         <br />
         <p className="text-sm text-gray">
           로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수 있습니다.
         </p>
-        <hr />
+
         <div className="card-style mb-30">
           <form>
             <div>
@@ -111,7 +111,7 @@ function HostLogin() {
         <div
           className="card-style d-flex align-items-center"
           style={{
-            backgroundColor: "#E8E8E4",
+            backgroundColor: "#EEEEEE",
             border: "1px solid #D5D5D5",
             height: "300px",
           }}
