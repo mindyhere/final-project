@@ -21,7 +21,16 @@
 </update>
 
 <delete id="delete">
-	delete from guest where g_idx = #{g_idx}
+	update guest set 
+	g_email = #{delete_id}, g_passwd = '-', g_name='-', g_phone='-', 
+	g_url='-', g_profile = '미인증', g_level = 0, g_photo = '-', g_point = 0  
+	where g_idx = #{g_idx}
+</delete>
+
+<delete id ="delete_message">
+	delete from message 
+	where m_sender = (select g_email from guest where g_idx = #{g_idx}) 
+	or m_receiver = (select g_email from guest where g_idx = #{g_idx}) 
 </delete>
 
 
