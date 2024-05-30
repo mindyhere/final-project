@@ -68,8 +68,8 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호스트의 호텔 리스트 */
 	@Override
-	public Map<String, Object> hotelSummary(int h_idx) {
-		return sqlSession.selectOne("hotel.getHotelSummary", h_idx);
+	public List<Map<String, Object>> hotelSummary(int h_idx) {
+		return sqlSession.selectList("hotel.getHotelSummary", h_idx);
 	}
 
 	/* 호스트의 모든 호텔 리뷰 */

@@ -107,13 +107,12 @@
 	
 	<!-- 호스트의 호텔 리스트 -->
 	<select id="getHotelSummary" resultType="java.util.Map">
-		SELECT * FROM hotel, hotel_detail
-		WHERE ho_business = 
-					(SELECT h_business FROM host
-						WHERE h_idx = #{h_idx}
-					)
-		GROUP BY ho_idx
-		ORDER BY d_idx
+		SELECT ho_idx, ho_name, ho_address, ho_img, d.d_idx
+		FROM hotel, (SELECT d_idx, d_ho_idx
+							FROM hotel_detail
+							WHERE d_ho_idx IN (SELECT ho_idx FROM hotel WHERE ho_h_idx = 6) GROUP BY d_ho_idx) AS d
+		WHERE ho_h_idx = #{h_idx}
+		AND ho_idx  = d.d_ho_idx
 	</select>
 	
 	<!-- 호스트의 모든 호텔 리뷰 -->
