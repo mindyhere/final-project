@@ -153,10 +153,10 @@ public class HotelDAOImpl implements HotelDAO {
 	/* 신규 호텔 등록(임시) */
 	@Override
 	public int registHotelTemp(Map<String, Object> map) {
-		if (map.get("temp") == "undefined") {
-			sqlSession.insert("hotel.registHotelTemp", map);
+		if (map.get("temp").toString().equals("undefined")) {
+			System.out.println("DAO ::::  111111" + map);
 		} else {
-			sqlSession.update("hotel.updateHotelTemp", map);
+			System.out.println("DAO :::: 222222 " + map);
 		}
 		int hoIdx = sqlSession.selectOne("hotel.findHtHidx", map.get("ht_h_idx"));
 		return hoIdx;
