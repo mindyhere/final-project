@@ -91,7 +91,7 @@ function HotelDetail() {
         let img_url = '';
         if(data.ho_img !== '-'){
             src = `http://localhost/static/images/host/hotel/${data.ho_img}`;
-            img_url = `<img src=${src} style="height:100%; width:100%;"/>`;
+            img_url = `<img src=${src} style="height:440px; width:500px;"/>`;
         } else {
             img_url = '';
         }
@@ -100,7 +100,7 @@ function HotelDetail() {
         let hotel_url2 = '';
         if(data.d_img1 !== '-'){
             hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
-            hotel_url2 = `<img src=${hotel_src2} style="height:100%; width:100%;"/>`;
+            hotel_url2 = `<img src=${hotel_src2} style="height:440px; width:300px;"/>`;
         } else {
             hotel_url2 = '';
         }
@@ -109,7 +109,7 @@ function HotelDetail() {
         let hotel_url3 = '';
         if(data.d_img2 !== '-'){
             hotel_src3 = `http://localhost/static/images/host/hotel/${data.d_img2}`;
-            hotel_url3 = `<img src=${hotel_src3} style="height:100%; width:100%;"/>`;
+            hotel_url3 = `<img src=${hotel_src3} style="height:440px; width:300px;"/>`;
         } else {
             hotel_url3 = '';
         }
@@ -135,8 +135,6 @@ function HotelDetail() {
                 commerce: {
                     productName: data.ho_name,
                     regularPrice: data.d_price
-                // discountRate: 10,
-                // discountPrice: 90000,
                 },
                 buttons: [
                     {
