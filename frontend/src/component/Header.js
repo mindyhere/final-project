@@ -220,7 +220,7 @@ function Header() {
 
                     <div
                       className="container min-vh-100"
-                      style={{ paddingTop: "15px" }}
+                      style={{ paddingTop: "13px" }}
                     >
                       <h3 className="text-bold">
                         <img src="/img/join.png" width="35px" height="35px" />

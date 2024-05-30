@@ -45,7 +45,7 @@ function Join() {
         <>
         <div className="container min-vh-100" style={{ zIndex: "1000", paddingTop: "15px"}}>
         <h3 className="text-bold"> <img src="/img/join.png" width="35px" height="35px"/>
-        회원가입</h3>
+        &nbsp;게스트 회원가입</h3>
         <hr/>
         <div className="card-style mb-30">
         <form>

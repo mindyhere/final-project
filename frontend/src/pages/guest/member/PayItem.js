@@ -7,7 +7,7 @@ function PayItem({O_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin
     const navigate = useNavigate();
     let img ='';
     if (D_img1 !== null) {
-        img = `<img src=${url} width='70px' height='70px' /><br />`;
+        img = `<img src=${url} width='70px' height='70px'/><br />`;
     }
     if (O_state === 1) {
         O_state = "예약대기";

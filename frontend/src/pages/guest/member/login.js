@@ -23,7 +23,7 @@ function GuestLogin() {
         <>
             <div className="container min-vh-100">
             <h3 className="text-bold"> <img src="/img/login.png" width="35px" height="35px"/>
-                로그인</h3>
+                &nbsp;게스트 로그인</h3>
                 <br/>
 		    <p className="text-sm text-gray">로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수
 			있습니다.</p>
@@ -34,7 +34,7 @@ function GuestLogin() {
 						<label>이메일</label> <input ref={g_email} placeholder="이메일을 입력해주세요"/>
 					</div>
                     <div className="input-stylee-1">
-						<label>비밀번호</label> <input type='password' ref={g_passwd} />
+						<label>비밀번호</label> <input type='password' ref={g_passwd} placeholder="비밀번호를 입력해주세요"/>
 					</div>
                     <br/>
                             <button type='button' onClick={() => {
@@ -108,7 +108,7 @@ function GuestLogin() {
             </div>
             </form>
             </div>
-            <div className="card-stylee d-flex align-items-center" style={{backgroundColor: '#E8E8E4', border: '1px solid #D5D5D5', height: '300px'}}>
+            <div className="card-stylee d-flex align-items-center" style={{backgroundColor: '#EEEEEE', border: '1px solid #D5D5D5', height: '300px'}}>
             <div className="col text-center">
             <div className="btnLoginBottom">
             <Link to="/guest/searchEmail"><img src="/img/id.png" /><br/> 이메일 찾기</Link>

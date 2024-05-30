@@ -57,7 +57,7 @@ function HostJoin() {
       <div className="modal_container" style={{ paddingTop: "15px" }}>
         <h3 className="text-bold">
           <img src="/img/join.png" width="35px" height="35px" />
-          &nbsp;회원가입
+          &nbsp;호스트 회원가입
         </h3>
         <hr />
         <form>
