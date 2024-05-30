@@ -1,12 +1,35 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 function SearchEmail() {
   const navigate = useNavigate();
   const h_name = useRef();
+  const [phone, setPhoneNum] = useState("");
   const h_phone = useRef();
+  const [business, setBusinessNum] = useState("");
   const h_business = useRef();
+
+  const handleChange = (val, opt) => {
+    const phoneRegEx = /^[0-9\b -]{0,13}$/;
+    const businessRegEx = /^[0-9\b -]{0,12}$/;
+    switch (opt) {
+      case "phone":
+        if (phoneRegEx.test(val)) {
+          setPhoneNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+          );
+        }
+        break;
+      case "business":
+        if (businessRegEx.test(val)) {
+          setBusinessNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
+          );
+        }
+        break;
+    }
+  };
 
   return (
     <>
@@ -24,12 +47,26 @@ function SearchEmail() {
             </div>
             <div className="input-style-1">
               <label>전화번호</label>&nbsp;
-              <input type="tel" ref={h_phone} placeholder="숫자만 입력하세요" />
+              <input
+                type="text"
+                maxLength={13}
+                onChange={(e) => {
+                  handleChange(e.target.value, "phone");
+                }}
+                value={phone}
+                ref={h_phone}
+                placeholder="숫자만 입력하세요"
+              />
             </div>
             <div className="input-style-1">
               <label>사업자번호</label>&nbsp;
               <input
-                type="tel"
+                type="text"
+                maxLength={10}
+                onChange={(e) => {
+                  handleChange(e.target.value, "business");
+                }}
+                value={business}
                 ref={h_business}
                 placeholder="숫자만 입력하세요"
               />
@@ -99,7 +136,8 @@ function SearchEmail() {
                         Swal.fire({
                           icon: "error",
                           title: "잠깐!",
-                          html: "일치하는 회원 정보가 없습니다.</br>입력하신 내용이 맞는지 확인바랍니다.",
+                          html:
+                            "일치하는 회원 정보가 없습니다.</br>입력하신 내용이 맞는지 확인바랍니다.",
                           confirmButtonText: "OK",
                         });
                       }
