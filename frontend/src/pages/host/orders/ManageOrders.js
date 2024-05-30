@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { Calendar2Week } from "react-bootstrap-icons";
+import {
+  Calendar2Week,
+  CaretDownFill,
+  CaretUpFill,
+} from "react-bootstrap-icons";
 
 import HotelNavItem from "./HotelNavItem";
 import OrderItem from "./OrderItem";
@@ -224,7 +228,8 @@ function ManageOrders() {
                           getList(hoIdx, `${pageNum}`, 1);
                         }}
                       >
-                        상태
+                        상태&nbsp;
+                        {sort === 1 ? <CaretUpFill /> : <CaretDownFill />}
                       </th>
                     </tr>
                   </thead>
