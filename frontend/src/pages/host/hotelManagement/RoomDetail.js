@@ -161,7 +161,6 @@ function RoomDetail(props) {
                       <input
                         className="form-control"
                         type="file"
-                        //multiple = "multiple"
                         ref={d_img3}
                         accept=".jpg,.jpeg,.png,"
                       />

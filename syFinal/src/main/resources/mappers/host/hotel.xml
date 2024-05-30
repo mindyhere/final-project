@@ -129,11 +129,11 @@
 	<!-- 호스트의 호텔 현황 -->
 	<select id="getHotelStatus" resultType="java.util.HashMap">
 		SELECT
-		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 1) wait, 
-		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 2) open, 
-		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = 6 AND ho_status = 3) close
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = #{h_idx} AND ho_status = 1) wait, 
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = #{h_idx} AND ho_status = 2) open, 
+		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = #{h_idx} AND ho_status = 3) close
 		FROM hotel
-		WHERE ho_h_idx = #{h_idx} LIMIT 1;
+		LIMIT 1
 	</select>
 	
 	<!-- 호스트의 호텔 목록 -->
@@ -163,6 +163,14 @@
 		FROM hotel, hotel_detail
 		WHERE ho_idx = #{ho_idx}
 		GROUP BY ho_idx
+	</select>
+	
+	<!-- 호텔 객실 이미지 조회 -->
+	<select id="getHotelDetailImg" resultType="java.util.Map">
+		SELECT ho_img, d_img1, d_img2, d_img3
+		FROM hotel, hotel_detail
+		WHERE ho_idx = #{ho_idx}
+		AND d_idx = #{d_idx}
 	</select>
 
 	<!-- 신규 호텔 등록 -->

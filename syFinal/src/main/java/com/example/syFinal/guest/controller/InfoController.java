@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -111,6 +112,15 @@ public class InfoController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("checkOrder")
+	public Map<String, Object> checkOrder(@RequestParam(name = "g_idx") int g_idx) {
+		int result = dao.checkOrder(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
+	}
+	
+	@ResponseBody
 	@RequestMapping("update")
 	public Map<String, Object> update(@RequestParam(name = "g_idx") int g_idx,
 			@RequestParam(name = "g_profile", defaultValue = "") String g_profile,
@@ -153,6 +163,7 @@ public class InfoController {
 		//System.out.println(dto);
 		String result = dao.update(dto);
 		Map<String, Object> map = new HashMap<>();
+		map.put("g_photo", dto.getG_photo());
 		map.put("g_profile", dto.getG_profile());
 		map.put("g_phone", dto.getG_phone());
 		map.put("result", result);
@@ -163,7 +174,9 @@ public class InfoController {
 	@ResponseBody
 	@PostMapping("delete") 
 	public Map<String, Object> delete(@RequestParam(name = "g_idx") int g_idx) {
-		String result = dao.delete(g_idx);
+		UUID uuid = UUID.randomUUID();
+		String delete_id = uuid.toString();
+		String result = dao.delete(g_idx, delete_id);
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		return map;

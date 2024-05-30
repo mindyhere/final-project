@@ -298,6 +298,7 @@ function GuestInfo() {
                                                 .then(data => {
                                                     if (data.result == 'success') {
                                                         cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                                        cookies.set('g_photo', {key: data.g_photo}, {path: '/', expires: new Date(Date.now()+2592000)});
                                                         cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+2592000)});
                                                         Swal.fire({
                                                             title: '수정 완료',
@@ -341,76 +342,95 @@ function GuestInfo() {
                             };
                         }} >정보 수정</button>
                         <a href="#" style={{float: "right", color: "black"}} onClick={() => {
-                            Swal.fire({
-                                icon: "warning",
-                                text: "정말 삭제하시겠습니까?",
-                                confirmButtonText: "삭제",
-                                cancelButtonText: "취소",
-                                showCancelButton: true,
-                            }).then((result) => {
-                                if(result.isConfirmed) {
+                            const form = new FormData();
+                            form.append('g_idx', idx.key);
+                            fetch('http://localhost/guest/info/checkOrder', {
+                                method: 'post',
+                                body: form,
+                            }).then(response => response.json())
+                            .then(data => {
+                                if(data.result == 0) {
                                     Swal.fire({
-                                        text: "현재 비밀번호를 입력해 주세요",
-                                        showCancelButton: true,
-                                        confirmButtonText: "인증",
+                                        icon: "warning",
+                                        text: "정말 삭제하시겠습니까?",
+                                        confirmButtonText: "삭제",
                                         cancelButtonText: "취소",
-                                        input: 'password',
-                                        preConfirm: (pwd) => {
-                                            const formData = new FormData();
-                                            formData.append('g_email', email.key);
-                                            formData.append('pwd', pwd);
-                                            return fetch('http://localhost/guest/info/confirmPwd', {
-                                                method: 'post',
-                                                body: formData,
-                                            }).then(response => response.json())
-                                            .then(data => {
-                                                if(data.result == 'success') {
-                                                    const form = new FormData();
-                                                    form.append('g_idx', idx.key);
-                                                    fetch('http://localhost/guest/info/delete', {
+                                        showCancelButton: true,
+                                    }).then((result) => {
+                                        if(result.isConfirmed) {
+                                            Swal.fire({
+                                                text: "현재 비밀번호를 입력해 주세요",
+                                                showCancelButton: true,
+                                                confirmButtonText: "인증",
+                                                cancelButtonText: "취소",
+                                                input: 'password',
+                                                preConfirm: (pwd) => {
+                                                    const formData = new FormData();
+                                                    formData.append('g_email', email.key);
+                                                    formData.append('pwd', pwd);
+                                                    return fetch('http://localhost/guest/info/confirmPwd', {
                                                         method: 'post',
-                                                        encType: 'multipart/form-data',
-                                                        body: form,
-                                                        }).then((response) => response.json())
+                                                        body: formData,
+                                                    }).then(response => response.json())
                                                     .then(data => {
-                                                        if (data.result == 'success') {
+                                                        if(data.result == 'success') {
+                                                            const form = new FormData();
+                                                            form.append('g_idx', idx.key);
+                                                            fetch('http://localhost/guest/info/delete', {
+                                                                method: 'post',
+                                                                encType: 'multipart/form-data',
+                                                                body: form,
+                                                                }).then((response) => response.json())
+                                                            .then(data => {
+                                                                if (data.result == 'success') {
+                                                                    Swal.fire({
+                                                                        title: '탈퇴 완료',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonText: '확인',
+                                                                    }).then((result) => {
+                                                                        if(result.isConfirmed) {
+                                                                            removeCookies("guest");
+                                                                            window.location.href='/';
+                                                                        }
+                                                                    });
+                                                                } else {
+                                                                    Swal.fire({
+                                                                        title: '에러 발생',
+                                                                        text: '관리자에게 문의하세요',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonText: '확인',
+                                                                    });
+                                                                }
+                                                            })
+                                                        } else if(data.result == 'no') {
                                                             Swal.fire({
-                                                                title: '탈퇴 완료',
+                                                                title: '비밀번호 불일치',
                                                                 showCancelButton: false,
                                                                 confirmButtonText: '확인',
-                                                            }).then((result) => {
-                                                                if(result.isConfirmed) {
-                                                                    removeCookies("guest");
-                                                                    window.location.href='/';
-                                                                }
                                                             });
                                                         } else {
                                                             Swal.fire({
                                                                 title: '에러 발생',
-                                                                text: '관리자에게 문의하세요',
                                                                 showCancelButton: false,
                                                                 confirmButtonText: '확인',
                                                             });
                                                         }
                                                     })
-                                                } else if(data.result == 'no') {
-                                                    Swal.fire({
-                                                        title: '비밀번호 불일치',
-                                                        showCancelButton: false,
-                                                        confirmButtonText: '확인',
-                                                    });
-                                                } else {
-                                                    Swal.fire({
-                                                        title: '에러 발생',
-                                                        showCancelButton: false,
-                                                        confirmButtonText: '확인',
-                                                    });
                                                 }
-                                            })
-                                        }
+                                            });
+                                        } 
                                     });
-                                } 
-                            });
+                                } else {
+                                    Swal.fire({
+                                        title: '탈퇴 불가',
+                                        text: '완료되지 않은 예약이 있습니다.',
+                                        showCancelButton: false,
+                                        confirmButtonText: '확인',
+                                    });
+                                }
+                            })
+
+                            
                         }}>회원 탈퇴</a>
                         </div>
                     </form>

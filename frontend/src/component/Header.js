@@ -318,8 +318,8 @@ function Header() {
 
     let src = "";
     let image = "";
-    if (g_photo.key == "-") {
-      src = "/img/image_no.png";
+    if (g_photo.key === "-") {
+      src = `http://localhost/static/images/guest/photo/image_no.png`;
       image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
       src = `http://localhost/static/images/guest/photo/${g_photo.key}`;
@@ -518,7 +518,7 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/sybnb.png"
+              src="/img/sybnb_admin.png"
               href="/"
               width="170px"
               height="65px"
