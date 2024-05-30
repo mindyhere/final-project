@@ -30,7 +30,7 @@
 }
 .btn1:hover {
   background: white;
-  color: rgba(119, 167, 144, 0.753);
+  color: #4e817269;
 }
 .form-field1{
   display: flex;
@@ -45,7 +45,7 @@
   transition: border-bottom 0.1s ease-in-out 0.1s;
 }
 .form-field1 input:focus {
-  border-bottom: 1px solid rgba(119, 167, 144, 0.719);
+  border-bottom: 1px solid rgba(111, 153, 143, 0.432);
 }
 .organize-form1 h2 {
   font-size: 1.4em;
@@ -61,7 +61,7 @@
 }
 .btn-sign1 {
   border: none;
-  background:  rgba(119, 167, 144, 0.473);
+  background: #4e817269;
   color: white;
   font-weight: bold;
   width: 90%;
@@ -72,7 +72,7 @@
 }
 .btn-sign2 {
   border: none;
-  background:  rgba(119, 167, 144, 0.473);
+  background:#4e817269;
   color: white;
   font-weight: bold;
   width: 30%;
@@ -82,19 +82,19 @@
   cursor: pointer;
 }
 .btn-sign2:hover {
-  background:  rgba(119, 167, 144, 0.705);
+  background: #4e817296;
 }
 .btn-sign1:hover {
-  background:  rgba(119, 167, 144, 0.705);
+  background:#4e817296;
 }
 .bars-style1 {
-  color: rgba(119, 167, 144, 0.404);
+  color: #4e817269;
   cursor: pointer;
   font-size: 16px;
 }
 .btn-sign3 {
   border: none;
-  background:  rgba(119, 167, 144, 0.473);
+  background: #4e817269;
   color: white;
   font-weight: bold;
   width: 20%;
@@ -104,7 +104,7 @@
   cursor: pointer;
 }
 .btn-sign3:hover {
-  background:  rgba(119, 167, 144, 0.705);
+  background: #4e817269;
 }
 
 .custom-table3 {
@@ -116,7 +116,7 @@
 /* 사업자 페이지 디자인 */
 .custom-select1, .custom-input1 {
   border-radius: 0;
-  border: 2px solid #6c967aaf;
+  border: 2px solid #4e817269;
   font-size: 1rem;
 }
 
@@ -131,17 +131,17 @@
 }
 
 .btn-outline-success1 {
-  color:#3d745291;
-  border-color:  #3d745291
+  color:#4e817269;
+  border-color:  #4e817269
 }
 
 .btn-outline-success1:hover {
-  background-color:  #3d7452b0;
+  background-color:  #4e817269;
   border-radius: 10px;
 }
 
 .btn-outline-success1:hover {
-  background-color:  #3d7452b0;
+  background-color:  #4e817269;
   border-radius: 10px;
 }
 
@@ -152,7 +152,7 @@
 }
 
 .custom-table1 th {
-  background-color: #749c7d6c;
+  background-color: #4e817269;
   font-weight: bold;
 }
 
@@ -162,13 +162,13 @@
 
 .btn-success.custom-button1 {
   color: #fff;
-  background-color: #3d745291;
-  border-color: #3d745291;
+  background-color: #4e817269;
+  border-color: #4e817269;
   border-radius: 10px;
 }
 
 .btn-warning.custom-button1 {
-  color: #5a885a50;
+  color: #4e817269;
   background-color: #f5c22988;
   border-color:  #ffc1075c;
   border-radius: 10px;
@@ -213,11 +213,11 @@
 
 .tbl1 th, .tbl1 td {
   padding: 10px;
-  border-bottom: 1px solid #2f38312d;
+  border-bottom: 1px solid #4e817269;
 }
 
 .tbl1 th {
-  background-color: #517c5a5b;
+  background-color: #4e817269;
   text-align: left;
 }
 

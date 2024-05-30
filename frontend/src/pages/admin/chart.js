@@ -23,11 +23,11 @@ function HotelChart() {
     plugins: {
       legend: {
         position: 'top',
+        fontColor:"black",
       },
       title: {
         display: true,
-        text: '호텔 월 매출',
-        color: "black",
+
       },
     },
     ChartDataLabels: {
@@ -63,9 +63,10 @@ function HotelChart() {
               labels: data.labelList,
               datasets: [
                 {
-                  label: '매출',
+                  label: '이번달 매출',
                   data: data.sumList,
                   backgroundColor: '#4e817269', 
+                  color: "black",
                   
                 },
               ],

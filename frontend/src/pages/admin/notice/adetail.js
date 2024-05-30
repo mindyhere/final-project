@@ -68,6 +68,7 @@ function Adetail() {
                 formData.append("n_title", n_title.current.value);
                 formData.append("n_content", n_content.current.value);
                 formData.append("n_date", n_date.current.value);
+                formData.append("n_file", n_file.current.value);
 
                 fetch(`http://localhost/notice/update/${n_idx}`, {
                     method: 'POST',
@@ -170,23 +171,23 @@ function Adetail() {
                                     <table className="table table-bordered">
                                         <tbody>
                                             <tr>
-                                                <td className="col-form-label">작성자</td>
+                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성자</td>
                                                 <td>{notice?.n_writer}</td>
                                             </tr>
                                             <tr>
-                                                <td className="col-form-label">제목</td>
+                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>제목</td>
                                                 <td><textarea className="form-control" id="n_title" rows="1" ref={n_title} defaultValue={notice?.n_title}></textarea></td>
                                             </tr>
                                             <tr>
-                                                <td className="col-form-label">작성일자</td>
+                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
                                                 <td><textarea className="form-control" id="n_date" rows="1" ref={n_date} defaultValue={notice?.n_date}></textarea></td>
                                             </tr>
+                                             <tr>
+                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>파일</td>
+                                                <td><textarea className="form-control" id="n_file" rows="1" ref={n_file} defaultValue={notice?.n_file}></textarea></td>                                                                                                                         
+                                            </tr> 
                                             <tr>
-                                                <td className="col-form-label">파일</td>
-                                                <td><textarea  className="form-control" id="n_file" rows="1" ref={n_file} defaultValue={notice?.n_file}></textarea></td>
-                                            </tr>
-                                            <tr>
-                                                <td className="col-form-label">내용</td>
+                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>내용</td>
                                                 <td><textarea className="form-control" id="n_content" rows="6" ref={n_content} defaultValue={notice?.n_content}></textarea></td>
                                             </tr>
                                             <tr>

@@ -60,7 +60,6 @@ public class AhotelController {
 
 	@RequestMapping("/admin/ahodetail")
 	public Map<String, Object> detail(@RequestParam(name = "hoIdx", defaultValue = "") int ho_idx) {
-		// System.out.println(ho_idx);
 		List<HotelDTO> dto = ahotelDao.detail(ho_idx);
 		Map<String, Object> map = new HashMap<>();
 		System.out.println(dto.get(0).getD_room_type());
