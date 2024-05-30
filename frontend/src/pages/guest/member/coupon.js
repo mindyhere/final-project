@@ -44,11 +44,11 @@ function Coupon() {
                                         <h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{marginBottom: '10px', display: "inline", height: "32px", width: "32px", fill: "currentcolor"}}><path d="M28 2a2 2 0 0 1 2 1.85V28a2 2 0 0 1-1.85 2H4a2 2 0 0 1-2-1.85V4a2 2 0 0 1 1.85-2H4zM13.59 17H4v11h11v-9.59l-4.3 4.3-1.4-1.42zM28 17h-9.59l4.3 4.3-1.42 1.4L17 18.42V28h11zM15 4H4v11h3.54a4 4 0 0 1 6.28-4.84c.29.28.68.85 1.18 1.74zm6 7c-.53 0-.98.17-1.42.6-.21.2-.63.87-1.22 1.98l-.25.47-.5.95H21a2 2 0 0 0 1.98-1.7l.01-.15L23 13a2 2 0 0 0-2-2zm7-7H17v7.9c.5-.89.89-1.46 1.18-1.74A4 4 0 0 1 24.46 15H28zm-17 7a2 2 0 0 0-2 2v.15A2 2 0 0 0 11 15h3.38l-.49-.95-.36-.69c-.54-.98-.91-1.58-1.1-1.76-.45-.43-.9-.6-1.43-.6z"></path></svg>&nbsp;쿠폰 및 포인트</h2>
                                     </div>
                                         <br/>
-                                    <div className="card-stylee mb-30" >
+                                    <div className="card-style mb-30" >
                                         <h4 align='left'>포인트</h4>
                                         <br></br>
-                                        <div className="card-stylee mb-20" >
-                                            <div align='left' style={{fontSize: '18px'}}>MyPoint : {data.dto.g_point}</div>
+                                        <div className="card-style mb-20" align='left'>
+                                            <div align='left' style={{fontSize: '18px'}}>MyPoint : {data.dto.g_point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                                         </div>
                                         <h4 align='left'>쿠폰</h4>
                                         <br></br>
