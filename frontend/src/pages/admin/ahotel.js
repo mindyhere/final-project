@@ -110,8 +110,8 @@ function AHotel() {
                         <div className="container11 mt-5" >
                         <nav>
                         <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="../ahotel">숙소관리</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">숙소등록승인</li>
+                        <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>숙소관리</li>
+                        <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>숙소등록승인</li>
                         </ol>
                         </nav>
                         <br/>

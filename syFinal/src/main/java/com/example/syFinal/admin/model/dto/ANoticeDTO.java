@@ -13,8 +13,5 @@ public class ANoticeDTO {
 	private String n_title;
 	private String n_content;
 	private String n_date;
-	private String n_file;
-	private String a_name;
-	
 	private int rownum;
 }

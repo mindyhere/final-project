@@ -144,8 +144,8 @@ function NoticeList() {
         <div className="container11 mt-5">
         <nav>      
            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="#">공지사항</a></li>
-              <li className="breadcrumb-item active" aria-current="page">공지목록</li>
+              <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>공지사항</li>
+              <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>공지목록</li>
           </ol>
         </nav>
         <br/>

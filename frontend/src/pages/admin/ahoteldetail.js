@@ -209,11 +209,10 @@ function AHoteldetail() {
                         <div className="position-sticky pt-3 sidebar-sticky">
                             <ul className="nav flex-column">                               
 
-                            <li className="nav-item">
-            <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
-              >
-                &nbsp; <House width={'15%'} height={'15%'}/> HOME
+                            <li className="nav-item-col-12">
+            <a 
+              onClick={() => navigate(`/admin/amain/${a_id.key}`)} >
+            <House width={'15%'} height={'15%'}/> HOME
               </a>
             </li>
             
@@ -249,8 +248,8 @@ function AHoteldetail() {
                         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                             <div className="container">
                                 <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><a href="../ahotel">Hotel</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">{data.dto[0].h_name}님의 {data.dto[0].ho_name} 상세 정보</li>
+                                    <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>Hotel</li>
+                                    <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>{data.dto[0].h_name}님의 {data.dto[0].ho_name} 상세 정보</li>
                                 </ol>
 
                                 <div className="card-style mb-30">
@@ -285,7 +284,7 @@ function AHoteldetail() {
                                                     <td><a onClick={urlBank} style={{cursor: "pointer"}}>{data.dto[0].h_bankbook}</a></td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>등록일</th>
+                                                    <th colSpan={2}>가입일</th>
                                                     <td>{data.dto[0].h_regdate.split('T')[0]}</td>
                                                 </tr>
                                             </tbody>
