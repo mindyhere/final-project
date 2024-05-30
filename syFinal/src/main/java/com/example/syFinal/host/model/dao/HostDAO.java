@@ -34,7 +34,7 @@ public interface HostDAO {
 	void updateInfo(Map<String, Object> map);
 
 	// Host 회원탈퇴
-	void deleteAccount(int h_idx);
+	void deleteAccount(int h_idx, String deletedEmail);
 
 	String getFile(int h_idx, String type);
 

@@ -74,7 +74,7 @@ where h_idx=#{h_idx}
 <!-- delete from host where h_idx=#{h_idx} -->
 update host
 set 
-	h_email='-', h_phone='-', h_business='-', h_accountnum='-',
+	h_email=#{deletedEmail}, h_phone='-', h_business='-', h_accountnum='-',
 	h_profile='-', h_file='-', h_bankbook='-',
 	h_level=0, h_status='탈퇴'
 where h_idx=#{h_idx}	 
@@ -97,4 +97,5 @@ where
 	ho_idx in (select ho_idx from hotel where ho_h_idx = #{h_idx})
 	and (o_state=1 or o_state=3)
 </select>
+
 </mapper>

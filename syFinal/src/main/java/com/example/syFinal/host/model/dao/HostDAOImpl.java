@@ -61,8 +61,11 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // Host 회원탈퇴
-	public void deleteAccount(int h_idx) {
-		sqlSession.update("host.delete", h_idx);
+	public void deleteAccount(int h_idx, String deletedEmail) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("deletedEmail", deletedEmail);
+		sqlSession.update("host.delete", map);
 	}
 
 	@Override

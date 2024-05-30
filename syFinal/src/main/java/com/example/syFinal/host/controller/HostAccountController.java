@@ -3,6 +3,7 @@ package com.example.syFinal.host.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -221,7 +222,9 @@ public class HostAccountController {
 						bankbook.delete();
 					}
 				}
-				hostDao.deleteAccount(h_idx); // 테이블에서 해당 계정정보 : 탈퇴한 회원으로 업데이트
+				UUID uuid = UUID.randomUUID();
+				String deletedEmail = uuid.toString();
+				hostDao.deleteAccount(h_idx, deletedEmail); // 테이블에서 해당 계정정보 : 탈퇴한 회원으로 업데이트
 				return "complete";
 			} catch (Exception e) {
 				throw new Exception();
