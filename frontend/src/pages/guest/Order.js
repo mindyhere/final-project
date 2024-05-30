@@ -162,7 +162,7 @@ function Order() {
             form.append('child',child);
             form.append('baby',baby);
             form.append('pay',pay);
-            form.append('dprice',dprice);
+            form.append('dprice',dprice*dateChar);
             form.append('fprice',finalamount);
             if (pointAmount !== null || pointAmount === 0) {
                 form.append('usePoint',pointAmount);
