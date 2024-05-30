@@ -47,7 +47,7 @@ const EditReview = () => {
   } else {
     let profile_src = "";
     let rate = data.rv_star;
-    if (g_photo.key != "-" || g_photo.key != null) {
+    if (g_photo.key != "-" && g_photo.key != null) {
       const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {

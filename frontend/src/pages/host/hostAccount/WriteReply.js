@@ -28,7 +28,7 @@ const WriteReply = () => {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
-    if (data.g_photo != "-" || data.g_photo != null) {
+    if (data.g_photo != "-" && data.g_photo != null) {
       const img_url = `http://localhost/static/images/guest/photo/${data.g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {

@@ -20,7 +20,7 @@ function Reservation() {
     const [reservList, setReservList] = useState([]);
     const [lastReservList, setLastReservList] = useState([]);
     const [review, setReview] = useState([]);
-
+    
     function getReserv(url) {
         const form = new FormData();
         form.append('g_idx', idx.key);
@@ -75,7 +75,12 @@ var set = {
                 <br/>
                 <div style={{width: '1000px'}}>
                 <div style={{marginBottom:'50px', width: "600px" ,height: '300px',marginRight: '70px', float: 'left'}}>
+                
+                {reservList==''? 
+                <h4>예약이 없습니다</h4>
+                :
                 <h4>예정된 예약</h4>
+                }
                 <Slider {...settings}>
                     {reservList.map(
                     ({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress})=>(
@@ -93,7 +98,9 @@ var set = {
                 </Slider>
                 </div> 
                     <div style={{zIndex: 0, height: '400px', width:'1100px'}}>
+                        {review == ''? '' :
                     <h4>&nbsp;&nbsp;리뷰를 작성해 주세요</h4>
+                }
                     <br/>
                     <Sld {...set}>
                     {review.map(
@@ -116,7 +123,9 @@ var set = {
                 <div style={{ zIndex: 0, paddingBottom: '100px', position:'relative'}}>
                     <br/>
                     <br/>
+                    {lastReservList == ''? '' : 
                     <h4>이전 예약</h4>
+                    }
                     <br/>
                     <Slid {...setting}>
                     {lastReservList.map(
