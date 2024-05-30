@@ -235,15 +235,15 @@ public class OrderDAOImpl implements OrderDAO {
 						break;
 					}
 					// 예약상태 코드 변환
-					String o_state = (String) item.get("o_state");
+					int o_state = (int) item.get("o_state");
 					switch (o_state) {
-					case "1":
+					case 1:
 						item.put("status", "예약대기");
 						break;
-					case "3":
+					case 3:
 						item.put("status", "예약확정");
 						break;
-					case "4":
+					case 4:
 						item.put("status", "체크인완료");
 						break;
 					}

@@ -73,7 +73,7 @@ function OrderDetail(order_idx) {
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='80px' height='80px'/>";
     }
 
-    if (dataset.o_state == "2") {
+    if (dataset.o_state == 2) {
       return (
         <>
           <div className="modal_container" style={{ paddingTop: "15px" }}>
@@ -318,8 +318,8 @@ function OrderDetail(order_idx) {
                             value="1"
                             checked={rdo == "1"}
                             id="rdo1"
-                            disabled={dataset.o_state == "1" ? false : true}
-                            readOnly={dataset.o_state == "1" ? false : true}
+                            disabled={dataset.o_state == 1 ? false : true}
+                            readOnly={dataset.o_state == 1 ? false : true}
                             onChange={handleStatusChange}
                           />
                           <label className="form-check-label" htmlFor="rdo1">
@@ -332,9 +332,9 @@ function OrderDetail(order_idx) {
                             type="radio"
                             name="o_state"
                             value="3"
-                            checked={rdo == "3"}
+                            checked={rdo == "3"||dataset.o_state=="4"}
                             id="rdo3"
-                            readOnly={dataset.o_state == "1" ? false : true}
+                            readOnly={dataset.o_state == 1 ? false : true}
                             onChange={handleStatusChange}
                           />
                           <label className="form-check-label" htmlFor="rdo3">
@@ -350,7 +350,7 @@ function OrderDetail(order_idx) {
                             type="radio"
                             name="o_state"
                             value="2"
-                            checked={rdo == "2"}
+                            checked={rdo =="2"}
                             disabled={true}
                             readOnly
                             id="rdo2"
@@ -378,7 +378,7 @@ function OrderDetail(order_idx) {
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
-              {dataset.o_state == "1" ? (
+              {dataset.o_state == 1 ? (
                 <button
                   className={
                     rdo == "3" ? "main-btn active" : "main-btn disabled"
@@ -448,7 +448,7 @@ function OrderDetail(order_idx) {
                   &nbsp;&nbsp;&nbsp;예약확정&nbsp;&nbsp;&nbsp;
                 </button>
               ) : null}
-              {dataset.o_state != "4" ? (
+              {dataset.o_state != 4 ? (
                 <button
                   className={
                     handleDateCheck(dataset.o_ckin)
@@ -538,10 +538,10 @@ function OrderDetail(order_idx) {
                 </button>
               ) : (
                 <button
-                  className={"main-btn disabled"}
+                  className={"main-btn active"}
                   disabled={true}
                   style={{ cursor: "auto" }}
-                ></button>
+                >체크인완료</button>
               )}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
