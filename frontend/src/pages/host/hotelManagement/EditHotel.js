@@ -94,7 +94,6 @@ function EditHotel() {
         });
     }
         setAddress(fullAddress);
-        alert(fullAddress);
         setIsPopupOpen(false);
     };
 
@@ -546,7 +545,7 @@ function EditHotel() {
                                     method : 'POST',
                                     body : form
                                 }).then((response) => response.json())
-                                .then(data => {alert(data.result);
+                                .then(data => {
                                     if(data.result === 'success') {
                                         Swal.fire({
                                             icon : 'success',
