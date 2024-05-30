@@ -103,6 +103,7 @@ public class ChatroomController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
 		// System.out.println(dto);
+		System.out.println("메시지리스트===>"+dto);
 		return map;
 	}
 	
@@ -195,7 +196,7 @@ public class ChatroomController {
 			map.put("m_test", dto.get(i).getM_test());
 			list.add(map);
 		}
-		//System.out.println(list);
+		
 		return list;
 	}
 

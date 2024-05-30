@@ -242,12 +242,11 @@ public class ReservController {
 			@RequestParam(name = "ru_child") int ru_child, @RequestParam(name = "ru_baby") int ru_baby,
 			@RequestParam(name = "ru_startDate") String ru_startDate,
 			@RequestParam(name = "ru_endDate") String ru_endDate) {
-		System.out.println(ru_idx);
 		int check = dao.check(ru_idx);
 		String result = "";
 		if (check == 1) {
 			result = dao.update(g_idx, ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
-		} else if (check == 0) {
+		} else {
 			result = dao.insert(g_idx, ru_idx, ru_startDate, ru_endDate, ru_adult, ru_child, ru_baby);
 		}
 		Map<String, Object> map = new HashMap<>();

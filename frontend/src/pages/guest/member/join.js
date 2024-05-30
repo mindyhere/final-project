@@ -24,6 +24,12 @@ function Join() {
         if (regex.test(e.target.value)){
             setInputValue(e.target.value);
         }
+        console.log(inputValue.length);
+        if(inputValue.length < 10) {
+            setCheckCode(false);
+        } else {
+            setCheckCode(true);
+        }
     }
 
     useEffect(() => {
@@ -32,14 +38,16 @@ function Join() {
                 .replace(/-/g, '')
                 .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
         }
-    }, [inputValue]);
+        
+    });
     
     const changeButton = (e) => {
-        console.log(g_email.current.value);
+        // console.log(g_email.current.value);
         g_email.current.value.includes('@') && g_email.current.value.length >=9
         ? setCheck(true) : setCheck(false)
     }
     
+   
 
     return( 
         <>
