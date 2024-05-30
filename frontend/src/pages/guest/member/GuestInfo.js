@@ -299,6 +299,7 @@ function GuestInfo() {
                                                     if (data.result == 'success') {
                                                         cookies.set('g_phone', {key: data.g_phone}, {path: '/', expires: new Date(Date.now()+2592000)});
                                                         cookies.set('g_photo', {key: data.g_photo}, {path: '/', expires: new Date(Date.now()+2592000)});
+                                                        cookies.set('g_profile', {key: data.g_profile}, {path: '/', expires: new Date(Date.now()+2592000)});
                                                         Swal.fire({
                                                             title: '수정 완료',
                                                             showCancelButton: false,

@@ -312,6 +312,20 @@
 	border-radius: 7px;
 }
 
+.card-styleee { 
+	background: #fff;
+	box-sizing: border-box;
+	padding: 25px 30px;
+	box-shadow: 0px 12px 24px -4px rgba(145, 158, 171, 0.12), 0px 0px 2px
+		0px rgba(145, 158, 171, 0.2);
+	border-radius: 7px;
+	width: 300px;
+	max-height: 550px;
+	float: left;
+	margin-right: 30px;
+	overflow-y: auto;
+}
+
 .mb-30{
 	margin-bottom: 30px;
 }

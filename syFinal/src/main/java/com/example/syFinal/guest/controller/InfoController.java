@@ -155,6 +155,7 @@ public class InfoController {
 		String result = dao.update(dto);
 		Map<String, Object> map = new HashMap<>();
 		map.put("g_photo", dto.getG_photo());
+		map.put("g_profile", dto.getG_profile());
 		map.put("g_phone", dto.getG_phone());
 		map.put("result", result);
 		// System.out.println(map);
