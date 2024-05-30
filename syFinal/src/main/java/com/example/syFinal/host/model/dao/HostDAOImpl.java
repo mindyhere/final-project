@@ -62,7 +62,7 @@ public class HostDAOImpl implements HostDAO {
 
 	@Override // Host 회원탈퇴
 	public void deleteAccount(int h_idx) {
-		sqlSession.delete("host.delete", h_idx);
+		sqlSession.update("host.delete", h_idx);
 	}
 
 	@Override
@@ -78,6 +78,17 @@ public class HostDAOImpl implements HostDAO {
 	@Override // Host 승인신청(가입완료 > 승인대기로 업데이트)
 	public void levelUp(int h_idx) {
 		sqlSession.update("host.levelUp", h_idx);
+	}
+
+	@Override
+	public boolean checkOrders(int h_idx) {
+		int cnt = sqlSession.selectOne("host.checkOrders", h_idx);
+		System.out.println("===>결과?" + cnt);
+		if (cnt > 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

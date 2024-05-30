@@ -70,9 +70,15 @@ update host
 where h_idx=#{h_idx}
 </update>
 
-<delete id="delete">
-delete from host where h_idx=#{h_idx}
-</delete>
+<update id="delete">
+<!-- delete from host where h_idx=#{h_idx} -->
+update host
+set 
+	h_email='-', h_phone='-', h_business='-', h_accountnum='-',
+	h_profile='-', h_file='-', h_bankbook='-',
+	h_level=0, h_status='탈퇴'
+where h_idx=#{h_idx}	 
+</update>
 
 <!-- 첨부파일 확인 -->
 <select id="getFile" resultType="String">
@@ -83,4 +89,12 @@ select ${type} from host where h_idx=#{h_idx}
 <update id="levelUp">
 update host set h_status="승인대기" where h_idx=#{h_idx}
 </update>
+
+<!-- 탈퇴 전 가능여부 사전 검증 -->
+<select id="checkOrders" resultType="int">
+select count(o_idx) from v_host_order
+where 
+	ho_idx in (select ho_idx from hotel where ho_h_idx = #{h_idx})
+	and (o_state=1 or o_state=3)
+</select>
 </mapper>

@@ -193,39 +193,40 @@ public class HostAccountController {
 		String h_profile = hostDao.getFile(h_idx, "h_profile");
 		String h_file = hostDao.getFile(h_idx, "h_file");
 		String h_bankbook = hostDao.getFile(h_idx, "h_bankbook");
-		try { // 저장된 프로필, 첨부파일, 통장사본이 있으면 삭제
-			if (h_profile != null && !h_profile.equals("-")) {
-				ServletContext application = request.getSession().getServletContext();
-				String path = application.getRealPath("static/images/host/profile/");
-				File profile = new File(path + h_profile);
-				if (profile.exists()) {
-					System.out.println("===> 프로필삭제? " + profile.delete());
-					profile.delete();
+		if (hostDao.checkOrders(h_idx)) {
+			try { // 저장된 프로필, 첨부파일, 통장사본이 있으면 삭제
+				if (h_profile != null && !h_profile.equals("-")) {
+					ServletContext application = request.getSession().getServletContext();
+					String path = application.getRealPath("static/images/host/profile/");
+					File profile = new File(path + h_profile);
+					if (profile.exists()) {
+						profile.delete();
+					}
 				}
-			}
 
-			if (h_file != null && !h_file.equals("-")) {
-				ServletContext application = request.getSession().getServletContext();
-				String path = application.getRealPath("static/images/host/profile/");
-				File file = new File(path + h_file);
-				if (file.exists()) {
-					System.out.println("===> 첨부파일삭제? " + file.delete());
-					file.delete();
+				if (h_file != null && !h_file.equals("-")) {
+					ServletContext application = request.getSession().getServletContext();
+					String path = application.getRealPath("static/images/host/profile/");
+					File file = new File(path + h_file);
+					if (file.exists()) {
+						file.delete();
+					}
 				}
-			}
 
-			if (h_bankbook != null && !h_bankbook.equals("-")) {
-				ServletContext application = request.getSession().getServletContext();
-				String path = application.getRealPath("static/images/host/profile/");
-				File bankbook = new File(path + h_bankbook);
-				if (bankbook.exists()) {
-					System.out.println("===> 통장사본삭제? " + bankbook.delete());
-					bankbook.delete();
+				if (h_bankbook != null && !h_bankbook.equals("-")) {
+					ServletContext application = request.getSession().getServletContext();
+					String path = application.getRealPath("static/images/host/profile/");
+					File bankbook = new File(path + h_bankbook);
+					if (bankbook.exists()) {
+						bankbook.delete();
+					}
 				}
+				hostDao.deleteAccount(h_idx); // 테이블에서 해당 계정정보 : 탈퇴한 회원으로 업데이트
+				return "complete";
+			} catch (Exception e) {
+				throw new Exception();
 			}
-			hostDao.deleteAccount(h_idx); // 테이블에서 해당 계정정보 delete
-			return "complete";
-		} catch (Exception e) {
+		} else {
 			throw new Exception();
 		}
 	}

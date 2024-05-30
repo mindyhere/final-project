@@ -521,7 +521,8 @@ function EditHostInfo() {
                             Swal.fire({
                               icon: "success",
                               title: "Check",
-                              html: "계정 정보가 업데이트 되었습니다.</br>메인 화면으로 이동합니다.",
+                              html:
+                                "계정 정보가 업데이트 되었습니다.</br>메인 화면으로 이동합니다.",
                               confirmButtonText: "YES",
                             }).then((result) => {
                               if (result.isConfirmed) {
@@ -538,7 +539,8 @@ function EditHostInfo() {
                             Swal.fire({
                               icon: "error",
                               title: "잠깐!",
-                              html: "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
+                              html:
+                                "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
                               confirmButtonText: "OK",
                             });
                           }
@@ -547,7 +549,8 @@ function EditHostInfo() {
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
-                            html: "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
+                            html:
+                              "처리 중 문제가 발생했습니다.<br/>반복적으로 실패할 경우, 관리자에게 문의 바랍니다.",
                             confirmButtonText: "OK",
                           });
                         });
@@ -606,7 +609,8 @@ function EditHostInfo() {
                           Swal.fire({
                             icon: "success",
                             title: "Complete",
-                            html: "정상처리 되었습니다.<br/>그동안 이용해 주셔서 감사합니다.",
+                            html:
+                              "정상처리 되었습니다.<br/>그동안 이용해 주셔서 감사합니다.",
                             showConfirmButton: false,
                             timer: 2000,
                           }).then(() => {

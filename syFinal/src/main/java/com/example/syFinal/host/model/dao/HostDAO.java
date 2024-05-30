@@ -41,4 +41,6 @@ public interface HostDAO {
 	// Host 승인신청
 	void levelUp(int h_idx);
 
+	// Host 탈퇴 가능여부 확인
+	boolean checkOrders(int h_idx);
 }
