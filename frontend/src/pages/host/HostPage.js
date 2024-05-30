@@ -147,7 +147,7 @@ function HostPage({}) {
                                     <SliderReviewItems
                                         key={idx}
                                         g_name={item.g_name}
-                                        g_url={item.g_url}
+                                        g_photo={item.g_photo}
                                         rv_date={item.rv_date}
                                         rv_star={item.rv_star}
                                         rv_content={item.rv_content}
@@ -171,13 +171,23 @@ function HostPage({}) {
                         <hr />
                         <h4 className="mt-20 mb-20">{data.h_name} 님의 숙소·체험</h4>
                             <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}/${hotel.d_idx}`} style={{textDecoration:'none', color : 'black'}}>
-                                <div dangerouslySetInnerHTML={{__html: hotel_url}}></div>
+                                {/* <div dangerouslySetInnerHTML={{__html: hotel_url}}></div>
                                     <div className="text-semi-bold">
                                         {hotel.ho_name}
                                     </div>
                                     <div className="text-xs">
                                         {hotel.ho_address}
-                                    </div>
+                                    </div> */}
+                                    <div style={{
+                                        display:'grid',
+                                        gridTemplateRows:'1fr',
+                                        gridTemplateColumns:'1fr 1fr',
+                                    }}></div>
+                                    {hotel.map((item, idx) => (
+                                        <div>
+                                            {item.ho_name}
+                                        </div>
+                                    ))}
                             </Link>
                     </div>
                 </div>
