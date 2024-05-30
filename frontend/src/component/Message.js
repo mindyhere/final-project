@@ -104,7 +104,7 @@ function Message() {
                 &nbsp; 메시지</h3>
                 <hr></hr>
             <br/>
-                <div className="card-stylee mb-30" style={{width: '300px', float: 'left', marginRight: '30px'}}>
+                <div className="card-styleee mb-30" style={{width: '300px', height: '600',float: 'left', marginRight: '30px', overflowY: 'auto'}}>
                     <p>{comment}</p>
                     { gEmail != null ? 
                     <div onClick={() => { setCheck(0)}}>
