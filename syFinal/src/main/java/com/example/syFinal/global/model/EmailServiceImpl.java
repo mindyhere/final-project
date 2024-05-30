@@ -98,7 +98,7 @@ public class EmailServiceImpl implements EmailService {
 	public EmailDTO prepareVoucher(String g_email, String ho_name, int o_idx) {
 		EmailDTO voucher = new EmailDTO();
 		voucher.setSubject("[" + ho_name + "] 예약확정 안내");
-		voucher.setMessage("안녕하세요. 고객님의 예약이 확정되어 바우처를 발송해드립니다.<br/>예약사항에 변동이 있을 경우, 웹페이지를 통해 변경요청 접수해주시기 바랍니다.");
+		voucher.setMessage("안녕하세요. 고객님의 예약이 확정되어 바우처를 발송해드립니다.<br/>변경사항이 있을 경우, 웹페이지를 통해 접수해주시기 바랍니다.");
 		voucher.setReceiveMail(g_email);
 		voucher.setSenderName("Notice");
 		voucher.setSenderMail("notice@gmail.com");

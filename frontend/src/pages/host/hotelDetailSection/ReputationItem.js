@@ -16,8 +16,8 @@ function ReputationItem({
   rv_date,
   rv_star,
   rp_idx,
+  setTotalReputation,
 }) {
-  // console.log("==> idx? " + rp_idx);
   const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
   let loading = false;
@@ -80,7 +80,6 @@ function ReputationItem({
       if (rv_content.length > 20) {
         let arr = "";
         rv_content = arr.concat(rv_content.substring(0, 20) + "...");
-        // console.log("==> arr? " + arr + ", rv_content? " + rv_content);
       }
       return (
         <div>
@@ -105,13 +104,17 @@ function ReputationItem({
             </div>
             <div className="row text-ellipsis" style={{ padding: "4%" }}>
               {rv_content}&nbsp;
-              {/* {rv_content.length > 20 ? (
-                <sapn>
+              {rv_content.length > 20 ? (
+                <sapn
+                  onClick={() => {
+                    setTotalReputation(true);
+                  }}
+                >
                   <b>더보기</b>
                 </sapn>
               ) : (
                 <br />
-              )} */}
+              )}
             </div>
           </div>
           <br />
@@ -184,7 +187,6 @@ function ReputationItem({
           <br />
         </div>
       );
-    } else if (opt === 2) {
     }
   }
 }

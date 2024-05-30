@@ -30,7 +30,7 @@ public interface HotelDAO {
 	Map<String, Object> hostPage(int h_idx);
 	
 	/* 호스트의 호텔 리스트 */
-	Map<String, Object> hotelSummary(int h_idx);
+	List<Map<String, Object>> hotelSummary(int h_idx);
 	
 	/* 호스트의 모든 호텔 리뷰 */
 	List<Map<String, Object>> allReviews(int h_idx);

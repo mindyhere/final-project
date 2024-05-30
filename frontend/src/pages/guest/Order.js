@@ -211,7 +211,7 @@ function Order() {
         if(pointAmount > data.dto.g_point) {
             Swal.fire({
                 icon : 'warning',
-                text : '사용가능금액을 초과하였습니다.',
+                text : '사용가능 포인트를 초과하였습니다.',
                 confirmButtonText: '확인'
             }).then((result) => {
                 if(result.isConfirmed) {
@@ -307,7 +307,7 @@ function Order() {
                 
                 <div className="col-5">
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
-                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'430px', padding:'25px'}}>
+                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'450px', padding:'25px'}}>
                             <div>
                                 <div className="row">
                                     <div className="col-4">
@@ -326,33 +326,81 @@ function Order() {
                             <h4>요금세부정보</h4>
                                 <div>
                                     <br></br>
-                                    <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar}박 = ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                    <div className="row">
+                                        <div className="col-9">
+                                            <div style={{fontSize:'17px'}}>원가&nbsp;&nbsp;₩{dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {dateChar}박</div>
+                                        </div>
+                                        <div className="col-3" align='right'>
+                                            ₩{pprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        </div>
+                                    </div>
                                     <br></br>
-                                    <div style={{fontSize:'17px'}}>서비스수수료&nbsp;&nbsp;₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                    <div className="row">
+                                        <div className="col-9">
+                                            <div style={{fontSize:'17px'}}>서비스수수료</div>
+                                        </div>
+                                        <div className="col-3" align='right'>
+                                            ₩{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        </div>
+                                    </div>
                                     <br></br>
-                                    {pointAmount !== 0
+                                    {pointAmount > 0
                                     ?
-                                    <div>포인트사용 -{pointAmount}P</div>
+                                    <div className="row">
+                                        <div className="col-9">
+                                            <div>포인트사용</div>
+                                        </div>
+                                        <div className="col-3" align='right'>
+                                            -{pointAmount}P
+                                        </div>
+                                    </div>
                                     :''
                                     }
-                                    {couponAmount !== 0
+                                    <br></br>
+                                    {couponAmount > 0
                                     ?
-                                    <div>쿠폰사용금액 -{couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</div>
+                                    <div className="row">
+                                        <div className="col-9">
+                                        <div>쿠폰사용금액</div>
+                                        </div>
+                                        <div className="col-3" align='right'>
+                                            -{couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+                                        </div>
+                                    </div>
                                     :''
                                     }
                                     <hr/>
-                                    <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                    <div className="row">
+                                        <div className="col-9">
+                                            <div value={finalamount} style={{fontSize:'18px'}}>총 합계(KRW)&nbsp;&nbsp;&nbsp;</div>
+                                        </div>
+                                        <div className="col-3" align='right' style={{fontSize:'18px'}}>
+                                            ₩{finalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
                     </div>
 
                     <div style={{marginBottom: '30px',marginTop:'55px'}}>
-                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'400px', padding:'25px'}}>
+                        <div align='left' style={{border: '1px solid rgb(221, 221, 221)', borderRadius: '12px', width: '420px', height:'380px', padding:'25px'}}>
                             <h4>할인적용</h4>
                             <br></br>
                             <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
-                            <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} disabled></input>
-                            <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
+
+                            <div className="row">
+                                <div className="col-8">
+                                    <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} disabled></input>
+                                </div>
+                                <div className="col-4" align='right'>
+                                    <div>
+                                        <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style={{color:'gray'}}>&nbsp;보유쿠폰 {count.c_count}장</div>
+
                             {modalOpen1 && (
                                     <div
                                         className={"modal-container4"}
@@ -411,20 +459,28 @@ function Order() {
                                     <br></br>
                                     <br></br>
                             <div className="row">
-                                <div className="col">
+                                <div className="col-4">
                                     <h5 style={{marginBottom: '16px'}}>포인트</h5>
                                 </div>
-                                <div className="col" align='right' >
-                                <div>사용가능 Point : {data.dto.g_point}</div>
+                                <div className="col-8" align='right' >
+                                
                                 </div>
                             </div>
-                            <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
-                            <button className='btn btn-outline-dark' onClick={() => Handlepoint()}>포인트적용</button>
+                            
+                            <div className="row">
+                                <div className="col-8">
+                                    <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
+                                </div>
+                                <div className="col-4" align='right' >
+                                    <button className='btn btn-outline-dark' onClick={() => Handlepoint()}>포인트적용</button>
+                                </div>
+                            </div>
+
+                            <div style={{color:'gray'}}>&nbsp;잔여포인트 {data.dto.g_point}P</div>
 
                         </div>
                     </div>
                 </div>
-                <div className='col-1'></div>
             </div>
         </div>
 

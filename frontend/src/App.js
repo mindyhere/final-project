@@ -143,7 +143,7 @@ function App() {
 
           {/* guest 리뷰 등록/수정 */}
           <Route path="/guest/write" element={<WriteReview />} />
-          <Route path="/guest/member/edit" element={<EditReview />} />
+          <Route path="/guest/edit" element={<EditReview />} />
         </Routes>
         <Footer />
       </BrowserRouter>

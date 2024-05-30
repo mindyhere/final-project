@@ -1,6 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
-import Cookies from "universal-cookie";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 
 import ReputationItem from "./ReputationItem";
 import { StarFill } from "react-bootstrap-icons";
@@ -30,9 +29,9 @@ function Reputation() {
     }
 
     return (
-      <div className="modal_h" onClick={closeModal}>
+      <div className="modal_h z-8" onClick={closeModal}>
         <div
-          className="modalBody_h"
+          className="modalBody_h z-9"
           style={{ width: "1000px" }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -62,7 +61,7 @@ function Reputation() {
     return (
       <>
         <div className="col mb-30">
-          <div className="row">
+          <div className="row" style={{ position: "relative", zIndex: "0" }}>
             <span style={{ marginBottom: "2%" }}>
               <strong>
                 <StarFill /> {avg} | 후기 {list.length}개
@@ -75,6 +74,8 @@ function Reputation() {
               display: "grid",
               gridTemplateRows: "1fr",
               gridTemplateColumns: "1fr 1fr",
+              position: "relative",
+              zIndex: "0",
             }}
           >
             {list.map(
@@ -102,37 +103,41 @@ function Reputation() {
                   rv_date={rv_date}
                   rv_star={rv_star}
                   rp_idx={rp_idx}
+                  setTotalReputation={setTotalReputation}
                   key={rv_idx}
                 />
               )
             )}
           </div>
-          {list.length >= 6 ? (
-            <div>
-              <button
-                className="main-btn"
-                onClick={() => {
+          <div>
+            {totReputation && (
+              <Modal
+                className="z-9"
+                closeModal={() => {
                   setTotalReputation(!totReputation);
                 }}
               >
-                {totReputation && (
-                  <Modal
-                    closeModal={() => {
-                      setTotalReputation(!totReputation);
-                    }}
-                  >
-                    <TotalReputation
-                      list={list}
-                      avg={avg}
-                      HoIdx={HoIdx}
-                      style={{ zIndex: "999" }}
-                    />
-                  </Modal>
-                )}
-                후기 모두보기
-              </button>
-            </div>
-          ) : null}
+                <TotalReputation
+                  list={list}
+                  avg={avg}
+                  HoIdx={HoIdx}
+                />
+              </Modal>
+            )}
+            <button
+              className="main-btnn"
+              style={{
+                visibility: list.length >= 6 ? "visible" : "",
+                display: list.length >= 6 ? "" : "none",
+                height: "45px",
+              }}
+              onClick={() => {
+                setTotalReputation(!totReputation);
+              }}
+            >
+              후기 모두보기
+            </button>
+          </div>
         </div>
       </>
     );

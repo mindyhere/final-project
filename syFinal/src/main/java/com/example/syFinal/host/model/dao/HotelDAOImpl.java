@@ -1,6 +1,5 @@
 package com.example.syFinal.host.model.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +68,8 @@ public class HotelDAOImpl implements HotelDAO {
 
 	/* 호스트의 호텔 리스트 */
 	@Override
-	public Map<String, Object> hotelSummary(int h_idx) {
-		return sqlSession.selectOne("hotel.getHotelSummary", h_idx);
+	public List<Map<String, Object>> hotelSummary(int h_idx) {
+		return sqlSession.selectList("hotel.getHotelSummary", h_idx);
 	}
 
 	/* 호스트의 모든 호텔 리뷰 */
@@ -159,12 +158,7 @@ public class HotelDAOImpl implements HotelDAO {
 	public void registNewHotel(Map<String, Object> map) {
 		int ht_idx = (int) map.get("ht_idx");
 		int ht_h_idx = (int) map.get("ht_h_idx");
-		String d_img1 = (String) map.get("d_img1");
-		String d_img2 = (String) map.get("d_img2");
-		String d_img3 = (String) map.get("d_img3");
-		System.out.println("1. d_img1 : " + d_img1);
-		System.out.println("1. d_img2 : " + d_img2);
-		System.out.println("1. d_img3 : " + d_img3);
+
 		Map<String, Object> newAmenity = new HashMap<>();
 		newAmenity.put("newAmenity", map.get("checkItems"));
 		String[] items = map.get("checkItems").toString().split(",");
@@ -209,7 +203,6 @@ public class HotelDAOImpl implements HotelDAO {
 		JSONArray jsonArray = null;
 		try {
 			jsonArray = (JSONArray) parser.parse(test);
-
 			for (Object obj : jsonArray) {
 				JSONObject jsObject = (JSONObject) obj;
 				Map<String, Object> result = new HashMap<>();
@@ -220,15 +213,9 @@ public class HotelDAOImpl implements HotelDAO {
 				result.put("beds", jsObject.get("beds"));
 				result.put("non_smoking", jsObject.get("non_smoking"));
 				result.put("price", jsObject.get("price"));
-				String d_img_name1 = jsObject.get("dImg1").toString().replaceAll("C:\\\\fakepath\\\\", "");
-				result.put("d_img1", d_img_name1);
-				String d_img_name2 = jsObject.get("dImg2").toString().replaceAll("C:\\\\fakepath\\\\", "");
-				result.put("d_img2", d_img_name2);
-				String d_img_name3 = jsObject.get("dImg3").toString().replaceAll("C:\\\\fakepath\\\\", "");
-				result.put("d_img3", d_img_name3);
-				System.out.println("DAO 반복문 d_img1 : " + d_img1);
-				System.out.println("DAO 반복문 d_img2 : " + d_img2);
-				System.out.println("DAO 반복문 d_img3 : " + d_img3);
+				result.put("d_img1", jsObject.get("dImg1_name"));
+				result.put("d_img2", jsObject.get("dImg2_name"));
+				result.put("d_img3", jsObject.get("dImg3_name"));
 				sqlSession.insert("hotel.insertNewRoom", result);
 			}
 		} catch (Exception e) {

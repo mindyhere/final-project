@@ -91,7 +91,7 @@ function HotelAmenities() {
                         <div className="mb-10" dangerouslySetInnerHTML={{__html : fireExt_url}}></div>
                     </div>
                     <div>
-                        <button type="button" className="main-btn">편의시설 모두보기</button>
+                        <button type="button" className="main-btn z-0">편의시설 모두보기</button>
                     </div>
                 </div>
                 { modal &&
