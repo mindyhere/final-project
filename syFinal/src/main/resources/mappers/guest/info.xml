@@ -33,5 +33,8 @@
 	or m_receiver = (select g_email from guest where g_idx = #{g_idx}) 
 </delete>
 
+<select id="checkOrder" resultType="Int">
+select IFNULL((SELECT count(*) FROM orders where o_gidx = #{g_idx} AND (o_state = 1 OR o_state = 3)), 0)
+</select>
 
 </mapper>

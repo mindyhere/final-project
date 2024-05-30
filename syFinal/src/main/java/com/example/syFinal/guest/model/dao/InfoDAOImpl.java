@@ -60,6 +60,11 @@ public class InfoDAOImpl implements InfoDAO {
 	}
 	
 	@Override
+	public int checkOrder(int g_idx) {
+		return sqlSession.selectOne("info.checkOrder", g_idx);
+	}
+	
+	@Override
 	public String delete(int g_idx, String delete_id) {
 		String result = "";
 		Map<String, Object> map = new HashMap<>();

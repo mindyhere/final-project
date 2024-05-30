@@ -11,7 +11,7 @@ public interface InfoDAO {
 	String join(String g_email, String g_passwd, String g_name, String g_phone);
 	
 	GuestDTO detail(int g_idx);
-	
+	int checkOrder(int g_idx);
 	String update(GuestDTO dto);
 	String delete(int g_idx, String delete_id);
 
