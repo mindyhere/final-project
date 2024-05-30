@@ -34,11 +34,13 @@ public interface HostDAO {
 	void updateInfo(Map<String, Object> map);
 
 	// Host 회원탈퇴
-	void deleteAccount(int h_idx);
+	void deleteAccount(int h_idx, String deletedEmail);
 
 	String getFile(int h_idx, String type);
 
 	// Host 승인신청
 	void levelUp(int h_idx);
 
+	// Host 탈퇴 가능여부 확인
+	boolean checkOrders(int h_idx);
 }

@@ -154,9 +154,9 @@ public class HotelDAOImpl implements HotelDAO {
 	@Override
 	public int registHotelTemp(Map<String, Object> map) {
 		if (map.get("temp").toString().equals("undefined")) {
-			System.out.println("DAO ::::  111111" + map);
+			sqlSession.insert("hotel.registHotelTemp", map);
 		} else {
-			System.out.println("DAO :::: 222222 " + map);
+			sqlSession.update("hotel.updateHotelTemp", map);
 		}
 		int hoIdx = sqlSession.selectOne("hotel.findHtHidx", map.get("ht_h_idx"));
 		return hoIdx;
