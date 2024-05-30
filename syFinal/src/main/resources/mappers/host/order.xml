@@ -3,8 +3,8 @@
 <mapper namespace="order">
 <select id="getList" resultType="java.util.Map">
 select A.*
-from
-	(select @rownum:=@rownum+1 AS rownum, v.* 
+from(
+	select @rownum:=@rownum+1 AS rownum, v.* 
 	from v_host_order v, (select @rownum:=0) tmp
 <choose>
   <when test="sort==0">
@@ -16,10 +16,18 @@ from
 			where ho_idx = #{ho_idx}
 		</otherwise>
 	</choose>
+		and not exists (
+			select distinct ru_idx from reserv_update 
+			WHERE ru_idx=o_idx and ru_state=1
+		)
 		order by @rownum desc) A
   </when>
   <otherwise>
   		where ho_idx = #{ho_idx}
+  		and not exists (
+			select distinct ru_idx from reserv_update 
+			WHERE ru_idx=o_idx and ru_state=1
+		)
   		order by o_state desc, o_idx desc) A
   	order by rownum desc	
   </otherwise>		

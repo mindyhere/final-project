@@ -1,12 +1,35 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 function SearchPw() {
   const navigate = useNavigate();
   const userEmail = useRef();
+  const [phone, setPhoneNum] = useState("");
   const h_phone = useRef();
+  const [business, setBusinessNum] = useState("");
   const h_business = useRef();
+
+  const handleChange = (val, opt) => {
+    const phoneRegEx = /^[0-9\b -]{0,13}$/;
+    const businessRegEx = /^[0-9\b -]{0,12}$/;
+    switch (opt) {
+      case "phone":
+        if (phoneRegEx.test(val)) {
+          setPhoneNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+          );
+        }
+        break;
+      case "business":
+        if (businessRegEx.test(val)) {
+          setBusinessNum(
+            val.replace(/-/g, "").replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3")
+          );
+        }
+        break;
+    }
+  };
 
   return (
     <>
@@ -24,12 +47,26 @@ function SearchPw() {
             </div>
             <div className="input-style-1">
               <label>전화번호</label>&nbsp;
-              <input type="tel" ref={h_phone} placeholder="숫자만 입력하세요" />
+              <input
+                type="text"
+                maxLength={13}
+                onChange={(e) => {
+                  handleChange(e.target.value, "phone");
+                }}
+                value={phone}
+                ref={h_phone}
+                placeholder="숫자만 입력하세요"
+              />
             </div>
             <div className="input-style-1">
               <label>사업자번호</label>&nbsp;
               <input
-                type="tel"
+                type="text"
+                maxLength={10}
+                onChange={(e) => {
+                  handleChange(e.target.value, "business");
+                }}
+                value={business}
                 ref={h_business}
                 placeholder="숫자만 입력하세요"
               />
@@ -92,7 +129,8 @@ function SearchPw() {
                         Swal.fire({
                           icon: "warning",
                           title: "잠깐!",
-                          html: "메일 발송에 실패했습니다.</br>반복 실패 시 관리자 측에 문의해주시기 바랍니다.",
+                          html:
+                            "메일 발송에 실패했습니다.</br>반복 실패 시 관리자 측에 문의해주시기 바랍니다.",
                           confirmButtonText: "YES",
                         });
                       } else {
