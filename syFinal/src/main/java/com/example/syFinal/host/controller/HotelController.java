@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -203,139 +204,98 @@ public class HotelController {
 		return htIdx;
 	}
 
+	/* 신규 호텔 등록 상세 */
 	@PostMapping("/host/hotel/registHotelDetail")
 	public void registHotelDetail(@RequestParam Map<String, Object> map, @RequestParam(name = "ht_idx") int ht_idx,
 			@RequestParam(name = "ht_h_idx") int ht_h_idx, HttpServletRequest request) throws Exception {
-		ServletContext application = request.getSession().getServletContext();
-		String path = application.getRealPath("static/images/host/hotel/");
 		map.put("ht_idx", ht_idx);
 		map.put("ht_h_idx", ht_h_idx);
-		System.out.println("map : " + map);
-
+		ServletContext application = request.getSession().getServletContext();
+		String path = application.getRealPath("static/images/host/hotel/");
 		String list = map.get("list").toString();
-		System.out.println("list : " + list);
 		String d_img1 = map.get("dImg1").toString();
-		//String d_img2 = map.get("dImg2").toString();
-		//String d_img3 = map.get("dImg3").toString();
-
-		System.out.println("1. d_img1 =====> " + d_img1);
-//		System.out.println("1. d_img2 =====> " + d_img2);
-//		System.out.println("1. d_img3 =====> " + d_img3);
-		
-		
-		String[] base64Image_1 = d_img1.split(",");
-//		String[] base64Image_2 = d_img2.split(",");
-//		String[] base64Image_3 = d_img3.split(",");
-		
-		System.out.println("base64Image_1 " + base64Image_1);
-//		System.out.println("base64Image_2 " + base64Image_2);
-//		System.out.println("base64Image_3 " + base64Image_3);
-
 		JSONParser parser = new JSONParser();
 		d_img1 = d_img1.replaceAll("'", "\\\"");
-//		d_img2 = d_img3.replaceAll("'", "\\\"");
-//		d_img3 = d_img3.replaceAll("'", "\\\"");
-
-		System.out.println("2.   d_img1    ====> " + d_img1);
-//		System.out.println("2.   d_img2    ====> " + d_img2);
-//		System.out.println("2.   d_img3    ====> " + d_img3);
-		JSONArray jsonArray2 = null;
 		JSONArray jsonArray = null;
-		//JSONArray jsonArrayImg2 = null;
-		//JSONArray jsonArrayImg3 = null;
+		String dImg1_name = "-";
+		String dImg2_name = "-";
+		String dImg3_name = "-";
 		try {
-			jsonArray2 = (JSONArray) parser.parse(list);
 			jsonArray = (JSONArray) parser.parse(d_img1);
-//			jsonArray = (JSONArray) parser.parse(d_img2);
-//			jsonArray = (JSONArray) parser.parse(d_img3);
-			System.out.println("jsonArray2 ====> " + jsonArray2);
-
 			for (Object obj : jsonArray) {
 				JSONObject jsObject = (JSONObject) obj;
 				Map<String, Object> result = new HashMap<>();
-				result.put("dImg1", jsObject.get("dImg1"));
-//				result.put("dImg2", jsObject.get("dImg2"));
-//				result.put("dImg3", jsObject.get("dImg3"));
-				System.out.println("result dImg1 ==== > " + jsObject.get("dImg1"));
-//				System.out.println("result dImg2 ==== > " + jsObject.get("dImg2"));
-//				System.out.println("result dImg3 ==== > " + jsObject.get("dImg3"));
-				for (Object obj2 : jsonArray2) {
-					JSONObject jsObject2 = (JSONObject) obj2;
-					String d_img1_name = "-";
-					String d_img2_name = "-";
-					String d_img3_name = "-";
-					String a = result.get("dImg1").toString();
-					//String b = result.get("dImg2").toString();
-					//String c = result.get("dImg3").toString();
-
-					if (a.length() != 0) {
-						a = a.split(",")[1];
-					}
-
-//					if (b.length() != 0) {
-//						b = b.split(",")[1];
-//					}
-//
-//					if (c.length() != 0) {
-//						c = c.split(",")[1];
-//
-//					}
-
-					if (jsObject2.get("dImg1").toString() != null || jsObject2.get("dImg1").toString().length() > 0) {
-						d_img1_name = jsObject2.get("dImg1").toString().replaceAll("C:\\\\fakepath\\\\", "");
-					}
-
-					if (jsObject2.get("dImg2").toString() != null || jsObject2.get("dImg2").toString().length() > 0) {
-						d_img2_name = jsObject2.get("dImg2").toString().replaceAll("C:\\\\fakepath\\\\", "");
-					}
-					if (jsObject2.get("dImg3").toString() != null || jsObject2.get("dImg3").toString().length() > 0) {
-						d_img3_name = jsObject2.get("dImg3").toString().replaceAll("C:\\\\fakepath\\\\", "");
-					}
-
-					byte[] image1 = Base64.getDecoder().decode(a.trim());
-//					byte[] image2 = Base64.getDecoder().decode(b.trim());
-//					byte[] image3 = Base64.getDecoder().decode(c.trim());
-
-					if (d_img1_name.length() != 0) {
-						try {
-							FileOutputStream fos1 = new FileOutputStream(path + d_img1_name);
-							map.put("d_img1", d_img1_name);
-							fos1.write(image1);
-							fos1.close();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-//
-//					if (d_img2_name.length() != 0) {
-//						try {
-//							FileOutputStream fos2 = new FileOutputStream(path + d_img2_name);
-//							map.put("d_img2", d_img2_name);
-//							fos2.write(image2);
-//							fos2.close();
-//						} catch (FileNotFoundException e) {
-//							e.printStackTrace();
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
-//
-//					if (d_img3_name.length() != 0) {
-//						try {
-//							FileOutputStream fos3 = new FileOutputStream(path + d_img3_name);
-//							map.put("d_img3", d_img3_name);
-//							fos3.write(image3);
-//							fos3.close();
-//						} catch (FileNotFoundException e) {
-//							e.printStackTrace();
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
+				
+				String img1=null;
+				if(jsObject.get("dImg1") !=null) {
+					img1=jsObject.get("dImg1").toString().replace("\\", "");
+				}	
+				result.put("dImg1", img1); 
+				
+				String img2=null;
+				if(jsObject.get("dImg2") !=null) {
+					img2=jsObject.get("dImg2").toString().replace("\\", "");
 				}
-				System.out.println("map ======> " + map);
+				result.put("dImg2", img2);
+				
+				String img3=null;
+				if(jsObject.get("dImg3") !=null) {
+					img3=jsObject.get("dImg3").toString().replace("\\", "");
+				}
+				result.put("dImg3", img3);
+				
+				result.put("dImg1_name", jsObject.get("dImg1_name"));
+				result.put("dImg2_name", jsObject.get("dImg2_name"));
+				result.put("dImg3_name", jsObject.get("dImg3_name"));
+
+				if (!Objects.isNull(result.get("dImg1_name"))) {
+					dImg1_name = result.get("dImg1_name").toString();
+				}
+				
+				if (!Objects.isNull(result.get("dImg2_name"))) {
+					dImg2_name = result.get("dImg2_name").toString();
+				}
+				
+				if (!Objects.isNull(result.get("dImg3_name"))) {
+					dImg3_name = result.get("dImg3_name").toString();
+				}
+
+				String a = result.get("dImg1").toString();
+				if (a.length() != 0) {
+					a = a.split(",")[1];
+				}
+				String b = "";
+				if (!Objects.isNull(result.get("dImg2"))) {
+					b = result.get("dImg2").toString();
+					b = b.split(",")[1];
+				}
+
+				String c = "";
+				if (!Objects.isNull(result.get("dImg3"))) {
+					c = result.get("dImg3").toString();
+					c = c.split(",")[1];
+				}
+
+				byte[] image1 = Base64.getDecoder().decode(a.trim());
+				byte[] image2 = Base64.getDecoder().decode(b.trim());
+				byte[] image3 = Base64.getDecoder().decode(c.trim());
+
+				try {
+					FileOutputStream fos1 = new FileOutputStream(path + dImg1_name);
+					FileOutputStream fos2 = new FileOutputStream(path + dImg2_name);
+					FileOutputStream fos3 = new FileOutputStream(path + dImg3_name);
+
+					fos1.write(image1);
+					fos2.write(image2);
+					fos3.write(image3);
+					fos1.close();
+					fos2.close();
+					fos3.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

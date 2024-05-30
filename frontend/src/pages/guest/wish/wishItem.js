@@ -18,7 +18,7 @@ function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
         let img = '';
         if (HoImg != null) {
             img = `
-           <img src=${url} width='330px' height='330px' className="wish" /><br />`;
+           <img src=${url} width='330px' height='330px' className="wish" style="border-radius: 15px;" /><br />`;
         }
 
         return (
