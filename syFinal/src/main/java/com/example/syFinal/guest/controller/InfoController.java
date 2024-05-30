@@ -112,6 +112,15 @@ public class InfoController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("checkOrder")
+	public Map<String, Object> checkOrder(@RequestParam(name = "g_idx") int g_idx) {
+		int result = dao.checkOrder(g_idx);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
+	}
+	
+	@ResponseBody
 	@RequestMapping("update")
 	public Map<String, Object> update(@RequestParam(name = "g_idx") int g_idx,
 			@RequestParam(name = "g_profile", defaultValue = "") String g_profile,
