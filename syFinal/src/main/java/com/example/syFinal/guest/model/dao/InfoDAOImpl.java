@@ -60,9 +60,13 @@ public class InfoDAOImpl implements InfoDAO {
 	}
 	
 	@Override
-	public String delete(int g_idx) {
+	public String delete(int g_idx, String delete_id) {
 		String result = "";
+		Map<String, Object> map = new HashMap<>();
+		map.put("g_idx", g_idx);
+		map.put("delete_id", delete_id);
 		try {
+			sqlSession.delete("info.delete_message", map);
 			sqlSession.delete("info.delete", g_idx);
 			result = "success";
 		} catch (Exception e) {
