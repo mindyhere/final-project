@@ -111,7 +111,7 @@ function OrderItem({
 
   const handleChangeState = () => {
     switch (o_state) {
-      case "1":
+      case 1:
         Swal.fire({
           icon: "question",
           title: "Check",
@@ -165,7 +165,7 @@ function OrderItem({
           }
         });
         break;
-      case "3":
+      case 3:
         console.log("test3" + o_state + "/ " + o_idx);
         if (handleDateCheck(o_ckin)) {
           Swal.fire({
@@ -261,7 +261,7 @@ function OrderItem({
         <td>{o_ckout}</td>
         <td>{o_finalprice}</td>
         <td>{o_orderdate}</td>
-        {o_state == "1" ? (
+        {o_state === 1 ? (
           <th style={{ color: "crimson" }}>{status}</th>
         ) : (
           <th>{status}</th>
@@ -293,7 +293,7 @@ function OrderItem({
           </td>
           <td>{g_name}</td>
           <td>{orderdate}</td>
-          {o_state == "1" ? (
+          {o_state === 1 ? (
             <th
               id="status"
               style={{ color: "crimson", cursor: "pointer" }}
