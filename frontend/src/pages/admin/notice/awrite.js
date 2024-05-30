@@ -12,24 +12,12 @@ function Awrite() {
   const n_title = useRef();
   const n_content = useRef();
   const n_date = useRef();
-  const n_file = useRef();
   const a_id = cookies.get("a_id");
-
-  const removeCookie = () => {
-    cookies.remove("n_writer", { path: "/" }, 100);
-    cookies.remove("n_title", { path: "/" }, 100);
-    cookies.remove("n_content", { path: "/" }, 100);
-    cookies.remove("n_date", { path: "/" }, 100);
-    cookies.remove("n_file", { path: "/" }, 100);
-  };
-
-
-
 
   const btnlist = (event) => {
     event.preventDefault();
 
-    if (!n_writer.current.value || !n_title.current.value || !n_content.current.value || !n_date.current.value) {
+    if (!n_writer.current.value|| !n_title.current.value || !n_content.current.value || !n_date.current.value) {
       Swal.fire({
         title: '입력 오류',
         text: '모든 필드를 입력해주세요.',
@@ -44,9 +32,7 @@ function Awrite() {
     form.append('n_writer', n_writer.current.value);
     form.append('n_title', n_title.current.value);
     form.append('n_content', n_content.current.value);
-    form.append('n_date', n_date.current.value);
-    form.append('n_file', n_file.current.value);
-  
+    form.append('n_date', n_date.current.value);  
 
     Swal.fire({
       title: '등록 확인',
@@ -61,7 +47,6 @@ function Awrite() {
       if (result.isConfirmed) {
         fetch(`http://localhost/notice/insert`, {
           method: 'POST',
-          endType: "multipart/form-data",
           body: form,
         })
           .then((response) => {
@@ -155,8 +140,8 @@ function Awrite() {
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="container11 mt-5">
           <nav>       <ol className="breadcrumb">
-                       <li className="breadcrumb-item"><a href="#">공지사항</a></li>
-                          <li className="breadcrumb-item active" aria-current="page">공지등록</li>
+                       <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>공지사항</li>
+                          <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>공지등록</li>
                         </ol>
                         </nav>
                         <br/>
@@ -175,16 +160,14 @@ function Awrite() {
             </tr>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
-              <td><textarea className="form-control table-light" id="n_date" rows="1" ref={n_date}></textarea></td>
+              <td><textarea className="form-control table-light"  rows="1" ref={n_date}></textarea></td>
             </tr>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>제목</td>
               <td><textarea className="form-control table-light" id="n_title" rows="1" ref={n_title}></textarea></td>
             </tr>
             <tr>
-            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>파일 업로드</td>       
-              <td><input type="file" className="form-control table-light" id="n_file" ref={n_file}  /></td>
-            </tr>
+            </tr> 
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>내용</td>
               <td><textarea className="form-control table-light" id="n_content" rows="6" ref={n_content}></textarea></td>

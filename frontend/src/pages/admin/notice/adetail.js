@@ -16,7 +16,6 @@ function Adetail() {
     const n_title = useRef();
     const n_content = useRef();
     const n_date = useRef();
-    const n_file = useRef(); 
     const a_id = cookies.get("a_id");
 
     useEffect(() => {
@@ -68,7 +67,6 @@ function Adetail() {
                 formData.append("n_title", n_title.current.value);
                 formData.append("n_content", n_content.current.value);
                 formData.append("n_date", n_date.current.value);
-                formData.append("n_file", n_file.current.value);
 
                 fetch(`http://localhost/notice/update/${n_idx}`, {
                     method: 'POST',
@@ -157,8 +155,8 @@ function Adetail() {
                         <div className="container11 mt-5">
                         <nav>
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="#">공지사항</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">공지수정</li>
+                            <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>공지사항</li>
+                            <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>공지수정</li>
                         </ol>
                         </nav>
                         <br/>
@@ -182,10 +180,6 @@ function Adetail() {
                                                 <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
                                                 <td><textarea className="form-control" id="n_date" rows="1" ref={n_date} defaultValue={notice?.n_date}></textarea></td>
                                             </tr>
-                                             <tr>
-                                                <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>파일</td>
-                                                <td><textarea className="form-control" id="n_file" rows="1" ref={n_file} defaultValue={notice?.n_file}></textarea></td>                                                                                                                         
-                                            </tr> 
                                             <tr>
                                                 <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>내용</td>
                                                 <td><textarea className="form-control" id="n_content" rows="6" ref={n_content} defaultValue={notice?.n_content}></textarea></td>

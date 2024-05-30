@@ -216,8 +216,8 @@ function Ahost() {
                         <div className="container11 mt-5">
                             <nav>
                                 <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><a href="#">회원관리</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">사업자정보관리</li>
+                                    <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>회원관리</li>
+                                    <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>사업자정보관리</li>
                                 </ol>
                             </nav>
                             <br />

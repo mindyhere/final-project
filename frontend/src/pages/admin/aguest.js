@@ -95,8 +95,8 @@ function AGuest() {
                         <div className="container11 mt-5">
                         <nav>
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="#">회원관리</a></li>
-                            <li className="breadcrumb-item active" aria-current="page"> 회원정보관리</li>
+                            <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>회원관리</li>
+                            <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}> 회원정보관리</li>
                         </ol>
                         </nav>
                         <br/>
@@ -127,8 +127,7 @@ function AGuest() {
                                         <th>전화번호</th>
                                         <th>가입날짜</th>
                                         <th>등급관리</th>
-                                        <th>포인트</th>
-                                        
+                                        <th>포인트</th>     
                                     </tr>
                                 </thead>
                                 <tbody>
