@@ -37,52 +37,72 @@ function RegistRoomDetail(props) {
     dImg3 : ""
 });
 
-
   const imgRef1 = useRef();
-  const imgRef2 = useRef();
-  const imgRef3 = useRef();
 
   const [file, setFile] = useState({
     dImg1 : "",
     dImg2 : "",
-    dImg3 : ""
+    dImg3: ""
   });
 
   const handleChangeState = (e) => {
+
+    const fileArr = e.target.files;
+    let fileURLs = [];
+    let file;
+    let d_img1_name = "-";
+    let d_img2_name = "-";
+    let d_img3_name = "-";
+
+    for (let i = 0; i < imgRef1.current.files.length; i++) {
+
+      if(imgRef1.current.files[0] != null){
+        d_img1_name = imgRef1.current.files[0].name;
+      }
+      if(imgRef1.current.files[1] != null){
+        d_img2_name = imgRef1.current.files[1].name;
+      }
+      if(imgRef1.current.files[2] != null){
+        d_img3_name = imgRef1.current.files[2].name;
+      }
+
+    }
     setState({
       ...state,
       [e.target.name] : e.target.value,
+      "dImg1_name" : d_img1_name,
+      "dImg2_name" : d_img2_name,
+      "dImg3_name" : d_img3_name
     });
 
-    const reader = new FileReader();
+    for (let i = 0; i < imgRef1.current.files.length; i++) {
+      file = fileArr[i];
 
-    const fileImg1 = imgRef1.current.files[0];
-    const fileImg2 = imgRef2.current.files[0];
-    const fileImg3 = imgRef3.current.files[0];
+      let reader = new FileReader();
+      reader.onloadend = () => {        
+        fileURLs[i] = reader.result;
 
-    // if(imgRef1.current.files.length !== 0) {
-    //   form.append('img', img.current.files[0]);
-    // }
-
-    // for(let i = 0; i<imgRef1.current.files.length; i++){
-    //   reader.readAsDataURL(imgRef1.current.files[i]);
-    // }
-    if (fileImg1) {
-      reader.readAsDataURL(fileImg1);
+        if(imgRef1.current.files[0] != null){
+          d_img1_name = imgRef1.current.files[0].name;
+        }
+        if(imgRef1.current.files[1] != null){
+          d_img2_name = imgRef1.current.files[1].name;
+        }
+        if(imgRef1.current.files[2] != null){
+          d_img3_name = imgRef1.current.files[2].name;
+        }
+        setFile({
+            ...file,
+            "dImg1" : fileURLs[0],
+            "dImg1_name" : d_img1_name,
+            "dImg2" : fileURLs[1],
+            "dImg2_name" : d_img2_name,
+            "dImg3" : fileURLs[2],
+            "dImg3_name" : d_img3_name
+        });
+      };
+      reader.readAsDataURL(file);
     }
-
-    // if (fileImg2) {
-    //   reader.readAsDataURL(fileImg2);
-    // }
-
-    // if (fileImg3) {
-    //   reader.readAsDataURL(fileImg3);
-    // }
-    reader.onloadend = () => {
-      setFile({
-        ...file,
-        [e.target.name] : reader.result});
-    };
   };
 
   const insertData = () => {
@@ -201,43 +221,17 @@ function RegistRoomDetail(props) {
                     </td>
                   </tr>
                   <tr>
-                    <th colSpan={1}>객실 사진_1</th>
+                    <th colSpan={1}>객실 사진</th>
                     <td colSpan={3}>
                       <input
                         ref={imgRef1}
+                        multiple
                         className="form-control"
                         type="file"
                         name="dImg1"
                         value={props.dImg1}
                         onChange={handleChangeState}
-                        accept=".jpg,.jpeg,.png,"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th colSpan={1}>객실 사진_2</th>
-                    <td colSpan={3}>
-                      <input
-                        ref={imgRef2}
-                        className="form-control"
-                        type="file"
-                        name="dImg2"
-                        value={props.dImg2}
-                        onChange={handleChangeState}
-                        accept=".jpg,.jpeg,.png,"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th colSpan={1}>객실 사진_3</th>
-                    <td colSpan={3}>
-                      <input
-                        ref={imgRef3}
-                        className="form-control"
-                        type="file"
-                        name="dImg3"
-                        value={props.dImg3}
-                        onChange={handleChangeState}
+                        //onChange={(e)=>{imgRef1.current.files.length < 3 ? handleChangeState(e.target.files) : alert("Noooooo"); return false;}}
                         accept=".jpg,.jpeg,.png,"
                       />
                     </td>
