@@ -154,6 +154,17 @@ function HostPage({}) {
                                         rv_content={item.rv_content}
                                     />
                                 ))}
+                                {rv.length === 0
+                                    ?
+                                    <div className='container'>
+                                        <div>
+                                        <br></br><br></br><br></br>
+                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 후기가 없습니다.</div>
+                                            <br></br><br></br><br></br>
+                                        </div>
+                                    </div>
+                                    :''
+                                }
                             </Slider>
                         </div>
                         {/* <div className="text-bold" style={{cursor: 'pointer', textDecoration:'underline'}} onClick={() => setModal(true)}> 후기 {data.review_cnt}개 모두 표시하기</div>
@@ -196,6 +207,17 @@ function HostPage({}) {
                                         ho_address={item.ho_address}
                                     />
                                 ))}
+                                {hotel.length === 0
+                                    ?
+                                    <div className='container'>
+                                        <div>
+                                        <br></br><br></br><br></br>
+                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 호텔이 없습니다.</div>
+                                            <br></br><br></br><br></br>
+                                        </div>
+                                    </div>
+                                    :''
+                                }
                             </Slider>
                         </div>
                         {/* </Link> */}
