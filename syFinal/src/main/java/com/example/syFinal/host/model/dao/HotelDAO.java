@@ -49,6 +49,9 @@ public interface HotelDAO {
 	/* 호텔 대표 이미지 조회 */
 	Map<String, Object> getHotelImg(int ho_idx);
 
+	/* 호텔 대표 이미지 조회 */
+	Map<String, Object> getHotelDetailImg(int ho_idx, int d_idx);
+
 	/* 호텔 이미지 모두 보기 */
 	List<HotelDTO> viewHotelImg(int ho_idx);
 	

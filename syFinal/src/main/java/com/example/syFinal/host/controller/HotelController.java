@@ -386,14 +386,13 @@ public class HotelController {
 	/* 호텔 객실정보 수정 */
 	@Transactional
 	@PostMapping("/host/hotel/editHotel/roomInfo")
-	public void editHotelRoomInfo(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx,
+	public void editHotelRoomInfo(@RequestParam Map<String, Object> map, @RequestParam(name = "ho_idx") int ho_idx, @RequestParam(name = "d_idx") int d_idx,
 			@RequestParam(name = "dImg1", required = false) MultipartFile dImg1,
 			@RequestParam(name = "dImg2", required = false) MultipartFile dImg2,
 			@RequestParam(name = "dImg3", required = false) MultipartFile dImg3, HttpServletRequest request) {
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/hotel/");
-		System.out.println("map ===> " + map);
-		Map<String, Object> imgList = hotelDao.getHotelImg(ho_idx);
+		Map<String, Object> imgList = hotelDao.getHotelDetailImg(ho_idx, d_idx);
 		String d_img1 = "";
 		String d_img2 = "";
 		String d_img3 = "";
@@ -412,7 +411,11 @@ public class HotelController {
 				e.printStackTrace();
 			}
 		} else {
-			d_img1 = imgList.get("d_img1").toString();
+			if(imgList.get("d_img1") != null){
+				d_img1 = imgList.get("d_img1").toString();
+			} else {
+				d_img1 = "-";
+			}
 		}
 		map.put("d_img1", d_img1);
 
@@ -431,7 +434,11 @@ public class HotelController {
 				e.printStackTrace();
 			}
 		} else {
-			d_img2 = imgList.get("d_img2").toString();
+			if(imgList.get("d_img2") != null){
+				d_img2 = imgList.get("d_img2").toString();
+			} else {
+				d_img2 = "-";
+			}
 		}
 		map.put("d_img2", d_img2);
 
@@ -450,7 +457,11 @@ public class HotelController {
 				e.printStackTrace();
 			}
 		} else {
-			d_img3 = imgList.get("d_img3").toString();
+			if(imgList.get("d_img3") != null){
+				d_img3 = imgList.get("d_img3").toString();
+			} else {
+				d_img3 = "-";
+			}
 		}
 		map.put("d_img3", d_img3);
 		hotelDao.editHotelRoomInfo(map);

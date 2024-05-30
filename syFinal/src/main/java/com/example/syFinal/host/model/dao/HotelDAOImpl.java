@@ -110,6 +110,15 @@ public class HotelDAOImpl implements HotelDAO {
 		return sqlSession.selectOne("hotel.getHotelImg", ho_idx);
 	}
 
+	/* 호텔 객실 이미지 조회 */
+	@Override
+	public Map<String, Object> getHotelDetailImg(int ho_idx, int d_idx) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		return sqlSession.selectOne("hotel.getHotelDetailImg", map);
+	}
+
 	/* 호텔 이미지 모두 보기 */
 	@Override
 	public List<HotelDTO> viewHotelImg(int ho_idx) {
