@@ -144,6 +144,15 @@ function MyHotelList() {
                                     }
                                 </tr>
                             ))}
+                            {data.list.length === 0
+                                ?
+                                <tr>
+                                    <td colSpan={4}>
+                                        등록된 호텔이 없습니다.
+                                    </td>
+                                </tr>
+                                :''
+                            }
                         </tbody>
                     </table>
                 </div>

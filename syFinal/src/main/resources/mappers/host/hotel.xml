@@ -133,7 +133,7 @@
 		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = #{h_idx} AND ho_status = 2) open, 
 		(SELECT COUNT(*) FROM hotel WHERE ho_h_idx = #{h_idx} AND ho_status = 3) close
 		FROM hotel
-		WHERE ho_h_idx = #{h_idx} LIMIT 1;
+		LIMIT 1
 	</select>
 	
 	<!-- 호스트의 호텔 목록 -->
