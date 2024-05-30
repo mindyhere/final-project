@@ -178,7 +178,7 @@ function HotelDetail() {
                         <div className="row">
                             <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
                             <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
-                            <div className="col-3" style={{position:'relative'}}>
+                            <div className="col-3 z-0" style={{position:'relative'}}>
                                 <span dangerouslySetInnerHTML={{__html : hotel_url3}}></span>
                                 <button className="main-btn" style={{position:'absolute', top : '430px', left:'170px'}} 
                                     onClick={() => navigate("/host/hotel/HotelImage", {
@@ -266,12 +266,12 @@ function HotelDetail() {
                             <hr />
                             <h4>숙소 후기</h4>
                             <br/>
-                            <div>
+                            <div className="z-1" style={{position:'relative'}}>
                                 <Reputation />
                             </div>
                             <hr />
                             <h4>숙소 위치</h4>
-                                <div>{data.ho_address}
+                                <div className="z-0" style={{position:'relative'}}>{data.ho_address}
                                 <br />
                                     <KakaoMap />
                                 </div>
@@ -287,7 +287,7 @@ function HotelDetail() {
                     </div>
                     
                     <div className="col-4">
-                        <Reservation />
+                        <Reservation className="z-0" style={{position:'relative'}} />
                     </div>
                 </div>
             </div>

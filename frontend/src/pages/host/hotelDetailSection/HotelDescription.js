@@ -37,7 +37,7 @@ function HotelDescription() {
                         {data.ho_description}
                     </div>
                     <div>
-                        <button type="button" className="main-btn">더보기</button>
+                        <button type="button" className="main-btn z-0">더보기</button>
                     </div>
                 </div>
                 { modal &&
