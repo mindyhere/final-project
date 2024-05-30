@@ -174,9 +174,9 @@ function RegistHotelDetail() {
                                         <td>{item.beds}</td>
                                         <td>{item.non_smoking}</td>
                                         <td>{item.price}</td>
-                                        <td>{item.dImg1}</td>
-                                        <td>{item.dImg2}</td>
-                                        <td>{item.dImg3}</td>
+                                        <td>{item.dImg1_name}</td>
+                                        <td>{item.dImg2_name}</td>
+                                        <td>{item.dImg3_name}</td>
                                         <td><button className="main-btn z-0" onClick={(e) => deleteData(item)}>삭제</button></td>
                                     </tr>
                                 ))}
@@ -199,9 +199,51 @@ function RegistHotelDetail() {
                                 cancelButtonText : '취소'
                             }).then((result) => {
                                 if(result.isConfirmed){
-                                    return;
-                                }
-                            })
+                                    if(lists.length == 0){
+                                        Swal.fire({
+                                            icon : 'warning',
+                                            text: '등록된 객실이 없습니다.',
+                                            confirmButtonText: '확인'
+                                        }).then((result) => {
+                                            if(result.isConfirmed){
+                                                return;
+                                            }
+                                        })
+                                    } else if(!what){
+                                    Swal.fire({
+                                        icon : 'warning',
+                                        text: '객실 유형 중 싱글룸은 필수 입력값입니다.',
+                                        confirmButtonText: '확인'
+                                    }).then((result) => {
+                                        if(result.isConfirmed){
+                                            return;
+                                        }
+                                    })
+                                     } else {
+                                        const form = new FormData();
+                                        form.append('ht_idx', htIdx);
+                                        form.append('ht_h_idx', userIdx);
+                                        form.append('checkItems', checkItems);
+                                        form.append('list', JSON.stringify(lists));
+                                        form.append('dImg1', JSON.stringify(fileLists));
+                                        fetch('http://localhost/host/hotel/registHotelDetail', {
+                                            method : 'POST',
+                                            encType : 'multipart/form-data',
+                                            body : form
+                                        }).then(() => {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: '등록 완료',
+                                                text: '호텔 등록이 완료되었습니다. 관리자 승인을 기다려주세요.',
+                                                confirmButtonText: '확인'
+                                            }).then((result) => {
+                                                if(result.isConfirmed){
+                                                    navigate('/host/hotel/MyhotelList');
+                                                }
+                                            });
+                                        })
+                                    }
+                                }})
                         } else if(lists.length == 0){
                             Swal.fire({
                                 icon : 'warning',
@@ -229,8 +271,6 @@ function RegistHotelDetail() {
                             form.append('checkItems', checkItems);
                             form.append('list', JSON.stringify(lists));
                             form.append('dImg1', JSON.stringify(fileLists));
-                           // form.append('dImg2', JSON.stringify(fileLists));
-                           // form.append('dImg3', JSON.stringify(fileLists));
                             fetch('http://localhost/host/hotel/registHotelDetail', {
                                 method : 'POST',
                                 encType : 'multipart/form-data',
