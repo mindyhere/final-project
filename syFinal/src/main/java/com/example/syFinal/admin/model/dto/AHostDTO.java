@@ -17,6 +17,7 @@ public class AHostDTO {
 	private String h_name;
 	private String h_phone;
 	private String h_business;
+	private String h_bankbook;
 	private int h_level;
 	private String h_status;
 	private String h_regdate;

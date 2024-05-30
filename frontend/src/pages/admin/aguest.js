@@ -121,6 +121,7 @@ function AGuest() {
                                 <thead className="table-light">
                                     <tr>
                                         <th>#</th>
+                                        <th>프로필</th>
                                         <th>회원명</th>
                                         <th>회원ID</th>
                                         <th>전화번호</th>
@@ -134,6 +135,8 @@ function AGuest() {
                                     {agItem && agItem.map((list, index) =>
                                         <tr key={index}>
                                             <td>{list.g_idx}</td>
+                                            <td><button type ="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/guest/photo/${list.g_photo}`, 'width=500,height=500')}>
+                                            {list.g_photo}</button></td>                                               
                                             <td>{list.g_name}</td>
                                             <td>{list.g_email}</td>
                                             <td>{list.g_phone}</td>

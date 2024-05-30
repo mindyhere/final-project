@@ -24,8 +24,6 @@
 		g_profile,
 		g_level,
 		g_join_date,
-		g_date,
-		g_cvc,
 		g_point,
 		g_photo
 		from
@@ -43,7 +41,7 @@
 		g_url,
 		g_level,
 		g_point,g_photo,
-		g_profile,g_join_date ,g_date
+		g_profile,g_join_date
 		from guest
 		, levle
 		where
@@ -64,7 +62,7 @@
 	<select id="ah_list"
 		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
 		select h_idx, h_email, h_name, h_phone, h_level,
-		h_status,h_business,h_file,
+		h_status,h_business,h_file,h_bankbook,
 		h_regdate, h_profile, h_description
 		from
 		host
@@ -92,12 +90,15 @@
 	<select id="list"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
 		SELECT
-		distinct(ho_idx), ho_name, ho_address, ho_level, ho_business, ho_status,
+		distinct(ho_idx), ho_name, ho_address, ho_level, ho_business,
+		ho_status,
 		ho_description,h_business,h_name
 		FROM hotel,host
-		WHERE ho_business = h_business and
+		WHERE
+		ho_business = h_business and
 		${searchkey} LIKE
-		CONCAT('%', #{search}, '%')
+		CONCAT('%', #{search},
+		'%')
 		<if test="status != ''">
 			AND ho_status = #{status}
 		</if>
@@ -137,18 +138,11 @@
 	<!-- 호텔상세 -->
 	<select id="ADetailHotel"
 		resultType="com.example.syFinal.host.model.dto.HotelDTO">
-<!-- 		SELECT *
-		FROM hotel h
-		Join host s on h.ho_idx = s.h_idx
-		JOIN hotel_detail hd ON h.ho_idx = hd.d_ho_idx
-		JOIN hotel_amenity ha ON h.ho_idx = ha.ha_ho_idx
-		WHERE h.ho_idx = #{ho_idx}
-		 -->
 		select * from host, hotel, hotel_detail, hotel_amenity
-where ho_idx = #{ho_idx} and
-ho_business = h_business and
-ho_idx = d_ho_idx and
-ho_idx = ha_ho_idx
+		where ho_idx = #{ho_idx} and
+		ho_business = h_business and
+		ho_idx = d_ho_idx and
+		ho_idx = ha_ho_idx
 	</select>
 
 	<!--차트 매출 -->
@@ -156,7 +150,8 @@ ho_idx = ha_ho_idx
 		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
 		select ho_idx, ho_name, sum, month
 		from v_sales
-		where month = #{strToday} and SUM > 0
+		where month =
+		#{strToday} and SUM > 0
 		ORDER BY SUM desc
 		LIMIT 10
 	</select>

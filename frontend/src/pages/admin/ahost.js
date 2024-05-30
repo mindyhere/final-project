@@ -247,9 +247,10 @@ function Ahost() {
                                             <th>사업자ID</th>
                                             <th>사업자 등록번호</th>
                                             <th>전화번호</th>
+                                            <th>사업자등록증</th>
+                                            <th>통장사본</th>
                                             <th>가입날짜</th>
                                             <th>등급</th>
-                                            <th>사업자등록증</th>
                                             <th>가입상태</th>
                                             <th>가입승인</th>
                                         </tr>
@@ -260,15 +261,17 @@ function Ahost() {
                                                 <td>{list.h_idx}</td>
                                                 <td>{list.h_name}</td>
                                                 <td>{list.h_email}</td>
-                                                <td>{list.h_business}</td>
+                                                <td>{list.h_business}</td>                                         
                                                 <td>{list.h_phone}</td>
-                                                <td>{list.h_regdate}</td>
-                                                <td>{getlevel(list.h_level)}</td>
                                                 <td>
                                                     <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, 'width=500,height=500')}>
                                                         {list.h_file}
                                                     </button>
                                                 </td>
+                                                 <td><button type ="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
+                                                    {list.h_bankbook}</button></td>
+                                                 <td>{list.h_regdate}</td>   
+                                                <td>{getlevel(list.h_level)}</td>                                                                                                                                       
                                                 <td>{list.h_status}</td>
                                                 <td>
                                                     <button type="button" className={getButtonClass(list.h_status)} onClick={() => approveHost(list.h_idx, list.h_status, list.h_file, list.h_business)} disabled={list.h_status === '승인완료'}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,6 @@ function Amain() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const a_id = cookies.get("a_id");
-
 
   return (
     <div className="container-fluid">
@@ -29,8 +28,8 @@ function Amain() {
                   <Person width={'15%'} height={'15%'} /> 회원관리
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown>
@@ -38,7 +37,7 @@ function Amain() {
                   <HouseCheckFill width={'15%'} height={'15%'} /> 숙소관리
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown>
@@ -46,8 +45,8 @@ function Amain() {
                   <CardList width={'15%'} height={'15%'} /> 공지사항
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="col-12">
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>
-                  <Dropdown.Item className="col-6" onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </ul>
@@ -57,22 +56,27 @@ function Amain() {
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">관리자 페이지</h1>
           </div>
-          <div className="row">
-  <div className="col">
-  <HotelChart  />
-  </div>
-  <div className="col">
-    <MemoList />
-  </div>
-</div> 
-    <br/><br/><br/><br/><br/>
-    <br/><br/><br/><br/><br/>
+          <br/>
+          <div className="row mb-4">
+            <div className="col-lg-8">
+              <div className="card">
+                <div className="card-header" style={{ backgroundColor: '#4e817269' ,fontWeight: 'bold'}}>
+                  호텔 월 매출 통계
+                </div>
+                <div className="card-body">
+                  <HotelChart />
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">            
+                  <MemoList />
+            </div>
+          </div>
+          <br/><br/><br/><br/><br/>
+          <br/><br/><br/><br/>
         </main>
       </div>
-     
     </div>
-    
   );
 }
-
 export default Amain;

@@ -53,6 +53,7 @@ public class HotelDTO {
 	private Date h_regdate;
 	private String h_profile;
 	private String h_file;
+	private String h_bankbook;
 	
 	private String mountain_view;
 	private String ocean_view;

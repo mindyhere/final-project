@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
-import {Pencil,  CardList, House, HouseCheckFill,  Person  } from "react-bootstrap-icons";
+import React, { useRef, useEffect ,useState} from 'react';
+import { Pencil, CardList, House, HouseCheckFill, Person } from "react-bootstrap-icons";
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
-import { Dropdown} from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 
 function Awrite() {
   const cookies = new Cookies();
@@ -22,6 +22,9 @@ function Awrite() {
     cookies.remove("n_date", { path: "/" }, 100);
     cookies.remove("n_file", { path: "/" }, 100);
   };
+
+
+
 
   const btnlist = (event) => {
     event.preventDefault();
@@ -42,7 +45,8 @@ function Awrite() {
     form.append('n_title', n_title.current.value);
     form.append('n_content', n_content.current.value);
     form.append('n_date', n_date.current.value);
-    form.append('n_file', n_file.current.files[0]);
+    form.append('n_file', n_file.current.value);
+  
 
     Swal.fire({
       title: '등록 확인',
@@ -57,6 +61,7 @@ function Awrite() {
       if (result.isConfirmed) {
         fetch(`http://localhost/notice/insert`, {
           method: 'POST',
+          endType: "multipart/form-data",
           body: form,
         })
           .then((response) => {
@@ -93,7 +98,12 @@ function Awrite() {
       }
     });
   };
-  
+
+  useEffect(() => { // 현재 날짜 출력
+    const today = new Date().toISOString().split('T')[0]; 
+    n_date.current.value = today;
+  }, []);
+
   return (
     <>
       <hr/>
@@ -160,23 +170,23 @@ function Awrite() {
         <table className="table table-bordered">
           <tbody>
             <tr>
-              <td><label htmlFor="n_writer" className="col-form-label">작성자</label></td>
+            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성자</td>
               <td><textarea className="form-control table-light" id="n_writer" rows="1" ref={n_writer} defaultValue="관리자"></textarea></td>
             </tr>
             <tr>
-              <td><label htmlFor="n_date" className="col-form-label">작성일자</label></td>
+            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
               <td><textarea className="form-control table-light" id="n_date" rows="1" ref={n_date}></textarea></td>
             </tr>
             <tr>
-              <td><label htmlFor="n_title" className="form-label">제목</label></td>
+            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>제목</td>
               <td><textarea className="form-control table-light" id="n_title" rows="1" ref={n_title}></textarea></td>
             </tr>
             <tr>
-              <td><label htmlFor="n_file" className="form-label">파일 업로드</label></td>
-              <td><input type="file" className="form-control table-light" id="n_file" ref={n_file} /></td>
+            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>파일 업로드</td>       
+              <td><input type="file" className="form-control table-light" id="n_file" ref={n_file}  /></td>
             </tr>
             <tr>
-              <td><label htmlFor="n_content" className="form-label">내용</label></td>
+            <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>내용</td>
               <td><textarea className="form-control table-light" id="n_content" rows="6" ref={n_content}></textarea></td>
             </tr>
           </tbody>
@@ -190,5 +200,4 @@ function Awrite() {
     </>
   );
 }
-
 export default Awrite;
