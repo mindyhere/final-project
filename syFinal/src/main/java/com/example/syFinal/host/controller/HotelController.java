@@ -133,8 +133,8 @@ public class HotelController {
 
 	/* 호스트의 호텔 리스트 */
 	@GetMapping("/host/hotel/hotelSummary/{hIdx}")
-	public Map<String, Object> hotelSummary(@PathVariable(name = "hIdx") int h_idx) {
-		Map<String, Object> hotelSummary = new HashMap<>();
+	public List<Map<String, Object>> hotelSummary(@PathVariable(name = "hIdx") int h_idx) {
+		List<Map<String, Object>> hotelSummary = new ArrayList<>();
 		hotelSummary = hotelDao.hotelSummary(h_idx);
 		return hotelSummary;
 	}
