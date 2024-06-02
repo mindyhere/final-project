@@ -257,7 +257,7 @@ function Header() {
                         <div
                           className="card-style2"
                           onClick={() => {
-                            setHostJoin(!hostJoin);
+                            setHostJoin(true);
                           }}
                         >
                           <img
@@ -272,12 +272,7 @@ function Header() {
                             호스트
                           </label>
                           {hostJoin && (
-                            <ModalH
-                              closeModal={() => {
-                                setHostJoin(!hostJoin);
-                                console.log("호스트");
-                              }}
-                            >
+                            <ModalH>
                               <HostJoin />
                             </ModalH>
                           )}
@@ -595,13 +590,13 @@ function Header() {
 
   function ModalH(props) {
     function closeModal() {
-      props.closeModal();
       setModal(false);
+      setHostJoin(false);
     }
 
     return (
-      <div className="modal_h" onClick={closeModal}>
-        <div className="modalBody_h" onClick={(e) => e.stopPropagation()}>
+      <div className="modal_h" onClick={(e) => e.stopPropagation()}>
+        <div className="modalBody_h">
           <button id="modalCloseBtn" onClick={closeModal}>
             X
           </button>
