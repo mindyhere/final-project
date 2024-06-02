@@ -3,7 +3,8 @@ import { Pencil, CardList, House, HouseCheckFill, Person } from "react-bootstrap
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
-import { Dropdown } from "react-bootstrap";
+import Sidebar from '../sidebar';
+
 
 function Awrite() {
   const cookies = new Cookies();
@@ -70,16 +71,6 @@ function Awrite() {
               });
             }
           })
-          .catch((error) => {
-            console.error('Error inserting notice:', error);
-            Swal.fire({
-              title: '에러 발생',
-              text: '공지사항 등록 중 문제가 발생했습니다.',
-              icon: 'error',
-              confirmButtonText: '확인',
-              confirmButtonColor: '#41774d86',
-            });
-          });
       }
     });
   };
@@ -91,52 +82,9 @@ function Awrite() {
 
   return (
     <>
-      <hr/>
       <div className="container-fluid">
         <div className="row">
-        <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">                               
-
-                            <li className="nav-item">
-            <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
-              >
-                &nbsp; <House width={'15%'} height={'15%'}/> HOME
-              </a>
-            </li>
-            
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'15%'} height={'15%'}/> 회원관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
-                </Dropdown.Menu>
-            </Dropdown>   
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'15%'} height={'15%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                           
-                </Dropdown.Menu>
-            </Dropdown>
-           </ul>
-           </div>
-           </nav>
-
-           
+       <Sidebar/>          
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="container11 mt-5">
           <nav>       <ol className="breadcrumb">
@@ -145,9 +93,9 @@ function Awrite() {
                         </ol>
                         </nav>
                         <br/>
+                        <div className="card-style mb-30">
           <div className="d-flex justify-content-between align-items-center">
       <h2 className="header"><Pencil width="40px" height="30px"/> 공지사항 등록</h2>
-      <button type="submit" className="btn btn-sign3" onClick={btnlist}>등록하기</button>
     </div>
     <hr/><br />
     <div className="table-responsive">
@@ -156,7 +104,7 @@ function Awrite() {
           <tbody>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성자</td>
-              <td><textarea className="form-control table-light" id="n_writer" rows="1" ref={n_writer} defaultValue="관리자"></textarea></td>
+              <td><textarea className="form-control table-light" id="n_writer" rows="1" ref={n_writer} defaultValue="관리자" disabled></textarea></td>
             </tr>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
@@ -174,8 +122,12 @@ function Awrite() {
             </tr>
           </tbody>
         </table>
+       
+            <div className="d-flex justify-content-end">
+            <button type="submit" className="btn btn-sign3" onClick={btnlist}>등록하기</button>    </div>  
       </form>
     </div>
+  </div>
   </div>
   <br/><br/><br/>
   <br/><br/><br/><br/>

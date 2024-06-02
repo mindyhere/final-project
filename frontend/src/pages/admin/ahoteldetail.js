@@ -5,8 +5,9 @@ import Swal from 'sweetalert2';
 import '../admin/css/astyles.css'; 
 import "moment/locale/ko";
 import { useNavigate } from "react-router-dom";
-import { Dropdown} from "react-bootstrap";
+
 import Cookies from "universal-cookie";
+import Sidebar from './sidebar';
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -48,13 +49,14 @@ function AHoteldetail() {
         const getStatus = (ho_status) => {
             switch (ho_status) {
                 case 1:
-                    return (<td style={{ color: "green" }}>승인 대기</td>);
+                    return (<td style={{ color: "green",fontWeight: 'bold' }}>승인 대기</td>);
                 case 2:
-                    return (<td style={{ color: "blue" }}>영업 중</td>);
-                case 3:
-                    return (<td style={{ color: "red" }}>영업 중지 신청 </td>);
-                default:
-                    return (<td style={{ color: "yellow" }}>영업 재개 신청</td>);
+                    return (<td style={{ color: "blue",fontWeight: 'bold' }}>영업 중</td>);
+                case 3  :
+                    return (<td style={{ color: "red",fontWeight: 'bold' }}>영업 중지 신청</td>);
+
+                default :
+                    return (<td style={{ color: "coral" ,fontWeight: 'bold'}}>영업 재개 신청</td>);
             }
         };
 
@@ -202,49 +204,9 @@ function AHoteldetail() {
 
         return (
             <>
-                <hr />
                 <div className="container-fluid">
-                    <div className="row">
-                    <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">                               
-
-                            <li className="nav-item-col-12">
-            <a 
-              onClick={() => navigate(`/admin/amain/${a_id.key}`)} >
-            <House width={'15%'} height={'15%'}/> HOME
-              </a>
-            </li>
-            
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'15%'} height={'15%'}/> 회원관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
-                </Dropdown.Menu>
-            </Dropdown>   
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'15%'} height={'15%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                             
-                </Dropdown.Menu>
-            </Dropdown>
-           </ul>
-           </div>
-           </nav>
+                    <div className="row"> 
+                        <Sidebar/>
                         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                             <div className="container">
                                 <ol className="breadcrumb">
@@ -267,8 +229,13 @@ function AHoteldetail() {
                                                 </tr>
                                                 <tr>
                                                     <th colSpan={2}>사업자 등록증/등록번호</th>
-                                                    <td><a onClick={url} style={{cursor: "pointer"}}> {data.dto[0].h_file} </a>
-                                                    / {data.dto[0].h_business} </td>
+                                                    <td>{data.dto[0].h_file.length === 1 ? (
+                                                data.dto[0].h_file
+                                                ) : (
+                                                <button type="button" className="btn btn-link" onClick={urlBank} style={{cursor: "pointer"}}>
+                                                  {data.dto[0].h_file}
+                                                </button> 
+                                            )}/ {data.dto[0].h_business} </td>
                                                 </tr>
                                                 <tr>
                                                     <th colSpan={2}>호스트 등급</th>
@@ -280,8 +247,14 @@ function AHoteldetail() {
                                                     <td>{data.dto[0].h_phone}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>통장사본</th>
-                                                    <td><a onClick={urlBank} style={{cursor: "pointer"}}>{data.dto[0].h_bankbook}</a></td>
+                                                    <th colSpan={2}>통장사본/계좌번호{/* 계좌번호 컬럼 오류 */}</th>
+                                                    <td>{data.dto[0].h_bankbook.length === 1 ? (
+                                                data.dto[0].h_bankbook
+                                                ) : (
+                                                <button type="button" className="btn btn-link" onClick={urlBank} style={{cursor: "pointer"}}>
+                                                  {data.dto[0].h_bankbook}
+                                                </button>
+                                            )}</td>
                                                 </tr>
                                                 <tr>
                                                     <th colSpan={2}>가입일</th>
@@ -378,6 +351,7 @@ function AHoteldetail() {
                             </div>
                             <br/><br/>
                         </main>
+                    
                     </div>
                 </div>
             </>

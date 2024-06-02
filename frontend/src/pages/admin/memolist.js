@@ -51,6 +51,17 @@ function MemoList() {
 
   const btnMemo = (event) => {
     event.preventDefault();
+
+    if (!me_content.current.value.trim()){
+      Swal.fire({
+        text: '메모 내용을 입력해주세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#41774d86',
+      });
+      return; 
+    }
+
     const form = new FormData();
     form.append('me_content', me_content.current.value);
     Swal.fire({
@@ -77,7 +88,7 @@ function MemoList() {
                         window.location.href = `/admin/amain/${a_id}`;
                     }
                   });
-              } else {
+              } else {              
                 Swal.fire({
                   title: '에러 발생',
                   text: '처리 중 오류가 발생했습니다',
@@ -143,20 +154,22 @@ function MemoList() {
         border: '1px solid #e0e0e0',
         borderRadius: '10px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        overflow: 'auto',
+        outline: 'none',
+        resize: 'none'
       },
       overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
     };
-  
 
   return (
-    <div className="notepad-container">
-      <div className="notepad-header">
+    <div className="notepad-container" style={{width:"90%", height:"80%"}}>
+      <div className="notepad-header" >
         <span className="notepad-title">Memo List</span>
-        <button onClick={openModal} className="btn"><PlusSquare width={'20px'} height={'20px'} /></button>
+        <button onClick={openModal} className="btn" ><PlusSquare width={'20px'} height={'20px'} /></button>
       </div>
-      <div className="notepad-content">
+      <div className="notepad-content" style={{ maxHeight: '300px', overflowY: 'scroll' }}>
         <table>
           <tbody>
             {Meitem.map((list ) => (
@@ -182,15 +195,16 @@ function MemoList() {
         <div className="modal-content" style={{width:"100%", height:"99%"}}>
           <div className="modal-header" >
             <h5>Memo</h5>
+            <br/> <br/>
           </div>
-          <div className="modal-body">
-            <form>
-              <label htmlFor="me_content" className="form-label"></label>
-              <textarea className="form-control" id="me_content" rows="12" ref={me_content} placeholder="메모를 작성하세요..."></textarea>
+          <div className="modal-body" style={{width:"100%", height:"99%"}}>
+          <form>
+              <label htmlFor="me_content" className="form-label"> </label>
+              <textarea rows="13" ref={me_content} placeholder="메모를 작성하세요..." id="exampleFormControlTextarea1" style={{ width: '100%' }}></textarea>
             </form>
-            <div className="modal-footer">
-            <button type="submit" className="btn" onClick={btnMemo}>추가</button>
-            <button type="button" className="btn" onClick={closeModal}>취소</button>
+            <div className="modal-footer" style={{ display: 'flex', justifyContent: 'center' }}> 
+            <button type="submit" className="btn-sign2" onClick={btnMemo} >추가</button>
+            <button type="button" className="btn-sign2" onClick={closeModal}>취소</button>
           </div>
           </div>
           </div>         
