@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState, useParams } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChatLeftQuote, Search } from "react-bootstrap-icons";
 
 import ReputationItem from "./ReputationItem";
 
-function TotalReputation({ list, avg, HoIdx }) {
-  console.log("==> HoIdx? " + HoIdx);
+function TotalReputation({ list, avg, HoIdx, focused }) {
   const [review, setList] = useState(list);
-  const userEmail = useRef();
-  const pwd = useRef();
-  const pwdChk = useRef();
   const sort = useRef();
   const keyword = useRef();
 
@@ -18,13 +14,11 @@ function TotalReputation({ list, avg, HoIdx }) {
     form.append("sort", sort.current.value);
     form.append("keyword", keyword.current.value);
     form.append("ho_idx", HoIdx);
-    console.log("==> form? " + JSON.stringify(form));
     fetch(url, { method: "post", body: form })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log("==> data? " + JSON.stringify(data));
         setList(data.list);
       });
   }
@@ -129,6 +123,7 @@ function TotalReputation({ list, avg, HoIdx }) {
                 rv_date={rv_date}
                 rv_star={rv_star}
                 rp_idx={rp_idx}
+                focused={focused}
                 key={rv_idx}
               />
             )

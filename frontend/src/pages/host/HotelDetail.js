@@ -9,9 +9,12 @@ import HotelAmenities from "./hotelDetailSection/HotelAmenities";
 import Reservation from "./hotelDetailSection/Reservation";
 import Reputation from "./hotelDetailSection/Reputation";
 import { AwardFill, FileEarmarkImage, StarFill } from "react-bootstrap-icons";
+import DateRangeSelector from "../../component/DateRangeSelector";
 import moment from "moment";
 import "moment/locale/ko";
+
 const {Kakao} = window;
+
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -68,8 +71,6 @@ function HotelDetail() {
         //초기화 전 clean up
         Kakao.cleanup();
         Kakao.init('3a200d4b8b334dd0270039e106f222e1');
-        // 잘 적용되면 true
-        console.log(Kakao.isInitialized());
     }, []);
 
     if(loading || loading2){
@@ -91,16 +92,18 @@ function HotelDetail() {
         let img_url = '';
         if(data.ho_img !== '-'){
             src = `http://localhost/static/images/host/hotel/${data.ho_img}`;
-            img_url = `<img src=${src} style="height:440px; width:500px;"/>`;
+            img_url = `<img src=${src} style="height:440px; width:600px;"/>`;
         } else {
             img_url = '';
         }
 
         let hotel_src2 = '';
         let hotel_url2 = '';
+        let hotel_url2_2 = '';
         if(data.d_img1 !== '-'){
             hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
             hotel_url2 = `<img src=${hotel_src2} style="height:440px; width:300px;"/>`;
+            hotel_url2_2 = `<img src=${hotel_src2} style="height:440px; width:100%;"/>`;
         } else {
             hotel_url2 = '';
         }
@@ -172,23 +175,40 @@ function HotelDetail() {
                 </div>
                 <br />
                 <div className="row mb-30">
-                    <div className="card-style">
-                        <div className="row">
-                            <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
-                            <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
-                            <div className="col-3 z-0" style={{position:'relative'}}>
-                                <span dangerouslySetInnerHTML={{__html : hotel_url3}}></span>
-                                <button className="main-btn" style={{position:'absolute', top : '430px', left:'170px'}} 
-                                    onClick={() => navigate("/host/hotel/HotelImage", {
-                                        state : {
-                                            HoIdx : HoIdx,
-                                            dIdx : dIdx
-                                        }
-                                    })}> <FileEarmarkImage size={18} /> 사진 모두 보기
-                                </button>
+                    <div className="card-style" style={{width : '1500px', height:'500px'}}>
+                        {data.d_img2 !== '-'
+                        ?
+                            <div className="row">
+                                <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
+                                <div className="col-3" dangerouslySetInnerHTML={{__html : hotel_url2}}></div>
+                                <div className="col-3 z-0" style={{position:'relative'}}>
+                                    <span dangerouslySetInnerHTML={{__html : hotel_url3}}></span>
+                                    <button className="main-btn" style={{position:'absolute', top : '410px', left:'150px'}} 
+                                        onClick={() => navigate("/host/hotel/HotelImage", {
+                                            state : {
+                                                HoIdx : HoIdx,
+                                                dIdx : dIdx
+                                            }
+                                        })}> <FileEarmarkImage size={18} /> 사진 모두 보기
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                      
+                        :                    
+                            <div className="row">
+                                <div className="col-6" dangerouslySetInnerHTML={{__html : img_url}}></div>
+                                <div className="col-6 z-0">
+                                    <div style={{width:'600px'}}><span dangerouslySetInnerHTML={{__html : hotel_url2_2}}></span></div>
+                                    <button className="main-btn" style={{position:'absolute', top : '440px', left:'1130px'}} 
+                                        onClick={() => navigate("/host/hotel/HotelImage", {
+                                            state : {
+                                                HoIdx : HoIdx,
+                                                dIdx : dIdx
+                                            }
+                                        })}> <FileEarmarkImage size={18} /> 사진 모두 보기
+                                    </button>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="row">
@@ -259,8 +279,8 @@ function HotelDetail() {
                                 {data.ho_name}에서 
                             </h4>
                             <div>
-                                {/* <DateRangeSelector/> */}
-                                </div>
+                                <DateRangeSelector />
+                            </div>
                             <hr />
                             <h4>숙소 후기</h4>
                             <br/>

@@ -1,60 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { DateRangePicker } from "react-date-range";
-import { format, subDays} from "date-fns";
+import { subDays} from "date-fns";
 import ko from "date-fns/locale/ko";
 import "../asset/css/datepicker.css"
 
-const DateRangeSelector = ({ ranges, onChange, onSubmit, ...rest }) => {
+function useFetch(url) {
+     const [data, setData] = useState(null);
+     const [loading, setLoading] = useState(true);
+ 
+     useEffect(() => {
+         fetch(url)
+         .then(response => {
+             return response.json();
+         })
+         .then(data => {
+             console.log(data);
+             setData(data);
+             setLoading(false);
+         })
+     }, []);
+     return [data, loading];
+ }
+ 
+function DateRangeSelector() {
+     const {HoIdx} = useParams();
+     const {dIdx} = useParams();
+     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
      const [state, setState] = useState({
           startDate: new Date(),
           endDate: new Date(),
           key: "selection"
      });
-     const [show, setShow] = useState(false);
-
-     function formatDateDisplay(date, defaultText) {
-          if (!date) return defaultText;
-          return format(date, "yyyy년 MM월 dd일");
-     }
 
      const handleSelect = ranges => {
           setState(ranges.selection);
      };
 
-     return (
-          <React.Fragment>
+     if(loading){
+          return (
+              <div className="text-center">로딩 중...</div>
+          )
+      } else {
+     return (          
                <div className="dateRangePicker">
-                <div>
-                    <DateRangePicker
-                        locale={ko}
-                        minDate={subDays(new Date(), 0)}             
-                        onChange={handleSelect}
-                        showSelectionPreview={true}
-                        moveRangeOnFirstSelection={false}
-                        months={2}
-                        ranges={[state]}
-                        direction="horizontal"
-                    />
+                    <div>
+                         <DateRangePicker
+                              locale={ko}
+                              minDate={subDays(new Date(), 0)}             
+                              onChange={handleSelect}
+                              showSelectionPreview={true}
+                              moveRangeOnFirstSelection={false}
+                              months={2}
+                              ranges={[state]}
+                              direction="horizontal"
+                              isClearable={true}
+                              rangeColors={["#DBC4F0"]}
+                              disabledDates={data.imp_dates}
+                         />
                     </div>
-                    <div className="text-left position-relative rdr-buttons-position mt-2 mr-3">
-                         <button
-                              className="btn btn-primary"
-                              onClick={() => setShow(true)}
-                         >닫기</button>
+                    <div>
+                         <button className="main-btn" onClick={() => {window.scrollTo({top:400, left:0, behavior:'auto'})}}>예약하기</button>
                     </div>
                </div>
-
-               {show && 
-                    <div className="h-100 mt-3 alert alert-transparent">
-                         <p className="my-auto d-inline">
-                              {formatDateDisplay(state.startDate)}
-                               ~ {formatDateDisplay(state.endDate)}
-                         </p>
-                         <button className="mb-1 btn btn-transparent text-danger" onClick={() => setShow(false)} variant="outline-success"> Close</button>
-                    </div>
-               }
-          </React.Fragment>
-     );
+     )
+     }
 };
 
 export default DateRangeSelector;

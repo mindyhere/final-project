@@ -348,7 +348,7 @@ function EditHostInfo() {
                     <tr>
                       <th>통장사본</th>
                       <td colSpan={3}>
-                        {data.h_status === "가입완료" ? (
+                        {data.h_status !== "승인대기" ? (
                           data.h_bankbook !== "-" ? (
                             <>
                               &nbsp;파일명 : [&nbsp;
@@ -505,7 +505,7 @@ function EditHostInfo() {
                         form.append("file", file.current.files[0]);
                       }
                       if (
-                        data.h_status === "가입완료" &&
+                        data.h_status !== "승인대기" &&
                         bankbook.current.files.length > 0
                       ) {
                         form.append("bankbook", bankbook.current.files[0]);

@@ -54,7 +54,7 @@ function EditHotel() {
     const onInputHandler = (e) => {
         setInputCount(e.target.value.length);
     }
-
+    
     const urlHandle = (e) => {
         window.open(`http://localhost/static/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500'); 
     } 
@@ -101,21 +101,14 @@ function EditHotel() {
         display: "block",
         position: "absolute",
         top: "10%",
-        width: "450px",
-        height: "430px",
+        width: "500px",
+        height: "500px",
         border: "1.2px solid #F7EFFC",
       };
 
     const themeObj = {
-        bgColor: "#DBC4F0", 			// 바탕 배경색
-        searchBgColor: "", 		// 검색창 배경색
-        contentBgColor: "", 		// 본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
-        pageBgColor: "", 		// 페이지 배경색
-        textColor: "", 			// 기본 글자색
-        queryTextColor: "", 		// 검색창 글자색
-        postcodeTextColor: "", 	// 우편번호 글자색
-        emphTextColor: "", 		// 강조 글자색
-        outlineColor: "#F7EFFC" 		// 테두리
+        bgColor: "#DBC4F0",
+        outlineColor: "#F7EFFC"
       };
 
     const [rooms, setRooms] = useState("");
@@ -169,21 +162,24 @@ function EditHotel() {
         }
 
         let dataList = [
-            {id: 0, title: '산 전망', icon: '/img/mountain.png', sts : data[0].mountain_view, sts2: true},
-            {id: 1, title: '바다 전망', icon: '/img/ocean.png', sts : data[0].ocean_view, sts2: true},
-
-            {id: 2, title: '무선인터넷', icon: '/img/wifi.png', sts : data[0].wifi, sts2: true},
-            {id: 3, title: '주차장', icon: '/img/parking.png', sts : data[0].parking_lot, sts2: true},
-            {id: 4, title: '조식 제공', icon: '/img/breakfast.png', sts : data[0].breakfast, sts2: true},
-            {id: 5, title: '화재경보기', icon: '/img/firealam.png', sts : data[0].fire_alam, sts2: true},
-            {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher, sts2:true}
+            {id: 0, title: '산 전망', icon: '/img/mountain.png', sts : data[0].mountain_view},
+            {id: 1, title: '바다 전망', icon: '/img/ocean.png', sts : data[0].ocean_view},
+            {id: 2, title: '무선인터넷', icon: '/img/wifi.png', sts : data[0].wifi},
+            {id: 3, title: '주차장', icon: '/img/parking.png', sts : data[0].parking_lot},
+            {id: 4, title: '조식 제공', icon: '/img/breakfast.png', sts : data[0].breakfast},
+            {id: 5, title: '화재경보기', icon: '/img/firealam.png', sts : data[0].fire_alam},
+            {id: 6, title: '소화기', icon: '/img/fireExt.png', sts : data[0].fire_extinguisher}
           ];
-
-        const handleSingleCheck = (id, defaultChecked) => {
-            console.log("checked : " + defaultChecked);
-            console.log("checked_id : " + id);
-            if (defaultChecked) {
-                setCheckItems(prev => [...prev, id]);        
+         
+        const handleSingleCheck = (checked, id, sts, df) => {
+            console.log("checked : " + checked);
+            console.log("sts : " + sts);
+            console.log("df : " + df);
+            if (checked) {
+                console.log("checked is true");
+                console.log("id ==> " + id);
+                setCheckItems(prev => [...prev, id]);  
+                console.log("checkItems ==> " + checkItems);
             } else {
                 setCheckItems(checkItems.filter((el) => el !== id));
             }
@@ -258,7 +254,7 @@ function EditHotel() {
                                     { isPopupOpen &&
                                         <div>
                                             <div className='Modal' onClick={() => setIsPopupOpen(false)} style={{zIndex : 999}}>
-                                                <div className='modalBody' style={{height:'500px', width: '500px', padding: '20px'}} onClick={(e) => e.stopPropagation()}>
+                                                <div className='modalBody' style={{height:'600px', width: '550px', padding: '20px'}} onClick={(e) => e.stopPropagation()}>
                                                         <button id = 'modalCloseBtn' onClick={() => setIsPopupOpen(false)}>
                                                         X
                                                         </button>
@@ -279,7 +275,7 @@ function EditHotel() {
                                 <td colSpan={2}>
                                     현재 이미지 : <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle}> {data[0].ho_img}</a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="file" ref={ho_img} />
+                                    <input className="form-control" type="file" ref={ho_img} />
                                 </td>
                             </tr>
                             <tr>
@@ -369,10 +365,8 @@ function EditHotel() {
                                     <input 
                                         type='checkbox'
                                         name={`select-${item.id}`}
-                                        //onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts)}
-                                        //onClick={(e) => handleSingleCheck(e.target.checked, item.id)}
-                                        onClick={(e) => handleSingleCheck(item.id, 'Y')}
-                                        //checked={checkItems.includes(item.id)}
+                                        onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.sts, e.target.defaultChecked)}
+                                        //checked={checkItems.includes(item.id) ? (item.sts=='Y' ? true : false): false}
                                         //checked={checkItems.includes(item.id) ? true : false}
                                         defaultChecked={item.sts === 'Y'}
                                     />

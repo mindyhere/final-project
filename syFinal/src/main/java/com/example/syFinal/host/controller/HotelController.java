@@ -467,6 +467,16 @@ public class HotelController {
 		hotelDao.editHotelRoomInfo(map);
 	}
 
+	/* 호텔 객실 정보 삭제 */
+	@Transactional
+	@PostMapping("/host/hotel/deleteRoomInfo")
+	public void deleteRoomInfo(@RequestParam(name = "ho_idx") int ho_idx, @RequestParam(name = "d_idx") int d_idx){
+		Map<String, Object> map = new HashMap<>();
+		map.put("ho_idx", ho_idx);
+		map.put("d_idx", d_idx);
+		hotelDao.deleteRoomInfo(map);
+	}
+
 	/* 호텔 영업 중지 신청 */
 	@PostMapping("/host/hotel/updateHotelStatus")
 	public Map<String, Object> updateHotelStatus(@RequestParam(name = "ho_idx") int ho_idx,

@@ -10,6 +10,7 @@ function Reputation() {
   const [list, setReviews] = useState([]);
   const [totReputation, setTotalReputation] = useState(false);
   const [avg, setAvg] = useState("");
+  const [focused, setFocus] = useState(null);
 
   function getReviews(url) {
     fetch(url)
@@ -17,7 +18,6 @@ function Reputation() {
         return response.json();
       })
       .then((data) => {
-        console.log("==> 리뷰 data? " + JSON.stringify(data));
         if (data.list != null) setReviews(data.list);
         if (data.avg != null) setAvg(data.avg);
       });
@@ -104,6 +104,7 @@ function Reputation() {
                   rv_star={rv_star}
                   rp_idx={rp_idx}
                   setTotalReputation={setTotalReputation}
+                  setFocus={setFocus}
                   key={rv_idx}
                 />
               )
@@ -121,6 +122,7 @@ function Reputation() {
                   list={list}
                   avg={avg}
                   HoIdx={HoIdx}
+                  focused={focused}
                 />
               </Modal>
             )}
@@ -132,6 +134,7 @@ function Reputation() {
                 height: "45px",
               }}
               onClick={() => {
+                setFocus(null);
                 setTotalReputation(!totReputation);
               }}
             >

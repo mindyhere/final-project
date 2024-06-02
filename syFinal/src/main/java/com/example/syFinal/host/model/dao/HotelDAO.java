@@ -85,6 +85,9 @@ public interface HotelDAO {
 	/* 호텔 객실정보 수정 */
 	void editHotelRoomInfo(Map<String, Object> map);
 	
+	/* 호텔 객실정보 수정 */
+	void deleteRoomInfo(Map<String, Object> map);
+
 	/* 호텔 영업 중지 신청 */
 	String updateHotelStatus(int ho_idx, String status);
 

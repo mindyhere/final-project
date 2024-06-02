@@ -47,11 +47,22 @@ function MyHotelList() {
                         }).then((response) => response.json()
                         ).then((data) => {
                             if (data.check === "success") {
-                                navigate('/host/hotel/registHotel', {
-                                    state : {
-                                        data : null
+                                Swal.fire({
+                                    icon: "question",
+                                    title: "신규호텔 등록",
+                                    html: "새로운 호텔을 등록하시나요?",
+                                    confirmButtonText: "네",
+                                    showCancelButton: true,
+                                    cancelButtonText : "아니오"
+                                }).then((result) => {
+                                    if(result.isConfirmed){
+                                        navigate('/host/hotel/registHotel', {
+                                            state : {
+                                                data : null
+                                            }
+                                        });
                                     }
-                                });
+                                })
                             } else if(data.check === "fail") {
                                 Swal.fire({
                                 icon: "warning",
@@ -119,8 +130,9 @@ function MyHotelList() {
                                 <th>번호</th>
                                 <th>호텔명</th>
                                 <th>주소</th>
-                                <th>상태</th>
-                                
+                                <th onClick={() => {
+                                    
+                                }}>상태</th> 
                             </tr>
                         </thead>
                         <tbody>
