@@ -165,9 +165,13 @@ public class HotelDAOImpl implements HotelDAO {
 	/* 호텔 최종 등록 상세 */
 	@Override
 	public void registNewHotel(Map<String, Object> map) {
-		int ht_idx = (int) map.get("ht_idx");
-		int ht_h_idx = (int) map.get("ht_h_idx");
-
+		Map<String, Object> insertRow = new HashMap<>();
+		insertRow.put("ht_idx", map.get("ht_idx"));
+		insertRow.put("ht_h_idx", map.get("ht_h_idx"));
+		sqlSession.update("hotel.updateTempHotel", insertRow);
+		
+		int ht_idx = sqlSession.selectOne("hotel.getHotelIdx", map.get("ht_h_idx"));
+		
 		Map<String, Object> newAmenity = new HashMap<>();
 		newAmenity.put("newAmenity", map.get("checkItems"));
 		String[] items = map.get("checkItems").toString().split(",");
@@ -235,11 +239,9 @@ public class HotelDAOImpl implements HotelDAO {
 	/* 호텔 신규 등록 최종 */
 	@Override
 	public void insertNewHotel(int ht_idx, int ht_h_idx) {
-		sqlSession.insert("hotel.insertNewHotel", ht_idx);
-		Map<String, Object> insertRow = new HashMap<>();
-		insertRow.put("ht_idx", ht_idx);
-		insertRow.put("ht_h_idx", ht_h_idx);
-		sqlSession.update("hotel.updateTempHotel", insertRow);
+		int ho_idx = sqlSession.selectOne("hotel.getHotelIdx", ht_h_idx);
+		sqlSession.insert("hotel.insertNewHotel", ho_idx);
+		sqlSession.update("hotel.changeStatus", ho_idx);
 	}
 
 	/* 호텔 기본 정보 수정 */
@@ -266,6 +268,22 @@ public class HotelDAOImpl implements HotelDAO {
 		sqlSession.update("hotel.editHotelRoomInfo", map);
 	}
 
+	/* 호텔 객실 정보 삭제 */
+	@Override
+	public void deleteRoomInfo(Map<String , Object> map) {
+		String roomType = sqlSession.selectOne("hotel.getDeleteRoomInfo", map);
+		if(roomType.equals("더블룸")) {
+			roomType = "ho_double";
+		} else if(roomType.equals("패밀리룸")) {
+			roomType = "ho_family";
+		} else if(roomType.equals("스위트룸")) {
+			roomType = "ho_suite";
+		}
+		sqlSession.delete("hotel.deleteRoomInfo", map);
+		map.put("roomType", roomType);
+		sqlSession.update("hotel.updateRoomCount", map);
+	}
+	
 	/* 호텔 영업 중지 신청 */
 	@Override
 	public String updateHotelStatus(int ho_idx, String status) {

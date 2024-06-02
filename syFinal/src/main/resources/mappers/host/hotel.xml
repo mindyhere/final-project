@@ -176,7 +176,6 @@
 	<!-- 신규 호텔 등록 -->
 	<insert id="registHotelTemp">
 		INSERT INTO hotel_temp (
-								ht_idx,
 								ht_name,
 								ht_address,
 								ht_level,
@@ -196,7 +195,6 @@
 							)
 					VALUES 
 						(
-							(SELECT MAX(ho_idx) + 1 FROM hotel), 
 							#{ht_name}, 
 							#{ht_address},
 							#{ht_level}, 
@@ -278,17 +276,28 @@
 	<!-- 신규 호텔 최종 등록 -->
 	<insert id="insertNewHotel">
 		INSERT INTO hotel
-		SELECT * FROM hotel_temp WHERE ht_idx = #{ht_idx}
+		SELECT * FROM hotel_temp WHERE ht_idx = #{ho_idx}
 	</insert>
+
+	<!-- 임시 테이블 등록된 호텔 상태 변경 -->
+	<update id="changeStatus">
+		UPDATE hotel SET ho_status = 1 WHERE ho_idx = #{ho_idx}
+	</update>
 
 	<!-- 임시 테이블 등록된 호텔 상태 변경 -->
 	<update id="updateTempHotel">
 		UPDATE hotel_temp 
-		SET ht_status = 2 
+		SET ht_idx = (SELECT MAX(ho_idx)+1 FROM hotel), ht_status = 2
 		WHERE ht_idx = #{ht_idx}
 		AND ht_h_idx = #{ht_h_idx}
 	</update>
 	
+	<!-- 호텔 테이블 번호 라벨링 -->
+	<select id="getHotelIdx" resultType="int">
+		SELECT MAX(ht_idx) FROM hotel_temp
+		WHERE ht_h_idx = #{ht_h_idx}
+	</select>
+
 	<!-- 호텔 기본 정보 수정 -->
 	<update id="editHotelDefaultInfo">
 		UPDATE hotel 
@@ -319,6 +328,27 @@
 			  d_non_smoking = #{d_non_smoking}, d_price = #{d_price},
 			  d_img1 = #{d_img1}, d_img2 = #{d_img2}, d_img3 = #{d_img3}
 		WHERE d_idx = #{d_idx}
+	</update>
+	
+	<!-- 호텔 객실 정보 삭제2 -->
+	<select id="getDeleteRoomInfo" resultType="String">
+		SELECT d_room_type FROM hotel_detail
+		WHERE d_ho_idx = #{ho_idx}
+		AND d_idx = #{d_idx}
+	</select>
+	
+	<!-- 호텔 객실 정보 삭제2 -->
+	<delete id="deleteRoomInfo">
+		DELETE FROM hotel_detail
+		WHERE d_ho_idx = #{ho_idx}
+		AND d_idx = #{d_idx}	
+	</delete>
+	
+	<!-- 호텔 객실 정보 삭제3 -->
+	<update id="updateRoomCount">
+		UPDATE hotel
+		SET ${roomType} = 0
+		WHERE ho_idx = #{ho_idx}
 	</update>
 	
 	<!-- 호텔 상태 변경 신청 -->

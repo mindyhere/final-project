@@ -226,7 +226,41 @@ function RoomDetail(props) {
               >
                 &nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;
               </button>
-           
+              &nbsp;&nbsp;
+              {props.roomType != '싱글룸'
+                ?
+                  <button className="main-btn" onClick={() => {
+                    Swal.fire({
+                      icon: "warning",
+                      title: "잠깐!",
+                      text: '객실 정보를 삭제하시겠습니까?',
+                      showCancelButton: true,
+                      cancelButtonText: "취소",
+                      confirmButtonText: "확인",
+                      showLoaderOnConfirm: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        const form = new FormData();
+                        form.append('ho_idx', props.hoIdx);
+                        form.append('d_idx', props.dIdx);
+                          fetch('http://localhost/host/hotel/deleteRoomInfo', {
+                            method: 'POST',
+                            body : form
+                          }).then(() => {
+                            Swal.fire({
+                              icon: "success",
+                              title : '삭제 완료',
+                              text: '객실정보가 삭제되었습니다.',
+                              confirmButtonText: '확인'
+                            });
+                            window.location.reload();
+                          });
+                      }
+                    })
+                  }}>&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+                :
+                  ''
+              }
           </div>
         </div>
       </>

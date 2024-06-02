@@ -46,7 +46,7 @@ function HotelDescription() {
                             <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
                                 X
                             </button>
-                            <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
+                            <div className="container" style={{whiteSpace: 'pre-wrap', alignSelf:'center'}}>
                                 {data.ho_description}
                             </div>
                         </div>

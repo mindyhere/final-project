@@ -13,7 +13,7 @@ function SliderReviewItems({idx, ho_idx, d_idx, ho_img, ho_name, ho_address}) {
         let profile_src = "";
         if (ho_img !== "-") {
           const img_url = `http://localhost/static/images/host/hotel/${ho_img}`;
-          profile_src = `<img src=${img_url} width='400px' height='200px' style={{backgroundSize:"contain";}} />`;
+          profile_src = `<img src=${img_url} style="width:500px; height:250px; border-radius:20px;" />`;
         } else {
           profile_src =
             "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
