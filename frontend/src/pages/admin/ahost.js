@@ -41,13 +41,12 @@ function Ahost() {
         }
     };
 
-
-    const approveHost = (h_idx, h_status, h_file, h_business) => {
+    const approveHost = (h_idx, h_status, h_file, h_business, h_bankbook, h_accountnum) => {
         if (h_status === '승인대기') {
             const form = new FormData();
             form.append('h_file', h_file);
             form.append('h_idx', h_idx);
-
+    
             Swal.fire({
                 title: '가입 승인',
                 text: '사업자 가입을 승인하시겠습니까?',
@@ -68,9 +67,9 @@ function Ahost() {
                         });
                         return;
                     }
-
+    
                     Swal.fire({
-                        title: `사업자 등록증 확인`,
+                        title: `사업자 등록증 확인 완료`,
                         text: `등록번호: ${h_business}`,
                         imageUrl: `http://localhost/static/images/host/profile/${h_file}`,
                         imageWidth: 400,
@@ -82,54 +81,69 @@ function Ahost() {
                         cancelButtonColor: '#838383d2'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`http://localhost/admin/approve`, {
-                                method: 'post',
-                                body: form,
-                            }).then(response => {
-                                if (response.ok) {
-                                    return response.text();
-                                }
-                                throw new Error('Error.');
-                            }).then(message => {
-                                if (message === 'success') {
-                                    const updatedAhitem = ahitem.map(item => {
-                                        if (item.h_idx === h_idx) {
-                                            return { ...item, h_status: '승인완료' };
-                                        }
-                                        return item;
-                                    });
-                                    setAhitem(updatedAhitem);
-                                    setMessage(message);
-                                    Swal.fire({
-                                        title: '승인 완료',
-                                        text: '사업자 가입이 승인되었습니다.',
-                                        icon: 'success',
-                                        confirmButtonColor: '#41774d86'
-                                    });
-                                } else if (message === 'fail') {
-                                    Swal.fire({
-                                        title: '등록증 없음',
-                                        text: '사업자 등록증이 없습니다.',
-                                        icon: 'error',
-                                        confirmButtonColor: '#41774d86'
-                                    });
-                                }
-                            }).catch(error => {
-                                console.error('Error', error);
+                            if (h_accountnum.length === 0) {
                                 Swal.fire({
-                                    title: '에러 발생',
-                                    text: '사업자 가입 승인에 실패했습니다.',
+                                    title: '계좌번호 확인 불가',
+                                    text: '계좌번호가 등록되지 않았습니다.',
                                     icon: 'error',
                                     confirmButtonColor: '#41774d86'
                                 });
+                                return;
+                            }
+    
+                            Swal.fire({
+                                title: `계좌번호 확인 완료`,
+                                text: `계좌번호: ${h_accountnum}`,
+                                imageUrl: `http://localhost/static/images/host/profile/${h_bankbook}`,
+                                imageWidth: 400,
+                                imageHeight: 400,
+                                showCancelButton: true,
+                                confirmButtonText: '확인',
+                                cancelButtonText: '취소',
+                                confirmButtonColor: '#41774d86',
+                                cancelButtonColor: '#838383d2'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`http://localhost/admin/approve`, {
+                                        method: 'post',
+                                        body: form,
+                                    }).then(response => {
+                                        if (response.ok) {
+                                            return response.text();
+                                        }
+                                        throw new Error('Error.');
+                                    }).then(message => {
+                                        if (message === 'success') {
+                                            const updatedAhitem = ahitem.map(item => {
+                                                if (item.h_idx === h_idx) {
+                                                    return { ...item, h_status: '승인완료' };
+                                                }
+                                                return item;
+                                            });
+                                            setAhitem(updatedAhitem);
+                                            setMessage(message);
+                                            Swal.fire({
+                                                title: '승인 완료',
+                                                text: '사업자 가입이 승인되었습니다.',
+                                                icon: 'success',
+                                                confirmButtonColor: '#41774d86'
+                                            });
+                                        }
+                                    }).catch(error => {
+                                        console.error('Error', error);
+                                        Swal.fire({
+                                            title: '에러 발생',
+                                            text: '사업자 가입 승인에 실패했습니다.',
+                                            icon: 'error',
+                                            confirmButtonColor: '#41774d86'
+                                        });
+                                    });
+                                }
                             });
                         }
                     });
                 }
             });
-
-
-
         } else if (h_status === '가입완료') {
             Swal.fire({
                 title: '승인 요청 없음',
@@ -139,7 +153,7 @@ function Ahost() {
             });
         }
     };
-
+        
     const getButtonClass = (h_status) => {
         switch (h_status) {
             case '승인완료':
@@ -210,7 +224,7 @@ function Ahost() {
                                             <th>사업자ID</th>
                                             <th>전화번호</th>
                                             <th>사업자등록증/등록번호</th>
-                                            <th>통장사본/계좌번호{/* 계좌번호 컬럼 오류 */}</th>
+                                            <th>통장사본/계좌번호</th>
                                             <th>가입날짜</th>
                                             <th>등급</th>
                                             <th>가입상태</th>
@@ -226,29 +240,44 @@ function Ahost() {
                                                 <td>{list.h_phone}</td>
                                                 <td>
                                                 {list.h_file.length === 1 ? (
-                                                list.h_file
+                                                    list.h_file
                                                 ) : (
-                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_file}`, 'width=500,height=500')}>
-                                                    {list.h_file}
-                                                </button>
-                                            )}/{list.h_business}
+                                                    <button 
+                                                    type="button" 
+                                                    className="btn btn-link" 
+                                                    onClick={() => window.open(
+                                                        `http://localhost/static/images/host/profile/${list.h_file}`, 
+                                                        'width=500,height=500'
+                                                    )}
+                                                    >
+                                                    등록증: {list.h_file}
+                                                    </button>
+                                                )} 
+                                                <br/>
+                                                등록번호: {list.h_business}
                                                 </td>
                                                 <td>
                                                 {list.h_bankbook.length === 1 ? (
                                                 list.h_bankbook
                                                 ) : (
                                                 <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
-                                                    {list.h_bankbook}
+                                                   사본: {list.h_bankbook}
                                                 </button>
-                                            )}                                                   
+                                            )}<br/>   
+                                             계좌번호: {list.h_accountnum}                                              
                                                 </td>
                                                 <td>{list.h_regdate}</td>
                                                 <td>{getlevel(list.h_level)}</td>
                                                 <td>{list.h_status}</td>
                                                 <td>
-                                                    <button type="button" className={getButtonClass(list.h_status)} onClick={() => approveHost(list.h_idx, list.h_status, list.h_file, list.h_business)} disabled={list.h_status === '승인완료'}>
-                                                        {getButtonLabel(list.h_status)}
-                                                    </button>
+                                                <button 
+                                                    type="button" 
+                                                    className={getButtonClass(list.h_status)} 
+                                                    onClick={() => approveHost(list.h_idx, list.h_status, list.h_file, list.h_business,list.h_bankbook, list.h_accountnum)} 
+                                                    disabled={list.h_status === '승인완료'}
+                                                    >
+                                                   {getButtonLabel(list.h_status)}
+                                                  </button>
                                                 </td>
                                                 
                                             </tr>

@@ -2,18 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 
 function HotelChart() {
-  // const { data: chartData, loading } = useFetch('http://localhost/admin/chart'); 
+  const colors = [
+    '#4e817269', '#87ceeb', '#ffa07a', '#8a2be2', '#ff6347',
+    '#4682b4', '#ffb6c1', '#32cd32', '#ff4500', '#1e90ff'
+  ];
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost/admin/chart')
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         console.log(data)
         setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching chart data:', error);
         setLoading(false);
       });
   }, []);
@@ -23,11 +28,9 @@ function HotelChart() {
     plugins: {
       legend: {
         position: 'top',
-        fontColor:"black",
       },
       title: {
         display: true,
-
       },
     },
     ChartDataLabels: {
@@ -40,7 +43,6 @@ function HotelChart() {
         title: {
           display: true,
           text: '호텔',
-          color: "black",
         },
       },
       y: {
@@ -55,24 +57,70 @@ function HotelChart() {
   };
 
   return (
-    <div>
-      <div className="graph-container">
+    <div className="d-flex">
+      <div className="graph-container flex-grow-1">
         {loading && <p>Loading...</p>}
+        {!loading && (
           <Bar 
             data={{
               labels: data.labelList,
               datasets: [
                 {
                   label: '이번달 매출',
-                  data: data.sumList,
-                  backgroundColor: '#4e817269', 
-                  color: "black",
-                  
+                  data: data.sumList || [],
+                  backgroundColor: data.labelList ? data.labelList.map((_, index) => colors[index % colors.length]) : [],
                 },
               ],
             }} 
             options={options} 
           />
+        )}
+      </div>
+       
+      <div className="col-lg-3 mb-4">
+                  <div className="card h-50">
+                    <div className="card-header" style={{  backgroundColor: '#4e817215'}}>
+                     호텔 순위
+                    </div>
+                    <div className="table-container flex-grow-1">
+                    <table className="table mt-3">
+                    <thead>
+            <tr>
+              <th>순위</th>
+              <th>호텔</th>
+              <th>매출액 (단위: 백만 원)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.labelList && data.labelList.map((hotel, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{hotel}</td>
+                <td>{data.sumList[index]}</td>
+              </tr>
+            ))}
+          </tbody></table></div></div>
+
+
+      {/* <div className="table-container flex-grow-1">
+        <table className="table mt-3">
+          <thead>
+            <tr>
+              <th>순위</th>
+              <th>호텔</th>
+              <th>매출액 (단위: 백만 원)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.labelList && data.labelList.map((hotel, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{hotel}</td>
+                <td>{data.sumList[index]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table> */}
       </div>
     </div>
   );

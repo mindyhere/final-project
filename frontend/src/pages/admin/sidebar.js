@@ -17,8 +17,8 @@ function Sidebar() {
     return (
         <>
             <div className="flex-shrink-0 p-3" style={{ width: "280px", fontWeight: 'bold' }}>
-                <a className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-                    <span><Gear /> 관리자 페이지</span>
+                <a className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom"  style={{ fontWeight: 'bold' ,cursor: 'default' }}> 
+                    <span><Gear width="40px" height="25px"  /> 관리자 페이지</span>
                 </a>
                 <ul className="list-unstyled ps-0">
                     <li className="mb-1">

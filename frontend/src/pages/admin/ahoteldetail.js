@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import { BuildingFill, PersonVcard ,CardList, House, HouseCheckFill,  Person } from 'react-bootstrap-icons';
+import { BuildingFill, PersonVcard } from 'react-bootstrap-icons';
 import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../admin/css/astyles.css'; 
@@ -145,9 +145,9 @@ function AHoteldetail() {
                                     icon: 'error',
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
-                                  });
-                                }
-                              })
+                                });
+                            }
+                        })
                 }
             });
         };
@@ -220,44 +220,54 @@ function AHoteldetail() {
                                         <table className="tbl1">
                                             <tbody>
                                                 <tr>
-                                                    <th colSpan={2}>이름</th>
+                                                    <th>이름</th>
                                                     <td>{data.dto[0].h_name}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>이메일</th>
+                                                    <th>이메일</th>
                                                     <td>{data.dto[0].h_email}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>사업자 등록증/등록번호</th>
+                                                    <th >사업자 등록증/등록번호</th>
                                                     <td>{data.dto[0].h_file.length === 1 ? (
                                                 data.dto[0].h_file
                                                 ) : (
                                                 <button type="button" className="btn btn-link" onClick={urlBank} style={{cursor: "pointer"}}>
-                                                  {data.dto[0].h_file}
+                                                  등록증:{data.dto[0].h_file}
                                                 </button> 
-                                            )}/ {data.dto[0].h_business} </td>
+                                            )}<br/>
+                                             &nbsp; 등록번호: {data.dto[0].h_business} </td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>호스트 등급</th>
+                                                    <th >호스트 등급</th>
                                                     <td>{getlevel(data.dto[0].h_level)}</td>
                                                 
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>연락처</th>
+                                                    <th>연락처</th>
                                                     <td>{data.dto[0].h_phone}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={2}>통장사본/계좌번호{/* 계좌번호 컬럼 오류 */}</th>
-                                                    <td>{data.dto[0].h_bankbook.length === 1 ? (
-                                                data.dto[0].h_bankbook
+                                                <th>통장사본/계좌번호</th>
+                                                <td>
+                                                {data.dto[0].h_bankbook.length === 1 ? (
+                                                    data.dto[0].h_bankbook
                                                 ) : (
-                                                <button type="button" className="btn btn-link" onClick={urlBank} style={{cursor: "pointer"}}>
-                                                  {data.dto[0].h_bankbook}
-                                                </button>
-                                            )}</td>
-                                                </tr>
+                                                    <button 
+                                                        type="button" 
+                                                        className="btn btn-link" 
+                                                        onClick={urlBank} 
+                                                        style={{ cursor: "pointer" }}
+                                                    >
+                                                        통장사본: {data.dto[0].h_bankbook}
+                                                    </button>
+                                                )} 
+                                                <br/>
+                                                &nbsp; 계좌번호: {data.dto[0].h_accountnum}
+                                            </td>
+                                            </tr>
                                                 <tr>
-                                                    <th colSpan={2}>가입일</th>
+                                                    <th>가입일</th>
                                                     <td>{data.dto[0].h_regdate.split('T')[0]}</td>
                                                 </tr>
                                             </tbody>
@@ -331,9 +341,10 @@ function AHoteldetail() {
                                                 <td>{data.dto[0].ho_description == null? '없음' : data.dto[0].ho_description}</td>
                                             </tr>
                                             <tr>
-                                                <th colSpan={2} style={{ backgroundColor: '#4e817269' }}>영업상태</th>
-                                                <td>{getStatus(data.dto[0].ho_status)}</td>
-                                                <td colSpan={3}>
+                                                    <th colSpan={2} style={{ backgroundColor: '#4e817269' }}>영업상태</th>
+                                                    <td>{getStatus(data.dto[0].ho_status)}</td>
+                                                  
+                                                    <td colSpan={3}>
                                                     {(data.dto[0].ho_status) === 1 && (
                                                         <button type="button" className="btn btn-primary" onClick={() => btnApprove(data.dto[0].ho_idx)}>승인</button>
                                                     )}
@@ -342,8 +353,8 @@ function AHoteldetail() {
                                                     )}
                                                     {(data.dto[0].ho_status) === 3 && (
                                                         <button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)}>영업 재개</button>
-                                                    )}
-                                                </td>
+                                                    )}      
+                                                    </td>
                                             </tr>
                                         </tbody>
                                     </table>

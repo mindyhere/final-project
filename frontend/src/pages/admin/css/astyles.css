@@ -267,7 +267,7 @@
 }
 
 .notepad-content {
-  width: 600px;
+  width: 6500px;
   height: 500px;
   padding: 20px;
 }
@@ -334,4 +334,35 @@
 
 .collapse {
   display: none;
+}
+
+/* Amain.css */
+.cute-calendar {
+  border: 2px solid #4e817269;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #4e817215;
+}
+
+.cute-calendar .react-calendar__navigation button {
+  background-color: #4e817269;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+}
+
+.cute-calendar .react-calendar__tile {
+  background-color: #4e817215;
+  color: #4e8172a1;
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #4e817269;
+  margin: 2px;
+}
+
+.cute-calendar .react-calendar__tile--active {
+  background-color: #4e817296;
+  color: white;
 }
