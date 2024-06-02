@@ -52,6 +52,7 @@ import AHoteldetail from "./pages/admin/ahoteldetail";
 import NoticeList from "./pages/admin/notice/alist";
 import Awrite from "./pages/admin/notice/awrite";
 import Adetail from "./pages/admin/notice/adetail";
+import Anoticedetail from "./pages/admin/notice/anoticedetail";
 
 
 // host 계정
@@ -123,6 +124,7 @@ function App() {
           <Route path="/admin/notice/alist/:aId" element={<NoticeList />} />
           <Route path="/admin/notice/awrite/:aId" element={<Awrite />} />
           <Route path="/admin/notice/adetail/:n_idx" element={<Adetail />} />
+          <Route path="/admin/notice/anoticedetail/:n_idx" element={<Anoticedetail/>}/>
 
 
           {/* host 계정 */}

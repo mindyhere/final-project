@@ -100,7 +100,7 @@
   width: 20%;
   padding: 10px;
   margin-top: 20px;
-  border-radius: 50px;
+  border-radius: 40px;
   cursor: pointer;
 }
 .btn-sign3:hover {
@@ -108,7 +108,7 @@
 }
 
 .custom-table3 {
-  width: 97%;
+  width: 97%; 
   background-color: #b9bdc1;
   font-weight: bold;
 }
@@ -162,13 +162,13 @@
 
 .btn-success.custom-button1 {
   color: #fff;
-  background-color: #4e817269;
+  background-color: #4e817294;
   border-color: #4e817269;
   border-radius: 10px;
 }
 
 .btn-warning.custom-button1 {
-  color: #4e817269;
+  color: #4e817294;
   background-color: #f5c22988;
   border-color:  #ffc1075c;
   border-radius: 10px;
@@ -222,6 +222,27 @@
 }
 
 /* 메모 디자인 */
+
+
+.memo-input {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* white background */
+  border: 1px solid #cccccc; /* light gray border */
+  border-radius: 5px; /* rounded corners */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  overflow: auto;
+}
+.modal-body {
+  height: calc(100% - 40px); 
+}
+
 .notepad-container {
   align-items: center;
   width: 300px;
@@ -269,4 +290,48 @@
 
 .memo-cell:last-child {
   border-bottom: none;
+} 
+
+/* 사이드바*/
+.btn-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000000;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-toggle:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+.btn-toggle-nav {
+  padding-left: 2rem;
+}
+
+.link-body-emphasis {
+  color: #343a40;
+}
+
+.link-body-emphasis:hover {
+  color: #343a40;
+  text-decoration: none;
+}
+
+.btn-toggle-nav .link-body-emphasis {
+  padding: 0.25rem 0;
+  display: block;
+}
+
+.collapse.show {
+  display: block;
+}
+
+.collapse {
+  display: none;
 }

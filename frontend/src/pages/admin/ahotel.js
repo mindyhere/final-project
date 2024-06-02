@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
 import '../admin/css/astyles.css';
 import { useNavigate } from "react-router-dom";
-import { Dropdown} from "react-bootstrap";
+import Sidebar from './sidebar';
 
 function AHotel() {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ function AHotel() {
             case 3:
                 return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 신청 </span>);   
             default:
-                return (<span style={{ color: "yellow", alignSelf:"center"}}>영업 재개 신청</span>);
+                return (<span style={{ color: "black", alignSelf:"center"}}>영업 재개 신청</span>);
         }
     };
 
@@ -35,10 +35,12 @@ function AHotel() {
 
 
     const fetchahotel = () => {
-        const params = new URLSearchParams();
+       
+     const params = new URLSearchParams();
         if (searchkey.current.value) params.append('searchkey', searchkey.current.value);
         if (search.current.value) params.append('search', search.current.value);
         if (filteredStatus) params.append('status', filteredStatus);
+    
 
         fetch(`http://localhost/admin/ahoList?${params.toString()}`, {
             method: 'POST',
@@ -46,10 +48,7 @@ function AHotel() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                // data.sort((a, b) => a.ho_idx - b.ho_idx); // 리스트 정렬
-                // const uniqueList = data.filter((hotel, index, self) => // 중복 호텔 제거
-                //     index === self.findIndex(h => h.ho_idx === hotel.ho_idx)
-                // );
+                 data.sort((a, b) => a.ho_idx - b.ho_idx); // 리스트 내림차순 정렬
                 setList(data);
             })
             .catch(error => {
@@ -62,63 +61,24 @@ function AHotel() {
     
     return (
         <>
-            <hr />  
             <div className="container-fluid">
                 <div className="row">
-                <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">                               
+                
+                <Sidebar/>
 
-                            <li className="nav-item">
-            <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
-              >
-                &nbsp; <House width={'15%'} height={'15%'}/> HOME
-              </a>
-            </li>
-            
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'15%'} height={'15%'}/> 회원관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
-                </Dropdown.Menu>
-            </Dropdown>   
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'15%'} height={'15%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                            
-                </Dropdown.Menu>
-            </Dropdown>
-           </ul>
-           </div>
-           </nav>
                   <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="container11 mt-5" >
                         <nav>
                         <ol className="breadcrumb">
                         <li className="breadcrumb-item" style={{cursor : 'default', backgroundColor: 'white' }}>숙소관리</li>
-                        <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>숙소등록승인</li>
+                        <li className="breadcrumb-item active" aria-current="page" style={{cursor : 'default', backgroundColor: 'white' }}>숙소영업관리</li>
                         </ol>
                         </nav>
                         <br/>
-
+                        <div className="card-style mb-30">
                             <h2 className="header"><HouseCheck width="50px" height="40px"/> 숙소등록승인</h2><hr/>
                             <div className="row mb-3">
-                                <div className="col-md-4">
+                            <div className="col-md-2">
                                     <select ref={searchkey} defaultValue='ho_name' className="form-select">
                                         <option value="ho_idx">번호</option>
                                         <option value="ho_name">숙소명</option>
@@ -134,7 +94,6 @@ function AHotel() {
                                         <option value="1">승인 대기</option>
                                         <option value="2">영업 중</option>
                                         <option value="3">영업 중지</option>
-                                        <option value="4">영업 재개</option>
                                     </select>
                                 </div>
                                 <div className="col-md-2">
@@ -168,10 +127,11 @@ function AHotel() {
                                         </tbody>
                                     </table>
                                 ) : (
-                                    <p className="no-data">No data</p>
+                                    <p className="no-data"> 검색 결과가 없습니다.</p>
                                 )}
                             </div>
-                        </div>                       
+                        </div>  
+                        </div>                     
                     </main>
                 </div>
             </div>
