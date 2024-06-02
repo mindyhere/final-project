@@ -102,12 +102,12 @@ function HotelAmenities() {
                             </button>
                             <div className="container" style={{textAlign: 'left'}}>
                                 <div className="mb-10" dangerouslySetInnerHTML={{__html : mountain_url}}></div>
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : ocean_url}}></div><hr />
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : wifi_url}}></div><hr />
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : parking_url}}></div><hr />
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : breakfast_url}}></div><hr />
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : fire_alam_url}}></div><hr />
-                                <div className="mb-10" dangerouslySetInnerHTML={{__html : fireExt_url}}></div><hr />
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : ocean_url}}></div>
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : wifi_url}}></div>
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : parking_url}}></div>
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : breakfast_url}}></div>
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : fire_alam_url}}></div>
+                                <div className="mb-10" dangerouslySetInnerHTML={{__html : fireExt_url}}></div>
                             </div>
                         </div>
                     </div>

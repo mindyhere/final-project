@@ -19,25 +19,29 @@ function useFetch(url) {
 }
 
 function RegistRoomDetail(props) {
-  const [rdo, setRadio] = useState('Y');
+  const [rdo, setRadio] = useState("Y");
+  const roomType = useRef();
+  const capacity = useRef();
+  const area = useRef();
+  const beds = useRef();
+  const price = useRef();
+  const imgRef1 = useRef();
 
-  function handleRdoChange(e) {
-    setRadio(e.target.value);
-  }
+  // function handleRdoChange(e) {
+  //   setRadio(e.target.value);
+  // }
 
   const [state, setState] = useState({
     roomType : "",
     capacity : "",
     area : "",
     beds : "",
-    non_smoking : "",
+    non_smoking : "Y",
     price : "",
     dImg1 : "",
     dImg2 : "",
     dImg3 : ""
-});
-
-  const imgRef1 = useRef();
+  });
 
   const [file, setFile] = useState({
     dImg1 : "",
@@ -106,7 +110,30 @@ function RegistRoomDetail(props) {
   };
 
   const insertData = () => {
-    props.insertData(state, file); 
+    if(roomType.current.value == "" || capacity.current.value == "" || area.current.value == "" || beds.current.value == ""
+      || price.current.value == "" || imgRef1.current.value == ""){
+          Swal.fire({
+              icon : 'warning',
+              text: '입력되지 않은 값이 있습니다.',
+              confirmButtonText: '확인'
+            }).then((result) => {
+              if(result.isConfirmed){
+                return;
+              }
+            });
+    } else if(imgRef1.current.files.length > 3) {
+      Swal.fire({
+        icon : 'warning',
+        text: '사진은 최대 3장까지 첨부가능합니다.',
+        confirmButtonText: '확인'
+      }).then((result) => {
+        if(result.isConfirmed){
+          return;
+        }
+      });
+    } else {
+      props.insertData(state, file);
+    }
   }
 
     return (
@@ -131,6 +158,7 @@ function RegistRoomDetail(props) {
                     <td>
                         <select
                           name="roomType"
+                          ref={roomType}
                           value={props.roomType}
                           onChange={handleChangeState}
                         >
@@ -148,6 +176,7 @@ function RegistRoomDetail(props) {
                         min={0} 
                         style={{border:'none'}}
                         name="capacity"
+                        ref={capacity}
                         value={props.capacity} 
                         onChange={handleChangeState}
                       />
@@ -163,6 +192,7 @@ function RegistRoomDetail(props) {
                         min={0} 
                         style={{border:'none'}}
                         name="area"
+                        ref={area}
                         value={props.area} 
                         onChange={handleChangeState}
                       />
@@ -174,6 +204,7 @@ function RegistRoomDetail(props) {
                           min={0} 
                           style={{border:'none'}}
                           name="beds"
+                          ref={beds}
                           value={props.beds} 
                           onChange={handleChangeState}
                         />
@@ -188,6 +219,7 @@ function RegistRoomDetail(props) {
                           type="radio"
                           name="non_smoking"
                           value="Y"
+                          defaultChecked={true}
                           onChange={handleChangeState}
                           id="rdo1"
                         />
@@ -215,6 +247,7 @@ function RegistRoomDetail(props) {
                           min={0} 
                           style={{border:'none'}}
                           name="price"
+                          ref={price}
                           value={props.price} 
                           onChange={handleChangeState}
                         />
