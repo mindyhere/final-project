@@ -54,6 +54,7 @@ public class HotelDTO {
 	private String h_profile;
 	private String h_file;
 	private String h_bankbook;
+	private String h_accountnum;
 	
 	private String mountain_view;
 	private String ocean_view;

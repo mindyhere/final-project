@@ -137,7 +137,7 @@ function NoticeList() {
                       <thead className="table-light">
                         <tr>
                           <th className='col-1 text-center'>no.</th>
-                          <th className='col-1 text-center'>제목</th>
+                          <th className='col-2 text-center'>제목</th>
                           <th className='col text-center'>내용</th>
                           <th className='col-1 text-center'>작성자</th>
                           <th className='col-1 text-center'>작성일</th>

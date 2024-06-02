@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { HouseCheck, CardList, House, HouseCheckFill,  Person} from 'react-bootstrap-icons';
+import { HouseCheck} from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
 import '../admin/css/astyles.css';
 import { useNavigate } from "react-router-dom";
 import Sidebar from './sidebar';
+import Swal from 'sweetalert2';
 
 function AHotel() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function AHotel() {
             case 3:
                 return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 신청 </span>);   
             default:
-                return (<span style={{ color: "black", alignSelf:"center"}}>영업 재개 신청</span>);
+                return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 </span>);
         }
     };
 
@@ -35,26 +36,39 @@ function AHotel() {
 
 
     const fetchahotel = () => {
-       
-     const params = new URLSearchParams();
+        const params = new URLSearchParams();
         if (searchkey.current.value) params.append('searchkey', searchkey.current.value);
         if (search.current.value) params.append('search', search.current.value);
         if (filteredStatus) params.append('status', filteredStatus);
     
-
+        // Check if both search fields are empty when the button is clicked
+        if  (searchkey.current.value.length === 0 && search.current.value.length === 0) {
+            Swal.fire({
+                title: '검색어를 입력하세요!',
+                icon: 'warning',
+                confirmButtonText: '확인',
+                confirmButtonColor: '#41774d86',
+            });
+            return;
+        }
+    
         fetch(`http://localhost/admin/ahoList?${params.toString()}`, {
             method: 'POST',
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                 data.sort((a, b) => a.ho_idx - b.ho_idx); // 리스트 내림차순 정렬
-                setList(data);
-            })
-            .catch(error => {
-                console.error('Error fetching hotel list:', error);
-            });
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            data.sort((a, b) => a.ho_idx - b.ho_idx); 
+            setList(data); 
+        })
+        .catch(error => {
+            console.error('Error fetching hotel list:', error);
+        });
     };
+    
+const handleSearchButtonClick = () => {
+    fetchahotel();
+};
     const handleStatusFilterChange = () => {
         setFilteredStatus(statusFilter.current.value);
     };
@@ -97,8 +111,11 @@ function AHotel() {
                                     </select>
                                 </div>
                                 <div className="col-md-2">
+            <button type='button' className="btn btn-sign2" onClick={handleSearchButtonClick}>조회</button>
+        </div>
+                                {/* <div className="col-md-2">
                                     <button type='button' className="btn btn-sign2" onClick={fetchahotel}>조회</button>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="table-responsive">
                                 {list.length > 0 ? (
