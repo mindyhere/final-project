@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { Send, SendFill } from "react-bootstrap-icons";
 
@@ -17,9 +17,12 @@ function ReputationItem({
   rv_star,
   rp_idx,
   setTotalReputation,
+  setFocus,
+  focused,
 }) {
   const [reply, setReply] = useState(null);
   const [isCollapsed, setCollapsed] = useState(true); // 접힌상태
+  const target = useRef();
   let loading = false;
   const Collapsible = () => {
     if (!isCollapsed && reply !== null) {
@@ -62,6 +65,13 @@ function ReputationItem({
   useEffect(() => {
     getReply(`http://localhost/api/reputation/reply/${rp_idx}`);
   }, []);
+
+  useEffect(() => {
+    if (focused != null && rv_idx === focused) {
+      let target = document.querySelector(".rv" + focused);
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [focused]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -107,6 +117,7 @@ function ReputationItem({
               {rv_content.length > 20 ? (
                 <sapn
                   onClick={() => {
+                    setFocus(rv_idx);
                     setTotalReputation(true);
                   }}
                 >
@@ -125,7 +136,11 @@ function ReputationItem({
       // 모달창에서 call
       return (
         <div>
-          <div className="card-style" style={{ textAlign: "left" }}>
+          <div
+            className={"card-style rv" + rv_idx}
+            style={{ textAlign: "left" }}
+            ref={target}
+          >
             <div className="row mb-20" style={{ display: "flow" }}>
               <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
               {g_name}
