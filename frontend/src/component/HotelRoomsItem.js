@@ -18,7 +18,7 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
         let img1_url = '';        
         if(dImg1 !== '-'){
             img1_src = `http://localhost/static/images/host/hotel/${dImg1}`;
-            img1_url = `<img src=${img1_src} width='130px' height='120px'/>`;
+            img1_url = `<img src=${img1_src} width='200px' height='180px'/>`;
         } else {
             img1_src = `http://localhost/static/images/no-image.png`;
             img1_url = `<img src=${img1_src} width='70px' height='70px'/>`;
@@ -62,9 +62,14 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
                             <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
                                 X
                             </button>
-                            <div className="mt-20">
-                            <h3><div className='mb-20'>{dRoomType}</div></h3>
-                                <div className='row'>
+                            <div className="mt-20 mb-40">
+                            <h3><div className='mb-50'>{dRoomType}</div></h3>
+                                <div className='row mb-50'>
+                                    <div className="col-7" style={{alignContent : 'center'}}>
+                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img1_url}}></div>
+                                        {/* <div className="mb-20" dangerouslySetInnerHTML={{__html: img2_url}}></div>
+                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img3_url}}></div>  */}
+                                    </div>
                                     <div className="col-5" style={{textAlign : 'left'}}>
                                         <p>수용 인원 : {dCapacity}명 </p>
                                         <p>면적 : {dArea}㎡</p>
@@ -72,18 +77,14 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
                                         <p>금연실 여부 : {NonSmoke}</p>
                                         <p>가격 : {dPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
                                     </div>
-                                    <div className="col-7" style={{alignContent : 'center'}}>
-                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img1_url}}></div>
-                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img2_url}}></div>
-                                        <div className="mb-20" dangerouslySetInnerHTML={{__html: img3_url}}></div> 
-                                    </div>
                                 </div>
                             </div>
                             <button className="main-btn" onClick={() => {
                                 fetch(`http://localhost/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx)
                                  .then(() => {
                                     window.location.href = `/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx;
-                                })}}>해당 객실로 예약하기</button>
+                                })}}>해당 객실로 예약하기
+                            </button>
                         </div>
                     </div>
                 }
