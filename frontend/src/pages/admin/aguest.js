@@ -83,13 +83,10 @@ function AGuest() {
                                     <button type='button' className="btn btn-sign2" onClick={fetchguest}>조회</button>
                                 </div>
                             </div>
-                            {agItem.length === 0 ? (
-                                    <p>검색 결과가 없습니다.</p>
-                                ) : (
                             <table className="table table-hover table-bordered custom-table1">
                                 <thead className="table-light">
                                     <tr>
-                                        <th>#</th>
+                                        <th>no.</th>
                                         <th>프로필</th>
                                         <th>회원명</th>                                        
                                         <th>회원ID</th>
@@ -101,7 +98,8 @@ function AGuest() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {agItem && agItem.map((list, index) =>
+                                    {agItem.length > 0 ? 
+                                    (agItem.map((list, index) =>
                                         <tr key={index}>
                                             <td>{list.g_idx}</td>
                                             <td>
@@ -121,10 +119,15 @@ function AGuest() {
                                             <td>{list.g_point}</td>
                                             <td>{list.g_name.length === 1 ? '탈퇴' : ''}</td>
                                         </tr>
-                                    )}
+                                    ))
+                                :
+                                <tr>
+                                <td colSpan={9}>검색 결과가 없습니다. </td>
+                                </tr>
+                                }
                                 </tbody>
                             </table>
-                            )}
+                       
                         </div>
                         </div>
                         <br /><br /><br />
