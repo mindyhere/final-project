@@ -54,23 +54,26 @@ function Order() {
     //포인트사용
     const [finalamount,setFinalamount] = useState(fprice);
     const [pointAmount,setPointAmount] = useState(0);
-    const PointAmount = (e) => {
-        setPointAmount(e.target.value);
-    }
+    const [fpoint,setFpoint] = useState(0);
 
     const handleCoupon = (e) => {
         Handlepoint(e);
         setModalOpen1(false);
     };
 
-    const Handlepoint = (e) => {
+    const PointAmount = (e) => {
+        setPointAmount(e.target.value);
+    }
+    const Handlepoint = () => {
+        let fpoint = parseInt(pointAmount);
+        setFpoint(fpoint);
         let finalP=parseInt(fprice);
-        let pointP=parseInt(pointAmount);
+        let pointP=parseInt(fpoint);
         let couponP =parseInt(couponAmount);
         if(pointP !== 0 || couponP !== 0) {
             finalP = finalP - (pointP + couponP);
         }
-        setFinalamount(finalP); 
+        setFinalamount(finalP);
     };
 
     const GetCoupon = (e) => {
@@ -344,14 +347,14 @@ function Order() {
                                         </div>
                                     </div>
                                     <br></br>
-                                    {pointAmount > 0
+                                    {fpoint > 0
                                     ?
                                     <div className="row">
                                         <div className="col-9">
                                             <div>포인트사용</div>
                                         </div>
                                         <div className="col-3" align='right'>
-                                            -{pointAmount}P
+                                            -{fpoint}P
                                         </div>
                                     </div>
                                     :''
@@ -470,6 +473,7 @@ function Order() {
                             <div className="row">
                                 <div className="col-8">
                                     <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
+                                    {/* onChange={(e) => PointAmount(e)} */}
                                 </div>
                                 <div className="col-4" align='right' >
                                     <button className='btn btn-outline-dark' onClick={() => Handlepoint()}>포인트적용</button>

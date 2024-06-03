@@ -38,13 +38,12 @@ public class PaymentController {
 		RestTemplate restTemplate = new RestTemplate();
         headers.set("Content-Type", "application/json;charset=UTF-8");
         headers.set("Accept", "application/json;charset=UTF-8");
-//        
+        
         JSONObject body = new JSONObject();
         body.put("apiSecret","8I6gk3CbU6dmSKZ5WDQDclFzYOMq8gnBJbtCRkEm7uloX27PRxKGjqnSYSaKzWJefLssINqMzO7OO35o");
         try {
         	HttpEntity<JSONObject> entity=new HttpEntity<>(body,headers);
         	PortoneResponse token=restTemplate.postForObject("https://api.portone.io/login/api-secret",entity,PortoneResponse.class);
-            //System.out.println("AccessToken==="+token.getAccessToken());
     
             return token;
         } catch (Exception e) {
@@ -75,7 +74,6 @@ public class PaymentController {
 			HttpEntity<JSONObject> entity=new HttpEntity<>(requestBody,headers);
             RestTemplate restTemplate = new RestTemplate();
         	PortoneCancel cancel=restTemplate.postForObject("https://api.portone.io/payments/"+payId+"/cancel",entity,PortoneCancel.class);
-            //System.out.println("취소취소====="+cancel);
         	Map<String, Object> map2 = new HashMap<>();
         	map2.put("g_idx", gidx);
         	map2.put("pointPlus", point);
@@ -90,10 +88,4 @@ public class PaymentController {
             throw new RuntimeException("환불에 실패 했습니다 다시시도 바랍니다");
 		}
 	}
-
-	private PortoneResponse getAccessToken() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
