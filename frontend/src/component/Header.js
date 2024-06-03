@@ -525,37 +525,33 @@ function Header() {
           <div align="right">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active">*관리자님 로그인 중*</a>
+                <a className="nav-link active" style={{ cursor: 'default', backgroundColor: 'white' }}>*관리자님 로그인 중*</a>
               </li>
               <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => {
-                    Swal.fire({
-                      icon: "question",
-                      title: "잠깐!",
-                      html: "로그아웃 하시겠습니까?",
-                      showCancelButton: true,
-                      confirmButtonText: "YES",
-                      cancelButtonText: "NO",
-                      confirmButtonColor: "#41774d86",
-                      cancelButtonColor: "#838383d2",
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        localStorage.clear();
-                        sessionStorage.clear();
-                        removeCookies("admin");
-                        Swal.fire({
-                          text: "관리자 계정에서 로그아웃되었습니다.",
-                          confirmButtonText: "확인",
-                          confirmButtonColor: "#41774d86",
-                        });
-                        navigate("/");
+                   Swal.fire({
+                    icon: "question",
+                    title: "로그아웃 하시겠습니까?",
+                    html: "로그아웃 시 메인화면으로 이동합니다.",
+                    showCancelButton: true,
+                    confirmButtonText: "YES",
+                    cancelButtonText: "NO",
+                    confirmButtonColor: "#41774d86",
+                    cancelButtonColor: "#838383d2",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      localStorage.clear();
+                      sessionStorage.clear();
+                      removeCookies("admin");
+                      navigate("/");
                       }
                     });
                   }}
                 >
                   로그아웃
+
                 </a>
               </li>
             </ul>

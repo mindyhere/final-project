@@ -29,7 +29,6 @@ public class MainController {
 	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search,
 			@RequestParam(name="g_idx", defaultValue="0") int g_idx) {
 		List<MainDTO> main = dao.list(search);
-
 		List<Map<String, Object>> list = new ArrayList<>();
 		for(int i=0; i<main.size(); i++) {
 			Map<String, Object> map = new HashMap<>();

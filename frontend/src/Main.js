@@ -67,10 +67,14 @@ function Main() {
                 gridTemplateRows:'1fr',
                 gridTemplateColumns:'1fr 1fr 1fr',
       }}>
+        
       {list.map(
-                ({HoName,HoImg,HoIdx,check,Dprice,Didx,Star})=>(
+                ({HoName,HoImg,Dimg1,Dimg2,Dimg3,HoIdx,check,Dprice,Didx,Star})=>(
                     <HotelItem
                       HoImg={HoImg}
+                      Dimg1={Dimg1}
+                      Dimg2={Dimg2}
+                      Dimg3={Dimg3}
                       HoIdx={HoIdx}
                       Didx={Didx}
                       HoName={HoName}

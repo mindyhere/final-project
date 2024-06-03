@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PencilSquare,  CardList, House, HouseCheckFill,  Person  } from "react-bootstrap-icons";
+import { PencilSquare} from "react-bootstrap-icons";
 import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
 import '../css/astyles.css';
-import { Dropdown} from "react-bootstrap";
+import Sidebar from '../sidebar';
 
 function Adetail() {
     const { n_idx } = useParams();
@@ -108,49 +108,9 @@ function Adetail() {
 
     return (
         <>
-            <hr />
             <div className="container-fluid">
                 <div className="row">
-                <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">                               
-                            <li className="nav-item">
-            <a className="nav-link active"
-              onClick={() => navigate(`/admin/amain/${a_id.key}`)}
-              >
-                &nbsp; <House width={'15%'} height={'15%'}/> HOME
-              </a>
-            </li>
-            
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <Person width={'15%'} height={'15%'}/> 회원관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/aguest/${a_id.key}`)}>회원정보관리</Dropdown.Item>                      
-                    <Dropdown.Item className="col-6"   onClick={() => navigate(`../admin/ahost/${a_id.key}`)}>사업자정보관리</Dropdown.Item>   
-                </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <HouseCheckFill width={'15%'} height={'15%'}/> 숙소관리
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">                                             
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`../admin/ahotel/${a_id.key}`)}>숙소등록승인</Dropdown.Item>                                         
-                </Dropdown.Menu>
-            </Dropdown>   
-            <Dropdown>
-              <Dropdown.Toggle className="col-12 btn btn-light dropdown-toggle dropdown-toggle-split" >
-                <CardList width={'15%'} height={'15%'}/> 공지사항
-                </Dropdown.Toggle>
-                  <Dropdown.Menu className="col-12">          
-                  <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/alist/${a_id.key}`)}>공지목록</Dropdown.Item>                                      
-                    <Dropdown.Item className="col-6"  onClick={() => navigate(`/admin/notice/awrite/${a_id.key}`)}>공지등록</Dropdown.Item>                                             
-                </Dropdown.Menu>
-            </Dropdown>
-           </ul>
-           </div>
-           </nav>
+               <Sidebar/>
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="container11 mt-5">
                         <nav>
@@ -160,6 +120,7 @@ function Adetail() {
                         </ol>
                         </nav>
                         <br/>
+                        <div className="card-style mb-30">
                             <div className="d-flex justify-content-between align-items-center">
                                 <h2 className="header"><PencilSquare width="40px" height="30px"/> 공지사항 수정</h2>
                             </div>
@@ -194,6 +155,7 @@ function Adetail() {
                                     </table>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <br/><br/><br/>
                         <br/><br/>
