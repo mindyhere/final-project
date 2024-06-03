@@ -131,8 +131,8 @@ function Reservation() {
                                     <th>체크아웃</th>
                                 </tr>
                                 <tr>
-                                    <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
-                                    <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                                    <td className="text-sm" style={{textAlign:'center'}}>{formatDateDisplay(state.startDate)}</td>
+                                    <td className="text-sm" style={{textAlign:'center'}}>{formatDateDisplay(state.endDate)}</td>
                                 </tr>
                             </tbody>
                             { modal &&
@@ -201,54 +201,56 @@ function Reservation() {
                             </tr>
                         
                     </table>
-                    <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
-                        if(totalPrice === 0){
-                            Swal.fire({
-                                icon : 'warning',
-                                text : '숙박날짜를 선택해주세요.',
-                            });
-                        } else if(userInfo !== undefined || gidx === undefined) {
-                            Swal.fire({
-                                icon : 'warning',
-                                text : '게스트 로그인시 예약가능합니다.',
-                            });
-                        } else if (gidx.key !== undefined && gprofile.key === '미인증') {
-                            Swal.fire({
-                                icon : 'warning',
-                                title : '신분증 미등록상태',
-                                text : '계정 > 로그인및보안 > 신분증등록',
-                            });
-                        }
-                        else {
-                            navigate('/guest/Order', {
-                                state: {
-                                    ckin:formatDateDisplay(state.startDate),
-                                    ckout:formatDateDisplay(state.endDate),
-                                    reser: guestCounter,
-                                    adult: adult,
-                                    child: teenager,
-                                    baby: child,
-                                    dprice: data.d_price,
-                                    pprice: price,
-                                    fprice: totalPrice,
-                                    dateChar : dateChar,
-                                    vat:vat,
-                                    HoIdx: HoIdx,
-                                    dIdx: dIdx
-                                }
-                            });
-                        }
-                        
-                    }} >예약하기</button>
+                    <div style={{textAlign:'center'}}>
+                        <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
+                            if(totalPrice === 0){
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '숙박날짜를 선택해주세요.',
+                                });
+                            } else if(userInfo !== undefined || gidx === undefined) {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '게스트 로그인시 예약가능합니다.',
+                                });
+                            } else if (gidx.key !== undefined && gprofile.key === '미인증') {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    title : '신분증 미등록상태',
+                                    text : '계정 > 로그인및보안 > 신분증등록',
+                                });
+                            }
+                            else {
+                                navigate('/guest/Order', {
+                                    state: {
+                                        ckin:formatDateDisplay(state.startDate),
+                                        ckout:formatDateDisplay(state.endDate),
+                                        reser: guestCounter,
+                                        adult: adult,
+                                        child: teenager,
+                                        baby: child,
+                                        dprice: data.d_price,
+                                        pprice: price,
+                                        fprice: totalPrice,
+                                        dateChar : dateChar,
+                                        vat:vat,
+                                        HoIdx: HoIdx,
+                                        dIdx: dIdx
+                                    }
+                                });
+                            }
+                            
+                        }} >예약하기</button>
+                    </div>
                     <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     { view && 
                     <div className="container mb-20">
                         <div className="row">
                             <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}}>
-                                ￦{data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
+                                ￦ {data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
                             </div>
                             <div className="col-6" style={{textAlign:'right'}}>
-                                ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦ {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                         <div className="row">
@@ -268,7 +270,7 @@ function Reservation() {
                                 </div>
                                 }
                             <div className="col-6 " style={{textAlign:'right'}}>
-                                ￦{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦ {vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                     </div>
@@ -280,7 +282,7 @@ function Reservation() {
                             <b>총 합계</b>
                         </div>
                         <div className="col-8" style={{textAlign : 'right'}}>
-                           <b> ￦{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
+                           <b> ￦ {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
                         </div>
                     </div>
                 </div>
