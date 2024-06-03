@@ -25,12 +25,12 @@ function Amain() {
           <hr />
           <main>
           <div className="main-content">
+            <br/>          
               <div className="row justify-content-center">
                 <div className="col-lg-4 mb-4">
-                  <div className="card h-60">
-                    <div className="card-header" style={{ backgroundColor: '#4e817269' }}>
-                      Calendar
-                    </div>
+                  <div className="card h-70">    
+                  <div className="card-header" style={{  backgroundColor: '#4e817269' }}> Calendar              
+                  </div>                  
                     <div className="card-body d-flex flex-column">
                       <div className="mb-3">
                         <strong>오늘 날짜:</strong> {searchDate.toLocaleDateString()}
@@ -40,26 +40,21 @@ function Amain() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-7 mb-4">
-                  <div className="row">
-                    <div className="col-lg-12 mb-4" >                    
-                    <div className="flex-grow-1 text-left">
-                        <MemoList />                    
+                </div>           
+                <div className="col-lg-7 mb-4">                
+                  <div className="card h-100 w-200" >                    
+                        <MemoList />                                       
                       </div>
-                    </div>
-                         </div>
-                  </div>               
+                      </div>
                     <div className="row">
                 <div className="col-lg-12 mb-8">
                   <div className="card h-100">
-                    <div className="card-header" style={{  backgroundColor: '#4e817269'}}>
-                      호텔 월 총 매출
-                    </div>
+                  <div className="card-header" style={{ backgroundColor: '#4e817269' }}>
+                  호텔 월 매출 통계
+                </div> 
                     <div className="card-body">
                       <HotelChart />
                     </div>
-
                     </div>
                   </div>
                 </div>

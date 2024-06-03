@@ -238,9 +238,9 @@ function Ahost() {
                                                 <td>{list.h_name}</td>
                                                 <td>{list.h_email}</td>
                                                 <td>{list.h_phone}</td>
-                                                <td>
+                                                <td>등록증:
                                                 {list.h_file.length === 1 ? (
-                                                    list.h_file
+                                                   list.h_file   
                                                 ) : (
                                                     <button 
                                                     type="button" 
@@ -250,18 +250,18 @@ function Ahost() {
                                                         'width=500,height=500'
                                                     )}
                                                     >
-                                                    등록증: {list.h_file}
+                                                     {list.h_file}
                                                     </button>
                                                 )} 
                                                 <br/>
                                                 등록번호: {list.h_business}
                                                 </td>
-                                                <td>
+                                                <td>사본:
                                                 {list.h_bankbook.length === 1 ? (
                                                 list.h_bankbook
                                                 ) : (
                                                 <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
-                                                   사본: {list.h_bankbook}
+                                                {list.h_bankbook}
                                                 </button>
                                             )}<br/>   
                                              계좌번호: {list.h_accountnum}                                              
