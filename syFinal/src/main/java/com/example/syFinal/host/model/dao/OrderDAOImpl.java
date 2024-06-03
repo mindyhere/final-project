@@ -19,7 +19,6 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void confirm(Map<String, Object> params) {
 		sqlSession.selectOne("order.confirm", params);
-		System.err.println("==> confirm? " + params + params.get("level") + ", " + params.get("result"));
 	}
 
 	@Override
