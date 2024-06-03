@@ -208,8 +208,8 @@ function RegistHotel() {
                                     <th>체크인</th>
                                     <td>
                                         {temp_floor != null
-                                        ? <input style={{border:'none'}} ref={ht_check_in} defaultValue={JSON.parse(temp_checkIn)}/>
-                                        : <input style={{border:'none'}} ref={ht_check_in} />
+                                        ? <input type="time" style={{border:'none'}} ref={ht_check_in} defaultValue={JSON.parse(temp_checkIn)}/>
+                                        : <input type="time" style={{border:'none'}} ref={ht_check_in} />
                                         }
                                     </td>
                                 </tr>
@@ -217,8 +217,8 @@ function RegistHotel() {
                                     <th>체크아웃</th>
                                     <td>
                                         {temp_floor != null
-                                        ? <input style={{border:'none'}} ref={ht_check_out} defaultValue={JSON.parse(temp_checkOut)}/>
-                                        : <input style={{border:'none'}} ref={ht_check_out} />
+                                        ? <input type="time" style={{border:'none'}} ref={ht_check_out} defaultValue={JSON.parse(temp_checkOut)}/>
+                                        : <input type="time" style={{border:'none'}} ref={ht_check_out} />
                                         }
                                     </td>
                                 </tr>
