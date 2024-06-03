@@ -1,12 +1,20 @@
 import React,{useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Cookies from "universal-cookie";
 
-function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
+import Carousel from 'react-material-ui-carousel';
+import {Paper} from '@mui/material';
+
+
+function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,Star}) {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
+    const url2 = `http://localhost/static/images/host/hotel/${Dimg1}`;
+    const url3 = `http://localhost/static/images/host/hotel/${Dimg2}`;
+    const url4 = `http://localhost/static/images/host/hotel/${Dimg3}`;
+
     const [image, setImage] = useState(""); 
     const [checkId, setCheckId] = useState(2);
 
@@ -30,7 +38,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
                 body: form,
             }).then((response) => response.json())
             .then(data => {
-                if(data.result == 'success') {
+                if(data.result === 'success') {
                     setCheckId(1);
                 }
             })
@@ -61,16 +69,24 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
             <div>loading...</div>
         )
     } else {
-        let img = '';
-        if (HoImg !== null) {
-            img = `<img src=${url} width='380px' height='380px' style="border-radius: 15px;" /><br />`;
-        }
-
+        let img = `<img src=${url} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
+        let img2 = `<img src=${url2} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
+        let img3 =`<img src=${url3} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
+        let img4 =`<img src=${url4} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
+        //onClick={() => navigate('/host/hotel/hotelDetail/'+{HoIdx}+'/'+{Didx})}
         return (
             <div style={{ margin: '5px',paddingLeft: '100px',maxWidth:'480px'}}> 
                 <div id="Img" style={{position: 'relative'}}>
+
+                    {/* <span dangerouslySetInnerHTML={{__html: img}}></span> */}
+                    
+                    <Carousel showStatus={false} outsideChevron={true} infiniteLoop={true} effect={"fade"} autoPlay={false} pagination={{clickable: true,}}>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img}}></span></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img2}}></span></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img3}}></span></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img4}}></span></Paper>
+                    </Carousel>
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${Didx}`}>
-                    <span dangerouslySetInnerHTML={{__html: img}}></span>
                     <div>
                         <div class="row">
                             <div class="col" style={{fontSize:"27px",whiteSpace:'nowrap'}}>
@@ -81,9 +97,20 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
                             </div>
                         </div>
                     </div>
-                    <div style={{fontSize:"17px"}}>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}&nbsp;/박</div>
+                    <div>
+                        <div class="row">
+                            <div class="col">
+                                <div style={{fontSize:"17px"}}>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}&nbsp;/박</div>
+                            </div>
+                            <div class="col" align='right'>
+                                <svg style={{color:'#808080'}} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </Link>
-                    {checkId == 2 
+                    {checkId === 2 
                     ? 
                     '' 
                     : 
@@ -98,6 +125,7 @@ function HotelItem({HoIdx,HoName, HoImg, check, Dprice,Didx,Star}) {
                     
             </div>
         )
+
     }
 }
 export default HotelItem;
