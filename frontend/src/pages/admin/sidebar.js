@@ -17,20 +17,10 @@ function Sidebar() {
     return (
         <>
             <div className="flex-shrink-0 p-3" style={{ width: "280px", fontWeight: 'bold' }}>
-                <a className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom"  style={{ fontWeight: 'bold' ,cursor: 'default' }}> 
-                    <span><Gear width="40px" height="25px"  /> 관리자 페이지</span>
+               <a className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom"  onClick={() => handleNavigate(`/admin/amain/${a_id.key}`)} style={{ fontWeight: 'bold' , cursor: "pointer" }}> 
+                   <span><Gear width="40px" height="25px"/> 관리자 페이지</span> 
                 </a>
-                <ul className="list-unstyled ps-0">
-                    <li className="mb-1">
-                        <button 
-                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                            onClick={() => navigate(`/admin/amain/${a_id.key}`)}
-                            style={{ fontWeight: 'bold'}}
-                            data-bs-toggle="collapse"
-                            aria-expanded="true">
-                            Home
-                        </button>
-                    </li>
+                <ul className="list-unstyled ps-0">              
                     <li className="mb-1">
                         <button 
                             className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -113,10 +103,9 @@ function Sidebar() {
                         <button 
                             className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                             data-bs-toggle="collapse"
-                            style={{ fontWeight: 'bold' }}
                             data-bs-target="#account-collapse"
                             aria-expanded="false">
-                            <a href="/">사이트맵</a>
+                            <a href="/">Sybnb사이트 </a>
                         </button>
                     </li>
                 </ul>

@@ -511,10 +511,9 @@ function Header() {
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand">
             <img
               src="/img/sybnb_admin.png"
-              href="/"
               width="170px"
               height="65px"
               style={{ padding: "0.5rem" }}
