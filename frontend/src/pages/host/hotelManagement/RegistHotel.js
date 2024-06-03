@@ -89,11 +89,26 @@ function RegistHotel() {
         const geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch(data.roadAddress, (result, status) => {
             if (status === kakao.maps.services.Status.OK) {
+            console.log();
             hoX = result[0].y;
             hoY = result[0].x;
             setHoX(hoX);
             setHoY(hoY);
-            }   
+            } else if(status === kakao.maps.services.Status.ZERO_RESULT){
+                Swal.fire({
+                    icon : 'warning',
+                    text: '검색 결과가 존재하지 않습니다.',
+                    confirmButtonText: '확인'
+                });
+                return;
+            } else if(status === kakao.maps.services.Status.ERROR){
+                Swal.fire({
+                    icon : 'warning',
+                    text: '검색 결과 중 오류가 발생했습니다.',
+                    confirmButtonText: '확인'
+                });
+                return;
+            }
         });
     }
         setAddress(fullAddress);

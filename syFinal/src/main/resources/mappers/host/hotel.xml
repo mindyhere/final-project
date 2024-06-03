@@ -101,8 +101,9 @@
 	<!-- 호스트 상세페이지(게스트용) -->
 	<select id="getHostPage" resultType="java.util.HashMap">
 		SELECT  h.*, COUNT(*) AS review_cnt, ROUND(AVG(rv_star), 1) AS star
-		FROM host h, v_hotel_review
+		FROM host h, v_hotel_review v
 		WHERE h.h_idx = #{h_idx}
+		AND h.h_idx = v.h_idx
 	</select>
 	
 	<!-- 호스트의 호텔 리스트 -->
@@ -110,7 +111,7 @@
 		SELECT ho_idx, ho_name, ho_address, ho_img, d.d_idx
 		FROM hotel, (SELECT d_idx, d_ho_idx
 							FROM hotel_detail
-							WHERE d_ho_idx IN (SELECT ho_idx FROM hotel WHERE ho_h_idx = 6) GROUP BY d_ho_idx) AS d
+							WHERE d_ho_idx IN (SELECT ho_idx FROM hotel WHERE ho_h_idx = #{h_idx}) GROUP BY d_ho_idx) AS d
 		WHERE ho_h_idx = #{h_idx}
 		AND ho_idx  = d.d_ho_idx
 	</select>

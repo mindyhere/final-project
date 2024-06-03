@@ -21,7 +21,6 @@ function ListReviews() {
   const keyword = useRef();
 
   function getList(pageNum, opt) {
-    console.log("==> opt? " + opt);
     let url = "";
     const form = new FormData();
     if (opt === 1) {

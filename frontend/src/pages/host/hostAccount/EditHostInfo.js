@@ -68,7 +68,6 @@ function EditHostInfo() {
     let expiration = new Date();
     const cookies = new Cookies();
     expiration.setDate(expiration.getDate() + 1);
-    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,

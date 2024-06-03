@@ -17,10 +17,8 @@ function HostLogin() {
 
   const handleCookie = (data) => {
     let expires = new Date();
-    let login = new Date();
     const cookies = new Cookies();
     expires.setDate(expires.getDate() + 1);
-    console.log(localStorage.getItem("login") + "==> expiration? " + expires);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expires,
@@ -86,7 +84,6 @@ function HostLogin() {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
                       if (data.msg == "success") {
                         handleCookie(data.dto);
                         navigate("/");
@@ -150,10 +147,6 @@ function HostLogin() {
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {/* <button class="btnClose" style={{ zIndex: 999 }} onClick={() => setModal(false)}>
-                      X
-                    </button> */}
-
                     <div
                       className="container min-vh-100"
                       style={{ paddingTop: "15px" }}

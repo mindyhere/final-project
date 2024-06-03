@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 function StarRate({ rate, handleStarRating }) {

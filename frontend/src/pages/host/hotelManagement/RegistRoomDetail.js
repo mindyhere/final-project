@@ -110,7 +110,8 @@ function RegistRoomDetail(props) {
   };
 
   const insertData = () => {
-    if(roomType.current.value == "" || capacity.current.value == "" || area.current.value == "" || beds.current.value == ""
+    if(roomType.current.value == '싱글룸'){
+      if(roomType.current.value == "" || capacity.current.value == "" || area.current.value == "" || beds.current.value == ""
       || price.current.value == "" || imgRef1.current.value == ""){
           Swal.fire({
               icon : 'warning',
@@ -121,18 +122,54 @@ function RegistRoomDetail(props) {
                 return;
               }
             });
-    } else if(imgRef1.current.files.length > 3) {
-      Swal.fire({
-        icon : 'warning',
-        text: '사진은 최대 3장까지 첨부가능합니다.',
-        confirmButtonText: '확인'
-      }).then((result) => {
-        if(result.isConfirmed){
-          return;
-        }
-      });
+      } else if(imgRef1.current.files.length < 3) {
+        Swal.fire({
+          icon : 'warning',
+          text: '싱글룸은 사진 3장 필수입니다.',
+          confirmButtonText: '확인'
+        }).then((result) => {
+          if(result.isConfirmed){
+            return;
+          }
+        });
+      } else if(imgRef1.current.files.length > 3){
+        Swal.fire({
+          icon : 'warning',
+          text: '사진은 최대 3장까지 첨부가능합니다.',
+          confirmButtonText: '확인'
+        }).then((result) => {
+          if(result.isConfirmed){
+            return;
+          }
+        });
+      } else {
+        props.insertData(state, file);
+      }
     } else {
-      props.insertData(state, file);
+        if(roomType.current.value == "" || capacity.current.value == "" || area.current.value == "" || beds.current.value == ""
+        || price.current.value == "" || imgRef1.current.value == ""){
+            Swal.fire({
+                icon : 'warning',
+                text: '입력되지 않은 값이 있습니다.',
+                confirmButtonText: '확인'
+              }).then((result) => {
+                if(result.isConfirmed){
+                  return;
+                }
+              });
+      } else if(imgRef1.current.files.length > 3) {
+        Swal.fire({
+          icon : 'warning',
+          text: '사진은 최대 3장까지 첨부가능합니다.',
+          confirmButtonText: '확인'
+        }).then((result) => {
+          if(result.isConfirmed){
+            return;
+          }
+        });
+      } else {
+        props.insertData(state, file);
+      }
     }
   }
 

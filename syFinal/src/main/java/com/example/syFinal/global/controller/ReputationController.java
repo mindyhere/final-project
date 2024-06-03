@@ -28,16 +28,12 @@ public class ReputationController {
 		Map<String, Object> data = new HashMap<>();
 		List<Map<String, Object>> list = reputationDao.getHotelReviews(ho_idx);
 		if (list.isEmpty()) {
-			System.out.println("=> 널체크11 " + list.isEmpty());
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
 			data.put("list", list);
 			data.put("avg", reputationDao.calcAvgRate(ho_idx));
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
-			System.out.println("=> 널체크22 " + list.isEmpty());
 		}
-		System.out.println("==> 호텔리뷰? " + list == null + ", HoIdx? " + ho_idx);
-		System.out.println("==> data? " + data);
 		return data;
 	}
 
@@ -48,11 +44,9 @@ public class ReputationController {
 		Map<String, Object> data = new HashMap<>();
 		PageUtil page = new PageUtil(cnt, pageNum);
 		int start = page.getPageBegin() - 1;
-		System.out.println("==> pageNum? " + pageNum + ", " + start);
 		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		} else {
-//			System.out.println("==> start? " + start);
 			List<Map<String, Object>> list = reputationDao.getAllReviews(h_idx, start);
 			data.put("list", list);
 			data.put("avgList", reputationDao.getAvgRate(h_idx));
@@ -61,30 +55,25 @@ public class ReputationController {
 		data.put("count", cnt);
 		data.put("page", page);
 		data.put("option", 0);
-//		System.out.println("==> list? " + data.get("list") + ", data? " + data);
 		return data;
 	}
 
 	@GetMapping("reply/{rp_idx}")
 	public Map<String, Object> getReply(@PathVariable(name = "rp_idx") int rp_idx) {
-		System.out.println("==> rp_idx? " + rp_idx);
 		Map<String, Object> reply = null;
 		Map<String, Object> data = new HashMap<>();
 		if (rp_idx != 0) {
 			reply = reputationDao.getReply(rp_idx);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		} else {
-//			System.out.println("==> reply:0? " + rp_idx);
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 		}
 		data.put("reply", reply);
-//		System.out.println("==> reply? " + data);
 		return data;
 	}
 
 	@PostMapping("review/search")
 	public Map<String, Object> reviewSearch(@RequestParam Map<String, Object> map) {
-		System.out.println("==> reviewSearch? " + map);
 		List<Map<String, Object>> list = reputationDao.reviewSearch(map);
 		Map<String, Object> data = new HashMap<>();
 		if (list == null) {
@@ -93,7 +82,6 @@ public class ReputationController {
 			data.put("list", list);
 			data.put("response", new ResponseEntity<>("true", HttpStatus.OK));
 		}
-		System.out.println("==> data? " + data);
 		return data;
 	}
 

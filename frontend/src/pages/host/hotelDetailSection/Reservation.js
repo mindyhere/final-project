@@ -138,7 +138,7 @@ function Reservation() {
                             { modal &&
                                 <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
                                 <div className='Body' onClick={(e) => e.stopPropagation()}>
-                                        <DateRangePicker
+                                    <DateRangePicker
                                         locale={ko}
                                         minDate={subDays(new Date(), 0)}             
                                         onChange={handleSelect}

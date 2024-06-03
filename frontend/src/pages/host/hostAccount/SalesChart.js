@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 import Summary from "./Summary";
 
-import Cookies from "universal-cookie";
 import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {
@@ -97,7 +96,6 @@ function useFetch(url, e) {
           setData(arr);
         } else if (e == "sales" && data != null) {
           setData(data);
-          // console.log("=> 데이터? " + JSON.stringify(data.lastMonth));
         }
         setLoading(false);
       });

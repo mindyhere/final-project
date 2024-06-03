@@ -35,7 +35,6 @@ public class OrderController {
 			@RequestParam(name = "hoIdx", defaultValue = "0") int ho_idx,
 			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
 			@RequestParam(name = "sort", defaultValue = "0") int sort) {
-//		System.out.println("==> sort? " + sort + ", pageNum? " + pageNum + ", ho_idx? " + ho_idx);
 		Map<String, Object> data = new HashMap<>();
 
 		Map<String, Object> map = new HashMap<>();
@@ -57,7 +56,6 @@ public class OrderController {
 			if (cnt == 0) {
 				data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
 			} else {
-				System.out.println("==> start? " + start);
 				map.put("start", start);
 				List<Map<String, Object>> list = orderDao.getList(map);
 				data.put("list", list);
@@ -89,7 +87,6 @@ public class OrderController {
 		} else {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> confirm결과 ?" + params + ", data? " + data);
 		return data;
 	}
 
@@ -107,22 +104,17 @@ public class OrderController {
 			if (result.equals("success")) {
 				data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
 			} else {
-				System.out.println("=> 메일발송 에러");
 				data.put("response", new ResponseEntity<>(result, HttpStatus.BAD_REQUEST));
 			}
 		} else {
-			System.out.println("=> o_state 업데이트 에러");
 			data.put("response", new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> 업데이트결과 ?" + data);
 		return data;
 	}
 
 	@GetMapping("manage/modify/list")
 	public List<Map<String, Object>> requestList(@RequestParam(name = "userIdx", defaultValue = "") int h_idx) {
-		System.out.println("==> 목록 map? " + h_idx);
 		List<Map<String, Object>> data = orderDao.requestList(h_idx);
-//		System.out.println("==> 결과 data? " + data);
 		return data;
 	}
 
@@ -150,15 +142,12 @@ public class OrderController {
 
 				break;
 			case 0:
-				System.out.println("==> 프로시저 에러");
 				data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 				break;
 			}
 		} else {
-			System.out.println("예약수 초과");
 			data.put("response", new ResponseEntity<>("false", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> modify리턴? " + data);
 		return data;
 	}
 
@@ -176,14 +165,11 @@ public class OrderController {
 			if (result.equals("success")) {
 				data.put("response", new ResponseEntity<>(result, HttpStatus.OK));
 			} else {
-				System.out.println("=> 메일발송 에러");
 				data.put("response", new ResponseEntity<>(result, HttpStatus.BAD_REQUEST));
 			}
 		} else {
-			System.out.println("=> ru_state 업데이트 에러");
 			data.put("response", new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST));
 		}
-		System.out.println("==> 업데이트결과 ?" + data);
 		return data;
 	}
 
@@ -216,7 +202,6 @@ public class OrderController {
 			@RequestParam(name = "column", defaultValue = "") String column,
 			@RequestParam(name = "date", defaultValue = "") String date) {
 		List<Map<String, Object>> list = orderDao.detailSchedule(h_idx, column, date);
-		System.out.println("==> 스케쥴조회 결과?" + list);
 		return list;
 	}
 
