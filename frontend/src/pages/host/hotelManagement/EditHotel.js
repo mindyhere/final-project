@@ -238,9 +238,9 @@ function EditHotel() {
                             </tr>
                             <tr>
                                 <th>체크인</th>
-                                <td><input style={{border:'none'}} ref={ho_check_in} defaultValue={data[0].ho_check_in} /></td>
+                                <td><input type="time" style={{border:'none'}} ref={ho_check_in} defaultValue={data[0].ho_check_in} /></td>
                                 <th>체크아웃</th>
-                                <td><input style={{border:'none'}} ref={ho_check_out} defaultValue={data[0].ho_check_out} /></td>
+                                <td><input type="time" style={{border:'none'}} ref={ho_check_out} defaultValue={data[0].ho_check_out} /></td>
                             </tr>
                             <tr>
                                 <th colSpan={2}>주소</th>
