@@ -129,9 +129,6 @@ function NoticeList() {
                     </button>
                   </div>
                 </div>
-                {Anitem.length === 0 ? (
-                  <p>검색 결과가 없습니다.</p>
-                ) : (
                   <div className="table-responsive">
                     <table className="table table-hover table-bordered custom-table1">
                       <thead className="table-light">
@@ -146,7 +143,9 @@ function NoticeList() {
                         </tr>
                       </thead>
                       <tbody>
-                        {Anitem.map((list, index) => (
+                        {Anitem.length > 0
+                         ?
+                         (Anitem.map((list, index) => (
                           <tr key={index} style={{ textAlign: 'center' }}>
                             <td>{list.n_idx}</td>
                             <td>{list.n_title}</td>
@@ -164,11 +163,16 @@ function NoticeList() {
                               </button>
                             </td>
                           </tr>
-                        ))}
+                        )))
+                         :
+                         <tr>
+                          <td colSpan={7}>검색 결과가 없습니다.</td>
+                         </tr>
+                        }
+                        
                       </tbody>
                     </table>
                   </div>
-                )}
               </div>
             </div>
             <br /><br /><br />

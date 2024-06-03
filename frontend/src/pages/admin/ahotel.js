@@ -106,11 +106,10 @@ const handleSearchButtonClick = () => {
                                 </div> 
                             </div>
                             <div className="table-responsive">
-                                {list.length > 0 ? (
                                     <table className="table table-hover align-middle table-bordered custom-table1" >
                                         <thead className="table-light">
                                             <tr>
-                                                <th>#</th>
+                                                <th>no.</th>
                                                 <th>숙소명</th>
                                                 <th>지역명</th>
                                                 <th>등급</th>
@@ -119,7 +118,9 @@ const handleSearchButtonClick = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {list.map((hotel, index) => (
+                                        {list.length > 0 
+                                        ? (
+                                            list.map((hotel, index) => (
                                                 <tr key={index}>
                                                     <td>{hotel.ho_idx}</td>
                                                     <td><Link to={`/admin/ahoteldetail/${hotel.ho_idx}`}>{hotel.ho_name}</Link></td>
@@ -128,12 +129,14 @@ const handleSearchButtonClick = () => {
                                                     <td>{hotel.h_name}</td>
                                                     <td style={{textAlign:"center"}}>{getStatus(hotel.ho_status)}</td>                                                  
                                                 </tr>
-                                            ))}
+                                            )))
+                                        :
+                                            <tr>
+                                                <td colSpan={6}>검색 결과가 없습니다.</td>
+                                            </tr>
+                                        }
                                         </tbody>
                                     </table>
-                                ) : (
-                                    <p className="no-data"> 검색 결과가 없습니다.</p>
-                                )}
                             </div>
                         </div>  
                         </div>                     
