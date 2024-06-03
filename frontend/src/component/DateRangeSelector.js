@@ -60,7 +60,7 @@ function DateRangeSelector() {
                          />
                     </div>
                     <div>
-                         <button className="main-btn" onClick={() => {window.scrollTo({top:400, left:0, behavior:'auto'})}}>예약하기</button>
+                         <button className="main-btn z-0" onClick={() => {window.scrollTo({top:400, left:0, behavior:'auto'})}}>예약하기</button>
                     </div>
                </div>
      )
