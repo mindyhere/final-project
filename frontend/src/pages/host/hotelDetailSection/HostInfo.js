@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import "moment/locale/ko";
 import Cookies from "universal-cookie";
+import { StarFill } from "react-bootstrap-icons";
 
 function useFetch(url) {
     const [data, setData] = useState(null);
@@ -74,8 +75,8 @@ function HostInfo() {
                                         {review.list!=null ? review.list.length : 0}개
                                         <br />
                                         <hr />
-                                        <div className="text-xs">평점</div>
-                                        {review.avg}
+                                        <div className="text-xs">별점</div>
+                                        <StarFill size={14}/> {review.avg!=null ? review.avg : 0}
                                         <br />
                                         <hr />
                                         <div className="text-xs">호스팅 경력</div>
