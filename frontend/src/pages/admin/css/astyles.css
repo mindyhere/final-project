@@ -17,21 +17,12 @@
 }
 .btn1 {
   background: none;
-  border: 2px solid white;
-  border-radius: 150px;
+  border: none;
   align-self: center;
-  width: 150px;
-  padding: 8px 16px;
-  margin: 10px;
-  color: white;
+  color: #000000;
   font-weight: bold;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out 0.1s;
 }
-.btn1:hover {
-  background: white;
-  color: #4e817269;
-}
+
 .form-field1{
   display: flex;
   flex-flow: column wrap;
@@ -332,13 +323,15 @@
 
 /* Amain.css */
 .calendar1 {
-  border: 2px solid #4e817269;
+  border: 2px solid #54814e69;
   border-radius: 10px;
-  padding: 10px;
   background-color: #4e817215;
 }
-.react-calendar1__tile--active { 
-background-color: #4e817269; /* 원하는 색상으로 변경하세요 */
-  
-color: #10111196; /* 포인터 텍스트 색상 */
+.react-calendar__tile--now,
+.react-calendar__tile--now.react-calendar__tile--active {
+    background: #DBC4F0;
+    border-radius: 8px;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
 }
