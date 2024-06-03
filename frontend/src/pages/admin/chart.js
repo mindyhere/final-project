@@ -58,7 +58,7 @@ function HotelChart() {
 
   return (
     <div className="d-flex">
-      <div className="graph-container flex-grow-1">
+      <div className="graph-container flex-grow-1" style={{ width: '500%', height:'400%' }}>
         {loading && <p>Loading...</p>}
         {!loading && (
           <Bar 
@@ -78,8 +78,8 @@ function HotelChart() {
       </div>
        
       <div className="col-lg-3 mb-4">
-                  <div className="card h-50">
-                    <div className="card-header" style={{  backgroundColor: '#4e817215'}}>
+                  <div className="card h-70">
+                    <div className="card-header" style={{  backgroundColor: '#4e817215' }}>
                      호텔 순위
                     </div>
                     <div className="table-container flex-grow-1">
@@ -100,27 +100,6 @@ function HotelChart() {
               </tr>
             ))}
           </tbody></table></div></div>
-
-
-      {/* <div className="table-container flex-grow-1">
-        <table className="table mt-3">
-          <thead>
-            <tr>
-              <th>순위</th>
-              <th>호텔</th>
-              <th>매출액 (단위: 백만 원)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.labelList && data.labelList.map((hotel, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{hotel}</td>
-                <td>{data.sumList[index]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
       </div>
     </div>
   );
