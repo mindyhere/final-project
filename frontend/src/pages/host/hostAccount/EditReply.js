@@ -53,7 +53,6 @@ const EditReply = () => {
       profile_src =
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
     }
-    console.log("==>" + JSON.stringify(reply));
     return (
       <>
         <div className="m-2 p-2">
@@ -208,7 +207,6 @@ const EditReply = () => {
                                 "rp_content",
                                 rp_content.current.value
                               );
-                              console.log("==> form?" + JSON.stringify(form));
 
                               return fetch(`http://localhost/api/reply/edit`, {
                                 method: "post",
@@ -221,7 +219,6 @@ const EditReply = () => {
                               });
                             })
                             .catch((error) => {
-                              console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -230,7 +227,6 @@ const EditReply = () => {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Success",
@@ -287,7 +283,6 @@ const EditReply = () => {
                             });
                           })
                           .catch((error) => {
-                            console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -296,7 +291,6 @@ const EditReply = () => {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        // console.log(result.value);
                         Swal.fire({
                           icon: "success",
                           title: "Success",

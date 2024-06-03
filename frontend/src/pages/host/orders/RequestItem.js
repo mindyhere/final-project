@@ -189,7 +189,7 @@ function RequestItem({
                         borderTopRightRadius: "30px",
                         borderBottomRightRadius: "30px",
                         backgroundColor: "#8c7e9e",
-                        color:"#ffffff"
+                        color: "#ffffff",
                       }}
                       onClick={() => {
                         Swal.fire({
@@ -226,7 +226,6 @@ function RequestItem({
                                 });
                               })
                               .catch((error) => {
-                                console.log("==> error? " + error);
                                 Swal.showValidationMessage(
                                   `error : 비밀번호를 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
@@ -238,7 +237,8 @@ function RequestItem({
                             Swal.fire({
                               icon: "success",
                               title: "Complete",
-                              html: "변경요청을 거부하여 기존 예약으로 자동확정 되었습니다.<br/>(예약 바우처 발송완료)",
+                              html:
+                                "변경요청을 거부하여 기존 예약으로 자동확정 되었습니다.<br/>(예약 바우처 발송완료)",
                               showConfirmButton: false,
                               timer: 2000,
                             }).then(() => {

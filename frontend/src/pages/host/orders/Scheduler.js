@@ -23,7 +23,6 @@ function useFetch(url) {
             if (data.column == "o_ckin") {
               value = JSON.stringify(data.list[i].o_ckin);
               arr.push(moment(value).format("YYYY-MM-DD"));
-              // console.log("=> 달력? "+JSON.stringify(arr))
             } else {
               value = JSON.stringify(data.list[i].o_ckout);
               arr.push(moment(value).format("YYYY-MM-DD"));
@@ -69,7 +68,6 @@ function Scheduler({ handleModal }) {
           onChange={onChange}
           onClickDay={(date, event) => {
             let strDate = moment(date).format("YYYY-MM-DD");
-            // handleModal(moment(date).format("YYYY-MM-DD"), "detail");
             handleModal(strDate, "detail");
           }}
           value={value}

@@ -31,7 +31,6 @@ public class ChartController {
 	public List<Map<String, Object>> hotelLabel(@PathVariable(name = "userIdx") int h_idx) {
 		Map<String, Object> data = new HashMap<>();
 		List<Map<String, Object>> list = chartDao.getHotelList(h_idx);
-//		System.out.println("=> 라벨? " + list);
 		return list;
 	}
 
@@ -42,7 +41,6 @@ public class ChartController {
 		data.put("lastMonth", lastMonth);
 		List thisMonth = chartDao.thisSales(h_idx);
 		data.put("thisMonth", thisMonth);
-//		System.out.println("=> 매출? " + data);
 		return data;
 	}
 

@@ -16,7 +16,6 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        console.log("==> Fetch? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -191,7 +190,6 @@ const EditReview = () => {
                           )
                             .then((response) => response.json())
                             .then((response) => {
-                              console.log("=> ?" + response);
                               if (response.result !== "success") {
                                 throw new Error("false: " + response.result);
                               }
@@ -219,7 +217,6 @@ const EditReview = () => {
                               });
                             })
                             .catch((error) => {
-                              console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -228,7 +225,6 @@ const EditReview = () => {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Success",
@@ -272,7 +268,6 @@ const EditReview = () => {
                         )
                           .then((response) => response.json())
                           .then((response) => {
-                            console.log("=> ?" + response);
                             if (response.result !== "success") {
                               throw new Error("false: " + response.result);
                             }
@@ -286,7 +281,6 @@ const EditReview = () => {
                             });
                           })
                           .catch((error) => {
-                            console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -295,7 +289,6 @@ const EditReview = () => {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        console.log(result.value);
                         Swal.fire({
                           icon: "success",
                           title: "Success",

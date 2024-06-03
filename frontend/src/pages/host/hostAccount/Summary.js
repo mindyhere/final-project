@@ -36,7 +36,6 @@ function Summary() {
         return response.json();
       })
       .then((data) => {
-        console.log("==> 리뷰 data? " + JSON.stringify(data.pendings));
         setTotalCount(data.totReviews);
         setReplyCount(data.noReply);
         setAvgStars(data.stars);

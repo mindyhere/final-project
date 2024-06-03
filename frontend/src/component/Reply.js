@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 
 function Reply({ rp_idx, h_name, h_profile, rp_writer, rp_content, rp_date }) {
   let loading = false;
@@ -16,11 +16,7 @@ function Reply({ rp_idx, h_name, h_profile, rp_writer, rp_content, rp_date }) {
     }
 
     return (
-      <table
-        id="reply"
-        className="tbl"
-        // style={{ width: "60% !important", margin: "0 !important" }}
-      >
+      <table id="reply" className="tbl">
         <colgroup>
           <col style={{ width: "25%" }} />
           <col />
@@ -28,7 +24,7 @@ function Reply({ rp_idx, h_name, h_profile, rp_writer, rp_content, rp_date }) {
         <tbody>
           <tr>
             <th>
-              <div style={{ textAlign: "left", float:"left" }}>
+              <div style={{ textAlign: "left", float: "left" }}>
                 <span dangerouslySetInnerHTML={{ __html: profile_src }}></span>
                 <span>&nbsp;&nbsp;{h_name}</span>
                 <input type="hidden" defaultValue={rp_idx} />

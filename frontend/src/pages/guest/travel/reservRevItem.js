@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
     //const url = `../img/${HoImg}`;
     const navigate = useNavigate();
 
-     // 글쓰기 데이터 이동 test
     const reservData =  {
         // 페이지 이동 시 전달할 데이터
         OIdx: `${OIdx}`,
@@ -18,7 +17,7 @@ import {useNavigate} from "react-router-dom";
     const openPopup = () => {
         const popup = window.open("./write", "name(Write)", "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
         return popup;
-    }; // ...여기까지
+    }; 
 
 
     if (loading) {
