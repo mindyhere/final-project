@@ -7,7 +7,7 @@ from (
 	select date_format(o_ckin, '%Y-%m') AS month, sum(ifnull(o_finalprice*0.8,0))/1000000 sales, ho.ho_name, ho.ho_idx
 	from v_host_order v right join hotel ho
 	on 
-		o_state='4'
+		o_state=4
 		and o_ckin between date_format(now()-interval 1 month, '%Y-%m-01') and last_day(now()-interval 1 month)
 		and v.ho_idx=ho.ho_idx
 	group by month, ho_name
@@ -22,7 +22,7 @@ from (
 	select date_format(o_ckin, '%Y-%m') AS month, sum(ifnull(o_finalprice*0.8,0))/1000000 sales, ho.ho_name, ho.ho_idx
 	from v_host_order v right join hotel ho
 	on 
-		o_state='4'
+		o_state=4
 		and o_ckin between date_format(now(), '%Y-%m-01') and last_day(now())
 		and v.ho_idx=ho.ho_idx
 	group by month, ho_name
