@@ -213,13 +213,10 @@ function Ahost() {
                                         <button type='button' className="btn btn-sign2" onClick={fetchhost}>조회</button>
                                     </div>
                                 </div>
-                                {ahitem.length === 0 ? (
-                                    <p>검색 결과가 없습니다.</p>
-                                ) : (
                                 <table className="table table-hover table-bordered custom-table1">
                                     <thead className="table-light">
                                         <tr>
-                                            <th>#</th>
+                                            <th>no.</th>
                                             <th>사업자명</th>
                                             <th>사업자ID</th>
                                             <th>전화번호</th>
@@ -232,7 +229,8 @@ function Ahost() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {ahitem && ahitem.map((list) =>
+                                    {ahitem.length > 0 ?
+                                        (ahitem.map((list) =>
                                             <tr key={list.h_idx}>
                                                 <td>{list.h_idx}</td>
                                                 <td>{list.h_name}</td>
@@ -282,10 +280,14 @@ function Ahost() {
                                                 
                                             </tr>
                                        
-                                        )}
+                                        ))
+                                        : 
+                                        <tr>
+                                        <td colSpan={10}>검색 결과가 없습니다. </td>
+                                        </tr>
+                                        }
                                     </tbody>
                                 </table>
-                                 )}
                             </div>
                             </div>
                         </div>
