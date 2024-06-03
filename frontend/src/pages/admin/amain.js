@@ -59,16 +59,17 @@ function Amain() {
                     <div className="card-body">
                       <HotelChart />
                     </div>
- 
- 
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <br/>
           </main>
         </div>
       </div>
+
     </div>
   );
 }
