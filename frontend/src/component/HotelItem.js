@@ -81,10 +81,50 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                     {/* <span dangerouslySetInnerHTML={{__html: img}}></span> */}
                     
                     <Carousel showStatus={false} outsideChevron={true} infiniteLoop={true} effect={"fade"} autoPlay={false} pagination={{clickable: true,}}>
-                        <Paper><span dangerouslySetInnerHTML={{__html: img}}></span></Paper>
-                        <Paper><span dangerouslySetInnerHTML={{__html: img2}}></span></Paper>
-                        <Paper><span dangerouslySetInnerHTML={{__html: img3}}></span></Paper>
-                        <Paper><span dangerouslySetInnerHTML={{__html: img4}}></span></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img}}></span>
+                        {checkId === 2 
+                        ? 
+                        '' 
+                        : 
+                        <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
+                        top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                        <img src={image} width='70px' height='70px' />
+                        </button>
+                        }
+                        <input type='hidden' id={checkId} value={check}></input></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img2}}></span>
+                        {checkId === 2 
+                        ? 
+                        '' 
+                        : 
+                        <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
+                        top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                        <img src={image} width='70px' height='70px' />
+                        </button>
+                        }
+                        <input type='hidden' id={checkId} value={check}></input></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img3}}></span>
+                        {checkId === 2 
+                        ? 
+                        '' 
+                        : 
+                        <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
+                        top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                        <img src={image} width='70px' height='70px' />
+                        </button>
+                        }
+                        <input type='hidden' id={checkId} value={check}></input></Paper>
+                        <Paper><span dangerouslySetInnerHTML={{__html: img4}}></span>
+                        {checkId === 2 
+                        ? 
+                        '' 
+                        : 
+                        <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
+                        top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
+                        <img src={image} width='70px' height='70px' />
+                        </button>
+                        }
+                        <input type='hidden' id={checkId} value={check}></input></Paper>
                     </Carousel>
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${Didx}`}>
                     <div>
