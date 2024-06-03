@@ -112,6 +112,7 @@ public class ReservController {
 		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
+		System.out.println(dto);
 		String state_check = "";
 		int check = dao.check(o_idx);
 		if (check == 0) {
