@@ -28,7 +28,6 @@ public class HostLoginController {
 
 	@PostMapping("/")
 	public Map<String, Object> login(@RequestParam Map<String, Object> map) {
-		System.out.println("===> map: " + map);
 		String userEmail = (String) map.get("userEmail");
 		String pwd = (String) map.get("pwd");
 		String savedPwd = hostDao.pwdCheck(userEmail);
@@ -39,7 +38,6 @@ public class HostLoginController {
 		} else {
 			data.put("msg", "error");
 		}
-		System.out.println("==> 로그인 결과: 쿠키? " + data);
 		return data;
 	}
 
@@ -63,10 +61,8 @@ public class HostLoginController {
 			EmailDTO emailPw = emailService.prepareTempPwdEmail(email, randomPw);
 			String msg = emailService.sendMail(emailPw);
 			if (msg.equals("success")) {
-				System.out.println("성공? " + msg);
 				data.put("msg", msg);
 			} else {
-				System.out.println("실패? " + msg);
 				data.put("msg", msg);
 			}
 		} else {

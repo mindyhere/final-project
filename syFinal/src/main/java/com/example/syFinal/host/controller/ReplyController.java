@@ -35,13 +35,10 @@ public class ReplyController {
 	@Transactional
 	@PostMapping("insert")
 	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
-		System.out.println("==> map? " + map);
 		try {
 			replyDao.insertReply(map);
-			System.out.println("ok");
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
@@ -54,7 +51,6 @@ public class ReplyController {
 			replyDao.editReply(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
@@ -63,12 +59,10 @@ public class ReplyController {
 	@Transactional
 	@GetMapping("delete/{rp_idx}")
 	public ResponseEntity<String> delete(@PathVariable(name = "rp_idx") int rp_idx) {
-		System.out.println("==> delete" + rp_idx);
 		try {
 			replyDao.delete(rp_idx);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
@@ -84,13 +78,11 @@ public class ReplyController {
 		map.put("sort", sort);
 		map.put("keyword", keyword);
 		map.put("pageNum", pageNum);
-//		System.out.println("==> 소트? " + map.get("sort"));
 		int cnt = replyDao.count(map);
 		PageUtil page = new PageUtil(cnt, pageNum);
 		int start = page.getPageBegin() - 1;
 		map.put("start", start);
 
-//		System.out.println("==> 파라미터? " + map);
 		Map<String, Object> data = new HashMap<>();
 		if (cnt == 0) {
 			data.put("response", new ResponseEntity<>("false", HttpStatus.NO_CONTENT));
@@ -103,7 +95,6 @@ public class ReplyController {
 		data.put("page", page);
 		data.put("option", 1);
 
-//		System.out.println("==> 검색결과? " + data);
 		return data;
 	}
 }

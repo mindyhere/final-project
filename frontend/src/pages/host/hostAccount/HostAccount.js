@@ -23,7 +23,6 @@ function useFetch(url) {
         return response.json();
       })
       .then((data) => {
-        console.log("===> data? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -271,26 +270,24 @@ function HostAccount() {
 
 function levelUp(userIdx, opt) {
   if (opt === 1) {
-    fetch(`http://localhost/api/host/levelUp/${userIdx}`, { method: "get" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("false: " + response.status);
+    fetch(`http://localhost/api/host/levelUp/${userIdx}`, {
+      method: "get",
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("false: " + response.status);
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Check",
+        html:
+          "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
         }
-        Swal.fire({
-          icon: "success",
-          title: "Check",
-          html:
-            "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
-          confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error);
       });
+    });
   } else {
     Swal.fire({
       icon: "warning",

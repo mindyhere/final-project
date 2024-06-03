@@ -7,7 +7,6 @@ function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
     //let rv = Rv_date;
     //rv = moment(date).format('YYYY년 MMMM Do');
 
-    // 리뷰수정 데이터 이동 test
     const info = {
         // 전달할 데이터
         rv_idx: `${Rv_idx}`,
@@ -21,7 +20,7 @@ function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
             "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
         );
         return popup;
-    }; // ... test 여기까지
+    }; 
 
     if (loading) {
         return (

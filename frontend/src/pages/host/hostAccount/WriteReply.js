@@ -166,7 +166,6 @@ const WriteReply = () => {
                       form.append("rp_rv_idx", data.rv_idx);
                       form.append("rp_writer", userIdx);
                       form.append("rp_content", rp_content.current.value);
-                      console.log("==> form?" + JSON.stringify(form));
                       fetch("http://localhost/api/reply/insert", {
                         method: "post",
                         body: form,
@@ -189,7 +188,6 @@ const WriteReply = () => {
                           });
                         })
                         .catch((error) => {
-                          console.log(error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",

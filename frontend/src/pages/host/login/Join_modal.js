@@ -18,8 +18,7 @@ function HostJoin() {
   const [chkdId, setChkdId] = useState("");
   const emailChk = useRef();
   const [check, setCheck] = useState(false);
-  const emailRegEx =
-    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+  const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
 
   const idCheck = (e) => {
     setChkdId(e);
@@ -249,7 +248,8 @@ function HostJoin() {
                     Swal.fire({
                       icon: "warning",
                       title: "잠깐!",
-                      html: "이미 사용 중인 이메일입니다.<br/>다른 계정을 입력해주세요.",
+                      html:
+                        "이미 사용 중인 이메일입니다.<br/>다른 계정을 입력해주세요.",
                       confirmButtonText: "OK",
                     });
                     return;
@@ -349,7 +349,8 @@ function HostJoin() {
                       Swal.fire({
                         icon: "success",
                         title: "Welcome",
-                        html: "회원가입이 완료되었습니다.</br>로그인 페이지로 이동할까요?",
+                        html:
+                          "회원가입이 완료되었습니다.</br>로그인 페이지로 이동할까요?",
                         showDenyButton: true,
                         confirmButtonText: "YES",
                         denyButtonText: "NO",

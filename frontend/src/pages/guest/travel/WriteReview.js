@@ -1,5 +1,5 @@
-import React, { useRef, useState, useCallback } from "react";
-import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
+import React, { useRef, useState } from "react";
+import { ChatLeftQuote } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
@@ -148,14 +148,14 @@ const WriteReview = () => {
                         confirmButtonText: "OK",
                       });
                       return;
-                    } else if( star == null){
+                    } else if (star == null) {
                       Swal.fire({
                         icon: "warning",
                         title: "잠깐!",
                         html: "평점을 체크해주세요.",
                         confirmButtonText: "OK",
                       });
-                  }else {
+                    } else {
                       const form = new FormData();
                       form.append("rv_writer", rv_writer.current.value);
                       form.append("rv_content", rv_content.current.value);
@@ -183,11 +183,11 @@ const WriteReview = () => {
                           });
                         })
                         .catch((error) => {
-                          console.log(error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
-                            html: "처리 중 문제가 발생했습니다.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.",
+                            html:
+                              "처리 중 문제가 발생했습니다.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.",
                             confirmButtonText: "OK",
                           });
                         });

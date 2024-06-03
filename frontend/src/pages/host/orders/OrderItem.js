@@ -47,7 +47,6 @@ function OrderItem({
     let expiration = new Date();
     const cookies = new Cookies();
     expiration.setDate(expiration.getDate() + 1);
-    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
@@ -144,7 +143,6 @@ function OrderItem({
                 });
               })
               .catch((error) => {
-                // console.log(error);
                 Swal.showValidationMessage(
                   `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                 );
@@ -166,7 +164,6 @@ function OrderItem({
         });
         break;
       case 3:
-        console.log("test3" + o_state + "/ " + o_idx);
         if (handleDateCheck(o_ckin)) {
           Swal.fire({
             icon: "question",
@@ -224,7 +221,6 @@ function OrderItem({
                 h_name: userName,
                 h_level: parseInt(result.value[9]),
               });
-              console.log(cookies.get("userInfo"));
               Swal.fire({
                 icon: "success",
                 title: "Complete",
