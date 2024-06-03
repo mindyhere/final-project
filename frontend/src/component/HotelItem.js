@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import Carousel from 'react-material-ui-carousel';
@@ -10,6 +10,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
+    const navigate = useNavigate();
     const url = `http://localhost/static/images/host/hotel/${HoImg}`;
     const url2 = `http://localhost/static/images/host/hotel/${Dimg1}`;
     const url3 = `http://localhost/static/images/host/hotel/${Dimg2}`;
@@ -69,18 +70,33 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
             <div>loading...</div>
         )
     } else {
-        let img = `<img src=${url} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
-        let img2 = `<img src=${url2} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
-        let img3 =`<img src=${url3} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
-        let img4 =`<img src=${url4} width='400px' height='400px' style="border-radius: 5px;"/><br />`;
-        //onClick={() => navigate('/host/hotel/hotelDetail/'+{HoIdx}+'/'+{Didx})}
+        let img = `<img src=${url} width='400px' height='400px' style="border-radius: 5px;" /><br />`;
+        let img2 = `<img src=${url2} width='400px' height='400px' style="border-radius: 5px;" /><br />`;
+        let img3 =`<img src=${url3} width='400px' height='400px' style="border-radius: 5px;" /><br />`;
+        let img4 =`<img src=${url4} width='400px' height='400px' style="border-radius: 5px;" /><br />`;
+
         return (
             <div style={{ margin: '5px',paddingLeft: '100px',maxWidth:'480px'}}> 
                 <div id="Img" style={{position: 'relative'}}>
 
                     {/* <span dangerouslySetInnerHTML={{__html: img}}></span> */}
                     
-                    <Carousel showStatus={false} outsideChevron={true} infiniteLoop={true} effect={"fade"} autoPlay={false} pagination={{clickable: true,}}>
+                    <Carousel
+                    fullHeightHover={false} 
+                    navButtonsProps={{
+                        style: {
+                            height:'20% !important',
+                            top:'150px !important',
+                            bottom:'-150px !important'
+                        }
+                    }}
+                    animation={"fade"}
+                    showStatus={false} 
+                    outsideChevron={false} 
+                    infiniteLoop={true} 
+                    autoPlay={false} 
+                    pagination={{clickable: true}}
+                    >
                         <Paper><span dangerouslySetInnerHTML={{__html: img}}></span>
                         {checkId === 2 
                         ? 
@@ -92,6 +108,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                         </button>
                         }
                         <input type='hidden' id={checkId} value={check}></input></Paper>
+
                         <Paper><span dangerouslySetInnerHTML={{__html: img2}}></span>
                         {checkId === 2 
                         ? 
@@ -103,6 +120,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                         </button>
                         }
                         <input type='hidden' id={checkId} value={check}></input></Paper>
+
                         <Paper><span dangerouslySetInnerHTML={{__html: img3}}></span>
                         {checkId === 2 
                         ? 
@@ -114,6 +132,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                         </button>
                         }
                         <input type='hidden' id={checkId} value={check}></input></Paper>
+
                         <Paper><span dangerouslySetInnerHTML={{__html: img4}}></span>
                         {checkId === 2 
                         ? 
@@ -128,21 +147,21 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                     </Carousel>
                 <Link to={`/host/hotel/hotelDetail/${HoIdx}/${Didx}`}>
                     <div>
-                        <div class="row">
-                            <div class="col" style={{fontSize:"27px",whiteSpace:'nowrap'}}>
+                        <div className="row">
+                            <div className="col" style={{fontSize:"27px",whiteSpace:'nowrap'}}>
                             {HoName}
                             </div>
-                            <div class="col" style={{fontSize:"17px"}} align='right'>
+                            <div className="col" style={{fontSize:"17px"}} align='right'>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style={{display: 'inline', height: '15px', width: '15px', fill: 'currentcolor'}}><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>&nbsp;{Math.round(Star * 100)/100}
                             </div>
                         </div>
                     </div>
                     <div>
-                        <div class="row">
-                            <div class="col">
+                        <div className="row">
+                            <div className="col">
                                 <div style={{fontSize:"17px"}}>₩{Dprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}&nbsp;/박</div>
                             </div>
-                            <div class="col" align='right'>
+                            <div className="col" align='right'>
                                 <svg style={{color:'#808080'}} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-right-short" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
                                 </svg>
@@ -150,17 +169,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                         </div>
                     </div>
                 </Link>
-                    {checkId === 2 
-                    ? 
-                    '' 
-                    : 
-                    <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
-                    top:'8px', left:'295px'}} onClick={() => {handleClick()}}>
-                    <img src={image} width='70px' height='70px' />
-                    </button>
-                    }
-                    <input type='hidden' id={checkId} value={check}></input>
-                <br />
+                <br></br>
                 </div>
                     
             </div>
