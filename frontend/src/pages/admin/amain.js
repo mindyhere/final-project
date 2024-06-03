@@ -26,55 +26,51 @@ function Amain() {
 
           <main>
           <div className="main-content">
-          <div class="card text-center">
-          <div class="card-header"style={{  backgroundColor: '#4e817215' }} >
-   
-  </div>
-  <div class="card-body">
-            <br/>          
-              <div className="row ">
-                <div className="col-lg-8 mb-4">
-                  <div className="card h-70">    
-                  <div className="card-header" style={{  backgroundColor: '#4e817269' }}> Calendar              
-                  </div>                  
-                    <div className="card-body d-flex flex-column">
-                      <div className="mb-3">
-                        <strong>오늘 날짜:</strong> {searchDate.toLocaleDateString()}
-                      </div>
-                      <div className="flex-grow-1 d-flex justify-content-center">
-                        <Calendar className="calendar1" value={searchDate} />
-                      </div>
-                    </div>
-                  </div>
-                </div>           
-                <div className="col-lg-4 mb-4">                
-                  <div className="card h-100 w-200" >                    
-                        <MemoList />                                       
-                      </div>
-                      </div>
-                      </div>                
-                </div>
-                </div>
-                <br/>
-               <div className="row">
-                <div className="col-lg-12 mb-8">
-                  <div className="card h-90">
-                  <div className="card-header" style={{ backgroundColor: '#4e817269' }}>
-                  호텔 월 매출 통계
-                </div> 
-                    <div className="card-body">
-                      <HotelChart />
-                    </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <br/>
-          </main>
-        </div>
-      </div>
 
+    <br/>          
+    <div className="row">
+      <div className="col-5">
+        <div className="card">    
+          <div className="card-header" style={{  backgroundColor: '#4e817269' }}>
+          <strong>Calendar</strong>
+          </div>                  
+          <div className="card-body d-flex flex-column">
+            {/* <div className="mb-3">
+              <strong>오늘 날짜:</strong> {searchDate.toLocaleDateString()}
+            </div> */}
+            <div className="flex-grow-1 d-flex justify-content-center">
+              <Calendar 
+                className="calendar1" 
+                value={searchDate}
+              />
+            </div>
+          </div>
+        </div>
+      </div>           
+      <div className="col-7">                             
+        <MemoList />
+      </div>
     </div>
+      <br/>
+      <div className="row">
+      <div className="col-lg-12 mb-8">
+        <div className="card h-90">
+        <div className="card-header" style={{ backgroundColor: '#4e817269' }}>
+          <strong>호텔 월 매출 통계</strong>
+      </div> 
+          <div className="card-body">
+            <HotelChart />
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+  </main>
+  </div>
+  </div>
+
+  </div>
   );
 }
 

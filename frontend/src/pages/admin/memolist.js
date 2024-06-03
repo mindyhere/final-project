@@ -164,28 +164,29 @@ function MemoList() {
     };
 
   return (
-    <div className="notepad-container" style={{width:"100%", height:"100%"}}>
-      <div className="notepad-header" >
-        <span>Memo List</span>
-        <button onClick={openModal} className="btn" ><PlusSquare width={'20px'} height={'20px'} /></button>
+    <div>
+      <div className="card">
+      <div className="card-header" style={{  backgroundColor: '#4e817269' }} > 
+          <strong>Memo List</strong>
+          <button onClick={openModal} className='btn1'>
+            <PlusSquare size={18}/>
+          </button>
       </div>
-      <div className="notepad-content" style={{  overflowY: 'scroll' }}>
-        <table>
-        <tbody>
-        {Meitem.map((list) => (
-          <tr key={list}>
-            <td ><CircleFill width={'5px'} height={'5px'} /></td>
-            <td  style={{ textAlign: 'left' }}>{list.me_content}</td>
-            <td>
-              <button className="btn" onClick={() => btndelete(list.me_idx)}>
-                <Trash width={'20px'} height={'20px'} />
-              </button>
-            </td>
-          </tr>
-        ))}
-        
-      </tbody>
-        </table>
+      <div className="card-body" style={{height:'360px' , overflowY : 'auto'}} >
+          {Meitem.map((list) => (
+            <div key={list} className='row'>
+              <div className='col-11'>
+                <CircleFill size={9} />
+                &nbsp;&nbsp;&nbsp;{list.me_content}
+              </div>
+              <div className='col-1'>
+                <button className="btn" onClick={() => btndelete(list.me_idx)}>
+                  <Trash width={'20px'} height={'20px'} />
+                </button>
+              </div>
+            </div>
+          ))}
+      </div>
       </div>
       <Modal
         isOpen={modalIsOpen}
