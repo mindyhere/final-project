@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 
 function ReviewItem({
   rownum,
@@ -65,7 +65,6 @@ function ReviewItem({
         "width=500,height=780,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     } else {
-      console.log("==> opt?" + opt);
       popup = window.open(
         `../../../host/account/manage/reply`,
         "name(Edit)",

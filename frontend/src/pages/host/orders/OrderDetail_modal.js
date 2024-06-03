@@ -48,7 +48,6 @@ function OrderDetail(order_idx) {
     let expiration = new Date();
     const cookies = new Cookies();
     expiration.setDate(expiration.getDate() + 1);
-    console.log("!!! expiration? " + expiration);
     cookies.set("userInfo", data, {
       path: "/",
       expires: expiration,
@@ -332,7 +331,7 @@ function OrderDetail(order_idx) {
                             type="radio"
                             name="o_state"
                             value="3"
-                            checked={rdo == "3"||dataset.o_state=="4"}
+                            checked={rdo == "3" || dataset.o_state == "4"}
                             id="rdo3"
                             readOnly={dataset.o_state == 1 ? false : true}
                             onChange={handleStatusChange}
@@ -350,7 +349,7 @@ function OrderDetail(order_idx) {
                             type="radio"
                             name="o_state"
                             value="2"
-                            checked={rdo =="2"}
+                            checked={rdo == "2"}
                             disabled={true}
                             readOnly
                             id="rdo2"
@@ -422,7 +421,6 @@ function OrderDetail(order_idx) {
                             });
                           })
                           .catch((error) => {
-                            // console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -519,7 +517,6 @@ function OrderDetail(order_idx) {
                           h_name: userInfo.h_name,
                           h_level: parseInt(result.value[9]),
                         });
-                        console.log(cookies.get("userInfo"));
                         Swal.fire({
                           icon: "success",
                           title: "Complete",
@@ -541,7 +538,9 @@ function OrderDetail(order_idx) {
                   className={"main-btn active"}
                   disabled={true}
                   style={{ cursor: "auto" }}
-                >체크인완료</button>
+                >
+                  체크인완료
+                </button>
               )}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>

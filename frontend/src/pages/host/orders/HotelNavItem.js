@@ -1,17 +1,8 @@
 import React, { useRef } from "react";
 
-function HotelNavItem({
-  rownum,
-  ho_idx,
-  ho_name,
-  loading,
-  init,
-  handleHotelChange,
-}) {
+function HotelNavItem({ rownum, ho_idx, ho_name, loading, handleHotelChange }) {
   const hotel_idx = useRef();
-  // console.log("==> 최초? " + loading + ", rownum? " + rownum);
   if (rownum == 1 && !loading) {
-    // console.log("==> 초기셋팅? " + init);
     return (
       <li
         key={rownum}
