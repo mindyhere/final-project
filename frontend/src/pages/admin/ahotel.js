@@ -25,6 +25,8 @@ function AHotel() {
                 return (<span style={{ color: "blue", alignSelf:"center"}}>영업 중</span>);
             case 3:
                 return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 신청 </span>);   
+            case 4:
+                    return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 </span>);   
             default:
                 return (<span style={{ color: "red", alignSelf:"center"}}>영업 중지 </span>);
         }
@@ -40,17 +42,6 @@ function AHotel() {
         if (searchkey.current.value) params.append('searchkey', searchkey.current.value);
         if (search.current.value) params.append('search', search.current.value);
         if (filteredStatus) params.append('status', filteredStatus);
-    
-        // Check if both search fields are empty when the button is clicked
-        if  (searchkey.current.value.length === 0 && search.current.value.length === 0) {
-            Swal.fire({
-                title: '검색어를 입력하세요!',
-                icon: 'warning',
-                confirmButtonText: '확인',
-                confirmButtonColor: '#41774d86',
-            });
-            return;
-        }
     
         fetch(`http://localhost/admin/ahoList?${params.toString()}`, {
             method: 'POST',
@@ -111,11 +102,8 @@ const handleSearchButtonClick = () => {
                                     </select>
                                 </div>
                                 <div className="col-md-2">
-            <button type='button' className="btn btn-sign2" onClick={handleSearchButtonClick}>조회</button>
-        </div>
-                                {/* <div className="col-md-2">
                                     <button type='button' className="btn btn-sign2" onClick={fetchahotel}>조회</button>
-                                </div> */}
+                                </div> 
                             </div>
                             <div className="table-responsive">
                                 {list.length > 0 ? (

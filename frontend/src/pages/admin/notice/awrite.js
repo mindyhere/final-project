@@ -104,11 +104,11 @@ function Awrite() {
           <tbody>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성자</td>
-              <td><textarea className="form-control table-light" id="n_writer" rows="1" ref={n_writer} defaultValue="관리자" disabled></textarea></td>
+              <td><textarea className="form-control table-light" id="n_writer" rows="1" ref={n_writer} defaultValue="관리자" readOnly></textarea></td>
             </tr>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>작성일자</td>
-              <td><textarea className="form-control table-light"  rows="1" ref={n_date}></textarea></td>
+              <td><textarea className="form-control table-light"  rows="1" ref={n_date} readOnly ></textarea></td>
             </tr>
             <tr>
             <td className="col-form-label"  style={{ backgroundColor: '#4e817269' }}>제목</td>

@@ -164,26 +164,27 @@ function MemoList() {
     };
 
   return (
-    <div className="notepad-container" style={{width:"90%", height:"80%"}}>
+    <div className="notepad-container" style={{width:"100%", height:"100%"}}>
       <div className="notepad-header" >
-        <span className="notepad-title">Memo List</span>
+        <span>Memo List</span>
         <button onClick={openModal} className="btn" ><PlusSquare width={'20px'} height={'20px'} /></button>
       </div>
-      <div className="notepad-content" style={{ maxHeight: '300px', overflowY: 'scroll' }}>
+      <div className="notepad-content" style={{ maxHeight: '350px', overflowY: 'scroll' }}>
         <table>
-          <tbody>
-            {Meitem.map((list ) => (
-              <tr key={list}>
-                <td className="memo-cell"><CircleFill width={'5px'} height={'5px'}/></td>
-                <td className="memo-cell">{list.me_content}</td>
-                <td className="memo-cell">
-                  <button className="btn" onClick={() => btndelete(list.me_idx)}>
-                    <Trash width={'20px'} height={'20px'} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+        <tbody>
+        {Meitem.map((list) => (
+          <tr key={list}>
+            <td className="memo-cell"><CircleFill width={'5px'} height={'5px'} /></td>
+            <td className="memo-cell" style={{ textAlign: 'left' }}>{list.me_content}</td>
+            <td className="memo-cell">
+              <button className="btn" onClick={() => btndelete(list.me_idx)}>
+                <Trash width={'20px'} height={'20px'} />
+              </button>
+            </td>
+          </tr>
+        ))}
+        
+      </tbody>
         </table>
       </div>
       <Modal
