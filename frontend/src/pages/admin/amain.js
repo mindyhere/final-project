@@ -23,11 +23,17 @@ function Amain() {
             <h2 className="header">관리자 메인</h2>
           </div>
           <hr />
+
           <main>
           <div className="main-content">
+          <div class="card text-center">
+          <div class="card-header"style={{  backgroundColor: '#4e817215' }} >
+   
+  </div>
+  <div class="card-body">
             <br/>          
-              <div className="row justify-content-center">
-                <div className="col-lg-4 mb-4">
+              <div className="row ">
+                <div className="col-lg-8 mb-4">
                   <div className="card h-70">    
                   <div className="card-header" style={{  backgroundColor: '#4e817269' }}> Calendar              
                   </div>                  
@@ -41,14 +47,18 @@ function Amain() {
                     </div>
                   </div>
                 </div>           
-                <div className="col-lg-7 mb-4">                
+                <div className="col-lg-4 mb-4">                
                   <div className="card h-100 w-200" >                    
                         <MemoList />                                       
                       </div>
                       </div>
-                    <div className="row">
+                      </div>                
+                </div>
+                </div>
+                <br/>
+               <div className="row">
                 <div className="col-lg-12 mb-8">
-                  <div className="card h-100">
+                  <div className="card h-90">
                   <div className="card-header" style={{ backgroundColor: '#4e817269' }}>
                   호텔 월 매출 통계
                 </div> 
@@ -56,7 +66,6 @@ function Amain() {
                       <HotelChart />
                     </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

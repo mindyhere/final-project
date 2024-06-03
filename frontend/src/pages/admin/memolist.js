@@ -169,14 +169,14 @@ function MemoList() {
         <span>Memo List</span>
         <button onClick={openModal} className="btn" ><PlusSquare width={'20px'} height={'20px'} /></button>
       </div>
-      <div className="notepad-content" style={{ maxHeight: '350px', overflowY: 'scroll' }}>
+      <div className="notepad-content" style={{  overflowY: 'scroll' }}>
         <table>
         <tbody>
         {Meitem.map((list) => (
           <tr key={list}>
-            <td className="memo-cell"><CircleFill width={'5px'} height={'5px'} /></td>
-            <td className="memo-cell" style={{ textAlign: 'left' }}>{list.me_content}</td>
-            <td className="memo-cell">
+            <td ><CircleFill width={'5px'} height={'5px'} /></td>
+            <td  style={{ textAlign: 'left' }}>{list.me_content}</td>
+            <td>
               <button className="btn" onClick={() => btndelete(list.me_idx)}>
                 <Trash width={'20px'} height={'20px'} />
               </button>
