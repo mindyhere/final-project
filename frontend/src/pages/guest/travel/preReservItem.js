@@ -20,8 +20,9 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
         }
 
         return (
-            <Link to={`/guest/preReservDetail/${OIdx}`}>
+            
            <div className="card-reserv" onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
+            <Link to={`/guest/preReservDetail/${OIdx}`}>
                         <div style={{float: "left", width: "300px"}} onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
                             <p style={{fontSize: "30px", color: 'black'}}>{HoName}</p>
                             <p style={{fontSize:"20px", color: 'black'}}>{OCkin}~{OCkout}</p>
@@ -33,9 +34,9 @@ function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
                         <div style={{float: "left", width: "300px"}} onClick={() => navigate(`/guest/preReservDetail/${OIdx}`)}>
                             <span dangerouslySetInnerHTML={{__html: img}}></span>
                         </div>
-
+                        </Link>
                </div>
-               </Link>
+               
             
         )
     }
