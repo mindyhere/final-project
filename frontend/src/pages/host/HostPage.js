@@ -36,7 +36,7 @@ function HostPage({}) {
 
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1, 
@@ -159,7 +159,7 @@ function HostPage({}) {
                                     <div className='container'>
                                         <div>
                                         <br></br><br></br><br></br>
-                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된  없습니다.</div>
+                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 호텔이 없습니다.</div>
                                             <br></br><br></br><br></br>
                                         </div>
                                     </div>
