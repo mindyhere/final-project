@@ -28,13 +28,10 @@ public class ReviewController {
 	@Transactional
 	@PostMapping("insert")
 	public ResponseEntity<String> insert(@RequestParam Map<String, Object> map) {
-		System.out.println("==> map? " + map + ", " + map.get("rv_writer"));
 		try {
 			reviewDao.insertReview(map);
-			System.out.println("ok");
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
@@ -42,9 +39,7 @@ public class ReviewController {
 
 	@GetMapping("detail/{idx}")
 	public Map<String, Object> detail(@PathVariable(name = "idx") int rv_idx) {
-		System.out.println("==> detail? " + rv_idx);
 		Map<String, Object> review = reputationDao.reviewDetail(rv_idx);
-//		System.out.println("===> detail결과: " + review);
 		return review;
 	}
 
@@ -56,7 +51,6 @@ public class ReviewController {
 			reviewDao.editReview(map);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}
@@ -65,12 +59,10 @@ public class ReviewController {
 	@Transactional
 	@GetMapping("delete/{idx}")
 	public ResponseEntity<String> updateDeleted(@PathVariable(name = "idx") int rv_idx) {
-		System.out.println("==> delete" + rv_idx);
 		try {
 			reviewDao.updateDeleted(rv_idx);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}

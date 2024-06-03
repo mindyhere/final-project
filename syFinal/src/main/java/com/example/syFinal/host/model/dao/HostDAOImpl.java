@@ -74,7 +74,6 @@ public class HostDAOImpl implements HostDAO {
 		params.put("h_idx", h_idx);
 		params.put("type", type);
 		String fileName = sqlSession.selectOne("host.getFile", params);
-		System.out.println("===> 파일명 확인: " + type + ", " + fileName);
 		return fileName;
 	}
 
@@ -86,7 +85,6 @@ public class HostDAOImpl implements HostDAO {
 	@Override
 	public boolean checkOrders(int h_idx) {
 		int cnt = sqlSession.selectOne("host.checkOrders", h_idx);
-		System.out.println("===>결과?" + cnt);
 		if (cnt > 0) {
 			return false;
 		} else {

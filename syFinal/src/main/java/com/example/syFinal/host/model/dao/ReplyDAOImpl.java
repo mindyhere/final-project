@@ -29,7 +29,6 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	@Override
 	public List<Map<String, Object>> searchReviews(Map<String, Object> map) {
-		System.out.println("==> impl? " + map);
 		List<Map<String, Object>> list = sqlSession.selectList("reply.searchReviews", map);
 		return list;
 	}

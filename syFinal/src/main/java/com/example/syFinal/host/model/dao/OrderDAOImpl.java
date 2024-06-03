@@ -118,9 +118,8 @@ public class OrderDAOImpl implements OrderDAO {
 			}
 			result = 1;
 		} catch (Exception e) {
-			System.err.println("==> 에러? " + e);
+			e.printStackTrace();
 		}
-		System.err.println("==> 레벨업데이트? " + opt + ", " + result);
 		return result;
 	}
 
@@ -138,7 +137,6 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void modify(Map<String, Object> params) {
 		sqlSession.selectOne("order.modify", params);
-		System.out.println("==> modify? " + params);
 	}
 
 	@Override
@@ -146,7 +144,6 @@ public class OrderDAOImpl implements OrderDAO {
 		// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
 		int cnt = sqlSession.selectOne("order.countOrders", params);
 		int room = sqlSession.selectOne("order.roomCount", params);
-		System.out.println("==> 예약수?" + cnt + ", " + room);
 		if (cnt <= room) {
 			return true;
 		}

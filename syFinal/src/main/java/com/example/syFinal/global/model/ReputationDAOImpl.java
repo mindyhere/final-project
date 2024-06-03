@@ -37,7 +37,6 @@ public class ReputationDAOImpl implements ReputationDAO {
 		// 호텔별 평점계산
 		float result = sqlSession.selectOne("reputation.calcAvgRate", ho_idx);
 		String avg = String.format("%.2f", result);
-		System.out.println("==> avg평균? " + result + ", " + avg);
 		return avg;
 	}
 
@@ -56,8 +55,8 @@ public class ReputationDAOImpl implements ReputationDAO {
 		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAvgRate", h_idx);
 		for (Map<String, Object> m : list) {
 			String avg = String.format("%.2f", m.get("avg"));
+			m.replace("avg", avg);
 		}
-//		System.out.println("==> 반복끝, result? " + list);
 		return list;
 	}
 

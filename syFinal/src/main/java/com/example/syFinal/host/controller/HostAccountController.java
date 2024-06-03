@@ -38,10 +38,8 @@ public class HostAccountController {
 
 	@PostMapping("idCheck")
 	public Map<String, Object> idCheck(@RequestParam(name = "userEmail", defaultValue = "") String userEmail) {
-		System.out.println("===> userEmail: " + userEmail);
 		// id 중복검사
 		int checked = hostDao.idCheck(userEmail);
-		System.out.println("===> checked: " + checked);
 		Map<String, Object> data = new HashMap<>();
 		if (userEmail.equals("undefined") || checked > 0) {
 			data.put("msg", "error");
@@ -55,7 +53,6 @@ public class HostAccountController {
 	public ResponseEntity<String> pwdCheck(@PathVariable(name = "pwd") String pwd,
 			@RequestParam(name = "userEmail", defaultValue = "") String userEmail) {
 		String savedPwd = hostDao.pwdCheck(userEmail);
-		System.out.println("==> pwdCheck? " + pwd + ", ==> " + pwdEncoder.matches(pwd, savedPwd));
 		if (pwdEncoder.matches(pwd, savedPwd)) {
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} else {
@@ -106,7 +103,6 @@ public class HostAccountController {
 		// 비밀번호 암호화
 		String encodedPwd = pwdEncoder.encode((CharSequence) map.get("pwd"));
 		map.replace("pwd", encodedPwd);
-		System.out.println("===> map: " + map);
 		hostDao.insert(map);
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "success");
@@ -116,7 +112,6 @@ public class HostAccountController {
 	@GetMapping("account/{userIdx}")
 	public Map<String, Object> getAccount(@PathVariable(name = "userIdx") int h_idx) {
 		Map<String, Object> data = hostDao.getAccount(h_idx);
-		System.out.println("===> 결과: " + data);
 		return data;
 	}
 
@@ -126,7 +121,6 @@ public class HostAccountController {
 			@RequestParam(name = "profile", required = false) MultipartFile profile,
 			@RequestParam(name = "file", required = false) MultipartFile file,
 			@RequestParam(name = "bankbook", required = false) MultipartFile bankbook, HttpServletRequest request) {
-		System.out.println("==> update 컨트롤러: " + map);
 		ServletContext application = request.getSession().getServletContext();
 		String path = application.getRealPath("static/images/host/profile/");
 		String h_profile = "";
@@ -182,7 +176,6 @@ public class HostAccountController {
 		String encodedPwd = pwdEncoder.encode(map.get("pwd").toString());
 		map.replace("pwd", encodedPwd);
 
-		System.out.println("===> map: " + map);
 		hostDao.updateInfo(map);
 	}
 
@@ -241,7 +234,6 @@ public class HostAccountController {
 			hostDao.levelUp(h_idx);
 			return new ResponseEntity<>("true", HttpStatus.OK);
 		} catch (Exception e) {
-			// 에러발생
 			e.printStackTrace();
 			return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
 		}

@@ -30,7 +30,7 @@ public class EmailServiceImpl implements EmailService {
 			msg.addFrom(new InternetAddress[] { new InternetAddress(dto.getSenderMail(), dto.getSenderName()) });
 			msg.setSubject(dto.getSubject(), "utf-8");
 			msg.setText(dto.getMessage(), "utf-8");
-			mailSender.send(msg);// 전송
+			mailSender.send(msg);
 			result = "success";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,7 +114,6 @@ public class EmailServiceImpl implements EmailService {
 		voucher.setReceiveMail(g_email);
 		voucher.setSenderName("Notice");
 		voucher.setSenderMail("notice@gmail.com");
-		System.out.println("==> EmailDTO" + voucher);
 		return voucher;
 	}
 
