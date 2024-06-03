@@ -60,6 +60,7 @@ function Amain() {
                       <HotelChart />
                     </div>
  
+ 
                     </div>
                   </div>
                 </div>
