@@ -98,8 +98,9 @@ function GuestInfo() {
         };
 
      const urlHandle = (e) => {
-         window.open(`http://localhost/static/images/guest/photo/${data.dto.g_photo}`, '', 'width=500, height=500'); 
-     } 
+         window.open(`http://localhost/static/images/guest/photo/${data.dto.g_photo}`, '', 'width=500, height=500, top=150,left=300'); 
+         return false;
+        } 
 
     if(loading) {
         return (
@@ -125,7 +126,7 @@ function GuestInfo() {
                         <label className="label-1">프로필 사진</label><br/>
                         { gphoto !== '-' ? 
                         <>
-                        <a href="#" style={{border: "0px", outline: "none"}} onClick={urlHandle} 
+                        <a href="#none" style={{border: "0px", outline: "none"}} onClick={() => {urlHandle(); return false;}} 
                         //onClick={() => {
                             // Swal.fire({
                             //     icon: "info",

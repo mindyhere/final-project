@@ -45,7 +45,7 @@ function Reservation() {
 };
 
 var setting = {
-    dots: false,
+    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 3,
@@ -54,7 +54,7 @@ var setting = {
 
 var set = {
     rows: 3,
-    dots: false,
+    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
@@ -97,7 +97,7 @@ var set = {
                 )} 
                 </Slider>
                 </div> 
-                    <div style={{zIndex: 0, height: '400px', width:'1100px', marginLeft: '600px'}}>
+                    <div style={{zIndex: 0, height: '400px', width:'550px', marginLeft: '600px'}}>
                         {review == ''? '' :
                     <h4>&nbsp;&nbsp;리뷰를 작성해 주세요</h4>
                 }
