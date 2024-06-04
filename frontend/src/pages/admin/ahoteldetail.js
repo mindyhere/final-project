@@ -99,6 +99,7 @@ function AHoteldetail() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 });
+                                window.location.reload();
                             } else {
                                 Swal.fire({
                                 title: '에러 발생',
@@ -138,6 +139,7 @@ function AHoteldetail() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 });
+                                window.location.reload();
                             } else {
                                 Swal.fire({
                                     title: '에러 발생',
@@ -176,7 +178,9 @@ function AHoteldetail() {
                                     icon: 'success',
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
-                                });
+                                   
+                                }); 
+                                window.location.reload();
                             } else {
                                 throw new Error('Error approving hotel');
                             }
