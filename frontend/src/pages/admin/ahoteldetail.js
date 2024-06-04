@@ -351,13 +351,12 @@ function AHoteldetail() {
                                                 
                                                     )}
 
-                                                    {(data.dto[0].ho_status) === 3  &&  (
-                                                        <button type="button" className="btn btn-danger" onClick={() => btnStop(data.dto[0].ho_idx)}>영업 중지</button>
+                                                    {(data.dto[0].ho_status) === 3 &&   (
+                                                        <button type="button" className="btn btn-danger" onClick={() => btnStop(data.dto[0].ho_idx)} >영업 중지</button>
                                                    
                                                     )}  
-                                                    {(data.dto[0].ho_status === 3 ?(
-                                                        <button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)}disabled>영업 재개</button>
-                                                    ):(<button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)} >영업 재개</button>)
+                                                    {(data.dto[0].ho_status )=== 3 && (                                                       
+                                                    <button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)} >영업 재개</button>
                                                     )} 
                                                     </td>
                                             </tr>
