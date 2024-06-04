@@ -114,10 +114,10 @@ function UpdateReserv() {
        }
     
        function adultMinusBtn(){
-        if(adult == 0){
+        if(adult == 1){
             Swal.fire({
                 icon : 'warning',
-                text : '0 미만으로 선택할 수 없습니다.',
+                text : '성인은 1 미만으로 선택할 수 없습니다.',
             });
         } else {
             setAdult(adult - 1);
