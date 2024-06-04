@@ -66,7 +66,7 @@ function AGuest() {
                             </nav>
                             <br />
                             <div className="card-style mb-30">
-                            <h2 className="header"><PersonCircle width="50px" height="40px" /> 회원리스트</h2>
+                            <h2 className="header"><PersonCircle width="50px" height="40px" /> 회원정보관리</h2>
                             <hr />
                             <div className="row mb-3">
                             <div className="col-md-2">
