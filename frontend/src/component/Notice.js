@@ -45,15 +45,15 @@ function Notice() {
                                 </thead>
                                 <tbody>
                                     {data.list.map((item) => (
-                                        <tr style={{textAlign:'center'}}>
+                                        <tr style={{textAlign:'center', cursor : 'pointer'}} onClick={() =>{
+                                            navigate('/component/NoticeDetail', {
+                                                state: {
+                                                    nidx: item.n_idx
+                                                }
+                                            });
+                                        }}>
                                             <td>{item.rownum}</td>
-                                            <td style={{cursor: 'pointer'}} onClick={() =>{
-                                                navigate('/component/NoticeDetail', {
-                                                    state: {
-                                                        nidx: item.n_idx
-                                                    }
-                                                });
-                                            }}>{item.n_title}</td>
+                                            <td>{item.n_title}</td>
                                             <td>{item.n_writer}</td>
                                             <td>{item.n_date}</td>
                                         </tr>
