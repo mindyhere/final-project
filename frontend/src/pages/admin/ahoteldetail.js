@@ -99,6 +99,7 @@ function AHoteldetail() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 });
+                                window.location.reload();
                             } else {
                                 Swal.fire({
                                 title: '에러 발생',
@@ -138,6 +139,7 @@ function AHoteldetail() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 });
+                                window.location.reload();
                             } else {
                                 Swal.fire({
                                     title: '에러 발생',
@@ -151,7 +153,7 @@ function AHoteldetail() {
                 }
             });
         };
-
+        
         const btnStart = (hoIdx) => {
             Swal.fire({
                 title: `${data.dto[0].h_name}님의 호텔 영업 재개 신청`,
@@ -176,7 +178,9 @@ function AHoteldetail() {
                                     icon: 'success',
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
-                                });
+                                   
+                                }); 
+                                window.location.reload();
                             } else {
                                 throw new Error('Error approving hotel');
                             }
@@ -229,14 +233,14 @@ function AHoteldetail() {
                                                 </tr>
                                                 <tr>
                                                     <th >사업자 등록증/등록번호</th>
-                                                    <td>{data.dto[0].h_file.length === 1 ? (
+                                                    <td>등록증:{data.dto[0].h_file.length === 1 ? (
                                                 data.dto[0].h_file
                                                 ) : (
                                                 <button type="button" className="btn btn-link" onClick={urlBank} style={{cursor: "pointer"}}>
-                                                  등록증:{data.dto[0].h_file}
+                                                 {data.dto[0].h_file}
                                                 </button> 
                                             )}<br/>
-                                             &nbsp; 등록번호: {data.dto[0].h_business} </td>
+                                             등록번호: {data.dto[0].h_business} </td>
                                                 </tr>
                                                 <tr>
                                                     <th >호스트 등급</th>
@@ -249,7 +253,7 @@ function AHoteldetail() {
                                                 </tr>
                                                 <tr>
                                                 <th>통장사본/계좌번호</th>
-                                                <td>
+                                                <td>통장사본:
                                                 {data.dto[0].h_bankbook.length === 1 ? (
                                                     data.dto[0].h_bankbook
                                                 ) : (
@@ -259,11 +263,11 @@ function AHoteldetail() {
                                                         onClick={urlBank} 
                                                         style={{ cursor: "pointer" }}
                                                     >
-                                                        통장사본: {data.dto[0].h_bankbook}
+                                                        {data.dto[0].h_bankbook}
                                                     </button>
                                                 )} 
                                                 <br/>
-                                                &nbsp; 계좌번호: {data.dto[0].h_accountnum}
+                                                 계좌번호: {data.dto[0].h_accountnum}
                                             </td>
                                             </tr>
                                                 <tr>
@@ -345,15 +349,19 @@ function AHoteldetail() {
                                                     <td>{getStatus(data.dto[0].ho_status)}</td>
                                                   
                                                     <td colSpan={3}>
+
                                                     {(data.dto[0].ho_status) === 1 && (
                                                         <button type="button" className="btn btn-primary" onClick={() => btnApprove(data.dto[0].ho_idx)}>승인</button>
+                                                
                                                     )}
-                                                    {(data.dto[0].ho_status) === 2 && (
-                                                        <button type="button" className="btn btn-danger" onClick={() => btnStop(data.dto[0].ho_idx)}>영업 중지</button>
-                                                    )}
-                                                    {(data.dto[0].ho_status) === 3 && (
-                                                        <button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)}>영업 재개</button>
-                                                    )}      
+
+                                                    {(data.dto[0].ho_status) === 3 &&   (
+                                                        <button type="button" className="btn btn-danger" onClick={() => btnStop(data.dto[0].ho_idx)} >영업 중지</button>
+                                                   
+                                                    )}  
+                                                    {(data.dto[0].ho_status )=== 3 && (                                                       
+                                                    <button type="button" className="btn btn-success" onClick={() => btnStart(data.dto[0].ho_idx)} >영업 재개</button>
+                                                    )} 
                                                     </td>
                                             </tr>
                                         </tbody>

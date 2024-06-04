@@ -125,8 +125,13 @@ function HostInfo() {
                             }}
                             className="btn btn-dark">호스트에게 메시지 보내기</button>
                             <hr />
-                            <div className="text-xs">
-                                <img src="/img/danger.png" width="35px" height="35px"/> 안전한 결제를 위해 사이트 외부에서 송금하거나 대화를 나누지 마세요.
+                            <div className="row text-xs">
+                                <div className="col-1">
+                                    <img src="/img/danger.png" width="35px" height="35px"/>
+                                </div>
+                                <div className="col-11">
+                                    안전한 결제를 위해 사이트 외부에서 송금하거나 대화를 나누지 마세요.
+                                </div> 
                             </div>
                         </div>
                     </div>

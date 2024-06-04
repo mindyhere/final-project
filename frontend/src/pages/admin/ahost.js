@@ -213,13 +213,10 @@ function Ahost() {
                                         <button type='button' className="btn btn-sign2" onClick={fetchhost}>조회</button>
                                     </div>
                                 </div>
-                                {ahitem.length === 0 ? (
-                                    <p>검색 결과가 없습니다.</p>
-                                ) : (
                                 <table className="table table-hover table-bordered custom-table1">
                                     <thead className="table-light">
                                         <tr>
-                                            <th>#</th>
+                                            <th>no.</th>
                                             <th>사업자명</th>
                                             <th>사업자ID</th>
                                             <th>전화번호</th>
@@ -232,15 +229,16 @@ function Ahost() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {ahitem && ahitem.map((list) =>
+                                    {ahitem.length > 0 ?
+                                        (ahitem.map((list) =>
                                             <tr key={list.h_idx}>
                                                 <td>{list.h_idx}</td>
                                                 <td>{list.h_name}</td>
                                                 <td>{list.h_email}</td>
                                                 <td>{list.h_phone}</td>
-                                                <td>
+                                                <td>등록증:
                                                 {list.h_file.length === 1 ? (
-                                                    list.h_file
+                                                   list.h_file   
                                                 ) : (
                                                     <button 
                                                     type="button" 
@@ -250,18 +248,18 @@ function Ahost() {
                                                         'width=500,height=500'
                                                     )}
                                                     >
-                                                    등록증: {list.h_file}
+                                                     {list.h_file}
                                                     </button>
                                                 )} 
                                                 <br/>
                                                 등록번호: {list.h_business}
                                                 </td>
-                                                <td>
+                                                <td>사본:
                                                 {list.h_bankbook.length === 1 ? (
                                                 list.h_bankbook
                                                 ) : (
                                                 <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
-                                                   사본: {list.h_bankbook}
+                                                {list.h_bankbook}
                                                 </button>
                                             )}<br/>   
                                              계좌번호: {list.h_accountnum}                                              
@@ -282,10 +280,14 @@ function Ahost() {
                                                 
                                             </tr>
                                        
-                                        )}
+                                        ))
+                                        : 
+                                        <tr>
+                                        <td colSpan={10}>검색 결과가 없습니다. </td>
+                                        </tr>
+                                        }
                                     </tbody>
                                 </table>
-                                 )}
                             </div>
                             </div>
                         </div>

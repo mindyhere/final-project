@@ -41,8 +41,8 @@ public class ReservDTO {
 	private String h_profile;
 	private String ho_check_in;
 	private String ho_check_out;
-	private int ho_x;
-	private int ho_y;
+	private double ho_x;
+	private double ho_y;
 	
 	private int o_state;
 	

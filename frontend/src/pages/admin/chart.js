@@ -76,10 +76,10 @@ function HotelChart() {
           />
         )}
       </div>
-       
-      <div className="col-lg-3 mb-4">
+      <div className="col-lg-3 mb-5">
+      <br/> <br/> 
                   <div className="card h-70">
-                    <div className="card-header" style={{  backgroundColor: '#4e817215' }}>
+                    <div className="card-header " style={{ backgroundColor: '#4e817215',justifyContent: 'center' }}>
                      호텔 순위
                     </div>
                     <div className="table-container flex-grow-1">
