@@ -81,7 +81,7 @@ const handleSearchButtonClick = () => {
                         </nav>
                         <br/>
                         <div className="card-style mb-30">
-                            <h2 className="header"><HouseCheck width="50px" height="40px"/> 숙소등록승인</h2><hr/>
+                            <h2 className="header"><HouseCheck width="50px" height="40px"/> 숙소영업관리</h2><hr/>
                             <div className="row mb-3">
                             <div className="col-md-2">
                                     <select ref={searchkey} defaultValue='ho_name' className="form-select">
