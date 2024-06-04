@@ -195,7 +195,7 @@ function Ahost() {
                             </nav>
                             <br />
                             <div className="card-style mb-30">
-                            <h2 className="header"><PersonVcard width="50px" height="40px" /> 사업자 가입승인</h2>
+                            <h2 className="header"><PersonVcard width="50px" height="40px" /> 사업자정보관리</h2>
                             <hr />
                             <div className="row justify-content-center">
                                 <div className="row mb-3">
