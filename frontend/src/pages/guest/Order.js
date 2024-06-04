@@ -131,7 +131,7 @@ function Order() {
             payMethod: method,
             channelKey : channel,
             currency: 'KRW',
-            totalAmount: 100,
+            totalAmount: finalamount,
             orderName: hotel.ho_name,
             pg: pgs,
             customer: {
@@ -204,10 +204,6 @@ function Order() {
             <div>loading</div>
         )
     } else {
-        let card='';
-        if(data.dto.g_card != null) {
-            card = data.dto.g_card.substring(15,19);
-        }
         
         let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
         let image_url=`<img src=${src} width='100px' height='100px'/>`;
@@ -318,7 +314,7 @@ function Order() {
                                     </div>
                                     <div className="col-6" align='left'>
                                         <br></br>
-                                    <div style={{fontSize:'24px'}}>{hotel.ho_name}</div>
+                                    <div style={{fontSize:'23px'}}>{hotel.ho_name}</div>
                                         <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" ariaHidden="true" role="presentation" focusable="false" style={{display: 'inline', height: '14px', width: '14px', fill: 'currentcolor'}}><path fillRule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>{review.avg} (후기: {review.list!=null ? review.list.length : 0}개)</div>
                                     </div>
                                 </div>

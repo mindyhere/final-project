@@ -242,7 +242,6 @@ function Reservation() {
                             
                         }} >예약하기</button>
                     </div>
-                    <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
                     { view && 
                     <div className="container mb-20">
                         <div className="row">
