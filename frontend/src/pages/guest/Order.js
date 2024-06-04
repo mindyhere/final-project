@@ -392,10 +392,10 @@ function Order() {
                             <h5 style={{marginBottom: '16px'}}>쿠폰</h5>
 
                             <div className="row">
-                                <div className="col-8">
+                                <div className="col-7">
                                     <input style={{marginBottom: '16px'}} className="form-control" type="text" placeholder={couponAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} disabled></input>
                                 </div>
-                                <div className="col-4" align='right'>
+                                <div className="col-5" align='right'>
                                     <div>
                                         <button className='btn btn-outline-dark' onClick={() => setModalOpen1(true)}>쿠폰조회</button>
                                     </div>
@@ -471,11 +471,11 @@ function Order() {
                             </div>
                             
                             <div className="row">
-                                <div className="col-8">
+                                <div className="col-7">
                                     <input type='number' style={{marginBottom: '16px'}} className="form-control" placeholder='-0 P' value={pointAmount} onChange={(e) => PointAmount(e)}></input>
                                     {/* onChange={(e) => PointAmount(e)} */}
                                 </div>
-                                <div className="col-4" align='right' >
+                                <div className="col-5" align='right' >
                                     <button className='btn btn-outline-dark' onClick={() => Handlepoint()}>포인트적용</button>
                                 </div>
                             </div>
