@@ -66,7 +66,7 @@ function PayPDF() {
             const pdf = new jsPDF('p','mm');
             pdf.addImage(imgData, "JPEG",position,padding, imgWidth, imgHeight);
             // pdf.output('dataurlnewwindow');
-            pdf.save("pay.pdf");
+            pdf.save("Sybnb Receipt.pdf");
         });
     };
 
