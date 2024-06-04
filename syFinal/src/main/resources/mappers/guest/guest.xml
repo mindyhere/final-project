@@ -96,6 +96,7 @@
 		WHERE g.g_email = rv.rv_writer AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
 		AND g_idx=#{gidx}
 		AND rv_deleted=0
+		order by rv_date desc
 	</select>
 	
 	<!-- 게스트답변리스트 -->
@@ -109,7 +110,8 @@
 		rp_content
 		FROM guest g, host h, reply rp, review rv, hotel_detail hd, hotel ho
 		WHERE g.g_email = rv.rv_writer AND rp.rp_rv_idx = rv.rv_idx AND rv.rv_hd_idx = hd.d_idx AND hd.d_ho_idx = ho.ho_idx AND ho.ho_h_idx = h.h_idx
-		AND g_idx=#{gidx}
+		AND g_idx=#{gidx} AND rp_deleted = 0
+		order by rp_date desc
 	</select>
 	
 	<!-- 리뷰갯수 -->

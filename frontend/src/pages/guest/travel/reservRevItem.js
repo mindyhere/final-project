@@ -37,7 +37,7 @@ import {useNavigate} from "react-router-dom";
             <div style={{float: "left", width: "120px", marginTop: '5px'}}>
                 <span dangerouslySetInnerHTML={{__html: img}}></span>
             </div>
-            <div style={{float: "left", width: "200px", height: "50px"}}>
+            <div style={{float: "left", width: "230px", height: "50px"}}>
                 <p style={{marginTop:'15px',fontSize: "20px", color: 'black', height: '20px'}}>{HoName}</p>
                 <p style={{fontSize:"15px", color: 'black', height: '20px'}}>{OCkin}~{OCkout}</p>
                 <br/>

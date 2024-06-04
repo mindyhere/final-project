@@ -18,9 +18,9 @@
 		where rv_idx=#{rv_idx}
 	</update>
 
-	<delete id="updateDeleted">
+	<update id="updateDeleted">
 		update review
 		set rv_deleted=1
 		where rv_idx=#{rv_idx}
-	</delete>
+	</update>
 </mapper>

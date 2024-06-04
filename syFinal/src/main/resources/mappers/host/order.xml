@@ -136,7 +136,7 @@ select distinct ${column}, o_state
 <select id="countOrders" resultType="int">
 select count(*)
 from (
-	select o_idx, o_didx, d_room_type
+	select distinct o_idx, o_didx, d_room_type
 	from orders, hotel_detail
 	where 
 		((o_ckin <![CDATA[<]]> #{ckin} and o_ckout <![CDATA[>]]> #{ckin}) 

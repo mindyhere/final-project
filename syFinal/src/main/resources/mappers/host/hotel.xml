@@ -46,22 +46,16 @@
 		SELECT *
 		FROM hotel_detail
 		WHERE d_ho_idx= #{ho_idx}
+		ORDER BY FIELD(`d_room_type`, '싱글룸', '더블룸', '패밀리룸', '스위트룸')
 	</select>
 
 	<!--호텔 사진 모두 보기 -->
 	<select id="viewHotelImg" resultType="java.util.HashMap">
-		<!--SELECT
-			ho_img, 
-			GROUP_CONCAT(d_img1 SEPARATOR ',') AS dImg1,
-			GROUP_CONCAT(d_img2 SEPARATOR ',') AS dImg2,
-			GROUP_CONCAT(d_img3 SEPARATOR ',') AS dImg3
-		FROM hotel, hotel_detail
-		WHERE ho_idx = d_ho_idx
-		AND ho_idx = #{ho_idx} -->
 		SELECT d_room_type, ho_img, d_img1, d_img2, d_img3
 		FROM hotel, hotel_detail
 		WHERE ho_idx = d_ho_idx
 		AND ho_idx = #{ho_idx}
+		ORDER BY FIELD(`d_room_type`, '싱글룸', '더블룸', '패밀리룸', '스위트룸')
 	</select>
 	
 	<!-- 호텔 편의시설 -->

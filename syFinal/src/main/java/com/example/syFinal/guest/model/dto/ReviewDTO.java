@@ -31,5 +31,6 @@ public class ReviewDTO {
 	private String d_img1;
 	private String rp_date;
 	private String rp_content;
+	private String rp_deleted;
 	private String reviewcount;
 }

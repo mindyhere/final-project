@@ -147,36 +147,41 @@ function RequestItem({
                                   if (!response.ok) {
                                     throw new Error(response.status);
                                   }
-                                  return response.status;
+                                  return response.json();
                                 });
                               })
                               .catch((error) => {
                                 Swal.showValidationMessage(
-                                  `error : 비밀번호 또는 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
+                                  `error : 비밀번호를 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`
                                 );
                               });
                           },
                           allowOutsideClick: false,
                         }).then((result) => {
-                          if (result.value === 200) {
-                            Swal.fire({
-                              icon: "success",
-                              title: "Confirm",
-                              html: "예약 바우처 발송이 완료되었습니다.",
-                              showConfirmButton: false,
-                              timer: 2000,
-                            }).then(() => {
-                              window.location.reload();
-                            });
-                          } else {
-                            Swal.fire({
-                              icon: "error",
-                              title: "Not possible",
-                              html: `예약을 변경할 수 없습니다.<br/>${ho_name} 의 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`,
-                              showConfirmButton: true,
-                            }).then(() => {
-                              window.location.reload();
-                            });
+                          if (result.isConfirmed) {
+                            let status = JSON.stringify(
+                              Object.values(result)[3].response.statusCodeValue
+                            );
+                            if (status == 200) {
+                              Swal.fire({
+                                icon: "success",
+                                title: "Confirm",
+                                html: "예약 바우처 발송이 완료되었습니다.",
+                                showConfirmButton: false,
+                                timer: 2000,
+                              }).then(() => {
+                                window.location.reload();
+                              });
+                            } else {
+                              Swal.fire({
+                                icon: "error",
+                                title: "Not possible",
+                                html: `예약을 변경할 수 없습니다.<br/>${ho_name}의 예약목록을 확인해주세요.<br/>반복실패 시, 관리자에게 문의 바랍니다.`,
+                                showConfirmButton: true,
+                              }).then(() => {
+                                window.location.reload();
+                              });
+                            }
                           }
                         });
                       }}
@@ -212,10 +217,9 @@ function RequestItem({
                               `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
                             )
                               .then((response) => {
-                                if (!response) {
-                                  throw new Error("false: " + response.value);
+                                if (!response.ok) {
+                                  throw new Error("false: " + response.status);
                                 }
-
                                 return fetch(
                                   `http://localhost/api/order/manage/reject/${o_idx}`
                                 ).then((response) => {
@@ -238,7 +242,7 @@ function RequestItem({
                               icon: "success",
                               title: "Complete",
                               html:
-                                "변경요청을 거부하여 기존 예약으로 자동확정 되었습니다.<br/>(예약 바우처 발송완료)",
+                                "기존 예약으로 자동확정 되었습니다.<br/>(예약 바우처 발송완료)",
                               showConfirmButton: false,
                               timer: 2000,
                             }).then(() => {
