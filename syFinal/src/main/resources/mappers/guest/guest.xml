@@ -118,7 +118,7 @@
 	<select id="reviewcount" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 		SELECT COUNT(*) as reviewcount
 		FROM review
-		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx})
+		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx}) AND rv_deleted = 0
 	</select>
 	
 	<!-- 가입기간 -->

@@ -131,7 +131,7 @@ function Order() {
             payMethod: method,
             channelKey : channel,
             currency: 'KRW',
-            totalAmount: finalamount,
+            totalAmount: 100,
             orderName: hotel.ho_name,
             pg: pgs,
             customer: {
