@@ -143,7 +143,7 @@ public class OrderDAOImpl implements OrderDAO {
 		// 변경 업데이트 전, 동일 룸타입의 예약현황 확인
 		int cnt = sqlSession.selectOne("order.countOrders", params);
 		int room = sqlSession.selectOne("order.roomCount", params);
-		if (cnt <= room) {
+		if (cnt < room) {
 			return true;
 		}
 		return false;
