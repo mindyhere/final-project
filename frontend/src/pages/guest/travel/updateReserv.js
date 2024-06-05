@@ -164,7 +164,6 @@ function UpdateReserv() {
             return response.json();
         })
         .then(data => {
-            console.log(data)
             setData(data);
             setLoading(false);
             setGuestCounter(data.dto.o_reser);
@@ -265,7 +264,6 @@ function UpdateReserv() {
                     <p> {format(new Date(data.ref_date),"MM월 dd일 HH시")}  전에 취소하면 환불을 받으실 수 있습니다. 그 이후에 취소하면 예약 대금이 환불되지 않습니다.</p>
                     </div>
                     <button type='button' className="main-btn" onClick={() => {
-                        console.log(format(state.startDate, "yyyy-MM-dd") == data.dto.o_ckin);
                         if (format(state.startDate, "yyyy-MM-dd") == data.dto.o_ckin && format(state.endDate, "yyyy-MM-dd") == data.dto.o_ckout
                         && adult == data.dto.o_adult && teenager == data.dto.o_child && child == data.dto.o_baby) {
                             Swal.fire({

@@ -11,22 +11,17 @@ import BasicScrollToBottom from "react-scroll-to-bottom";
 
 function Chat(props) {
     const [loading, setLoading] = useState(true);
-    const [pro, setPro] = useState('');
     // const {hName} = useParams();
     const cookies = new Cookies();
     const userInfo = cookies.get("userInfo");
     const gEmail = cookies.get("g_email");
-    const {Hname} = useParams();
 
     const roomId = props.roomId;
     const ip = props.ip;
-    console.log(ip);
     const [messages, setMessages] = useState(null); // 채팅 메시지 상태
     const [message, setMessage] = useState(''); // 메시지 입력 상태
     const stompClient = useRef(null); // STOMP 클라이언트를 위한 ref. 웹소켓 연결을 유지하기 위해 사용
     const messagesEndRef = useRef(null); // 채팅 메시지 목록의 끝을 참조하는 ref. 이를 이용해 새 메시지가 추가될 때 스크롤을 이동
-    const [sender, setSender] = useState('');
-    const [h_idx, seth_idx] = useState(0);
     const [hName, sethName] = useState('');
     const [gName, setgName] = useState('');
 
@@ -44,7 +39,6 @@ function Chat(props) {
         axios
           .get('http://localhost/chatroom/entrance?roomId='+roomId)
           .then((response) => {
-            console.log("메시지 목록", response.data);
             // setMessages((messages) => [...messages, response.data]);
             setMessages(response.data);
             setLoading(false);
@@ -79,7 +73,6 @@ function Chat(props) {
         stompClient.current = Stomp.over(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
-            console.log('구독 중', message);
             const newMessage = JSON.parse(message.body);
             setMessages((messages) => [...messages, newMessage]);
           });
@@ -95,7 +88,6 @@ function Chat(props) {
 
 
       const sendGuestMessage = () => {
-        console.log(message)
         if (!message.trim()) {
         } else {
             if (stompClient.current && message) {

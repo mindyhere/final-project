@@ -34,13 +34,6 @@ function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
                     </Link>
                     <button type='button' style={{border: 0, backgroundColor: 'transparent', position: 'absolute', 
                     top:'8px', left:'250px'}} onClick={() => {
-                // Swal.fire({
-                //     text: '정말 삭제하시겠습니까?',
-                //     confirmButtonText: "삭제",
-                //     cancelButtonText: "취소",
-                //     showCancelButton: true,
-                // }).then((result) => {
-                //     if(result.isConfirmed) {
                         const form = new FormData();
                         form.append('w_idx', wIdx);
                         fetch('http://localhost/guest/wish/delete', {
@@ -53,8 +46,6 @@ function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
                             }
                         })
                     }
-            //     });
-            // }}>
                 }>
                     <img src='/img/black_heart.png' width='65px' height='65px' />
                 </button>

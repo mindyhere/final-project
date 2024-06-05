@@ -236,7 +236,6 @@ function GuestInfo() {
                                 g_passwd.current.focus();
                                 return;
                             }
-                            console.log(selected !== '미인증' && img.current.files.length == 0 && data.dto.g_url == '-');
                             if ((selected == '미인증' && img.current.files.length > 0) || (selected == '미인증' && data.dto.g_url == '')) {
                                 Swal.fire({
                                     icon : 'warning',
@@ -272,7 +271,6 @@ function GuestInfo() {
                             for (const pair of values) {
                                 a = a + '' + pair;
                             }
-                            console.log(a);
                             if (a !== '') {
                                 form.append('g_idx', idx.key);
                                 Swal.fire({
