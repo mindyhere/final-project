@@ -99,7 +99,6 @@ if(loading||loading1||loading2){
       image_url=`<img class='profile-img' src=${src} width='120px' height='120px' style={{backgroundSize:"contain";}}/>`; 
     }
 
-    console.log(data.dto.g_level);
     let level = '';
     if (data.dto.g_level === 1) {
         level = 'regular';

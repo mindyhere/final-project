@@ -10,8 +10,6 @@ function Recent() {
     
     var myArr = localStorage.getItem('watched');
     myArr = JSON.parse(myArr);
-    // const first = myArr[myArr.length - 1];
-    // console.log(typeof myArr, myArr);
 
     function getRecent(url) {
         const form = new FormData();

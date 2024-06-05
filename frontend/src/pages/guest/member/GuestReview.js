@@ -47,7 +47,6 @@ function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
                         <div className='btn btn-outline-dark' type='button' align='right' 
                             onClick={() => {
                             localStorage.setItem("info", JSON.stringify(info));
-                            console.log("==> 확인?"+Rv_idx)
                            openPopup();
                         }
                     }>수정하기</div>

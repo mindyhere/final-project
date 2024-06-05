@@ -37,7 +37,6 @@ public class WishController {
 			list.add(map);
 		}
 		
-		System.out.println(list);
 		return list;
 	}
 	
@@ -59,7 +58,6 @@ public class WishController {
 			List<MainDTO> dto = dao.firstWish(g_idx);
 			map.put("firstWish", dto.get(0).getHo_img());
 		}
-		System.out.println(map);
 		return map;
 	}
 	
@@ -76,10 +74,8 @@ public class WishController {
 	@ResponseBody
 	public List<Map<String, Object>> recentList(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name="recentIdx", defaultValue ="") ArrayList<Integer> recentIdx) {
-		//List<MainDTO> dto = new ArrayList<MainDTO>();
 		List<Map<String, Object>> list = new ArrayList<>();
 		MainDTO recent = new MainDTO();
-		// System.out.println(g_idx+""+ recentIdx);
 		if (recentIdx.size() > 0) {
 			int size = recentIdx.size()-1;
 			for(int i=size; i >= 0; i--) {
@@ -89,16 +85,11 @@ public class WishController {
 				map.put("HoName", recent.getHo_name());
 				map.put("HoImg", recent.getHo_img());
 				map.put("dIdx", recent.getD_idx());
-				// System.out.println(recent.getHo_idx());
 				int check = dao.recentCheck(g_idx, recentIdx.get(i));
 				map.put("check", check);
-//				int didx = dao.sel_didx(recent.getHo_idx());
-//				map.put("dIdx", didx);
 				list.add(map);
 			}
 		}
-		// System.out.println(list);
-		// Map<String, Object> map = new HashMap<>();
 		return list;
 	}
 	
@@ -106,11 +97,9 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishDelete(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		// System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishDelete(g_idx, h_idx);
 		map.put("result", result);
-		//map.put("check", 0);
 		return map;
 	}
 	
@@ -118,11 +107,9 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishUpdate(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		// System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishUpdate(g_idx, h_idx);
 		map.put("result", result);
-		//map.put("check", 1);
 		return map;
 	}
 }

@@ -12,7 +12,6 @@
 <select id="detail" resultType="com.example.syFinal.guest.model.dto.GuestDTO">
 	select * from guest,level where g_idx = #{g_idx} and g_level=l_level
 </select>
-<!-- g_join_date, l_name, g_url from guest, level -->
 
 <update id="update">
 	update guest 

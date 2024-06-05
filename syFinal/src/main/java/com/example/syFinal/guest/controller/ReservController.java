@@ -33,8 +33,6 @@ public class ReservController {
 	@ResponseBody
 	public Map<String, Object> list(@RequestParam(name = "g_idx") int g_idx) {
 		List<ReservDTO> dto = dao.list(g_idx);
-		// System.out.println(dto);
-		// System.out.println(dto);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		Date ck = new Date();
@@ -49,13 +47,10 @@ public class ReservController {
 			try {
 				ck = format.parse(dto.get(i).getO_ckin());
 				nowdate = format.parse(format.format(now));
-				System.out.println();
 			} catch (Exception e) {
 			}
-			// System.out.println(ck.before(now));
 			if (ck.after(now) || ck.equals(nowdate)) {
 				Map<String, Object> map2 = new HashMap<>();
-				// map2.put("HoIdx", dto.get(i).getD_ho_idx());
 				map2.put("OIdx", dto.get(i).getO_idx());
 				map2.put("HoImg", dto.get(i).getHo_img());
 				map2.put("OCkin", dto.get(i).getO_ckin());
@@ -65,7 +60,6 @@ public class ReservController {
 				map2.put("HoName", dto.get(i).getHo_name());
 				map2.put("OdIdx", dto.get(i).getO_didx());
 				after.add(map2);
-				//System.out.println("비포"+before);
 			} else {
 				Map<String, Object> map1 = new HashMap<>();
 				map1.put("OIdx", dto.get(i).getO_idx());
@@ -95,12 +89,10 @@ public class ReservController {
 		}
 		for (int i = before.size()-1; i >= 0; i--) {
 			be.add(before.get(i));
-			// System.out.println(be);
 		}
 		map.put("review", review);
 		map.put("before", be);
 		map.put("after", after);
-		// System.out.println(map);
 		return map;
 	}
 
@@ -112,7 +104,6 @@ public class ReservController {
 		dto.setO_reser(o_reser);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
-		System.out.println(dto);
 		String state_check = "";
 		int check = dao.check(o_idx);
 		if (check == 0) {
@@ -121,7 +112,6 @@ public class ReservController {
 		}
 		LocalDate date = LocalDate.parse(dto.getO_ckin());
 		map.put("ref_date", date.minusDays(1));
-		// System.out.println(map);
 		return map;
 	}
 
@@ -146,7 +136,6 @@ public class ReservController {
 		String refund = "";
 		int refund_money = 0;
 		ref_date = new Date(cal1.getTimeInMillis()); // 환불 가능 기한
-		// System.out.println(ref_date.before(now));
 		if (ref_date.before(now)) {
 			refund = "환불 불가능";
 		} else {
