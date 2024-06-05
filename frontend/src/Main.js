@@ -36,10 +36,6 @@ function Main() {
 
   useEffect(() => {getMain('http://localhost/guest/main');}, []);
 
-  let aa='';
-  if(list === null) {
-    aa = "none";
-  }
   return (
       <>
         <div className='container-fluid' align="center">

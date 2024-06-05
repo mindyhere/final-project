@@ -50,6 +50,7 @@ public class GuestController {
 			map.put("O_ckin", dto.get(i).getO_ckin());
 			map.put("O_ckout", dto.get(i).getO_ckout());
 			map.put("O_finalprice", dto.get(i).getO_finalprice());
+			map.put("O_refunddate", dto.get(i).getO_refunddate());
 			paylist.add(map);
 		}
 		return paylist;

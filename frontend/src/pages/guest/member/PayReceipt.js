@@ -7,11 +7,6 @@ import jsPDF from "jspdf";
 import moment from "moment";
 import "moment/locale/ko";
 
-//eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-//pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
-
-// Create styles
-
 const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
@@ -69,7 +64,6 @@ function PayPDF() {
             pdf.save("Sybnb Receipt.pdf");
         });
     };
-
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>
