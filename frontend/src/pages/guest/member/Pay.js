@@ -44,7 +44,7 @@ function Pay() {
                         :
                         <>
                             {paylist.map(
-                                ({O_idx,G_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice})=>(
+                                ({O_idx,G_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice,O_refunddate})=>(
                                     <PayItem
                                     O_idx={O_idx}
                                     G_idx={G_idx}
@@ -57,6 +57,7 @@ function Pay() {
                                     O_ckin={O_ckin}
                                     O_ckout={O_ckout}
                                     O_finalprice={O_finalprice}
+                                    O_refunddate={O_refunddate}
                                     key={G_idx}
                                     />
                                 )

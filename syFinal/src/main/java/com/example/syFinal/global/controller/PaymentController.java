@@ -59,6 +59,7 @@ public class PaymentController {
 	@RequestMapping("/paycancel")
 	public Map<String, Object> cancelPay(@RequestParam(name="paymentId") String payId,@RequestParam(name = "o_idx") int o_idx,@RequestParam(name = "g_idx") int gidx,@RequestParam(name = "pointPlus") int point) {
 		String result = dao.cancel(o_idx, gidx);
+		
 		try {
 			PortoneResponse portoneresponse=getToken();
 			if(portoneresponse==null) {
@@ -87,5 +88,11 @@ public class PaymentController {
 			e.printStackTrace();
             throw new RuntimeException("환불에 실패 했습니다 다시시도 바랍니다");
 		}
+	}
+	
+	//환불불가, 예약취소
+	@RequestMapping("/cancelreser")
+	public void cancelreser(@RequestParam(name = "o_idx") int o_idx,@RequestParam(name = "g_idx") int gidx) {
+		dao.cancel(o_idx, gidx);
 	}
 }
