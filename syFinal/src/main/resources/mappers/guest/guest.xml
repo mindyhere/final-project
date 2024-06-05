@@ -31,7 +31,8 @@
 		o_payment, 
 		DATE_FORMAT(o_ckin, '%Y/%m/%d') as o_ckin, 
 		DATE_FORMAT(o_ckout, '%Y/%m/%d') as o_ckout, 
-		o_finalprice
+		o_finalprice,
+		DATE_FORMAT(o_refunddate, '%Y년 %m월 %d일') as o_refunddate 
 		FROM hotel_detail d, orders o, guest g, hotel h
 		WHERE d.d_idx = o.o_didx AND g.g_idx = o_gidx AND d.d_ho_idx = h.ho_idx
 		and g_idx=#{g_idx}
@@ -118,7 +119,7 @@
 	<select id="reviewcount" resultType="com.example.syFinal.guest.model.dto.ReviewDTO">
 		SELECT COUNT(*) as reviewcount
 		FROM review
-		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx})
+		WHERE rv_writer=(SELECT g_email from guest where g_idx=#{gidx}) AND rv_deleted = 0
 	</select>
 	
 	<!-- 가입기간 -->

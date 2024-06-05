@@ -52,6 +52,7 @@ function CancelReserv() {
         if ( image !== null) {
             img = `<img src=${url} width='50px' height='50px' /><br />`;
         }
+        console.log("@@@@"+data.refund_money);
         return (
             <>
             <div className="container min-vh-100">
@@ -79,7 +80,40 @@ function CancelReserv() {
                 <div style={{paddingBottom:'40px'}}>
                     <h4>총 환불 금액<p style={{float:'right'}}>{data.refund_money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</p></h4>
                 </div>
+                {data.refund_money === 0
+                ?
                 <button type='button' className="main-btn" onClick={() => {
+                    console.log("----!_!_!_!_!__!");
+                    Swal.fire({
+                        title: '예약을 취소하시겠습니까?',
+                        text: '체크인 하루 전날은 환불 불가상태로 예약만 취소됩니다.',
+                        confirmButtonText: '확인',
+                        showCancelButton: true
+                      }).then((result)=>{
+                        if(result.isConfirmed) {
+                            const form = new FormData();
+                            form.append('o_idx', OIdx);
+                            form.append('g_idx', idx.key);
+                            fetch('http://localhost/cancelreser', {
+                                method: 'post',
+                                body: form,
+                            }).then(() => {
+                                Swal.fire({
+                                    icon : 'success',
+                                    text: '예약취소완료',
+                                    confirmButtonText: '확인'
+                                  }).then((result) => {
+                                    if(result.isConfirmed) {
+                                      window.location.href='/guest/reservation';
+                                    }
+                                  });
+                            });
+                        }
+                      });
+                }}>예약 취소</button>
+                :
+                <button type='button' className="main-btn" onClick={() => {
+                    console.log("여기아님아님아님");
                     Swal.fire({
                         title: '예약을 취소하시겠습니까?',
                         text: '예약 목록 화면으로 돌아갑니다',
@@ -123,7 +157,8 @@ function CancelReserv() {
                           }
                     });
                 }}>예약 취소</button>
-                </div>
+                }
+            </div>
 
                 <div className='card-reservDetail' style={{float: 'left'}}>
                     <div style={{float:'left', marginRight: '10px'}}><span dangerouslySetInnerHTML={{__html: img}}></span></div>

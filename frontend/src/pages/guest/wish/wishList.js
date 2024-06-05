@@ -20,8 +20,6 @@ function WishList() {
 
   var myArr = localStorage.getItem('watched');
     myArr = JSON.parse(myArr);
-    // const first = myArr[myArr.length - 1];
-    console.log(typeof myArr, myArr);
   
     useEffect(() => {getWish(`http://localhost/guest/wish/wishList?g_idx=${idx.key}`);},[]);
     return (

@@ -34,6 +34,7 @@ public class GuestDTO {
 	private String o_ckin;
 	private String o_ckout; 
 	private int o_finalprice;
+	private String o_refunddate;
 	private String l_name;
 	
 	private int ho_idx;

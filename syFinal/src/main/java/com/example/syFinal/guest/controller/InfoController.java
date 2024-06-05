@@ -86,7 +86,6 @@ public class InfoController {
 	@RequestMapping("detail")
 	public Map<String, Object> detail(@RequestParam(name = "g_idx", defaultValue = "") int g_idx) {
 		GuestDTO dto = dao.detail(g_idx);
-		//System.out.println(g_idx);
 		Map<String, Object> map = new HashMap<>();
 		map.put("dto", dto);
 		System.out.println(map);
@@ -96,8 +95,6 @@ public class InfoController {
 	@ResponseBody
 	@RequestMapping("confirmPwd")
 	public Map<String, Object> confirmPwd(@RequestParam(name = "g_email") String g_email, @RequestParam(name = "pwd") String g_passwd){
-		//System.out.println(g_email);
-		//System.out.println(g_passwd);
 		String passwd = loginDao.chkPw(g_email);
 		Map<String, Object> map = new HashMap<>();
 		if(pwdEncoder.matches(g_passwd, passwd)){ 
@@ -107,7 +104,6 @@ public class InfoController {
 		} else {
 			map.put("result", "no");
 		}
-		//System.out.println(map);
 		return map;		
 	}
 	
@@ -130,7 +126,6 @@ public class InfoController {
 			@RequestParam(name = "photo_img", required = false ) MultipartFile photo_img,HttpServletRequest request) {
 		String filename = "";
 		String photo = "";
-		//System.out.println(passwd);
 		GuestDTO dto = dao.detail(g_idx);
 		if (img != null && !img.isEmpty()) {
 			filename = img.getOriginalFilename();
@@ -160,14 +155,12 @@ public class InfoController {
 		}
 		if (g_phone != "" && g_phone.length() > 0) { dto.setG_phone(g_phone);}
 		if (g_profile != "" && g_profile.length() > 0) { dto.setG_profile(g_profile);}
-		//System.out.println(dto);
 		String result = dao.update(dto);
 		Map<String, Object> map = new HashMap<>();
 		map.put("g_photo", dto.getG_photo());
 		map.put("g_profile", dto.getG_profile());
 		map.put("g_phone", dto.getG_phone());
 		map.put("result", result);
-		// System.out.println(map);
 		return map;
 	}
 	

@@ -24,7 +24,6 @@ function Join() {
         if (regex.test(e.target.value)){
             setInputValue(e.target.value);
         }
-        console.log(inputValue.length);
         if(inputValue.length < 10) {
             setCheckCode(false);
         } else {
@@ -42,7 +41,6 @@ function Join() {
     });
     
     const changeButton = (e) => {
-        // console.log(g_email.current.value);
         g_email.current.value.includes('@') && g_email.current.value.length >=9
         ? setCheck(true) : setCheck(false)
     }
