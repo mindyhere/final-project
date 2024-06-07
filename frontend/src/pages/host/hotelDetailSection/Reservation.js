@@ -1,5 +1,6 @@
 import React, { useEffect, useState} from "react";
 import { useParams,useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
 import moment from "moment";
 import "moment/locale/ko";
 import { DateRangePicker  } from "react-date-range";
@@ -21,6 +22,7 @@ function useFetch(url) {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             setData(data);
             setLoading(false);
         })
@@ -29,11 +31,16 @@ function useFetch(url) {
 }
 
 function Reservation() {
+    const cookies = new Cookies();
+    const gidx = cookies.get("g_idx");
+    const userInfo = cookies.get("userInfo");
+    const gprofile = cookies.get("g_profile");
     const {HoIdx} = useParams();
+    const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
     const [info, setInfo] = useState(false);
     const [view, setView] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/reservation/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
     const navigate = useNavigate();
 
     const [state, setState] = useState({
@@ -61,7 +68,7 @@ function Reservation() {
    }
 
    function adultMinusBtn(){
-    if(adult == 0){
+    if(adult === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -76,7 +83,7 @@ function Reservation() {
    }
 
    function teenagerMinusBtn(){
-    if(teenager == 0){
+    if(teenager === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -87,11 +94,11 @@ function Reservation() {
    }
 
    function childPlusBtn(){
-    setChild(child + 1);
+        setChild(child + 1)
    }
 
    function childMinusBtn(){
-    if(child == 0){
+    if(child === 0){
         Swal.fire({
             icon : 'warning',
             text : '0 미만으로 선택할 수 없습니다.',
@@ -112,7 +119,7 @@ function Reservation() {
         const price = (data.d_price) * dateChar;
         const vat = price * 0.2;
         const totalPrice = price + vat;
-        const guestCounter = adult + teenager + child
+        const guestCounter = adult + teenager;
 
         return (
                 <div className="card-style mb-30">
@@ -124,14 +131,14 @@ function Reservation() {
                                     <th>체크아웃</th>
                                 </tr>
                                 <tr>
-                                    <td className="text-sm">{formatDateDisplay(state.startDate)}</td>
-                                    <td className="text-sm">{formatDateDisplay(state.endDate)}</td>
+                                    <td className="text-sm" style={{textAlign:'center'}}>{formatDateDisplay(state.startDate)}</td>
+                                    <td className="text-sm" style={{textAlign:'center'}}>{formatDateDisplay(state.endDate)}</td>
                                 </tr>
                             </tbody>
                             { modal &&
                                 <div className='Modal' onClick={() => setModal(false)} style={{zIndex : 999}}> 
                                 <div className='Body' onClick={(e) => e.stopPropagation()}>
-                                        <DateRangePicker
+                                    <DateRangePicker
                                         locale={ko}
                                         minDate={subDays(new Date(), 0)}             
                                         onChange={handleSelect}
@@ -142,6 +149,7 @@ function Reservation() {
                                         direction="horizontal"
                                         isClearable={true}
                                         rangeColors={["#DBC4F0"]}
+                                        disabledDates={data.imp_dates}
                                     />
                                     </div>
                                 </div>
@@ -153,22 +161,32 @@ function Reservation() {
                                             인원 선택
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu className="col-12">
-                                            
-                                            <Dropdown.Item className="col-6">성인</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={adultMinusBtn}> - </button>
-                                                {adult}
-                                                <button style={{marginLeft: '10px'}} onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
-
-                                            <Dropdown.Item>어린이</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={teenagerMinusBtn}> - </button>
-                                                {teenager}
-                                                <button style={{marginLeft: '10px'}} onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
-                                            
-                                            <Dropdown.Item>유아</Dropdown.Item>
-                                                <button style={{marginRight: '10px'}} onClick={childMinusBtn}> - </button>
-                                                {child}
-                                                <button style={{marginLeft: '10px'}} onClick={childPlusBtn}> + </button>
-                                           
+                                            <div className="row row-cols-2">
+                                                <div className="col-6">
+                                                    <Dropdown.Item>성인</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6 mb-10">
+                                                    <button className="circle-btn" onClick={adultMinusBtn}> - </button>
+                                                        {adult}
+                                                    <button className="circle-btn" onClick={adultPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                </div>
+                                                <div className="col-6 mb-10">
+                                                    <Dropdown.Item>어린이</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6">
+                                                    <button className="circle-btn" onClick={teenagerMinusBtn}> - </button>
+                                                        {teenager}
+                                                    <button className="circle-btn" onClick={teenagerPlusBtn} disabled={guestCounter >= data.d_capacity ? true : false}> + </button>
+                                                </div>
+                                                <div className="col-6">
+                                                    <Dropdown.Item>유아</Dropdown.Item>
+                                                </div>
+                                                <div className="col-6">
+                                                    <button className="circle-btn" onClick={childMinusBtn}> - </button>
+                                                        {child}
+                                                    <button className="circle-btn" onClick={childPlusBtn} disabled={child >= 5 ? true : false}> + </button>
+                                                </div>
+                                            </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     {
@@ -183,38 +201,55 @@ function Reservation() {
                             </tr>
                         
                     </table>
-                    <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
-                        if(totalPrice == 0){
-                            Swal.fire({
-                                icon : 'warning',
-                                text : '숙박날짜를 선택해주세요.',
-                            });
-                        } else {
-                            navigate('/guest/Order', {
-                                state: {
-                                    ckin:formatDateDisplay(state.startDate),
-                                    ckout:formatDateDisplay(state.endDate),
-                                    reser: guestCounter,
-                                    dprice: data.d_price,
-                                    pprice: price,
-                                    fprice: totalPrice,
-                                    dateChar : dateChar,
-                                    vat:vat,
-                                    HoIdx: HoIdx,
-                                    didx: data.d_idx
-                                }
-                            });
-                        }
-                    }} >예약하기</button>
-                    <div className="text-xs">예약 확정 전에는 요금이 청구되지 않습니다.</div>
+                    <div style={{textAlign:'center'}}>
+                        <button className="main-btnn mb-20" style={{width : '200px'}} type="button" onClick={() => {
+                            if(totalPrice === 0){
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '숙박날짜를 선택해주세요.',
+                                });
+                            } else if(userInfo !== undefined || gidx === undefined) {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    text : '게스트 로그인시 예약가능합니다.',
+                                });
+                            } else if (gidx.key !== undefined && gprofile.key === '미인증') {
+                                Swal.fire({
+                                    icon : 'warning',
+                                    title : '신분증 미등록상태',
+                                    text : '계정 > 로그인및보안 > 신분증등록',
+                                });
+                            }
+                            else {
+                                navigate('/guest/Order', {
+                                    state: {
+                                        ckin:formatDateDisplay(state.startDate),
+                                        ckout:formatDateDisplay(state.endDate),
+                                        reser: guestCounter,
+                                        adult: adult,
+                                        child: teenager,
+                                        baby: child,
+                                        dprice: data.d_price,
+                                        pprice: price,
+                                        fprice: totalPrice,
+                                        dateChar : dateChar,
+                                        vat:vat,
+                                        HoIdx: HoIdx,
+                                        dIdx: dIdx
+                                    }
+                                });
+                            }
+                            
+                        }} >예약하기</button>
+                    </div>
                     { view && 
                     <div className="container mb-20">
                         <div className="row">
                             <div className="col-6" style={{textAlign:'left', textDecoration: 'underline'}}>
-                                ￦{data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
+                                ￦ {data.d_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} X {dateChar} 박 
                             </div>
                             <div className="col-6" style={{textAlign:'right'}}>
-                                ￦{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦ {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                         <div className="row">
@@ -234,7 +269,7 @@ function Reservation() {
                                 </div>
                                 }
                             <div className="col-6 " style={{textAlign:'right'}}>
-                                ￦{vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                ￦ {vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </div>
                         </div>
                     </div>
@@ -246,7 +281,7 @@ function Reservation() {
                             <b>총 합계</b>
                         </div>
                         <div className="col-8" style={{textAlign : 'right'}}>
-                           <b> ￦{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
+                           <b> ￦ {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
                         </div>
                     </div>
                 </div>

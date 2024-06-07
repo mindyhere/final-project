@@ -20,7 +20,6 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchkey", searchkey);
 		map.put("search", search);
-		System.out.println("DATIMPL : " + searchkey);
 		return sqlSession.selectList("notice.list", map);
 	}
 
@@ -40,21 +39,20 @@ public class ANoticeDAOImpl implements ANoticeDAO {
 	}
 
 	@Override
-	public String update(ANoticeDTO dto) {
-		String result = "";
-		try {
-			sqlSession.update("admin.ag_update", dto);
-			result = "success";
-		} catch (Exception e) {
-			result = "fail";
-		}
-		return result;
+	public void insert(Map<String, Object> map) {
+		sqlSession.insert("notice.insert", map);
+
 	}
 
 	@Override
-	public String insert(ANoticeDTO dto) {
-		return sqlSession.selectOne("notice.insert", dto);
-
+	public int update(int n_idx, String n_writer, String n_title, String n_content, String n_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("n_idx", n_idx);
+		params.put("n_writer", n_writer);
+		params.put("n_title", n_title);
+		params.put("n_content", n_content);
+		params.put("n_date", n_date);
+		return sqlSession.update("notice.update", params);
 	}
 
 }

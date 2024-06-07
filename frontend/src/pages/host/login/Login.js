@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import GuestJoin from "../../guest/join";
+import GuestJoin from "../../guest/member/join";
 import HostJoin from "./Join_modal";
 import "../host1.css";
 
@@ -16,25 +16,13 @@ function HostLogin() {
   const [modal, setModal] = useState(false);
 
   const handleCookie = (data) => {
-    const time = 3600; // 1hr
+    let expires = new Date();
     const cookies = new Cookies();
-    const expiration = new Date(Date.now() + time * 1000);
+    expires.setDate(expires.getDate() + 1);
     cookies.set("userInfo", data, {
       path: "/",
-      expires: expiration,
+      expires: expires,
     });
-    // console.log(cookies.get("userInfo"))
-
-    setTimeout(() => {
-      Swal.fire({
-        icon: "info",
-        title: "Check",
-        html: "세션이 만료되었습니다. 다시 로그인해주세요.",
-        timer: 2000,
-      }).then(() => {
-        navigate("/");
-      });
-    }, time * 1000);
   };
 
   return (
@@ -42,13 +30,13 @@ function HostLogin() {
       <div className="container min-vh-100">
         <h3 className="text-bold">
           <img src="/img/login.png" width="35px" height="35px" />
-          &nbsp;로그인
+          &nbsp;호스트 로그인
         </h3>
         <br />
         <p className="text-sm text-gray">
           로그인을 하시면 보다 더 많은 정보와 서비스를 이용하실 수 있습니다.
         </p>
-        <hr />
+
         <div className="card-style mb-30">
           <form>
             <div>
@@ -96,7 +84,6 @@ function HostLogin() {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
                       if (data.msg == "success") {
                         handleCookie(data.dto);
                         navigate("/");
@@ -121,7 +108,7 @@ function HostLogin() {
         <div
           className="card-style d-flex align-items-center"
           style={{
-            backgroundColor: "#E8E8E4",
+            backgroundColor: "#EEEEEE",
             border: "1px solid #D5D5D5",
             height: "300px",
           }}
@@ -160,10 +147,6 @@ function HostLogin() {
                     className="modalBody"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {/* <button class="btnClose" style={{ zIndex: 999 }} onClick={() => setModal(false)}>
-                      X
-                    </button> */}
-
                     <div
                       className="container min-vh-100"
                       style={{ paddingTop: "15px" }}

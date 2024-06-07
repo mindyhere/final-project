@@ -22,7 +22,8 @@ function HotelRooms() {
         <div style={{
             display:'grid',
             gridTemplateRows:'1fr',
-            gridTemplateColumns:'1fr 1fr 1fr',
+            gridTemplateColumns:'1fr 1fr',
+            cursor: 'pointer',
         }}>
         {list.map(
                     ({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea, dBeds, dNonSmoking, dPrice})=>(

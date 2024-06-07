@@ -1,212 +1,303 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { PersonWorkspace, PencilSquare, Trash } from "react-bootstrap-icons";
-import { useNavigate } from 'react-router';
-import Swal from "sweetalert2";
+import '../admin/css/astyles.css';
+import { CardList, House, HouseCheckFill, Person, PersonVcard } from 'react-bootstrap-icons';
+import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
+import { useNavigate} from "react-router-dom";
+import Sidebar from './sidebar';
 
 function Ahost() {
     const navigate = useNavigate();
+    const cookies = new Cookies();
+    const a_id = cookies.get("a_id");
     const searchkey = useRef();
     const search = useRef();
-    const [ahitem, setAhitem] = useState("");
-    const [selectedItem, setSelectedItem] = useState(null);
-    const cookies = new Cookies(); 
-    const [inputValue, setInputValue] = useState();
+    const [ahitem, setAhitem] = useState([]);
+    const [message, setMessage] = useState(null);
 
-    const removeCookies = () => {
-        cookies.remove("h_idx", { path: "/" }, 100);
-        cookies.remove("h_name", { path: "/" }, 100);
-        cookies.remove("h_email", { path: "/" },100);
-        cookies.remove("h_phone", { path: "/" },100);
-        cookies.remove("h_business", { path: "/" },100);
-        cookies.remove("h_level", { path: "/" },100);
-        cookies.remove("h_status", { path: "/" },100);
-        cookies.remove("h_regdate", { path: "/" },100);
-        cookies.remove("h_profile", { path: "/" },100);
-        cookies.remove("h_description", { path: "/" },100);
+    useEffect(() => {
+       fetchhost();   
+    }, []);
+
+    const fetchhost = () => {
+        const form = new FormData();
+        form.append('searchkey', searchkey.current.value);
+        form.append('search', search.current.value);
+        fetch('http://localhost/admin/ah_list', {
+            method: 'post',
+            body: form
+        }).then(response => response.json())
+            .then(list => {     
+            setAhitem(list);           
+            });
     };
 
-    const btndelete =() =>{
-        if (window.confirm('정말로 탈퇴시키겠습니까?')) {
-            fetch(`http://localhost/admin/ah_delete?h_idx=${selectedItem.h_idx}`, {
-                method: 'POST' 
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
+
+    const getlevel = (h_level) => {
+        if (h_level == 8) {
+            return '호스트';
+        } else if (h_level == 9) {
+            return '슈퍼호스트';
+        }
+    };
+
+    const approveHost = (h_idx, h_status, h_file, h_business, h_bankbook, h_accountnum) => {
+        if (h_status === '승인대기') {
+            const form = new FormData();
+            form.append('h_file', h_file);
+            form.append('h_idx', h_idx);
+    
+            Swal.fire({
+                title: '가입 승인',
+                text: '사업자 가입을 승인하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '승인',
+                cancelButtonText: '취소',
+                confirmButtonColor: '#41774d86',
+                cancelButtonColor: '#838383d2'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (h_file.length === 1) {
+                        Swal.fire({
+                            title: '사업자 등록증 확인 불가',
+                            text: '사업자 등록증이 없습니다.',
+                            icon: 'error',
+                            confirmButtonColor: '#41774d86'
+                        });
+                        return;
+                    }
+    
                     Swal.fire({
-                        title: '회원 삭제 완료',
-                        showCancelButton: false,
+                        title: `사업자 등록증 확인 완료`,
+                        text: `등록번호: ${h_business}`,
+                        imageUrl: `http://localhost/static/images/host/profile/${h_file}`,
+                        imageWidth: 400,
+                        imageHeight: 400,
+                        showCancelButton: true,
                         confirmButtonText: '확인',
+                        cancelButtonText: '취소',
+                        confirmButtonColor: '#41774d86',
+                        cancelButtonColor: '#838383d2'
                     }).then((result) => {
-                        if(result.isConfirmed) {
-                            removeCookies("host");
-                            window.location.href='/admin/ahost';
+                        if (result.isConfirmed) {
+                            if (h_accountnum.length === 0) {
+                                Swal.fire({
+                                    title: '계좌번호 확인 불가',
+                                    text: '계좌번호가 등록되지 않았습니다.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#41774d86'
+                                });
+                                return;
+                            }
+    
+                            Swal.fire({
+                                title: `계좌번호 확인 완료`,
+                                text: `계좌번호: ${h_accountnum}`,
+                                imageUrl: `http://localhost/static/images/host/profile/${h_bankbook}`,
+                                imageWidth: 400,
+                                imageHeight: 400,
+                                showCancelButton: true,
+                                confirmButtonText: '확인',
+                                cancelButtonText: '취소',
+                                confirmButtonColor: '#41774d86',
+                                cancelButtonColor: '#838383d2'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`http://localhost/admin/approve`, {
+                                        method: 'post',
+                                        body: form,
+                                    }).then(response => {
+                                        if (response.ok) {
+                                            return response.text();
+                                        }
+                                        throw new Error('Error.');
+                                    }).then(message => {
+                                        if (message === 'success') {
+                                            const updatedAhitem = ahitem.map(item => {
+                                                if (item.h_idx === h_idx) {
+                                                    return { ...item, h_status: '승인완료' };
+                                                }
+                                                return item;
+                                            });
+                                            setAhitem(updatedAhitem);
+                                            setMessage(message);
+                                            Swal.fire({
+                                                title: '승인 완료',
+                                                text: '사업자 가입이 승인되었습니다.',
+                                                icon: 'success',
+                                                confirmButtonColor: '#41774d86'
+                                            });
+                                        }
+                                    }).catch(error => {
+                                        console.error('Error', error);
+                                        Swal.fire({
+                                            title: '에러 발생',
+                                            text: '사업자 가입 승인에 실패했습니다.',
+                                            icon: 'error',
+                                            confirmButtonColor: '#41774d86'
+                                        });
+                                    });
+                                }
+                            });
                         }
                     });
-                } else {
-                    Swal.fire({
-                        title: '에러 발생',
-                        text: '관리자에게 문의하세요',
-                        showCancelButton: false,
-                        confirmButtonText: '확인',
-                    });
                 }
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
             });
-        } 
+        } else if (h_status === '가입완료') {
+            Swal.fire({
+                title: '승인 요청 없음',
+                text: '승인 대기 상태가 아닙니다.',
+                icon: 'info',
+                confirmButtonColor: '#41774d86'
+            });
+        }
+    };
+        
+    const getButtonClass = (h_status) => {
+        switch (h_status) {
+            case '승인완료':
+                return 'btn btn-sm btn-secondary custom-button1';
+            case '승인대기':
+                return 'btn btn-sm btn-primary custom-button1';
+            case '가입완료':
+                return 'btn btn-sm btn-success custom-button1';
+            default:
+                return 'btn';
+        }
     };
 
-    const handleChange = (e) => {
-        setInputValue(e.target.value);
-    }
-    
-    const openModal = (item) => {
-        setSelectedItem(item);
+    const getButtonLabel = (h_status) => {
+        switch (h_status) {
+            case '승인완료':
+                return '완료';
+            case '가입완료':
+                return '승인대기';
+            case '승인대기':
+                return '가입승인';      
+            default:
+                return '-';
+        }
     };
 
-    const closeModal = () => {
-        setSelectedItem(null);
-    };
-  
     return (
         <>
-            <nav className="navbar bg-body-tertiary fixed-top">
-                <a className="navbar-brand" href='./amain'>
-                    <PersonWorkspace width="50" height="50" />&nbsp; 관리자 페이지
-                </a>
-            </nav>
-            <div>
-                <h2>사업자 관리</h2><br />
-                <select ref={searchkey} defaultValue='h_name'>
-                    <option value="h_name">사업자명</option>
-                    <option value="h_email">사업자ID</option>
-                    <option value="h_idx">사업자 번호</option>
-                </select>
-                &nbsp;
-                <input ref={search} />
-                &nbsp;
-                <button type='button' className="btn btn-outline-success" onClick={() => {
-                    const form = new FormData();
-                    form.append('searchkey', searchkey.current.value);
-                    form.append('search', search.current.value);
-                    fetch('http://localhost/admin/ah_list', {
-                        method: 'post',
-                        body: form
-                    }).then(response => response.json())
-                        .then(list => {
-                            console.log('list' + JSON.stringify(list));
-                            setAhitem(list);
-                        });
-                }}>조회</button>
-                <br /><br />
-
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>프로필</th>
-                            <th>사업자명</th>
-                            <th>사업자ID</th>
-                            <th>전화번호</th>
-                            <th>가입날짜</th>
-                            <th>등급</th>
-                            <th>가입승인</th>
-                            <th>관리</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ahitem && ahitem.map((list) =>
-                            <tr key={list.h_idx}>
-                                <td>{list.h_idx}</td>
-                                <td><img src={list.h_profile} style={{ width: '50px', height: '50px' }} /></td>
-                                <td>{list.h_name}</td>
-                                <td>{list.h_email}</td>
-                                <td>{list.h_phone}</td>
-                                <td>{list.h_regdate}</td>
-                                <td>{list.h_level}</td>
-                                <td>{list.h_status}</td>
-                                <td>
-                                    <button type="button" className="btn" onClick={() => openModal(list)}>
-                                        <PencilSquare width="25" height="25" />
-                                    </button>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-
-                {selectedItem && (
-                    <div className="modal" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                        <div className="modal-dialog modal-lg modal-dialog-centered" style={{ borderRadius: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.3)' }}>
-                            <div className="modal-content" style={{ borderRadius: '20px', background: '#fff', padding: '20px', width: '100%', height: '300%' }}>
-                                <div className="modal-header">
-                                    <h5 className="modal-title">{selectedItem.h_name}님의 상세 정보</h5>
-                                    <button type="button" className="close" onClick={closeModal}>
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+            <div className="container-fluid">
+                <div className="row">
+                <Sidebar/>
+                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div className="container11 mt-5">
+                            <nav>
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item"  style={{cursor : 'default', backgroundColor: 'white' }}>회원관리</li>
+                                    <li className="breadcrumb-item active" aria-current="page"  style={{cursor : 'default', backgroundColor: 'white' }}>사업자정보관리</li>
+                                </ol>
+                            </nav>
+                            <br />
+                            <div className="card-style mb-30">
+                            <h2 className="header"><PersonVcard width="50px" height="40px" /> 사업자정보관리</h2>
+                            <hr />
+                            <div className="row justify-content-center">
+                                <div className="row mb-3">
+                                <div className="col-md-2">
+                                        <select ref={searchkey} className="form-select" defaultValue='h_name'>
+                                            <option value="h_name">사업자명</option>
+                                            <option value="h_email">사업자ID</option>
+                                            <option value="h_idx">사업자번호</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <input ref={search} className="form-control" placeholder="검색어를 입력하세요" />
+                                    </div>
+                                    <div className="col-md-2">
+                                        <button type='button' className="btn btn-sign2" onClick={fetchhost}>조회</button>
+                                    </div>
                                 </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <label>프로필</label>
-                                            <img src={selectedItem.h_profile} className="img-fluid" />
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>사업자명</label>
-                                        <input type="text" className="form-control"
-                                            name="g_name" value={selectedItem.h_name} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>사업자ID</label>
-                                        <input type="text" className="form-control"
-                                            name="g_email" value={selectedItem.h_email} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>전화번호</label>
-                                        <input type="text" className="form-control"
-                                            name="g_passwd" value={selectedItem.h_phone} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>등급</label>
-                                        <input type="text" className="form-control"
-                                            name="g_phone" value={selectedItem.h_level} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>사업자등록번호</label>
-                                        <input type="text" className="form-control"
-                                            name="g_phone" value={selectedItem.h_business} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>가입상태</label>
-                                        <input type="text" className="form-control"
-                                            name="g_phone" value={selectedItem.h_status} onChange={handleChange}  />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>가입일자</label>
-                                        <input type="text" className="form-control"
-                                            name="g_phone" value={selectedItem.h_regdate} onChange={handleChange} readOnly />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>소개글</label>
-                                        <input type="text" className="form-control"
-                                            name="g_phone" value={selectedItem.h_description} onChange={handleChange} readOnly />
-                                    </div>                               
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={closeModal}>닫기</button>
-                                    <button type="button" className="btn btn-secondary" onClick={btndelete}>삭제</button>
-                                </div>
+                                <table className="table table-hover table-bordered custom-table1">
+                                    <thead className="table-light">
+                                        <tr>
+                                            <th>no.</th>
+                                            <th>사업자명</th>
+                                            <th>사업자ID</th>
+                                            <th>전화번호</th>
+                                            <th>사업자등록증/등록번호</th>
+                                            <th>통장사본/계좌번호</th>
+                                            <th>가입날짜</th>
+                                            <th>등급</th>
+                                            <th>가입상태</th>
+                                            <th>승인</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {ahitem.length > 0 ?
+                                        (ahitem.map((list) =>
+                                            <tr key={list.h_idx}>
+                                                <td>{list.h_idx}</td>
+                                                <td>{list.h_name}</td>
+                                                <td>{list.h_email}</td>
+                                                <td>{list.h_phone}</td>
+                                                <td>등록증:
+                                                {list.h_file.length === 1 ? (
+                                                   list.h_file   
+                                                ) : (
+                                                    <button 
+                                                    type="button" 
+                                                    className="btn btn-link" 
+                                                    onClick={() => window.open(
+                                                        `http://localhost/static/images/host/profile/${list.h_file}`, 
+                                                        'width=500,height=500'
+                                                    )}
+                                                    >
+                                                     {list.h_file}
+                                                    </button>
+                                                )} 
+                                                <br/>
+                                                등록번호: {list.h_business}
+                                                </td>
+                                                <td>사본:
+                                                {list.h_bankbook.length === 1 ? (
+                                                list.h_bankbook
+                                                ) : (
+                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
+                                                {list.h_bankbook}
+                                                </button>
+                                            )}<br/>   
+                                             계좌번호: {list.h_accountnum}                                              
+                                                </td>
+                                                <td>{list.h_regdate}</td>
+                                                <td>{getlevel(list.h_level)}</td>
+                                                <td>{list.h_status}</td>
+                                                <td>
+                                                <button 
+                                                    type="button" 
+                                                    className={getButtonClass(list.h_status)} 
+                                                    onClick={() => approveHost(list.h_idx, list.h_status, list.h_file, list.h_business,list.h_bankbook, list.h_accountnum)} 
+                                                    disabled={list.h_status === '승인완료'}
+                                                    >
+                                                   {getButtonLabel(list.h_status)}
+                                                  </button>
+                                                </td>
+                                                
+                                            </tr>
+                                       
+                                        ))
+                                        : 
+                                        <tr>
+                                        <td colSpan={10}>검색 결과가 없습니다. </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                             </div>
                         </div>
-                    </div>
-                )}
+                        <br/><br/><br/>
+                        <br/><br/><br/>
+                    </main>
+                </div>
             </div>
+          
         </>
     );
 }
-
 export default Ahost;

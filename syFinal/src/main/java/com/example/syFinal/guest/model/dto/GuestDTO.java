@@ -27,11 +27,17 @@ public class GuestDTO {
 	private int g_cvc;
 	private int g_point;
 	private String d_img1;
+	private int o_idx;
 	private int o_state;
 	private String o_orderdate;
 	private int o_payment;
 	private String o_ckin;
 	private String o_ckout; 
 	private int o_finalprice;
+	private String o_refunddate;
 	private String l_name;
+	
+	private int ho_idx;
+	private int d_idx;
+	private String joindate;
 }

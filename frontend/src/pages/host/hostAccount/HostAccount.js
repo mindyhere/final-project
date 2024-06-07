@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import ListReviews from "./ListReviews";
-import Orders from "./Orders";
+import SalesChart from "./SalesChart";
 
 import {
   ClipboardData,
@@ -14,16 +14,15 @@ import {
 import Swal from "sweetalert2";
 
 function useFetch(url) {
+  const cookies = new Cookies();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        // console.log("===> data? " + JSON.stringify(data));
         setData(data);
         setLoading(false);
       });
@@ -35,11 +34,8 @@ function HostAccount() {
   const cookies = new Cookies();
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
-  const userEmail = userInfo.h_email;
-  const userName = userInfo.h_name;
-  const level = userInfo.h_level;
-
   const navigate = useNavigate();
+
   const [data, loading] = useFetch(
     `http://localhost/api/host/account/${userIdx}`
   );
@@ -67,15 +63,16 @@ function HostAccount() {
           h_name: `${data.h_name}`,
           h_phone: `${data.h_phone}`,
           h_business: `${data.h_business}`,
+          h_accountnum: `${data.h_accountnum}`,
           h_level: `${data.h_level}`,
           l_name: `${data.l_name}`,
           h_status: `${data.h_status}`,
           h_regdate: `${data.h_regdate}`,
           h_profile: `${data.h_profile}`,
           h_file: `${data.h_file}`,
+          h_bankbook: `${data.h_bankbook}`,
           h_description: `${data.h_description}`,
         },
-        //replace: true, // 뒤로가기 시 root로 이동
       });
     };
 
@@ -105,7 +102,7 @@ function HostAccount() {
                           boxSizing: "border-box",
                         }}
                       >
-                        {level === 9 ? (
+                        {data.level === 9 ? (
                           <div
                             className="col"
                             style={{
@@ -136,11 +133,11 @@ function HostAccount() {
                         ></div>
                       </td>
                       <th>이메일(ID)</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userEmail}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_email}</td>
                     </tr>
                     <tr>
                       <th>이름</th>
-                      <td colSpan={3}>&nbsp;&nbsp;{userName}</td>
+                      <td colSpan={3}>&nbsp;&nbsp;{data.h_name}</td>
                     </tr>
                     <tr>
                       <th>전화번호</th>
@@ -163,7 +160,8 @@ function HostAccount() {
                                     onClick={() => {
                                       if (
                                         data.h_profile !== "-" &&
-                                        data.h_file !== "-"
+                                        data.h_file !== "-" &&
+                                        data.h_bankbook !== "-"
                                       ) {
                                         levelUp(userIdx, 1);
                                       } else {
@@ -215,18 +213,16 @@ function HostAccount() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${data.h_email}`
                           )
                             .then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);
                               }
-                              // console.log("확인: " + response.status);
 
                               return response.json();
                             })
                             .catch((error) => {
-                              // console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -250,10 +246,10 @@ function HostAccount() {
           <div className="container card-style">
             <h3 className="text-bold">
               <ClipboardData size={35} />
-              &nbsp;주문 현황
+              &nbsp;서비스 이용 현황
             </h3>
             <br />
-            <Orders />
+            <SalesChart />
           </div>
           <div className="container card-style mb-50">
             <h3 className="text-bold">
@@ -274,31 +270,30 @@ function HostAccount() {
 
 function levelUp(userIdx, opt) {
   if (opt === 1) {
-    fetch(`http://localhost/api/host/levelUp/${userIdx}`, { method: "get" })
-      .then((response) => {
-        // console.log("response 확인: " + response.status);
-        if (!response.ok) {
-          throw new Error("false: " + response.status);
+    fetch(`http://localhost/api/host/levelUp/${userIdx}`, {
+      method: "get",
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("false: " + response.status);
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Check",
+        html:
+          "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
         }
-        Swal.fire({
-          icon: "success",
-          title: "Check",
-          html: "신청이 완료되었습니다.<br/>마이페이지에서 처리현황을 확인 할 수 있습니다.",
-          confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error);
       });
+    });
   } else {
     Swal.fire({
       icon: "warning",
       title: "잠깐!",
-      html: "신청이 거부되었습니다.<br/>프로필/사업자등록증을 업로드해주세요.",
+      html:
+        "신청이 거부되었습니다. 첨부파일을 업로드해주세요.<br/>(프로필, 사업자등록증, 통장사본)",
       confirmButtonText: "OK",
     });
   }

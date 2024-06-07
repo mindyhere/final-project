@@ -3,11 +3,12 @@
 <mapper namespace="admin">
 
 	<!-- 관리자 로그인 -->
-	<select id="a_login" resultType="String">
-		select a_name
+	<select id="a_login" resultType="java.util.Map">
+		select a_id, a_passwd, a_name
 		from admin
 		where
-		a_id = #{a_id} and a_passwd = #{a_passwd}
+		a_id = #{a_id} and
+		a_passwd = #{a_passwd}
 	</select>
 
 	<!-- 회원 목록 -->
@@ -22,10 +23,7 @@
 		g_url,
 		g_profile,
 		g_level,
-		g_card,
 		g_join_date,
-		g_date,
-		g_cvc,
 		g_point,
 		g_photo
 		from
@@ -43,7 +41,7 @@
 		g_url,
 		g_level,
 		g_point,g_photo,
-		g_card,g_profile,g_join_date ,g_date
+		g_profile,g_join_date
 		from guest
 		, levle
 		where
@@ -60,32 +58,102 @@
 		where g_idx = #{g_idx}
 	</update>
 
-	<!-- 회원 삭제 -->
-	<delete id="ag_delete">
-		delete
-		from guest
-		where g_idx = #{g_idx}
-	</delete>
-
- <!-- 회원 쿠폰 발급 -->
-<insert id="gcoupon">
-</insert>
-
 	<!-- 사업자 목록 -->
 	<select id="ah_list"
 		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
-		select h_idx, h_email, h_name, h_phone, h_level, h_status,h_business,
+		select h_idx, h_email, h_name, h_phone, h_level,
+		h_status,h_business,h_file,h_bankbook,h_accountnum,
 		h_regdate, h_profile, h_description
-		from host
-		where ${searchkey} like
+		from
+		host
+		where
+		${searchkey} like
 		CONCAT('%',#{search},'%')
 	</select>
 
-	<!-- 사업자 삭제 -->
-	<delete id="ah_delete">
-		delete
-		from host
-		WHERE h_idx = #{h_idx}
-	</delete>
+	<!-- 사업자 등록증 확인 -->
+	<select id="a_fileCheck"
+		resultType="com.example.syFinal.admin.model.dto.AHostDTO">
+		select h_file from host WHERE h_idx = #{h_idx}
+	</select>
+
+	<!-- 사업자 가입승인 -->
+	<update id="ah_approve" parameterType="int">
+		update host
+		set
+		h_status="승인완료", h_level = 9
+		where h_idx=#{h_idx}
+	</update>
+
+
+	<!-- 호텔 목록 -->
+	<select id="list"
+		resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		SELECT
+		distinct(ho_idx), ho_name, ho_address, ho_level, ho_business,
+		ho_status,
+		ho_description,h_business,h_name
+		FROM hotel,host
+		WHERE
+		ho_business = h_business and
+		${searchkey} LIKE
+		CONCAT('%', #{search},
+		'%')
+		<if test="status != ''">
+			AND ho_status = #{status}
+		</if>
+		ORDER BY
+		ho_idx DESC
+	</select>
+
+	<!-- 호텔 등록/영업재개 승인 -->
+	<update id="updateHotelStatus" parameterType="map">
+		UPDATE hotel,
+		hotel_detail , hotel_amenity
+		SET ho_status = 2, d_status = 2,
+		ha_status=2
+		WHERE ho_idx =#{ho_idx}
+		AND d_ho_idx = d_ho_idx
+		AND ha_ho_idx
+		=ha_ho_idx
+	</update>
+
+	<!-- 호텔 영업 정지 승인 -->
+	<update id="updateHotelClose" parameterType="map">
+		UPDATE hotel,
+		hotel_detail , hotel_amenity
+		SET ho_status = 3, d_status = 3,
+		ha_status=3
+		WHERE ho_idx =#{ho_idx}
+		AND d_ho_idx = d_ho_idx
+		AND ha_ho_idx
+		=ha_ho_idx
+	</update>
+
+	<!-- 등록된 호텔 수 -->
+	<select id="hotelCount" resultType="Int">
+		SELECT COUNT(*) FROM hotel
+	</select>
+
+	<!-- 호텔상세 -->
+	<select id="ADetailHotel"
+		resultType="com.example.syFinal.host.model.dto.HotelDTO">
+		select * from host, hotel, hotel_detail, hotel_amenity
+		where ho_idx = #{ho_idx} and
+		ho_business = h_business and
+		ho_idx = d_ho_idx and
+		ho_idx = ha_ho_idx
+	</select>
+
+	<!--차트 매출 -->
+	<select id="Achart"
+		resultType="com.example.syFinal.admin.model.dto.AdminDTO">
+		select ho_idx, ho_name, sum, month
+		from v_sales
+		where month =
+		#{strToday} and SUM > 0
+		ORDER BY SUM desc
+		LIMIT 5
+	</select>
 
 </mapper>

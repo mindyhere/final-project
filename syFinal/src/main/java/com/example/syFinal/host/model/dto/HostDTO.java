@@ -22,4 +22,6 @@ public class HostDTO {
 	private String h_profile;
 	private String h_file;
 	private String h_description;
+	private String h_accountnum;
+	private String h_bankbook;
 }

@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,16 +27,14 @@ public class ReplyDAOImpl implements ReplyDAO {
 		sqlSession.delete("reply.delete", rp_idx);
 	}
 
-//	@Override
-//	public List<Map<String, Object>> search(Map<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Map<String, Object>> searchAll(String keyword) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<Map<String, Object>> searchReviews(Map<String, Object> map) {
+		List<Map<String, Object>> list = sqlSession.selectList("reply.searchReviews", map);
+		return list;
+	}
 
+	@Override
+	public int count(Map<String, Object> map) {
+		return sqlSession.selectOne("reply.count", map);
+	}
 }

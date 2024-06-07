@@ -44,7 +44,6 @@ public class LoginController {
 			map.put("g_profile", map1.get("g_profile"));
 			map.put("g_photo", map1.get("g_photo"));
 			map.put("message", "success");
-			System.out.println(map);
 		} else if(passwd.equals("no")) {
 			map.put("message", "no");
 		} else {
@@ -64,7 +63,8 @@ public class LoginController {
 			result = "no";
 		} else if (check == 1) {
 			String randomPw = emailService.getTempPassword();
-			dao.randomPw(g_email, randomPw);
+			String passwd = pwdEncoder.encode(randomPw);
+			dao.randomPw(g_email, passwd);
 			EmailDTO dto = emailService.prepareTempPwdEmail(g_email, randomPw);
 			result = emailService.sendMail(dto); 
 		} else {

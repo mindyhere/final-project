@@ -1,40 +1,54 @@
-import React, { useState, useRef, useEffect} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import Join from "../pages/guest/join";
+import Join from "../pages/guest/member/join";
 import HostJoin from "../pages/host/login/Join_modal";
-
 
 import "../pages/guest/modall.css";
 import "../pages/host/host1.css";
 
 import Swal from "sweetalert2";
 import Cookies from "universal-cookie";
-import { EnvelopeAt, Telephone, Star } from "react-bootstrap-icons";
-
 
 function Header() {
   const navigate = useNavigate();
-  
+
   const [modal_1, setModal_1] = useState(false);
   const [modal, setModal] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const modalBackground = useRef();
   const [join, setJoin] = useState(false);
   const [hostJoin, setHostJoin] = useState(false);
   const cookies = new Cookies();
+  const timerRef = useRef(null);
+
+  const timeoutAlert = (type) => {
+    timerRef.current = setTimeout(() => {
+      Swal.fire({
+        icon: "warning",
+        title: "Check",
+        html: "세션이 만료되었습니다.</br>메인 화면으로 이동합니다.",
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        window.location.href = "/";
+      });
+      removeCookies(type);
+    }, 1000 * 60 * 60 * 24);
+  };
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   //게스트 쿠키
-  const g_idx = cookies.get("g_idx");
-  const g_name = cookies.get("g_name");
   const g_email = cookies.get("g_email"); //쿠키변수명
   const g_level = cookies.get("g_level");
-  const g_phone = cookies.get("g_phone");
   const g_photo = cookies.get("g_photo");
 
   //호스트 쿠키
   const userInfo = cookies.get("userInfo");
 
+  // 관리자 쿠키
+  const a_id = cookies.get("a_id");
 
   //쿠키삭제
   const removeCookies = (type) => {
@@ -51,24 +65,39 @@ function Header() {
       case "host":
         cookies.remove("userInfo", { path: "/" }, new Date(Date.now()));
         break;
+      case "admin":
+        cookies.remove("a_id", { path: "/" }, new Date(Date.now()));
+        cookies.remove("a_passwd", { path: "/" }, new Date(Date.now()));
+        break;
     }
   };
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
-  if (locationNow.pathname === "/guest/write") return null; // 팝업창에서 헤더 제거
-  if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null; // 팝업창에서 헤더 제거
+  if (
+    locationNow.pathname === "/guest/write" ||
+    locationNow.pathname === "/guest/edit"
+  )
+    return null; // 팝업창에서 헤더 제거
+  if (
+    locationNow.pathname === "/host/account/manage/review" ||
+    locationNow.pathname === "/host/account/manage/reply"
+  )
+    return null;
+  if (locationNow.pathname === `/admin/alogin/${a_id}`) return null;
 
-  if (userInfo == null && g_email == null) {
+  if (userInfo == null && g_email == null && a_id == null) {
+    console.log("a_id 로그인X cookie==> " + a_id);
+    console.log("g_email 로그인X cookie==> " + g_email);
     console.log("로그인X cookie==> " + userInfo);
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="62px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -191,7 +220,7 @@ function Header() {
 
                     <div
                       className="container min-vh-100"
-                      style={{ paddingTop: "15px" }}
+                      style={{ paddingTop: "13px" }}
                     >
                       <h3 className="text-bold">
                         <img src="/img/join.png" width="35px" height="35px" />
@@ -218,21 +247,17 @@ function Header() {
                           >
                             게스트
                           </label>
-                          {join && (
-                            <Modall
-                              closeModal={() => {
-                                setJoin(!join);
-                              }}
-                            >
-                              <Join />
-                            </Modall>
-                          )}
                         </div>
+                        {join && (
+                          <Modall>
+                            <Join />
+                          </Modall>
+                        )}
 
                         <div
                           className="card-style2"
                           onClick={() => {
-                            setHostJoin(!hostJoin);
+                            setHostJoin(true);
                           }}
                         >
                           <img
@@ -247,12 +272,7 @@ function Header() {
                             호스트
                           </label>
                           {hostJoin && (
-                            <ModalH
-                              closeModal={() => {
-                                setHostJoin(!hostJoin);
-                                console.log("호스트");
-                              }}
-                            >
+                            <ModalH>
                               <HostJoin />
                             </ModalH>
                           )}
@@ -266,17 +286,22 @@ function Header() {
                 className="nav-item rounded"
                 style={{ display: "inline-block" }}
               >
-                <a className="nav-link active">도움말센터</a>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
     );
-  } else if (userInfo == null && g_email != null) {
+  } else if (userInfo == null && g_email != null && a_id == null) {
     //게스트 계정으로 로그인
     console.log("guest 로그인 ==> " + g_email);
-
+    timeoutAlert("guest");
     let level = "";
     if (g_level.key == 1) {
       level = "regular";
@@ -286,17 +311,14 @@ function Header() {
       level = "VIP";
     }
 
-    let src='';
-    let image_url='';
-    let image='';
-    if (g_photo.key == '-') {
-      src='/img/image_no.png';
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+    let src = "";
+    let image = "";
+    if (g_photo.key === "-") {
+      src = `http://localhost/static/images/guest/photo/image_no.png`;
+      image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src=`http://localhost/static/images/guest/photo/${g_photo.key}`;
-      image_url=`<img src=${src} width='210px' height='210px'/>`;
-      image=`<img src=${src} width='45px' height='45px'/>`;
+      src = `http://localhost/static/images/guest/photo/${g_photo.key}`;
+      image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 
     //<span dangerouslySetInnerHTML={{ __html: image_url}}></span>
@@ -305,29 +327,43 @@ function Header() {
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
 
           <div align="right">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+            <ul className="navbar-nav">
+              <li className="nav-item rounded">
                 <a className="nav-link active">
                   <div className={"btn-wrapper2"}>
-                      <span onClick={() =>  navigate("/guest/Profile")} dangerouslySetInnerHTML={{ __html: image}}></span>
+                    <span
+                      onClick={() => navigate("/guest/Profile")}
+                      dangerouslySetInnerHTML={{ __html: image }}
+                    ></span>
                   </div>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" onClick={() => navigate("/guest/reservation")}>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/message")}
+                >
+                  메시지
+                </a>
+              </li>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/guest/reservation")}
+                >
                   여행
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/wish")}
@@ -335,7 +371,7 @@ function Header() {
                   위시리스트
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() => navigate("/guest/Account")}
@@ -343,10 +379,15 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active">도움말센터</a>
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item rounded" style={{ paddingTop: "10px" }}>
                 <a
                   className="nav-link active"
                   onClick={() =>
@@ -372,20 +413,20 @@ function Header() {
         </div>
       </nav>
     );
-  } else if (userInfo != null && g_email == null) {
+  } else if (userInfo != null && g_email == null && a_id == null) {
     //호스트계정으로 로그인 했을 때
     const userIdx = userInfo.h_idx;
-    // console.log("host userInfo ==> " + JSON.stringify(userInfo));
+    timeoutAlert("host");
 
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="/img/airbnb.png"
+              src="/img/sybnb.png"
               href="/"
               width="170px"
-              height="70px"
+              height="65px"
               style={{ padding: "0.5rem" }}
             ></img>
           </a>
@@ -393,7 +434,7 @@ function Header() {
           {/* 호스트로그인 후 상단 */}
           <div align="right">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => navigate(`/api/host/account/${userIdx}`)}
@@ -401,19 +442,42 @@ function Header() {
                   계정
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active"
-                onClick={() => navigate(`/host/hotel/MyhotelList`)}
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/component/Message`)}
+                >
+                  메시지
+                </a>
+              </li>
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/host/hotel/MyhotelList`)}
                 >
                   호텔
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  주문
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate(`/api/order/manage/list/${userIdx}`)}
+                >
+                  예약관리
                 </a>
               </li>
-              <li className="nav-item">
+              <li
+                className="nav-item rounded"
+                style={{ display: "inline-block" }}
+              >
+                <a
+                  className="nav-link active"
+                  onClick={() => navigate("/component/Notice")}
+                >
+                  공지사항
+                </a>
+              </li>
+              <li className="nav-item rounded">
                 <a
                   className="nav-link active"
                   onClick={() => {
@@ -442,18 +506,75 @@ function Header() {
         </div>
       </nav>
     );
+  } else if (a_id != null && userInfo == null && g_email == null) {
+    timeoutAlert("admin");
+    return (
+      <nav className="navbar navbar-expand-lg">
+        <div className="container-fluid">
+          <a className="navbar-brand">
+            <img
+              src="/img/sybnb_admin.png"
+              width="170px"
+              height="65px"
+              style={{ padding: "0.5rem" }}
+            ></img>
+          </a>
+
+          {/* 관리자 로그인 후 상단 */}
+          <div align="right">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" style={{ cursor: 'default', backgroundColor: 'white' }}>*관리자님 로그인 중*</a>
+              </li>
+              <li className="nav-item rounded">
+                <a
+                  className="nav-link active"
+                  onClick={() => {
+                   Swal.fire({
+                    icon: "question",
+                    title: "로그아웃 하시겠습니까?",
+                    html: "로그아웃 시 메인화면으로 이동합니다.",
+                    showCancelButton: true,
+                    confirmButtonText: "YES",
+                    cancelButtonText: "NO",
+                    confirmButtonColor: "#41774d86",
+                    cancelButtonColor: "#838383d2",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      localStorage.clear();
+                      sessionStorage.clear();
+                      removeCookies("admin");
+                      navigate("/");
+                      }
+                    });
+                  }}
+                >
+                  로그아웃
+
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    );
   }
 
   function Modall(props) {
     function closeModal() {
-      props.closeModal();
-      setModal(false);
+      setJoin(!join);
     }
 
     return (
-      <div className="Modal_a" onClick={closeModal}>
+      <div className="Modal_a">
         <div className="modalBody_a" onClick={(e) => e.stopPropagation()}>
-          <button id="modalCloseBtn" onClick={closeModal}>
+          <button
+            id="modalCloseBtn"
+            onClick={() => {
+              closeModal();
+              setModal(false);
+            }}
+          >
             X
           </button>
           {props.children}
@@ -464,13 +585,13 @@ function Header() {
 
   function ModalH(props) {
     function closeModal() {
-      props.closeModal();
       setModal(false);
+      setHostJoin(false);
     }
 
     return (
-      <div className="modal_h" onClick={closeModal}>
-        <div className="modalBody_h" onClick={(e) => e.stopPropagation()}>
+      <div className="modal_h" onClick={(e) => e.stopPropagation()}>
+        <div className="modalBody_h">
           <button id="modalCloseBtn" onClick={closeModal}>
             X
           </button>

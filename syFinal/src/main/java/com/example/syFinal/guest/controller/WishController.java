@@ -33,8 +33,10 @@ public class WishController {
 			map.put("HoIdx", main.get(i).getHo_idx());
 			map.put("HoName", main.get(i).getHo_name());
 			map.put("HoImg", main.get(i).getHo_img());
+			map.put("dIdx", main.get(i).getD_idx());
 			list.add(map);
 		}
+		
 		return list;
 	}
 	
@@ -72,25 +74,22 @@ public class WishController {
 	@ResponseBody
 	public List<Map<String, Object>> recentList(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name="recentIdx", defaultValue ="") ArrayList<Integer> recentIdx) {
-		//List<MainDTO> dto = new ArrayList<MainDTO>();
 		List<Map<String, Object>> list = new ArrayList<>();
 		MainDTO recent = new MainDTO();
 		if (recentIdx.size() > 0) {
-			for(int i=0; i<recentIdx.size(); i++) {
-				// System.out.println(recentIdx.get(i));
+			int size = recentIdx.size()-1;
+			for(int i=size; i >= 0; i--) {
 				Map<String, Object> map = new HashMap<>();
 				recent = dao.recentItem(recentIdx.get(i));
-				// System.out.println(recent);
 				map.put("HoIdx", recent.getHo_idx());
 				map.put("HoName", recent.getHo_name());
 				map.put("HoImg", recent.getHo_img());
+				map.put("dIdx", recent.getD_idx());
 				int check = dao.recentCheck(g_idx, recentIdx.get(i));
 				map.put("check", check);
 				list.add(map);
 			}
 		}
-		// System.out.println(list);
-		// Map<String, Object> map = new HashMap<>();
 		return list;
 	}
 	
@@ -98,7 +97,6 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishDelete(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishDelete(g_idx, h_idx);
 		map.put("result", result);
@@ -109,7 +107,6 @@ public class WishController {
 	@ResponseBody
 	public Map<String, Object> wishUpdate(@RequestParam(name = "g_idx") int g_idx, 
 			@RequestParam(name = "h_idx") int h_idx) {
-		System.out.println(h_idx);
 		Map<String, Object> map = new HashMap<>();
 		String result = dao.wishUpdate(g_idx, h_idx);
 		map.put("result", result);

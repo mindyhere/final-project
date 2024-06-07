@@ -1,5 +1,5 @@
-import React, { useRef, useState, useCallback } from "react";
-import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
+import React, { useRef, useState } from "react";
+import { ChatLeftQuote } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
@@ -12,7 +12,6 @@ const WriteReply = () => {
   const userInfo = cookies.get("userInfo");
   const userIdx = userInfo.h_idx;
   const userName = userInfo.h_name;
-  const rp_rv_idx = useRef();
   const rp_content = useRef();
   const [check, setCheck] = useState(false);
 
@@ -29,8 +28,8 @@ const WriteReply = () => {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
-    if (data.g_url != "-" || data.g_url != null) {
-      const img_url = `http://localhost/static/images/guest/profile/${data.g_url}`;
+    if (data.g_photo != "-" && data.g_photo != null) {
+      const img_url = `http://localhost/static/images/guest/photo/${data.g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
@@ -43,7 +42,6 @@ const WriteReply = () => {
           <div
             className="card-style"
             style={{
-              marginTop: "10px",
               borderStyle: "solid",
               borderColor: "#F7EFFC",
               backgroundColor: "#F7EFFC",
@@ -86,7 +84,6 @@ const WriteReply = () => {
                       <b>평점</b>: &nbsp;{rendering(data.rv_star)}
                       <br />
                       <b>후기작성일</b> :&nbsp;&nbsp;{data.rv_date}
-                      {/* <b>이용기간</b> :&nbsp;&nbsp;{data.OCkin} ~ {data.OCkout} */}
                     </strong>
                   </div>
                 </div>
@@ -102,7 +99,7 @@ const WriteReply = () => {
                     cols={85}
                     defaultValue={data.rv_content}
                     style={{
-                      cursor:"auto",
+                      cursor: "auto",
                       borderColor: "#FAE0E0",
                       borderRadius: "7px",
                     }}
@@ -169,7 +166,6 @@ const WriteReply = () => {
                       form.append("rp_rv_idx", data.rv_idx);
                       form.append("rp_writer", userIdx);
                       form.append("rp_content", rp_content.current.value);
-                      console.log("==> form?" + JSON.stringify(form));
                       fetch("http://localhost/api/reply/insert", {
                         method: "post",
                         body: form,
@@ -185,18 +181,18 @@ const WriteReply = () => {
                             confirmButtonText: "OK",
                           }).then((result) => {
                             if (result.isConfirmed) {
-                              localStorage.removeItem("reviewData"); // localStorage 비우기
-                              window.opener.location.reload(); // 부모창(reservRevItem) 새로고침(리뷰 미작성 목록 새로고침)
-                              window.close(); // 창닫기
+                              localStorage.removeItem("reviewData");
+                              window.opener.location.reload();
+                              window.close();
                             }
                           });
                         })
                         .catch((error) => {
-                          console.log(error);
                           Swal.fire({
                             icon: "error",
                             title: "잠깐!",
-                            html: "처리 중 문제가 발생했습니다.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.",
+                            html:
+                              "처리 중 문제가 발생했습니다.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.",
                             confirmButtonText: "OK",
                           });
                         });

@@ -1,5 +1,6 @@
 package com.example.syFinal.host.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ReplyDAO {
@@ -13,8 +14,8 @@ public interface ReplyDAO {
 	// host → 작성한 답글 삭제
 	void delete(int rp_idx);
 
-	// 작성한 글 검색
-//	List<Map<String, Object>> search(Map<String, Object> map);
-//	List<Map<String, Object>> searchAll(String keyword);
+	// host → 후기관리, 리뷰 검색 결과
+	List<Map<String, Object>> searchReviews(Map<String, Object> map);
 
+	int count(Map<String, Object> map);
 }

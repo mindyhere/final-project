@@ -25,7 +25,8 @@ function useFetch(url) {
 
 function KakaoMap(){
     const {HoIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
+    const {dIdx} = useParams();
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
 
     if(loading){
         return (

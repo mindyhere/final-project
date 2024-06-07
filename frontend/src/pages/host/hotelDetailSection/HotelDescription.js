@@ -21,8 +21,9 @@ function useFetch(url) {
 
 function HotelDescription() {
     const {HoIdx} = useParams();
+    const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx);
+    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
 
     if(loading){
         return (
@@ -36,7 +37,7 @@ function HotelDescription() {
                         {data.ho_description}
                     </div>
                     <div>
-                        <button type="button" className="main-btn">더보기</button>
+                        <button type="button" className="main-btn z-0">더보기</button>
                     </div>
                 </div>
                 { modal &&
@@ -45,7 +46,7 @@ function HotelDescription() {
                             <button id = 'modalCloseBtn' onClick={() => setModal(false)}>
                                 X
                             </button>
-                            <div className="container" style={{whiteSpace: 'pre-wrap', textAlign:'center'}}>
+                            <div className="container" style={{whiteSpace: 'pre-wrap', alignSelf:'center'}}>
                                 {data.ho_description}
                             </div>
                         </div>

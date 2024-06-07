@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import Cookies from "universal-cookie";
+import { useParams } from "react-router-dom";
 import {
   ChevronDoubleLeft,
   ChevronLeft,
@@ -11,34 +10,45 @@ import {
 import ReviewItem from "./ReviewItem";
 
 function ListReviews() {
+  const { userIdx } = useParams();
   const [list, setList] = useState([]);
   const [starList, setAvg] = useState([]);
   const [page, setPaging] = useState("");
   const [count, setCount] = useState("");
   const [pageNum, setPageNum] = useState("1");
+  const [opt, setOption] = useState(0);
+  const sort = useRef();
+  const keyword = useRef();
 
-  const cookies = new Cookies();
-  const userInfo = cookies.get("userInfo");
-  const userIdx = userInfo.h_idx;
-  function getList(pageNum) {
-    console.log("==> pageNum? " + pageNum);
-    fetch(
-      `http://localhost/api/reputation/manage/list/${userIdx}?pageNum=${pageNum}`
-    )
+  function getList(pageNum, opt) {
+    let url = "";
+    const form = new FormData();
+    if (opt === 1) {
+      url = `http://localhost/api/reply/search/reviews/${userIdx}`;
+      form.append("sort", sort.current.value);
+      form.append("keyword", keyword.current.value);
+      form.append("pageNum", pageNum);
+    } else {
+      url = `http://localhost/api/reputation/manage/list/${userIdx}`;
+      form.append("pageNum", pageNum);
+    }
+    fetch(url, { method: "post", body: form })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        // console.log("==> 리뷰 data? " + JSON.stringify(data.page));
-        setList(data.list);
-        setAvg(data.avgList);
+        if (data.list !== null) {
+          setList(data.list);
+          setAvg(data.avgList);
+        }
         setPaging(data.page);
         setCount(data.count);
+        setOption(data.option);
       });
   }
 
   useEffect(() => {
-    getList(pageNum);
+    getList(pageNum, opt);
   }, [pageNum]);
 
   const setPagination = () => {
@@ -50,7 +60,7 @@ function ListReviews() {
       if (i === page.curPage) {
         result.push(
           <li key={"page-item" + i} className="page-item">
-            <a key={i} className="page-link" href="#">
+            <a key={i} className="page-link">
               <strong>{i}</strong>
             </a>
           </li>
@@ -61,8 +71,7 @@ function ListReviews() {
             <a
               key={i}
               className="page-link"
-              href="#"
-              onClick={() => getList(`${i}`)}
+              onClick={() => getList(`${i}`, opt)}
             >
               {i}
             </a>
@@ -73,7 +82,6 @@ function ListReviews() {
     return result;
   };
 
-  // console.log("** => " + JSON.stringify(page));
   return (
     <>
       <div id="section1" className="input-group mb-3">
@@ -90,7 +98,7 @@ function ListReviews() {
               <div className="input-group d-flex">
                 <select
                   className="form-select form-select opt"
-                  id="opt"
+                  ref={sort}
                   style={{
                     size: "3",
                     borderRadius: "30px 0 0 30px",
@@ -99,14 +107,16 @@ function ListReviews() {
                     textAlign: "left",
                   }}
                 >
-                  <option defaultValue={1}>&nbsp;구분</option>
-                  <option defaultValue={2}>&nbsp;최근업로드</option>
-                  <option defaultValue={3}>&nbsp;낮은평점순</option>
+                  <option value={"All"}>&nbsp;All</option>
+                  <option value={"ho_name"}>&nbsp;구분</option>
+                  <option value={"o_idx"}>&nbsp;예약번호</option>
+                  <option value={"reply"}>&nbsp;상태</option>
                 </select>
               </div>
             </div>
             <input
               id="keyword"
+              ref={keyword}
               type="text"
               className="form-control search"
               placeholder="검색어를 입력하세요"
@@ -116,6 +126,7 @@ function ListReviews() {
               className="btn main-btn p-0"
               type="button"
               id="btnSearch"
+              onClick={() => getList(1, 1)}
               style={{
                 height: "35px",
                 backgroundColor: "#FEC5BB !important",
@@ -143,32 +154,18 @@ function ListReviews() {
         </colgroup>
         <thead>
           <tr className="align-middle">
-            <th scope="col">
-              <strong>no.</strong>
-            </th>
-            <th scope="col">
-              <strong>예약번호</strong>
-            </th>
-            <th scope="col">
-              <strong>구분</strong>
-            </th>
-            <th scope="col">
-              <strong>작성자</strong>
-            </th>
-            <th scope="col">
-              <strong>작성일</strong>
-            </th>
-            <th scope="col">
-              <strong>평점</strong>
-            </th>
-            <th scope="col">
-              <strong>답글</strong>
-            </th>
+            <th scope="col">no.</th>
+            <th scope="col">예약번호</th>
+            <th scope="col">구분</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">평점</th>
+            <th scope="col">상태</th>
           </tr>
         </thead>
         <tbody
           className="table-group-divider"
-          style={{ borderColor: "#DBC4F0" }}
+          style={{ borderColor: "#F7EFFC" }}
         >
           {count > 0 ? (
             list.map(
@@ -177,7 +174,7 @@ function ListReviews() {
                 rv_idx,
                 ho_name,
                 g_name,
-                g_url,
+                g_photo,
                 g_email,
                 rv_date,
                 rv_content,
@@ -191,7 +188,7 @@ function ListReviews() {
                   rv_idx={rv_idx}
                   ho_name={ho_name}
                   g_name={g_name}
-                  g_url={g_url}
+                  g_photo={g_photo}
                   g_email={g_email}
                   rv_date={rv_date}
                   rv_content={rv_content}
@@ -207,7 +204,7 @@ function ListReviews() {
             <tr className="align-middle">
               <td colSpan="7">
                 <br />
-                <p>등록된 게시글이 없습니다.</p>
+                <p>아직 등록된 후기가 없습니다.</p>
               </td>
             </tr>
           )}
@@ -218,8 +215,8 @@ function ListReviews() {
           <ul className="pagination">
             {page.curPage > 1 ? (
               <li className="page-item">
-                <a className="page-link" href="#">
-                  <span aria-hidden="true" onClick={() => getList("1")}>
+                <a className="page-link">
+                  <span aria-hidden="true" onClick={() => getList("1", opt)}>
                     <ChevronDoubleLeft />
                   </span>
                 </a>
@@ -227,10 +224,10 @@ function ListReviews() {
             ) : null}
             {page.curBlock > 1 ? (
               <li className="page-item">
-                <a className="page-link" href="#" aria-label="Previous">
+                <a className="page-link" aria-label="Previous">
                   <span
                     aria-hidden="true"
-                    onclick={() => getList(`${page.prevPage}`)}
+                    onclick={() => getList(`${page.prevPage}`, opt)}
                   >
                     <ChevronLeft />
                   </span>
@@ -242,10 +239,10 @@ function ListReviews() {
 
             {page.curBlock < page.totBlock ? (
               <li className="page-item">
-                <a className="page-link" href="#" aria-label="Next">
+                <a className="page-link" aria-label="Next">
                   <span
                     aria-hidden="true"
-                    onClick={() => getList(`${page.nextPage}`)}
+                    onClick={() => getList(`${page.nextPage}`, opt)}
                   >
                     <ChevronRight />
                   </span>
@@ -254,8 +251,8 @@ function ListReviews() {
             ) : null}
             {page.curPage < page.totPage ? (
               <li className="page-item">
-                <a className="page-link" href="#" aria-label="End">
-                  <span onClick={() => getList(`${page.totPage}`)}>
+                <a className="page-link" aria-label="End">
+                  <span onClick={() => getList(`${page.totPage}`, opt)}>
                     <ChevronDoubleRight />
                   </span>
                 </a>

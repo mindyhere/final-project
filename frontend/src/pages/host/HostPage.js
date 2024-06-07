@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderReviewItems from "../../component/SliderReviewItems";
+import SliderHotelItems from "../../component/SliderHotelItems";
 import Reputation from "./hotelDetailSection/Reputation";
 
 function useFetch(url) {
@@ -26,7 +27,7 @@ function useFetch(url) {
     return [data, loading];
 }
 
-function HostPage({HoIdx}) {
+function HostPage({}) {
     const {HIdx} = useParams();
     const [data, loading] = useFetch('http://localhost/host/hotel/hostPage/' + HIdx);
     const [rv, rvLoading] = useFetch(`http://localhost/host/hotel/allReview/${HIdx}`);
@@ -46,15 +47,15 @@ function HostPage({HoIdx}) {
     const previous = useCallback(() => slickRef.current.slickPrev(), []);
     const next = useCallback(() => slickRef.current.slickNext(), []);
     
+    const slickHotelRef = useRef(null);
+    const previousHotel = useCallback(() => slickHotelRef.current.slickPrev(), []);
+    const nextHotel = useCallback(() => slickHotelRef.current.slickNext(), []);
+
     if(loading || rvLoading || hotelLoading){
         return (
             <div className="text-center">로딩 중...</div>
         )
     } else {
-        // const prev_idx = rv[0].prev_idx;
-        // const next_idx = rv[rv.length - 1].next_idx;
-        // console.log("prev_idx : " + prev_idx);
-        // console.log("next_idx : " + next_idx);
 
         let regdate = moment(data.h_regdate).fromNow();
         let level = '';
@@ -147,12 +148,23 @@ function HostPage({HoIdx}) {
                                     <SliderReviewItems
                                         key={idx}
                                         g_name={item.g_name}
-                                        g_url={item.g_url}
+                                        g_photo={item.g_photo}
                                         rv_date={item.rv_date}
                                         rv_star={item.rv_star}
                                         rv_content={item.rv_content}
                                     />
                                 ))}
+                                {rv.length === 0
+                                    ?
+                                    <div className='container'>
+                                        <div>
+                                        <br></br><br></br><br></br>
+                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 호텔이 없습니다.</div>
+                                            <br></br><br></br><br></br>
+                                        </div>
+                                    </div>
+                                    :''
+                                }
                             </Slider>
                         </div>
                         {/* <div className="text-bold" style={{cursor: 'pointer', textDecoration:'underline'}} onClick={() => setModal(true)}> 후기 {data.review_cnt}개 모두 표시하기</div>
@@ -169,16 +181,46 @@ function HostPage({HoIdx}) {
                                 </div>
                             } */}
                         <hr />
-                        <h4 className="mt-20 mb-20">{data.h_name} 님의 숙소·체험</h4>
-                            <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}`} style={{textDecoration:'none', color : 'black'}}>
-                                <div dangerouslySetInnerHTML={{__html: hotel_url}}></div>
-                                    <div className="text-semi-bold">
-                                        {hotel.ho_name}
+                            {/* <Link to={`/host/hotel/hotelDetail/${hotel.ho_idx}/${hotel.d_idx}`} style={{textDecoration:'none', color : 'black'}}> */}
+                        <div className="row">
+                        <div className="col-10 mt-20 mb-20 h4">{data.h_name} 님의 숙소·체험</div>
+                        <div className="col-1" style={{alignContent:'center'}}>
+                            <div onClick={previousHotel} style={{cursor:'pointer'}}>
+                                <ArrowLeftCircle size={35} color="#CD9EED" />
+                            </div>
+                        </div>
+                        <div className="col-1" style={{alignContent:'center'}}> 
+                            <div onClick={nextHotel} style={{cursor:'pointer'}}>
+                                <ArrowRightCircle size={35} color="#CD9EED" />
+                            </div>
+                        </div>
+                        </div>
+                        <div className="card-style mb-30">
+                            <Slider {...settings} ref={slickHotelRef}>
+                                {hotel.map((item, idx) => (
+                                    <SliderHotelItems
+                                        key={idx}
+                                        ho_idx={item.ho_idx}
+                                        d_idx={item.d_idx}
+                                        ho_img={item.ho_img}
+                                        ho_name={item.ho_name}
+                                        ho_address={item.ho_address}
+                                    />
+                                ))}
+                                {hotel.length === 0
+                                    ?
+                                    <div className='container'>
+                                        <div>
+                                        <br></br><br></br><br></br>
+                                            <div align='center' style={{color: '#A9A9A9',fontWeight: 'bold', fontSize:'20px'}}>등록된 호텔이 없습니다.</div>
+                                            <br></br><br></br><br></br>
+                                        </div>
                                     </div>
-                                    <div className="text-xs">
-                                        {hotel.ho_address}
-                                    </div>
-                            </Link>
+                                    :''
+                                }
+                            </Slider>
+                        </div>
+                        {/* </Link> */}
                     </div>
                 </div>
             </div>

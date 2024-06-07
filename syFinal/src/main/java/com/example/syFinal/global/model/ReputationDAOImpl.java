@@ -8,35 +8,21 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.syFinal.guest.model.dto.ReviewDTO;
-import com.example.syFinal.host.model.dto.ReplyDTO;
-
 @Repository
 public class ReputationDAOImpl implements ReputationDAO {
 	@Autowired
 	SqlSession sqlSession;
 
 	@Override
-	public ReviewDTO reviewDetail(int rv_idx) {
+	public Map<String, Object> reviewDetail(int rv_idx) {
 		// 리뷰글 상세 가져오기
 		return sqlSession.selectOne("reputation.reviewDetail", rv_idx);
 	}
 
 	@Override
-	public ReplyDTO replyDetail(Map<String, Object> map) {
-		// 리뷰글 상세페이지 → 답글 가져오기
-		return sqlSession.selectOne("reputation.replyDetail", map);
-	}
-
-	@Override
 	public List<Map<String, Object>> getHotelReviews(int ho_idx) {
 		// hotel 별 리뷰글 목록
-		List<Map<String, Object>> list = null;
-		try {
-			list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Map<String, Object>> list = sqlSession.selectList("reputation.getHotelReviews", ho_idx);
 		return list;
 	}
 
@@ -55,12 +41,11 @@ public class ReputationDAOImpl implements ReputationDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllReviews(int h_idx, int start, int end) {
+	public List<Map<String, Object>> getAllReviews(int h_idx, int start) {
 		// host → 후기관리(호스트가 등록한 호텔의 전체 리뷰목록 가져오기)
 		Map<String, Object> map = new HashMap<>();
 		map.put("h_idx", h_idx);
 		map.put("start", start);
-		map.put("end", end);
 		List<Map<String, Object>> list = sqlSession.selectList("reputation.getAllReviews", map);
 		return list;
 	}
@@ -72,13 +57,39 @@ public class ReputationDAOImpl implements ReputationDAO {
 			String avg = String.format("%.2f", m.get("avg"));
 			m.replace("avg", avg);
 		}
-		System.out.println("==> 반복끝, result? " + list);
 		return list;
 	}
 
 	@Override
 	public int countRecord(int h_idx) {
 		return sqlSession.selectOne("reputation.countRecord", h_idx);
+	}
+
+	@Override
+	public int count(Map<String, Object> map) {
+		return sqlSession.selectOne("reputation.count", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> reviewSearch(Map<String, Object> map) {
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("reputation.reviewSearch", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> avgStarList(int h_idx) {
+		List<Map<String, Object>> list = null;
+		try {
+			list = sqlSession.selectList("reputation.avgStarList", h_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

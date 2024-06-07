@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { ChatLeftQuote, Star, StarFill } from "react-bootstrap-icons";
+import { ChatLeftQuote } from "react-bootstrap-icons";
 
 import Cookies from "universal-cookie";
 import Swal from "sweetalert2";
@@ -46,21 +46,19 @@ const EditReply = () => {
     return <div>loading...</div>;
   } else {
     let profile_src = "";
-    if (data.g_url != "-" || data.g_url != null) {
-      const img_url = `http://localhost/static/images/guest/profile/${data.g_url}`;
+    if (data.g_photo != "-" && data.g_photo != null) {
+      const img_url = `http://localhost/static/images/guest/photo/${data.g_photo}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
         "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
     }
-    console.log("==>" + JSON.stringify(reply));
     return (
       <>
         <div className="m-2 p-2">
           <div
             className="card-style"
             style={{
-              marginTop: "10px",
               borderStyle: "solid",
               borderColor: "#F7EFFC",
               backgroundColor: "#F7EFFC",
@@ -209,7 +207,6 @@ const EditReply = () => {
                                 "rp_content",
                                 rp_content.current.value
                               );
-                              console.log("==> form?" + JSON.stringify(form));
 
                               return fetch(`http://localhost/api/reply/edit`, {
                                 method: "post",
@@ -222,7 +219,6 @@ const EditReply = () => {
                               });
                             })
                             .catch((error) => {
-                              console.log(error);
                               Swal.showValidationMessage(
                                 `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                               );
@@ -231,7 +227,6 @@ const EditReply = () => {
                         allowOutsideClick: () => !Swal.isLoading(),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          // console.log(result.value);
                           Swal.fire({
                             icon: "success",
                             title: "Success",
@@ -288,7 +283,6 @@ const EditReply = () => {
                             });
                           })
                           .catch((error) => {
-                            console.log(error);
                             Swal.showValidationMessage(
                               `처리 중 문제가 발생했습니다. 비밀번호를 확인해주세요.<br/>반복실패할 경우, 관리자에게 문의 바랍니다.`
                             );
@@ -297,7 +291,6 @@ const EditReply = () => {
                       allowOutsideClick: () => !Swal.isLoading(),
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        // console.log(result.value);
                         Swal.fire({
                           icon: "success",
                           title: "Success",

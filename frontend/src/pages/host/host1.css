@@ -18,7 +18,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(34, 36, 38, 0.4);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -26,8 +26,8 @@
 
 .modalBody_h {
 	position: absolute;
-	width: 600px;
-	height: 850px;
+	width: 700px;
+	height: 880px;
 	padding: 40px;
 	justify-content: center;
 	text-align: center;
@@ -122,7 +122,9 @@
 }
 
 /* form-control */
-td>input, textarea {
+td>input,
+textarea,
+[type="radio"] {
 	border-color: #f7effc !important;
 	outline: none;
 	box-shadow: none !important;
@@ -137,54 +139,13 @@ textarea::placeholder {
 }
 
 /* ========== 회원 정보 수정 ============= */
-.profile-image {
-	max-width: 300px;
-	width: 300px;
-	height: 300px;
-	border-radius: 50%;
-	margin-right: 20px;
-	position: relative;
-	z-index: 1;
-}
 
 .profile-img {
+	background-size: contain;
 	border-radius: 100%;
 	overflow: hidden;
 }
 
-.profile-image .update-image {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	width: 300px;
-	height: 300px;
-	background: #efefef;
-	border: 2px solid #fff;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 50%;
-	cursor: pointer;
-	z-index: 99;
-}
-
-.profile-image .update-image:hover {
-	opacity: 0.9;
-}
-
-.profile-image .update-image input {
-	opacity: 0;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	cursor: pointer;
-	z-index: 99;
-}
-
-.profile-image .update-image label {
-	cursor: pointer;
-	z-index: 99;
-}
 
 /* 말줄임표 적용 */
 .text-ellipsis {
@@ -199,6 +160,22 @@ textarea::placeholder {
 }
 
 /* paging */
-.nav-link, .page-item li, a {
+.nav-link,
+.page-item li,
+a {
 	color: black !important;
+	text-Decoration: none;
+}
+
+/* 라디오버튼 */
+[type="radio"]:checked {
+	background: #DBC4F0;
+	border-color: #DBC4F0;
+}
+
+/* OrderItem, table style */
+.detail-row,
+.detail-row>th,
+.detail-row>td {
+	cursor: default
 }

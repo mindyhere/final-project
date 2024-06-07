@@ -61,8 +61,11 @@ public class HostDAOImpl implements HostDAO {
 	}
 
 	@Override // Host 회원탈퇴
-	public void deleteAccount(int h_idx) {
-		sqlSession.delete("host.delete", h_idx);
+	public void deleteAccount(int h_idx, String deletedEmail) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("h_idx", h_idx);
+		map.put("deletedEmail", deletedEmail);
+		sqlSession.update("host.delete", map);
 	}
 
 	@Override
@@ -71,13 +74,22 @@ public class HostDAOImpl implements HostDAO {
 		params.put("h_idx", h_idx);
 		params.put("type", type);
 		String fileName = sqlSession.selectOne("host.getFile", params);
-		System.out.println("===> 파일명 확인: " + type + ", " + fileName);
 		return fileName;
 	}
 
 	@Override // Host 승인신청(가입완료 > 승인대기로 업데이트)
 	public void levelUp(int h_idx) {
 		sqlSession.update("host.levelUp", h_idx);
+	}
+
+	@Override
+	public boolean checkOrders(int h_idx) {
+		int cnt = sqlSession.selectOne("host.checkOrders", h_idx);
+		if (cnt > 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

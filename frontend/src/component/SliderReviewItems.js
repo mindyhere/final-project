@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SliderReviewItems({rv_idx, g_name, g_url, rv_content, rv_date, rv_star}) {
+function SliderReviewItems({rv_idx, g_name, g_photo, rv_content, rv_date, rv_star}) {
     let loading = false;
 
     if (loading) {
@@ -9,8 +9,8 @@ function SliderReviewItems({rv_idx, g_name, g_url, rv_content, rv_date, rv_star}
         )
     } else {
         let profile_src = "";
-        if (g_url !== "-") {
-          const img_url = `http://localhost/static/images/guest/profile/${g_url}`;
+        if (g_photo !== "-") {
+          const img_url = `http://localhost/static/images/guest/photo/${g_photo}`;
           profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
         } else {
           profile_src =
