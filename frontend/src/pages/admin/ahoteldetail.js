@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState } from 'react';
 import { BuildingFill, PersonVcard } from 'react-bootstrap-icons';
 import { useParams } from "react-router-dom";
@@ -36,7 +37,7 @@ function AHoteldetail() {
     const cookies = new Cookies();
     const a_id = cookies.get("a_id");
     const { hoIdx } = useParams();
-    const [data, loading, fetchError] = useFetch(`http://localhost/admin/ahodetail?hoIdx=${hoIdx}`);
+    const [data, loading, fetchError] = useFetch(`http://3.35.97.107/admin/ahodetail?hoIdx=${hoIdx}`);
 
         const getlevel = (h_level) => {
             if (h_level == 8) {
@@ -61,15 +62,15 @@ function AHoteldetail() {
         };
 
         const urlHandle = (e) => {
-            window.open(`http://localhost/static/images/host/hotel/${data.dto[0].ho_img}`, 'width=500, height=500');         
+            window.open(`http://3.35.97.107/images/host/hotel/${data.dto[0].ho_img}`, 'width=500, height=500');         
         };
 
         const url = (e) => {
-            window.open(`http://localhost/static/images/host/profile/${data.dto[0].h_file}`, 'width=400, height=400');
+            window.open(`http://3.35.97.107/images/host/profile/${data.dto[0].h_file}`, 'width=400, height=400');
         };
 
         const urlBank = (e) => {
-            window.open(`http://localhost/static/images/host/profile/${data.dto[0].h_bankbook}`, 'width=400, height=400');
+            window.open(`http://3.35.97.107/images/host/profile/${data.dto[0].h_bankbook}`, 'width=400, height=400');
         };
 
         
@@ -87,7 +88,7 @@ function AHoteldetail() {
                 cancelButtonColor: '#838383d2',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://localhost/admin/approveHotel?ho_idx=${hoIdx}&ho_status=2`, {
+                    fetch(`http://3.35.97.107/admin/approveHotel?ho_idx=${hoIdx}&ho_status=2`, {
                         method: 'POST',
                     })
                         .then(response => {
@@ -127,7 +128,7 @@ function AHoteldetail() {
                 cancelButtonColor: '#838383d2',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://localhost/admin/approveHotelClose?ho_idx=${hoIdx}&ho_status=3`, {
+                    fetch(`http://3.35.97.107/admin/approveHotelClose?ho_idx=${hoIdx}&ho_status=3`, {
                         method: 'POST',
                     })
                         .then(response => {
@@ -167,7 +168,7 @@ function AHoteldetail() {
                 cancelButtonColor: '#838383d2',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://localhost/admin/approveHotel?ho_idx=${hoIdx}&ho_status=2`, {
+                    fetch(`http://3.35.97.107/admin/approveHotel?ho_idx=${hoIdx}&ho_status=2`, {
                         method: 'POST',
                     })
                         .then(response => {

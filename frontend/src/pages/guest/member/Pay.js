@@ -1,3 +1,4 @@
+
 import React, {useEffect,useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';
@@ -19,8 +20,7 @@ function Pay() {
         });
     }
 
-    useEffect(() => {getPay('http://localhost/guest/pay?g_idx='+g_idx.key);},[]);
-
+    useEffect(() => {getPay('http://3.35.97.107/guest/pay?g_idx='+g_idx.key);},[]);
 
         return (
             <>

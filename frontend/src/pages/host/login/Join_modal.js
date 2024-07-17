@@ -89,7 +89,7 @@ function HostJoin() {
                     onClick={() => {
                       const form = new FormData();
                       form.append("userEmail", userEmail.current.value);
-                      fetch(`http://localhost/api/host/idCheck`, {
+                      fetch(`http://3.35.97.107/api/host/idCheck`, { 
                         method: "post",
                         body: form,
                       })
@@ -338,7 +338,7 @@ function HostJoin() {
                   form.append("bankbook", bankbook.current.files[0]);
                 }
 
-                fetch("http://localhost/api/host/join", {
+                fetch("http://3.35.97.107/api/host/join", { 
                   method: "post",
                   endType: "multipart/form-data",
                   body: form,
@@ -356,7 +356,7 @@ function HostJoin() {
                         denyButtonText: "NO",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          window.location.href = "/host/login";
+                          window.location.href = "http://3.35.97.107/#/host/login";
                         } else if (result.isDenied) {
                           window.location.reload();
                         }

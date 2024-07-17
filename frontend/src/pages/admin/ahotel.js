@@ -43,7 +43,7 @@ function AHotel() {
         if (search.current.value) params.append('search', search.current.value);
         if (filteredStatus) params.append('status', filteredStatus);
     
-        fetch(`http://localhost/admin/ahoList?${params.toString()}`, {
+        fetch(`http://3.35.97.107/admin/ahoList?${params.toString()}`, {
             method: 'POST',
         })
         .then(response => response.json())

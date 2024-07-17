@@ -16,7 +16,7 @@ function HotelRooms() {
       })
     }
 
-    useEffect(() => {getItem('http://localhost/host/hotel/hotelRooms/' + HoIdx);},[]);
+    useEffect(() => {getItem('http://3.35.97.107/host/hotel/hotelRooms/' + HoIdx);},[]); 
 
     return (
         <div style={{

@@ -107,7 +107,7 @@ function SearchPw() {
                   form.append("userEmail", userEmail.current.value);
                   form.append("h_phone", h_phone.current.value);
                   form.append("h_business", h_business.current.value);
-                  fetch("http://localhost/api/host/login/findPwd", {
+                  fetch("http://3.35.97.107/api/host/login/findPwd", { 
                     method: "post",
                     body: form,
                   })

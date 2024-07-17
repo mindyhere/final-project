@@ -41,9 +41,9 @@ function ManageOrders() {
     let url = "";
 
     if (pageNum != "0") {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}&sort=${sort}`;
+      url = `http://3.35.97.107/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=${pageNum}&sort=${sort}`; 
     } else {
-      url = `http://localhost/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1&sort=0`;
+      url = `http://3.35.97.107/api/order/manage/list/${userIdx}?hoIdx=${hoIdx}&pageNum=1&sort=0`; 
     }
     fetch(url)
       .then((response) => {

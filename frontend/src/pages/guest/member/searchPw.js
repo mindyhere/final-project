@@ -1,3 +1,4 @@
+
 import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
@@ -75,7 +76,7 @@ function SearchPw() {
                                 form.append('g_email', g_email.current.value);
                                 form.append('g_name', g_name.current.value);
                                 form.append('g_phone', g_phone.current.value);
-                                fetch('http://localhost/guest/login/searchPw', {
+                                fetch('http://3.35.97.107/guest/login/searchPw', { 
                                     method: 'post',
                                     body: form
                                 })

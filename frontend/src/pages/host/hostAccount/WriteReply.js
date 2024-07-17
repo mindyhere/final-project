@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from "react";
 import { ChatLeftQuote } from "react-bootstrap-icons";
 
@@ -29,11 +30,13 @@ const WriteReply = () => {
   } else {
     let profile_src = "";
     if (data.g_photo != "-" && data.g_photo != null) {
-      const img_url = `http://localhost/static/images/guest/photo/${data.g_photo}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${data.g_photo}`;
+      
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>";
+       
     }
 
     return (
@@ -166,7 +169,7 @@ const WriteReply = () => {
                       form.append("rp_rv_idx", data.rv_idx);
                       form.append("rp_writer", userIdx);
                       form.append("rp_content", rp_content.current.value);
-                      fetch("http://localhost/api/reply/insert", {
+                      fetch("http://3.35.97.107/api/reply/insert", { 
                         method: "post",
                         body: form,
                       })

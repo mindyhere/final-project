@@ -1,3 +1,4 @@
+
 /* global kakao */
 import React, { useEffect, useRef, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -308,7 +309,7 @@ function RegistHotel() {
                                         if (ht_img.current.files.length > 0) {
                                             form.append('ht_img', ht_img.current.files[0]);
                                         }
-                                        fetch('http://localhost/host/hotel/registHotel', {
+                                        fetch('http://3.35.97.107/host/hotel/registHotel', { 
                                             method: 'POST',
                                             encType : 'multipart/form-data',
                                             body : form

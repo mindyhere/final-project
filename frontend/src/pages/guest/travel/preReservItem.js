@@ -6,7 +6,7 @@ import '../aa.css'
 function PreReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName, HoAddress}) {
     let loading = false;
     const navigate = useNavigate();
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`; 
 
     if (loading) {
         return (

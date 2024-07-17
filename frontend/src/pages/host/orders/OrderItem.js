@@ -127,14 +127,14 @@ function OrderItem({
           showLoaderOnConfirm: true,
           preConfirm: (pwd) => {
             return fetch(
-              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+              `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
             )
               .then((response) => {
                 if (!response.ok) {
                   throw new Error("false: " + response.status);
                 }
                 return fetch(
-                  `http://localhost/api/order/manage/update/${o_idx}`
+                  `http://3.35.97.107/api/order/manage/update/${o_idx}` 
                 ).then((response) => {
                   if (!response.ok) {
                     throw new Error("false: " + response.status);
@@ -181,7 +181,7 @@ function OrderItem({
             showLoaderOnConfirm: true,
             preConfirm: (pwd) => {
               return fetch(
-                `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
               )
                 .then((response) => {
                   if (!response.ok) {
@@ -194,7 +194,7 @@ function OrderItem({
                   form.append("idx", g_idx);
 
                   return fetch(
-                    `http://localhost/api/order/manage/confirm/${o_idx}`,
+                    `http://3.35.97.107/api/order/manage/confirm/${o_idx}`, 
                     {
                       method: "post",
                       body: form,

@@ -37,8 +37,8 @@ function HotelDetail() {
     const {HoIdx} = useParams();
     let {dIdx} = useParams();
     const navigate = useNavigate();
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
-    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
+    const [review, loading2] = useFetch('http://3.35.97.107/api/reputation/list/' + HoIdx); 
     const element = useRef(null);
     const onMoveBox = () => {
         element.current?.scrollIntoView({behavior : "smooth", block:"start"});
@@ -64,8 +64,8 @@ function HotelDetail() {
         localStorage.setItem('watched', JSON.stringify(myArr));
     }, []);
 
-    const realUrl = "http://localhost:3000";
-    const resultUrl = window.location.href;
+    const realUrl = "http://3.35.97.107"; 
+    //const resultUrl = window.location.href;
 
     useEffect(() => {
         //초기화 전 clean up
@@ -91,7 +91,7 @@ function HotelDetail() {
         let src = '';
         let img_url = '';
         if(data.ho_img !== '-'){
-            src = `http://localhost/static/images/host/hotel/${data.ho_img}`;
+            src = `http://3.35.97.107/images/host/hotel/${data.ho_img}`; 
             img_url = `<img src=${src} style="height:440px; width:600px;"/>`;
         } else {
             img_url = '';
@@ -101,7 +101,7 @@ function HotelDetail() {
         let hotel_url2 = '';
         let hotel_url2_2 = '';
         if(data.d_img1 !== '-'){
-            hotel_src2 = `http://localhost/static/images/host/hotel/${data.d_img1}`;
+            hotel_src2 = `http://3.35.97.107/images/host/hotel/${data.d_img1}`; 
             hotel_url2 = `<img src=${hotel_src2} style="height:440px; width:300px;"/>`;
             hotel_url2_2 = `<img src=${hotel_src2} style="height:440px; width:100%;"/>`;
         } else {
@@ -111,7 +111,7 @@ function HotelDetail() {
         let hotel_src3 = '';
         let hotel_url3 = '';
         if(data.d_img2 !== '-'){
-            hotel_src3 = `http://localhost/static/images/host/hotel/${data.d_img2}`;
+            hotel_src3 = `http://3.35.97.107/images/host/hotel/${data.d_img2}`; 
             hotel_url3 = `<img src=${hotel_src3} style="height:440px; width:300px;"/>`;
         } else {
             hotel_url3 = '';
@@ -120,10 +120,10 @@ function HotelDetail() {
         let profile_src = '';
         let profile_url = '';
         if(data.h_profile !== '-'){
-            profile_src = `http://localhost/static/images/host/profile/${data.h_profile}`;
+            profile_src = `http://3.35.97.107/images/host/profile/${data.h_profile}`; 
             profile_url = `<img src=${profile_src} width='90px' height='90px'/>`;
         } else {
-            profile_src = `http://localhost/static/images/no-image.png`;
+            profile_src = `http://3.35.97.107/images/no-image.png`; 
             profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
 
@@ -143,15 +143,15 @@ function HotelDetail() {
                     {
                     title: '호텔 보러 가기',
                     link: {
-                        mobileWebUrl: 'http://localhost:3000/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx,
-                        webUrl: 'http://localhost:3000/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx,
+                        mobileWebUrl: 'http://3.35.97.107/#/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx,
+                        webUrl: 'http://3.35.97.107/#/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx, 
                     },
                     },
                     {
                     title: '사이트 보러 가기',
                     link: {
-                        mobileWebUrl: 'http://localhost:3000',
-                        webUrl: 'http://localhost:3000',
+                        mobileWebUrl: 'http://3.35.97.107',
+                        webUrl: 'http://3.35.97.107', 
                     },
                     },
                 ],

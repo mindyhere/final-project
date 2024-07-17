@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import '../aa.css'
@@ -8,7 +9,7 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`; 
     const navigate = useNavigate(); 
     const [image, setImage] = useState(""); 
     // const [isClicked, setIsClicked] = useState(false);
@@ -19,7 +20,7 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
         if (checkId === 1) {
-            fetch('http://localhost/guest/wish/wishDelete', {
+            fetch('http://3.35.97.107/guest/wish/wishDelete', { 
                 method: 'post',
                 body: form,
             }).then((response) => response.json())
@@ -29,7 +30,7 @@ function RecentItem({HoIdx, HoName, HoImg, check, dIdx}) {
                 }
             })
         } else  {
-            fetch('http://localhost/guest/wish/wishUpdate', {
+            fetch('http://3.35.97.107/guest/wish/wishUpdate', { 
                 method: 'post',
                 body: form,
             }).then((response) => response.json())

@@ -67,7 +67,7 @@ function GuestInfo() {
         return [data, loading];
     }
 
-    const [data, loading] = useFetch('http://localhost/guest/info/detail?g_idx='+idx.key);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/info/detail?g_idx='+idx.key);
 
     const handleSelect = (e) => {
         setSelected(e.target.value);    
@@ -98,7 +98,7 @@ function GuestInfo() {
         };
 
      const urlHandle = (e) => {
-         window.open(`http://localhost/static/images/guest/photo/${data.dto.g_photo}`, '', 'width=500, height=500, top=150,left=300'); 
+         window.open(`http://3.35.97.107/images/guest/photo/${data.dto.g_photo}`, '', 'width=500, height=500, top=150,left=300'); 
          return false;
         } 
 
@@ -283,13 +283,13 @@ function GuestInfo() {
                                         const formData = new FormData();
                                         formData.append('g_email', email.key);
                                         formData.append('pwd', pwd);
-                                        return fetch('http://localhost/guest/info/confirmPwd', {
+                                        return fetch('http://3.35.97.107/guest/info/confirmPwd', {
                                             method: 'post',
                                             body: formData,
                                         }).then(response => response.json())
                                         .then(data => {
                                             if(data.result == 'success') {
-                                                fetch('http://localhost/guest/info/update', {
+                                                fetch('http://3.35.97.107/guest/info/update', {
                                                     method: 'post',
                                                     encType: 'multipart/form-data',
                                                     body: form,
@@ -305,7 +305,7 @@ function GuestInfo() {
                                                             confirmButtonText: '확인',
                                                         }).then((result) => {
                                                             if(result.isConfirmed) {
-                                                                window.location.href='/guest/GuestInfo';
+                                                                window.location.href='http://3.35.97.107/#/guest/GuestInfo';
                                                             }
                                                         });
                                                     } else {
@@ -343,7 +343,7 @@ function GuestInfo() {
                         <a href="#" style={{float: "right", color: "black"}} onClick={() => {
                             const form = new FormData();
                             form.append('g_idx', idx.key);
-                            fetch('http://localhost/guest/info/checkOrder', {
+                            fetch('http://3.35.97.107/guest/info/checkOrder', {
                                 method: 'post',
                                 body: form,
                             }).then(response => response.json())
@@ -367,7 +367,7 @@ function GuestInfo() {
                                                     const formData = new FormData();
                                                     formData.append('g_email', email.key);
                                                     formData.append('pwd', pwd);
-                                                    return fetch('http://localhost/guest/info/confirmPwd', {
+                                                    return fetch('http://3.35.97.107/guest/info/confirmPwd', {
                                                         method: 'post',
                                                         body: formData,
                                                     }).then(response => response.json())
@@ -375,7 +375,7 @@ function GuestInfo() {
                                                         if(data.result == 'success') {
                                                             const form = new FormData();
                                                             form.append('g_idx', idx.key);
-                                                            fetch('http://localhost/guest/info/delete', {
+                                                            fetch('http://3.35.97.107/guest/info/delete', {
                                                                 method: 'post',
                                                                 encType: 'multipart/form-data',
                                                                 body: form,

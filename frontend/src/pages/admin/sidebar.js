@@ -11,7 +11,7 @@ function Sidebar() {
     const a_id = cookies.get("a_id");
 
     const handleNavigate = (path) => {
-        window.location.href = path;
+        window.location.href = `http://3.35.97.107/#`+path;
     };
 
     return (

@@ -40,11 +40,11 @@ function Order() {
     const dateChar = location.state.dateChar;
     const vat = location.state.vat;
    
-    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
-    const [hotel,loading2] = useFetch('http://localhost/host/hotel/hotelDetail/'+HoIdx+'/'+dIdx);
-    const [review, loading3] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
-    const [coupon,loading4]=useFetch('http://localhost/guest/coupon?g_idx='+idx.key);
-    const [count,loading5]=useFetch('http://localhost/guest/c_count?g_idx='+idx.key);
+    const [data,loading]=useFetch('http://3.35.97.107/guest/my?g_idx='+idx.key);
+    const [hotel,loading2] = useFetch('http://3.35.97.107/host/hotel/hotelDetail/'+HoIdx+'/'+dIdx);
+    const [review, loading3] = useFetch('http://3.35.97.107/api/reputation/list/' + HoIdx);
+    const [coupon,loading4]=useFetch('http://3.35.97.107/guest/coupon?g_idx='+idx.key);
+    const [count,loading5]=useFetch('http://3.35.97.107/guest/c_count?g_idx='+idx.key);
     const [pay, setPay] = useState("1"); //default :  Card선택
 
     //쿠폰사용
@@ -181,7 +181,7 @@ function Order() {
                 form.append('gcidx',couponIdx);
             }
             form.append('paymentId', response.paymentId);
-            fetch('http://localhost/guest/order',{
+            fetch('http://3.35.97.107/guest/order',{
                 method:'post',
                 body:form
             }).then(()=>{
@@ -192,7 +192,7 @@ function Order() {
                     confirmButtonText: '확인'
                 }).then((result) => {
                     if(result.isConfirmed) {
-                        window.location.href='/guest/reservation';
+                        window.location.href='http://3.35.97.107/#/guest/reservation';
                     }
                 });
             });
@@ -205,7 +205,7 @@ function Order() {
         )
     } else {
         
-        let src=`http://localhost/static/images/host/hotel/${hotel.ho_img}`;
+        let src=`http://3.35.97.107/images/host/hotel/${hotel.ho_img}`;
         let image_url=`<img src=${src} width='100px' height='100px'/>`;
         if(pointAmount > data.dto.g_point) {
             Swal.fire({

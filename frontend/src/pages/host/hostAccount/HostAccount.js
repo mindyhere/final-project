@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -37,7 +38,7 @@ function HostAccount() {
   const navigate = useNavigate();
 
   const [data, loading] = useFetch(
-    `http://localhost/api/host/account/${userIdx}`
+    `http://3.35.97.107/api/host/account/${userIdx}` 
   );
 
   if (loading) {
@@ -47,11 +48,11 @@ function HostAccount() {
     let profile_src = "";
 
     if (data.h_profile !== "-" && data.h_profile !== "") {
-      url = `http://localhost/static/images/host/profile/${data.h_profile}`;
+      url = `http://3.35.97.107/images/host/profile/${data.h_profile}`; 
       profile_src = `<img src=${url} width="100px" style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img src='http://localhost/static/images/no-image.png' width='30%'/>";
+        "<img src='http://3.35.97.107/images/no-image.png' width='30%'/>"; 
     }
 
     const handleEditInfo = () => {
@@ -213,7 +214,7 @@ function HostAccount() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${data.h_email}`
+                            `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${data.h_email}` 
                           )
                             .then((response) => {
                               if (!response.ok) {
@@ -270,7 +271,7 @@ function HostAccount() {
 
 function levelUp(userIdx, opt) {
   if (opt === 1) {
-    fetch(`http://localhost/api/host/levelUp/${userIdx}`, {
+    fetch(`http://3.35.97.107/api/host/levelUp/${userIdx}`, { 
       method: "get",
     }).then((response) => {
       if (!response.ok) {

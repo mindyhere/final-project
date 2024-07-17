@@ -35,7 +35,7 @@ function AGuest() {
             const form = new FormData();
             form.append('searchkey', searchkey.current.value);
             form.append('search', search.current.value);
-            fetch('http://localhost/admin/ag_list', {
+            fetch('http://3.35.97.107/admin/ag_list', {
                 method: 'post',
                 body: form,
             })
@@ -106,7 +106,7 @@ function AGuest() {
                                             {list.g_photo.length === 1 ? (
                                             list.g_photo
                                             ) : (
-                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/guest/photo/${list.g_photo}`, 'width=500,height=500')}>
+                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://3.35.97.107/images/guest/photo/${list.g_photo}`, 'width=500,height=500')}>
                                                     {list.g_photo}
                                                 </button>
                                             )}

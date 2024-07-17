@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.syFinal.admin.model.dto.ANoticeDTO;
 import com.example.syFinal.guest.model.dao.MainDAO;
@@ -24,6 +25,13 @@ public class MainController {
 
 	@Autowired
 	MainDAO dao;
+	
+	@GetMapping({"/", "*/", "*/admin/*", "*/popup/*"})
+	public ModelAndView home() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		return mav;
+	}
 	
 	@RequestMapping("/guest/main")
 	public List<Map<String, Object>> list(@RequestParam(name="search",defaultValue="") String search,

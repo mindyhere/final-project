@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState} from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -45,7 +46,7 @@ function PayPDF() {
     const DIdx = location.state.Didx;
     const OIdx = location.state.Oidx;
 
-    const [data, loading] = useFetch('http://localhost/guest/receipt/'+idx.key+'/'+DIdx+'/'+HoIdx+'/'+OIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/receipt/'+idx.key+'/'+DIdx+'/'+HoIdx+'/'+OIdx);
 
     const printDocument = () => {
         const input = document.getElementById('divToPrint');
@@ -76,7 +77,7 @@ function PayPDF() {
 
         let count = data.o_adult + data.o_child + data.o_baby;
 
-        let hotel = `http://localhost/static/images/host/hotel/`+data.ho_img;
+        let hotel = `http://3.35.97.107/images/host/hotel/`+data.ho_img;
         let img =`<img src=${hotel} width='80px' height='80px' /><br />`;
 
         let payment='';

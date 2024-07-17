@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 
@@ -10,7 +11,7 @@ function HotelChart() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost/admin/chart')
+    fetch('http://3.35.97.107/admin/chart')
       .then((response) => response.json())
       .then((data) => {
         console.log(data)

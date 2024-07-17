@@ -22,7 +22,7 @@ function HotelRule() {
     const {HoIdx} = useParams();
     const today = new Date();
     const formattedDate = `${today.getMonth() + 1}월 ${today.getDate() + 6}일`;
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelRule/' + HoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelRule/' + HoIdx); 
     if(loading){
         return (
             <div className="text-center">로딩 중...</div>

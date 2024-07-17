@@ -45,7 +45,7 @@ function Reputation() {
   }
 
   useEffect(() => {
-    getReviews(`http://localhost/api/reputation/list/${HoIdx}`);
+    getReviews(`http://3.35.97.107/api/reputation/list/${HoIdx}`); 
   }, []);
 
   if (avg == null) {

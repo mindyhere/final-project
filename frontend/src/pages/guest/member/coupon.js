@@ -23,9 +23,9 @@ function Coupon() {
 
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
-    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
-    const [coupon,loading2]=useFetch('http://localhost/guest/coupon?g_idx='+idx.key);
-    const [count,loading3]=useFetch('http://localhost/guest/c_count?g_idx='+idx.key);
+    const [data,loading]=useFetch('http://3.35.97.107/guest/my?g_idx='+idx.key);
+    const [coupon,loading2]=useFetch('http://3.35.97.107/guest/coupon?g_idx='+idx.key);
+    const [count,loading3]=useFetch('http://3.35.97.107/guest/c_count?g_idx='+idx.key);
 
     if(loading||loading2||loading3){
         return(

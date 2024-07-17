@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./asset/css/user.css";
@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Header />
         <Routes>
         <Route path="/" element={<Main />} />
@@ -140,15 +140,15 @@ function App() {
           <Route path="/api/order/manage/list/:userIdx" element={<ManageOrders />} />
           
           {/* host 리뷰 관리 */}
-          <Route path="/host/account/manage/review" element={<WriteReply />} />
-          <Route path="/host/account/manage/reply" element={<EditReply />} />
+          <Route path="/popup/host/review" element={<WriteReply />} />
+          <Route path="/popup/host/reply" element={<EditReply />} />
 
           {/* guest 리뷰 등록/수정 */}
-          <Route path="/guest/write" element={<WriteReview />} />
-          <Route path="/guest/edit" element={<EditReview />} />
+          <Route path="/popup/guest/write" element={<WriteReview />} />
+          <Route path="/popup/guest/edit" element={<EditReview />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }

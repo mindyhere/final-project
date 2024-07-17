@@ -29,9 +29,9 @@ function useFetch(url) {
 
 function HostPage({}) {
     const {HIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/host/hotel/hostPage/' + HIdx);
-    const [rv, rvLoading] = useFetch(`http://localhost/host/hotel/allReview/${HIdx}`);
-    const [hotel, hotelLoading] = useFetch('http://localhost/host/hotel/hotelSummary/' + HIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hostPage/' + HIdx);
+    const [rv, rvLoading] = useFetch(`http://3.35.97.107/host/hotel/allReview/${HIdx}`);
+    const [hotel, hotelLoading] = useFetch('http://3.35.97.107/host/hotel/hotelSummary/' + HIdx); 
     const [modal, setModal] = useState(false);
 
     const settings = {
@@ -68,14 +68,14 @@ function HostPage({}) {
         let profile_src = '';
         let profile_url = '';
         if(data.h_profile !== '-'){
-            profile_src = `http://localhost/static/images/host/profile/${data.h_profile}`;
+            profile_src = `http://3.35.97.107/images/host/profile/${data.h_profile}`; 
             profile_url = `<img src=${profile_src} style="border-radius:55px; height:110px; width:110px;"/>`;
         } else {
-            profile_src = `http://localhost/static/images/no-image.png`;
+            profile_src = `http://3.35.97.107/images/no-image.png`; 
             profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
 
-        let hotel_src = `http://localhost/static/images/host/hotel/${hotel.ho_img}`;;
+        let hotel_src = `http://3.35.97.107/images/host/hotel/${hotel.ho_img}`;
         let hotel_url = `<img src=${hotel_src} style="border-radius:45px; height:150px; width:150px;" />`;
 
         return (

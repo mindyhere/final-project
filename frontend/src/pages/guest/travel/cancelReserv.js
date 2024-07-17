@@ -38,15 +38,15 @@ function CancelReserv() {
         });
     } 
     const {OIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/guest/reserv/delDetail?o_idx=' + OIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/reserv/delDetail?o_idx=' + OIdx); 
     
-    const [data1, loading1] =useFetch('http://localhost/guest/my?g_idx='+idx.key);
+    const [data1, loading1] =useFetch('http://3.35.97.107/guest/my?g_idx='+idx.key); 
     if(loading||loading1) {
         return (
             <div>loading</div>
         )
     } else {
-        const url = `http://localhost/static/images/host/hotel/${data.dto.ho_img}`;
+        const url = `http://3.35.97.107/images/host/hotel/${data.dto.ho_img}`; 
         const image = data.dto.ho_img;
         let img = '';
         if ( image !== null) {
@@ -94,7 +94,7 @@ function CancelReserv() {
                             const form = new FormData();
                             form.append('o_idx', OIdx);
                             form.append('g_idx', idx.key);
-                            fetch('http://localhost/cancelreser', {
+                            fetch('http://3.35.97.107/cancelreser', { 
                                 method: 'post',
                                 body: form,
                             }).then(() => {
@@ -104,7 +104,7 @@ function CancelReserv() {
                                     confirmButtonText: '확인'
                                   }).then((result) => {
                                     if(result.isConfirmed) {
-                                      window.location.href='/guest/reservation';
+                                      window.location.href='http://3.35.97.107/#/guest/reservation';
                                     }
                                   });
                             });
@@ -130,7 +130,7 @@ function CancelReserv() {
                             } else {
                                 form.append('pointPlus',data1.dto.g_point);
                             }
-                            fetch('http://localhost/paycancel', {
+                            fetch('http://3.35.97.107/paycancel', { 
                                 method: 'post',
                                 body: form,
                             }).then((response) => response.json())
@@ -142,7 +142,7 @@ function CancelReserv() {
                                       confirmButtonText: '확인'
                                     }).then((result) => {
                                       if(result.isConfirmed) {
-                                        window.location.href='/guest/reservation';
+                                        window.location.href='http://3.35.97.107/#/guest/reservation';
                                       }
                                     });
                                 } else {

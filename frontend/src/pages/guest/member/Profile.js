@@ -1,3 +1,4 @@
+
 import React, {useCallback,useRef,useEffect,useState} from 'react';
 import { ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -28,9 +29,9 @@ function Profile() {
 
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
-    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
-    const [data1,loading1]=useFetch('http://localhost/guest/reviewcount?g_idx='+idx.key);
-    const [data2,loading2]=useFetch('http://localhost/guest/joindate?g_idx='+idx.key);
+    const [data,loading]=useFetch('http://3.35.97.107/guest/my?g_idx='+idx.key);
+    const [data1,loading1]=useFetch('http://3.35.97.107/guest/reviewcount?g_idx='+idx.key);
+    const [data2,loading2]=useFetch('http://3.35.97.107/guest/joindate?g_idx='+idx.key); 
     
     const [reviewlist,setReviewList] = useState([]);
     const [replylist,setReplyList] = useState([]);
@@ -68,7 +69,7 @@ function Profile() {
         });
     }
 
-    useEffect(() => {getReviewList('http://localhost/guest/review?g_idx='+idx.key);},[]);
+    useEffect(() => {getReviewList('http://3.35.97.107/guest/review?g_idx='+idx.key);},[]); 
 
     function getReplyList(url) {
         fetch(url)
@@ -80,9 +81,7 @@ function Profile() {
         });
     }
 
-    useEffect(() => {getReplyList('http://localhost/guest/reply?g_idx='+idx.key);},[]);
-
-    
+    useEffect(() => {getReplyList('http://3.35.97.107/guest/reply?g_idx='+idx.key);},[]); 
 
 if(loading||loading1||loading2){
     return(
@@ -95,7 +94,7 @@ if(loading||loading1||loading2){
       src='/img/image_no.png';
       image_url=`<img class='profile-img' src=${src} width='120px' height='120px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src=`http://localhost/static/images/guest/photo/${data.dto.g_photo}`;
+      src=`http://3.35.97.107/images/guest/photo/${data.dto.g_photo}`;
       image_url=`<img class='profile-img' src=${src} width='120px' height='120px' style={{backgroundSize:"contain";}}/>`; 
     }
 

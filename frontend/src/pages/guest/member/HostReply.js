@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from "react-router";
 //import moment from 'moment';
@@ -5,10 +6,8 @@ import { useNavigate } from "react-router";
 function HostReply({G_idx,H_idx,H_profile,H_name,Rp_date,Rp_content}) {
     const navigate = useNavigate();
     let loading = false;
-    const url = `http://localhost/static/images/host/profile/${H_profile}`;
-    //const date = new Date();
-    //let rv = Rp_date;
-    //rv = moment(date).format('YYYY년 MMMM Do');
+    const url = `http://3.35.97.107/images/host/profile/${H_profile}`;
+
     if (loading) {
         return (
             <div>로딩 중...</div>
@@ -16,11 +15,10 @@ function HostReply({G_idx,H_idx,H_profile,H_name,Rp_date,Rp_content}) {
     } else {
         let profile = "";
         if (H_profile !== "") {
-          //const url = `http://localhost/static/images/guest/profile/${g_url}`;
           profile = `<img class='profile-img' src=${url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
         } else {
           profile =
-            "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='60px' height='60px'/>";
+            "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='60px' height='60px'/>";
         }
         return (
             <div className='container'>

@@ -55,7 +55,7 @@ function OrderDetail(order_idx) {
   };
 
   const [data, loading] = useFetch(
-    `http://localhost/api/order/manage/detail/get/${dataset.g_idx}`
+    `http://3.35.97.107/api/order/manage/detail/get/${dataset.g_idx}` 
   );
 
   if (loading) {
@@ -65,11 +65,11 @@ function OrderDetail(order_idx) {
     let profile_src = "";
 
     if (guest.g_photo !== "-") {
-      const img_url = `http://localhost/static/images/guest/photo/${guest.g_photo}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${guest.g_photo}`; 
       profile_src = `<img class='profile-img' src=${img_url} width='100px' height='100px' />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='80px' height='80px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='80px' height='80px'/>"; 
     }
 
     if (dataset.o_state == 2) {
@@ -405,14 +405,14 @@ function OrderDetail(order_idx) {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}`
+                          `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}` 
                         )
                           .then((response) => {
                             if (!response.ok) {
                               throw new Error("false: " + response.status);
                             }
                             return fetch(
-                              `http://localhost/api/order/manage/update/${dataset.o_idx}`
+                              `http://3.35.97.107/api/order/manage/update/${dataset.o_idx}` 
                             ).then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);
@@ -477,7 +477,7 @@ function OrderDetail(order_idx) {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}`
+                          `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userInfo.h_email}` 
                         )
                           .then((response) => {
                             if (!response.ok) {
@@ -490,7 +490,7 @@ function OrderDetail(order_idx) {
                             form.append("idx", dataset.g_idx);
 
                             return fetch(
-                              `http://localhost/api/order/manage/confirm/${dataset.o_idx}`,
+                              `http://3.35.97.107/api/order/manage/confirm/${dataset.o_idx}`, 
                               {
                                 method: "post",
                                 body: form,

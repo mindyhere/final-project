@@ -28,11 +28,11 @@ const WriteReview = () => {
   } else {
     let profile_src = "";
     if (g_photo.key != "-" && g_photo.key != null) {
-      const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${g_photo.key}`; 
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>"; 
     }
 
     return (
@@ -161,7 +161,7 @@ const WriteReview = () => {
                       form.append("rv_content", rv_content.current.value);
                       form.append("o_idx", data.OIdx);
                       form.append("rv_star", star);
-                      fetch("http://localhost/api/review/insert", {
+                      fetch("http://3.35.97.107/api/review/insert", { 
                         method: "post",
                         body: form,
                       })

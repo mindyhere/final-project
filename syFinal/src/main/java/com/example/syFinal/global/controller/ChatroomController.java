@@ -59,7 +59,9 @@ public class ChatroomController {
 			dto = dao.g_list(sender);
 			System.out.println(dto);
 			for (int i = 0; i < dto.size(); i++) {
-				String pro = "http://localhost/static/images/host/profile/" + dto.get(i).getH_profile();
+//				String pro = "http://localhost/static/images/host/profile/" + dto.get(i).getH_profile();
+				String pro = "http://3.35.97.107/images/host/profile/" + dto.get(i).getH_profile();
+
 				dto.get(i).setH_profile(pro);
 				MessageDTO date_msg = dao.last_message(dto.get(i).getM_roomId());
 				String msg = date_msg.getM_message();
@@ -77,7 +79,8 @@ public class ChatroomController {
 		} else if (type.equals("host")) {
 			dto = dao.h_list(sender);
 			for (int i = 0; i < dto.size(); i++) {
-				String pro = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
+//				String pro = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
+				String pro = "http://3.35.97.107/images/guest/photo/" + dto.get(i).getG_photo();
 				dto.get(i).setG_photo(pro);
 				MessageDTO date_msg = dao.last_message(dto.get(i).getM_roomId());
 				String msg = date_msg.getM_message();
@@ -189,9 +192,13 @@ public class ChatroomController {
 			map.put("g_name", dto.get(i).getG_name());
 			map.put("m_sender",  dto.get(i).getM_sender());
 			map.put("m_receiver",  dto.get(i).getM_receiver());
-			String profile = "http://localhost/static/images/host/profile/" + dto.get(i).getH_profile();
+//			String profile = "http://localhost/static/images/host/profile/" + dto.get(i).getH_profile();
+			String profile = "http://3.35.97.107/images/host/profile/" + dto.get(i).getH_profile();
+
 			map.put("h_profile", profile);
-			String photo = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
+//			String photo = "http://localhost/static/images/guest/photo/" + dto.get(i).getG_photo();
+			String photo = "http://3.35.97.107/images/guest/photo/" + dto.get(i).getG_photo();
+
 			map.put("g_photo", photo);
 			map.put("m_test", dto.get(i).getM_test());
 			list.add(map);

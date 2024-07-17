@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="login">
 <select id="chkPw" resultType="String">
-	select IFNULL((SELECT g_passwd from guest where g_email = #{g_email}), 'no');
+	select IFNULL((SELECT g_passwd from guest where g_email = #{g_email}), 'no')
 </select>
 
 <select id="login" resultType="map">
-	select g_idx, g_name, g_level, g_phone, g_profile, g_photo from GUEST where g_email = #{g_email} and g_passwd = #{g_passwd}
+	select g_idx, g_name, g_level, g_phone, g_profile, g_photo from guest where g_email = #{g_email} and g_passwd = #{g_passwd}
 </select>
 
 <select id="searchEmail" resultType="String">

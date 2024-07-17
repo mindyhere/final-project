@@ -12,7 +12,7 @@ function Anoticedetail() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost/notice/detail/${n_idx}`)
+        fetch(`http://3.35.97.107/notice/detail/${n_idx}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load notice details.');

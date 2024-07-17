@@ -20,7 +20,7 @@ function useFetch(url) {
 
 function Notice() {
     const navigate = useNavigate();
-    const [data, loading] = useFetch('http://localhost/main/notice');
+    const [data, loading] = useFetch('http://3.35.97.107/main/notice');
     
     if(loading){
         return (

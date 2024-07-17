@@ -1,3 +1,4 @@
+
 import React, {useRef,useEffect,useState} from 'react';
 import RecentItem from './recentItem';
 import Cookies from "universal-cookie";
@@ -25,7 +26,7 @@ function Recent() {
   }
  
 
-    useEffect(() => {getRecent('http://localhost/guest/wish/recentList');},[]);
+    useEffect(() => {getRecent('http://3.35.97.107/guest/wish/recentList');},[]); 
     return (
         <>
         <div className="container min-vh-100">

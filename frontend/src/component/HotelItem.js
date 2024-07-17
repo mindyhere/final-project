@@ -11,10 +11,10 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
     const idx = cookies.get('g_idx');
     let loading = false;
     const navigate = useNavigate();
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
-    const url2 = `http://localhost/static/images/host/hotel/${Dimg1}`;
-    const url3 = `http://localhost/static/images/host/hotel/${Dimg2}`;
-    const url4 = `http://localhost/static/images/host/hotel/${Dimg3}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`;
+    const url2 = `http://3.35.97.107/images/host/hotel/${Dimg1}`;
+    const url3 = `http://3.35.97.107/images/host/hotel/${Dimg2}`;
+    const url4 = `http://3.35.97.107/images/host/hotel/${Dimg3}`;
 
     const [image, setImage] = useState(""); 
     const [checkId, setCheckId] = useState(2);
@@ -24,7 +24,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
         form.append('g_idx', idx.key);
         form.append('h_idx', HoIdx);
         if (checkId === 1) {
-            fetch('http://localhost/guest/wish/wishDelete', {
+            fetch('http://3.35.97.107/guest/wish/wishDelete', {
                 method: 'post',
                 body: form,
             }).then((response) => response.json())
@@ -34,7 +34,7 @@ function HotelItem({HoIdx,HoName, HoImg,Dimg1,Dimg2,Dimg3, check, Dprice,Didx,St
                 }
             })
         } else {
-            fetch('http://localhost/guest/wish/wishUpdate', {
+            fetch('http://3.35.97.107/guest/wish/wishUpdate', {
                 method: 'post',
                 body: form,
             }).then((response) => response.json())

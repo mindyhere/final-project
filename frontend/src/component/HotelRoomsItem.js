@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea, dBeds, dNonSmoking, dPrice}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${dImg1}`;
+    const url = `http://3.35.97.107/images/host/hotel/${dImg1}`;
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
     const {HoIdx} = useParams();
@@ -17,17 +17,17 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
         let img1_src = '';
         let img1_url = '';        
         if(dImg1 !== '-'){
-            img1_src = `http://localhost/static/images/host/hotel/${dImg1}`;
+            img1_src = `http://3.35.97.107/images/host/hotel/${dImg1}`;
             img1_url = `<img src=${img1_src} width='200px' height='180px'/>`;
         } else {
-            img1_src = `http://localhost/static/images/no-image.png`;
+            img1_src = `http://3.35.97.107/images/no-image.png`;
             img1_url = `<img src=${img1_src} width='70px' height='70px'/>`;
         }
 
         let img2_src = '';
         let img2_url = '';
         if(dImg2 !== '-'){
-            img2_src = `http://localhost/static/images/host/hotel/${dImg2}`;
+            img2_src = `http://3.35.97.107/images/host/hotel/${dImg2}`;
             img2_url = `<img src=${img2_src} width='200px' height='130px'/>`;
         } else {
             img2_url = '';
@@ -36,7 +36,7 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
         let img3_src = '';
         let img3_url = '';   
         if(dImg3 !== '-'){
-            img3_src = `http://localhost/static/images/host/hotel/${dImg3}`;
+            img3_src = `http://3.35.97.107/images/host/hotel/${dImg3}`;
             img3_url = `<img src=${img3_src} width='200px' height='130px'/>`;
         } else {
             img3_url = '';
@@ -80,9 +80,11 @@ function HotelRoomsItem({dIdx, dRoomType, dImg1, dImg2, dImg3, dCapacity, dArea,
                                 </div>
                             </div>
                             <button className="main-btn" onClick={() => {
-                                fetch(`http://localhost/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx)
+                                fetch(`http://3.35.97.107/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx)
                                  .then(() => {
-                                    window.location.href = `/host/hotel/hotelDetail/` + HoIdx + `/` + dIdx;
+                                    console.log("==> "+HoIdx+", "+dIdx);
+                                    window.location.href = 'http://3.35.97.107/#/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx;
+                                    window.location.reload();
                                 })}}>해당 객실로 예약하기
                             </button>
                         </div>

@@ -1,3 +1,4 @@
+
 import React, { useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -226,7 +227,7 @@ function RegistHotelDetail() {
                                         form.append('checkItems', checkItems);
                                         form.append('list', JSON.stringify(lists));
                                         form.append('dImg1', JSON.stringify(fileLists));
-                                        fetch('http://localhost/host/hotel/registHotelDetail', {
+                                        fetch('http://3.35.97.107/host/hotel/registHotelDetail', { 
                                             method : 'POST',
                                             encType : 'multipart/form-data',
                                             body : form
@@ -271,7 +272,7 @@ function RegistHotelDetail() {
                             form.append('checkItems', checkItems);
                             form.append('list', JSON.stringify(lists));
                             form.append('dImg1', JSON.stringify(fileLists));
-                            fetch('http://localhost/host/hotel/registHotelDetail', {
+                            fetch('http://3.35.97.107/host/hotel/registHotelDetail', { 
                                 method : 'POST',
                                 encType : 'multipart/form-data',
                                 body : form

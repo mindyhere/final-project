@@ -22,7 +22,7 @@ function useFetch(url) {
 function HotelAmenities() {
     const {HoIdx} = useParams();
     const [modal, setModal] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelAmenity/' + HoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelAmenity/' + HoIdx); 
     
     if(loading){
         return (

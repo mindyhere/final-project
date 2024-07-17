@@ -1,3 +1,4 @@
+
 import React, {useRef,useEffect,useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Cookies from 'universal-cookie';
@@ -24,7 +25,7 @@ function Account() {
 
     const cookies = new Cookies();
     const idx=cookies.get('g_idx');
-    const [data,loading]=useFetch('http://localhost/guest/my?g_idx='+idx.key);
+    const [data,loading]=useFetch('http://3.35.97.107/guest/my?g_idx='+idx.key);
 
     if(loading){
         return(

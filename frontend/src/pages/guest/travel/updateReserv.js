@@ -31,7 +31,7 @@ function useFetch(url) {
 
 function UpdateReserv() {
     const {OIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/guest/reserv/upDetail?o_idx=' + OIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/reserv/upDetail?o_idx=' + OIdx); 
     const cookies = new Cookies();
     const idx = cookies.get('g_idx');
     
@@ -159,7 +159,7 @@ function UpdateReserv() {
        }
     
        useEffect(() => {
-        fetch('http://localhost/guest/reserv/upDetail?o_idx=' + OIdx)
+        fetch('http://3.35.97.107/guest/reserv/upDetail?o_idx=' + OIdx) 
         .then(response => {
             return response.json();
         })
@@ -279,7 +279,7 @@ function UpdateReserv() {
                             form.append('ru_adult', adult);
                             form.append('ru_child', teenager);
                             form.append('ru_baby', child);
-                            fetch('http://localhost/guest/reserv/insert', {
+                            fetch('http://3.35.97.107/guest/reserv/insert', { 
                                 method: 'post',
                                 body: form,
                                 }).then((response) => response.json())
@@ -292,7 +292,7 @@ function UpdateReserv() {
                                         confirmButtonText: '확인',
                                     }).then((result) => {
                                         if(result.isConfirmed) {
-                                            window.location.href='/guest/reservation';
+                                            window.location.href='http://3.35.97.107/#/guest/reservation';
                                         }
                                     });
                                 } else {

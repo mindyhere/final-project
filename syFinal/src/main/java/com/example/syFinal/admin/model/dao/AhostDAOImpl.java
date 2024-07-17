@@ -53,4 +53,3 @@ public class AhostDAOImpl implements AhostDAO {
 	}
 
 }
- 

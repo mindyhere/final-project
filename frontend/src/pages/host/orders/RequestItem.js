@@ -37,11 +37,11 @@ function RequestItem({
   } else {
     let profile_src = "";
     if (g_photo !== "-") {
-      const img_url = `http://localhost/static/images/guest/photo/${g_photo}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${g_photo}`; 
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{background-size:"contain" }} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>"; 
     }
     return (
       <div
@@ -119,7 +119,7 @@ function RequestItem({
                           showLoaderOnConfirm: true,
                           preConfirm: (pwd) => {
                             return fetch(
-                              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                              `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
                             )
                               .then((response) => {
                                 if (!response.ok) {
@@ -138,7 +138,7 @@ function RequestItem({
                                 form.append("hidx", userIdx);
 
                                 return fetch(
-                                  `http://localhost/api/order/manage/modify/${o_idx}`,
+                                  `http://3.35.97.107/api/order/manage/modify/${o_idx}`, 
                                   {
                                     method: "post",
                                     body: form,
@@ -214,14 +214,14 @@ function RequestItem({
                           showLoaderOnConfirm: true,
                           preConfirm: (pwd) => {
                             return fetch(
-                              `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                              `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
                             )
                               .then((response) => {
                                 if (!response.ok) {
                                   throw new Error("false: " + response.status);
                                 }
                                 return fetch(
-                                  `http://localhost/api/order/manage/reject/${o_idx}`
+                                  `http://3.35.97.107/api/order/manage/reject/${o_idx}` 
                                 ).then((response) => {
                                   if (!response.ok) {
                                     throw new Error(response.status);

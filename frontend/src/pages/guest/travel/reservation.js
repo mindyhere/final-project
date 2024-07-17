@@ -62,7 +62,7 @@ var set = {
     
 };
 
-  useEffect(() => {getReserv('http://localhost/guest/reserv/list');},[]);
+  useEffect(() => {getReserv('http://3.35.97.107/guest/reserv/list');},[]); 
   
     
         return (

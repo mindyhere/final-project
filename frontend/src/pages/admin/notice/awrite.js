@@ -46,7 +46,7 @@ function Awrite() {
       cancelButtonColor: '#838383d2'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost/notice/insert`, {
+        fetch(`http://3.35.97.107/notice/insert`, {
           method: 'POST',
           body: form,
         })

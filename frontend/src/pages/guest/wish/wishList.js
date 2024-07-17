@@ -21,7 +21,7 @@ function WishList() {
   var myArr = localStorage.getItem('watched');
     myArr = JSON.parse(myArr);
   
-    useEffect(() => {getWish(`http://localhost/guest/wish/wishList?g_idx=${idx.key}`);},[]);
+    useEffect(() => {getWish(`http://3.35.97.107/guest/wish/wishList?g_idx=${idx.key}`);},[]); 
     return (
         <>
         <div className="container min-vh-100">

@@ -31,7 +31,7 @@ function Wish() {
         first = myArr[myArr.length - 1];
     }
    
-    const [data, loading] = useFetch('http://localhost/guest/wish/recentImg?idx='+first+'&g_idx='+idx.key);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/wish/recentImg?idx='+first+'&g_idx='+idx.key); 
 
     if(loading) {
         return (
@@ -41,14 +41,14 @@ function Wish() {
         let url = '';
         let wishImage = '';
         if (data.firstWish != null) {
-            url = `http://localhost/static/images/host/hotel/${data.firstWish}`;
+            url = `http://3.35.97.107/images/host/hotel/${data.firstWish}`; 
             wishImage = `<img src=${url} width='330px' height='330px' className="wish" style="border-radius: 15px;"/><br />`;
         }
 
         let src = '';
         let recentImage = '';
         if (data.firstRecent != null) {
-            src = `http://localhost/static/images/host/hotel/${data.firstRecent}`;
+            src = `http://3.35.97.107/images/host/hotel/${data.firstRecent}`; 
             recentImage = `<img src=${src} width='330px' height='330px' className="wish" style="border-radius: 15px;"/><br />`;
         }
 

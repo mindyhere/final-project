@@ -23,7 +23,7 @@ function HotelDescription() {
     const {HoIdx} = useParams();
     const {dIdx} = useParams();
     const [modal, setModal] = useState(false);
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx); 
 
     if(loading){
         return (

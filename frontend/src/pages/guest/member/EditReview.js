@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { ChatLeftQuote } from "react-bootstrap-icons";
 
@@ -26,7 +27,7 @@ function useFetch(url) {
 const EditReview = () => {
   const info = JSON.parse(localStorage.getItem("info"));
   const [data, loading] = useFetch(
-    `http://localhost/api/review/detail/${info.rv_idx}`
+    `http://3.35.97.107/api/review/detail/${info.rv_idx}`
   );
 
   const cookies = new Cookies();
@@ -47,11 +48,11 @@ const EditReview = () => {
     let profile_src = "";
     let rate = data.rv_star;
     if (g_photo.key != "-" && g_photo.key != null) {
-      const img_url = `http://localhost/static/images/guest/photo/${g_photo.key}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${g_photo.key}`;
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>";
     }
 
     return (
@@ -186,7 +187,7 @@ const EditReview = () => {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
+                            `http://3.35.97.107/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
                           )
                             .then((response) => response.json())
                             .then((response) => {
@@ -204,7 +205,7 @@ const EditReview = () => {
                                 ? form.append("rv_star", rate)
                                 : form.append("rv_star", star);
                               return fetch(
-                                `http://localhost/api/review/edit/${info.rv_idx}`,
+                                `http://3.35.97.107/api/review/edit/${info.rv_idx}`,
                                 {
                                   method: "post",
                                   body: form,
@@ -264,7 +265,7 @@ const EditReview = () => {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
+                          `http://3.35.97.107/guest/info/confirmPwd?pwd=${pwd}&g_email=${g_email.key}`
                         )
                           .then((response) => response.json())
                           .then((response) => {
@@ -272,7 +273,7 @@ const EditReview = () => {
                               throw new Error("false: " + response.result);
                             }
                             return fetch(
-                              `http://localhost/api/review/delete/${info.rv_idx}`
+                              `http://3.35.97.107/api/review/delete/${info.rv_idx}`
                             ).then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);

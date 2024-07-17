@@ -59,7 +59,7 @@ function GuestLogin() {
                                 const form = new FormData();
                                 form.append('g_email', g_email.current.value);
                                 form.append('g_passwd', g_passwd.current.value);
-                                fetch('http://localhost/guest/login/login', {
+                                fetch('http://3.35.97.107/guest/login/login', {
                                     method: 'post',
                                     body: form
                                 })

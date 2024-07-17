@@ -9,7 +9,7 @@ function TotalReputation({ list, avg, HoIdx, focused }) {
   const keyword = useRef();
 
   function getList() {
-    const url = "http://localhost/api/reputation/review/search";
+    const url = "http://3.35.97.107/api/reputation/review/search"; 
     const form = new FormData();
     form.append("sort", sort.current.value);
     form.append("keyword", keyword.current.value);

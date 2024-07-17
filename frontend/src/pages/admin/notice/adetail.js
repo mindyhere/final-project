@@ -19,7 +19,7 @@ function Adetail() {
     const a_id = cookies.get("a_id");
 
     useEffect(() => {
-        fetch(`http://localhost/notice/detail/${n_idx}`)
+        fetch(`http://3.35.97.107/notice/detail/${n_idx}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load notice details.');
@@ -68,7 +68,7 @@ function Adetail() {
                 formData.append("n_content", n_content.current.value);
                 formData.append("n_date", n_date.current.value);
 
-                fetch(`http://localhost/notice/update/${n_idx}`, {
+                fetch(`http://3.35.97.107/notice/update/${n_idx}`, {
                     method: 'POST',
                     body: formData,
                 })

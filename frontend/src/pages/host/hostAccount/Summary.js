@@ -44,7 +44,7 @@ function Summary() {
   }
 
   useEffect(() => {
-    getData(`http://localhost/api/chart/summary/${userIdx}`);
+    getData(`http://3.35.97.107/api/chart/summary/${userIdx}`); 
   }, []);
 
   const settings = {

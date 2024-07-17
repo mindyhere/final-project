@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState} from "react";
 import { useNavigate } from "react-router";
 import { BuildingAdd, BuildingCheck, BuildingDash, Hearts } from "react-bootstrap-icons";
@@ -27,7 +28,7 @@ function MyHotelList() {
     const userInfo = cookies.get("userInfo");
     const userIdx = userInfo.h_idx;
     const userName = userInfo.h_name;
-    const [data, loading] = useFetch('http://localhost/host/hotel/hotelManagement/' + userIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelManagement/' + userIdx); 
 
     if(loading){
         return (
@@ -41,7 +42,7 @@ function MyHotelList() {
                     <button className="main-btn mb-20" onClick={() => {                       
                         const form = new FormData();
                         form.append("userIdx", userIdx);
-                        fetch(`http://localhost/host/hotel/beforeRegistCheck`, {
+                        fetch(`http://3.35.97.107/host/hotel/beforeRegistCheck`, { 
                             method: "POST",
                             body: form,
                         }).then((response) => response.json()
@@ -76,7 +77,7 @@ function MyHotelList() {
                                     //데이터 불러와서 넘기기
                                     const form = new FormData();
                                     form.append("userIdx", userIdx);
-                                    fetch(`http://localhost/host/hotel/selectTempHotel`, {
+                                    fetch(`http://3.35.97.107/host/hotel/selectTempHotel`, { 
                                         method: "POST",
                                         body: form,
                                     }).then((response) => response.json())
@@ -102,7 +103,7 @@ function MyHotelList() {
                                 } else {
                                     const form = new FormData();
                                     form.append("userIdx", userIdx);
-                                    fetch(`http://localhost/host/hotel/deleteTempHotel`, {
+                                    fetch(`http://3.35.97.107/host/hotel/deleteTempHotel`, { 
                                         method: "POST",
                                         body: form,
                                     }).then(() => {

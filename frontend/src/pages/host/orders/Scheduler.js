@@ -40,13 +40,13 @@ function Scheduler({ handleModal }) {
   const { userIdx } = useParams();
   const [value, onChange] = useState(new Date());
   const [ckin, loading1] = useFetch(
-    `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin`
+    `http://3.35.97.107/api/order/manage/schedule/${userIdx}?column=o_ckin` 
   );
   const [ckout, loading2] = useFetch(
-    `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckout`
+    `http://3.35.97.107/api/order/manage/schedule/${userIdx}?column=o_ckout` 
   );
   const [pending, loading3] = useFetch(
-    `http://localhost/api/order/manage/schedule/${userIdx}?column=o_ckin&pending=1`
+    `http://3.35.97.107/api/order/manage/schedule/${userIdx}?column=o_ckin&pending=1` 
   );
   const [date, setDate] = useState(value);
 

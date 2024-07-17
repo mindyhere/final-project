@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { ChatLeftQuote } from "react-bootstrap-icons";
 
@@ -39,7 +40,7 @@ const EditReply = () => {
   }
 
   useEffect(() => {
-    getReply(`http://localhost/api/reputation/reply/${data.rp_idx}`);
+    getReply(`http://3.35.97.107/api/reputation/reply/${data.rp_idx}`); 
   }, []);
 
   if (loading) {
@@ -47,11 +48,11 @@ const EditReply = () => {
   } else {
     let profile_src = "";
     if (data.g_photo != "-" && data.g_photo != null) {
-      const img_url = `http://localhost/static/images/guest/photo/${data.g_photo}`;
+      const img_url = `http://3.35.97.107/images/guest/photo/${data.g_photo}`; 
       profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>"; 
     }
     return (
       <>
@@ -194,7 +195,7 @@ const EditReply = () => {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                            `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
                           )
                             .then((response) => {
                               if (!response.ok) {
@@ -208,7 +209,7 @@ const EditReply = () => {
                                 rp_content.current.value
                               );
 
-                              return fetch(`http://localhost/api/reply/edit`, {
+                              return fetch(`http://3.35.97.107/api/reply/edit`, { 
                                 method: "post",
                                 body: form,
                               }).then((response) => {
@@ -266,7 +267,7 @@ const EditReply = () => {
                       showLoaderOnConfirm: true,
                       preConfirm: (pwd) => {
                         return fetch(
-                          `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                          `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
                         )
                           .then((response) => {
                             if (!response.ok) {
@@ -274,7 +275,7 @@ const EditReply = () => {
                             }
                             let rp_idx = data.rp_idx;
                             return fetch(
-                              `http://localhost/api/reply/delete/${rp_idx}`
+                              `http://3.35.97.107/api/reply/delete/${rp_idx}` 
                             ).then((response) => {
                               if (!response.ok) {
                                 throw new Error("false: " + response.status);

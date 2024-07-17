@@ -10,11 +10,11 @@ function SliderReviewItems({rv_idx, g_name, g_photo, rv_content, rv_date, rv_sta
     } else {
         let profile_src = "";
         if (g_photo !== "-") {
-          const img_url = `http://localhost/static/images/guest/photo/${g_photo}`;
+          const img_url = `http://3.35.97.107/images/guest/photo/${g_photo}`;
           profile_src = `<img class='profile-img' src=${img_url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
         } else {
           profile_src =
-            "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='50px' height='50px'/>";
+            "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='50px' height='50px'/>";
         }
         return (
             <div className='container'>

@@ -25,7 +25,7 @@ function useFetch(url) {
 
 function PreReservDetail() {
     const {OIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/guest/reserv/lastDetail?o_idx=' + OIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/guest/reserv/lastDetail?o_idx=' + OIdx); 
     const [check, setCheck] = useState(false);
 
     const handleCopyClick = (textToCopy) => {
@@ -69,7 +69,7 @@ function PreReservDetail() {
         }
 
         let img = '';
-        const url = `http://localhost/static/images/host/profile/${hProfile}`;
+        const url = `http://3.35.97.107/images/host/profile/${hProfile}`; 
         if ( hProfile != null) {
             img = `<img src=${url} width='30px' height='30px' /><br />`;
         }

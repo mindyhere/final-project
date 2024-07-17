@@ -3,8 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 function LastReservItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
-    //const url = `../img/${HoImg}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`; 
     const navigate = useNavigate();
 
     if (loading) {

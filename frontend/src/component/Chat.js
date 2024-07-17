@@ -37,7 +37,7 @@ function Chat(props) {
     
     const fetchMessages = () => {
         axios
-          .get('http://localhost/chatroom/entrance?roomId='+roomId)
+          .get('http://3.35.97.107/chatroom/entrance?roomId='+roomId)
           .then((response) => {
             // setMessages((messages) => [...messages, response.data]);
             setMessages(response.data);
@@ -69,7 +69,8 @@ function Chat(props) {
 
       const connect = () => {
         // const socket = new WebSocket(`ws://${ip}/ws`);
-        const socket = new WebSocket(`ws://localhost:80/ws`);
+        const socket = new WebSocket(`ws://3.35.97.107/ws`);
+        //const socket = new WebSocket(`ws://localhost:80/ws`);
         stompClient.current = Stomp.over(socket);
         stompClient.current.connect({}, () => {
         stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
@@ -132,7 +133,7 @@ function Chat(props) {
                             </div>
                             :    
                             <div className='messageContainer justifyStart'> 
-                            <img src={gEmail!=null? (messages[0].h_profile == 'http://localhost/static/images/host/profile/-'? '/img/no-image.png' : messages[0].h_profile) : (messages[0].g_photo == 'http://localhost/static/images/guest/photo/-'? '/img/no-image.png' : messages[0].g_photo)} width='30px' height='30px' style={{marginTop: '7px', marginRight: '5px', borderRadius: '15px'}}/>
+                            <img src={gEmail!=null? (messages[0].h_profile == 'http://3.35.97.107/images/host/profile/-'? '/img/no-image.png' : messages[0].h_profile) : (messages[0].g_photo == 'http://3.35.97.107/images/guest/photo/-'? '/img/no-image.png' : messages[0].g_photo)} width='30px' height='30px' style={{marginTop: '7px', marginRight: '5px', borderRadius: '15px'}}/>              
                             <div className='messageBox backgroundLight'>
                             <p className='messageText colorDark'>{item.m_message}</p>
                             </div>

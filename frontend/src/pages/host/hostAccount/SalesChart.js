@@ -107,11 +107,11 @@ function SalesChart() {
   const { userIdx } = useParams();
   const today = new Date();
   const [labels, loading1] = useFetch(
-    `http://localhost/api/chart/labels/${userIdx}`,
+    `http://3.35.97.107/api/chart/labels/${userIdx}`, 
     "labels"
   );
   const [sales, loading2] = useFetch(
-    `http://localhost/api/chart/sales/${userIdx}`,
+    `http://3.35.97.107/api/chart/sales/${userIdx}`, 
     "sales"
   );
 

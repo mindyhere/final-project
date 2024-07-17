@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import '../aa.css'
@@ -6,7 +7,7 @@ import Swal from "sweetalert2";
 
 function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`; 
     const navigate = useNavigate(); 
     
 
@@ -36,13 +37,13 @@ function WishItem({HoIdx, HoName, HoImg, wIdx, dIdx}) {
                     top:'8px', left:'250px'}} onClick={() => {
                         const form = new FormData();
                         form.append('w_idx', wIdx);
-                        fetch('http://localhost/guest/wish/delete', {
+                        fetch('http://3.35.97.107/guest/wish/delete', { 
                             method: 'post',
                             body: form,
                         }).then((response) => response.json())
                         .then(data => {
                             if(data.result == 'success') {
-                                window.location.href='/guest/wishList';
+                                window.location.href='http://3.35.97.107/#/guest/wishList';
                             }
                         })
                     }

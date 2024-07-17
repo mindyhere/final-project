@@ -78,7 +78,7 @@ function HostLogin() {
                   const form = new FormData();
                   form.append("userEmail", userEmail.current.value);
                   form.append("pwd", pwd.current.value);
-                  fetch("http://localhost/api/host/login/", {
+                  fetch("http://3.35.97.107/api/host/login/", { 
                     method: "post",
                     body: form,
                   })

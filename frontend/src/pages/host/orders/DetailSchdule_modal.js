@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,10 +29,10 @@ function useFetch(url) {
 function DetailSchedule({ date }) {
   const { userIdx } = useParams();
   const [ckinData, loading1] = useFetch(
-    `http://localhost/api/order/manage/schedule/detail/${userIdx}?column=o_ckin&date=${date}`
+    `http://3.35.97.107/api/order/manage/schedule/detail/${userIdx}?column=o_ckin&date=${date}` 
   );
   const [ckoutData, loading2] = useFetch(
-    `http://localhost/api/order/manage/schedule/detail/${userIdx}?column=o_ckout&date=${date}`
+    `http://3.35.97.107/api/order/manage/schedule/detail/${userIdx}?column=o_ckout&date=${date}` 
   );
   const [index, setIndex] = useState("");
 

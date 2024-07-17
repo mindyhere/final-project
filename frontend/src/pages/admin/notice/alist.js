@@ -23,7 +23,7 @@ function NoticeList() {
     form.append('searchkey', searchkey.current.value);
     form.append('search', search.current.value);
 
-    fetch('http://localhost/notice/list', {
+    fetch('http://3.35.97.107/notice/list', {
       method: 'post',
       body: form
     })
@@ -53,7 +53,7 @@ function NoticeList() {
       cancelButtonText: '취소',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost/notice/delete?n_idx=${n_idx}`, {
+        fetch(`http://3.35.97.107/notice/delete?n_idx=${n_idx}`, {
           method: 'POST'
         })
           .then(response => response.json())

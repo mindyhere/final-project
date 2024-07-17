@@ -74,21 +74,19 @@ function Header() {
 
   const locationNow = useLocation(); // 팝업창에서 헤더제거
   if (
-    locationNow.pathname === "/guest/write" ||
-    locationNow.pathname === "/guest/edit"
+    locationNow.pathname === "/popup/guest/write" ||
+    locationNow.pathname === "/popup/guest/edit"
   )
     return null; // 팝업창에서 헤더 제거
   if (
-    locationNow.pathname === "/host/account/manage/review" ||
-    locationNow.pathname === "/host/account/manage/reply"
+    locationNow.pathname === "/popup/host/review" ||
+    locationNow.pathname === "/popup/host/reply"
   )
     return null;
   if (locationNow.pathname === `/admin/alogin/${a_id}`) return null;
 
   if (userInfo == null && g_email == null && a_id == null) {
-    console.log("a_id 로그인X cookie==> " + a_id);
-    console.log("g_email 로그인X cookie==> " + g_email);
-    console.log("로그인X cookie==> " + userInfo);
+
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
@@ -314,10 +312,10 @@ function Header() {
     let src = "";
     let image = "";
     if (g_photo.key === "-") {
-      src = `http://localhost/static/images/guest/photo/image_no.png`;
+      src = `http://3.35.97.107/images/guest/photo/image_no.png`;
       image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src = `http://localhost/static/images/guest/photo/${g_photo.key}`;
+      src = `http://3.35.97.107/images/guest/photo/${g_photo.key}`;
       image = `<img class='profile-img' src=${src} width='45px' height='45px' style={{backgroundSize:"contain";}}/>`;
     }
 

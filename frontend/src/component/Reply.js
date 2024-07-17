@@ -2,7 +2,7 @@ import React from "react";
 
 function Reply({ rp_idx, h_name, h_profile, rp_writer, rp_content, rp_date }) {
   let loading = false;
-  const img_url = `http://localhost/static/images/guest/profile/${h_profile}`;
+  const img_url = `http://3.35.97.107/images/host/profile/${h_profile}`;
 
   if (loading) {
     return <div>loading...</div>;
@@ -12,7 +12,7 @@ function Reply({ rp_idx, h_name, h_profile, rp_writer, rp_content, rp_date }) {
       profile_src = `<img class='profile-img' src=${img_url} width='40px' height='40px' style={{backgroundSize:"contain";}} />`;
     } else {
       profile_src =
-        "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='30px' height='30px'/>";
+        "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='30px' height='30px'/>";
     }
 
     return (

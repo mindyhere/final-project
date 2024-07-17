@@ -21,7 +21,7 @@ function MemoList() {
 
   const fetchMemo = () => {
     const form = new FormData();
-    fetch('http://localhost/memo/list', {
+    fetch('http://3.35.97.107/memo/list', {
       method: 'post',
       body: form
     })
@@ -71,7 +71,7 @@ function MemoList() {
         confirmButtonText: '확인',
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(`http://localhost/memo/insert`, {
+          fetch(`http://3.35.97.107/memo/insert`, {
             method: 'POST',
             body: form,
           })
@@ -85,7 +85,7 @@ function MemoList() {
                   confirmButtonColor: '#41774d86'
                 }).then((result) => {
                     if(result.isConfirmed) {
-                        window.location.href = `/admin/amain/${a_id}`;
+                        window.location.href = `http://3.35.97.107/#/admin/amain/${a_id}`;
                     }
                   });
               } else {              
@@ -112,7 +112,7 @@ function MemoList() {
         cancelButtonText: '취소',
       }).then((result) => {
         if (result.isConfirmed) {  
-          fetch(`http://localhost/memo/delete?me_idx=${me_idx}`, {
+          fetch(`http://3.35.97.107/memo/delete?me_idx=${me_idx}`, {
             method: 'POST',
    
           })

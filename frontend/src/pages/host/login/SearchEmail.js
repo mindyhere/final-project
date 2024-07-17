@@ -110,7 +110,7 @@ function SearchEmail() {
                   form.append("h_name", h_name.current.value);
                   form.append("h_phone", h_phone.current.value);
                   form.append("h_business", h_business.current.value);
-                  fetch("http://localhost/api/host/login/findId", {
+                  fetch("http://3.35.97.107/api/host/login/findId", { 
                     method: "post",
                     body: form,
                   })

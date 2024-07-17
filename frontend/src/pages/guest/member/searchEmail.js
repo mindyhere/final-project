@@ -66,7 +66,7 @@ function SearchEmail() {
                             const form = new FormData();
                                 form.append('g_name', g_name.current.value);
                                 form.append('g_phone', g_phone.current.value);
-                                fetch('http://localhost/guest/login/searchMail', {
+                                fetch('http://3.35.97.107/guest/login/searchMail', { 
                                     method: 'post',
                                     body: form
                                 })

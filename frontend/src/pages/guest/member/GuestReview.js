@@ -2,10 +2,7 @@ import React from 'react';
 
 function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${D_img1}`;
-    //const date = new Date();
-    //let rv = Rv_date;
-    //rv = moment(date).format('YYYY년 MMMM Do');
+    const url = `http://3.35.97.107/images/host/hotel/${D_img1}`;
 
     const info = {
         // 전달할 데이터
@@ -15,7 +12,7 @@ function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
 
     const openPopup = () => {
         const popup = window.open(
-            `./edit`,
+            `http://3.35.97.107/#/popup/guest/edit`,
             "name(Edit)",
             "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
         );
@@ -32,7 +29,7 @@ function GuestReview({G_idx,Rv_idx,Ho_name,D_img1,Rv_date,Rv_content}) {
           profile = `<img class='profile-img' src=${url} width='60px' height='60px' style={{backgroundSize:"contain";}} />`;
         } else {
           profile =
-            "<img class='profile-img' src='http://localhost/static/images/no-image.png' width='60px' height='60px'/>";
+            "<img class='profile-img' src='http://3.35.97.107/images/no-image.png' width='60px' height='60px'/>";
         }
         return (
             <div className='container'>

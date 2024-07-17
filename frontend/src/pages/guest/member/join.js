@@ -71,7 +71,7 @@ function Join() {
                 }
                 const form = new FormData();
                 form.append('g_email', g_email.current.value);
-                fetch('http://localhost/guest/info/checkEmail', {
+                fetch('http://3.35.97.107/guest/info/checkEmail', {
                     method: 'post',
                     body: form
                 })
@@ -207,7 +207,7 @@ function Join() {
                 form.append('g_passwd', g_passwd.current.value);
                 form.append('g_name', g_name.current.value);
                 form.append('g_phone', g_phone.current.value);
-                fetch('http://localhost/guest/info/join', {
+                fetch('http://3.35.97.107/guest/info/join', {
                     method: 'post',
                     body: form
                 })
@@ -220,7 +220,7 @@ function Join() {
                             confirmButtonText: '확인',
                         }).then((result) => {
                             if(result.isConfirmed) {
-                                window.location.href="/guest/login";
+                                window.location.href="http://3.35.97.107/#/guest/login";
                             }
                         });
                     } else {

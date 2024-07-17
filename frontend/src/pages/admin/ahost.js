@@ -23,7 +23,7 @@ function Ahost() {
         const form = new FormData();
         form.append('searchkey', searchkey.current.value);
         form.append('search', search.current.value);
-        fetch('http://localhost/admin/ah_list', {
+        fetch('http://3.35.97.107/admin/ah_list', {
             method: 'post',
             body: form
         }).then(response => response.json())
@@ -71,7 +71,7 @@ function Ahost() {
                     Swal.fire({
                         title: `사업자 등록증 확인 완료`,
                         text: `등록번호: ${h_business}`,
-                        imageUrl: `http://localhost/static/images/host/profile/${h_file}`,
+                        imageUrl: `http://3.35.97.107/images/host/profile/${h_file}`,
                         imageWidth: 400,
                         imageHeight: 400,
                         showCancelButton: true,
@@ -94,7 +94,7 @@ function Ahost() {
                             Swal.fire({
                                 title: `계좌번호 확인 완료`,
                                 text: `계좌번호: ${h_accountnum}`,
-                                imageUrl: `http://localhost/static/images/host/profile/${h_bankbook}`,
+                                imageUrl: `http://3.35.97.107/images/host/profile/${h_bankbook}`,
                                 imageWidth: 400,
                                 imageHeight: 400,
                                 showCancelButton: true,
@@ -104,7 +104,7 @@ function Ahost() {
                                 cancelButtonColor: '#838383d2'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    fetch(`http://localhost/admin/approve`, {
+                                    fetch(`http://3.35.97.107/admin/approve`, {
                                         method: 'post',
                                         body: form,
                                     }).then(response => {
@@ -244,7 +244,7 @@ function Ahost() {
                                                     type="button" 
                                                     className="btn btn-link" 
                                                     onClick={() => window.open(
-                                                        `http://localhost/static/images/host/profile/${list.h_file}`, 
+                                                        `http://3.35.97.107/images/host/profile/${list.h_file}`, 
                                                         'width=500,height=500'
                                                     )}
                                                     >
@@ -258,7 +258,7 @@ function Ahost() {
                                                 {list.h_bankbook.length === 1 ? (
                                                 list.h_bankbook
                                                 ) : (
-                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://localhost/static/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
+                                                <button type="button" className="btn btn-link" onClick={() => window.open(`http://3.35.97.107/images/host/profile/${list.h_bankbook}`, 'width=500,height=500')}>
                                                 {list.h_bankbook}
                                                 </button>
                                             )}<br/>   

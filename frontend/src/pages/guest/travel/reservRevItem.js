@@ -3,8 +3,7 @@ import {useNavigate} from "react-router-dom";
 
  function ReservRevItem({OIdx, HoName, HoImg, OCkin, OCkout, HName}) {
     let loading = false;
-    const url = `http://localhost/static/images/host/hotel/${HoImg}`;
-    //const url = `../img/${HoImg}`;
+    const url = `http://3.35.97.107/images/host/hotel/${HoImg}`; 
     const navigate = useNavigate();
 
     const reservData =  {
@@ -15,7 +14,7 @@ import {useNavigate} from "react-router-dom";
         OCkout: `${OCkout}`,
     }
     const openPopup = () => {
-        const popup = window.open("./write", "name(Write)", "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
+        const popup = window.open("http://3.35.97.107/#/popup/guest/write", "name(Write)", "width=500,height=730,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes");
         return popup;
     }; 
 

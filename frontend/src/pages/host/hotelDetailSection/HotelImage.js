@@ -23,7 +23,7 @@ function HotelImage() {
     const location = useLocation();
     const HoIdx = location.state.HoIdx;
     const dIdx = location.state.dIdx;
-    const [data, loading] = useFetch('http://localhost/host/hotel/viewHotelImg/' + HoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/viewHotelImg/' + HoIdx); 
 
     if(loading){
         return (
@@ -33,7 +33,7 @@ function HotelImage() {
         let ho_img_src = '';
         let ho_img_url = '';
         if(data.ho_img !== '-'){
-            ho_img_src = `http://localhost/static/images/host/hotel/${data[0].ho_img}`;
+            ho_img_src = `http://3.35.97.107/images/host/hotel/${data[0].ho_img}`; 
             ho_img_url = `<img src=${ho_img_src} style="height:100%; width:100%;"/>`;
         } else {
             ho_img_url = '';
@@ -56,21 +56,21 @@ function HotelImage() {
                                     <div className="col-3">
                                         {
                                             data.d_img1 != '-'
-                                            ? <img src={`http://localhost/static/images/host/hotel/${data.d_img1}`} style={{width:'350px', height:'200px', objectFit:'fill'}}/>
+                                            ? <img src={`http://3.35.97.107/images/host/hotel/${data.d_img1}`} style={{width:'350px', height:'200px', objectFit:'fill'}}/> 
                                             : ''
                                         }
                                     </div>
                                     <div className="col-3">
                                         {
                                             data.d_img2 != '-'
-                                            ? <img src={`http://localhost/static/images/host/hotel/${data.d_img2}`} style={{width:'350px', height:'200px', objectFit:'fill'}} />
+                                            ? <img src={`http://3.35.97.107/images/host/hotel/${data.d_img2}`} style={{width:'350px', height:'200px', objectFit:'fill'}} /> 
                                             : ''
                                         }
                                     </div>
                                     <div className="col-3">
                                         {
                                             data.d_img3 != '-'
-                                            ? <img src={`http://localhost/static/images/host/hotel/${data.d_img3}`} style={{width:'350px', height:'200px', objectFit:'fill'}} />
+                                            ? <img src={`http://3.35.97.107/images/host/hotel/${data.d_img3}`} style={{width:'350px', height:'200px', objectFit:'fill'}} /> 
                                             : ''
                                         }
                                     </div>

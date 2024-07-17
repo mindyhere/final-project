@@ -55,7 +55,7 @@ function Alogin() {
                         const form = new FormData();
                         form.append('a_id',a_id.current.value);                     
                         form.append('a_passwd',a_passwd.current.value);
-                        fetch('http://localhost/admin/adlogin',{
+                        fetch('http://3.35.97.107/admin/adlogin',{
                             method:'post',
                             body:form
                         })
@@ -74,7 +74,7 @@ function Alogin() {
                                     confirmButtonText: '확인',
                                     confirmButtonColor: '#41774d86',
                                 }).then(() => {
-                                    window.location.href = `/admin/amain/${a_id.current.value}`;
+                                    window.location.href = `http://3.35.97.107/#/admin/amain/${a_id.current.value}`;
                                 });
                             } else { 
                                     navigate(`/admin/alogin/${a_id.key}?msg=error`);   

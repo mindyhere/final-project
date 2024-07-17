@@ -30,8 +30,8 @@ function HostInfo() {
 
     const navigate = useNavigate();
     const {HoIdx} = useParams();
-    const [data, loading] = useFetch('http://localhost/host/hotel/hostInfo/' + HoIdx);
-    const [review, loading2] = useFetch('http://localhost/api/reputation/list/' + HoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hostInfo/' + HoIdx);
+    const [review, loading2] = useFetch('http://3.35.97.107/api/reputation/list/' + HoIdx); 
     if(loading || loading2){
         return (
             <div className="text-center">로딩 중...</div>
@@ -51,10 +51,10 @@ function HostInfo() {
         let profile_src = '';
         let profile_url = '';
         if(data.h_profile !== '-'){
-            profile_src = `http://localhost/static/images/host/profile/${data.h_profile}`;
+            profile_src = `http://3.35.97.107/images/host/profile/${data.h_profile}`; 
             profile_url = `<img src=${profile_src} width='90px' height='90px'/>`;
         } else {
-            profile_src = `http://localhost/static/images/no-image.png`;
+            profile_src = `http://3.35.97.107/images/no-image.png`; 
             profile_url = `<img src=${profile_src} width='70px' height='70px'/>`;
         }
         return (
@@ -110,7 +110,7 @@ function HostInfo() {
                                     const form = new FormData();
                                     form.append('h_email', data.h_email);
                                     form.append('g_email', gEmail.key);
-                                    fetch('http://localhost/chatroom/check', {
+                                    fetch('http://3.35.97.107/chatroom/check', { 
                                         method: 'post',
                                         body: form,
                                     })

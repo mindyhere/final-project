@@ -29,7 +29,7 @@ function useFetch(url) {
 function ModifyList() {
   const { userIdx } = useParams();
   const [data, loading] = useFetch(
-    `http://localhost/api/order/manage/modify/list?userIdx=${userIdx}`
+    `http://3.35.97.107/api/order/manage/modify/list?userIdx=${userIdx}` 
   );
 
   const settings = {

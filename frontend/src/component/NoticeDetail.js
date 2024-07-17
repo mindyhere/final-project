@@ -21,7 +21,7 @@ function useFetch(url) {
 function NoticeDetail() {
     const location = useLocation();
     const nidx = location.state.nidx;
-    const [data, loading] = useFetch('http://localhost/main/noticedetail/'+nidx);
+    const [data, loading] = useFetch('http://3.35.97.107/main/noticedetail/'+nidx);
 
     if(loading){
         return(

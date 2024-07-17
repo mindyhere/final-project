@@ -29,7 +29,7 @@ function RoomDetail(props) {
       src1='/img/image_no.png';
       image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src1=`http://localhost/static/images/host/hotel/${props.img1}`;
+      src1=`http://3.35.97.107/images/host/hotel/${props.img1}`; 
       image1=`<img src=${src1} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
 
@@ -40,7 +40,7 @@ function RoomDetail(props) {
       src2='/img/image_no.png';
       image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src2=`http://localhost/static/images/host/hotel/${props.img2}`;
+      src2=`http://3.35.97.107/images/host/hotel/${props.img2}`; 
       image2=`<img src=${src2} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
 
@@ -50,7 +50,7 @@ function RoomDetail(props) {
       src3='/img/image_no.png';
       image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     } else {
-      src3=`http://localhost/static/images/host/hotel/${props.img3}`;
+      src3=`http://3.35.97.107/images/host/hotel/${props.img3}`; 
       image3=`<img src=${src3} width='90px' height='90px' style={{backgroundSize:"contain";}}/>`;
     }
     return (
@@ -208,7 +208,7 @@ function RoomDetail(props) {
                       if(d_img3.current.files.length > 0){
                         form.append('dImg3', d_img3.current.files[0]);
                       }
-                      fetch('http://localhost/host/hotel/editHotel/roomInfo', {
+                      fetch('http://3.35.97.107/host/hotel/editHotel/roomInfo', { 
                           method: 'POST',
                           body : form
                       }).then(() => {
@@ -243,7 +243,7 @@ function RoomDetail(props) {
                         const form = new FormData();
                         form.append('ho_idx', props.hoIdx);
                         form.append('d_idx', props.dIdx);
-                          fetch('http://localhost/host/hotel/deleteRoomInfo', {
+                          fetch('http://3.35.97.107/host/hotel/deleteRoomInfo', { 
                             method: 'POST',
                             body : form
                           }).then(() => {

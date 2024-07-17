@@ -26,7 +26,7 @@ function useFetch(url) {
 function DateRangeSelector() {
      const {HoIdx} = useParams();
      const {dIdx} = useParams();
-     const [data, loading] = useFetch('http://localhost/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
+     const [data, loading] = useFetch('http://3.35.97.107/host/hotel/hotelDetail/' + HoIdx + '/' + dIdx);
      const [state, setState] = useState({
           startDate: new Date(),
           endDate: new Date(),

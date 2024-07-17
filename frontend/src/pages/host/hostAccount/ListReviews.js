@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -24,12 +25,12 @@ function ListReviews() {
     let url = "";
     const form = new FormData();
     if (opt === 1) {
-      url = `http://localhost/api/reply/search/reviews/${userIdx}`;
+      url = `http://3.35.97.107/api/reply/search/reviews/${userIdx}`; 
       form.append("sort", sort.current.value);
       form.append("keyword", keyword.current.value);
       form.append("pageNum", pageNum);
     } else {
-      url = `http://localhost/api/reputation/manage/list/${userIdx}`;
+      url = `http://3.35.97.107/api/reputation/manage/list/${userIdx}`; 
       form.append("pageNum", pageNum);
     }
     fetch(url, { method: "post", body: form })

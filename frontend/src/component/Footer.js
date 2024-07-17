@@ -12,15 +12,14 @@ function Footer() {
     const g_email = cookies.get("g_email");
     // 팝업창에서 푸터 제거
     const locationNow = useLocation()
-    if (locationNow.pathname === "/guest/write" ||
-    locationNow.pathname === "/guest/edit") return null; 
-    if (locationNow.pathname === "/host/account/manage/review" || locationNow.pathname === "/host/account/manage/reply") return null;
+    if (locationNow.pathname === "/popup/guest/write" || locationNow.pathname === "/popup/guest/edit") return null; 
+    if (locationNow.pathname === "/popup/host/review" || locationNow.pathname === "/popup/host/reply") return null;
     if (locationNow.pathname === `/admin/alogin/${a_id}`) return null;
 
  
       const btnAdmin = () => {
         if (a_id != null) {
-            window.location.href = `/admin/amain/${a_id.key}`;
+            window.location.href = `http://3.35.97.107/#/admin/amain/${a_id.key}`;
         } else if (userInfo != null) {
             Swal.fire({
                 title: '잠깐!',
@@ -44,7 +43,7 @@ function Footer() {
             }
         });
      } else {
-        window.location.href = `/admin/alogin/${a_id}`;
+        window.location.href = `http://3.35.97.107/#/admin/alogin/${a_id}`;
         }
         };
     

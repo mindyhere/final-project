@@ -60,13 +60,15 @@ function ReviewItem({
     let popup = null;
     if (opt === "write") {
       popup = window.open(
-        `../../../host/account/manage/review`,
+        //`/host/account/manage/review`,
+        `http://3.35.97.107/#/popup/host/review`,
         "name(Write)",
         "width=500,height=780,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );
     } else {
       popup = window.open(
-        `../../../host/account/manage/reply`,
+        // `../../../host/account/manage/reply`,
+        `http://3.35.97.107/#/popup/host/reply`,
         "name(Edit)",
         "width=500,height=780,left=300,top=100,toolbar=no,scrollbars=no,resizable=yes"
       );

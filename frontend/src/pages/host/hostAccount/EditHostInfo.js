@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -77,11 +78,11 @@ function EditHostInfo() {
   let url = "";
   let profile_src = "";
   if (data.h_profile !== "-" && data.h_profile !== "") {
-    url = `http://localhost/static/images/host/profile/${data.h_profile}`;
+    url = `http://3.35.97.107/images/host/profile/${data.h_profile}`; 
     profile_src = `<img src=${url} width="250px" style={{backgroundSize:"contain";}} />`;
   } else {
     profile_src =
-      "<img src='http://localhost/static/images/no-image.png' width='230px'/>";
+      "<img src='http://3.35.97.107/images/no-image.png' width='230px'/>"; 
   }
 
   return (
@@ -298,7 +299,7 @@ function EditHostInfo() {
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
                                   window.open(
-                                    `http://localhost/static/images/host/profile/${data.h_file}`
+                                    `http://3.35.97.107/images/host/profile/${data.h_file}` 
                                   );
                                 }}
                               >
@@ -335,7 +336,7 @@ function EditHostInfo() {
                               readOnly
                               onClick={() => {
                                 window.open(
-                                  `http://localhost/static/images/host/profile/${data.h_file}`
+                                  `http://3.35.97.107/images/host/profile/${data.h_file}` 
                                 );
                               }}
                               style={{ cursor: "pointer" }}
@@ -356,7 +357,7 @@ function EditHostInfo() {
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
                                   window.open(
-                                    `http://localhost/static/images/host/profile/${data.h_bankbook}`
+                                    `http://3.35.97.107/images/host/profile/${data.h_bankbook}` 
                                   );
                                 }}
                               >
@@ -393,7 +394,7 @@ function EditHostInfo() {
                               readOnly
                               onClick={() => {
                                 window.open(
-                                  `http://localhost/static/images/host/profile/${data.h_bankbook}`
+                                  `http://3.35.97.107/images/host/profile/${data.h_bankbook}` 
                                 );
                               }}
                               style={{ cursor: "pointer" }}
@@ -509,7 +510,7 @@ function EditHostInfo() {
                       ) {
                         form.append("bankbook", bankbook.current.files[0]);
                       }
-                      fetch(`http://localhost/api/host/update/${userIdx}`, {
+                      fetch(`http://3.35.97.107/api/host/update/${userIdx}`, { 
                         method: "post",
                         endType: "multipart/form-data",
                         body: form,
@@ -580,7 +581,7 @@ function EditHostInfo() {
                         showLoaderOnConfirm: true,
                         preConfirm: (pwd) => {
                           return fetch(
-                            `http://localhost/api/host/pwdCheck/${pwd}?userEmail=${userEmail}`
+                            `http://3.35.97.107/api/host/pwdCheck/${pwd}?userEmail=${userEmail}` 
                           )
                             .then((response) => {
                               if (!response.ok) {
@@ -588,7 +589,7 @@ function EditHostInfo() {
                               }
 
                               return fetch(
-                                `http://localhost/api/host/delete/${userIdx}?userEmail=${userEmail}`
+                                `http://3.35.97.107/api/host/delete/${userIdx}?userEmail=${userEmail}` 
                               ).then((response) => {
                                 if (!response.ok) {
                                   throw new Error(response.statusText);

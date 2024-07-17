@@ -34,7 +34,7 @@ function EditHotel() {
     const [modal, setModal] = useState(false);
     const [hoIdx, setHoIdx] = useState(location.state?.hoIdx);
     const [hoName, setHoName] = useState(location.state?.hoName);
-    const [data, loading] = useFetch('http://localhost/host/hotel/detailMyHotel?ho_idx=' + hoIdx);
+    const [data, loading] = useFetch('http://3.35.97.107/host/hotel/detailMyHotel?ho_idx=' + hoIdx); 
     const ho_name = useRef();
     const ho_address = useRef();
     const ho_level = useRef();
@@ -56,7 +56,7 @@ function EditHotel() {
     }
     
     const urlHandle = (e) => {
-        window.open(`http://localhost/static/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500'); 
+        window.open(`http://3.35.97.107/images/host/hotel/${data[0].ho_img}`, '', 'width=500, height=500');  
     } 
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -155,7 +155,7 @@ function EditHotel() {
         let src = '';
         let image_url = '';
         if(data.fileName !== '-'){
-            src = `http://localhost/static/images/host/hotel/${data[0].ho_img}`;
+            src = `http://3.35.97.107/images/host/hotel/${data[0].ho_img}`; 
             image_url = `<img src=${src} width='90px' height='90px'/>`;
         } else {
             image_url = '';
@@ -328,7 +328,7 @@ function EditHotel() {
                                     if(ho_img.current.files.length > 0){
                                         form.append('img', ho_img.current.files[0]);
                                     }
-                                    fetch('http://localhost/host/hotel/editHotel/defaultInfo', {
+                                    fetch('http://3.35.97.107/host/hotel/editHotel/defaultInfo', { 
                                         method: 'POST',
                                         encType : 'multipart/form-data',
                                         body : form
@@ -399,7 +399,7 @@ function EditHotel() {
                                                 const form = new FormData();
                                                 form.append('ho_idx', hoIdx);
                                                 form.append('checkItems', checkItems);
-                                                fetch('http://localhost/host/hotel/editHotel/amenity', {
+                                                fetch('http://3.35.97.107/host/hotel/editHotel/amenity', { 
                                                     method: 'POST',
                                                     body : form
                                                 }).then(() => {
@@ -416,7 +416,7 @@ function EditHotel() {
                                         const form = new FormData();
                                         form.append('ho_idx', hoIdx);
                                         form.append('checkItems', checkItems);
-                                        fetch('http://localhost/host/hotel/editHotel/amenity', {
+                                        fetch('http://3.35.97.107/host/hotel/editHotel/amenity', { 
                                             method: 'POST',
                                             body : form
                                         }).then(() => {
@@ -488,7 +488,7 @@ function EditHotel() {
                                     const form = new FormData();
                                     form.append("ho_idx", data[0].ho_idx);
                                     form.append("status", data[0].ho_status);
-                                    fetch('http://localhost/host/hotel/updateHotelStatus', {
+                                    fetch('http://3.35.97.107/host/hotel/updateHotelStatus', { 
                                         method : 'POST',
                                         body : form
                                     }).then((response) => response.json())
@@ -535,7 +535,7 @@ function EditHotel() {
                                 const form = new FormData();
                                 form.append("ho_idx", data[0].ho_idx);
                                 form.append("status", data[0].ho_status);
-                                fetch('http://localhost/host/hotel/updateHotelStatus', {
+                                fetch('http://3.35.97.107/host/hotel/updateHotelStatus', { 
                                     method : 'POST',
                                     body : form
                                 }).then((response) => response.json())

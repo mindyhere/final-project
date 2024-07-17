@@ -1,9 +1,10 @@
+
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function PayItem({O_idx,Ho_idx,D_idx,D_img1,O_state,O_orderdate,O_payment,O_ckin,O_ckout,O_finalprice,O_refunddate}) {
-    const url = `http://localhost/static/images/host/hotel/${D_img1}`;
+    const url = `http://3.35.97.107/images/host/hotel/${D_img1}`;
     const navigate = useNavigate();
     let img ='';
     if (D_img1 !== null) {
